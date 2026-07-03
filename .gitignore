@@ -1,0 +1,14 @@
+# Godot
+.godot/
+*.tmp
+
+# Asset staging & downloads (not needed in repo — assets/ has the curated copies)
+_downloads/
+
+# Screenshots (regenerable; keep the folder)
+_screens/*.png
+_screens/*.import
+
+# OS junk
+Thumbs.db
+.DS_Store
