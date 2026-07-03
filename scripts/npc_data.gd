@@ -3,12 +3,19 @@ class_name NPCData
 ## are placeholders here — main.gd fills them from TownBuilder's npc_spawns,
 ## matching def.id to the spawn role name.
 ## Sheet/variant pairs are unique; player uses npc_male1 variant 0 (reserved).
+##
+## UNIQUE-VILLAGER CONTRACT: the named cast deliberately passes NO "palette"
+## key, so NPC.create leaves their hand-authored sheet colours untouched —
+## these are their fixed signature looks. Generic villagers (town_builder)
+## get def["palette"] colorways from NPC.OUTFIT_COLORS / HAIR_COLORS /
+## SKIN_TONES instead, and must never duplicate a (sheet, variant, palette)
+## combo — the 7 combos below (plus player-reserved male1:0) are taken.
 
 const CHAR_DIR := "res://assets/art/characters/"
 
 
 static func cast() -> Array:
-	return [
+	var defs: Array = [
 		_def("innkeeper", "Innkeeper Marta", CHAR_DIR + "npc_female1.png", 0, "down", [
 			"Welcome to the Ember Hearth, traveler. Sit yourself down before you fall down.",
 			"We don't see many new faces since the old road washed out. Carts must swing wide past the graveyard now, and most don't bother.",
@@ -59,6 +66,7 @@ static func cast() -> Array:
 			"You've been past the hills, yes? Is it true the cities have streets of stone all the way down?",
 		]),
 	]
+	return defs
 
 
 static func _def(id: String, display_name: String, sheet: String, variant: int, facing: String, dialogue: Array[String]) -> Dictionary:

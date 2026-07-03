@@ -10,6 +10,12 @@ const WORLD_TILES_H: int = 50
 const TILE: int = 32
 const SEED: int = 20260702
 
+# Kept-open clearings: random edge trees (the y>1400 band in _vegetation and
+# the _border_forest wall) must not swallow the south-terminus well/bench or
+# the fenced garden plot. Sized for the tallest tree canopy (139 px, base-sorted).
+const CLEAR_TERMINUS := Rect2(980.0, 1390.0, 280.0, 210.0)
+const CLEAR_GARDEN := Rect2(800.0, 1290.0, 260.0, 270.0)
+
 const GRASS_SHEET := "res://assets/art/terrain/cainos_grass.png"
 const STONE_SHEET := "res://assets/art/terrain/cainos_stone_ground.png"
 const DECOR := "res://assets/art/decor/lpc_decorations.png"
@@ -263,9 +269,10 @@ static func _plaza(props: Node2D, decals: Node2D, lights: Node2D, rng: RandomNum
 		props.add_child(_sprite(PROPS + "cainos_prop_04.png", p, 3.0))
 		props.add_child(_rect_collider(p, Vector2(34, 10), Vector2(0, -5)))
 
-	# A couple of crates near the north edge.
-	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1268, 742), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_23.png", Vector2(980, 745), 3.0))
+	# Crate pair tucked into the NE corner beside the lamp post (market
+	# spillover encroaching on the pavement edge, deliberately walkable-around).
+	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1266, 736), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_31.png", Vector2(1246, 750), 3.0))
 
 
 static func _inn(props: Node2D, decals: Node2D, lights: Node2D) -> void:
@@ -279,10 +286,11 @@ static func _inn(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 	lights.add_child(_light(Vector2(1074, 555), Color(1.0, 0.78, 0.45), 0.5, 60.0))
 	lights.add_child(_light(Vector2(1166, 555), Color(1.0, 0.78, 0.45), 0.5, 60.0))
 
-	# Bench and barrels by the entrance, ivy at the corner.
+	# Bench by the entrance, ivy at the corner, and a barrel pair hugging the
+	# west (kitchen) wing: one dominant cask with a small keg offset beside it.
 	props.add_child(_sprite(PROPS + "cainos_prop_04.png", Vector2(1250, 640), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_08.png", Vector2(965, 632), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_22.png", Vector2(995, 640), 3.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_18.png", Vector2(968, 630), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_08.png", Vector2(992, 638), 3.0))
 	_decal(decals, PROPS + "szadi_prop_00.png", Vector2(1300, 585))
 
 
@@ -298,10 +306,15 @@ static func _smithy(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 	props.add_child(_circle_collider(Vector2(1508, 855), 9.0, Vector2(0, -5)))
 	lights.add_child(_light(Vector2(1508, 838), Color(1.0, 0.6, 0.3), 1.1, 120.0))
 
-	# Fuel and stock piles.
+	# Fuel corner along the east wall: crate stack up top, then the woodpile —
+	# stacked bundle dominant, two loose logs offset around it (gathered here
+	# from the plaza/market/farm where they used to float).
 	props.add_child(_sprite(PROPS + "szadi_prop_30.png", Vector2(1665, 810), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_17.png", Vector2(1690, 870), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_06.png", Vector2(1435, 790), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_10.png", Vector2(1652, 872), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(1680, 886), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_25.png", Vector2(1630, 888), 3.0))
+	# Brick stock on the grass at the work floor's west edge, by the fire.
+	props.add_child(_sprite(PROPS + "szadi_prop_19.png", Vector2(1455, 862), 3.0))
 
 
 static func _market(props: Node2D, decals: Node2D, lights: Node2D) -> void:
@@ -313,10 +326,10 @@ static func _market(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 	props.add_child(_market_stall(Vector2(868, 902), R_DRAPE_GREEN))
 	props.add_child(_rect_collider(Vector2(868, 902), Vector2(90, 22), Vector2(0, -14)))
 
-	# Goods around the stalls + a hand cart parked off the lane.
+	# Goods hugging the stall counters + a hand cart parked off the lane.
 	props.add_child(_sprite(PROPS + "szadi_prop_15.png", Vector2(756, 838), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_24.png", Vector2(934, 918), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(892, 748), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_24.png", Vector2(922, 908), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_31.png", Vector2(758, 762), 3.0))
 	props.add_child(_atlas_sprite(R_CART, Vector2(760, 1010), 5.0))
 	props.add_child(_rect_collider(Vector2(760, 1010), Vector2(52, 18), Vector2(0, -10)))
 
@@ -333,8 +346,11 @@ static func _cottages(props: Node2D, decals: Node2D) -> void:
 	props.add_child(_sprite(PROPS + "szadi_prop_11.png", Vector2(1200, 1105), 4.0))
 	props.add_child(_rect_collider(Vector2(1200, 1105), Vector2(44, 22), Vector2(0, -11)))
 
-	props.add_child(_sprite(PROPS + "szadi_prop_26.png", Vector2(1065, 1225), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_08.png", Vector2(1370, 1245), 3.0))
+	# Grain sack at the west cottage's SE corner; barrel + pot pair tucked
+	# against the east cottage's SE corner.
+	props.add_child(_sprite(PROPS + "szadi_prop_26.png", Vector2(1046, 1222), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_08.png", Vector2(1362, 1242), 3.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_23.png", Vector2(1338, 1246), 3.0))
 	_decal(decals, PROPS + "szadi_prop_00.png", Vector2(915, 1150))
 
 
@@ -342,19 +358,23 @@ static func _farmstead(props: Node2D, decals: Node2D, rng: RandomNumberGenerator
 	props.add_child(_place_building("house_03.png", Vector2(1620, 1240)))
 	props.add_child(_place_building("house_07.png", Vector2(1830, 1120)))
 
-	# Hay, crates and logs scattered around the yard.
-	props.add_child(_sprite(PROPS + "szadi_prop_14.png", Vector2(1700, 1310), 4.0))
-	props.add_child(_circle_collider(Vector2(1700, 1310), 14.0, Vector2(0, -9)))
-	props.add_child(_sprite(PROPS + "szadi_prop_29.png", Vector2(1540, 1170), 4.0))
-	props.add_child(_circle_collider(Vector2(1540, 1170), 14.0, Vector2(0, -9)))
-	props.add_child(_sprite(PROPS + "szadi_prop_12.png", Vector2(1755, 1250), 3.0))
+	# Everything stacked against walls the way a farmhand would leave it:
+	# hay heaps flank the barn door, the feed trough sits past the SE corner,
+	# and the crates hug the farmhouse front. (Logs moved to the smithy pile.)
+	props.add_child(_sprite(PROPS + "szadi_prop_14.png", Vector2(1672, 1266), 4.0))
+	props.add_child(_circle_collider(Vector2(1672, 1266), 14.0, Vector2(0, -9)))
+	props.add_child(_sprite(PROPS + "szadi_prop_29.png", Vector2(1566, 1262), 4.0))
+	props.add_child(_circle_collider(Vector2(1566, 1262), 14.0, Vector2(0, -9)))
+	props.add_child(_sprite(PROPS + "szadi_prop_12.png", Vector2(1722, 1272), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1900, 1145), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_30.png", Vector2(1920, 1210), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(1500, 1265), 3.0))
-	var hay_bits: Array = [Vector2(1580, 1330), Vector2(1660, 1180), Vector2(1790, 1300)]
+	props.add_child(_sprite(PROPS + "szadi_prop_30.png", Vector2(1872, 1150), 3.0))
+	# Loose hay bales dropped where the work happens: beside each hay heap
+	# and one by the farmhouse door. (rng draw kept so later streams are
+	# byte-identical to the pre-polish build; it only jitters the bale now.)
+	var hay_bits: Array = [Vector2(1524, 1270), Vector2(1706, 1284), Vector2(1792, 1148)]
 	for p: Vector2 in hay_bits:
-		var idx: int = 12 + rng.randi_range(0, 1)
-		props.add_child(_sprite(PROPS + "szadi_prop_%02d.png" % idx, p, 3.0))
+		var jitter: int = rng.randi_range(0, 1)
+		props.add_child(_sprite(PROPS + "szadi_prop_21.png", p + Vector2(float(jitter) * 3.0, 0.0), 3.0))
 	_decal(decals, PROPS + "szadi_prop_00.png", Vector2(1745, 1150))
 
 
@@ -469,6 +489,8 @@ static func _vegetation(props: Node2D, decals: Node2D, rng: RandomNumberGenerato
 			continue
 		if gy_exclude.has_point(p):
 			continue
+		if CLEAR_TERMINUS.has_point(p) or CLEAR_GARDEN.has_point(p):
+			continue
 		var too_close: bool = false
 		for q: Vector2 in placed:
 			if p.distance_to(q) < 52.0:
@@ -545,9 +567,14 @@ static func _forest_tree(props: Node2D, rng2: RandomNumberGenerator, pos: Vector
 		return
 	# NOTE: R_BIG_TREE has a clock baked into the trunk (graveyard flavor only)
 	# so the forest mixes leafy Cainos trees with the clean gnarled sapling.
+	# Consume the same rng2 draws whether or not the spot is rejected below,
+	# so the rest of the border forest keeps its exact layout.
 	var roll: float = rng2.randf()
-	if roll < 0.82:
-		props.add_child(_sprite(PLANTS + "plant_%02d.png" % rng2.randi_range(0, 2), pos, 10.0))
+	var variant: int = rng2.randi_range(0, 2) if roll < 0.82 else -1
+	if CLEAR_TERMINUS.has_point(pos) or CLEAR_GARDEN.has_point(pos):
+		return
+	if variant >= 0:
+		props.add_child(_sprite(PLANTS + "plant_%02d.png" % variant, pos, 10.0))
 	else:
 		props.add_child(_atlas_sprite(R_SMALL_TREE, pos, 4.0))
 	if collide:
@@ -611,7 +638,8 @@ static func _roadside_props(props: Node2D, lights: Node2D, rng2: RandomNumberGen
 	var signposts: Array = [
 		["cainos_prop_17.png", Vector2(750, 858)],    # west road x market lane
 		["cainos_prop_22.png", Vector2(1396, 858)],   # east road x east ring
-		["cainos_prop_28.png", Vector2(1076, 1198)],  # south road x farm lane
+		["cainos_prop_17.png", Vector2(1076, 1198)],  # south road x farm lane
+		# (was cainos_prop_28 — a grave cross; that sprite belongs in the yard)
 		["cainos_prop_17.png", Vector2(466, 728)],    # graveyard lane corner
 	]
 	for s: Array in signposts:
@@ -634,14 +662,10 @@ static func _roadside_props(props: Node2D, lights: Node2D, rng2: RandomNumberGen
 	props.add_child(_sprite(PROPS + "szadi_prop_24.png", Vector2(1062, 634), 3.0))    # grain sack, inn west
 	props.add_child(_sprite(PROPS + "szadi_prop_32.png", Vector2(705, 1002), 3.0))    # stack near the cart
 	props.add_child(_rect_collider(Vector2(705, 1002), Vector2(30, 12), Vector2(0, -6)))
-	props.add_child(_sprite(PROPS + "cainos_prop_31.png", Vector2(628, 986), 3.0))    # pot at shop base
-	props.add_child(_sprite(PROPS + "szadi_prop_19.png", Vector2(1652, 905), 3.0))    # brick pile, smithy
-	props.add_child(_sprite(PROPS + "cainos_prop_27.png", Vector2(1015, 764), 3.0))   # plaza pot NW
-	props.add_child(_sprite(PROPS + "cainos_prop_23.png", Vector2(1228, 764), 3.0))   # plaza pots NE
-
-	# Wood piles by the barn.
-	props.add_child(_sprite(PROPS + "szadi_prop_25.png", Vector2(1560, 1300), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_23.png", Vector2(1748, 1338), 3.0))
+	# Pot pair at the shop's front-west corner (the old lone plaza pots,
+	# rehomed against a wall where a shopkeeper would stand them).
+	props.add_child(_sprite(PROPS + "cainos_prop_31.png", Vector2(620, 962), 3.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_27.png", Vector2(596, 966), 3.0))
 
 	# Tree clusters framing lanes and the backs of houses.
 	var road_trees: Array = [
@@ -669,10 +693,10 @@ static func _roadside_props(props: Node2D, lights: Node2D, rng2: RandomNumberGen
 
 	# A few rocks off the lanes.
 	var rocks: Array = [
-		["cainos_prop_34.png", Vector2(470, 850)],
-		["cainos_prop_36.png", Vector2(1180, 1160)],
-		["cainos_prop_38.png", Vector2(1395, 1244)],
-		["cainos_prop_40.png", Vector2(2005, 1180)],
+		["cainos_prop_34.png", Vector2(492, 812)],
+		["cainos_prop_36.png", Vector2(1196, 1206)],  # grass shoulder south of the farm lane, by the lamp
+		["cainos_prop_38.png", Vector2(1424, 1192)],
+		["cainos_prop_40.png", Vector2(2075, 1185)],  # outcrop tucked into the east tree line
 		["cainos_prop_35.png", Vector2(870, 1050)],
 	]
 	for r: Array in rocks:
@@ -703,6 +727,31 @@ static func _villagers(parent: Node2D, rng2: RandomNumberGenerator) -> void:
 		["npc_female1", 1], ["npc_female1", 2], ["npc_female1", 3],
 		["npc_female2", 0], ["npc_female2", 2],
 	]
+	# Unique-villager contract: each ambient villager also gets a palette from
+	# the curated muted pools below (applied by npc.gd via palette_swap
+	# ShaderMaterial). Outfit colorways are drawn WITHOUT replacement, so every
+	# spawned (sheet, variant, palette) triple is unique; the named cast passes
+	# no "palette" key at all (identity look), so no villager can shadow them.
+	var outfits: Array = [
+		{"a": Color("6b6b3a"), "b": Color("4a4a28")},  # olive
+		{"a": Color("6e3030"), "b": Color("4c2020")},  # oxblood
+		{"a": Color("6b4a2f"), "b": Color("4a3320")},  # umber
+		{"a": Color("4e5a66"), "b": Color("37414a")},  # slate
+		{"a": Color("55663f"), "b": Color("3b472c")},  # moss
+		{"a": Color("3f3f43"), "b": Color("2b2b2e")},  # charcoal
+		{"a": Color("8a7a58"), "b": Color("625640")},  # dun
+		{"a": Color("46655f"), "b": Color("304742")},  # faded teal
+		{"a": Color("5d3547"), "b": Color("402432")},  # wine
+		{"a": Color("7a7a72"), "b": Color("565650")},  # ash
+	]
+	var hairs: Array = [
+		Color("1d1a17"),  # black
+		Color("3d2c1e"),  # dark brown
+		Color("5a3a24"),  # chestnut
+		Color("8a8578"),  # ash grey
+		Color("d8d3c8"),  # white
+		Color("58291f"),  # dark auburn
+	]
 	var folk: Array = [
 		["Old Tomas", Vector2(1100, 880), "Mind the carts, lad."],
 		["Berta", Vector2(800, 800), "Fresh hay, just in."],
@@ -718,6 +767,9 @@ static func _villagers(parent: Node2D, rng2: RandomNumberGenerator) -> void:
 	for i in range(folk.size()):
 		var row: Array = folk[i]
 		var pick: Array = pool.pop_at(rng2.randi_range(0, pool.size() - 1))
+		var colorway: Dictionary = outfits.pop_at(rng2.randi_range(0, outfits.size() - 1))
+		var hair: Color = hairs[rng2.randi_range(0, hairs.size() - 1)]
+		var skin: int = rng2.randi_range(0, 3)
 		var def := {
 			"id": "villager_%d" % i,
 			"display_name": String(row[0]),
@@ -727,6 +779,12 @@ static func _villagers(parent: Node2D, rng2: RandomNumberGenerator) -> void:
 			"wander_radius": rng2.randf_range(70.0, 150.0),
 			"dialogue": [String(row[2])],
 			"facing": "down",
+			"palette": {
+				"outfit_a": colorway["a"],
+				"outfit_b": colorway["b"],
+				"hair": hair,
+				"skin": skin,
+			},
 		}
 		parent.add_child(NPC.create(def))
 
