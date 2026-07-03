@@ -11,6 +11,10 @@ extends CharacterBody2D
 ## AI: patrol (lazy seeded wander around home) -> chase when the living player
 ## is within AGGRO_RANGE -> 0.4 s telegraphed melee windup -> strike, 1.2 s
 ## cooldown. Leashes home (heal to full) past LEASH_RANGE.
+##
+## Phase B.1: the old bare HP bar is now a WoW-style Nameplate (name label +
+## HP bar) that polls its parent's hp and the player's "target" on its own —
+## see the Nameplate inner class (also reused by Combat.Scarecrow, bar-less).
 
 const SHEET_DIR := "res://assets/art/enemies/"
 const AGGRO_RANGE: float = 120.0
@@ -23,7 +27,7 @@ const LEASH_RANGE: float = 280.0
 const AGGRO_HOLD_TIME: float = 6.0  # keep chasing this long after being hit
 const PATROL_SPEED_MULT: float = 0.45
 const KNOCKBACK_PX: float = 6.0
-const BAR_POS := Vector2(0.0, -40.0)
+const PLATE_POS := Vector2(0.0, -40.0)
 const WINDUP_TINT := Color(1.3, 0.85, 0.72)
 const SLASH_COLOR := Color(0.78, 0.36, 0.22)
 
@@ -47,12 +51,13 @@ var speed: float = 60.0
 var patrol_radius: float = 60.0
 var home: Vector2 = Vector2.ZERO
 var type_name: String = "skeleton"
+var display_name: String = "Skeleton"
 
 var _state: String = "patrol"
 var _rng := RandomNumberGenerator.new()
 var _sprite: AnimatedSprite2D
 var _col: CollisionShape2D
-var _bar: HPBar
+var _plate: Nameplate
 var _anim_offsets: Dictionary = {}
 var _patrol_target: Vector2 = Vector2.ZERO
 var _idle_wait: float = 0.0
@@ -71,6 +76,8 @@ var _aggro_left: float = 0.0  # hold aggro window after taking a hit
 static func create(cfg: Dictionary) -> Enemy:
 	var e := Enemy.new()
 	e.type_name = str(cfg.get("type", "skeleton"))
+	# String.capitalize() turns "skeleton_rogue" into "Skeleton Rogue".
+	e.display_name = str(cfg.get("display_name", e.type_name.capitalize()))
 	e.name = "Enemy_" + e.type_name
 	e.position = cfg.get("pos", Vector2.ZERO)
 	e.home = e.position
@@ -117,12 +124,11 @@ static func create(cfg: Dictionary) -> Enemy:
 	e.add_child(col)
 	e._col = col
 
-	var bar := HPBar.new()
-	bar.name = "HPBar"
-	bar.position = BAR_POS
-	bar.visible = false
-	e.add_child(bar)
-	e._bar = bar
+	var plate := Nameplate.new(e.display_name, true)
+	plate.position = PLATE_POS
+	plate.visible = false
+	e.add_child(plate)
+	e._plate = plate
 
 	return e
 
@@ -167,7 +173,6 @@ func _physics_process(delta: float) -> void:
 			_face_point(player.global_position)
 		if _state != "windup":
 			_play("idle")
-		_update_bar()
 		return
 	match _state:
 		"patrol":
@@ -178,7 +183,6 @@ func _physics_process(delta: float) -> void:
 			_tick_windup(delta, player)
 		"return":
 			_tick_return()
-	_update_bar()
 
 
 func _tick_patrol(delta: float, player: Node2D) -> void:
@@ -343,7 +347,6 @@ func take_damage(amount: float, source: Node) -> void:
 		return
 	if _state == "patrol" or _state == "return":
 		_state = "chase"
-	_update_bar()
 
 
 func _flash_red() -> void:
@@ -357,8 +360,8 @@ func _flash_red() -> void:
 func _die() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO
-	if _bar != null:
-		_bar.visible = false
+	if _plate != null:
+		_plate.visible = false
 	if _flash_tween != null and _flash_tween.is_valid():
 		_flash_tween.kill()
 	if _lean_tween != null and _lean_tween.is_valid():
@@ -409,24 +412,98 @@ func _alive_player() -> Node2D:
 	return p
 
 
-func _update_bar() -> void:
-	if _bar == null:
-		return
-	var show_bar: bool = (not is_dead) and hp < max_hp - 0.01
-	_bar.visible = show_bar
-	if show_bar:
-		var f: float = clampf(hp / max_hp, 0.0, 1.0)
-		if not is_equal_approx(f, _bar.frac):
-			_bar.frac = f
-			_bar.queue_redraw()
+class Nameplate extends Node2D:
+	## WoW-style nameplate: centered name label (Alagard 8, hostile red, dark
+	## outline) over a 26x3 px HP bar. Fully self-managing — each physics tick
+	## it polls the parent's hp / max_hp / is_dead and the player's "target".
+	## Shown when the owner is hurt, is the player's target, or the player is
+	## within SHOW_RANGE px. While targeted: brighter name, bar 1 px taller,
+	## subtle gold corner ticks. with_bar=false (the training scarecrow)
+	## renders the name only. Also used by Combat.Scarecrow.
+	const SHOW_RANGE: float = 90.0
+	const NAME_RED := Color(0.85, 0.25, 0.2)
+	const NAME_RED_BRIGHT := Color(1.0, 0.45, 0.38)
+	const OUTLINE_DARK := Color(0.1, 0.06, 0.04, 0.95)
+	const BAR_BG := Color(0.07, 0.05, 0.04, 0.92)
+	const BAR_FILL := Color(0.72, 0.16, 0.14)
+	const TICK_GOLD := Color(0.85, 0.68, 0.35, 0.9)
+	const BAR_W: float = 26.0
 
-
-class HPBar extends Node2D:
-	## Tiny floating HP bar: 20x3 px, dark backing + red fill, 1 px border inset.
 	var frac: float = 1.0
+	var targeted: bool = false
+	var show_hp_bar: bool = true
+	var _label: Label
+	var _settings: LabelSettings  # per-plate instance, safe to recolor
+
+	func _init(display_name: String, with_bar: bool) -> void:
+		name = "Nameplate"
+		show_hp_bar = with_bar
+		z_index = 2  # readable above nearby world sprites despite y-sort
+		_settings = LabelSettings.new()
+		_settings.font = load("res://assets/fonts/alagard.ttf")
+		_settings.font_size = 8
+		_settings.font_color = NAME_RED
+		_settings.outline_size = 3
+		_settings.outline_color = OUTLINE_DARK
+		_label = Label.new()
+		_label.name = "Name"
+		_label.label_settings = _settings
+		_label.text = display_name
+		_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		# Clicks must fall through to the world for mouse targeting.
+		_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_label.size = Vector2(96.0, 10.0)
+		_label.position = Vector2(-48.0, -12.0)
+		add_child(_label)
+
+	func _physics_process(_delta: float) -> void:
+		var holder := get_parent() as Node2D
+		if holder == null:
+			return
+		if holder.get("is_dead") == true:
+			visible = false
+			return
+		var hp_v: Variant = holder.get("hp")
+		var max_v: Variant = holder.get("max_hp")
+		var hp_now: float = float(hp_v) if hp_v is float else 1.0
+		var hp_max: float = maxf(float(max_v) if max_v is float else 1.0, 0.01)
+		var player := get_tree().get_first_node_in_group("player") as Node2D
+		var has_player: bool = player != null and is_instance_valid(player)
+		var is_target: bool = has_player and player.get("target") == holder
+		var near: bool = has_player and \
+				player.global_position.distance_to(holder.global_position) <= SHOW_RANGE
+		var hurt: bool = show_hp_bar and hp_now < hp_max - 0.01
+		visible = hurt or is_target or near
+		if not visible:
+			return
+		if is_target != targeted:
+			targeted = is_target
+			_settings.font_color = NAME_RED_BRIGHT if targeted else NAME_RED
+			queue_redraw()
+		if show_hp_bar:
+			var f: float = clampf(hp_now / hp_max, 0.0, 1.0)
+			if not is_equal_approx(f, frac):
+				frac = f
+				queue_redraw()
 
 	func _draw() -> void:
-		draw_rect(Rect2(-10.0, -2.0, 20.0, 3.0), Color(0.07, 0.05, 0.04, 0.92))
-		var w: float = 18.0 * clampf(frac, 0.0, 1.0)
+		if not show_hp_bar:
+			return
+		var h: float = 4.0 if targeted else 3.0
+		var bx0: float = -BAR_W * 0.5
+		var bx1: float = BAR_W * 0.5
+		draw_rect(Rect2(bx0, 0.0, BAR_W, h), BAR_BG)
+		var w: float = (BAR_W - 2.0) * clampf(frac, 0.0, 1.0)
 		if w > 0.0:
-			draw_rect(Rect2(-9.0, -1.0, w, 1.0), Color(0.72, 0.16, 0.14))
+			draw_rect(Rect2(bx0 + 1.0, 1.0, w, h - 2.0), BAR_FILL)
+		if not targeted:
+			return
+		# Subtle gold L-shaped ticks framing the targeted bar's corners.
+		draw_rect(Rect2(bx0 - 2.0, -2.0, 3.0, 1.0), TICK_GOLD)
+		draw_rect(Rect2(bx0 - 2.0, -2.0, 1.0, 3.0), TICK_GOLD)
+		draw_rect(Rect2(bx1 - 1.0, -2.0, 3.0, 1.0), TICK_GOLD)
+		draw_rect(Rect2(bx1 + 1.0, -2.0, 1.0, 3.0), TICK_GOLD)
+		draw_rect(Rect2(bx0 - 2.0, h + 1.0, 3.0, 1.0), TICK_GOLD)
+		draw_rect(Rect2(bx0 - 2.0, h - 1.0, 1.0, 3.0), TICK_GOLD)
+		draw_rect(Rect2(bx1 - 1.0, h + 1.0, 3.0, 1.0), TICK_GOLD)
+		draw_rect(Rect2(bx1 + 1.0, h - 1.0, 1.0, 3.0), TICK_GOLD)

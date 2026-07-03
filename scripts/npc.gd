@@ -4,6 +4,8 @@ extends CharacterBody2D
 ## def keys: id, display_name, sheet ("res://..." or "MAID"), variant:int,
 ## pos:Vector2, wander_radius:float (0 = stationary), dialogue:Array[String], facing:String.
 ## Group "npcs". Collision: circle r=6 at feet, layer 3, mask 1 (walls only).
+## Phase B.1: a gold name tag (Alagard 8, dark outline) floats above the head
+## while the player is within NAME_RANGE px.
 
 const WALK_SPEED: float = 40.0
 const ARRIVE_DIST: float = 3.0
@@ -17,9 +19,13 @@ const SZADI_OFFSET := Vector2(0.0, -15.0)
 ## Maid 64x64 frames: lowest opaque pixel row is y=47 (verified with PIL), so
 ## feet line ~y=48 -> 16 px below frame center -> shift up 16.
 const MAID_OFFSET := Vector2(0.0, -16.0)
+const NAME_RANGE: float = 70.0
+const NAME_GOLD := Color(0.85, 0.68, 0.35)
+const NAME_OUTLINE := Color(0.1, 0.06, 0.04, 0.95)
 
 var display_name: String = "Villager"
 var dialogue: Array = []
+var _name_label: Label
 
 var _sprite: AnimatedSprite2D
 var _rng := RandomNumberGenerator.new()
@@ -66,6 +72,27 @@ static func create(def: Dictionary) -> NPC:
 	col.shape = circle
 	npc.add_child(col)
 
+	# Floating gold name tag, shown only while the player is close (see
+	# _update_name_tag). Sits just above the ~30 px body's head line.
+	var tag := Label.new()
+	tag.name = "NameTag"
+	var ls := LabelSettings.new()
+	ls.font = load("res://assets/fonts/alagard.ttf")
+	ls.font_size = 8
+	ls.font_color = NAME_GOLD
+	ls.outline_size = 3
+	ls.outline_color = NAME_OUTLINE
+	tag.label_settings = ls
+	tag.text = npc.display_name
+	tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE  # clicks pass through
+	tag.size = Vector2(96.0, 10.0)
+	tag.position = Vector2(-48.0, -50.0)
+	tag.z_index = 2  # readable above nearby world sprites despite y-sort
+	tag.visible = false
+	npc.add_child(tag)
+	npc._name_label = tag
+
 	npc.collision_layer = 1 << 2
 	npc.collision_mask = 1
 	npc.motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
@@ -82,6 +109,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# Name tag first: it must track the player even for stationary or
+	# mid-dialogue villagers, whose branches below return early.
+	_update_name_tag()
 	if _talking:
 		velocity = Vector2.ZERO
 		return
@@ -142,6 +172,16 @@ func _pick_new_target() -> void:
 	# Safety cap: if blocked by walls, give up instead of walking in place.
 	_walk_time_left = travel / WALK_SPEED * 2.0 + 1.0
 	_walking = true
+
+
+func _update_name_tag() -> void:
+	if _name_label == null:
+		return
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	var show_name: bool = player != null and is_instance_valid(player) \
+			and player.global_position.distance_to(global_position) <= NAME_RANGE
+	if _name_label.visible != show_name:
+		_name_label.visible = show_name
 
 
 func _stop_walking() -> void:

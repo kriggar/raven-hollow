@@ -279,6 +279,10 @@ func _run_cast_sequence(action: String) -> void:
 	_player.global_position = CAST_STAND_POS
 	if _camera != null:
 		_camera.reset_smoothing()
+	# Headless runs have no mouse press to acquire a target with, so mimic the
+	# attack-press acquisition: target the nearest enemy (the scarecrow). This
+	# lets screenshots verify the HUD target frame + targeted nameplate state.
+	_player.target = Combat.find_nearest_enemy(_player.global_position, 200.0)
 	var aim: Vector2 = (CAST_TARGET_POS - _player.global_position).normalized()
 	for c in range(3):
 		if c > 0:

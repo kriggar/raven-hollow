@@ -15,15 +15,15 @@ const SCARECROW_POS := Vector2(1650.0, 950.0)
 ## Deterministic world spawns. Skeletons haunt the graveyard OUTSKIRTS (west
 ## and north of the fence, off the lane); orcs camp SE beyond the farm.
 const ENEMY_SPAWNS: Array[Dictionary] = [
-	{"type": "skeleton", "pos": Vector2(140.0, 300.0), "hp": 32.0, "damage": 6.0, "speed": 62.0, "patrol_radius": 55.0},
-	{"type": "skeleton_rogue", "pos": Vector2(125.0, 435.0), "hp": 30.0, "damage": 7.0, "speed": 70.0, "patrol_radius": 65.0},
-	{"type": "skeleton_warrior", "pos": Vector2(185.0, 495.0), "hp": 48.0, "damage": 9.0, "speed": 55.0, "patrol_radius": 45.0},
-	{"type": "skeleton_mage", "pos": Vector2(330.0, 165.0), "hp": 34.0, "damage": 8.0, "speed": 58.0, "patrol_radius": 60.0},
-	{"type": "skeleton", "pos": Vector2(520.0, 155.0), "hp": 32.0, "damage": 6.0, "speed": 64.0, "patrol_radius": 80.0},
-	{"type": "orc", "pos": Vector2(1845.0, 1350.0), "hp": 40.0, "damage": 7.0, "speed": 60.0, "patrol_radius": 60.0},
-	{"type": "orc_warrior", "pos": Vector2(1955.0, 1325.0), "hp": 55.0, "damage": 10.0, "speed": 55.0, "patrol_radius": 40.0},
-	{"type": "orc_rogue", "pos": Vector2(2040.0, 1430.0), "hp": 35.0, "damage": 8.0, "speed": 70.0, "patrol_radius": 75.0},
-	{"type": "orc_shaman", "pos": Vector2(1900.0, 1460.0), "hp": 38.0, "damage": 9.0, "speed": 56.0, "patrol_radius": 50.0},
+	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(140.0, 300.0), "hp": 32.0, "damage": 6.0, "speed": 62.0, "patrol_radius": 55.0},
+	{"type": "skeleton_rogue", "display_name": "Skeleton Rogue", "pos": Vector2(125.0, 435.0), "hp": 30.0, "damage": 7.0, "speed": 70.0, "patrol_radius": 65.0},
+	{"type": "skeleton_warrior", "display_name": "Skeleton Warrior", "pos": Vector2(185.0, 495.0), "hp": 48.0, "damage": 9.0, "speed": 55.0, "patrol_radius": 45.0},
+	{"type": "skeleton_mage", "display_name": "Skeleton Mage", "pos": Vector2(330.0, 165.0), "hp": 34.0, "damage": 8.0, "speed": 58.0, "patrol_radius": 60.0},
+	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(520.0, 155.0), "hp": 32.0, "damage": 6.0, "speed": 64.0, "patrol_radius": 80.0},
+	{"type": "orc", "display_name": "Orc Grunt", "pos": Vector2(1845.0, 1350.0), "hp": 40.0, "damage": 7.0, "speed": 60.0, "patrol_radius": 60.0},
+	{"type": "orc_warrior", "display_name": "Orc Warrior", "pos": Vector2(1955.0, 1325.0), "hp": 55.0, "damage": 10.0, "speed": 55.0, "patrol_radius": 40.0},
+	{"type": "orc_rogue", "display_name": "Orc Rogue", "pos": Vector2(2040.0, 1430.0), "hp": 35.0, "damage": 8.0, "speed": 70.0, "patrol_radius": 75.0},
+	{"type": "orc_shaman", "display_name": "Orc Shaman", "pos": Vector2(1900.0, 1460.0), "hp": 38.0, "damage": 9.0, "speed": 56.0, "patrol_radius": 50.0},
 ]
 
 
@@ -227,11 +227,14 @@ class Scarecrow extends StaticBody2D:
 	## Training dummy in group "enemies": shows damage numbers + wobbles, never
 	## dies. Sprite: LPC decorations scarecrow, region verified by pixel
 	## inspection (red hat + green coat on a pole, pole base at crop bottom).
+	## Carries a bar-less Enemy.Nameplate (name only — infinite HP would make a
+	## bar meaningless); the plate manages its own visibility and target glow.
 	const REGION := Rect2(320.0, 130.0, 32.0, 62.0)
 
 	var is_dead: bool = false
 	var hp: float = 999999.0
 	var max_hp: float = 999999.0
+	var display_name: String = "Training Scarecrow"
 
 	var _spr: Sprite2D
 	var _wobble: Tween
@@ -261,6 +264,11 @@ class Scarecrow extends StaticBody2D:
 		circle.radius = 4.0
 		col.shape = circle
 		add_child(col)
+		# Bar-less nameplate above the 62 px sprite (crop top sits at y=-62).
+		var plate := Enemy.Nameplate.new(display_name, false)
+		plate.position = Vector2(0.0, -70.0)
+		plate.visible = false
+		add_child(plate)
 
 	func take_damage(amount: float, _source: Node) -> void:
 		var parent := get_parent()

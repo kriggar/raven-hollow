@@ -16,6 +16,11 @@ extends CharacterBody2D
 ## the hand, follows facing (behind the body when facing up), sways at idle
 ## and brandishes on the cast lunge. Legendary gear adds effect hooks:
 ## emberfall / rooks_talon / gravekeepers_band / bulwark / bloody_dagger.
+##
+## Phase B.1 (combat readability): "target" holds the clicked enemy (WoW unit
+## frames + nameplates read it), acquired on an attack press near the mouse,
+## cleared by Esc / death / range. Holding "sprint" while moving speeds the
+## run up (x1.55) and fast-forwards the walk anim — no sprite frame changes.
 
 const INTERACT_RANGE: float = 28.0
 ## 32x48 frame, centered=true puts frame center (y=24) at node pos. Pixel
@@ -38,6 +43,11 @@ const WEAPON_SHAPES: Dictionary = {
 	"staff": {"region": Rect2(99.0, 21.0, 11.0, 40.0), "scale": 0.62, "grip": 16.0},
 	"bow": {"region": Rect2(52.0, 48.0, 10.0, 32.0), "scale": 0.6, "grip": 16.0},
 }
+const TARGET_ACQUIRE_RADIUS: float = 26.0  # attack press: enemy within this of the mouse
+const TARGET_BREAK_DIST: float = 400.0     # target auto-clears past this distance
+const SPRINT_SPEED_MULT: float = 1.55
+const SPRINT_ANIM_SCALE: float = 1.7
+const CAST_LOCK_TIME: float = 0.2          # cast lunge window: sprint pauses during it
 const CRIT_MULT: float = 1.5
 const CRIT_GOLD: Color = Color(1.0, 0.8, 0.3)
 const EMBER_ORANGE: Color = Color(0.95, 0.52, 0.16)
@@ -51,6 +61,10 @@ var max_hp: float = 30.0
 var mana: float = 20.0
 var max_mana: float = 20.0
 var speed: float = 90.0
+## Current hostile target (enemy Node2D or null). HUD unit frames and enemy
+## nameplates poll this. Set by an "attack" press near an alive enemy; cleared
+## by Esc (no UI open), the target dying, or exceeding TARGET_BREAK_DIST.
+var target: Node2D = null
 
 var _hp_regen: float = 0.0
 var _mana_regen: float = 0.0
@@ -70,6 +84,8 @@ var _buff_left: float = 0.0
 var _next_hit_bonus: float = 0.0
 var _bonus_left: float = 0.0  # seconds until _next_hit_bonus expires unused
 var _aim_dist: float = 60.0   # distance to the aim point (mouse), for placed AoEs
+var _cast_anim_left: float = 0.0   # cast-lunge window: sprint pauses while > 0
+var _ui_open_snapshot: bool = false  # "was a UI panel open?" from the last physics tick
 var _feedback_tween: Tween
 var _flash_tween: Tween
 
@@ -159,9 +175,15 @@ static func create(spawn: Vector2, class_id: String) -> Player:
 func _physics_process(delta: float) -> void:
 	_tick_timers(delta)
 	_update_weapon_pose(delta)
+	_validate_target()
+	# Snapshot for _unhandled_input: bag/sheet close on the same un-consumed
+	# Esc without marking it handled, so "is a panel open?" polled at event
+	# time is ambiguous — gate the target-clear on the pre-event state.
+	_ui_open_snapshot = _ui_panel_open()
 
 	if _dead:
 		velocity = Vector2.ZERO
+		_sprite.speed_scale = 1.0
 		return
 
 	var ui: Node = get_tree().get_first_node_in_group("dialogue_ui")
@@ -169,19 +191,25 @@ func _physics_process(delta: float) -> void:
 
 	if dialogue_open:
 		velocity = Vector2.ZERO
+		_sprite.speed_scale = 1.0
 		_play_anim("idle")
 		_set_prompt(ui, false)
 		return
 
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	velocity = input_dir * speed * _speed_mult
+	var moving: bool = input_dir.length_squared() > 0.0001
+	# Sprint: held + moving + outside the brief cast-lunge window. Speeds the
+	# run and fast-forwards the walk anim — no sprite frame changes.
+	var sprinting: bool = moving and _cast_anim_left <= 0.0 \
+			and Input.is_action_pressed("sprint")
+	velocity = input_dir * speed * _speed_mult * (SPRINT_SPEED_MULT if sprinting else 1.0)
 	move_and_slide()
 
-	var moving: bool = input_dir.length_squared() > 0.0001
 	if moving:
 		_update_facing(input_dir)
 		_facing_vec = input_dir.normalized()
 	_play_anim("walk" if moving else "idle")
+	_sprite.speed_scale = SPRINT_ANIM_SCALE if sprinting else 1.0
 
 	# "attack" is mouse-bound: a click that lifts/drops an item in the bag or
 	# character sheet must not also swing the weapon. Control event-consumption
@@ -191,6 +219,7 @@ func _physics_process(delta: float) -> void:
 	var mouse_on_ui: bool = Inventory.DragCtx.item != null \
 			or get_viewport().gui_get_hovered_control() != null
 	if Input.is_action_just_pressed("attack") and not mouse_on_ui:
+		_acquire_target()
 		_try_cast(0)
 	elif Input.is_action_just_pressed("skill_1"):
 		_try_cast(1)
@@ -226,9 +255,57 @@ func _tick_timers(delta: float) -> void:
 		_bulwark_cd = maxf(0.0, _bulwark_cd - delta)
 	if _brandish_left > 0.0:
 		_brandish_left = maxf(0.0, _brandish_left - delta)
+	if _cast_anim_left > 0.0:
+		_cast_anim_left = maxf(0.0, _cast_anim_left - delta)
 	if not _dead:
 		hp = minf(hp + _hp_regen * delta, max_hp)
 		mana = minf(mana + _mana_regen * delta, max_mana)
+
+
+# --- Targeting (HUD unit frames + enemy nameplates read player.target) -------
+
+
+func _acquire_target() -> void:
+	## Attack press: the closest alive "enemies" node within
+	## TARGET_ACQUIRE_RADIUS px of the mouse WORLD position becomes the
+	## target. A press over empty ground keeps the current target.
+	var mouse: Vector2 = get_global_mouse_position()
+	var best: Node2D = null
+	var best_d: float = TARGET_ACQUIRE_RADIUS
+	for node: Node in get_tree().get_nodes_in_group("enemies"):
+		var e := node as Node2D
+		if e == null or not is_instance_valid(e) or e.get("is_dead") == true:
+			continue
+		var d: float = e.global_position.distance_to(mouse)
+		if d <= best_d:
+			best_d = d
+			best = e
+	if best != null:
+		target = best
+
+
+func _validate_target() -> void:
+	## Auto-clear: freed node, death, or beyond TARGET_BREAK_DIST.
+	if target == null:
+		return
+	if not is_instance_valid(target) or target.get("is_dead") == true \
+			or global_position.distance_to(target.global_position) > TARGET_BREAK_DIST:
+		target = null
+
+
+func _ui_panel_open() -> bool:
+	for grp: String in ["bag_ui", "sheet_ui", "dialogue_ui"]:
+		var n: Node = get_tree().get_first_node_in_group(grp)
+		if n != null and n.get("is_open") == true:
+			return true
+	return false
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Esc clears the target only when no UI panel was open before this event
+	# (the open panels close themselves on the very same un-consumed Esc).
+	if event.is_action_pressed("ui_cancel") and target != null and not _ui_open_snapshot:
+		target = null
 
 
 # --- Ability casting -------------------------------------------------------
@@ -286,6 +363,7 @@ func _start_cooldown(i: int, ability: Dictionary) -> void:
 func _execute(ability: Dictionary, aim: Vector2) -> void:
 	_update_facing(aim)
 	_facing_vec = aim
+	_cast_anim_left = CAST_LOCK_TIME  # sprint pauses during the cast lunge
 	var world: Node2D = get_parent() as Node2D
 	if world == null:
 		world = self
@@ -754,23 +832,23 @@ func _slot_effect(slots: Array, key: String) -> bool:
 	return false
 
 
-func _deal_player_damage(target: Node2D, dmg: float) -> void:
+func _deal_player_damage(foe: Node2D, dmg: float) -> void:
 	## Ability-hit funnel: rolls crit_pct% for a 1.5x crit (bigger gold
 	## number replaces the standard white one), then runs on-kill hooks.
-	if target == null or not is_instance_valid(target):
+	if foe == null or not is_instance_valid(foe):
 		return
 	var final: float = dmg
 	var crit: bool = randf() * 100.0 < float(_totals.get("crit_pct", 0.0))
 	if crit:
 		final *= CRIT_MULT
-	if crit and not target.has_meta("own_damage_numbers") and target.has_method("take_damage"):
+	if crit and not foe.has_meta("own_damage_numbers") and foe.has_method("take_damage"):
 		# Route damage directly so Combat's white number is skipped, then
 		# show the bigger gold crit number ourselves.
-		target.call("take_damage", final, self)
-		_crit_number(target, final)
+		foe.call("take_damage", final, self)
+		_crit_number(foe, final)
 	else:
-		Combat.deal_damage(target, final, self)
-	_check_kill_effects(target)
+		Combat.deal_damage(foe, final, self)
+	_check_kill_effects(foe)
 
 
 func _arm_ranged(cfg: Dictionary, dmg: float) -> void:
@@ -785,14 +863,14 @@ func _arm_ranged(cfg: Dictionary, dmg: float) -> void:
 	cfg["on_hit"] = _on_projectile_hit
 
 
-func _on_projectile_hit(target: Node2D, amount: float, crit_styled: bool) -> void:
+func _on_projectile_hit(foe: Node2D, amount: float, crit_styled: bool) -> void:
 	## Called by Combat.Projectile after its damage lands. crit_styled means
 	## the projectile suppressed the standard white number for us to replace.
-	if target == null or not is_instance_valid(target):
+	if foe == null or not is_instance_valid(foe):
 		return
 	if crit_styled:
-		_crit_number(target, amount)
-	_check_kill_effects(target)
+		_crit_number(foe, amount)
+	_check_kill_effects(foe)
 
 
 func _check_kill_effects(victim: Node2D) -> void:
@@ -804,8 +882,8 @@ func _check_kill_effects(victim: Node2D) -> void:
 		_soul_wisp(victim.global_position)
 
 
-func _crit_number(target: Node2D, amount: float) -> void:
-	var world: Node = target.get_parent()
+func _crit_number(foe: Node2D, amount: float) -> void:
+	var world: Node = foe.get_parent()
 	if world == null:
 		return
 	var label := Label.new()
@@ -820,7 +898,7 @@ func _crit_number(target: Node2D, amount: float) -> void:
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.size = Vector2(48.0, 16.0)
 	label.pivot_offset = Vector2(24.0, 8.0)
-	label.position = target.global_position + Vector2(-24.0, -46.0)
+	label.position = foe.global_position + Vector2(-24.0, -46.0)
 	label.scale = Vector2.ONE * 0.6
 	world.add_child(label)
 	var t := label.create_tween()
