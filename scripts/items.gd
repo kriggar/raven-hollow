@@ -8,8 +8,8 @@ class_name Items
 ##           "trinket"|"none"  (rings use the shared type "ring"; the
 ##           Inventory maps them onto ring1/ring2)
 ##   rarity: "common"|"uncommon"|"rare"|"epic"|"legendary"
-##   icon:   res:// path — every path below verified against
-##           assets/art/icons/_icon_list.txt AND viewed by eye.
+##   icon:   "pixel:<icon_id>" — resolved through IconsPixel (Shikashi
+##           32x32 pixel sheets); every cell viewed by eye at 8x.
 ##   stats:  {damage, armor, hp, mana, speed_pct, crit_pct} — floats, all
 ##           six keys always present (0.0 when unused). gravekeepers_band
 ##           additionally carries "mana_regen" per the user-approved spec.
@@ -17,13 +17,12 @@ class_name Items
 ##           emberfall | rooks_talon | gravekeepers_band | bulwark |
 ##           bloody_dagger
 ##
-## Icon choices (painterly pack has no literal gear art — abstract picks,
-## each viewed): slice-orange-3 flaming blade, haste-fire-1 red wings,
-## light-jade-2 green soul-orb, protect-orange-3 shield on gold burst,
-## enchant-red-2 red-runed blade, enchant-orange-1 copper blade,
-## protect-blue-1/protect-acid-1 shield sigils, fog-* cloth/leather swirls,
-## haste-sky-1 blue wings, runes-orange-1 copper rune circle,
-## evil-eye-eerie-2 feathered witch-eye.
+## Icon choices (Shikashi pack — literal gear art this time, PIL-viewed):
+## enchanted glowing greatsword, white monster talon, gem ring, quartered
+## heater shield, blood-dripping blade for the legendaries; dark hood,
+## leather cuirass, iron breastplate, trousers, worn boots, gladius,
+## wooden buckler, plain band and a glossy black orb for the rest.
+## Each item's icon id equals its item id (see IconsPixel.REGISTRY).
 
 const RARITY_COLORS := {
 	"common": Color(0.62, 0.62, 0.62),
@@ -42,7 +41,7 @@ const _DB := {
 		"name": "Emberfall",
 		"slot": "main_hand",
 		"rarity": "legendary",
-		"icon": "res://assets/art/icons/slice-orange-3.png",
+		"icon": "pixel:emberfall",
 		"stats": {"damage": 12.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 5.0},
 		"flavor": "The blade that lit the hollow's last lantern.",
 		"stackable": false,
@@ -53,7 +52,7 @@ const _DB := {
 		"name": "Rook's Talon",
 		"slot": "main_hand",
 		"rarity": "legendary",
-		"icon": "res://assets/art/icons/haste-fire-1.png",
+		"icon": "pixel:rooks_talon",
 		"stats": {"damage": 9.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 10.0, "crit_pct": 0.0},
 		"flavor": "A feather fell; a kingdom followed.",
 		"stackable": false,
@@ -64,7 +63,7 @@ const _DB := {
 		"name": "Gravekeeper's Band",
 		"slot": "ring",
 		"rarity": "legendary",
-		"icon": "res://assets/art/icons/light-jade-2.png",
+		"icon": "pixel:gravekeepers_band",
 		"stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 20.0, "speed_pct": 0.0, "crit_pct": 0.0, "mana_regen": 2.0},
 		"flavor": "Vasile never buries what he cannot keep.",
 		"stackable": false,
@@ -75,7 +74,7 @@ const _DB := {
 		"name": "Bulwark of the Emberfall Road",
 		"slot": "off_hand",
 		"rarity": "legendary",
-		"icon": "res://assets/art/icons/protect-orange-3.png",
+		"icon": "pixel:bulwark",
 		"stats": {"damage": 0.0, "armor": 8.0, "hp": 25.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "It remembers every blow it was ever dealt.",
 		"stackable": false,
@@ -86,7 +85,7 @@ const _DB := {
 		"name": "The Bloody Dagger",
 		"slot": "main_hand",
 		"rarity": "legendary",
-		"icon": "res://assets/art/icons/enchant-red-2.png",
+		"icon": "pixel:bloody_dagger",
 		"stats": {"damage": 7.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 8.0},
 		"flavor": "It is always freshly bloody. No one remembers cutting anything.",
 		"stackable": false,
@@ -101,7 +100,7 @@ const _DB := {
 		"name": "Leather Hood",
 		"slot": "head",
 		"rarity": "common",
-		"icon": "res://assets/art/icons/fog-orange-1.png",
+		"icon": "pixel:leather_hood",
 		"stats": {"damage": 0.0, "armor": 1.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "Smells of rain and old rope.",
 		"stackable": false,
@@ -112,7 +111,7 @@ const _DB := {
 		"name": "Patched Jerkin",
 		"slot": "chest",
 		"rarity": "common",
-		"icon": "res://assets/art/icons/fog-air-1.png",
+		"icon": "pixel:patched_jerkin",
 		"stats": {"damage": 0.0, "armor": 2.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "More patch than jerkin, if we are honest.",
 		"stackable": false,
@@ -123,7 +122,7 @@ const _DB := {
 		"name": "Iron Cuirass",
 		"slot": "chest",
 		"rarity": "rare",
-		"icon": "res://assets/art/icons/protect-blue-1.png",
+		"icon": "pixel:iron_cuirass",
 		"stats": {"damage": 0.0, "armor": 4.0, "hp": 15.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "Forged by the west gate, back when the smithy still rang.",
 		"stackable": false,
@@ -134,7 +133,7 @@ const _DB := {
 		"name": "Padded Breeches",
 		"slot": "legs",
 		"rarity": "common",
-		"icon": "res://assets/art/icons/fog-water-air-1.png",
+		"icon": "pixel:padded_breeches",
 		"stats": {"damage": 0.0, "armor": 1.0, "hp": 5.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "Quilted by someone's grandmother. Not yours.",
 		"stackable": false,
@@ -145,7 +144,7 @@ const _DB := {
 		"name": "Gravedigger's Boots",
 		"slot": "boots",
 		"rarity": "uncommon",
-		"icon": "res://assets/art/icons/haste-sky-1.png",
+		"icon": "pixel:gravediggers_boots",
 		"stats": {"damage": 0.0, "armor": 1.0, "hp": 0.0, "mana": 0.0, "speed_pct": 5.0, "crit_pct": 0.0},
 		"flavor": "The mud of a hundred mornings never quite comes off.",
 		"stackable": false,
@@ -156,7 +155,7 @@ const _DB := {
 		"name": "Rusted Shortsword",
 		"slot": "main_hand",
 		"rarity": "common",
-		"icon": "res://assets/art/icons/enchant-orange-1.png",
+		"icon": "pixel:rusted_shortsword",
 		"stats": {"damage": 3.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "The rust stops at the edge. Someone kept that much sharp.",
 		"stackable": false,
@@ -167,7 +166,7 @@ const _DB := {
 		"name": "Pinewood Buckler",
 		"slot": "off_hand",
 		"rarity": "uncommon",
-		"icon": "res://assets/art/icons/protect-acid-1.png",
+		"icon": "pixel:pinewood_buckler",
 		"stats": {"damage": 0.0, "armor": 2.0, "hp": 10.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "Pine holds exactly one good blow. Choose which.",
 		"stackable": false,
@@ -178,7 +177,7 @@ const _DB := {
 		"name": "Tarnished Copper Band",
 		"slot": "ring",
 		"rarity": "common",
-		"icon": "res://assets/art/icons/runes-orange-1.png",
+		"icon": "pixel:tarnished_band",
 		"stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 5.0, "speed_pct": 0.0, "crit_pct": 0.0},
 		"flavor": "Green where it kisses the skin.",
 		"stackable": false,
@@ -189,7 +188,7 @@ const _DB := {
 		"name": "Raven's Eye",
 		"slot": "trinket",
 		"rarity": "epic",
-		"icon": "res://assets/art/icons/evil-eye-eerie-2.png",
+		"icon": "pixel:ravens_eye",
 		"stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 5.0, "crit_pct": 5.0},
 		"flavor": "The hollow watches back.",
 		"stackable": false,

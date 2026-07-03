@@ -21,6 +21,17 @@ extends CharacterBody2D
 ## frames + nameplates read it), acquired on an attack press near the mouse,
 ## cleared by Esc / death / range. Holding "sprint" while moving speeds the
 ## run up (x1.55) and fast-forwards the walk anim — no sprite frame changes.
+##
+## Phase B.2 (sprite-sheet VFX): abilities carry FXLib ids in params
+## ("fx" one-shot / "fx_loop" looping aura / "fx_tint" opts tint — see
+## class_defs.gd header). Dispatch plays them at the mapped moments: melee
+## smears rotated toward aim, dash vanish/appear puffs or a travel streak,
+## AoE zone effects at the zone center (+ a persistent Consecration glyph),
+## buff bursts and the Divine Shield wrap (freed when the buff ends), and
+## the Raise Dead ritual (rising wisp + summon ellipse under the minion).
+## Projectiles pass their flight-visual id through cfg "kind"/"fx" so
+## Combat.Projectile -> VFX.projectile_visual builds FXLib flight frames.
+## Procedural VFX stay only as garnish (feathers, rings, damage numbers).
 
 const INTERACT_RANGE: float = 28.0
 ## 32x48 frame, centered=true puts frame center (y=24) at node pos. Pixel
@@ -81,6 +92,7 @@ var _speed_mult: float = 1.0
 var _damage_mult: float = 1.0
 var _absorb: float = 0.0
 var _buff_left: float = 0.0
+var _buff_fx: Node2D = null  # FXLib looping aura (Divine Shield), freed with the buff
 var _next_hit_bonus: float = 0.0
 var _bonus_left: float = 0.0  # seconds until _next_hit_bonus expires unused
 var _aim_dist: float = 60.0   # distance to the aim point (mouse), for placed AoEs
@@ -246,6 +258,7 @@ func _tick_timers(delta: float) -> void:
 			_speed_mult = 1.0
 			_damage_mult = 1.0
 			_absorb = 0.0
+			_clear_buff_fx()
 	if _bonus_left > 0.0:
 		_bonus_left -= delta
 		if _bonus_left <= 0.0:
@@ -417,11 +430,36 @@ func _class_color() -> Color:
 	return class_def.get("color", Color(0.85, 0.68, 0.35))
 
 
+func _fx_opts(params: Dictionary, extra: Dictionary = {}) -> Dictionary:
+	## FXLib.play opts from ability params: fx_tint rides opts.tint when the
+	## mapping wants a re-tint; `extra` (rotation/scale/...) merges on top.
+	var opts: Dictionary = {}
+	if params.has("fx_tint"):
+		opts["tint"] = params.get("fx_tint")
+	opts.merge(extra, true)
+	return opts
+
+
+func _clear_buff_fx() -> void:
+	## Frees the looping FXLib buff aura (Divine Shield wrap), if any.
+	if _buff_fx != null and is_instance_valid(_buff_fx):
+		_buff_fx.queue_free()
+	_buff_fx = null
+
+
 func _do_melee_arc(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 	var params: Dictionary = ability.get("params", {})
 	var rng: float = float(ability.get("range", 26.0))
 	var half_arc: float = float(params.get("arc_degrees", MELEE_CONE_DEG * 2.0)) * 0.5
-	VFX.slash_arc(world, global_position + aim * 10.0, aim, _class_color(), rng)
+	var fx_id: String = str(params.get("fx", ""))
+	if fx_id.is_empty():
+		VFX.slash_arc(world, global_position + aim * 10.0, aim, _class_color(), rng)
+	else:
+		# Sheet-based swing: smear rotated toward aim (cleave / quick_slash,
+		# tinted via fx_tint) or the hammer spark + dust + holy flash, played
+		# at the middle of the swing reach.
+		FXLib.play(fx_id, world, global_position + aim * (rng * 0.55),
+				_fx_opts(params, {"rotation": aim.angle()}))
 	var dmg: float = (float(ability.get("damage", 5.0)) + _stat_damage()) * _damage_mult
 	if _next_hit_bonus > 0.0:
 		dmg *= _next_hit_bonus
@@ -455,6 +493,7 @@ func _do_projectile(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 		"faction": "player",
 		"color": params.get("color", _class_color()),
 		"kind": str(params.get("projectile", "orb")),
+		"fx": str(params.get("fx", params.get("projectile", "orb"))),
 		"aoe_radius": float(params.get("aoe_radius", 0.0)),
 	}
 	_arm_ranged(cfg, (float(ability.get("damage", 6.0)) + _stat_damage()) * _damage_mult)
@@ -475,10 +514,29 @@ func _do_aoe_ring(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 		VFX.ground_circle(world, center, radius, _class_color(),
 				zone_duration if ticking else 0.45)
 	VFX.ring(world, center, radius, _class_color(), 0.5)
+	var fx_id: String = str(params.get("fx", ""))
+	if not fx_id.is_empty():
+		# Sheet-based zone effect at the center: frost bloom (frost_nova),
+		# shred swirl (whirlwind), holy pillar burst (consecration) or
+		# grasping roots (grave_grasp, tinted grave-purple via fx_tint).
+		FXLib.play(fx_id, world, center, _fx_opts(params))
 	var dmg: float = (float(ability.get("damage", 5.0)) + _stat_damage()) * _damage_mult
 	_aoe_pulse(center, radius, dmg, params)
 	if not ticking:
 		return
+	# Persistent sheet glyph (Consecration): looping FXLib aura on a ground
+	# holder that fades away with the zone. Freeing the holder frees the loop.
+	var loop_id: String = str(params.get("fx_loop", ""))
+	if not loop_id.is_empty():
+		var holder := Node2D.new()
+		holder.position = center
+		holder.z_index = -1
+		world.add_child(holder)
+		FXLib.attach_loop(loop_id, holder)
+		var ht := holder.create_tween()
+		ht.tween_interval(maxf(zone_duration - 0.25, 0.1))
+		ht.tween_property(holder, "modulate:a", 0.0, 0.25)
+		ht.tween_callback(holder.queue_free)
 	# Ticking zone (Consecration): re-pulse every tick_interval for duration.
 	var ticks: int = int(floor(zone_duration / tick_interval + 0.001))
 	for k in range(1, ticks):
@@ -513,9 +571,15 @@ func _do_dash(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 	# Contract: ability "range" IS the dash distance in px.
 	var dist: float = float(ability.get("range", 75.0))
 	var feathered: bool = bool(params.get("feathers", false))
+	var fx_id: String = str(params.get("fx", ""))
 	var start: Vector2 = global_position
+	# Vanish marker at the launch point. Shadowstep swaps the procedural puff
+	# for the FXLib smoke-and-dust puff (near-black via fx_tint); Raven Dash
+	# keeps its procedural feathers (garnish stays) and adds a streak below.
 	if feathered:
 		VFX.feathers(world, global_position)
+	elif not fx_id.is_empty():
+		FXLib.play(fx_id, world, global_position, _fx_opts(params))
 	else:
 		VFX.smoke(world, global_position)
 	# move_and_collide sweeps the full motion and stops at the first wall,
@@ -523,6 +587,12 @@ func _do_dash(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 	move_and_collide(aim * dist)
 	if feathered:
 		VFX.feathers(world, global_position)
+		if not fx_id.is_empty():
+			# Raven Dash: smoke streak swept along the travelled path.
+			FXLib.play(fx_id, world, start.lerp(global_position, 0.5),
+					_fx_opts(params, {"rotation": aim.angle()}))
+	elif not fx_id.is_empty():
+		FXLib.play(fx_id, world, global_position, _fx_opts(params))
 	else:
 		VFX.smoke(world, global_position)
 	# Rook's Talon: the dash leaves a feather trail along the travelled path.
@@ -540,6 +610,17 @@ func _do_buff(ability: Dictionary, world: Node2D) -> void:
 	_speed_mult = float(params.get("speed_mult", 1.0))
 	_damage_mult = float(params.get("damage_mult", 1.0))
 	_absorb = float(params.get("absorb", 0.0))
+	var fx_id: String = str(params.get("fx", ""))
+	if not fx_id.is_empty():
+		# War Cry: one-shot radial air burst around the caster (red-gold tint).
+		FXLib.play(fx_id, world, global_position, _fx_opts(params))
+	_clear_buff_fx()
+	var loop_id: String = str(params.get("fx_loop", ""))
+	if not loop_id.is_empty():
+		# Divine Shield: looping holy wrap riding the body for the buff's
+		# lifetime — freed by _tick_timers on expiry / when the absorb pops.
+		_buff_fx = FXLib.attach_loop(loop_id, self, Vector2(0.0, -12.0))
+	# Procedural orbit glints stay as garnish (duration readability).
 	VFX.sparkle_buff(world, self, _class_color(), _buff_left)
 
 
@@ -563,6 +644,7 @@ func _do_volley(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 				"faction": "player",
 				"color": color,
 				"kind": kind,
+				"fx": str(params.get("fx", kind)),
 			}
 			_arm_ranged(cfg, dmg)
 			Combat.spawn_projectile(world, cfg)
@@ -587,6 +669,7 @@ func _do_volley(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 				"faction": "player",
 				"color": color,
 				"kind": kind,
+				"fx": str(params.get("fx", kind)),
 			}
 			_arm_ranged(cfg, dmg)
 			Combat.spawn_projectile(world, cfg)
@@ -606,6 +689,22 @@ func _do_summon(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 	minion.move_speed = float(params.get("minion_speed", 80.0))
 	minion.position = global_position + aim * 20.0
 	world.add_child(minion)
+	var fx_id: String = str(params.get("fx", ""))
+	if not fx_id.is_empty():
+		# Raise Dead ritual: rising dark wisp over the grave-spot (one-shot).
+		FXLib.play(fx_id, world, minion.position, _fx_opts(params))
+	var loop_id: String = str(params.get("fx_loop", ""))
+	if not loop_id.is_empty():
+		# Looping summon ellipse under the minion for the ritual moment,
+		# then a short fade — the loop node is ours to free.
+		var ellipse: Node2D = FXLib.attach_loop(loop_id, minion)
+		if ellipse != null:
+			ellipse.z_index = -1
+			var et := ellipse.create_tween()
+			et.tween_interval(1.4)
+			et.tween_property(ellipse, "modulate:a", 0.0, 0.3)
+			et.tween_callback(ellipse.queue_free)
+	# Smoke poof garnish on the spawn.
 	VFX.smoke(world, minion.position)
 
 
@@ -723,6 +822,8 @@ func take_damage(amount: float, _source: Node) -> void:
 		var soaked: float = minf(_absorb, amt)
 		_absorb -= soaked
 		amt -= soaked
+		if _absorb <= 0.0:
+			_clear_buff_fx()  # Divine Shield wrap pops when the absorb is spent
 	_invuln = INVULN_TIME
 	_flash_red()
 	_shake_camera()
@@ -756,6 +857,7 @@ func _shake_camera() -> void:
 func _die() -> void:
 	_dead = true
 	velocity = Vector2.ZERO
+	_clear_buff_fx()
 	_play_anim("idle")
 	if _flash_tween != null and _flash_tween.is_valid():
 		_flash_tween.kill()
@@ -781,6 +883,7 @@ func _respawn() -> void:
 	_speed_mult = 1.0
 	_damage_mult = 1.0
 	_absorb = 0.0
+	_clear_buff_fx()
 	var feet := get_node_or_null("Feet")
 	if feet != null:
 		feet.set_deferred("disabled", false)

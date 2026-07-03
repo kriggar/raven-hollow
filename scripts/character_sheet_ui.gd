@@ -61,7 +61,11 @@ const STATS_Y: float = 228.0
 const STATS_H: float = 28.0
 const FLASH_TIME: float = 0.2
 const GHOST_SIZE: float = 24.0
-const ICON_DIR := "res://assets/art/icons/"
+
+# "pixel:<id>" item icons resolve through IconsPixel (Shikashi sheets); the
+# script is loaded dynamically so this file parses standalone.
+const PIXEL_PREFIX := "pixel:"
+const ICONS_PIXEL_PATH := "res://scripts/icons_pixel.gd"
 
 const LEFT_SLOTS: Array[String] = ["head", "chest", "legs", "boots"]
 const RIGHT_SLOTS: Array[String] = ["main_hand", "off_hand", "ring1", "ring2", "trinket"]
@@ -121,6 +125,8 @@ var _drag_from: String = ""
 var _open_tween: Tween
 var _flash_tweens: Dictionary = {}
 var _placeholders: Dictionary = {}
+
+static var _pixel_script: GDScript = null
 
 
 func _ready() -> void:
@@ -889,20 +895,34 @@ func _icon_or_placeholder(item: Dictionary) -> Texture2D:
 	return placeholder
 
 
-## Accepts "res://..." paths, bare icon names ("fireball-red-1") or file names
-## ("fireball-red-1.png"). Returns null when the resource does not exist so a
-## bad icon id never crashes the sheet.
+## Accepts "pixel:<id>" Shikashi registry ids (resolved via IconsPixel) or
+## full "res://..." paths. Returns null when the resource does not exist so a
+## bad icon id never crashes the sheet (the rarity placeholder covers it).
+## (The painterly bare-name fallback is gone — Phase B.2 moved every icon to
+## the pixel registry.)
 static func _load_icon(icon_v: Variant) -> Texture2D:
 	var s: String = str(icon_v) if icon_v != null else ""
 	if s.is_empty():
 		return null
-	if not s.begins_with("res://"):
-		if not s.ends_with(".png"):
-			s += ".png"
-		s = ICON_DIR + s
-	if ResourceLoader.exists(s, "Texture2D"):
+	if s.begins_with(PIXEL_PREFIX):
+		return _pixel_icon(s.substr(PIXEL_PREFIX.length()))
+	if s.begins_with("res://") and ResourceLoader.exists(s, "Texture2D"):
 		return load(s)
 	return null
+
+
+## IconsPixel.get_tex() via an on-demand load (not a compile-time reference)
+## so this script parses on its own; missing script / unknown id -> null and
+## the caller falls back to the rarity placeholder square.
+static func _pixel_icon(icon_id: String) -> Texture2D:
+	if _pixel_script == null:
+		if not ResourceLoader.exists(ICONS_PIXEL_PATH, "Script"):
+			return null
+		_pixel_script = load(ICONS_PIXEL_PATH) as GDScript
+	if _pixel_script == null:
+		return null
+	var tex_v: Variant = _pixel_script.call("get_tex", icon_id)
+	return tex_v if tex_v is Texture2D else null
 
 
 static func _make_glow_texture() -> GradientTexture2D:

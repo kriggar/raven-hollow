@@ -95,6 +95,9 @@ class Projectile extends Area2D:
 	## crit number and run on-kill effects. Both default to inert.
 	var crit: bool = false
 	var on_hit: Callable = Callable()
+	## Ability fx id (cfg "fx"): played through FXLib on impact (e.g. the
+	## fireball explosion, spark crackle, soul-bolt burst, arrow wind hit).
+	var fx_impact: String = ""
 
 	func _init(cfg: Dictionary) -> void:
 		name = "Projectile"
@@ -110,6 +113,7 @@ class Projectile extends Area2D:
 		color = cfg.get("color", Color(0.85, 0.68, 0.35))
 		aoe_radius = float(cfg.get("aoe_radius", 0.0))
 		crit = bool(cfg.get("crit", false))
+		fx_impact = str(cfg.get("fx", ""))
 		var on_hit_v: Variant = cfg.get("on_hit")
 		if on_hit_v is Callable:
 			on_hit = on_hit_v
@@ -172,9 +176,24 @@ class Projectile extends Area2D:
 			_deal(target)
 		var parent := get_parent()
 		if parent != null:
-			VFX.impact(parent, global_position, color)
+			# Same visual height as _play_impact_fx (and the flight visual at
+			# y-12) so the spark garnish and the sheet impact read as ONE hit.
+			VFX.impact(parent, global_position + Vector2(0.0, -10.0), color)
+			_play_impact_fx(parent)
 		set_physics_process(false)
 		queue_free()
+
+	func _play_impact_fx(parent: Node) -> void:
+		## Sheet-based impact keyed by the ability fx id (FXLib alias maps
+		## e.g. "fireball" -> fire_explosion). Sized up when there is splash.
+		var world := parent as Node2D
+		if world == null or fx_impact.is_empty() or not FXLib.has_fx(fx_impact):
+			return
+		var opts: Dictionary = {"rotation": randf_range(0.0, TAU)}
+		if aoe_radius > 0.0:
+			opts["scale"] = maxf(1.0, aoe_radius * 2.0 / 64.0)
+			opts["rotation"] = 0.0
+		FXLib.play(fx_impact, world, global_position + Vector2(0.0, -10.0), opts)
 
 	func _deal(target: Node2D) -> void:
 		## Applies the payload to one target. A pre-rolled crit with a live

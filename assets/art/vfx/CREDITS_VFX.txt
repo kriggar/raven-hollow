@@ -1,0 +1,49 @@
+VFX sprite-sheet credits — Raven Hollow: Emberfall
+====================================================
+All packs below are free for commercial use (credit appreciated).
+Sheets were copied (and in one case re-assembled into a strip) from the
+original downloads; frame geometry was pixel-verified before registration
+in scripts/fx_library.gd.
+
+Pimen (https://pimen.itch.io/) — CC0 / free, credit appreciated
+  pimen_fire/firebolt_48x48.png        — "Fire Spell Effect 01" (Firebolt: 4f flight loop, 6f impact)
+  pimen_fire/explosion_64x64.png       — "Fire Spell Effect 02" (Explosion, 13f used)
+  pimen_thunder/projectile_32x32.png   — "Thunder Spell Effect 01" (projectile, 5f loop)
+  pimen_thunder/hit_32x32.png          — "Thunder Spell Effect 01" (hit, 5f)
+  pimen_ice/frost_start_32x32.png      — "Ice Spell Effect 01" (Ice VFX 2 start, 8f)
+  pimen_ice/frost_active_32x32.png     — "Ice Spell Effect 01" (Ice VFX 2 active, 8f loop)
+  pimen_ice/frost_end_32x32.png        — "Ice Spell Effect 01" (Ice VFX 2 ending, 17f)
+  pimen_dark/dark1_40x32.png           — "Dark Spell Effect" (Dark VFX 1: 10f loop + 6f hit)
+  pimen_dark/dark2_48x64.png           — "Dark Spell Effect" (Dark VFX 2 rising wisp, 15f)
+  pimen_holy/holy01_repeat_32x32.png   — "Holy Spell Effect" (Holy VFX 01 repeatable, 8f loop)
+  pimen_holy/holy02_pillar_48x48.png   — "Holy Spell Effect" (Holy VFX 02 pillar burst, 15f)
+  pimen_hit/hit_spark_48x48.png        — "Battle VFX Hit Spark" (Hit Effect 01 var.1, 6f)
+  pimen_smear/smear_h_48x48.png        — "Battle VFX Slashes and Thrusts" (Smear VFX 01 horizontal 1, 5f)
+  pimen_smoke/puff_48x32.png           — "Smoke VFX 1" (Smoke Effect 01 VFX 1, 8f)
+  pimen_smoke/poof_64x64.png           — "Smoke VFX 1" (Smoke Effect 01 VFX 2, 11f)
+  pimen_smoke/dust_64x64.png           — "Smoke N Dust 03" (VFX 2, 8f)
+  pimen_wind/crescent_32x32.png        — "Wind Spell Effect 01" (Wind Projectile, 6f loop)
+  pimen_wind/wind_hit_32x32.png        — "Wind Spell Effect 01" (Wind Hit Effect, 4f)
+  pimen_wind/air_burst_48x48.png       — "Wind Spell Effect 02" (Air Burst, 7f)
+  pimen_wind/air_swirl_32x32.png       — "Wind Spell Effect 02" (Air Explosion swirl, 9f)
+  pimen_wood/roots_32x32.png           — "Wood Spell Effect 01-02" (Wood VFX 02 roots, 13f)
+
+Frostwindz (https://frostwindz.itch.io/) — free version, commercial OK
+  frostwindz_necro/summon_ellipse_128x128.png
+      — "Pixel Art VFX - Necromancer - FREE Version" (VFX 1 summon ellipse, 9f loop)
+
+XYEzawr (https://xyezawr.itch.io/) — free, commercial OK
+  xyezawr_arrows/magic_arrow_blue_59x28.png
+      — "Free Pixel Effects Pack #12 - Magic Arrows" (variant 2, 15 of 30
+        frames re-assembled into a single 15-frame strip, cropped to the
+        union alpha bbox)
+
+Substitutions vs. the original effect research (chosen after frame
+inspection, visibly better fits):
+  - fan_of_knives uses the Pimen Smear VFX 01 frames as a fast spinning
+    blade loop ("blade_spin") — Halloween VFX 3 turned out to be a blood
+    splash, not a knife.
+  - whirlwind uses Pimen Wind 02 "Air Explosion" swirl instead of
+    BDragon1727 Free Smoke Fx 2 (the swirl reads much better as a shred).
+  - shadowstep / death poofs use Pimen "Smoke Effect 01" (Smoke VFX 1/2)
+    instead of Smoke N Dust 01 (not present in the downloads).

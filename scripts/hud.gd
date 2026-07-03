@@ -50,7 +50,6 @@ const FACE_SIZE: float = 16.0
 const SLOT: float = 30.0
 const SLOT_GAP: float = 6.0
 const KEYBINDS: Array[String] = ["LMB", "Q", "R"]
-const ICON_DIR := "res://assets/art/icons/"
 const CHAR_DIR := "res://assets/art/characters/"
 const ENEMY_DIR := "res://assets/art/enemies/"
 
@@ -542,18 +541,17 @@ func _style_label(label: Label, font_size: int, color: Color) -> void:
 	label.add_theme_color_override("font_color", color)
 
 
-## Accepts "res://..." paths, bare icon names ("fireball-red-1") or file names
-## ("fireball-red-1.png") per the class_defs icon field. Returns null if the
-## resource does not exist so a bad id never crashes the HUD.
+## Accepts "pixel:<id>" ids (Shikashi sheets via IconsPixel) or full
+## "res://..." paths. Returns null if the resource does not exist so a bad
+## id never crashes the HUD. (The painterly bare-name fallback is gone —
+## Phase B.2 moved every ability/item icon to the pixel registry.)
 static func _load_icon(icon_v: Variant) -> Texture2D:
 	var s: String = str(icon_v) if icon_v != null else ""
 	if s.is_empty():
 		return null
-	if not s.begins_with("res://"):
-		if not s.ends_with(".png"):
-			s += ".png"
-		s = ICON_DIR + s
-	if ResourceLoader.exists(s, "Texture2D"):
+	if s.begins_with("pixel:"):
+		return IconsPixel.get_tex(s)
+	if s.begins_with("res://") and ResourceLoader.exists(s, "Texture2D"):
 		return load(s)
 	return null
 

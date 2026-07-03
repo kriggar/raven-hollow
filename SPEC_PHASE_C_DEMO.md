@@ -48,6 +48,25 @@ dust aligns → people "listen").
 - **Main menu + pause**: title screen (town fullmap art dimmed behind, "Raven Hollow" Alagard 40 gold, New Game / Continue (if save exists) / Quit; version string "Kickstarter Demo"). Esc in-game: pause panel (Resume / Save / Settings-lite: music volume slider / Quit to Menu). Class select shows after New Game.
 - **Audio**: keep town theme; wilderness uses theme_plain.ogg; night layers wind? (only if trivial). SFX pass is post-demo except: UI click, level-up chime (synthesize or skip).
 
+## 6b. CRAFTING SLICE (USER MANDATE: must be in the demo)
+- Materials (new item type "material", stackable, drop from kills): wolf_pelt (wolves), boar_hide (boars),
+  bone + ember_dust (skeletons), iron_scrap (orcs). Drop rates generous (60-80%) — demo should feel abundant.
+- Consumables (new item type, right-click in bag to use): healing_draught (+40 hp), hunters_stew (+2 hp
+  regen 60s buff).
+- Stations: Goran's forge (existing anvil; station id "forge") and the inn hearth (station id "hearth").
+  Walk up + E opens the station's crafting panel (GK-styled: recipe list left w/ pixel icons, material costs
+  with have/need counts, flavor line, Craft button; greyed recipes when materials missing; unknown recipes
+  show as "???" until learned).
+- Recipes (known from start unless noted): forge — iron_sword (uncommon main_hand: 3 iron_scrap + 1 bone),
+  boarhide_jerkin (uncommon chest: 3 boar_hide), bone_ring (common ring: 2 bone); LEARNED from scrolls —
+  wolf_fang_dagger (rare main_hand, +crit: 2 wolf_pelt + 2 bone + 1 iron_scrap; scroll dropped by "Old
+  Mother"), hearth — healing_draught (1 boar_hide? no — 2 herbs... keep materials-only: 1 wolf_pelt + 1
+  ember_dust), hunters_stew (1 boar_hide + 1 bone; recipe scroll in the hunter's camp chest/prop).
+- Recipe scrolls: item type "recipe", right-click to LEARN (persist in save), toast "Recipe learned: …".
+- Files: crafting.gd (recipes db + known-set + craft logic), crafting_ui.gd (station panel), station hooks
+  in town_builder (forge/hearth interactables) + wilderness (none), loot drops in enemy.gd die path,
+  consumable use in bag_ui/inventory. Quest 2 reward may include materials.
+
 ## 7. Build order (workflows)
 1. B.2 (spells/icons) → 2. B.3 (town polish) → 3. C-demo workflow: builders = map-system+gate, wilderness, quests+dialogue-hooks, systems (xp/day-night), minimap+worldmap, save+menus; then integrate (headless + screenshot verify: gate prompt, wilderness fauna, quest tracker, night town, minimap, menu) → review ×2 → fix.
 Keep ALL interface contracts from prior phases. Never touch project.godot except NEW input action "map" (M) + "pause" (Esc = ui_cancel exists) — add via coordinator before launch.

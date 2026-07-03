@@ -25,6 +25,18 @@ extends CanvasLayer
 ##    the sheet's _end_drag already returns them to the bag, and claiming the
 ##    same release twice would double-resolve.
 ##  - Right-click auto-equips via Inventory.equip_from_bag(idx).
+##
+## WoW bag button (Phase B.2): a 34x34 dark slot button pinned to the
+## bottom-right viewport corner with the Shikashi pixel backpack icon and an
+## "I" keybind caption. Always visible during gameplay (player exists with a
+## chosen class), hidden while class-select runs (no player yet) or a
+## dialogue is open. Click toggles the bag exactly like the I key; hovering
+## (or the bag being open) lights the border gold with a soft glow. The bag
+## panel now opens ABOVE the button so the two never overlap.
+##
+## Item icons: legacy "res://..." paths load directly; "pixel:<id>" ids are
+## resolved through IconsPixel (scripts/icons_pixel.gd), loaded dynamically
+## so this file parses standalone.
 
 const GOLD := Color(0.85, 0.68, 0.35)
 const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
@@ -49,6 +61,22 @@ const GHOST_SIZE: float = 20.0
 const GHOST_ALPHA: float = 0.8
 const DRAG_DIM: float = 0.35   # source-slot icon alpha while its item is lifted
 
+# WoW corner bag button.
+const BTN_SIZE: float = 34.0
+const BTN_GAP: float = 4.0         # vertical gap between the button and the open bag
+const BTN_ICON_SIZE: float = 26.0
+const BTN_GLOW := Color(0.85, 0.68, 0.35, 0.30)
+const BTN_ICON_HOVER := Color(1.15, 1.12, 1.05)
+## Button icon: the IconsPixel "backpack" registry entry (Shikashi v2 knapsack,
+## cell col 0 row 10) — resolved through _pixel_icon like every item icon, so
+## the registry stays the single source of truth for pixel iconography.
+const BTN_ICON_ID := "backpack"
+
+# "pixel:<id>" item icons resolve through IconsPixel, loaded dynamically so
+# this script parses even before/without scripts/icons_pixel.gd.
+const PIXEL_PREFIX := "pixel:"
+const ICONS_PIXEL_PATH := "res://scripts/icons_pixel.gd"
+
 var is_open: bool = false
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
@@ -67,11 +95,21 @@ var _hover_idx: int = -1
 var _icon_cache: Dictionary = {}
 var _open_tween: Tween
 
+var _bag_button: Panel
+var _btn_icon: TextureRect
+var _btn_sb_normal: StyleBoxFlat
+var _btn_sb_hover: StyleBoxFlat
+var _btn_hovered: bool = false
+var _btn_press_tween: Tween
+
+static var _pixel_script: GDScript = null
+
 
 func _ready() -> void:
 	layer = 9
 	add_to_group("bag_ui")
 	_build_panel()
+	_build_bag_button()
 	_drag_layer = CanvasLayer.new()
 	_drag_layer.name = "BagDragLayer"
 	_drag_layer.layer = DRAG_LAYER
@@ -84,6 +122,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	_sync_inventory()
 	_sync_drag()
+	_update_button_state()
 	# Dialogue (layer 10) must read over everything: our tooltip rides the
 	# layer-15 drag layer, so force it away while a conversation runs.
 	if _tooltip.visible and _dialogue_open():
@@ -365,8 +404,9 @@ func _build_panel() -> void:
 	_panel.anchor_bottom = 1.0
 	_panel.offset_left = -MARGIN - PANEL_W
 	_panel.offset_right = -MARGIN
-	_panel.offset_top = -MARGIN - PANEL_H
-	_panel.offset_bottom = -MARGIN
+	# Lifted clear of the corner bag button: the bag opens ABOVE it, WoW-style.
+	_panel.offset_top = -MARGIN - BTN_SIZE - BTN_GAP - PANEL_H
+	_panel.offset_bottom = -MARGIN - BTN_SIZE - BTN_GAP
 	add_child(_panel)
 
 	# Dark fill inset under the aged-wood rim (same recipe as the HUD plate).
@@ -470,6 +510,121 @@ func _build_slot(idx: int, pos: Vector2) -> void:
 	})
 
 
+# --- WoW corner bag button -----------------------------------------------------
+
+func _build_bag_button() -> void:
+	_bag_button = Panel.new()
+	_bag_button.name = "BagButton"
+	_bag_button.mouse_filter = Control.MOUSE_FILTER_STOP
+	_bag_button.anchor_left = 1.0
+	_bag_button.anchor_right = 1.0
+	_bag_button.anchor_top = 1.0
+	_bag_button.anchor_bottom = 1.0
+	_bag_button.offset_left = -MARGIN - BTN_SIZE
+	_bag_button.offset_right = -MARGIN
+	_bag_button.offset_top = -MARGIN - BTN_SIZE
+	_bag_button.offset_bottom = -MARGIN
+	_bag_button.pivot_offset = Vector2(BTN_SIZE, BTN_SIZE) * 0.5
+	_bag_button.visible = false  # _update_button_state shows it once gameplay runs
+
+	# Dark WoW-slot frame; the hover/open variant lights the border gold and
+	# adds a soft glow halo (StyleBox shadow with zero offset).
+	_btn_sb_normal = StyleBoxFlat.new()
+	_btn_sb_normal.bg_color = SLOT_BG
+	_btn_sb_normal.border_color = SLOT_BORDER
+	_btn_sb_normal.set_border_width_all(2)
+	_btn_sb_normal.set_corner_radius_all(0)
+	_btn_sb_hover = _btn_sb_normal.duplicate() as StyleBoxFlat
+	_btn_sb_hover.border_color = SLOT_BORDER_HOVER
+	_btn_sb_hover.shadow_color = BTN_GLOW
+	_btn_sb_hover.shadow_size = 4
+	_btn_sb_hover.shadow_offset = Vector2.ZERO
+	_bag_button.add_theme_stylebox_override("panel", _btn_sb_normal)
+	add_child(_bag_button)
+
+	_btn_icon = TextureRect.new()
+	_btn_icon.name = "Icon"
+	_btn_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_btn_icon.stretch_mode = TextureRect.STRETCH_SCALE
+	_btn_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_btn_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_btn_icon.texture = _pixel_icon(BTN_ICON_ID)
+	_btn_icon.position = Vector2.ONE * (BTN_SIZE - BTN_ICON_SIZE) * 0.5
+	_btn_icon.size = Vector2(BTN_ICON_SIZE, BTN_ICON_SIZE)
+	_bag_button.add_child(_btn_icon)
+
+	# Small "I" keybind caption, WoW-style in the top-right of the slot.
+	var key := Label.new()
+	key.name = "Keybind"
+	key.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	key.add_theme_font_override("font", _font)
+	key.add_theme_font_size_override("font_size", 8)
+	key.add_theme_color_override("font_color", GOLD)
+	key.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	key.add_theme_constant_override("outline_size", 2)
+	key.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	key.text = "I"
+	key.position = Vector2(BTN_SIZE - 12.0, 1.0)
+	_bag_button.add_child(key)
+	key.set_deferred("size", Vector2(9.0, 9.0))
+
+	_bag_button.gui_input.connect(_on_button_gui_input)
+	_bag_button.mouse_entered.connect(_on_button_entered)
+	_bag_button.mouse_exited.connect(_on_button_exited)
+
+
+func _on_button_gui_input(event: InputEvent) -> void:
+	if not (event is InputEventMouseButton):
+		return
+	var mb: InputEventMouseButton = event
+	if mb.button_index != MOUSE_BUTTON_LEFT or not mb.pressed:
+		return
+	_bag_button.accept_event()
+	toggle()
+	# Quick press-punch, WoW button feel.
+	if _btn_press_tween != null and _btn_press_tween.is_valid():
+		_btn_press_tween.kill()
+	_bag_button.scale = Vector2(0.9, 0.9)
+	_btn_press_tween = create_tween()
+	_btn_press_tween.tween_property(_bag_button, "scale", Vector2.ONE, 0.12) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _on_button_entered() -> void:
+	_btn_hovered = true
+
+
+func _on_button_exited() -> void:
+	_btn_hovered = false
+
+
+## Per-frame button upkeep: shown only during actual gameplay (a player with a
+## chosen class exists — class-select has no player yet) and never under an
+## open dialogue; border/glow lights up on hover or while the bag is open.
+func _update_button_state() -> void:
+	if _bag_button == null:
+		return
+	var show_btn: bool = _gameplay_active() and not _dialogue_open()
+	if _bag_button.visible != show_btn:
+		_bag_button.visible = show_btn
+		if not show_btn:
+			_btn_hovered = false
+	if not show_btn:
+		return
+	var lit: bool = _btn_hovered or is_open
+	_bag_button.add_theme_stylebox_override(
+		"panel", _btn_sb_hover if lit else _btn_sb_normal)
+	_btn_icon.modulate = BTN_ICON_HOVER if lit else Color.WHITE
+
+
+func _gameplay_active() -> bool:
+	var player: Node = get_tree().get_first_node_in_group("player")
+	if player == null or not is_instance_valid(player):
+		return false
+	var cd_v: Variant = player.get("class_def")
+	return cd_v is Dictionary and not (cd_v as Dictionary).is_empty()
+
+
 # --- helpers -----------------------------------------------------------------
 
 func _bag_item(i: int) -> Variant:
@@ -514,10 +669,26 @@ func _icon_for(item: Dictionary) -> Texture2D:
 	if _icon_cache.has(path):
 		return _icon_cache[path] as Texture2D
 	var tex: Texture2D = null
-	if ResourceLoader.exists(path, "Texture2D"):
+	if path.begins_with(PIXEL_PREFIX):
+		tex = _pixel_icon(path.substr(PIXEL_PREFIX.length()))
+	elif ResourceLoader.exists(path, "Texture2D"):
 		tex = load(path)
 	_icon_cache[path] = tex
 	return tex
+
+
+## Resolves a Shikashi pixel icon id through IconsPixel.get_tex(). The script
+## is loaded on demand (not a compile-time reference) so bag_ui.gd parses on
+## its own; a missing script or unknown id degrades to null (empty slot look).
+static func _pixel_icon(icon_id: String) -> Texture2D:
+	if _pixel_script == null:
+		if not ResourceLoader.exists(ICONS_PIXEL_PATH, "Script"):
+			return null
+		_pixel_script = load(ICONS_PIXEL_PATH) as GDScript
+	if _pixel_script == null:
+		return null
+	var tex_v: Variant = _pixel_script.call("get_tex", icon_id)
+	return tex_v if tex_v is Texture2D else null
 
 
 func _mouse_pos() -> Vector2:

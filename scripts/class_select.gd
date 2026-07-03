@@ -30,7 +30,6 @@ const FOCUS_SCALE := 1.05
 const FADE_OUT_TIME := 0.4
 
 const CLASS_DEFS_PATH := "res://scripts/class_defs.gd"
-const ICON_DIR := "res://assets/art/icons/"
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
 
@@ -387,6 +386,7 @@ func _make_icon_rect(raw_icon: String, px: float) -> TextureRect:
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rect.stretch_mode = TextureRect.STRETCH_SCALE
 	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	rect.custom_minimum_size = Vector2(px, px)
 	rect.size = Vector2(px, px)
 	rect.texture = _load_icon(raw_icon)
@@ -394,18 +394,17 @@ func _make_icon_rect(raw_icon: String, px: float) -> TextureRect:
 	return rect
 
 
-## Accepts either a bare icon name ("fireball-red-1") or a full res:// path.
+## Accepts "pixel:<id>" ids (Shikashi sheets via IconsPixel) or full res://
+## paths. (The painterly bare-name fallback is gone — Phase B.2 moved every
+## ability icon to the pixel registry.)
 func _load_icon(raw: String) -> Texture2D:
 	if raw.is_empty():
 		return null
-	var path: String = raw
-	if not path.begins_with("res://"):
-		path = ICON_DIR + path
-	if not path.ends_with(".png"):
-		path += ".png"
-	if ResourceLoader.exists(path):
-		return load(path) as Texture2D
-	push_warning("class_select.gd: ability icon not found: %s" % path)
+	if raw.begins_with("pixel:"):
+		return IconsPixel.get_tex(raw)
+	if raw.begins_with("res://") and ResourceLoader.exists(raw):
+		return load(raw) as Texture2D
+	push_warning("class_select.gd: ability icon not found: %s" % raw)
 	return null
 
 

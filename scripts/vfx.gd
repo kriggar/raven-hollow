@@ -1,12 +1,16 @@
 class_name VFX
 extends Object
-## Procedural, self-freeing pixel VFX helpers for Raven Hollow: Emberfall.
+## Self-freeing pixel VFX helpers for Raven Hollow: Emberfall.
 ## Purely visual — no gameplay state. Every effect cleans itself up via
-## tweens / particle-finished signals, and every entry point is null-safe
-## against a freed parent. Style: chunky pixels, muted earthy colors.
+## tweens / signals, and every entry point is null-safe against a freed
+## parent. Since the B.2 pass the heavy lifting is REAL animated
+## sprite-sheet effects from FXLib (Pimen/Frostwindz/XYEzawr packs in
+## res://assets/art/vfx/); the procedural bits that remain are garnish
+## (sparks, rings, telegraphs, damage numbers, feathers, camera shake).
 
 static var _tex_cache: Dictionary = {}
 static var _font: FontFile = null
+static var _slash_flip: bool = false
 
 
 # ---------------------------------------------------------------------------
@@ -82,55 +86,34 @@ static func _free_after(node: Node, delay: float) -> void:
 
 
 # ---------------------------------------------------------------------------
-# slash_arc — crescent sweep for melee hits
+# slash_arc — Pimen smear sweep for melee hits (sparks kept as garnish)
 # ---------------------------------------------------------------------------
 
 static func slash_arc(parent: Node, pos: Vector2, dir: Vector2, color: Color, radius: float) -> void:
 	if not _alive(parent):
 		return
-	var root := Node2D.new()
-	root.position = pos
-	root.rotation = dir.angle()
-	parent.add_child(root)
+	var world := parent as Node2D
+	if world == null:
+		return
+	# Real slash smear, rotated toward the aim and tinted with the class
+	# color. Alternating flip_v sells a left-right combo rhythm.
+	_slash_flip = not _slash_flip
+	FXLib.play("smear", world, pos, {
+		"rotation": dir.angle(),
+		"flip": _slash_flip,
+		"tint": color.lightened(0.15),
+		"scale": maxf(0.6, radius / 21.0),
+	})
 
-	var half := deg_to_rad(35.0)
-	var fan := Node2D.new()
-	root.add_child(fan)
-
-	# Filled crescent fan (inner radius carves the crescent).
-	var pts := PackedVector2Array()
-	var inner := radius * 0.45
-	var steps := 8
-	for i in range(steps + 1):
-		var a := -half + (2.0 * half) * float(i) / float(steps)
-		pts.append(Vector2(cos(a), sin(a)) * radius)
-	for i in range(steps + 1):
-		var a2 := half - (2.0 * half) * float(i) / float(steps)
-		pts.append(Vector2(cos(a2), sin(a2)) * inner)
-	var poly := Polygon2D.new()
-	poly.polygon = pts
-	poly.color = Color(color.r, color.g, color.b, 0.4)
-	fan.add_child(poly)
-
-	# Brighter core line along the outer edge.
-	var line := Line2D.new()
-	var lpts := PackedVector2Array()
-	for i in range(steps + 1):
-		var a3 := -half + (2.0 * half) * float(i) / float(steps)
-		lpts.append(Vector2(cos(a3), sin(a3)) * (radius * 0.92))
-	line.points = lpts
-	line.width = 2.0
-	line.default_color = color.lightened(0.45)
-	fan.add_child(line)
-
-	# A few sparks flung outward along the swing.
+	# A few sparks flung outward along the swing (procedural garnish).
 	var sparks := CPUParticles2D.new()
+	sparks.position = pos + dir * radius * 0.6
 	sparks.one_shot = true
 	sparks.emitting = true
 	sparks.amount = 5
 	sparks.lifetime = 0.28
 	sparks.explosiveness = 1.0
-	sparks.direction = Vector2(1, 0)
+	sparks.direction = dir
 	sparks.spread = 32.0
 	sparks.gravity = Vector2.ZERO
 	sparks.initial_velocity_min = radius * 2.2
@@ -139,34 +122,34 @@ static func slash_arc(parent: Node, pos: Vector2, dir: Vector2, color: Color, ra
 	sparks.scale_amount_max = 1.4
 	sparks.texture = _square_tex(2)
 	sparks.color = color.lightened(0.3)
-	sparks.position = Vector2(radius * 0.6, 0)
-	root.add_child(sparks)
-
-	# Sweep: rotate the fan through the arc while fading.
-	fan.rotation = -0.55
-	var t := root.create_tween()
-	t.set_parallel(true)
-	t.tween_property(fan, "rotation", 0.55, 0.12).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	t.tween_property(fan, "modulate:a", 0.0, 0.16).set_delay(0.04)
-	_free_after(root, 0.5)
+	world.add_child(sparks)
+	sparks.finished.connect(sparks.queue_free)
 
 
 # ---------------------------------------------------------------------------
-# impact — radial chunky burst + quick flash
+# impact — Pimen hit spark + a few chunky debris particles as garnish
 # ---------------------------------------------------------------------------
 
 static func impact(parent: Node, pos: Vector2, color: Color, size: float = 1.0) -> void:
 	if not _alive(parent):
 		return
-	var root := Node2D.new()
-	root.position = pos
-	parent.add_child(root)
+	var world := parent as Node2D
+	if world == null:
+		return
+	# Real hit-spark burst (white core takes the tint, edges stay hot).
+	FXLib.play("hit_spark", world, pos, {
+		"rotation": randf_range(0.0, TAU),
+		"tint": color.lightened(0.2),
+		"scale": 0.75 * size,
+	})
 
+	# Chunky debris garnish.
 	var burst := CPUParticles2D.new()
+	burst.position = pos
 	burst.one_shot = true
 	burst.emitting = true
-	burst.amount = 12
-	burst.lifetime = 0.32
+	burst.amount = 6
+	burst.lifetime = 0.3
 	burst.explosiveness = 1.0
 	burst.spread = 180.0
 	burst.gravity = Vector2.ZERO
@@ -175,21 +158,11 @@ static func impact(parent: Node, pos: Vector2, color: Color, size: float = 1.0) 
 	burst.damping_min = 60.0
 	burst.damping_max = 110.0
 	burst.scale_amount_min = 0.7 * size
-	burst.scale_amount_max = 1.5 * size
+	burst.scale_amount_max = 1.4 * size
 	burst.texture = _square_tex(3)
 	burst.color = color
-	root.add_child(burst)
-
-	var flash := Sprite2D.new()
-	flash.texture = radial_tex(32)
-	flash.modulate = color.lightened(0.35)
-	flash.scale = Vector2.ONE * 0.6 * size
-	root.add_child(flash)
-	var t := root.create_tween()
-	t.set_parallel(true)
-	t.tween_property(flash, "scale", Vector2.ONE * 1.2 * size, 0.15).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	t.tween_property(flash, "modulate:a", 0.0, 0.15)
-	_free_after(root, 0.6)
+	world.add_child(burst)
+	burst.finished.connect(burst.queue_free)
 
 
 # ---------------------------------------------------------------------------
@@ -292,30 +265,23 @@ static func ground_circle(parent: Node, pos: Vector2, radius: float, color: Colo
 
 
 # ---------------------------------------------------------------------------
-# smoke — soft dark-grey puffs drifting up
+# smoke — Pimen smoke poof (dash/vanish/summon puffs, death dissipates)
 # ---------------------------------------------------------------------------
 
 static func smoke(parent: Node, pos: Vector2) -> void:
 	if not _alive(parent):
 		return
-	var p := CPUParticles2D.new()
-	p.position = pos
-	p.one_shot = true
-	p.emitting = true
-	p.amount = 8
-	p.lifetime = 0.5
-	p.explosiveness = 0.85
-	p.direction = Vector2(0, -1)
-	p.spread = 40.0
-	p.gravity = Vector2(0, -26)
-	p.initial_velocity_min = 10.0
-	p.initial_velocity_max = 26.0
-	p.scale_amount_min = 1.2
-	p.scale_amount_max = 2.4
-	p.texture = _square_tex(3)
-	p.color = Color(0.28, 0.27, 0.26, 0.6)
-	parent.add_child(p)
-	p.finished.connect(p.queue_free)
+	var world := parent as Node2D
+	if world == null:
+		return
+	# The poof sheet is light grey, so a dark multiply-tint keeps the old
+	# sooty look; slight random spin/flip hides repeats.
+	FXLib.play("smoke_poof", world, pos + Vector2(0.0, -10.0), {
+		"tint": Color(0.5, 0.48, 0.46, 0.9),
+		"scale": randf_range(0.5, 0.62),
+		"flip_h": randf() < 0.5,
+		"speed": 1.2,
+	})
 
 
 # ---------------------------------------------------------------------------
@@ -351,7 +317,7 @@ static func feathers(parent: Node, pos: Vector2) -> void:
 
 
 # ---------------------------------------------------------------------------
-# sparkle_buff — orbiting glints + soft glow attached to a target
+# sparkle_buff — Pimen holy flames orbiting the target + soft glow
 # ---------------------------------------------------------------------------
 
 static func sparkle_buff(_parent: Node, target: Node2D, color: Color, duration: float) -> void:
@@ -361,7 +327,7 @@ static func sparkle_buff(_parent: Node, target: Node2D, color: Color, duration: 
 	fx.position = Vector2(0, -12)
 	target.add_child(fx)
 
-	# Soft glow behind the sprite, pulsing.
+	# Soft glow behind the sprite, pulsing (procedural garnish).
 	var glow := Sprite2D.new()
 	glow.texture = radial_tex(32)
 	glow.modulate = Color(color.r, color.g, color.b, 0.22)
@@ -372,18 +338,21 @@ static func sparkle_buff(_parent: Node, target: Node2D, color: Color, duration: 
 	gp.tween_property(glow, "modulate:a", 0.34, 0.4).set_trans(Tween.TRANS_SINE)
 	gp.tween_property(glow, "modulate:a", 0.16, 0.4).set_trans(Tween.TRANS_SINE)
 
-	# 4 glints orbiting the sprite.
+	# Two real holy-flame loops wrapped around the sprite, rotated to lick
+	# upward and tinted with the buff color (gold sheet -> class hue).
 	var pivot := Node2D.new()
 	fx.add_child(pivot)
-	for i in range(4):
-		var a := TAU * float(i) / 4.0
-		var glint := Sprite2D.new()
-		glint.texture = radial_tex(8, true)
-		glint.modulate = color.lightened(0.4)
-		glint.position = Vector2(cos(a), sin(a)) * 11.0
-		pivot.add_child(glint)
+	for i in range(2):
+		var side: float = -1.0 if i == 0 else 1.0
+		var flame: AnimatedSprite2D = FXLib.attach_loop(
+				"holy_loop", pivot, Vector2(11.0 * side, 0.0)) as AnimatedSprite2D
+		if flame != null:
+			flame.rotation = -PI / 2.0
+			flame.modulate = Color(color.r, color.g, color.b, 0.9).lightened(0.15)
+			flame.scale = Vector2(0.8, 0.7)
+			flame.flip_h = i == 1
 	var orbit := fx.create_tween()
-	var spins := maxf(duration, 0.3) / 0.9
+	var spins := maxf(duration, 0.3) / 1.2
 	orbit.tween_property(pivot, "rotation", TAU * spins, maxf(duration, 0.3))
 
 	var t := fx.create_tween()
@@ -393,7 +362,8 @@ static func sparkle_buff(_parent: Node, target: Node2D, color: Color, duration: 
 
 
 # ---------------------------------------------------------------------------
-# projectile_visual — glowing head + trail, returned for the caller to place
+# projectile_visual — real animated flight sprites (FXLib), trail as garnish.
+# Returned node faces +X; Combat.Projectile rotates it to the flight dir.
 # ---------------------------------------------------------------------------
 
 static func projectile_visual(kind: String, color: Color) -> Node2D:
@@ -415,9 +385,16 @@ static func projectile_visual(kind: String, color: Color) -> Node2D:
 	root.add_child(trail)
 
 	if kind == "arrow":
+		# Real arrow shaft kept (reads best at this size); a faint Pimen
+		# wind crescent chases it as the fletching draft.
 		trail.amount = 6
 		trail.scale_amount_min = 0.4
 		trail.scale_amount_max = 0.8
+		var draft := FXLib.make_sprite("wind_crescent")
+		draft.position = Vector2(-7.0, 0.0)
+		draft.modulate = Color(color.r, color.g, color.b, 0.45)
+		draft.scale = Vector2.ONE * 0.55
+		root.add_child(draft)
 		var shaft := Polygon2D.new()
 		shaft.polygon = PackedVector2Array([
 			Vector2(-4.5, -1.0), Vector2(2.5, -1.0), Vector2(4.5, 0.0),
@@ -429,56 +406,54 @@ static func projectile_visual(kind: String, color: Color) -> Node2D:
 			Vector2(1.5, -1.5), Vector2(4.5, 0.0), Vector2(1.5, 1.5)])
 		head.color = color.lightened(0.3)
 		root.add_child(head)
-	elif kind == "knife":
-		var sliver := Polygon2D.new()
-		sliver.polygon = PackedVector2Array([
-			Vector2(-2.5, -1.0), Vector2(1.0, -1.0), Vector2(2.5, 0.0),
-			Vector2(1.0, 1.0), Vector2(-2.5, 1.0)])
-		sliver.color = color.lightened(0.35)
-		root.add_child(sliver)
-		var glimmer := Sprite2D.new()
-		glimmer.texture = radial_tex(8, true)
-		glimmer.modulate = Color(color.r, color.g, color.b, 0.5)
-		root.add_child(glimmer)
+	elif kind == "knife" or kind == "fan_of_knives":
+		# Spinning silver blade: the Pimen smear frames looped fast read
+		# as a whirling knife (Fan of Knives).
+		trail.amount = 6
+		trail.scale_amount_min = 0.4
+		trail.scale_amount_max = 0.8
+		var blade := FXLib.make_sprite("blade_spin")
+		blade.modulate = color.lightened(0.25)
+		blade.scale = Vector2.ONE * 0.55
+		root.add_child(blade)
+	elif kind == "arrow_storm":
+		# Falling storm bolt: the XYEzawr magic arrow, tinted to the class
+		# teal (rotated to the flight dir by Combat.Projectile).
+		trail.amount = 6
+		trail.scale_amount_min = 0.4
+		trail.scale_amount_max = 0.8
+		var bolt := FXLib.make_sprite("magic_arrow")
+		bolt.modulate = Color(color.r, color.g, color.b, 0.95).lightened(0.2)
+		bolt.scale = Vector2.ONE * 0.55
+		root.add_child(bolt)
 	elif kind == "fireball":
-		# Big burning head: wide halo, hot core, rising ember trail.
-		trail.amount = 16
+		# Pimen firebolt flight loop + rising ember trail.
+		trail.amount = 12
 		trail.lifetime = 0.5
 		trail.gravity = Vector2(0, -24)
 		trail.initial_velocity_max = 10.0
 		trail.scale_amount_min = 0.9
-		trail.scale_amount_max = 1.8
+		trail.scale_amount_max = 1.6
 		trail.color = Color(color.r, color.g, color.b, 0.85)
-		var fb_halo := Sprite2D.new()
-		fb_halo.texture = radial_tex(24)
-		fb_halo.modulate = Color(color.r, color.g, color.b, 0.75)
-		fb_halo.scale = Vector2.ONE * 1.2
-		root.add_child(fb_halo)
-		var fb_core := Sprite2D.new()
-		fb_core.texture = radial_tex(12, true)
-		fb_core.modulate = color.lightened(0.5)
-		fb_core.scale = Vector2.ONE * 1.1
-		root.add_child(fb_core)
+		root.add_child(FXLib.make_sprite("firebolt_fly"))
 	elif kind == "spark":
-		# Small hard glint with a short jittery crackle trail.
-		trail.amount = 12
+		# Pimen thunder bolt loop, kept native gold (it IS the lightning),
+		# with a short jittery crackle trail in the class color.
+		trail.amount = 10
 		trail.lifetime = 0.2
 		trail.initial_velocity_max = 18.0
 		trail.spread = 180.0
 		trail.scale_amount_min = 0.4
 		trail.scale_amount_max = 0.8
 		trail.color = color.lightened(0.25)
-		var haze := Sprite2D.new()
-		haze.texture = radial_tex(12)
-		haze.modulate = Color(color.r, color.g, color.b, 0.4)
-		root.add_child(haze)
-		var glint := Sprite2D.new()
-		glint.texture = radial_tex(8, true)
-		glint.modulate = color.lightened(0.6)
-		glint.scale = Vector2.ONE * 0.8
-		root.add_child(glint)
+		root.add_child(FXLib.make_sprite("spark_fly"))
+	elif kind == "orb" or kind == "soul_bolt":
+		# Soul bolt: Pimen dark comet, kept native grave-purple.
+		trail.amount = 8
+		trail.color = Color(color.r, color.g, color.b, 0.6)
+		root.add_child(FXLib.make_sprite("soul_fly"))
 	else:
-		# Orb: colored halo + bright core.
+		# Unknown kinds keep the procedural orb (safe fallback).
 		var halo := Sprite2D.new()
 		halo.texture = radial_tex(16)
 		halo.modulate = Color(color.r, color.g, color.b, 0.65)

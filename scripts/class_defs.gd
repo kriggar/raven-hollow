@@ -8,13 +8,28 @@ class_name ClassDefs
 ## Ability shape (exact, abilities[0] = basic attack, mana_cost 0):
 ##   {id, name, icon, cooldown, mana_cost, range, damage, kind, params}
 ## `kind` is one of: melee_arc, projectile, aoe_ring, dash, summon, buff, volley.
+## `icon` is "pixel:<icon_id>" resolved through IconsPixel.get_tex — the
+## icon_id of every ability equals its ability id (registry in icons_pixel.gd).
+##
+## Phase B.2 sprite-sheet VFX wiring (FXLib, scripts/fx_library.gd):
+##   params.fx       — FXLib one-shot id, always equal to the ABILITY id
+##                     (player.gd plays it at the mapped moment).
+##   params.fx_loop  — FXLib looping-aura id: "consecration_loop" (persistent
+##                     gold glyph), "divine_shield" (holy wrap on the player),
+##                     "raise_dead_loop" (summon ellipse under the minion).
+##   params.fx_tint  — optional Color passed as opts.tint to FXLib.play for
+##                     effects the mapping wants re-tinted (smears = class
+##                     color, shadowstep = near-black, war_cry = red-gold,
+##                     grave_grasp = grave-purple).
 ##
 ## params conventions per kind (every params carries "color": the ability's
 ## VFX accent Color — muted, never neon):
 ##   melee_arc:  arc_degrees.
-##   projectile: speed, projectile (visual kind string for
-##               VFX.projectile_visual: "spark"|"fireball"|"orb"|"arrow"|
-##               "knife"), optional aoe_radius (impact splash), thin (bool).
+##   projectile: speed, projectile (flight-visual id string for
+##               VFX.projectile_visual:
+##               "spark"|"fireball"|"soul_bolt"|"arrow"|"fan_of_knives"|
+##               "arrow_storm"; "orb" stays the procedural fallback),
+##               optional aoe_radius (impact splash), thin (bool).
 ##   aoe_ring:   `range` = ring radius. at_aim (false = centered on self),
 ##               optional cast_range (max placement distance when at_aim),
 ##               tick_interval + duration (ticking consecrated ground —
@@ -58,29 +73,38 @@ const _DEFS := {
 			{
 				"id": "cleave",
 				"name": "Cleave",
-				"icon": "res://assets/art/icons/slice-orange-1.png",
+				"icon": "pixel:cleave",
 				"cooldown": 0.5,
 				"mana_cost": 0.0,
 				"range": 26.0,
 				"damage": 12.0,
 				"kind": "melee_arc",
-				"params": {"arc_degrees": 110.0, "color": Color(0.84, 0.78, 0.70)},
+				"params": {
+					"arc_degrees": 110.0,
+					"fx": "cleave",
+					"fx_tint": Color(0.84, 0.78, 0.70),
+					"color": Color(0.84, 0.78, 0.70),
+				},
 			},
 			{
 				"id": "whirlwind",
 				"name": "Whirlwind",
-				"icon": "res://assets/art/icons/wind-red-1.png",
+				"icon": "pixel:whirlwind",
 				"cooldown": 6.0,
 				"mana_cost": 20.0,
 				"range": 40.0,
 				"damage": 18.0,
 				"kind": "aoe_ring",
-				"params": {"at_aim": false, "color": Color(0.75, 0.38, 0.30)},
+				"params": {
+					"at_aim": false,
+					"fx": "whirlwind",
+					"color": Color(0.75, 0.38, 0.30),
+				},
 			},
 			{
 				"id": "war_cry",
 				"name": "War Cry",
-				"icon": "res://assets/art/icons/haste-fire-1.png",
+				"icon": "pixel:war_cry",
 				"cooldown": 12.0,
 				"mana_cost": 15.0,
 				"range": 0.0,
@@ -90,6 +114,8 @@ const _DEFS := {
 					"duration": 5.0,
 					"speed_mult": 1.4,
 					"damage_mult": 1.3,
+					"fx": "war_cry",
+					"fx_tint": Color(0.90, 0.58, 0.30),
 					"color": Color(0.88, 0.55, 0.28),
 				},
 			},
@@ -112,18 +138,23 @@ const _DEFS := {
 			{
 				"id": "quick_slash",
 				"name": "Quick Slash",
-				"icon": "res://assets/art/icons/slice-spirit-1.png",
+				"icon": "pixel:quick_slash",
 				"cooldown": 0.35,
 				"mana_cost": 0.0,
 				"range": 22.0,
 				"damage": 8.0,
 				"kind": "melee_arc",
-				"params": {"arc_degrees": 90.0, "color": Color(0.80, 0.80, 0.84)},
+				"params": {
+					"arc_degrees": 90.0,
+					"fx": "quick_slash",
+					"fx_tint": Color(0.80, 0.80, 0.84),
+					"color": Color(0.80, 0.80, 0.84),
+				},
 			},
 			{
 				"id": "shadowstep",
 				"name": "Shadowstep",
-				"icon": "res://assets/art/icons/fog-air-1.png",
+				"icon": "pixel:shadowstep",
 				"cooldown": 5.0,
 				"mana_cost": 10.0,
 				"range": 70.0,
@@ -133,13 +164,15 @@ const _DEFS := {
 					"smoke": true,
 					"next_hit_mult": 2.0,
 					"bonus_duration": 3.0,
+					"fx": "shadowstep",
+					"fx_tint": Color(0.16, 0.15, 0.19),
 					"color": Color(0.45, 0.44, 0.50),
 				},
 			},
 			{
 				"id": "fan_of_knives",
 				"name": "Fan of Knives",
-				"icon": "res://assets/art/icons/needles-blue-1.png",
+				"icon": "pixel:fan_of_knives",
 				"cooldown": 7.0,
 				"mana_cost": 20.0,
 				"range": 110.0,
@@ -149,7 +182,8 @@ const _DEFS := {
 					"count": 8,
 					"pattern": "radial",
 					"speed": 240.0,
-					"projectile": "knife",
+					"projectile": "fan_of_knives",
+					"fx": "fan_of_knives",
 					"color": Color(0.75, 0.78, 0.82),
 				},
 			},
@@ -172,7 +206,7 @@ const _DEFS := {
 			{
 				"id": "spark",
 				"name": "Spark",
-				"icon": "res://assets/art/icons/lightning-magenta-1.png",
+				"icon": "pixel:spark",
 				"cooldown": 0.5,
 				"mana_cost": 0.0,
 				"range": 220.0,
@@ -181,13 +215,14 @@ const _DEFS := {
 				"params": {
 					"speed": 260.0,
 					"projectile": "spark",
+					"fx": "spark",
 					"color": Color(0.68, 0.45, 0.85),
 				},
 			},
 			{
 				"id": "fireball",
 				"name": "Fireball",
-				"icon": "res://assets/art/icons/fireball-red-1.png",
+				"icon": "pixel:fireball",
 				"cooldown": 5.0,
 				"mana_cost": 25.0,
 				"range": 240.0,
@@ -196,6 +231,7 @@ const _DEFS := {
 				"params": {
 					"speed": 200.0,
 					"projectile": "fireball",
+					"fx": "fireball",
 					"aoe_radius": 30.0,
 					"color": Color(0.92, 0.55, 0.25),
 				},
@@ -203,7 +239,7 @@ const _DEFS := {
 			{
 				"id": "frost_nova",
 				"name": "Frost Nova",
-				"icon": "res://assets/art/icons/ice-blue-1.png",
+				"icon": "pixel:frost_nova",
 				"cooldown": 8.0,
 				"mana_cost": 30.0,
 				"range": 55.0,
@@ -213,6 +249,7 @@ const _DEFS := {
 					"at_aim": false,
 					"slow_mult": 0.5,
 					"slow_duration": 3.0,
+					"fx": "frost_nova",
 					"color": Color(0.58, 0.76, 0.88),
 				},
 			},
@@ -235,18 +272,22 @@ const _DEFS := {
 			{
 				"id": "hammer_blow",
 				"name": "Hammer Blow",
-				"icon": "res://assets/art/icons/explosion-orange-1.png",
+				"icon": "pixel:hammer_blow",
 				"cooldown": 0.6,
 				"mana_cost": 0.0,
 				"range": 26.0,
 				"damage": 11.0,
 				"kind": "melee_arc",
-				"params": {"arc_degrees": 100.0, "color": Color(0.85, 0.68, 0.35)},
+				"params": {
+					"arc_degrees": 100.0,
+					"fx": "hammer_blow",
+					"color": Color(0.85, 0.68, 0.35),
+				},
 			},
 			{
 				"id": "consecration",
 				"name": "Consecration",
-				"icon": "res://assets/art/icons/runes-orange-1.png",
+				"icon": "pixel:consecration",
 				"cooldown": 9.0,
 				"mana_cost": 30.0,
 				"range": 45.0,
@@ -257,13 +298,15 @@ const _DEFS := {
 					"cast_range": 110.0,
 					"tick_interval": 0.5,
 					"duration": 4.0,
+					"fx": "consecration",
+					"fx_loop": "consecration_loop",
 					"color": Color(0.90, 0.75, 0.42),
 				},
 			},
 			{
 				"id": "divine_shield",
 				"name": "Divine Shield",
-				"icon": "res://assets/art/icons/protect-orange-2.png",
+				"icon": "pixel:divine_shield",
 				"cooldown": 14.0,
 				"mana_cost": 25.0,
 				"range": 0.0,
@@ -272,6 +315,7 @@ const _DEFS := {
 				"params": {
 					"duration": 6.0,
 					"absorb": 40.0,
+					"fx_loop": "divine_shield",
 					"color": Color(0.92, 0.80, 0.45),
 				},
 			},
@@ -294,7 +338,7 @@ const _DEFS := {
 			{
 				"id": "soul_bolt",
 				"name": "Soul Bolt",
-				"icon": "res://assets/art/icons/fireball-acid-1.png",
+				"icon": "pixel:soul_bolt",
 				"cooldown": 0.55,
 				"mana_cost": 0.0,
 				"range": 220.0,
@@ -302,14 +346,15 @@ const _DEFS := {
 				"kind": "projectile",
 				"params": {
 					"speed": 220.0,
-					"projectile": "orb",
+					"projectile": "soul_bolt",
+					"fx": "soul_bolt",
 					"color": Color(0.55, 0.80, 0.38),
 				},
 			},
 			{
 				"id": "raise_dead",
 				"name": "Raise Dead",
-				"icon": "res://assets/art/icons/horror-acid-1.png",
+				"icon": "pixel:raise_dead",
 				"cooldown": 12.0,
 				"mana_cost": 35.0,
 				"range": 80.0,
@@ -321,13 +366,15 @@ const _DEFS := {
 					"minion_hp": 35.0,
 					"minion_damage": 6.0,
 					"minion_speed": 75.0,
+					"fx": "raise_dead",
+					"fx_loop": "raise_dead_loop",
 					"color": Color(0.50, 0.72, 0.40),
 				},
 			},
 			{
 				"id": "grave_grasp",
 				"name": "Grave Grasp",
-				"icon": "res://assets/art/icons/wind-grasp-eerie-1.png",
+				"icon": "pixel:grave_grasp",
 				"cooldown": 8.0,
 				"mana_cost": 25.0,
 				"range": 40.0,
@@ -337,6 +384,8 @@ const _DEFS := {
 					"at_aim": true,
 					"cast_range": 120.0,
 					"root_duration": 1.5,
+					"fx": "grave_grasp",
+					"fx_tint": Color(0.58, 0.38, 0.66),
 					"color": Color(0.58, 0.38, 0.66),
 				},
 			},
@@ -359,7 +408,7 @@ const _DEFS := {
 			{
 				"id": "loosed_arrow",
 				"name": "Loosed Arrow",
-				"icon": "res://assets/art/icons/fire-arrows-sky-1.png",
+				"icon": "pixel:loosed_arrow",
 				"cooldown": 0.45,
 				"mana_cost": 0.0,
 				"range": 260.0,
@@ -368,6 +417,7 @@ const _DEFS := {
 				"params": {
 					"speed": 320.0,
 					"projectile": "arrow",
+					"fx": "loosed_arrow",
 					"thin": true,
 					"color": Color(0.76, 0.72, 0.60),
 				},
@@ -375,18 +425,22 @@ const _DEFS := {
 			{
 				"id": "raven_dash",
 				"name": "Raven Dash",
-				"icon": "res://assets/art/icons/haste-sky-1.png",
+				"icon": "pixel:raven_dash",
 				"cooldown": 5.0,
 				"mana_cost": 10.0,
 				"range": 80.0,
 				"damage": 0.0,
 				"kind": "dash",
-				"params": {"feathers": true, "color": Color(0.30, 0.54, 0.56)},
+				"params": {
+					"feathers": true,
+					"fx": "raven_dash",
+					"color": Color(0.30, 0.54, 0.56),
+				},
 			},
 			{
 				"id": "arrow_storm",
 				"name": "Arrow Storm",
-				"icon": "res://assets/art/icons/fire-arrows-sky-3.png",
+				"icon": "pixel:arrow_storm",
 				"cooldown": 9.0,
 				"mana_cost": 30.0,
 				"range": 140.0,
@@ -398,7 +452,8 @@ const _DEFS := {
 					"radius": 45.0,
 					"duration": 1.2,
 					"speed": 300.0,
-					"projectile": "arrow",
+					"projectile": "arrow_storm",
+					"fx": "arrow_storm",
 					"color": Color(0.34, 0.54, 0.58),
 				},
 			},
@@ -421,11 +476,3 @@ static func get_def(id: String) -> Dictionary:
 		push_warning("ClassDefs.get_def: unknown class id '%s', using warrior" % id)
 		return (_DEFS["warrior"] as Dictionary).duplicate(true)
 	return (_DEFS[id] as Dictionary).duplicate(true)
-
-
-## Convenience: loads the icon Texture2D for an ability dictionary.
-static func icon_texture(ability: Dictionary) -> Texture2D:
-	var path: String = str(ability.get("icon", ""))
-	if path.is_empty() or not ResourceLoader.exists(path):
-		return null
-	return load(path) as Texture2D

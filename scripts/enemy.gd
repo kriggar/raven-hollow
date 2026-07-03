@@ -377,6 +377,11 @@ func _on_anim_finished() -> void:
 	# Only the (non-looping) death animation ever finishes.
 	if not is_dead:
 		return
+	# The corpse dissipates in a smoke poof (Pimen sheet via VFX.smoke),
+	# per the effect mapping — same treatment as minion despawn.
+	var parent := get_parent()
+	if parent != null:
+		VFX.smoke(parent, global_position)
 	var tw := create_tween()
 	tw.tween_property(_sprite, "modulate:a", 0.0, 0.4)
 	tw.tween_callback(queue_free)
