@@ -89,6 +89,12 @@ class Projectile extends Area2D:
 	var faction: String = "player"
 	var color: Color = Color(0.85, 0.68, 0.35)
 	var aoe_radius: float = 0.0  # > 0: splash damage around the impact point
+	## Opt-in cfg fields (player.gd _arm_ranged): "crit" marks a pre-rolled
+	## crit payload; "on_hit" is a Callable(target, damage, crit_styled)
+	## invoked after each damage application so the owner can render the gold
+	## crit number and run on-kill effects. Both default to inert.
+	var crit: bool = false
+	var on_hit: Callable = Callable()
 
 	func _init(cfg: Dictionary) -> void:
 		name = "Projectile"
@@ -103,6 +109,10 @@ class Projectile extends Area2D:
 		faction = str(cfg.get("faction", "player"))
 		color = cfg.get("color", Color(0.85, 0.68, 0.35))
 		aoe_radius = float(cfg.get("aoe_radius", 0.0))
+		crit = bool(cfg.get("crit", false))
+		var on_hit_v: Variant = cfg.get("on_hit")
+		if on_hit_v is Callable:
+			on_hit = on_hit_v
 		z_index = 1  # above ground decals, still y-sorted among sprites
 		collision_layer = 0
 		collision_mask = 1
@@ -159,12 +169,28 @@ class Projectile extends Area2D:
 		if aoe_radius > 0.0:
 			_splash()
 		else:
-			Combat.deal_damage(target, damage, self)
+			_deal(target)
 		var parent := get_parent()
 		if parent != null:
 			VFX.impact(parent, global_position, color)
 		set_physics_process(false)
 		queue_free()
+
+	func _deal(target: Node2D) -> void:
+		## Applies the payload to one target. A pre-rolled crit with a live
+		## on_hit owner suppresses the standard white number (mirrors the
+		## melee path in player._deal_player_damage) so the owner can draw
+		## the bigger gold one; targets that spawn their own numbers keep
+		## the normal route. on_hit always fires afterwards (kill hooks).
+		var styled: bool = crit and on_hit.is_valid() \
+				and not target.has_meta("own_damage_numbers") \
+				and target.has_method("take_damage")
+		if styled:
+			target.call("take_damage", damage, self)
+		else:
+			Combat.deal_damage(target, damage, self)
+		if on_hit.is_valid():
+			on_hit.call(target, damage, styled)
 
 	func _splash() -> void:
 		## Impact splash (Fireball): full damage to every living opposing-group
@@ -181,7 +207,7 @@ class Projectile extends Area2D:
 			if t == null or not is_instance_valid(t) or t.get("is_dead") == true:
 				continue
 			if t.global_position.distance_to(global_position) <= aoe_radius:
-				Combat.deal_damage(t, damage, self)
+				_deal(t)
 
 	func _on_body_entered(body: Node) -> void:
 		if is_queued_for_deletion():

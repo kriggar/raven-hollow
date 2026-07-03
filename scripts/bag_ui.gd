@@ -84,9 +84,15 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	_sync_inventory()
 	_sync_drag()
+	# Dialogue (layer 10) must read over everything: our tooltip rides the
+	# layer-15 drag layer, so force it away while a conversation runs.
+	if _tooltip.visible and _dialogue_open():
+		_tooltip.hide_tip()
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _dialogue_open():
+		return  # I (and Esc-close) are inert mid-conversation
 	if event.is_action_pressed("inventory"):
 		toggle()
 		get_viewport().set_input_as_handled()
@@ -222,6 +228,8 @@ func _refresh() -> void:
 func _on_slot_gui_input(event: InputEvent, idx: int) -> void:
 	if not (event is InputEventMouseButton):
 		return
+	if _dialogue_open():
+		return  # no drags / right-click equips under an open conversation
 	var mb: InputEventMouseButton = event
 	if not mb.pressed:
 		return
@@ -248,7 +256,8 @@ func _on_slot_exited(idx: int) -> void:
 
 func _update_tooltip_for(idx: int) -> void:
 	var item: Variant = _bag_item(idx)
-	if item is Dictionary and is_open and Inventory.DragCtx.item == null:
+	if item is Dictionary and is_open and Inventory.DragCtx.item == null \
+			and not _dialogue_open():
 		_tooltip.show_item(item, _mouse_pos())
 	else:
 		_tooltip.hide_tip()
@@ -477,14 +486,25 @@ func _bag_item(i: int) -> Variant:
 
 
 func _slot_under_mouse() -> int:
+	return bag_slot_at(_mouse_pos())
+
+
+## Public hit-test (used by CharacterSheetUI to route equip->bag drops onto
+## the exact slot under the cursor): bag slot index at a canvas-space point,
+## -1 when the bag is closed or the point misses every slot.
+func bag_slot_at(screen_pos: Vector2) -> int:
 	if not is_open or _panel == null or not _panel.visible:
 		return -1
-	var m: Vector2 = _mouse_pos()
 	for i in range(_slots.size()):
 		var panel: Panel = _slots[i]["panel"]
-		if panel.get_global_rect().has_point(m):
+		if panel.get_global_rect().has_point(screen_pos):
 			return i
 	return -1
+
+
+func _dialogue_open() -> bool:
+	var dlg: Node = get_tree().get_first_node_in_group("dialogue_ui")
+	return dlg != null and dlg.get("is_open") == true
 
 
 func _icon_for(item: Dictionary) -> Texture2D:

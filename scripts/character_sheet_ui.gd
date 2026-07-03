@@ -178,6 +178,8 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _dialogue_open():
+		return  # C (and Esc-close) are inert mid-conversation
 	if event.is_action_pressed("character_sheet"):
 		toggle()
 		get_viewport().set_input_as_handled()
@@ -433,7 +435,10 @@ func _refresh_preview_weapon() -> void:
 	_preview_weapon.texture = at
 	_preview_weapon.offset = Vector2(-reg.size.x * 0.5, -(reg.size.y - float(cfg["grip"])))
 	_preview_weapon.scale = Vector2.ONE * float(cfg["scale"])
-	_preview_weapon.position = Vector2(5.0, -10.0)  # player's facing-down hand pos
+	# Player's facing-down hand pos (5,-10) is relative to a FEET-origin node
+	# whose sprite draws lifted by FEET_OFFSET; our preview is frame-centered
+	# with no offset, so shift by -FEET_OFFSET to keep the grip in the hand.
+	_preview_weapon.position = Vector2(5.0, -10.0) - Player.FEET_OFFSET
 	_preview_weapon.rotation = 0.42
 	_preview_weapon.visible = true
 
@@ -467,6 +472,8 @@ func _apply_preview_tint() -> void:
 func _on_slot_gui_input(event: InputEvent, slot_name: String) -> void:
 	if not (event is InputEventMouseButton):
 		return
+	if _dialogue_open():
+		return  # no drags / right-click unequips under an open conversation
 	var mb: InputEventMouseButton = event
 	var panel: Panel = _slots[slot_name]["panel"]
 	if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
@@ -529,8 +536,15 @@ func _end_drag(screen_pos: Vector2) -> void:
 		else:
 			flash_invalid(target)
 	else:
-		# Released outside the sheet (over the bag / the world): back to bag.
-		if not _inv.unequip_to_bag(from_slot):
+		# Released outside the sheet: an exact bag slot under the cursor wins
+		# (move there / swap in place); otherwise first-empty-slot fallback.
+		var placed: bool = false
+		var bag: Node = get_tree().get_first_node_in_group("bag_ui")
+		if bag != null and bag.has_method("bag_slot_at"):
+			var idx_v: Variant = bag.call("bag_slot_at", screen_pos)
+			if idx_v is int and int(idx_v) >= 0:
+				placed = _inv.unequip_to_bag_index(from_slot, int(idx_v))
+		if not placed and not _inv.unequip_to_bag(from_slot):
 			flash_invalid(from_slot)  # bag is full
 	_refresh_all()
 
@@ -583,11 +597,17 @@ func _slot_name_at(screen_pos: Vector2) -> String:
 	return ""
 
 
+func _dialogue_open() -> bool:
+	var dlg: Node = get_tree().get_first_node_in_group("dialogue_ui")
+	return dlg != null and dlg.get("is_open") == true
+
+
 # --- tooltip -----------------------------------------------------------------
 
 
 func _on_slot_hover(slot_name: String) -> void:
-	if _drag_from != "" or Inventory.DragCtx.item != null or _inv == null:
+	if _drag_from != "" or Inventory.DragCtx.item != null or _inv == null \
+			or _dialogue_open():
 		return
 	var item_v: Variant = _inv.equipped.get(slot_name)
 	if not (item_v is Dictionary):

@@ -42,6 +42,7 @@ const STAT_ROWS: Array = [
 	["armor", "Armor", false],
 	["hp", "Health", false],
 	["mana", "Mana", false],
+	["mana_regen", "Mana Regen", false],
 	["speed_pct", "Speed", true],
 	["crit_pct", "Crit", true],
 ]
@@ -71,6 +72,7 @@ func show_item(item: Dictionary, screen_pos: Vector2) -> void:
 	var rarity: String = str(item.get("rarity", "common"))
 	_name_label.text = str(item.get("name", "?"))
 	_name_label.add_theme_color_override("font_color", rarity_color(rarity))
+	_name_label.visible = true  # labels are born hidden (_make_label)
 
 	# Slot + rarity line ("Main Hand - Rare"). Legendaries keep just the slot
 	# here — they get the dedicated gold tag line at the bottom instead.

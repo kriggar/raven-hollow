@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raven Hollow — a dark medieval pixel RPG in the world of Draconia</title>
+<meta name="description" content="Raven Hollow: a Graveyard-Keeper-styled medieval pixel RPG. Six classes, a living town, a fog-drowned world with something buried beneath it.">
+<style>
+  @font-face {
+    font-family: 'Alagard';
+    src: url('media/alagard.ttf') format('truetype');
+    font-display: swap;
+  }
+  :root {
+    --bg: #14100d;
+    --bg2: #1d1713;
+    --panel: #171310;
+    --border: #73542e;
+    --border-dim: #40301c;
+    --gold: #d9ae59;
+    --gold-bright: #f0cc7e;
+    --parchment: #ded2b8;
+    --parchment-dim: #a99a80;
+    --ember: #e08a3c;
+    --oxblood: #9e2b25;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--parchment);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, .brand { font-family: 'Alagard', Georgia, serif; font-weight: normal; letter-spacing: 0.5px; }
+
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 48px 20px;
+    background:
+      linear-gradient(180deg, rgba(20,16,13,0.55) 0%, rgba(20,16,13,0.35) 45%, rgba(20,16,13,0.97) 100%),
+      url('media/town_fullmap.png') center 30% / cover no-repeat;
+    image-rendering: pixelated;
+  }
+  .hero .kicker {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    text-shadow: 0 2px 8px #000;
+  }
+  .hero h1 {
+    font-size: clamp(52px, 10vw, 110px);
+    color: var(--gold-bright);
+    text-shadow: 0 3px 0 #2a1c0c, 0 8px 30px rgba(0,0,0,0.9);
+    line-height: 1.05;
+  }
+  .hero .tag {
+    max-width: 640px;
+    margin: 22px auto 0;
+    font-size: clamp(16px, 2.3vw, 21px);
+    color: var(--parchment);
+    text-shadow: 0 2px 6px #000, 0 0 24px rgba(0,0,0,0.8);
+    font-style: italic;
+  }
+  .hero .cta-row { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    display: inline-block;
+    font-family: 'Alagard', Georgia, serif;
+    font-size: 19px;
+    padding: 13px 30px;
+    color: #1a1206;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold) 55%, #b58a3e);
+    border: 2px solid #5c421e;
+    box-shadow: 0 4px 0 #3a2a12, 0 10px 26px rgba(0,0,0,0.6);
+    text-decoration: none;
+    transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #3a2a12, 0 14px 30px rgba(0,0,0,0.65); }
+  .btn.ghost {
+    color: var(--gold);
+    background: rgba(20,15,10,0.75);
+    border: 2px solid var(--border);
+    box-shadow: 0 4px 0 #241a0e, 0 10px 26px rgba(0,0,0,0.5);
+  }
+  .hero .scroll-hint { position: absolute; bottom: 26px; color: var(--parchment-dim); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+
+  .rule {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--gold) 50%, var(--border) 80%, transparent);
+    margin: 0 auto;
+    max-width: 900px;
+    opacity: .7;
+  }
+  section { padding: 84px 20px; }
+  .wrap { max-width: 1060px; margin: 0 auto; }
+  .section-kicker { color: var(--ember); text-transform: uppercase; letter-spacing: 3px; font-size: 12px; text-align: center; }
+  h2 { color: var(--gold); font-size: clamp(30px, 5vw, 44px); text-align: center; margin: 8px 0 14px; }
+  .lede { max-width: 720px; margin: 0 auto 44px; text-align: center; color: var(--parchment-dim); font-size: 17px; }
+
+  .shot-frame {
+    border: 2px solid var(--border);
+    outline: 1px solid #000;
+    box-shadow: 0 16px 50px rgba(0,0,0,0.65), inset 0 0 0 1px rgba(240,204,126,0.08);
+    background: #000;
+  }
+  .shot-frame img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+  .caption { text-align: center; color: var(--parchment-dim); font-size: 14px; margin-top: 12px; font-style: italic; }
+
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-top: 40px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-top: 44px; }
+  .feat {
+    background: linear-gradient(180deg, var(--bg2), var(--panel));
+    border: 2px solid var(--border-dim);
+    padding: 24px 22px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  .feat h3 { color: var(--gold); font-size: 21px; margin-bottom: 8px; }
+  .feat p { color: var(--parchment-dim); font-size: 15px; }
+  .feat .glyph { font-size: 26px; margin-bottom: 10px; display: block; filter: sepia(1) saturate(1.6) hue-rotate(-12deg); }
+
+  .classes { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-top: 44px; }
+  .cls {
+    background: var(--panel);
+    border: 2px solid var(--border-dim);
+    padding: 20px 14px;
+    text-align: center;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .cls:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .cls h3 { color: var(--gold-bright); font-size: 19px; }
+  .cls .title { color: var(--ember); font-size: 12.5px; font-style: italic; display: block; margin-top: 4px; }
+  .cls p { color: var(--parchment-dim); font-size: 13.5px; margin-top: 10px; }
+
+  .quoteband {
+    background:
+      linear-gradient(180deg, rgba(16,12,9,0.9), rgba(16,12,9,0.92)),
+      url('media/plaza.png') center / cover no-repeat;
+    image-rendering: pixelated;
+    text-align: center;
+    padding: 90px 20px;
+  }
+  .quoteband blockquote {
+    font-family: 'Alagard', Georgia, serif;
+    font-size: clamp(22px, 4vw, 34px);
+    color: var(--parchment);
+    max-width: 820px;
+    margin: 0 auto;
+    text-shadow: 0 2px 10px #000;
+  }
+  .quoteband cite { display: block; margin-top: 18px; color: var(--gold); font-size: 16px; font-style: normal; }
+
+  .roadmap { max-width: 760px; margin: 44px auto 0; }
+  .rm-item { display: flex; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--border-dim); align-items: baseline; }
+  .rm-item:last-child { border-bottom: none; }
+  .rm-badge {
+    flex: 0 0 auto;
+    font-family: 'Alagard', Georgia, serif;
+    font-size: 13px;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .rm-badge.done { color: #8fbf6a; border-color: #4a6236; }
+  .rm-item p { color: var(--parchment-dim); font-size: 15px; }
+  .rm-item strong { color: var(--parchment); }
+
+  footer { padding: 60px 20px 80px; text-align: center; color: var(--parchment-dim); font-size: 14px; }
+  footer .brand { color: var(--gold); font-size: 26px; display: block; margin-bottom: 10px; }
+  footer a { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    section { padding: 60px 16px; }
+    .hero { min-height: 80vh; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">A dark medieval pixel RPG · set in the world of Draconia</div>
+  <h1>Raven Hollow</h1>
+  <p class="tag">A fog-drowned border town at the edge of a centuries-long cold war — and something beneath the graveyard is patiently rewriting the world back to the way it was before people.</p>
+  <div class="cta-row">
+    <a class="btn" href="#demo">Play the Demo</a>
+    <a class="btn ghost" href="#world">Enter the Hollow</a>
+  </div>
+  <div class="scroll-hint">▼ &nbsp;the road continues&nbsp; ▼</div>
+</header>
+
+<div class="rule"></div>
+
+<section id="world">
+  <div class="wrap">
+    <div class="section-kicker">The Town</div>
+    <h2>A living, breathing hollow</h2>
+    <p class="lede">Hand-placed, not generated: a fountain plaza, a creaking inn, a smithy with a working forge, market stalls, cottages, a barn — and the old cemetery on the hill, fenced as if the fence were for keeping something in. Villagers wander, lanterns burn, and dusk never quite lifts.</p>
+    <div class="shot-frame"><img src="media/town_hud.png" alt="Raven Hollow town overview with HUD" loading="lazy"></div>
+    <p class="caption">The town of Raven Hollow at golden dusk — every building placed by hand, every villager on their own path.</p>
+    <div class="grid2">
+      <div>
+        <div class="shot-frame"><img src="media/dialogue.png" alt="Dialogue with Old Petra" loading="lazy"></div>
+        <p class="caption">Nineteen townsfolk with their own words — and their own worries.</p>
+      </div>
+      <div>
+        <div class="shot-frame"><img src="media/plaza.png" alt="The fountain plaza" loading="lazy"></div>
+        <p class="caption">The plaza well, the lantern light, the road south.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap">
+    <div class="section-kicker">Choose Your Path</div>
+    <h2>Six classes. Six ways to face the dark.</h2>
+    <p class="lede">Every class plays differently — real ability kits with cooldowns, mana, and consequences. A seventh path, the Druid, waits in the wilds.</p>
+    <div class="shot-frame"><img src="media/class_select.png" alt="Class selection screen" loading="lazy"></div>
+    <p class="caption">The class-select screen — animated previews, ability kits, and a lore-touched title for every path.</p>
+    <div class="classes">
+      <div class="cls"><h3>Warrior</h3><span class="title">Shield of the Hollow</span><p>Cleave through ranks, whirl steel, and roar the line back into order.</p></div>
+      <div class="cls"><h3>Rogue</h3><span class="title">Knife in the Fog</span><p>Step through shadows and leave eight knives where you used to be.</p></div>
+      <div class="cls"><h3>Mage</h3><span class="title">Keeper of the Violet Flame</span><p>Fireballs that bloom, novas that freeze the churchyard air.</p></div>
+      <div class="cls"><h3>Paladin</h3><span class="title">Lantern of the Ashen Chapel</span><p>Consecrate the ground and let the dark do the retreating.</p></div>
+      <div class="cls"><h3>Necromancer</h3><span class="title">Warden of the Old Graves</span><p>The cemetery is not a place of endings. Raise your own answer.</p></div>
+      <div class="cls"><h3>Hunter</h3><span class="title">Rookwarden of the Hollow</span><p>The rooks choose one warden a generation. The arrows fly where they point.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap">
+    <div class="section-kicker">Combat</div>
+    <h2>Spells with weight</h2>
+    <p class="lede">Mouse-aimed, cooldown-driven combat against the things that walk out of the fog — skeletons by the graveyard, orc camps past the farm, and worse to come.</p>
+    <div class="grid2">
+      <div>
+        <div class="shot-frame"><img src="media/paladin_consecration.png" alt="Paladin casting Consecration" loading="lazy"></div>
+        <p class="caption">Paladin — Consecration burns in a golden ring.</p>
+      </div>
+      <div>
+        <div class="shot-frame"><img src="media/necromancer_minion.png" alt="Necromancer with raised skeleton minion" loading="lazy"></div>
+        <p class="caption">Necromancer — Raise Dead answers to you, for a while.</p>
+      </div>
+    </div>
+    <div class="grid2">
+      <div>
+        <div class="shot-frame"><img src="media/mage_fireball.png" alt="Mage fireball impact" loading="lazy"></div>
+        <p class="caption">Mage — Fireball, delivered.</p>
+      </div>
+      <div>
+        <div class="feat" style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+          <h3 style="text-align:center; font-size:24px;">And beneath it all…</h3>
+          <p style="text-align:center; margin-top:10px;">Set in <strong style="color:var(--gold)">Draconia</strong> — an original dark-fantasy universe of four monstrous factions locked in a cold war, a buried world-machine, and a language that should never be read aloud. The town is warm. The world is not.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap">
+    <div class="section-kicker">Loot</div>
+    <h2>Legendaries with stories</h2>
+    <p class="lede">A WoW-style backpack and paper-doll: drag, equip, and watch the gear appear on your character — in the sheet and in the world. Rarity tiers from common grey to legendary orange, each legendary with its own lore and living effect.</p>
+    <div class="shot-frame"><img src="media/zone_loot.png" alt="Character sheet paper-doll and backpack with legendary items" loading="lazy"></div>
+    <p class="caption">Emberfall and the Bulwark equipped — “The blade that lit the hollow's last lantern.”</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap">
+    <div class="section-kicker">The Zones</div>
+    <h2>Walk the Hollow</h2>
+    <div class="grid2">
+      <div>
+        <div class="shot-frame"><img src="media/zone_graveyard.png" alt="The old cemetery" loading="lazy"></div>
+        <p class="caption">The old cemetery — the fence is not for keeping people out.</p>
+      </div>
+      <div>
+        <div class="shot-frame"><img src="media/zone_forge.png" alt="The smithy forge" loading="lazy"></div>
+        <p class="caption">Goran's forge — fire, iron, and a scarecrow that watches.</p>
+      </div>
+      <div>
+        <div class="shot-frame"><img src="media/zone_market.png" alt="Market row" loading="lazy"></div>
+        <p class="caption">Market row under striped awnings.</p>
+      </div>
+      <div>
+        <div class="shot-frame"><img src="media/zone_inn.png" alt="The inn" loading="lazy"></div>
+        <p class="caption">The inn at dusk — lanterns lit, door open.</p>
+      </div>
+      <div>
+        <div class="shot-frame"><img src="media/zone_fountain.png" alt="Fountain plaza" loading="lazy"></div>
+        <p class="caption">The fountain plaza, heart of the Hollow.</p>
+      </div>
+      <div>
+        <div class="shot-frame"><img src="media/zone_farm.png" alt="The farmstead" loading="lazy"></div>
+        <p class="caption">The farmstead lane, where the road leaves town.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="quoteband">
+  <blockquote>“Everything good is temporary.<br>That's what makes it good.”</blockquote>
+  <cite>— the world of Draconia</cite>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="section-kicker">Features</div>
+    <h2>What's in the Hollow</h2>
+    <div class="features">
+      <div class="feat"><span class="glyph">⚔</span><h3>Six playable classes</h3><p>Full ability kits with real VFX — melee arcs, projectiles, summons, dashes, wards.</p></div>
+      <div class="feat"><span class="glyph">🎒</span><h3>Loot &amp; legendaries</h3><p>WoW-style backpack and paper-doll equipment, rarity tiers, and legendary relics with their own stories.</p></div>
+      <div class="feat"><span class="glyph">🏘</span><h3>A handcrafted town</h3><p>Districts, districts' people, and light that makes you want to stay past dark. You shouldn't.</p></div>
+      <div class="feat"><span class="glyph">🌲</span><h3>The wilderness</h3><p>Through the gate: wolves, boars, bears — and the things wearing the dark between the trees.</p></div>
+      <div class="feat"><span class="glyph">📜</span><h3>An original universe</h3><p>Draconia: four factions, six centuries of cold war, and a lore bible deep enough to drown in.</p></div>
+      <div class="feat"><span class="glyph">🕯</span><h3>Graveyard-keeper soul</h3><p>Muted palettes, warm lanterns, painterly pixel detail — grim, weighty, lived-in.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="wrap">
+    <div class="section-kicker">Roadmap</div>
+    <h2>The road ahead</h2>
+    <div class="roadmap">
+      <div class="rm-item"><span class="rm-badge done">Playable now</span><p><strong>The demo:</strong> six classes, combat, the town of Raven Hollow, loot &amp; legendaries, the wilderness gate.</p></div>
+      <div class="rm-item"><span class="rm-badge">Funded</span><p><strong>The spellbook &amp; trainers:</strong> learn spells at class trainers, build your action bar, rank up your favorites.</p></div>
+      <div class="rm-item"><span class="rm-badge">Funded</span><p><strong>Character creation:</strong> gender, races of Draconia, and a full appearance editor.</p></div>
+      <div class="rm-item"><span class="rm-badge">Funded</span><p><strong>Crafting &amp; runewords:</strong> recipe drops, socketed items, and rune-words in the Underlanguage — order matters.</p></div>
+      <div class="rm-item"><span class="rm-badge">Funded</span><p><strong>The catacombs:</strong> a dungeon beneath the graveyard, bosses with names, and class questlines.</p></div>
+      <div class="rm-item"><span class="rm-badge">Funded</span><p><strong>The continent:</strong> many biomes, four capitals, the Druid, day/night bloodmoons — and PvP duels behind the tavern.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="demo" style="text-align:center;">
+  <div class="wrap">
+    <div class="section-kicker">Kickstarter</div>
+    <h2>Help the Hollow survive the dark</h2>
+    <p class="lede">The demo is free. The world is enormous. Back the campaign and help us build the rest of Draconia.</p>
+    <div class="cta-row" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+      <a class="btn" href="#" title="Demo link coming with release">Download the Demo (July 2026)</a>
+      <a class="btn ghost" href="#" title="Campaign link coming soon">Back on Kickstarter — soon</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="brand">Raven Hollow</span>
+  <p>© 2026 · An original game set in the world of Draconia.<br>
+  Built with Godot 4 · Art asset credits in <a href="https://github.com/">CREDITS.md</a> — Szadi Art, Cainos, Anokolisa, the LPC artists, Pimen, and more.</p>
+</footer>
+
+</body>
+</html>

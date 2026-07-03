@@ -25,8 +25,10 @@ const EQUIP_SLOTS: Array[String] = [
 	"head", "chest", "legs", "boots",
 	"main_hand", "off_hand", "ring1", "ring2", "trinket",
 ]
+## The six base item stats plus "mana_regen" (extra stat carried by the
+## Gravekeeper's Band per the user-approved spec — must reach the player).
 const STAT_KEYS: Array[String] = [
-	"damage", "armor", "hp", "mana", "speed_pct", "crit_pct",
+	"damage", "armor", "hp", "mana", "speed_pct", "crit_pct", "mana_regen",
 ]
 
 var bag: Array = []
@@ -130,9 +132,9 @@ func swap_bag_slots(a: int, b: int) -> bool:
 	return true
 
 
-## Sum of all equipped items' stats. ALWAYS returns all six keys
-## (damage/armor/hp/mana/speed_pct/crit_pct) as floats, 0.0 when nothing
-## contributes — safe to read without .get fallbacks.
+## Sum of all equipped items' stats. ALWAYS returns every STAT_KEYS key
+## (damage/armor/hp/mana/speed_pct/crit_pct + mana_regen) as a float, 0.0
+## when nothing contributes — safe to read without .get fallbacks.
 func stat_totals() -> Dictionary:
 	var totals: Dictionary = {
 		"damage": 0.0,
@@ -141,6 +143,7 @@ func stat_totals() -> Dictionary:
 		"mana": 0.0,
 		"speed_pct": 0.0,
 		"crit_pct": 0.0,
+		"mana_regen": 0.0,
 	}
 	for slot: String in EQUIP_SLOTS:
 		var entry: Variant = equipped.get(slot)

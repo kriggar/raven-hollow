@@ -117,8 +117,9 @@ func _bootstrap_world(class_id: String) -> void:
 	# 5. Dialogue UI + arrival banner (subtitle = the chosen class title).
 	var ui := DialogueUI.new()
 	add_child(ui)
-	var subtitle: String = str(player.class_def.get("title", "The Emberfall Road"))
-	ui.show_banner("Raven Hollow", subtitle)
+	if OS.get_environment("RH_NOBANNER").is_empty():
+		var subtitle: String = str(player.class_def.get("title", "The Emberfall Road"))
+		ui.show_banner("Raven Hollow", subtitle)
 
 	# 5b. HUD (layer 8) sits between the vignette (5) and the dialogue UI (10).
 	add_child(HUD.new())

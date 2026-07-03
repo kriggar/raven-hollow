@@ -183,7 +183,14 @@ func _physics_process(delta: float) -> void:
 		_facing_vec = input_dir.normalized()
 	_play_anim("walk" if moving else "idle")
 
-	if Input.is_action_just_pressed("attack"):
+	# "attack" is mouse-bound: a click that lifts/drops an item in the bag or
+	# character sheet must not also swing the weapon. Control event-consumption
+	# never reaches the polled Input singleton, so gate on the mouse being over
+	# any Control (HUD/dialogue are MOUSE_FILTER_IGNORE and stay attackable-
+	# through) or on a drag being in flight. Keyboard skills stay live.
+	var mouse_on_ui: bool = Inventory.DragCtx.item != null \
+			or get_viewport().gui_get_hovered_control() != null
+	if Input.is_action_just_pressed("attack") and not mouse_on_ui:
 		_try_cast(0)
 	elif Input.is_action_just_pressed("skill_1"):
 		_try_cast(1)
@@ -362,17 +369,18 @@ func _do_melee_arc(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 
 func _do_projectile(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 	var params: Dictionary = ability.get("params", {})
-	Combat.spawn_projectile(world, {
+	var cfg: Dictionary = {
 		"pos": global_position + aim * 8.0,
 		"dir": aim,
 		"speed": float(params.get("speed", 220.0)),
 		"range": float(ability.get("range", 140.0)),
-		"damage": _roll_ranged((float(ability.get("damage", 6.0)) + _stat_damage()) * _damage_mult),
 		"faction": "player",
 		"color": params.get("color", _class_color()),
 		"kind": str(params.get("projectile", "orb")),
 		"aoe_radius": float(params.get("aoe_radius", 0.0)),
-	})
+	}
+	_arm_ranged(cfg, (float(ability.get("damage", 6.0)) + _stat_damage()) * _damage_mult)
+	Combat.spawn_projectile(world, cfg)
 
 
 func _do_aoe_ring(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
@@ -469,16 +477,17 @@ func _do_volley(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 	if pattern == "radial":
 		for k in range(count):
 			var dir: Vector2 = aim.rotated(TAU * float(k) / float(count))
-			Combat.spawn_projectile(world, {
+			var cfg: Dictionary = {
 				"pos": global_position + dir * 8.0,
 				"dir": dir,
 				"speed": float(params.get("speed", 200.0)),
 				"range": float(ability.get("range", 70.0)),
-				"damage": _roll_ranged(dmg),
 				"faction": "player",
 				"color": color,
 				"kind": kind,
-			})
+			}
+			_arm_ranged(cfg, dmg)
+			Combat.spawn_projectile(world, cfg)
 		return
 	# "rain": staggered mini-projectiles falling onto random points around aim,
 	# spread across params.duration seconds (also the telegraph's lifetime).
@@ -492,16 +501,17 @@ func _do_volley(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 			if not is_instance_valid(world) or not world.is_inside_tree():
 				return
 			var point: Vector2 = center + Vector2.from_angle(randf() * TAU) * sqrt(randf()) * radius
-			Combat.spawn_projectile(world, {
+			var cfg: Dictionary = {
 				"pos": point + Vector2(0.0, -90.0),
 				"dir": Vector2.DOWN,
 				"speed": float(params.get("speed", 320.0)),
 				"range": 90.0,
-				"damage": _roll_ranged(dmg),
 				"faction": "player",
 				"color": color,
 				"kind": kind,
-			})
+			}
+			_arm_ranged(cfg, dmg)
+			Combat.spawn_projectile(world, cfg)
 		)
 
 
@@ -596,6 +606,9 @@ class Minion extends CharacterBody2D:
 			Combat.deal_damage(foe, damage, owner_player)
 			VFX.impact(get_parent(), foe.global_position, Color(0.72, 0.85, 0.7), 0.7)
 			_spr.flip_h = foe.global_position.x < global_position.x
+			# Minion kills count for the owner's on-kill gear effects too.
+			if owner_player.has_method("_check_kill_effects"):
+				owner_player.call("_check_kill_effects", foe)
 		var to_owner: Vector2 = owner_player.global_position - global_position
 		if foe != null and global_position.distance_to(foe.global_position) > 24.0:
 			velocity = (foe.global_position - global_position).normalized() * move_speed
@@ -757,17 +770,38 @@ func _deal_player_damage(target: Node2D, dmg: float) -> void:
 		_crit_number(target, final)
 	else:
 		Combat.deal_damage(target, final, self)
-	# Gravekeeper's Band: a kill releases a brief green soul wisp.
-	if target.get("is_dead") == true and _slot_effect(["ring1", "ring2"], "gravekeeper"):
-		_soul_wisp(target.global_position)
+	_check_kill_effects(target)
 
 
-func _roll_ranged(dmg: float) -> float:
-	## Projectile hits resolve inside Combat.Projectile (not our code), so
-	## crits are pre-rolled into the damage payload at cast time.
-	if randf() * 100.0 < float(_totals.get("crit_pct", 0.0)):
-		return dmg * CRIT_MULT
-	return dmg
+func _arm_ranged(cfg: Dictionary, dmg: float) -> void:
+	## Projectile hits resolve later inside Combat.Projectile (not our code),
+	## so the crit is pre-rolled into the payload at cast time. "crit" +
+	## "on_hit" ride the cfg (opt-in fields Combat.Projectile reads) so the
+	## gold crit number and the on-kill legendary hooks fire for ranged
+	## classes exactly like they do on the melee/AoE path.
+	var crit: bool = randf() * 100.0 < float(_totals.get("crit_pct", 0.0))
+	cfg["damage"] = dmg * (CRIT_MULT if crit else 1.0)
+	cfg["crit"] = crit
+	cfg["on_hit"] = _on_projectile_hit
+
+
+func _on_projectile_hit(target: Node2D, amount: float, crit_styled: bool) -> void:
+	## Called by Combat.Projectile after its damage lands. crit_styled means
+	## the projectile suppressed the standard white number for us to replace.
+	if target == null or not is_instance_valid(target):
+		return
+	if crit_styled:
+		_crit_number(target, amount)
+	_check_kill_effects(target)
+
+
+func _check_kill_effects(victim: Node2D) -> void:
+	## Gravekeeper's Band: a kill releases a brief green soul wisp. Shared
+	## on-kill funnel for melee/AoE, projectile/volley and minion damage.
+	if victim == null or not is_instance_valid(victim):
+		return
+	if victim.get("is_dead") == true and _slot_effect(["ring1", "ring2"], "gravekeeper"):
+		_soul_wisp(victim.global_position)
 
 
 func _crit_number(target: Node2D, amount: float) -> void:
