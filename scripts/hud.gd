@@ -559,7 +559,7 @@ func _build_ability_bar() -> void:
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		icon.stretch_mode = TextureRect.STRETCH_SCALE
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR  # painterly icons downscale smooth
 		icon.position = Vector2(2.0, 2.0)
 		icon.size = Vector2(SLOT - 4.0, SLOT - 4.0)
 		panel.add_child(icon)

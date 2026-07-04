@@ -18,6 +18,7 @@ class_name IconsPixel
 
 const SHEET_PATH := "res://assets/art/icons_pixel/shikashi_v2.png"
 const CELL: int = 32
+const _SPELL_DIR := "res://assets/art/icons_spell/"  # painterly ability icons (Phase D)
 
 ## icon_id -> Vector2i(col, row) on the 16-column grid.
 const REGISTRY: Dictionary = {
@@ -126,9 +127,14 @@ static var _cache: Dictionary = {}
 
 ## AtlasTexture for a registry id. Accepts "cleave" or "pixel:cleave".
 ## Unknown ids warn once and return null (callers show their placeholder).
-static func get_tex(icon_id: String) -> AtlasTexture:
+static func get_tex(icon_id: String) -> Texture2D:
 	var id: String = icon_id.trim_prefix("pixel:")
 	if _cache.has(id):
+		return _cache[id]
+	# Premium painterly ability icon wins over the Shikashi cell when present.
+	var spell_path: String = _SPELL_DIR + id + ".png"
+	if ResourceLoader.exists(spell_path):
+		_cache[id] = load(spell_path) as Texture2D
 		return _cache[id]
 	if not REGISTRY.has(id):
 		push_warning("IconsPixel: unknown icon id '%s'" % id)
