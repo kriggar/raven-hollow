@@ -1050,7 +1050,7 @@ func _run_env_hooks() -> void:
 	var wx_env: String = OS.get_environment("RH_WEATHER")
 	if not wx_env.is_empty() and _weather != null:
 		var parts: PackedStringArray = wx_env.split(",", false)
-		var tmap := {"clear": 0, "rain": 1, "storm": 2, "snow": 3, "fog": 4}
+		var tmap := {"clear": 0, "rain": 1, "storm": 2, "snow": 3, "fog": 4, "ash": 5}
 		var wtype: int = int(tmap.get(parts[0].strip_edges().to_lower(), 0))
 		var wint: float = float(parts[1]) if parts.size() > 1 else 1.0
 		_weather.set_weather(wtype, wint, 0.0)

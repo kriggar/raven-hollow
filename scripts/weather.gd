@@ -22,7 +22,7 @@ extends Node
 
 signal weather_changed(type: int)
 
-enum Type { CLEAR, RAIN, STORM, SNOW, FOG }
+enum Type { CLEAR, RAIN, STORM, SNOW, FOG, ASH }
 
 const LAYER := 6                       # above vignette(5), below HUD(8)
 const VIEW := Vector2(640.0, 360.0)    # base viewport (integer-scaled)
@@ -34,19 +34,53 @@ const DARK := {
 	Type.STORM: Color(0.52, 0.57, 0.70),
 	Type.SNOW:  Color(0.86, 0.89, 0.96),
 	Type.FOG:   Color(0.80, 0.83, 0.88),
+	Type.ASH:   Color(0.74, 0.62, 0.56),
 }
 
 const AUDIO_DIR := "res://assets/audio/weather/"
 const AMBIENCE := {
 	Type.RAIN:  "rain_loop", Type.STORM: "rain_loop",
-	Type.SNOW:  "wind_loop", Type.FOG:  "wind_loop",
+	Type.SNOW:  "wind_loop", Type.FOG:  "wind_loop", Type.ASH: "wind_loop",
 }
 
-# Per-map weighted weather tables (fallback if map_registry has none).
+# Per-map weighted weather tables (town/wilderness keep their own moods).
 const MAP_TABLES := {
 	"town": [[Type.CLEAR, 6], [Type.RAIN, 2], [Type.FOG, 1]],
 	"wilderness": [[Type.CLEAR, 4], [Type.RAIN, 2], [Type.FOG, 2], [Type.STORM, 1], [Type.SNOW, 1]],
 }
+
+## WORLD_PLAN zone weather -- biome defaults (zone defs may override with an
+## explicit "weather" table). Canon moods: bog rains, tundra snows CONSTANTLY,
+## volcanic lives under permanent ash-haze, farmland has the thinnest fog on
+## the continent, ports drown in brackish fog, caves have no sky at all.
+const BIOME_TABLES := {
+	"bog":        [[Type.RAIN, 5], [Type.FOG, 3], [Type.STORM, 1], [Type.CLEAR, 1]],
+	"moor":       [[Type.FOG, 4], [Type.RAIN, 3], [Type.CLEAR, 2]],
+	"wilds":      [[Type.FOG, 3], [Type.CLEAR, 3], [Type.RAIN, 2], [Type.STORM, 1]],
+	"farmland":   [[Type.CLEAR, 5], [Type.RAIN, 3], [Type.STORM, 1]],
+	"deadforest": [[Type.FOG, 5], [Type.RAIN, 2], [Type.CLEAR, 1]],
+	"tundra":     [[Type.SNOW, 8], [Type.CLEAR, 1]],
+	"volcanic":   [[Type.ASH, 8], [Type.CLEAR, 1]],
+	"ridge":      [[Type.FOG, 4], [Type.SNOW, 2], [Type.STORM, 2], [Type.CLEAR, 1]],
+	"port":       [[Type.FOG, 5], [Type.RAIN, 3], [Type.CLEAR, 1]],
+	"cave":       [[Type.CLEAR, 1]],
+}
+
+## Constant-weather biomes never fully blow over.
+const BIOME_MIN_INTENSITY := {"tundra": 0.65, "volcanic": 0.6, "bog": 0.45, "port": 0.5}
+
+## Fog tint per biome (shader fog_col): bog reads swamp-green, ports grey-blue,
+## volcanic red-brown, dead forests ash-grey.
+const BIOME_FOG_COL := {
+	"bog": Color(0.55, 0.62, 0.52), "port": Color(0.58, 0.63, 0.68),
+	"volcanic": Color(0.66, 0.48, 0.40), "deadforest": Color(0.60, 0.60, 0.58),
+	"ridge": Color(0.66, 0.68, 0.72),
+}
+
+## In-zone weather drift: re-roll from the same zone table every few minutes so
+## long sessions in one zone stay alive (rain eases to fog, snow thickens...).
+const DRIFT_MIN_S: float = 110.0
+const DRIFT_MAX_S: float = 260.0
 
 var _type: int = Type.CLEAR
 var _intensity: float = 0.0        # live master dial 0..1
@@ -56,6 +90,8 @@ var _wind: float = 0.0             # -1..1, drives rain slant + drift
 var _t: float = 0.0                # fog scroll clock
 var _lightning_cd: float = 0.0
 var _rng := RandomNumberGenerator.new()
+var _map_id: String = ""
+var _drift_left: float = 0.0
 
 var _layer: CanvasLayer
 var _darken: ColorRect
@@ -67,6 +103,7 @@ var _ambience: AudioStreamPlayer
 var _thunder: AudioStreamPlayer
 var _rain_tex: Texture2D
 var _snow_tex: Texture2D
+var _ash_tex: Texture2D
 
 
 func _init() -> void:
@@ -104,7 +141,15 @@ func set_weather(type: int, target_intensity: float = 1.0, blend_time: float = 3
 
 
 func on_map_changed(map_id: String) -> void:
-	set_weather(_roll_for_map(map_id), _rng.randf_range(0.55, 1.0), 0.0)
+	_map_id = map_id
+	var biome: String = _biome_for_map(map_id)
+	var floor_i: float = float(BIOME_MIN_INTENSITY.get(biome, 0.0))
+	var inten: float = maxf(floor_i, _rng.randf_range(0.55, 1.0))
+	if _fog_mat != null:
+		_fog_mat.set_shader_parameter("fog_col",
+				BIOME_FOG_COL.get(biome, Color(0.62, 0.64, 0.68)))
+	set_weather(_roll_for_map(map_id), inten, 0.0)
+	_drift_left = _rng.randf_range(DRIFT_MIN_S, DRIFT_MAX_S)
 
 
 func current_type() -> int:
@@ -131,6 +176,15 @@ func _process(delta: float) -> void:
 	# ease intensity toward target
 	if _intensity != _target_intensity:
 		_intensity = move_toward(_intensity, _target_intensity, _blend_speed * delta)
+	# Zone weather drift: the sky changes WITHIN the zone's own mood table.
+	if not _map_id.is_empty():
+		_drift_left -= delta
+		if _drift_left <= 0.0:
+			_drift_left = _rng.randf_range(DRIFT_MIN_S, DRIFT_MAX_S)
+			var biome: String = _biome_for_map(_map_id)
+			var floor_i: float = float(BIOME_MIN_INTENSITY.get(biome, 0.0))
+			set_weather(_roll_for_map(_map_id),
+					maxf(floor_i, _rng.randf_range(0.45, 1.0)), 8.0)
 	_apply(delta)
 
 
@@ -213,6 +267,7 @@ func _build_overlay() -> void:
 	# (c) Precip — GPUParticles2D in screen space.
 	_rain_tex = _make_rain_texture()
 	_snow_tex = _make_snow_texture()
+	_ash_tex = _make_ash_texture()
 	_precip = GPUParticles2D.new()
 	_precip.name = "Precip"
 	_precip.amount = 700
@@ -252,7 +307,7 @@ func _configure_precip(type: int) -> void:
 	mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
 	mat.emission_box_extents = Vector3(340.0, 4.0, 1.0)
 	if fam == Type.SNOW:
-		_precip.texture = _snow_tex
+		_precip.texture = _ash_tex if type == Type.ASH else _snow_tex
 		_precip.lifetime = 6.0
 		_precip.position = Vector2(320.0, 180.0)
 		# Slow snow: emit across the WHOLE view so flakes fill the screen
@@ -311,12 +366,28 @@ func _configure_ambience(type: int) -> void:
 func _precip_family(type: int) -> int:
 	match type:
 		Type.RAIN, Type.STORM: return Type.RAIN
-		Type.SNOW: return Type.SNOW
+		Type.SNOW, Type.ASH: return Type.SNOW
 		_: return Type.CLEAR
 
 
+func _biome_for_map(map_id: String) -> String:
+	var z: Dictionary = ZoneDefs.zone(map_id)
+	return str(z.get("biome", ""))
+
+
+func _table_for_map(map_id: String) -> Array:
+	# 1. explicit zone-def override, 2. biome default, 3. legacy map table.
+	var z: Dictionary = ZoneDefs.zone(map_id)
+	if z.has("weather"):
+		return z["weather"]
+	var biome: String = str(z.get("biome", ""))
+	if BIOME_TABLES.has(biome):
+		return BIOME_TABLES[biome]
+	return MAP_TABLES.get(map_id, [[Type.CLEAR, 1]])
+
+
 func _roll_for_map(map_id: String) -> int:
-	var table: Array = MAP_TABLES.get(map_id, [[Type.CLEAR, 1]])
+	var table: Array = _table_for_map(map_id)
 	var total: int = 0
 	for row: Array in table:
 		total += int(row[1])
@@ -366,6 +437,20 @@ func _make_snow_texture() -> Texture2D:
 			var d: float = Vector2(x, y).distance_to(c) / (s * 0.5)
 			var a: float = clampf(1.0 - d, 0.0, 1.0)
 			img.set_pixel(x, y, Color(1.0, 1.0, 1.0, sqrt(a)))
+	return ImageTexture.create_from_image(img)
+
+
+func _make_ash_texture() -> Texture2D:
+	var sz := 5
+	var img := Image.create(sz, sz, false, Image.FORMAT_RGBA8)
+	var c := Vector2(sz * 0.5 - 0.5, sz * 0.5 - 0.5)
+	for y in range(sz):
+		for x in range(sz):
+			var d: float = Vector2(x, y).distance_to(c) / (sz * 0.5)
+			var a: float = clampf(1.0 - d, 0.0, 1.0)
+			# Sooty grey flake with the faintest warm ember heart.
+			var col := Color(0.45, 0.40, 0.38).lerp(Color(0.85, 0.45, 0.25), maxf(0.0, 0.5 - d) * 0.7)
+			img.set_pixel(x, y, Color(col.r, col.g, col.b, sqrt(a) * 0.9))
 	return ImageTexture.create_from_image(img)
 
 

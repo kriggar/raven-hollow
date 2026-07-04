@@ -261,7 +261,10 @@ const _ZONES := {
 	"grey_marches": {"built": false, "name": "The Grey Marches", "continent": 1, "region": "west", "biome": "deadforest"},
 	"famine_fields": {"built": false, "name": "The Famine Fields", "continent": 1, "region": "west", "biome": "farmland"},
 	"riverfork": {"built": false, "name": "Riverfork", "continent": 1, "region": "west", "biome": "farmland"},
-	"black_night": {"built": false, "name": "Black Night", "continent": 1, "region": "north", "biome": "tundra", "capital": true},
+	"black_night": {"built": false, "name": "Black Night", "continent": 1, "region": "north", "biome": "tundra", "capital": true,
+		# Canon: NO fog here -- the air is unnaturally clear and still. Light
+		# constant snow under the canopy of un-light; never rain, never fog.
+		"weather": [[3, 6], [0, 3]]},  # [SNOW x6, CLEAR x3]
 	"threadlands": {"built": false, "name": "The Threadlands", "continent": 1, "region": "north", "biome": "tundra"},
 	"listening_steppe": {"built": false, "name": "The Listening Steppe", "continent": 1, "region": "north", "biome": "tundra"},
 	"gravemark_tundra": {"built": false, "name": "Gravemark Tundra", "continent": 1, "region": "north", "biome": "tundra"},
