@@ -160,7 +160,7 @@ const _ALIASES: Dictionary = {
 	"piercing_shot": {"id": "wind_hit", "opts": {"tint": Color(0.72, 0.74, 0.64)}},
 	"snare_trap": {"id": "roots", "opts": {"scale": 2.4, "tint": Color(0.42, 0.56, 0.32)}},
 	"hunters_mark": {"id": "air_burst", "opts": {"scale": 1.6, "tint": Color(0.60, 0.68, 0.44)}},
-	"rook_companion": {"id": "smoke_poof", "opts": {"tint": Color(0.20, 0.22, 0.26)}},
+	"rook_companion": {"id": "smoke_poof", "opts": {"scale": 0.5, "tint": Color(0.40, 0.42, 0.50)}},
 	"rook_companion_loop": {"id": "summon_circle", "opts": {"scale": 0.5, "tint": Color(0.28, 0.44, 0.48, 0.85)}},
 	"storm_of_feathers": {"id": "spark_hit", "opts": {"tint": Color(0.24, 0.34, 0.40)}},
 	# Druid (heal_bloom shares heal_bloom_base #4 — green interim over holy_pillar)

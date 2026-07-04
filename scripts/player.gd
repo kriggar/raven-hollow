@@ -982,8 +982,8 @@ class Minion extends CharacterBody2D:
 
 	const _TYPE_CFG := {
 		"skeleton": {"run_sheet": "res://assets/art/enemies/skeleton_run.png", "run_fw": 64, "run_count": 6, "run_fps": 10.0, "idle_sheet": "res://assets/art/enemies/skeleton_idle.png", "idle_fw": 32, "idle_count": 4, "idle_fps": 5.0, "idle_pad": true, "offset": Vector2(0, -31), "tint": Color(0.82, 0.92, 0.85), "scale": 1.0},
-		"wolf": {"run_sheet": "res://assets/art/enemies/wolf_run.png", "run_fw": 64, "run_count": 5, "run_fps": 10.0, "idle_sheet": "res://assets/art/enemies/wolf_idle.png", "idle_fw": 64, "idle_count": 4, "idle_fps": 4.0, "idle_pad": false, "offset": Vector2(0, -30), "tint": Color(0.60, 0.92, 0.70, 0.82), "scale": 1.0},
-		"raven": {"run_sheet": "res://assets/art/enemies/raven_fly.png", "run_fw": 32, "run_count": 3, "run_fps": 14.0, "idle_sheet": "res://assets/art/enemies/raven_fly.png", "idle_fw": 32, "idle_count": 3, "idle_fps": 9.0, "idle_pad": false, "offset": Vector2(0, -42), "tint": Color(0.34, 0.36, 0.46), "scale": 1.6},
+		"wolf": {"run_sheet": "res://assets/art/enemies/wolf_run.png", "run_fw": 32, "run_count": 9, "run_fps": 12.0, "idle_sheet": "res://assets/art/enemies/wolf_idle.png", "idle_fw": 32, "idle_count": 6, "idle_fps": 5.0, "idle_pad": false, "offset": Vector2(0, -12), "tint": Color(0.64, 0.86, 0.70, 0.85), "scale": 1.35},
+		"raven": {"run_sheet": "res://assets/art/enemies/raven_fly.png", "run_fw": 32, "run_count": 3, "run_fps": 14.0, "idle_sheet": "res://assets/art/enemies/raven_fly.png", "idle_fw": 32, "idle_count": 3, "idle_fps": 11.0, "idle_pad": false, "offset": Vector2(0, -40), "tint": Color(0.78, 0.80, 0.92), "scale": 1.5},
 	}
 
 	func _init() -> void:
