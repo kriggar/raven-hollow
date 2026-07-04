@@ -239,6 +239,13 @@ static func create(spawn: Vector2, class_id: String) -> Player:
 
 	var def: Dictionary = ClassDefs.get_def(class_id)
 	p.class_def = def
+	# Size the cooldown arrays to this class's ability count (kits vary 3-8).
+	var _ab_n: int = (def.get("abilities", []) as Array).size()
+	p._cooldowns = []
+	p._cd_max = []
+	for _ci in range(_ab_n):
+		p._cooldowns.append(0.0)
+		p._cd_max.append(1.0)
 	p.max_hp = float(def.get("max_hp", 30.0))
 	p.hp = p.max_hp
 	p.max_mana = float(def.get("max_mana", 20.0))
@@ -448,7 +455,7 @@ func _try_open_station() -> bool:
 
 
 func _tick_timers(delta: float) -> void:
-	for i in range(3):
+	for i in range(_cooldowns.size()):
 		if _cooldowns[i] > 0.0:
 			_cooldowns[i] = maxf(0.0, _cooldowns[i] - delta)
 	if _invuln > 0.0:
@@ -529,7 +536,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func cooldown_frac(i: int) -> float:
-	if i < 0 or i > 2 or _cd_max[i] <= 0.0:
+	if i < 0 or i >= _cd_max.size() or _cd_max[i] <= 0.0:
 		return 0.0
 	return clampf(_cooldowns[i] / _cd_max[i], 0.0, 1.0)
 
