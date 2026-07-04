@@ -1007,6 +1007,14 @@ func _run_env_hooks() -> void:
 	var map_env: String = OS.get_environment("RH_MAP")
 	if not map_env.is_empty() and map_env != current_map_id and MapRegistry.has_map(map_env):
 		await change_map(map_env, "")
+	# RH_RES=WxH: PRIME-MANDATE 4K cameras — resize the OS window so the
+	# viewport texture (and thus RH_SHOT) captures at the requested size.
+	var res_env: String = OS.get_environment("RH_RES")
+	if not res_env.is_empty():
+		var rp: PackedStringArray = res_env.split("x")
+		if rp.size() == 2:
+			get_window().size = Vector2i(int(rp[0]), int(rp[1]))
+			await get_tree().process_frame
 	var shot_path: String = OS.get_environment("RH_SHOT")
 	var smoke: String = OS.get_environment("RH_SMOKE")
 	var cast_action: String = OS.get_environment("RH_CAST")

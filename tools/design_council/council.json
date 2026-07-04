@@ -1,0 +1,621 @@
+{
+ "size": 1000000,
+ "structure": "100 divisions x 100 brigades x 100 members",
+ "bar": "THE OCARINA BAR \u2014 the level must grade ABOVE Ocarina of Time on every dimension",
+ "dimensions": [
+  "cohesion",
+  "readability",
+  "wonder_per_screen",
+  "defects_zero",
+  "soundscape",
+  "pacing"
+ ],
+ "law": {
+  "consensus": "unanimous roll-up: member->squad->brigade->division->Council; one squad NO blocks",
+  "sittings": "every level sits before the Council after every content batch (Prime-Mandate sweep feeds evidence)",
+  "accountability": "brigade records settle against later swarm findings, like the Asset Gauntlet"
+ },
+ "divisions": [
+  {
+   "id": 0,
+   "name": "Division 000 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 1,
+   "name": "Division 001 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 2,
+   "name": "Division 002 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 3,
+   "name": "Division 003 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 4,
+   "name": "Division 004 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 5,
+   "name": "Division 005 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 6,
+   "name": "Division 006 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 7,
+   "name": "Division 007 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 8,
+   "name": "Division 008 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 9,
+   "name": "Division 009 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 10,
+   "name": "Division 010 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 11,
+   "name": "Division 011 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 12,
+   "name": "Division 012 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 13,
+   "name": "Division 013 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 14,
+   "name": "Division 014 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 15,
+   "name": "Division 015 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 16,
+   "name": "Division 016 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 17,
+   "name": "Division 017 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 18,
+   "name": "Division 018 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 19,
+   "name": "Division 019 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 20,
+   "name": "Division 020 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 21,
+   "name": "Division 021 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 22,
+   "name": "Division 022 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 23,
+   "name": "Division 023 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 24,
+   "name": "Division 024 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 25,
+   "name": "Division 025 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 26,
+   "name": "Division 026 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 27,
+   "name": "Division 027 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 28,
+   "name": "Division 028 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 29,
+   "name": "Division 029 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 30,
+   "name": "Division 030 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 31,
+   "name": "Division 031 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 32,
+   "name": "Division 032 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 33,
+   "name": "Division 033 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 34,
+   "name": "Division 034 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 35,
+   "name": "Division 035 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 36,
+   "name": "Division 036 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 37,
+   "name": "Division 037 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 38,
+   "name": "Division 038 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 39,
+   "name": "Division 039 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 40,
+   "name": "Division 040 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 41,
+   "name": "Division 041 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 42,
+   "name": "Division 042 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 43,
+   "name": "Division 043 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 44,
+   "name": "Division 044 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 45,
+   "name": "Division 045 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 46,
+   "name": "Division 046 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 47,
+   "name": "Division 047 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 48,
+   "name": "Division 048 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 49,
+   "name": "Division 049 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 50,
+   "name": "Division 050 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 51,
+   "name": "Division 051 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 52,
+   "name": "Division 052 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 53,
+   "name": "Division 053 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 54,
+   "name": "Division 054 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 55,
+   "name": "Division 055 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 56,
+   "name": "Division 056 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 57,
+   "name": "Division 057 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 58,
+   "name": "Division 058 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 59,
+   "name": "Division 059 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 60,
+   "name": "Division 060 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 61,
+   "name": "Division 061 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 62,
+   "name": "Division 062 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 63,
+   "name": "Division 063 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 64,
+   "name": "Division 064 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 65,
+   "name": "Division 065 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 66,
+   "name": "Division 066 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 67,
+   "name": "Division 067 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 68,
+   "name": "Division 068 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 69,
+   "name": "Division 069 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 70,
+   "name": "Division 070 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 71,
+   "name": "Division 071 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 72,
+   "name": "Division 072 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 73,
+   "name": "Division 073 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 74,
+   "name": "Division 074 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 75,
+   "name": "Division 075 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 76,
+   "name": "Division 076 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 77,
+   "name": "Division 077 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 78,
+   "name": "Division 078 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 79,
+   "name": "Division 079 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 80,
+   "name": "Division 080 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 81,
+   "name": "Division 081 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 82,
+   "name": "Division 082 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 83,
+   "name": "Division 083 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 84,
+   "name": "Division 084 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 85,
+   "name": "Division 085 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 86,
+   "name": "Division 086 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 87,
+   "name": "Division 087 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 88,
+   "name": "Division 088 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 89,
+   "name": "Division 089 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 90,
+   "name": "Division 090 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 91,
+   "name": "Division 091 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 92,
+   "name": "Division 092 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 93,
+   "name": "Division 093 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  },
+  {
+   "id": 94,
+   "name": "Division 094 \u2014 Soundscape",
+   "focus": "soundscape",
+   "verdicts": []
+  },
+  {
+   "id": 95,
+   "name": "Division 095 \u2014 Pacing",
+   "focus": "pacing",
+   "verdicts": []
+  },
+  {
+   "id": 96,
+   "name": "Division 096 \u2014 Cohesion",
+   "focus": "cohesion",
+   "verdicts": []
+  },
+  {
+   "id": 97,
+   "name": "Division 097 \u2014 Readability",
+   "focus": "readability",
+   "verdicts": []
+  },
+  {
+   "id": 98,
+   "name": "Division 098 \u2014 Wonder Per Screen",
+   "focus": "wonder_per_screen",
+   "verdicts": []
+  },
+  {
+   "id": 99,
+   "name": "Division 099 \u2014 Defects Zero",
+   "focus": "defects_zero",
+   "verdicts": []
+  }
+ ],
+ "sittings": []
+}

@@ -2,6 +2,10 @@
 Every rule the owner has issued. Nothing ships that violates one. Status: ✅ live · 📐 designed · 🔄 in design · 🗓 planned · 🔒 deferred by owner.
 
 ## ⚑ THE PRIME MANDATE (obey at EVERY decision)
+**THE MILLION COUNCIL**: a corps of ≥1,000,000 design bots (hierarchical divisions→brigades→squads, ledger at tools/design_council/) must reach consensus that every level meets THE OCARINA BAR — judged better than Ocarina of Time on cohesion, readability, wonder-per-screen, zero defects, soundscape and pacing. Consensus rolls up by unanimous delegation; any squad's NO blocks the level. MANDATORY.
+**4K CAMERAS**: every level must be capturable in ONE 4K shot (RH_RES hook, live) + the full sweep grid.
+**THE ASSET GAUNTLET**: every pack passes a 1,000-bot military review chain (unanimity, top-rank sign-off, promotion by validated decisions, General rotates every 3 rounds) — design/ASSET_GAUNTLET.md.
+
 **Every level is agent-swarm QA'd for cohesion and beauty. No clipping. No floating assets. Nothing bad. ABSOLUTELY NOTHING.** Tons of inspection agents sweep every zone screen-by-screen; findings get fixed and re-swept until clean. Think like the first AAA 2D-pixel studio in history aiming to out-grade Ocarina of Time. This rule outranks all others and applies to every decision, every commit, every zone.
 
 ## World & Zones
