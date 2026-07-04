@@ -12,18 +12,19 @@ const DEFAULT := {"speaker": "default", "pitch": 1.0, "volume_db": 0.0}
 
 # npc_id -> voice. Quest-givers get their own designed voice; generic townsfolk
 # share "default"/"narrator" with a pitch nudge so they don't sound identical.
+# Keyed on the REAL npc_id (role-based, from npc_data.gd), NOT display names.
 const VOICES := {
-	"marta":      {"speaker": "marta",      "pitch": 1.0,  "volume_db": 0.0},
-	"goran":      {"speaker": "goran",      "pitch": 0.94, "volume_db": 0.0},
-	"vasile":     {"speaker": "vasile",     "pitch": 0.9,  "volume_db": 0.0},
-	"ansel":      {"speaker": "ansel",      "pitch": 1.0,  "volume_db": 0.0},
-	"petra":      {"speaker": "petra",      "pitch": 1.06, "volume_db": 0.0},
-	"gatewarden": {"speaker": "gatewarden", "pitch": 0.96, "volume_db": 0.0},
-	"mira":       {"speaker": "mira",       "pitch": 1.04, "volume_db": 0.0},
-	# generic villagers -> shared voices with distinct pitch
-	"tibalt":     {"speaker": "default",    "pitch": 0.92, "volume_db": 0.0},
-	"elsbeth":    {"speaker": "default",    "pitch": 1.10, "volume_db": 0.0},
-	"emeric":     {"speaker": "narrator",   "pitch": 0.98, "volume_db": 0.0},
+	"innkeeper":  {"speaker": "marta",      "pitch": 1.0,  "volume_db": 0.0},  # Marta
+	"blacksmith": {"speaker": "goran",      "pitch": 0.96, "volume_db": 0.0},  # Goran
+	"gravekeeper":{"speaker": "vasile",     "pitch": 0.92, "volume_db": 0.0},  # Vasile
+	"farmer":     {"speaker": "ansel",      "pitch": 1.0,  "volume_db": 0.0},  # Ansel
+	"wanderer1":  {"speaker": "petra",      "pitch": 1.04, "volume_db": 0.0},  # Old Petra (quest 4)
+	"gatewarden": {"speaker": "gatewarden", "pitch": 0.98, "volume_db": 0.0},  # Iosif
+	"mira":       {"speaker": "mira",       "pitch": 1.02, "volume_db": 0.0},  # Mira
+	# generic villagers -> bank voices + distinct pitch
+	"merchant":   {"speaker": "narrator",   "pitch": 0.94, "volume_db": 0.0},  # Tibalt
+	"maid":       {"speaker": "default",    "pitch": 1.14, "volume_db": 0.0},  # Elsbeth
+	"wanderer2":  {"speaker": "default",    "pitch": 1.02, "volume_db": 0.0},  # Emeric
 }
 
 # Generic greeting barks, picked by hash for variety (used when an NPC has no

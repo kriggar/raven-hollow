@@ -24,8 +24,14 @@ func _ready() -> void:
 	_live = OS.has_feature("editor") or not OS.get_environment("RH_VO_LIVE").is_empty()
 
 
+## FNV-1a 32-bit over utf8("speaker|text") — deterministic and reproducible in
+## Python (the bake tool), so baked filenames match at runtime.
 func line_hash(speaker: String, text: String) -> String:
-	return str(hash(speaker + "|" + text.strip_edges()))
+	var s: PackedByteArray = (speaker + "|" + text.strip_edges()).to_utf8_buffer()
+	var h: int = 2166136261
+	for b: int in s:
+		h = ((h ^ b) * 16777619) & 0xFFFFFFFF
+	return "%08x" % h
 
 
 func _baked_path(speaker: String, text: String) -> String:

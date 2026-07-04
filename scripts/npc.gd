@@ -238,6 +238,9 @@ var _name_label: Label
 ## a one-time lazy connect to the Quests / DayNight singletons, which are added
 ## to the tree AFTER the NPC cast on first boot (so _ready() is too early).
 var _id: String = "npc"
+const BARK_RANGE := 78.0
+var _bark_cd: float = 3.0   # per-npc ambient-bark cooldown
+var _bark_salt: int = 0
 var _marker_label: Label
 var _base_wander_radius: float = 0.0
 var _follow_target: Node2D = null
@@ -417,6 +420,7 @@ func _physics_process(delta: float) -> void:
 	# Name tag first: it must track the player even for stationary or
 	# mid-dialogue villagers, whose branches below return early.
 	_update_name_tag()
+	_tick_bark(delta)
 	if _talking:
 		velocity = Vector2.ZERO
 		return
@@ -443,6 +447,25 @@ func _physics_process(delta: float) -> void:
 		_idle_time_left -= delta
 		if _idle_time_left <= 0.0:
 			_pick_new_target()
+
+
+## WoW-style ambient bark: a short spatial one-liner when the player lingers
+## nearby, on a long per-npc cooldown so town chatter stays occasional. Baked
+## clips (assets/vo/<speaker>/<hash>.ogg) play offline; live otherwise.
+func _tick_bark(delta: float) -> void:
+	_bark_cd -= delta
+	if _bark_cd > 0.0 or _talking:
+		return
+	var pl: Node2D = get_tree().get_first_node_in_group("player") as Node2D
+	if pl != null and is_instance_valid(pl) and global_position.distance_to(pl.global_position) <= BARK_RANGE:
+		var vo: Node = get_node_or_null("/root/Voice")
+		var vr: Node = get_node_or_null("/root/VoiceRegistry")
+		if vo != null and vr != null:
+			vo.call("bark", self, _id, str(vr.call("bark_line", _id, _bark_salt)))
+			_bark_salt += 1
+		_bark_cd = _rng.randf_range(24.0, 44.0)
+	else:
+		_bark_cd = 1.0
 
 
 ## Called by the player. Stop, face the caller, run dialogue, resume after 1 s.

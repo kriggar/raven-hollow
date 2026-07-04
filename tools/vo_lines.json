@@ -1,0 +1,694 @@
+[
+  {
+    "speaker": "marta",
+    "text": "Welcome to the Ember Hearth, traveler. Sit yourself down before you fall down."
+  },
+  {
+    "speaker": "marta",
+    "text": "We don't see many new faces since the old road washed out. Carts must swing wide past the graveyard now, and most don't bother."
+  },
+  {
+    "speaker": "marta",
+    "text": "Harvest's been kind this year, thank the saints. Means the stew has actual meat in it."
+  },
+  {
+    "speaker": "marta",
+    "text": "If you hear folk whisper about the fountain, pay it no mind. Or a little mind — coins have gone missing from it, is all."
+  },
+  {
+    "speaker": "goran",
+    "text": "Mind the sparks. I've singed nobler brows than yours."
+  },
+  {
+    "speaker": "goran",
+    "text": "Ore comes up the old road — when the old road feels like being a road."
+  },
+  {
+    "speaker": "goran",
+    "text": "Folk say a wish-coin in the fountain brings luck. I say a well-hammered nail brings more."
+  },
+  {
+    "speaker": "goran",
+    "text": "Need something mended, come to me. Need gossip, the inn is that way."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Ah, a customer! Or at least someone shaped like one."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Finest goods this side of the old road. Which, I'll grant, isn't saying much lately."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Between us — someone's been fishing coins out of the fountain at night. Terrible luck, stealing a wish."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Come back after the harvest fair. I'll have spices that will make your tongue write poetry."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Good soil this year. Rain came when it was asked, and left when it wasn't."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Harvest fair's coming. Whole village turns out — even old Vasile down from his graveyard hill."
+  },
+  {
+    "speaker": "ansel",
+    "text": "My grandfather planted the pear tree by the fountain. Fed half of Raven Hollow through one bad winter."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Well. The wheat won't cut itself. Never has, no matter how nicely I ask."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Hm. You're breathing. That puts you outside my line of work — for now."
+  },
+  {
+    "speaker": "vasile",
+    "text": "The graveyard is older than the village, you know. Raven Hollow grew around its dead, not the other way round."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Everyone ends up on my hill eventually. The lucky ones arrive slowly."
+  },
+  {
+    "speaker": "vasile",
+    "text": "They toss coins in the fountain and wish to live forever. I collect a different kind of toll."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Go on, enjoy the sun. It's wasted on me."
+  },
+  {
+    "speaker": "default",
+    "text": "Oh! Don't mind me — run clean off my feet. Marta keeps this inn spotless and me exhausted."
+  },
+  {
+    "speaker": "default",
+    "text": "A pedlar swore he saw lights on the old road past midnight. Marsh-fire, probably. Probably."
+  },
+  {
+    "speaker": "default",
+    "text": "Everyone tosses a coin in the fountain before harvest. Mine's for a week of dry weather and a quiet taproom."
+  },
+  {
+    "speaker": "default",
+    "text": "If you stay the night, mind the third stair. It creaks like it's telling secrets."
+  },
+  {
+    "speaker": "petra",
+    "text": "Fine day for walking. My knees disagree, but they've disagreed since the old king."
+  },
+  {
+    "speaker": "petra",
+    "text": "I remember when the fountain was new. The mason swore it would sing under a full moon. It never did. Well — once."
+  },
+  {
+    "speaker": "petra",
+    "text": "The ravens roost above the graveyard come autumn. Village is named for them, you know."
+  },
+  {
+    "speaker": "petra",
+    "text": "Walk with your eyes open, dear. Places like this remember things."
+  },
+  {
+    "speaker": "default",
+    "text": "One day I'm taking the old road as far as it goes. Past the graveyard, past everything."
+  },
+  {
+    "speaker": "default",
+    "text": "Da says the harvest needs me more than the wide world does. The wide world hasn't weighed in yet."
+  },
+  {
+    "speaker": "default",
+    "text": "I flicked a coin in the fountain and wished for an adventure. Then you walked in. Coincidence?"
+  },
+  {
+    "speaker": "default",
+    "text": "You've been past the hills, yes? Is it true the cities have streets of stone all the way down?"
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Gatewarden Iosif. I keep the east gate — and lately I keep it shut more than I keep it open."
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Beyond the arch runs the Emberfall Road. Clear enough by daylight — boars, mud, the wind off the hills. Walk it while the sun's up and you'll likely walk it back."
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "But when the lanterns want lighting, be inside the wall. The wolves come down off the ridges after dark, and they don't hunt like wolves anymore — they spread out even and quiet, like they're pacing off the ground for someone."
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Go if you must. Just be this side of the gate by nightfall. The road keeps what it catches after dark, and it has never once handed anything back."
+  },
+  {
+    "speaker": "mira",
+    "text": "(Mira's eyes are open and fixed on nothing at all. Her head tilts, slow, as if she has caught a sound running just beneath the wind. She does not seem to know you are there.)"
+  },
+  {
+    "speaker": "marta",
+    "text": "Hold a moment, traveler. Before you order anything — taste the water. Go on. Taste it and tell me I'm imagining things."
+  },
+  {
+    "speaker": "marta",
+    "text": "Copper. Like a coin held under the tongue. The barrel's scrubbed, the bucket's new, and it's not only my well — it's every drop drawn in Raven Hollow since Thursday."
+  },
+  {
+    "speaker": "marta",
+    "text": "My grandmother had a saying: when the well goes copper, count your candles. She said a lot of things. She never laughed when she said that one."
+  },
+  {
+    "speaker": "marta",
+    "text": "Go and look at the plaza well for me, would you? I'd go myself, but someone has to stop the stew from... burning. From burning. Go on, and come tell me it's nothing."
+  },
+  {
+    "speaker": "marta",
+    "text": "Still copper. Worse, if anything — the tea's gone the color of old blood, and the bread barely rises anymore. Whatever Vasile tells you to do, do it soon."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Angular runes have been scratched into the wellstone — and someone took a charcoal rubbing of them, then dropped it. You pocket the page without looking at it too long."
+  },
+  {
+    "speaker": "marta",
+    "text": "What's this, then? Paper. Charcoal. And — ah. No. Turn it face-down. NOW."
+  },
+  {
+    "speaker": "marta",
+    "text": "You don't READ what the ground writes. That's how it gets in — through the eyes first, then through the wanting-to-understand. Give it here."
+  },
+  {
+    "speaker": "marta",
+    "text": "There. Ash tells no one anything. ... On the wellstone, you say. Then my yard is next. The old dead grow restless when the ground starts talking underneath them."
+  },
+  {
+    "speaker": "marta",
+    "text": "Come to the cemetery after dark. If nothing walks, I'll apologize for wasting your evening. Mark this: I have never once apologized."
+  },
+  {
+    "speaker": "narrator",
+    "text": "The graveyard has gone quiet — the wrong kind of quiet, like a held breath. Then the first soil moves."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Four of them, up and walking. In MY yard. And they didn't dig out angry, traveler — they dug out LISTENING. Mark the difference. Angry passes."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Take this. Copper — yes, I'm aware of the joke. It was buried with a woman who died old and unafraid, which is the rarest blessing this ground gives. Some of it may rub off."
+  },
+  {
+    "speaker": "vasile",
+    "text": "And whatever the priests told you about the Pause: it's a bookmark, not an ending. Something put its thumb in the page. One day it means to keep reading."
+  },
+  {
+    "speaker": "ansel",
+    "text": "You there — you look like you can swing something heavier than a hoe. My north field's torn to ruin. Third night running, and always worst before dawn."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Snout-work, deep and greedy. Boars, I'd wager — big ones, come down out of the wilderness past the east gate. The ground there's been... generous, lately. Things grow fat on it."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Take the Emberfall Road out the gate and cull three of them, and I'll make it worth your while. And traveler — walk it in daylight if you've any sense left. The woods past the wall aren't the woods they were."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Three boars, out the east gate. The field won't mend itself, and whatever's rooting it up isn't getting politer while we stand here."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Three, you say? Good. Honest work — the field might live to see harvest after all. Here, and the hides are yours too; I want nothing that slept out there."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Only... I walked the fence line this morning, and boar-sign wasn't all I found. Tracks. Dog-shaped, but too big. And too MANY — circling the field, even-spaced, like something was reading the place."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Boots for your trouble. My brother's. He walked out the east gate two winters back and the road never handed him back. They should fit. Wear them somewhere safer than he did."
+  },
+  {
+    "speaker": "goran",
+    "text": "You. Close the door. ...I need a thing carried, and carried by someone who doesn't gossip and doesn't ask the water why it's red."
+  },
+  {
+    "speaker": "goran",
+    "text": "Winter before last, a man ordered a dagger. Paid in full, up front — old coin, cold hands, wouldn't warm them at my forge. Never came back for it. Fine. A smith keeps unclaimed work. That's custom."
+  },
+  {
+    "speaker": "goran",
+    "text": "Except it won't stay CLEAN. I wipe it down at close of day, and by morning there's blood beaded along the edge. Not rust — I know rust like I know my own hands. Blood. And nothing in this shop bleeds. I've made certain."
+  },
+  {
+    "speaker": "goran",
+    "text": "Take it up the hill to Vasile. Wrapped — you keep it wrapped. He deals in things that don't stay where they're put. Whatever he tells you to do with it, do it. Just don't bring it back through my door."
+  },
+  {
+    "speaker": "goran",
+    "text": "Is it done? Then why are you here and it isn't with Vasile? Keep it WRAPPED. And keep walking."
+  },
+  {
+    "speaker": "goran",
+    "text": "Goran sent you? Then it's a debt, or a body, or — ah. Unwrap it. Slowly. On the stone, not in your hand."
+  },
+  {
+    "speaker": "goran",
+    "text": "Yes. I know this order of work. Not Goran's hammer — the ASKING. Someone asked the steel for something, and paid for the asking in the oldest currency there is."
+  },
+  {
+    "speaker": "goran",
+    "text": "Everything that stays sharp is waiting for something. The only question is whether you let it wait in the ground — or on your belt."
+  },
+  {
+    "speaker": "goran",
+    "text": "Bury it in the old yard, under my witness-stone, before it learns the weight of your hand. Or keep it, and be its answer when the waiting ends. I'll dig either grave. One of them is just slower."
+  },
+  {
+    "speaker": "goran",
+    "text": "Still weighing it? The dagger doesn't mind. Waiting is the one thing it does honestly."
+  },
+  {
+    "speaker": "goran",
+    "text": "The witness-stone, then — the hooded one past the third row, the one that faces AWAY from the graves. It faces away for a reason. Things buried under its regard stay modest."
+  },
+  {
+    "speaker": "goran",
+    "text": "Dig shallow, lay it flat, and say nothing over it. Words are how the ground learns names."
+  },
+  {
+    "speaker": "narrator",
+    "text": "The hooded statue faces away from the graves. The soil at its feet is loose, as if it has always expected deliveries."
+  },
+  {
+    "speaker": "goran",
+    "text": "In the ground? Under stone, with the old man watching? ...Ha. HA! You'd not think a man could sleep on news of a burial, but I'll sleep tonight — first honest night in two winters."
+  },
+  {
+    "speaker": "goran",
+    "text": "Take the targe. Same winter, same steel lot — and the only piece from that batch that never once troubled me. Maybe it was the shield the dagger was waiting for. Better it hangs on you than in here, wondering."
+  },
+  {
+    "speaker": "goran",
+    "text": "So. It goes with you. ...Unwrap it, then. No point in modesty between the two of you now."
+  },
+  {
+    "speaker": "goran",
+    "text": "Look — the blood is drying into the steel like it's coming home. It has never once done that on my stone. It likes your hand. I'd tell you what that usually means, but you've chosen not to be told things today."
+  },
+  {
+    "speaker": "goran",
+    "text": "Everything that stays sharp is waiting for something. Try to die before you find out what."
+  },
+  {
+    "speaker": "petra",
+    "text": "Sit a moment, dear. My knees are holding a parliament and your legs look young enough to vote. ...There. Now look east, over the treeline. Tell me what you see."
+  },
+  {
+    "speaker": "petra",
+    "text": "Rooks. Circling since dawn, and NOT LANDING. A rook will land on a gallows, dear. A rook will land on anything. The only thing a rook won't roost over is a thing that watches back."
+  },
+  {
+    "speaker": "petra",
+    "text": "Something is camped on the old road through the east woods, and the birds have been saying so for three days to anyone who'd listen. Nobody listens to birds anymore. Go and be my eyes — from a distance, mind. Come back with the SHAPE of it, not a piece of it."
+  },
+  {
+    "speaker": "petra",
+    "text": "The rooks are still up, dear. Higher today, if anything. Whatever it is, it's grown sure of itself. East woods — the old road. And keep your shadow behind you."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Orcs — the start of a warband. Six at least, banners raised, and a shaman feeding something green into the fire that makes the smoke bend the wrong way."
+  },
+  {
+    "speaker": "petra",
+    "text": "(You check your edge and move toward the firelight. Above the canopy, the rooks go silent all at once — the way a room does when it wants to watch.)"
+  },
+  {
+    "speaker": "petra",
+    "text": "You smell of green smoke and bold decisions, dear. The rooks landed an hour ago — first time in four days. So the loud part of the problem is dead, then."
+  },
+  {
+    "speaker": "petra",
+    "text": "Here. This came from my mother, who swore it fell out of a rook's nest the year the old king died. It sees what they see. I'm too old to want to know, and you are exactly young enough."
+  },
+  {
+    "speaker": "petra",
+    "text": "The camp is still there, mind. Thinner — but there. You've cut the tongue out of the wolf, dear. The wolf is still deciding what that means."
+  },
+  {
+    "speaker": "petra",
+    "text": "(You count the fires twice, mark the banners, and back away the way hunters teach — slow, and without opinions.)"
+  },
+  {
+    "speaker": "petra",
+    "text": "Report it plain, traveler. Numbers, banners, fires — in that order. ...Six or more, banners UP, and a shaman working the flame. On the old road itself."
+  },
+  {
+    "speaker": "petra",
+    "text": "Then it's not raiders passing through. Banners up means an argument someone intends to finish. I'll double the watch tonight and send word up the Vigil roads by first light."
+  },
+  {
+    "speaker": "petra",
+    "text": "You did the sensible thing. Put that on my stone someday, if you like: HE DID THE SENSIBLE THING. Nobody sings about us, but the walls stay standing."
+  },
+  {
+    "speaker": "petra",
+    "text": "Guards doubled on the wall, word gone up the road, and you back with all your fingers. Sensible, dear. Truly. ...The rooks are still circling, mind."
+  },
+  {
+    "speaker": "petra",
+    "text": "Sensible buys time. It has never yet bought quiet. Take this for the walking — and keep an ear on the treeline. The birds do."
+  },
+  {
+    "speaker": "marta",
+    "text": "Traveler — thank the saints, a face with its wits still behind it. It's Mira. The miller's girl. She took the east road at dusk carrying nothing, wearing no cloak, and walking like she'd been CALLED for."
+  },
+  {
+    "speaker": "marta",
+    "text": "Her father's leg is broken and every other soul in this room has suddenly remembered somewhere else to be. First the water goes copper, then the bread stops rising, and now this. My grandmother had a saying for this one too, and I will not repeat it under my own roof."
+  },
+  {
+    "speaker": "marta",
+    "text": "The far treeline, past the old road's end — that's where the miller's boy last saw her. Bring her home. And if she's standing still when you find her... don't shout. You must never startle a person who is listening."
+  },
+  {
+    "speaker": "marta",
+    "text": "She's still out there, and the light's going. Whatever she's hearing, traveler, don't let her finish hearing it. Bring her home."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Mira stands at the treeline, head tilted, eyes open. She is not looking at anything. She is listening."
+  },
+  {
+    "speaker": "default",
+    "text": "(At the gate arch, Mira stops mid-step. Her head tilts the other way — slowly, like a page being turned back.)"
+  },
+  {
+    "speaker": "default",
+    "text": "\"Vhal-oru sedh. Kaam-tem vhal... sub-vatra, numen-ieh.\" One sentence — level, patient, in a voice with far too much room in it. The words arrive through your teeth, not your ears."
+  },
+  {
+    "speaker": "default",
+    "text": "(Every lantern on the wall dims at once, for the length of one held breath.)"
+  },
+  {
+    "speaker": "default",
+    "text": "...oh. The gate? I was — fetching flour, I think. Why is it dark already? Did you walk me home? That was kind of you. It's... it's very kind, how quiet everything is."
+  },
+  {
+    "speaker": "marta",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "marta",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "marta",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "marta",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "marta",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "marta",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "marta",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "marta",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "goran",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "goran",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "goran",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "goran",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "goran",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "goran",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "goran",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "goran",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "vasile",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "vasile",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "vasile",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "vasile",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "vasile",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "vasile",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "ansel",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "ansel",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "ansel",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "ansel",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "ansel",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "ansel",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "petra",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "petra",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "petra",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "petra",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "petra",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "petra",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "petra",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "petra",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "gatewarden",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "mira",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "mira",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "mira",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "mira",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "mira",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "mira",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "mira",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "mira",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "narrator",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "narrator",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "narrator",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "narrator",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "narrator",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "narrator",
+    "text": "Mind the dark."
+  },
+  {
+    "speaker": "default",
+    "text": "Hm?"
+  },
+  {
+    "speaker": "default",
+    "text": "Aye?"
+  },
+  {
+    "speaker": "default",
+    "text": "What is it?"
+  },
+  {
+    "speaker": "default",
+    "text": "Speak, then."
+  },
+  {
+    "speaker": "default",
+    "text": "You need something?"
+  },
+  {
+    "speaker": "default",
+    "text": "Keep your wits about you."
+  },
+  {
+    "speaker": "default",
+    "text": "Cold night coming."
+  },
+  {
+    "speaker": "default",
+    "text": "Mind the dark."
+  }
+]
