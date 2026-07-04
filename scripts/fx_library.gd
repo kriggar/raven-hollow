@@ -79,6 +79,21 @@ const _DEFS: Dictionary = {
 	"summon_circle": {"sheet": _VFX_DIR + "frostwindz_necro/summon_ellipse_128x128.png", "fw": 128, "fh": 128, "from": 0, "to": 8, "fps": 10.0, "loop": true},
 	# -- magic arrows (XYEzawr, re-assembled strip) ------------------------
 	"magic_arrow": {"sheet": _VFX_DIR + "xyezawr_arrows/magic_arrow_blue_59x28.png", "fw": 59, "fh": 28, "from": 0, "to": 14, "fps": 20.0, "loop": true},
+	# -- Phase D spell-kit dedicated sheets (see CREDITS_VFX.txt) -----------
+	# earth quake rock burst (earthshaker + bone_nova, re-tinted) — 6x2 grid
+	"quake_rock": {"sheet": _VFX_DIR + "earth_spell/quake_rock_48x48.png", "fw": 48, "fh": 48, "from": 0, "to": 11, "fps": 16.0, "loop": false},
+	# acid splash burst (venom_cloud) — Hit frames only
+	"acid_hit": {"sheet": _VFX_DIR + "acid_spell/acid_hit_32x32.png", "fw": 32, "fh": 32, "from": 0, "to": 5, "fps": 14.0, "loop": false},
+	# rotating protection ward LOOP (iron_bulwark) — 8x8 grid, 61 live frames
+	"protection_ward": {"sheet": _VFX_DIR + "codemanu/protection_ward_100x100.png", "fw": 100, "fh": 100, "from": 0, "to": 60, "fps": 12.0, "loop": true},
+	# spherical shield bubble LOOP (holy_dome)
+	"ward_bubble": {"sheet": _VFX_DIR + "devwizard/ward_bubble_48x48.png", "fw": 48, "fh": 48, "from": 0, "to": 5, "fps": 10.0, "loop": true},
+	# radiant holy pillar burst (dawnbreak_pillar)
+	"dawnbreak_big": {"sheet": _VFX_DIR + "frostwindz_priest/dawnbreak_pillar_128x128.png", "fw": 128, "fh": 128, "from": 0, "to": 10, "fps": 14.0, "loop": false},
+	# rotating bone/rune shell LOOP (bone_ward)
+	"necro_shell": {"sheet": _VFX_DIR + "frostwindz_necro/necro_shell_128x128.png", "fw": 128, "fh": 128, "from": 0, "to": 8, "fps": 12.0, "loop": true},
+	# soft golden heal bloom (holy_bloom gold + heal_bloom green)
+	"heal_bloom_base": {"sheet": _VFX_DIR + "frostwindz_priest/heal_bloom_128x128.png", "fw": 128, "fh": 128, "from": 0, "to": 7, "fps": 14.0, "loop": false},
 }
 
 ## Ability-id aliases: gameplay code (class_defs params.fx / fx_loop) plays
@@ -116,13 +131,13 @@ const _ALIASES: Dictionary = {
 	# Warrior
 	"shield_charge": {"id": "dust", "opts": {"scale": 0.9, "tint": Color(0.66, 0.58, 0.48)}},
 	"sunder": {"id": "hit_spark", "opts": {"tint": Color(0.92, 0.62, 0.50)}},
-	"iron_bulwark": {"id": "holy_loop", "opts": {"scale": 1.25, "rotation": -PI / 2.0, "tint": Color(0.62, 0.66, 0.70, 0.85)}},  # TODO new art (cold iron ward loop)
-	"earthshaker": {"id": "dust", "opts": {"scale": 2.5, "tint": Color(0.66, 0.50, 0.40)}},  # TODO new art (quake ring + shards)
+	"iron_bulwark": {"id": "protection_ward", "opts": {"scale": 0.85, "z": 1, "tint": Color(0.62, 0.66, 0.70, 0.9)}},  # cold iron rune ward (codemanu protection circle)
+	"earthshaker": {"id": "quake_rock", "opts": {"scale": 1.6, "tint": Color(0.66, 0.50, 0.40)}},  # earth quake rock burst
 	# Rogue
 	"backstab": {"id": "hit_spark", "opts": {"tint": Color(0.72, 0.16, 0.16)}},
 	"shroud": {"id": "smoke_poof", "opts": {"tint": Color(0.20, 0.20, 0.24)}},
 	"death_blossom": {"id": "blade_spin", "opts": {"scale": 1.4, "speed": 1.2, "duration": 0.6, "tint": Color(0.72, 0.34, 0.34)}},
-	"venom_cloud": {"id": "air_burst", "opts": {"scale": 1.4, "tint": Color(0.48, 0.62, 0.32)}},  # TODO new art (acid corrosion burst)
+	"venom_cloud": {"id": "acid_hit", "opts": {"scale": 1.6, "tint": Color(0.48, 0.62, 0.32)}},  # acid splash burst
 	# Mage
 	"ice_lance": {"id": "frost_start", "opts": {"tint": Color(0.55, 0.72, 0.86)}},
 	"flame_strike": {"id": "fire_explosion", "opts": {"tint": Color(0.86, 0.40, 0.20)}},
@@ -131,16 +146,16 @@ const _ALIASES: Dictionary = {
 	"mana_shield": {"id": "frost_start", "opts": {"tint": Color(0.60, 0.55, 0.88)}},
 	# Paladin (heal_bloom_base #4 not yet drawn — holy_bloom is its gold interim)
 	"holy_smite": {"id": "hit_spark", "opts": {"tint": Color(0.92, 0.82, 0.50)}},
-	"holy_bloom": {"id": "holy_pillar", "opts": {"scale": 1.4, "offset": Vector2(0.0, -23.0), "tint": Color(1.0, 0.90, 0.60, 0.9)}},  # TODO new art (heal_bloom_base, gold)
-	"holy_dome": {"id": "holy_loop", "opts": {"scale": 1.6, "rotation": -PI / 2.0, "tint": Color(0.95, 0.80, 0.45, 0.85)}},  # TODO new art (golden dome loop)
-	"dawnbreak_pillar": {"id": "holy_pillar", "opts": {"scale": 2.4, "offset": Vector2(0.0, -23.0), "tint": Color(1.0, 0.94, 0.66)}},  # TODO new art (radiant column + shockwave)
+	"holy_bloom": {"id": "heal_bloom_base", "opts": {"scale": 0.62, "offset": Vector2(0.0, -12.0), "tint": Color(1.0, 0.90, 0.60)}},  # gold heal bloom (priest VFX1)
+	"holy_dome": {"id": "ward_bubble", "opts": {"scale": 1.5, "z": 1, "tint": Color(0.95, 0.80, 0.45, 0.9)}},  # golden dome bubble (devwizard shield)
+	"dawnbreak_pillar": {"id": "dawnbreak_big", "opts": {"scale": 1.15, "offset": Vector2(0.0, -48.0), "tint": Color(1.0, 0.94, 0.66)}},  # radiant holy pillar (priest VFX2)
 	# Necromancer
 	"drain_life": {"id": "soul_hit", "opts": {"tint": Color(0.58, 0.40, 0.66)}},
 	"withering_curse": {"id": "dark_rise", "opts": {"scale": 1.15, "offset": Vector2(0.0, -30.0), "tint": Color(0.52, 0.66, 0.34)}},
 	"bone_armor": {"id": "dark_rise", "opts": {"scale": 1.15, "offset": Vector2(0.0, -30.0), "tint": Color(0.62, 0.70, 0.52)}},
 	"soul_harvest": {"id": "soul_hit", "opts": {"tint": Color(0.48, 0.74, 0.42)}},
-	"bone_nova": {"id": "air_burst", "opts": {"scale": 1.5, "tint": Color(0.82, 0.80, 0.72)}},  # TODO new art (bone-shard burst)
-	"bone_ward": {"id": "summon_circle", "opts": {"scale": 0.5, "tint": Color(0.62, 0.70, 0.52, 0.85)}},  # TODO new art (rib/rune shell loop)
+	"bone_nova": {"id": "quake_rock", "opts": {"scale": 1.4, "tint": Color(0.82, 0.80, 0.72)}},  # bone-shard burst (rock sheet, bone tint)
+	"bone_ward": {"id": "necro_shell", "opts": {"scale": 0.6, "tint": Color(0.62, 0.70, 0.52, 0.9)}},  # rotating bone/rune shell (necro VFX1)
 	# Hunter (rookwarden)
 	"piercing_shot": {"id": "wind_hit", "opts": {"tint": Color(0.72, 0.74, 0.64)}},
 	"snare_trap": {"id": "roots", "opts": {"scale": 2.4, "tint": Color(0.42, 0.56, 0.32)}},
@@ -153,7 +168,7 @@ const _ALIASES: Dictionary = {
 	"gale": {"id": "air_burst", "opts": {"scale": 1.3, "tint": Color(0.62, 0.78, 0.60)}},
 	"thornroot": {"id": "roots", "opts": {"scale": 2.4, "tint": Color(0.42, 0.52, 0.28)}},
 	"stormbolt": {"id": "spark_hit", "opts": {"tint": Color(0.70, 0.80, 0.92)}},
-	"heal_bloom": {"id": "holy_pillar", "opts": {"scale": 1.4, "offset": Vector2(0.0, -23.0), "tint": Color(0.50, 0.80, 0.45, 0.9)}},  # TODO new art (heal_bloom_base, green)
+	"heal_bloom": {"id": "heal_bloom_base", "opts": {"scale": 0.62, "offset": Vector2(0.0, -12.0), "tint": Color(0.50, 0.80, 0.45)}},  # green heal bloom (priest VFX1)
 	"spirit_beast": {"id": "dark_rise", "opts": {"scale": 1.15, "offset": Vector2(0.0, -30.0), "tint": Color(0.55, 0.70, 0.50)}},
 	"spirit_beast_loop": {"id": "summon_circle", "opts": {"scale": 0.55, "tint": Color(0.55, 0.70, 0.50, 0.85)}},
 	"bear_form": {"id": "air_burst", "opts": {"scale": 1.6, "tint": Color(0.55, 0.42, 0.28)}},

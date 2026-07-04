@@ -749,6 +749,7 @@ const _DEFS := {
 					"absorb": 45.0,
 					"damage_mult": 1.15,
 					"fx": "bone_armor",
+					"fx_loop": "bone_ward",
 					"fx_tint": Color(0.62, 0.70, 0.52),
 					"color": Color(0.62, 0.70, 0.52),
 				},

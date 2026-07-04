@@ -47,3 +47,12 @@ inspection, visibly better fits):
     BDragon1727 Free Smoke Fx 2 (the swirl reads much better as a shred).
   - shadowstep / death poofs use Pimen "Smoke Effect 01" (Smoke VFX 1/2)
     instead of Smoke N Dust 01 (not present in the downloads).
+
+Phase D — spell-kit dedicated sheets (all free for commercial use)
+  earth_spell/quake_rock_48x48.png       — "Earth Spell Effect 01" Irregular Rock (earthshaker + bone_nova)
+  acid_spell/acid_hit_32x32.png          — "Acid Spell Effect" Acid VFX 1 Hit (venom_cloud)
+  codemanu/protection_ward_100x100.png   — CodeManu "Pixel Art Effects" 8_protectioncircle (iron_bulwark)
+  devwizard/ward_bubble_48x48.png        — DevWizard "Pixelart Spells" Shield (holy_dome)
+  frostwindz_priest/dawnbreak_pillar_128x128.png — Frostwindz "Priest FREE" VFX 2 (dawnbreak)
+  frostwindz_priest/heal_bloom_128x128.png       — Frostwindz "Priest FREE" VFX 1 (holy_bloom/heal_bloom)
+  frostwindz_necro/necro_shell_128x128.png       — Frostwindz "Necromancer FREE" VFX 1 (bone_ward)
