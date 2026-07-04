@@ -24,3 +24,16 @@
 ## World biome packs (WORLD_PLAN zones)
 - **Dead Swamp Asset Pack** by Sevarihk (https://sevarihk.itch.io/dead-swamp-tileset) — CC-BY 4.0, credit required: Sevarihk. Used: bog mud ground, animated swamp ponds, dead trunks/stumps, stilt-hut kit (assets/art/world/dead_swamp/).
 - **Free Undead Tileset Top-Down** by Free Game Assets / craftpix.net (craftpix free license) — dead trees/logs (assets/art/world/deadforest/).
+
+## Audio — zone themes, ambience beds, weather (WORLD_PLAN zone audio)
+Music: theme_north 'The Dark Amulet' by The Oracle (CC0); theme_border by Tsorthan Grove (CC-BY 4.0);
+theme_east 'Eyes in the Shadows' by Tsorthan Grove (CC-BY 4.0, opengameart.org/content/eyes-in-the-shadows);
+Music by Eric Matyas, www.soundimage.org (theme_west, CC-BY 4.0); theme_south by Patrick Maney (CC-BY 3.0);
+theme_port by muncheybobo (CC-BY 3.0).
+Ambience: swamp by LokiF (CC0); forest by Slobad (CC0); crickets by 2DPIXX (CC0); dungeon bed by JaggedStone (CC0);
+'Scary Ambient Wind' by Alexandr Zhelanov (CC-BY 3.0) + crow by Snabisch (CC0) [amb_dead_wind];
+'Storm Arwen 2022' by Tsorthan Grove (CC-BY 4.0) [amb_wind_howl]; 'Lava Loop' by Lamoot (CC-BY 3.0) [amb_forge_rumble];
+harbor mix: water by RandomMind (CC0) + gulls by Rango Mango (CC0).
+Weather: rain loop by looneybits (CC0); 'Wind Loop' by InspectorJ (Jonathan Shaw, www.jshaw.co.uk), loop edit AntumDeluge (CC-BY 3.0);
+'Thunder, Very Close, Rain, 01' by InspectorJ of freesound.org (CC-BY 3.0).
+All via OpenGameArt.org.
