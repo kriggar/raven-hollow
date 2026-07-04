@@ -978,6 +978,20 @@ func _run_env_hooks() -> void:
 					var git: Dictionary = Items.get_item(g)
 					if not git.is_empty():
 						(ginv as Inventory).add_item(git)
+	# RH_NOHUD: hide all UI + the player + vignette for a clean world capture
+	# (used to bake the minimap map textures).
+	if not OS.get_environment("RH_NOHUD").is_empty():
+		for grp: String in ["hud", "minimap", "bag_ui", "sheet_ui", "crafting_ui", "dialogue_ui", "player"]:
+			for n: Node in get_tree().get_nodes_in_group(grp):
+				if n is CanvasItem:
+					(n as CanvasItem).visible = false
+				elif n is CanvasLayer:
+					(n as CanvasLayer).visible = false
+		var vg: Node = get_node_or_null("Vignette")
+		if vg is CanvasLayer:
+			(vg as CanvasLayer).visible = false
+		if _world_prompt != null:
+			_world_prompt.visible = false
 	# RH_TIME=<hours 0..24>: snap the day/night clock (verify night ambience).
 	var time_env: String = OS.get_environment("RH_TIME")
 	if not time_env.is_empty() and _day_night != null:
