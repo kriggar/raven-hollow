@@ -383,6 +383,16 @@ func _physics_process(delta: float) -> void:
 		_try_cast(1)
 	elif Input.is_action_just_pressed("skill_2"):
 		_try_cast(2)
+	elif Input.is_action_just_pressed("skill_3"):
+		_try_cast(3)
+	elif Input.is_action_just_pressed("skill_4"):
+		_try_cast(4)
+	elif Input.is_action_just_pressed("skill_5"):
+		_try_cast(5)
+	elif Input.is_action_just_pressed("skill_6"):
+		_try_cast(6)
+	elif Input.is_action_just_pressed("skill_7"):
+		_try_cast(7)
 
 	# Z: sheathe/unsheathe the carried weapon (attacks auto-draw; only Z
 	# puts it back on the back).
@@ -543,7 +553,10 @@ func cooldown_frac(i: int) -> float:
 
 func debug_cast(action_name: String, aim_dir: Vector2) -> void:
 	## Force-cast for headless automation: ignores mana and cooldown gates.
-	var idx: int = {"attack": 0, "skill_1": 1, "skill_2": 2}.get(action_name, -1)
+	var idx: int = {
+		"attack": 0, "skill_1": 1, "skill_2": 2, "skill_3": 3,
+		"skill_4": 4, "skill_5": 5, "skill_6": 6, "skill_7": 7,
+	}.get(action_name, -1)
 	if idx < 0 or _dead:
 		return
 	var ability: Dictionary = _ability(idx)
@@ -722,6 +735,14 @@ func _do_projectile(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 		"aoe_radius": float(params.get("aoe_radius", 0.0)),
 	}
 	_arm_ranged(cfg, (float(ability.get("damage", 6.0)) + _stat_damage()) * _damage_mult)
+	# Necromancer Drain Life: heal a fraction of the damage the bolt deals.
+	var lifesteal: float = float(params.get("lifesteal", 0.0))
+	if lifesteal > 0.0:
+		var base_hit: Callable = cfg["on_hit"]
+		cfg["on_hit"] = func(foe: Node2D, amount: float, crit_styled: bool) -> void:
+			base_hit.call(foe, amount, crit_styled)
+			if not _dead:
+				hp = minf(hp + amount * lifesteal, max_hp)
 	Combat.spawn_projectile(world, cfg)
 
 
@@ -835,6 +856,17 @@ func _do_buff(ability: Dictionary, world: Node2D) -> void:
 	_speed_mult = float(params.get("speed_mult", 1.0))
 	_damage_mult = float(params.get("damage_mult", 1.0))
 	_absorb = float(params.get("absorb", 0.0))
+	# Instant + over-time healing (paladin Lay on Hands, druid Rejuvenation).
+	var heal_now: float = float(params.get("heal", 0.0))
+	if heal_now > 0.0:
+		hp = minf(hp + heal_now, max_hp)
+	var heal_ps: float = float(params.get("heal_per_sec", 0.0))
+	if heal_ps > 0.0:
+		var heal_ticks: int = int(floor(_buff_left))
+		for _hk in range(1, heal_ticks + 1):
+			get_tree().create_timer(float(_hk)).timeout.connect(func() -> void:
+				if not _dead:
+					hp = minf(hp + heal_ps, max_hp))
 	var fx_id: String = str(params.get("fx", ""))
 	if not fx_id.is_empty():
 		# War Cry: one-shot radial air burst around the caster (red-gold tint).

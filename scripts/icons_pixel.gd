@@ -40,6 +40,50 @@ const REGISTRY: Dictionary = {
 	"loosed_arrow": Vector2i(3, 6),     # bow & nocked arrow
 	"raven_dash": Vector2i(10, 17),     # feathers
 	"arrow_storm": Vector2i(4, 3),      # raining arrows
+	# --- Spell-kit abilities (Phase D: WoW-style 7-8 ability kits) -------
+	# Warrior (blood-steel)
+	"shield_charge": Vector2i(13, 3),   # boots — rush/charge
+	"sunder": Vector2i(11, 3),          # red spiked impact — armor break
+	"iron_bulwark": Vector2i(1, 11),    # striped ward-shield (not gold)
+	"earthshaker": Vector2i(4, 10),     # heavy maul — ground slam
+	# Rogue (shadow/venom/crimson)
+	"backstab": Vector2i(0, 3),         # bloody dual blades
+	"noxious_vial": Vector2i(6, 19),    # green vial — thrown venom
+	"shroud": Vector2i(2, 0),           # closed eye — vanish
+	"death_blossom": Vector2i(2, 3),    # crossed sword+dagger flurry
+	# Mage (violet-arcane / amber-fire / frost-blue)
+	"ice_lance": Vector2i(13, 12),      # blue ice shards
+	"flame_strike": Vector2i(2, 4),     # flames — fire AoE
+	"arcane_blink": Vector2i(14, 3),    # violet arcane orb (Blink icon)
+	"mana_shield": Vector2i(4, 18),     # purple orb — arcane ward
+	"meteor": Vector2i(10, 3),          # comet — Cinderfall ult
+	# Paladin (gold/white-holy)
+	"holy_smite": Vector2i(8, 0),       # gold bolt — smite
+	"judgment": Vector2i(12, 3),        # gold divine crescents
+	"lay_on_hands": Vector2i(5, 3),     # figure + green cross — heal
+	"sacred_bulwark": Vector2i(7, 21),  # sunrise dome — holy ward
+	"dawnbreak": Vector2i(8, 21),       # radiant sunburst — ult
+	# Necromancer (necrotic-green / grave-purple / bone)
+	"drain_life": Vector2i(0, 1),       # red heart — life drain
+	"withering_curse": Vector2i(1, 0),  # green sickly face — curse
+	"bone_nova": Vector2i(9, 17),       # bone/tusk — shard burst
+	"bone_armor": Vector2i(5, 7),       # scale vest — bone plating
+	"soul_harvest": Vector2i(9, 0),     # flaming skull — souls reaped
+	# Hunter (rookwarden — teal/forest/bone)
+	"piercing_shot": Vector2i(9, 11),   # single dart/arrow
+	"snare_trap": Vector2i(13, 10),     # spiked band — bear trap
+	"hunters_mark": Vector2i(5, 0),     # sparkles — marked target
+	"rook_companion": Vector2i(10, 19), # dark beast head — companion
+	"storm_of_feathers": Vector2i(12, 3),# gold crescents — feather storm
+	# Druid (leaf/moss / bear-brown / storm-blue)
+	"maul": Vector2i(14, 5),            # fist/claw — bear maul
+	"gale": Vector2i(12, 3),            # wind crescents
+	"thornroot": Vector2i(2, 12),       # gnarled roots (shares grave_grasp)
+	"stormbolt": Vector2i(8, 0),        # lightning bolt
+	"rejuvenation": Vector2i(13, 11),   # green herb sprig — nature heal
+	"spirit_beast": Vector2i(10, 19),   # dark beast head — summon
+	"bear_form": Vector2i(4, 1),        # flexed arm — rage/form buff
+	"tempest": Vector2i(10, 0),         # rain drops — storm ult
 	# --- Items (icon_id == item id, art named in items.gd) --------------
 	"emberfall": Vector2i(2, 5),        # enchanted glowing greatsword
 	"rooks_talon": Vector2i(9, 17),     # white monster talon

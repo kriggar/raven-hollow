@@ -60,7 +60,7 @@ const FACE_SIZE: float = 16.0
 
 const SLOT: float = 30.0
 const SLOT_GAP: float = 6.0
-const KEYBINDS: Array[String] = ["LMB", "Q", "R"]
+const KEYBINDS: Array[String] = ["LMB", "Q", "R", "F", "1", "2", "3", "4"]
 const CHAR_DIR := "res://assets/art/characters/"
 const ENEMY_DIR := "res://assets/art/enemies/"
 
@@ -515,7 +515,8 @@ func _ability_tooltip(ability: Dictionary, key: String) -> String:
 
 
 func _build_ability_bar() -> void:
-	var total_w: float = SLOT * 3.0 + SLOT_GAP * 2.0
+	var n_slots: int = KEYBINDS.size()
+	var total_w: float = SLOT * float(n_slots) + SLOT_GAP * float(n_slots - 1)
 	var caption_h: float = 10.0
 	_ability_bar = Control.new()
 	_ability_bar.name = "AbilityBar"
@@ -530,7 +531,7 @@ func _build_ability_bar() -> void:
 	_ability_bar.offset_bottom = -8.0
 	_root.add_child(_ability_bar)
 
-	for i in range(3):
+	for i in range(n_slots):
 		var x: float = float(i) * (SLOT + SLOT_GAP)
 
 		var panel := Panel.new()

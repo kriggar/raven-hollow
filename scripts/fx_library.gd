@@ -112,6 +112,52 @@ const _ALIASES: Dictionary = {
 	# Landing impact = thunder hit per the effect mapping (the magic_arrow
 	# strip is the FLIGHT visual and would lie flat at the hit point).
 	"arrow_storm": {"id": "spark_hit", "opts": {}},
+	# --- Spell-kit aliases (per-ability fx, class-tinted; plan §2b/§2a) -------
+	# Warrior
+	"shield_charge": {"id": "dust", "opts": {"scale": 0.9, "tint": Color(0.66, 0.58, 0.48)}},
+	"sunder": {"id": "hit_spark", "opts": {"tint": Color(0.92, 0.62, 0.50)}},
+	"iron_bulwark": {"id": "holy_loop", "opts": {"scale": 1.25, "rotation": -PI / 2.0, "tint": Color(0.62, 0.66, 0.70, 0.85)}},  # TODO new art (cold iron ward loop)
+	"earthshaker": {"id": "dust", "opts": {"scale": 2.5, "tint": Color(0.66, 0.50, 0.40)}},  # TODO new art (quake ring + shards)
+	# Rogue
+	"backstab": {"id": "hit_spark", "opts": {"tint": Color(0.72, 0.16, 0.16)}},
+	"shroud": {"id": "smoke_poof", "opts": {"tint": Color(0.20, 0.20, 0.24)}},
+	"death_blossom": {"id": "blade_spin", "opts": {"scale": 1.4, "speed": 1.2, "duration": 0.6, "tint": Color(0.72, 0.34, 0.34)}},
+	"venom_cloud": {"id": "air_burst", "opts": {"scale": 1.4, "tint": Color(0.48, 0.62, 0.32)}},  # TODO new art (acid corrosion burst)
+	# Mage
+	"ice_lance": {"id": "frost_start", "opts": {"tint": Color(0.55, 0.72, 0.86)}},
+	"flame_strike": {"id": "fire_explosion", "opts": {"tint": Color(0.86, 0.40, 0.20)}},
+	"cinderfall": {"id": "fire_explosion", "opts": {"tint": Color(0.90, 0.46, 0.20)}},
+	"blink": {"id": "smoke_puff", "opts": {"scale": 1.1, "tint": Color(0.64, 0.42, 0.82)}},
+	"mana_shield": {"id": "frost_start", "opts": {"tint": Color(0.60, 0.55, 0.88)}},
+	# Paladin (heal_bloom_base #4 not yet drawn — holy_bloom is its gold interim)
+	"holy_smite": {"id": "hit_spark", "opts": {"tint": Color(0.92, 0.82, 0.50)}},
+	"holy_bloom": {"id": "holy_pillar", "opts": {"scale": 1.4, "offset": Vector2(0.0, -23.0), "tint": Color(1.0, 0.90, 0.60, 0.9)}},  # TODO new art (heal_bloom_base, gold)
+	"holy_dome": {"id": "holy_loop", "opts": {"scale": 1.6, "rotation": -PI / 2.0, "tint": Color(0.95, 0.80, 0.45, 0.85)}},  # TODO new art (golden dome loop)
+	"dawnbreak_pillar": {"id": "holy_pillar", "opts": {"scale": 2.4, "offset": Vector2(0.0, -23.0), "tint": Color(1.0, 0.94, 0.66)}},  # TODO new art (radiant column + shockwave)
+	# Necromancer
+	"drain_life": {"id": "soul_hit", "opts": {"tint": Color(0.58, 0.40, 0.66)}},
+	"withering_curse": {"id": "dark_rise", "opts": {"scale": 1.15, "offset": Vector2(0.0, -30.0), "tint": Color(0.52, 0.66, 0.34)}},
+	"bone_armor": {"id": "dark_rise", "opts": {"scale": 1.15, "offset": Vector2(0.0, -30.0), "tint": Color(0.62, 0.70, 0.52)}},
+	"soul_harvest": {"id": "soul_hit", "opts": {"tint": Color(0.48, 0.74, 0.42)}},
+	"bone_nova": {"id": "air_burst", "opts": {"scale": 1.5, "tint": Color(0.82, 0.80, 0.72)}},  # TODO new art (bone-shard burst)
+	"bone_ward": {"id": "summon_circle", "opts": {"scale": 0.5, "tint": Color(0.62, 0.70, 0.52, 0.85)}},  # TODO new art (rib/rune shell loop)
+	# Hunter (rookwarden)
+	"piercing_shot": {"id": "wind_hit", "opts": {"tint": Color(0.72, 0.74, 0.64)}},
+	"snare_trap": {"id": "roots", "opts": {"scale": 2.4, "tint": Color(0.42, 0.56, 0.32)}},
+	"hunters_mark": {"id": "air_burst", "opts": {"scale": 1.6, "tint": Color(0.60, 0.68, 0.44)}},
+	"rook_companion": {"id": "smoke_poof", "opts": {"tint": Color(0.20, 0.22, 0.26)}},
+	"rook_companion_loop": {"id": "summon_circle", "opts": {"scale": 0.5, "tint": Color(0.28, 0.44, 0.48, 0.85)}},
+	"storm_of_feathers": {"id": "spark_hit", "opts": {"tint": Color(0.24, 0.34, 0.40)}},
+	# Druid (heal_bloom shares heal_bloom_base #4 — green interim over holy_pillar)
+	"maul": {"id": "smear", "opts": {"tint": Color(0.55, 0.62, 0.40)}},
+	"gale": {"id": "air_burst", "opts": {"scale": 1.3, "tint": Color(0.62, 0.78, 0.60)}},
+	"thornroot": {"id": "roots", "opts": {"scale": 2.4, "tint": Color(0.42, 0.52, 0.28)}},
+	"stormbolt": {"id": "spark_hit", "opts": {"tint": Color(0.70, 0.80, 0.92)}},
+	"heal_bloom": {"id": "holy_pillar", "opts": {"scale": 1.4, "offset": Vector2(0.0, -23.0), "tint": Color(0.50, 0.80, 0.45, 0.9)}},  # TODO new art (heal_bloom_base, green)
+	"spirit_beast": {"id": "dark_rise", "opts": {"scale": 1.15, "offset": Vector2(0.0, -30.0), "tint": Color(0.55, 0.70, 0.50)}},
+	"spirit_beast_loop": {"id": "summon_circle", "opts": {"scale": 0.55, "tint": Color(0.55, 0.70, 0.50, 0.85)}},
+	"bear_form": {"id": "air_burst", "opts": {"scale": 1.6, "tint": Color(0.55, 0.42, 0.28)}},
+	"tempest": {"id": "spark_hit", "opts": {"tint": Color(0.62, 0.72, 0.86)}},
 }
 
 ## Multi-sheet ability composites handled by dedicated helpers in play().
