@@ -29,42 +29,6 @@ static func make_maid_frames() -> SpriteFrames:
 	return sf
 
 
-## LPC 4-directional 64x64 class sheets (assets/art/chars/lpc/<class>/walk.png).
-## Rows: up=0, left=1, down=2, right=3. To match the game's 3-dir + flip_h
-## convention (side faces LEFT), "side" uses the LEFT row and player.gd flips
-## for right. idle_* = walk frame 0 (standing pose). Weapon is baked into the
-## sheet, so no separate weapon overlay for LPC classes.
-const LPC_FRAME := 64
-const LPC_ROW := {"up": 0, "side": 1, "down": 2}
-
-
-static func make_lpc_frames(class_dir: String) -> SpriteFrames:
-	var tex: Texture2D = load(class_dir + "walk.png")
-	var sf := SpriteFrames.new()
-	sf.remove_animation("default")
-	if tex == null:
-		return sf
-	var cols: int = int(tex.get_width() / LPC_FRAME)
-	for dir_name: String in LPC_ROW:
-		var row: int = LPC_ROW[dir_name]
-		_add_lpc_anim(sf, tex, "idle_" + dir_name, row, 0, 1, 4.0)
-		_add_lpc_anim(sf, tex, "walk_" + dir_name, row, 0, cols, 10.0)
-	return sf
-
-
-static func _add_lpc_anim(sf: SpriteFrames, tex: Texture2D, anim: String, row: int, col0: int, count: int, fps: float) -> void:
-	sf.add_animation(anim)
-	sf.set_animation_speed(anim, fps)
-	sf.set_animation_loop(anim, true)
-	for i in range(count):
-		var at := AtlasTexture.new()
-		at.atlas = tex
-		at.region = Rect2(
-			Vector2(float((col0 + i) * LPC_FRAME), float(row * LPC_FRAME)),
-			Vector2(float(LPC_FRAME), float(LPC_FRAME)))
-		sf.add_frame(anim, at)
-
-
 static func _add_atlas_anim(sf: SpriteFrames, tex: Texture2D, anim: String, row: int, col0: int, count: int, fps: float) -> void:
 	sf.add_animation(anim)
 	sf.set_animation_speed(anim, fps)

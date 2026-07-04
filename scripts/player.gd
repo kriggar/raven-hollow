@@ -50,7 +50,6 @@ const INTERACT_RANGE: float = 28.0
 ## inspection: lowest opaque row (shadow bottom) is y=40 in every frame, i.e.
 ## 16 px below center; lift by 15 so the shadow ellipse straddles the node pos.
 const FEET_OFFSET: Vector2 = Vector2(0, -15)
-const LPC_FEET_OFFSET: Vector2 = Vector2(0, -31)  # 64px LPC frames, feet at frame bottom
 const INVULN_TIME: float = 0.5
 const RESPAWN_DELAY: float = 2.5
 const MELEE_CONE_DEG: float = 50.0  # half-angle of the 100-degree swing cone
@@ -182,7 +181,6 @@ var level_damage_bonus: float = 0.0
 var _hp_regen: float = 0.0
 var _mana_regen: float = 0.0
 var _sprite: AnimatedSprite2D
-var _use_lpc: bool = false  # LPC 4-dir class sheet (weapon baked in; no overlay)
 var _facing: String = "down"
 var _facing_vec: Vector2 = Vector2.DOWN
 var _prompt_shown: bool = false
@@ -261,17 +259,9 @@ static func create(spawn: Vector2, class_id: String) -> Player:
 
 	var sprite := AnimatedSprite2D.new()
 	sprite.name = "Sprite"
-	# Prefer the class's LPC 4-dir sheet (weapon baked in); fall back to Szadi.
-	var cid: String = str(def.get("id", ""))
-	var lpc_dir: String = "res://assets/art/chars/lpc/%s/" % ("hunter" if cid == "rookwarden" else cid)
-	if ResourceLoader.exists(lpc_dir + "walk.png"):
-		sprite.sprite_frames = SheetAnim.make_lpc_frames(lpc_dir)
-		sprite.offset = LPC_FEET_OFFSET
-		p._use_lpc = true
-	else:
-		sprite.sprite_frames = SheetAnim.make_szadi_frames(sheet, variant)
-		sprite.offset = FEET_OFFSET
+	sprite.sprite_frames = SheetAnim.make_szadi_frames(sheet, variant)
 	sprite.centered = true
+	sprite.offset = FEET_OFFSET
 	sprite.play("idle_down")
 	p.add_child(sprite)
 	p._sprite = sprite
@@ -1302,9 +1292,6 @@ func _soul_wisp(pos: Vector2) -> void:
 func _refresh_weapon() -> void:
 	if _weapon == null:
 		return
-	if _use_lpc:  # weapon is part of the LPC sheet — no overlay
-		_weapon.visible = false
-		return
 	for child: Node in _weapon.get_children():
 		child.queue_free()  # old drips / glints
 	var item: Variant = inventory.equipped.get("main_hand") if inventory != null else null
@@ -1334,9 +1321,6 @@ func _refresh_shield() -> void:
 	## centered on the off-arm anchor (its own facing/visibility rules live
 	## in _update_shield_pose). Legendary off-hands (Bulwark) get glints.
 	if _shield == null:
-		return
-	if _use_lpc:
-		_shield.visible = false
 		return
 	for child: Node in _shield.get_children():
 		child.queue_free()
