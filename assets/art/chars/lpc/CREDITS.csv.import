@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dolpguyfx4f1u"
+
+[deps]
+
+files=["res://assets/art/chars/lpc/CREDITS.notes.translation", "res://assets/art/chars/lpc/CREDITS.authors.translation", "res://assets/art/chars/lpc/CREDITS.licenses.translation", "res://assets/art/chars/lpc/CREDITS.urls.translation"]
+
+source_file="res://assets/art/chars/lpc/CREDITS.csv"
+dest_files=["res://assets/art/chars/lpc/CREDITS.notes.translation", "res://assets/art/chars/lpc/CREDITS.authors.translation", "res://assets/art/chars/lpc/CREDITS.licenses.translation", "res://assets/art/chars/lpc/CREDITS.urls.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
