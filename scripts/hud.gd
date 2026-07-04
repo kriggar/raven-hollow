@@ -226,6 +226,7 @@ func _update_ability_slots(player: Node, class_def: Dictionary) -> void:
 		var ability_v: Variant = abilities[i]
 		if ability_v is Dictionary:
 			ability = ability_v
+		panel.tooltip_text = _ability_tooltip(ability, KEYBINDS[i] if i < KEYBINDS.size() else "")
 
 		# Cooldown sweep: dark rect rising from the slot bottom.
 		var frac: float = 0.0
@@ -472,6 +473,47 @@ func _build_bar(parent: Control, pos: Vector2, bar_size: Vector2,
 	return [fill, text]
 
 
+## Spell tooltip text (hover). The ability data has no free-text description, so
+## compose one from the ability's kind + combat stats.
+const KIND_DESC := {
+	"melee_arc": "Melee arc — strikes enemies in front of you",
+	"projectile": "Projectile — fired toward the cursor",
+	"aoe_ring": "Area burst — damages around you",
+	"dash": "Dash — a quick burst of movement",
+	"summon": "Summon — raises an ally to fight for you",
+	"buff": "Empowers you for a short time",
+	"volley": "Volley — a spread of shots",
+}
+
+
+func _ability_tooltip(ability: Dictionary, key: String) -> String:
+	if ability.is_empty():
+		return ""
+	var nm: String = str(ability.get("name", "?"))
+	var lines: PackedStringArray = PackedStringArray()
+	lines.append(("[%s]  %s" % [key, nm]) if key != "" else nm)
+	var kd: String = str(KIND_DESC.get(str(ability.get("kind", "")), ""))
+	if not kd.is_empty():
+		lines.append(kd)
+	var stats: PackedStringArray = PackedStringArray()
+	var dmg: float = _as_float(ability.get("damage"))
+	var rng: float = _as_float(ability.get("range"))
+	if dmg > 0.0:
+		stats.append("%d dmg" % int(roundf(dmg)))
+	if rng > 0.0:
+		stats.append("%d range" % int(roundf(rng)))
+	if stats.size() > 0:
+		lines.append("  ".join(stats))
+	var cd: float = _as_float(ability.get("cooldown"))
+	var mana: float = _as_float(ability.get("mana_cost"))
+	var meta: PackedStringArray = PackedStringArray()
+	meta.append(("%.1fs cooldown" % cd) if cd > 0.0 else "No cooldown")
+	if mana > 0.0:
+		meta.append("%d mana" % int(roundf(mana)))
+	lines.append("  ".join(meta))
+	return "\n".join(lines)
+
+
 func _build_ability_bar() -> void:
 	var total_w: float = SLOT * 3.0 + SLOT_GAP * 2.0
 	var caption_h: float = 10.0
@@ -493,7 +535,9 @@ func _build_ability_bar() -> void:
 
 		var panel := Panel.new()
 		panel.name = "Slot%d" % i
-		panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		# PASS (not IGNORE) so hovering shows the spell tooltip, while LMB clicks
+		# still pass through to the game for aiming/attacking.
+		panel.mouse_filter = Control.MOUSE_FILTER_PASS
 		panel.position = Vector2(x, 0.0)
 		panel.size = Vector2(SLOT, SLOT)
 		var sb := StyleBoxFlat.new()

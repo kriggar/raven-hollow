@@ -299,8 +299,10 @@ func _build_prompt() -> void:
 	_prompt_label.anchor_right = 1.0
 	_prompt_label.anchor_top = 1.0
 	_prompt_label.anchor_bottom = 1.0
-	_prompt_label.offset_top = -30.0
-	_prompt_label.offset_bottom = -14.0
+	# Above the bottom-center ability bar (which tops out ~50 px from the bottom)
+	# so the "[E] Talk" prompt never overlaps the spell icons.
+	_prompt_label.offset_top = -74.0
+	_prompt_label.offset_bottom = -56.0
 	_prompt_label.visible = false
 	add_child(_prompt_label)
 

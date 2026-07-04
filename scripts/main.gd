@@ -1014,6 +1014,11 @@ func _run_env_hooks() -> void:
 		var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
 		if cui != null:
 			cui.call("open_station", craft_env)
+	# RH_PROMPT: force the "[E] Talk" interact prompt visible (QA layout check).
+	if not OS.get_environment("RH_PROMPT").is_empty():
+		var du: Node = get_tree().get_first_node_in_group("dialogue_ui")
+		if du != null and du.has_method("set_prompt_visible"):
+			du.call("set_prompt_visible", true)
 	# RH_SAY=<voice_id>|<text>: directly speak a line via the Voice autoload (QA).
 	var say_env: String = OS.get_environment("RH_SAY")
 	if not say_env.is_empty():
