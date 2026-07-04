@@ -24,14 +24,14 @@ Every rule the owner has issued. Nothing ships that violates one. Status: ✅ li
 - 📐 Every mob a real fight that teaches the class (TTK 8-15s normal; COMBAT_PACING)
 - 📐 Character stats: 5 WoW primaries (CHARACTER_STATS)
 - 📐 Buff/debuff system incl. stacking procs (wolf-bite ×3 → Infected) (STATUS_EFFECTS)
-- 🔄 TONS of HIDDEN debuffs — creature-specific, lore-apt, symptom-first surprises
+- 📐 TONS of HIDDEN debuffs (35, 8 signatures, fairness laws — HIDDEN_DEBUFFS) — creature-specific, lore-apt, symptom-first surprises
 - 🔄 Talent trees (3/class, 31-pt classic) + SAME NUMBER OF SPELLS AS WOW (~30/class) via SPELL TRAINERS
 - MANDATE: each class's spells = AAA-studio quality — cohesive class palette, proper animations/VFX, from DOWNLOADED packs
 - 🔄 Legendary weapon questline per class (mighty bosses; feat of strength)
 - NO TRANSMOG — what you wear is what you see; every item looks EXACTLY like its icon (WYSIWYG law)
 - Armor PROFICIENCIES: cloth/leather/mail/plate per class (WoW rules)
 - 📐 Items: WoW progression, rarities common→blue→epic→legendary, loot WINDOW (rarity rolls)
-- 🔄 RUNEWORDS = artifact class above legendary; sockets; runes from biggest bosses at 0.5-2%, raid-rolled need/greed
+- 📐 RUNEWORDS = artifact class (12 Underlanguage runes = the six symptoms; 10 artifacts; pity ramp — RUNEWORDS) above legendary; sockets; runes from biggest bosses at 0.5-2%, raid-rolled need/greed
 
 ## Crafting & Economy
 - 🔄 WoW STRUCTURE, totally DIFFERENT crafts (Draconia professions); classic-ish progression, not a clone; crafting VENDORS
@@ -39,7 +39,7 @@ Every rule the owner has issued. Nothing ships that violates one. Status: ✅ li
 - 📐 Loot tables per family×bracket; zone materials; 16 named rares live-zone set
 
 ## Mounts & Travel
-- 🔄 TONS of mounts — RACE/FACTION-appropriate (kingdom horses, dire-wolves, bone-steeds…)
+- 📐 TONS of mounts — RACE/FACTION-appropriate: 31 designed incl. festival + raid mounts (MOUNTS)
 - Riding skill; GROUND MOUNTS ONLY (classic law)
 - ✅ WoW travel: waystations (discover→fast-travel), Grey Ferry continent link
 
