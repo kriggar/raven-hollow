@@ -31,6 +31,7 @@ var _close_ticks: int = 0
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
 var _pages: Array = []
 var _page_index: int = 0
+var _voice_id: String = ""  # npc id for TTS voice-over of the current dialogue
 var _chars_shown: float = 0.0
 var _typing: bool = false
 var _prompt_wanted: bool = false
@@ -114,9 +115,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		_advance()
 
 
-func show_dialogue(speaker: String, pages: Array) -> void:
+func show_dialogue(speaker: String, pages: Array, voice_id: String = "") -> void:
 	if pages.is_empty():
 		return
+	_voice_id = voice_id
 	_pages = pages.duplicate()
 	_page_index = 0
 	_speaker_label.text = speaker
@@ -200,6 +202,10 @@ func _start_page() -> void:
 	_typing = true
 	_hint_label.visible = false
 	_hint_timer.stop()
+	# Voice-over the page (speak() stops any prior line first).
+	var vo: Node = get_node_or_null("/root/Voice")
+	if vo != null and not _voice_id.is_empty():
+		vo.call("speak", _voice_id, str(_pages[_page_index]))
 
 
 func _finish_typing() -> void:
@@ -213,6 +219,9 @@ func _close() -> void:
 	_typing = false
 	_hint_timer.stop()
 	_box.visible = false
+	var vo: Node = get_node_or_null("/root/Voice")
+	if vo != null:
+		vo.call("stop")
 	# Keep is_open true across the closing press's just-pressed physics window
 	# so the player's polled interact cannot instantly re-open the dialogue.
 	_close_ticks = CLOSE_GUARD_TICKS

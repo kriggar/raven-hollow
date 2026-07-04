@@ -1014,6 +1014,14 @@ func _run_env_hooks() -> void:
 		var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
 		if cui != null:
 			cui.call("open_station", craft_env)
+	# RH_SAY=<voice_id>|<text>: directly speak a line via the Voice autoload (QA).
+	var say_env: String = OS.get_environment("RH_SAY")
+	if not say_env.is_empty():
+		var vo: Node = get_node_or_null("/root/Voice")
+		if vo != null:
+			var sp: PackedStringArray = say_env.split("|", true)
+			vo.call("speak", sp[0] if sp.size() > 0 else "marta",
+				sp[1] if sp.size() > 1 else "Testing the voice of Raven Hollow.")
 	# RH_WEATHER=<type[,intensity]>: force weather (clear/rain/storm/snow/fog) for QA.
 	var wx_env: String = OS.get_environment("RH_WEATHER")
 	if not wx_env.is_empty() and _weather != null:

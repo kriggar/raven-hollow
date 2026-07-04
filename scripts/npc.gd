@@ -480,7 +480,7 @@ func interact(by: Node2D) -> void:
 	if dialogue.is_empty():
 		_on_dialogue_finished()
 		return
-	ui.show_dialogue(display_name, dialogue)
+	ui.show_dialogue(display_name, dialogue, _id)
 	if not ui.is_connected("dialogue_finished", _on_dialogue_finished):
 		ui.connect("dialogue_finished", _on_dialogue_finished, CONNECT_ONE_SHOT)
 
@@ -505,7 +505,7 @@ func _begin_quest_dialogue(ui: Node, q: Node, r: Dictionary) -> void:
 		# the resolution so the villager never freezes mid-"conversation".
 		_finish_quest_dialogue(q, r)
 		return
-	ui.call("show_dialogue", display_name, pages)
+	ui.call("show_dialogue", display_name, pages, _id)
 	ui.connect("dialogue_finished", func() -> void: _finish_quest_dialogue(q, r), CONNECT_ONE_SHOT)
 
 
@@ -532,7 +532,7 @@ func _on_quest_choice(q: Node, r: Dictionary, opt: String) -> void:
 	_refresh_marker()
 	var ui := get_tree().get_first_node_in_group("dialogue_ui")
 	if not follow.is_empty() and ui != null:
-		ui.call("show_dialogue", display_name, follow)
+		ui.call("show_dialogue", display_name, follow, _id)
 		ui.connect("dialogue_finished", _on_dialogue_finished, CONNECT_ONE_SHOT)
 	else:
 		_on_dialogue_finished()

@@ -16,6 +16,11 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+VoiceRegistry="*res://scripts/voice_registry.gd"
+Voice="*res://scripts/voice_client.gd"
+
 [debug]
 
 gdscript/warnings/treat_warnings_as_errors=false

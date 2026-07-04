@@ -1,0 +1,11 @@
+{
+  "default":   {"exaggeration": 0.5,  "cfg_weight": 0.5},
+  "marta":     {"seed": 3120, "exaggeration": 0.5,  "cfg_weight": 0.5},
+  "goran":     {"seed": 7011, "exaggeration": 0.65, "cfg_weight": 0.4},
+  "vasile":    {"seed": 9044, "exaggeration": 0.35, "cfg_weight": 0.3},
+  "ansel":     {"seed": 2255, "exaggeration": 0.55, "cfg_weight": 0.5},
+  "petra":     {"seed": 6180, "exaggeration": 0.45, "cfg_weight": 0.5},
+  "gatewarden":{"seed": 4400, "exaggeration": 0.6,  "cfg_weight": 0.45},
+  "mira":      {"seed": 8321, "exaggeration": 0.3,  "cfg_weight": 0.35},
+  "narrator":  {"seed": 1001, "exaggeration": 0.4,  "cfg_weight": 0.4}
+}
