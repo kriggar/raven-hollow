@@ -124,6 +124,14 @@ Riverfork ⇢ (voyage, era-crossing) ⇢ The Grey Piers → Greyhollow hub ring 
 - **World map UI**: M opens a two-continent parchment map; zones fill in as discovered; waystation nodes shown lit/unlit; click a lit node to travel (if connected). Minimap already exists per-zone.
 - Engine: `TravelSystem` autoload — node registry {id, zone, pos, links[], cost}; discovered set persisted in SaveSystem; MapRegistry travel_points remain the walk-across-border seams between adjacent zones.
 
+## Animation mandate (cross-cutting)
+Everything that can move, moves: swaying trees (GPU vertex sway, one shared shader), animated water/ponds/bubbles, torch & lantern flames, weather particles, creature idles, banner/drape flutter, chimney smoke, inscription-stone pulse. Every new pack integration wires its animation sheets (Dead Swamp shroomies/bubbles, craftpix swaying dead trees, Port Town water).
+
+## Dungeons & Raids (lore-grounded; canon dungeon principles from bible Part XI)
+**Dungeons** (5-man feel, scaling): The Chamber Depths (starter — comprehension kills), the Riddler's Quarter (Blestem — the level IS the antagonist: reordering corridors), the Debt Pit (Sangeroasa — molten labor descent), Lichenreach Deep (bat/biolume caverns), the Transcub Crypts, Gravemark Barrows (thread-touched mass graves), Coldharbor Deep (drowned under-docks), the Archive Stacks (Collector-era filing-catacombs), the Lead Vault Break-in (heist-style, GoT intrigue), the Orange Fog Depths.
+**Raids** (endgame, multi-boss): 1) **The Killing Floors** (Sangeroasa raid — pit-boss gauntlet → Valrom the Forged King, whose dialogue drifts mid-fight into the stone's flat cadence). 2) **The Black Spire** (Blestem raid — ascend the windowless tower → Cazimir in the walls). 3) **The Grave & the Bloodstone Pit** (THE final raid — descend under Black Night through Thread-lit dark, Council of Six encounters, Lilith confrontation/alliance turn, finale at the Thirsty Stone: transmit-vs-receive as the raid-ending mechanic).
+**Adventurers & social simulation** (DEFERRED — dedicated design session with owner later): the full WoW-classic social layer, simulated — smart AI adventurers with classes/roles/gear/chat who fill 5-man dungeon groups up to 40-man raids EXACTLY like a classic raid (assignments, wipes, loot rolls), plus **duels**, **open PvP**, **battlegrounds** (lore-adapted: e.g. a Bloodroad supply war between kingdom militias), and **guilds** (charters, ranks, guild chat, a guild hall). One pillar: the Adventurer Sim — bots are full "players" (leveling, gearing, questing in the world) so every social system falls out of the same foundation. Placeholder hooks only until that session.
+
 ## Build order (batches)
 A. Engine + Border ring (zones 2,3,4,6 + Raven Hollow integration) — hub playable.
 B. West arm + Angel Wings capital.  C. North arm + Black Night.  D. East arm + Blestem.

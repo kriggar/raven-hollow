@@ -256,6 +256,7 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 			spr.texture = load(str(tree_set[rng.randi_range(0, tree_set.size() - 1)]))
 		else:
 			spr.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(0, 2))
+		spr.material = _tree_sway_material()
 		spr.position = pos
 		spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
 		spr.modulate = tree_tint
@@ -329,6 +330,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					_atlas(parent, R_BONE_A, pos + Vector2(rng.randf_range(-40, 40), rng.randf_range(-30, 30)), Color(0.95, 0.95, 0.9))
 			"pond":
 				_pond(parent, pos, rng)
+				_bubbles(parent, pos + Vector2(rng.randf_range(-30, 30), rng.randf_range(-20, 20)), rng)
 			"stump":
 				_swamp_atlas(parent, Rect2(0, 256, 128, 128), pos, true)
 			"trunk_hollow":
@@ -467,6 +469,7 @@ static func _build_border_wall(parent: Node2D, rng: RandomNumberGenerator, w: in
 			spr.position = pos
 			spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
 			spr.modulate = (pal["tree_tint"] as Color).darkened(0.12)
+			spr.material = _tree_sway_material()
 			spr.y_sort_enabled = true
 			parent.add_child(spr)
 			var col := StaticBody2D.new()
@@ -642,4 +645,52 @@ static func _pond(parent: Node2D, pos: Vector2, rng: RandomNumberGenerator) -> v
 	spr.z_index = -7
 	spr.play("murk")
 	spr.frame = rng.randi_range(0, 2)
+	parent.add_child(spr)
+
+
+# --- animation mandate: everything that can move, moves ---------------------
+
+static var _sway_mat: ShaderMaterial = null
+
+
+## One shared canvas_item shader sways every tree canopy on the GPU: phase is
+## de-synced per tree by its world position, roots stay planted (sway scales
+## with height above the pivot). Zero CPU cost, one material for the world.
+static func _tree_sway_material() -> ShaderMaterial:
+	if _sway_mat != null:
+		return _sway_mat
+	var sh := Shader.new()
+	sh.code = """
+shader_type canvas_item;
+uniform float strength = 1.6;
+uniform float speed = 0.9;
+void vertex() {
+	float phase = (MODEL_MATRIX[3].x + MODEL_MATRIX[3].y) * 0.013;
+	float h = max(0.0, -VERTEX.y);
+	VERTEX.x += sin(TIME * speed + phase) * strength * (h / 96.0);
+}
+"""
+	_sway_mat = ShaderMaterial.new()
+	_sway_mat.shader = sh
+	return _sway_mat
+
+
+## 12-frame swamp bubble ripple (Dead Swamp pack) — ambient pond life.
+static func _bubbles(parent: Node2D, pos: Vector2, rng: RandomNumberGenerator) -> void:
+	var sf := SpriteFrames.new()
+	sf.remove_animation("default")
+	sf.add_animation("blub")
+	sf.set_animation_speed("blub", 6.0)
+	sf.set_animation_loop("blub", true)
+	for i in range(12):
+		var at := AtlasTexture.new()
+		at.atlas = load("res://assets/art/world/dead_swamp/bubbles_128x128.png")
+		at.region = Rect2(float(i % 4) * 32.0, float(int(float(i) / 4.0)) * 32.0, 32.0, 32.0)
+		sf.add_frame("blub", at)
+	var spr := AnimatedSprite2D.new()
+	spr.sprite_frames = sf
+	spr.position = pos
+	spr.z_index = -6
+	spr.play("blub")
+	spr.frame = rng.randi_range(0, 11)
 	parent.add_child(spr)
