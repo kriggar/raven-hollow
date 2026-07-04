@@ -32,6 +32,18 @@ extends CharacterBody2D
 ## Projectiles pass their flight-visual id through cfg "kind"/"fx" so
 ## Combat.Projectile -> VFX.projectile_visual builds FXLib flight frames.
 ## Procedural VFX stay only as garnish (feathers, rings, damage numbers).
+##
+## Phase B.2.1 (organic weapon carry): the weapon is no longer pinned to one
+## point — ANCHORS stores PIL-measured per-frame hand + shoulder pixel offsets
+## for every szadi frame (idle 0-3 / walk 4-7, all three facings), so the
+## weapon bobs and steps with the body. Two carry states: SHEATHED (default,
+## slung diagonally on the back at the shoulder anchor: fully visible when
+## facing up = back view, hilt/limb peeking from behind the silhouette when
+## facing down/side) and DRAWN (in the per-frame hand anchor, angled per
+## facing). Z ("sheathe") toggles with a 0.12 s tween + a subtle smear
+## flourish; any attack/cast auto-draws. An equipped off_hand renders a small
+## shield on the off-arm anchor (front when facing down, tucked behind the
+## body when sideways, hidden facing up — the arm itself is occluded).
 
 const INTERACT_RANGE: float = 28.0
 ## 32x48 frame, centered=true puts frame center (y=24) at node pos. Pixel
@@ -47,13 +59,92 @@ const WEAPON_SHEET: String = "res://assets/art/weapons/pc_wood.png"
 ## wooden sword blade-up at (3,6 10x41), dagger (35,17 10x28), shepherd-crook
 ## staff (99,21 11x40), strung bow (52,48 10x32). "grip" = px above the crop
 ## bottom where the hand holds it — the sprite origin, so rotation pivots at
-## the hand. "scale" shrinks the crop to read right against the ~30 px body.
+## the hand. "scale" shrinks the crop proportional to the ~30 px body
+## (sword ~13 px, dagger ~8, staff ~16, bow ~12 — scale-sanity pass B.2.1).
+## "sheath_shift" pushes mid-grip weapons (staff/bow) tip-ward along the
+## blade when slung so the upper limb sits at the shoulder, not over the head.
 const WEAPON_SHAPES: Dictionary = {
-	"sword": {"region": Rect2(3.0, 6.0, 10.0, 41.0), "scale": 0.5, "grip": 5.0},
-	"dagger": {"region": Rect2(35.0, 17.0, 10.0, 28.0), "scale": 0.55, "grip": 4.0},
-	"staff": {"region": Rect2(99.0, 21.0, 11.0, 40.0), "scale": 0.62, "grip": 16.0},
-	"bow": {"region": Rect2(52.0, 48.0, 10.0, 32.0), "scale": 0.6, "grip": 16.0},
+	"sword": {"region": Rect2(3.0, 6.0, 10.0, 41.0), "scale": 0.32, "grip": 5.0, "sheath_shift": 0.0},
+	"dagger": {"region": Rect2(35.0, 17.0, 10.0, 28.0), "scale": 0.3, "grip": 4.0, "sheath_shift": 0.0},
+	"staff": {"region": Rect2(99.0, 21.0, 11.0, 40.0), "scale": 0.4, "grip": 16.0, "sheath_shift": 4.0},
+	"bow": {"region": Rect2(52.0, 48.0, 10.0, 32.0), "scale": 0.38, "grip": 16.0, "sheath_shift": 3.0},
 }
+## Small heater shield cropped from the same sheet (pixel-verified at
+## (145,0 14x16)); ~7x8 px at 0.5 against the 30 px body.
+const SHIELD_SHAPE: Dictionary = {"region": Rect2(145.0, 0.0, 14.0, 16.0), "scale": 0.5}
+
+## Per-frame body anchors, PIL-measured on npc_male1 (variant 0) and
+## spot-checked against npc_female1 — the szadi skeleton is shared, hand
+## clusters land within 1 px across sheets. Coordinates are _sprite-local:
+## frame pixel (px,py) -> (px-16, py-24) + FEET_OFFSET = (px-16, py-39).
+## Index 0-3 = idle frames, 4-7 = walk frames (walk anim frame + 4).
+## "hand" = weapon-hand skin cluster centroid; "shoulder" = slung-weapon
+## anchor at the shoulder line (frame-top bob of +-1 px baked in);
+## "off" = off-hand arm cluster (shield). Side frames face LEFT.
+const ANCHORS: Dictionary = {
+	"down": {
+		"hand": [
+			Vector2(6.0, -11.0), Vector2(6.0, -11.0), Vector2(6.0, -10.0), Vector2(6.0, -11.0),
+			Vector2(4.0, -9.0), Vector2(6.0, -11.0), Vector2(5.0, -11.0), Vector2(6.0, -11.0),
+		],
+		"shoulder": [
+			Vector2(4.0, -19.0), Vector2(4.0, -19.0), Vector2(4.0, -19.0), Vector2(4.0, -19.0),
+			Vector2(4.0, -18.0), Vector2(4.0, -19.0), Vector2(4.0, -18.0), Vector2(4.0, -19.0),
+		],
+		"off": [
+			Vector2(-8.0, -11.0), Vector2(-8.0, -11.0), Vector2(-8.0, -10.0), Vector2(-8.0, -11.0),
+			Vector2(-7.0, -11.0), Vector2(-8.0, -11.0), Vector2(-6.0, -9.0), Vector2(-8.0, -11.0),
+		],
+	},
+	"side": {
+		"hand": [
+			Vector2(2.0, -11.0), Vector2(2.0, -11.0), Vector2(2.0, -10.0), Vector2(2.0, -10.0),
+			Vector2(0.0, -11.0), Vector2(1.0, -11.0), Vector2(3.0, -11.0), Vector2(1.0, -11.0),
+		],
+		"shoulder": [
+			Vector2(5.0, -19.0), Vector2(5.0, -19.0), Vector2(5.0, -19.0), Vector2(5.0, -19.0),
+			Vector2(5.0, -18.0), Vector2(5.0, -19.0), Vector2(5.0, -18.0), Vector2(5.0, -19.0),
+		],
+		"off": [
+			Vector2(-5.0, -11.0), Vector2(-5.0, -11.0), Vector2(-5.0, -10.0), Vector2(-5.0, -10.0),
+			Vector2(-5.0, -11.0), Vector2(-5.0, -11.0), Vector2(-5.0, -10.0), Vector2(-5.0, -11.0),
+		],
+	},
+	"up": {
+		"hand": [
+			Vector2(5.0, -9.0), Vector2(5.0, -9.0), Vector2(5.0, -8.0), Vector2(5.0, -8.0),
+			Vector2(4.0, -12.0), Vector2(5.0, -9.0), Vector2(6.0, -10.0), Vector2(5.0, -9.0),
+		],
+		"shoulder": [
+			Vector2(4.0, -18.0), Vector2(4.0, -18.0), Vector2(4.0, -18.0), Vector2(4.0, -18.0),
+			Vector2(4.0, -19.0), Vector2(4.0, -18.0), Vector2(4.0, -19.0), Vector2(4.0, -18.0),
+		],
+		"off": [
+			Vector2(-5.0, -9.0), Vector2(-5.0, -9.0), Vector2(-5.0, -8.0), Vector2(-5.0, -8.0),
+			Vector2(-4.0, -12.0), Vector2(-5.0, -9.0), Vector2(-6.0, -10.0), Vector2(-5.0, -9.0),
+		],
+	},
+}
+
+## Carry-pose rotations (canonical facings: side = LEFT, mirrored when
+## flipped). Drawn: side blade tips forward (-0.35), down = relaxed
+## low-diagonal, up = raised behind the body. Sheathed: blade-up sprite
+## rotated past PI/2 so the blade points down across the back — down
+## (front view) -2.24 tips it down-left behind the body, up (back view)
+## -2.5 lays the visible diagonal hilt-over-right-shoulder, side 2.6 lets
+## the tip peek out past the back edge at hip height.
+const DRAWN_ROT: Dictionary = {"down": 2.35, "side": -0.35, "up": -0.3}
+const SHEATHED_ROT: Dictionary = {"down": -2.24, "side": 2.9, "up": -2.5}
+## Screenshot-tuned nudge off the measured shoulder anchor when slung:
+## down shifts the grip into the free gap beside the head so the hilt peeks
+## over the right shoulder; side tucks the blade INTO the back silhouette
+## (only a rim + tip peek out past the back edge).
+const SHEATH_OFFSET: Dictionary = {
+	"down": Vector2(3.0, -2.0),
+	"side": Vector2(-2.0, 0.0),
+	"up": Vector2.ZERO,
+}
+const SHEATHE_TIME: float = 0.12
 const TARGET_ACQUIRE_RADIUS: float = 26.0  # attack press: enemy within this of the mouse
 const TARGET_BREAK_DIST: float = 400.0     # target auto-clears past this distance
 const SPRINT_SPEED_MULT: float = 1.55
@@ -76,6 +167,16 @@ var speed: float = 90.0
 ## nameplates poll this. Set by an "attack" press near an alive enemy; cleared
 ## by Esc (no UI open), the target dying, or exceeding TARGET_BREAK_DIST.
 var target: Node2D = null
+
+## Phase C progression (XPSystem contract §6). xp is progress INTO the current
+## level (NOT a lifetime total); level is 1..XPSystem.MAX_LEVEL; gold is the
+## coin purse; level_damage_bonus adds +1 flat damage per level (folded into
+## _stat_damage). Grown by apply_level_passives / on_level_up and serialized by
+## SaveSystem (read/written via get()/set()).
+var xp: int = 0
+var level: int = 1
+var gold: int = 0
+var level_damage_bonus: float = 0.0
 
 var _hp_regen: float = 0.0
 var _mana_regen: float = 0.0
@@ -108,11 +209,18 @@ var _base_max_mana: float = 20.0
 var _base_speed: float = 90.0
 var _base_mana_regen: float = 0.0
 var _weapon: Sprite2D                 # child of _sprite: rides the cast lunge + red flash + death fade
+var _shield: Sprite2D                 # off-hand shield, same anchor system (null texture = none)
 var _chest_fx: CPUParticles2D         # legendary-chest gold glints (null when none)
 var _weapon_tween: Tween
+var _sheathe_tween: Tween             # 0.12 s draw/sheathe transition (owns pos+rot while _transition_left > 0)
 var _sway_t: float = 0.0
 var _brandish_left: float = 0.0       # while > 0, the brandish tween owns weapon rotation
+var _transition_left: float = 0.0     # while > 0, the sheathe tween owns weapon pos+rot
+var _sheathed: bool = true            # carry state: slung on the back until Z / an attack draws it
 var _bulwark_cd: float = 0.0
+## Throttle accumulator for the Quests position ping (contract §5): every
+## ~0.25 s _physics_process calls quests.report_position(current_map_id, pos).
+var _quest_pos_t: float = 0.0
 
 static var _pixel_tex: Texture2D = null
 
@@ -167,6 +275,33 @@ static func create(spawn: Vector2, class_id: String) -> Player:
 	sprite.add_child(weapon)
 	p._weapon = weapon
 
+	# Off-hand shield (only textured while an off_hand item is equipped).
+	var shield := Sprite2D.new()
+	shield.name = "Shield"
+	shield.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	shield.visible = false
+	sprite.add_child(shield)
+	p._shield = shield
+
+	# Per-frame anchor sync: reposition the weapon/shield the moment the
+	# animation frame flips so they bob and step WITH the body (the physics
+	# tick also re-applies the pose, this closes the same-frame gap).
+	sprite.frame_changed.connect(p._on_sprite_frame_changed)
+	sprite.animation_changed.connect(p._on_sprite_frame_changed)
+
+	# RH_FACE: headless-QA facing override ("down"/"up"/"side"/"side_r") so
+	# screenshots can verify the carry poses in every facing without input.
+	var face_env: String = OS.get_environment("RH_FACE")
+	if not face_env.is_empty():
+		p._facing = "side" if face_env.begins_with("side") else face_env
+		if p._facing in ["side", "down", "up"]:
+			sprite.play("idle_" + p._facing)
+			sprite.flip_h = face_env == "side_r"
+			p._facing_vec = {"down": Vector2.DOWN, "up": Vector2.UP}.get(
+					p._facing, Vector2.RIGHT if face_env == "side_r" else Vector2.LEFT)
+		else:
+			p._facing = "down"
+
 	var col := CollisionShape2D.new()
 	col.name = "Feet"
 	var circle := CircleShape2D.new()
@@ -192,6 +327,10 @@ func _physics_process(delta: float) -> void:
 	# Esc without marking it handled, so "is a panel open?" polled at event
 	# time is ambiguous — gate the target-clear on the pre-event state.
 	_ui_open_snapshot = _ui_panel_open()
+
+	# Feed the quest system the player's position (throttled) so "reach"
+	# objectives resolve — runs every tick, independent of dead/dialogue state.
+	_report_quest_position(delta)
 
 	if _dead:
 		velocity = Vector2.ZERO
@@ -238,11 +377,74 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_just_pressed("skill_2"):
 		_try_cast(2)
 
+	# Z: sheathe/unsheathe the carried weapon (attacks auto-draw; only Z
+	# puts it back on the back).
+	if Input.is_action_just_pressed("sheathe"):
+		_toggle_sheathe()
+
 	var npc: Node2D = _nearest_npc()
 	_set_prompt(ui, npc != null)
-	if npc != null and Input.is_action_just_pressed("interact"):
-		_set_prompt(ui, false)
-		npc.call("interact", self)
+	if Input.is_action_just_pressed("interact"):
+		if npc != null:
+			_set_prompt(ui, false)
+			npc.call("interact", self)
+		elif not _ui_panel_open():
+			# No NPC owns this E press and no panel is open — try a crafting
+			# station under the player (forge/hearth). See _try_open_station.
+			_try_open_station()
+
+
+func _report_quest_position(delta: float) -> void:
+	## Throttled (~0.25 s) position ping so Quests can resolve "reach"
+	## objectives (contract §5). current_map_id is read duck-typed off the Main
+	## scene root, exactly as SaveSystem reads it (contract §4); defaults to
+	## "town" when unavailable so the ping is always well-formed.
+	_quest_pos_t += delta
+	if _quest_pos_t < 0.25:
+		return
+	_quest_pos_t = 0.0
+	var q: Node = get_tree().get_first_node_in_group("quests")
+	if q == null:
+		return
+	var mid: String = "town"
+	var root: Node = get_tree().current_scene
+	if root != null:
+		var v: Variant = root.get("current_map_id")
+		if v is String and v != "":
+			mid = v
+	q.call("report_position", mid, global_position)
+
+
+func _try_open_station() -> bool:
+	## Crafting-station E-interaction (contract §7 / CraftingUI docstring §3):
+	## when the player stands within a forge/hearth station's radius and this E
+	## press is not owned by a nearby NPC, open the CraftingUI for that station.
+	## Station configs are captured per-map on Main (built["stations"]); we read
+	## them duck-typed off the Main scene root, exactly as the quest ping reads
+	## current_map_id (contract §4). main.gd owns the on-screen station PROMPT
+	## label (its _world_prompt, §3.5); this performs only the OPEN. open_station
+	## no-ops while the panel is already open (CraftingUI.is_open close-guard), so
+	## this can never double-open against main.gd's own station loop.
+	var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
+	if cui == null or cui.get("is_open") == true:
+		return false
+	var root: Node = get_tree().current_scene
+	if root == null:
+		return false
+	var stations_v: Variant = root.get("stations")
+	if not (stations_v is Array):
+		return false
+	for st_v: Variant in stations_v:
+		if not (st_v is Dictionary):
+			continue
+		var st: Dictionary = st_v
+		var pos_v: Variant = st.get("pos")
+		if not (pos_v is Vector2):
+			continue
+		if global_position.distance_to(pos_v) <= float(st.get("radius", 30.0)):
+			cui.call("open_station", str(st.get("id", "")))
+			return true
+	return false
 
 
 func _tick_timers(delta: float) -> void:
@@ -268,6 +470,8 @@ func _tick_timers(delta: float) -> void:
 		_bulwark_cd = maxf(0.0, _bulwark_cd - delta)
 	if _brandish_left > 0.0:
 		_brandish_left = maxf(0.0, _brandish_left - delta)
+	if _transition_left > 0.0:
+		_transition_left = maxf(0.0, _transition_left - delta)
 	if _cast_anim_left > 0.0:
 		_cast_anim_left = maxf(0.0, _cast_anim_left - delta)
 	if not _dead:
@@ -377,6 +581,10 @@ func _execute(ability: Dictionary, aim: Vector2) -> void:
 	_update_facing(aim)
 	_facing_vec = aim
 	_cast_anim_left = CAST_LOCK_TIME  # sprint pauses during the cast lunge
+	# Any attack/cast auto-draws a sheathed weapon (it stays drawn; only Z
+	# slings it back).
+	if _sheathed:
+		_set_sheathed(false, true)
 	var world: Node2D = get_parent() as Node2D
 	if world == null:
 		world = self
@@ -412,9 +620,18 @@ func _cast_feedback(sprite_nudge: Vector2) -> void:
 
 func _brandish_weapon() -> void:
 	## Quick over-the-shoulder swing on the cast lunge; while _brandish_left
-	## runs, _update_weapon_pose leaves rotation to this tween.
+	## runs, _update_weapon_pose leaves rotation to this tween. Position is
+	## NOT touched — the swing pivots FROM the per-frame hand anchor. A
+	## still-running draw transition yields immediately (combat needs the
+	## weapon in hand now), so the swing never fights the sheathe tween.
 	if _weapon == null or not _weapon.visible:
 		return
+	if _sheathe_tween != null and _sheathe_tween.is_valid():
+		_sheathe_tween.kill()
+	_transition_left = 0.0
+	var pose: Dictionary = _weapon_pose()
+	_weapon.position = pose.pos
+	_apply_pose_flags(pose)
 	_brandish_left = 0.2
 	if _weapon_tween != null and _weapon_tween.is_valid():
 		_weapon_tween.kill()
@@ -423,7 +640,8 @@ func _brandish_weapon() -> void:
 	_weapon_tween = create_tween()
 	_weapon_tween.tween_property(_weapon, "rotation", rot_sign * 1.5, 0.08) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_weapon_tween.tween_property(_weapon, "rotation", rot_sign * 0.42, 0.1)
+	# Settle back into the current carry pose, not a hard-coded angle.
+	_weapon_tween.tween_property(_weapon, "rotation", float(pose.rot), 0.1)
 
 
 func _class_color() -> Color:
@@ -912,11 +1130,39 @@ func _apply_equipment() -> void:
 	speed = _base_speed * (1.0 + float(_totals.get("speed_pct", 0.0)) / 100.0)
 	_mana_regen = _base_mana_regen + float(_totals.get("mana_regen", 0.0))
 	_refresh_weapon()
+	_refresh_shield()
 	_refresh_chest_tint()
 
 
 func _stat_damage() -> float:
-	return float(_totals.get("damage", 0.0))
+	## Equipped flat damage PLUS the per-level flat damage bonus (contract §6).
+	return float(_totals.get("damage", 0.0)) + level_damage_bonus
+
+
+func apply_level_passives() -> void:
+	## One level's worth of passive growth for the XPSystem level-up path
+	## (contract §6): +6% base max hp/mana (compounding) and +1 flat damage.
+	## Side-effect free by contract — no heal, no VFX. XPSystem full-heals and
+	## calls on_level_up() separately, and re-invokes this once per level on load.
+	_base_max_hp *= 1.06
+	_base_max_mana *= 1.06
+	level_damage_bonus += 1.0
+
+
+func on_level_up(new_level: int) -> void:
+	## Presentation-only level-up beat (contract §6). By the time this fires
+	## XPSystem has already applied the passives, re-derived the maxima and
+	## full-healed; re-deriving here is a harmless idempotent refresh.
+	_apply_equipment()
+	var world: Node2D = get_parent() as Node2D
+	if world != null:
+		# Gold-glint burst: an expanding gold ring + a shimmer of orbiting motes.
+		VFX.ring(world, global_position, 22.0, CRIT_GOLD, 0.6)
+		VFX.sparkle_buff(world, self, CRIT_GOLD, 1.1)
+	# "Level N" banner through the shared DialogueUI banner (Alagard styling).
+	var dlg: Node = get_tree().get_first_node_in_group("dialogue_ui")
+	if dlg != null and dlg.has_method("show_banner"):
+		dlg.call("show_banner", "Level %d" % new_level, "")
 
 
 func _slot_effect(slots: Array, key: String) -> bool:
@@ -1070,6 +1316,38 @@ func _refresh_weapon() -> void:
 	_update_weapon_pose(0.0)
 
 
+func _refresh_shield() -> void:
+	## Off-hand shield sprite: small heater crop from the weapons sheet,
+	## centered on the off-arm anchor (its own facing/visibility rules live
+	## in _update_shield_pose). Legendary off-hands (Bulwark) get glints.
+	if _shield == null:
+		return
+	for child: Node in _shield.get_children():
+		child.queue_free()
+	var item: Variant = inventory.equipped.get("off_hand") if inventory != null else null
+	if not (item is Dictionary):
+		_shield.texture = null
+		_shield.visible = false
+		return
+	var reg: Rect2 = SHIELD_SHAPE["region"]
+	var at := AtlasTexture.new()
+	at.atlas = load(WEAPON_SHEET)
+	at.region = reg
+	_shield.texture = at
+	_shield.centered = true
+	_shield.offset = Vector2.ZERO
+	_shield.scale = Vector2.ONE * float(SHIELD_SHAPE["scale"])
+	if str(item.get("rarity", "")) == "legendary":
+		# Same glint dressing as weapons but dialed down — full-size motes
+		# swallow the 7 px shield face.
+		var glints: CPUParticles2D = _make_gold_glints(Vector2(0.0, -2.0))
+		glints.scale_amount_min = 0.2
+		glints.scale_amount_max = 0.4
+		glints.lifetime = 0.55
+		_shield.add_child(glints)
+	_update_weapon_pose(0.0)
+
+
 func _weapon_shape_for(item: Dictionary) -> String:
 	var key: String = (str(item.get("id", "")) + " " + str(item.get("name", ""))).to_lower()
 	if "bow" in key or "talon" in key:
@@ -1081,35 +1359,166 @@ func _weapon_shape_for(item: Dictionary) -> String:
 	return "sword"
 
 
+func _anchor_frame_index() -> int:
+	## ANCHORS index for the sprite's CURRENT frame: 0-3 idle, 4-7 walk.
+	var idx: int = clampi(_sprite.frame, 0, 3)
+	if str(_sprite.animation).begins_with("walk"):
+		idx += 4
+	return idx
+
+
+func _anchor(kind: String) -> Vector2:
+	## Measured anchor ("hand"/"shoulder"/"off") for the current facing +
+	## frame, mirrored horizontally when the side sprite is flipped (right).
+	var table: Dictionary = ANCHORS[_facing]
+	var p: Vector2 = table[kind][_anchor_frame_index()]
+	if _facing == "side" and _sprite.flip_h:
+		p.x = -p.x
+	return p
+
+
+func _weapon_pose() -> Dictionary:
+	## Target carry pose {pos, rot, flip, behind} for the current state,
+	## facing and animation frame. Canonical side facing is LEFT; facing
+	## right mirrors anchor x and rotation sign.
+	var mirrored: bool = _facing == "side" and _sprite.flip_h
+	if _sheathed:
+		var rot_s: float = float(SHEATHED_ROT[_facing])
+		if mirrored:
+			rot_s = -rot_s
+		var nudge: Vector2 = SHEATH_OFFSET[_facing]
+		if mirrored:
+			nudge.x = -nudge.x
+		var pos_s: Vector2 = _anchor("shoulder") + nudge
+		# Mid-grip weapons (staff/bow) slide tip-ward so the upper limb sits
+		# at the shoulder instead of over the head.
+		var shift: float = _sheath_shift()
+		if shift > 0.0:
+			pos_s += Vector2(sin(rot_s), -cos(rot_s)) * shift
+		return {
+			"pos": pos_s,
+			"rot": rot_s,
+			"flip": mirrored,
+			# Front view (down) and side views tuck the slung weapon BEHIND
+			# the silhouette (hilt/tip peek); the back view (up) shows it.
+			"behind": _facing != "up",
+		}
+	var rot_d: float = float(DRAWN_ROT[_facing])
+	if mirrored:
+		rot_d = -rot_d
+	return {
+		"pos": _anchor("hand"),
+		"rot": rot_d,
+		# Canonical side (left) flips the blade sprite so its edge leads.
+		"flip": (_facing == "side" and not _sprite.flip_h) or _facing == "up",
+		"behind": _facing == "up",
+	}
+
+
+func _apply_pose_flags(pose: Dictionary) -> void:
+	## Flip + z-order flags for a carry pose. show_behind_parent does NOT
+	## propagate to children, so attachment FX (legendary glints, blood
+	## drips) are hidden whenever the weapon itself is tucked behind the
+	## body — otherwise they betray the hidden sprite mid-torso.
+	_weapon.flip_h = pose.flip
+	_weapon.show_behind_parent = pose.behind
+	for child: Node in _weapon.get_children():
+		if child is CanvasItem:
+			(child as CanvasItem).visible = not bool(pose.behind)
+
+
+func _sheath_shift() -> float:
+	## WEAPON_SHAPES sheath_shift of the equipped main-hand (0 when none).
+	var item: Variant = inventory.equipped.get("main_hand") if inventory != null else null
+	if not (item is Dictionary):
+		return 0.0
+	var cfg: Dictionary = WEAPON_SHAPES[_weapon_shape_for(item)]
+	return float(cfg.get("sheath_shift", 0.0))
+
+
+func _on_sprite_frame_changed() -> void:
+	## AnimatedSprite2D frame/animation signal: re-anchor instantly so the
+	## weapon/shield step with the body on the exact frame flip.
+	_update_weapon_pose(0.0)
+
+
 func _update_weapon_pose(delta: float) -> void:
-	## Per-frame hand placement: behind the body when facing up, in front
-	## when facing down, hand-side when sideways; gentle idle sway unless a
-	## brandish tween owns the rotation.
+	## Per-frame anchored placement for the weapon (hand when drawn,
+	## shoulder/back when sheathed) + the off-hand shield. A gentle idle
+	## sway rides drawn rotation unless the brandish tween owns it; while
+	## the 0.12 s sheathe/draw transition runs, the tween owns pos+rot.
+	_update_shield_pose()
 	if _weapon == null or not _weapon.visible:
 		return
 	_sway_t += delta
-	var pos := Vector2(5.0, -10.0)
-	var rot_sign: float = 1.0
-	match _facing:
-		"up":
-			pos = Vector2(-5.0, -12.0)
-			rot_sign = -1.0
-		"down":
-			pos = Vector2(5.0, -10.0)
-			rot_sign = 1.0
-		"side":
-			# Side frames face LEFT; _sprite.flip_h true = facing right.
-			if _sprite.flip_h:
-				pos = Vector2(6.0, -11.0)
-				rot_sign = 1.0
-			else:
-				pos = Vector2(-6.0, -11.0)
-				rot_sign = -1.0
-	_weapon.show_behind_parent = _facing == "up"
-	_weapon.position = pos
-	_weapon.flip_h = rot_sign < 0.0
+	if _transition_left > 0.0:
+		return
+	var pose: Dictionary = _weapon_pose()
+	_weapon.position = pose.pos
+	_apply_pose_flags(pose)
 	if _brandish_left <= 0.0:
-		_weapon.rotation = rot_sign * (0.42 + sin(_sway_t * 2.4) * 0.06)
+		var sway: float = 0.0
+		if not _sheathed:
+			sway = sin(_sway_t * 2.4) * 0.05 * (-1.0 if pose.flip else 1.0)
+		_weapon.rotation = float(pose.rot) + sway
+
+
+func _update_shield_pose() -> void:
+	## Shield facing rules (kept simple by design): down = on the off-arm in
+	## front, side = tucked behind the body (a rim peeks past the far edge),
+	## up = hidden (the arm is fully occluded by the back view).
+	if _shield == null or _shield.texture == null:
+		return
+	if _facing == "up":
+		_shield.visible = false
+		return
+	_shield.visible = true
+	_shield.position = _anchor("off")
+	_shield.flip_h = _facing == "side" and _sprite.flip_h
+	_shield.show_behind_parent = _facing == "side"
+
+
+func _toggle_sheathe() -> void:
+	if _weapon == null or not _weapon.visible:
+		return
+	_set_sheathed(not _sheathed, true)
+
+
+func _set_sheathed(sheathed: bool, animate: bool) -> void:
+	## Carry-state switch. Animated: a quick SHEATHE_TIME pos+rot tween into
+	## the target pose (it owns the weapon while _transition_left runs) plus
+	## a subtle smear flourish at the body. Instant: snap to pose.
+	if _sheathed == sheathed:
+		return
+	_sheathed = sheathed
+	if _weapon == null or not _weapon.visible:
+		return
+	if _sheathe_tween != null and _sheathe_tween.is_valid():
+		_sheathe_tween.kill()
+	var pose: Dictionary = _weapon_pose()
+	_apply_pose_flags(pose)
+	if not animate:
+		_transition_left = 0.0
+		_weapon.position = pose.pos
+		if _brandish_left <= 0.0:
+			_weapon.rotation = float(pose.rot)
+		return
+	_transition_left = SHEATHE_TIME
+	_sheathe_tween = create_tween().set_parallel(true)
+	_sheathe_tween.tween_property(_weapon, "position", Vector2(pose.pos), SHEATHE_TIME) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_sheathe_tween.tween_property(_weapon, "rotation", float(pose.rot), SHEATHE_TIME) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	# Tiny motion-smear flourish over the shoulder line, angled with the move.
+	var world: Node2D = get_parent() as Node2D
+	if world != null:
+		var mid: Vector2 = global_position + Vector2(0.0, -26.0)
+		var ang: float = -0.9 if sheathed else 0.9
+		if _facing == "side" and _sprite.flip_h:
+			ang = -ang
+		FXLib.play("quick_slash", world, mid,
+				{"scale": 0.45, "speed": 1.6, "rotation": ang,
+				"tint": Color(1.0, 1.0, 1.0, 0.55)})
 
 
 func _refresh_chest_tint() -> void:

@@ -17,6 +17,10 @@ extends CharacterBody2D
 ## see the Nameplate inner class (also reused by Combat.Scarecrow, bar-less).
 
 const SHEET_DIR := "res://assets/art/enemies/"
+## Wilderness animal sheets (LPC / Pixel-Crawler animals). Frame rects below
+## are PIL-verified against these (scratchpad/wild_geometry.json + manual crops);
+## never guess an animal rect. Imported into res:// (each PNG has a .import).
+const FAUNA_DIR := "res://_downloads/wilderness/animals/"
 const AGGRO_RANGE: float = 120.0
 const DEAGGRO_RANGE: float = 220.0
 const ATTACK_RANGE: float = 22.0
@@ -59,6 +63,10 @@ var _sprite: AnimatedSprite2D
 var _col: CollisionShape2D
 var _plate: Nameplate
 var _anim_offsets: Dictionary = {}
+## Wilderness fauna sheets face RIGHT after the picks below (wolf/bear/boar
+## right-facing rows chosen), so this stays false and the shared flip logic is
+## unchanged; kept as a hook in case a future sheet only ships a left row.
+var _art_faces_left: bool = false
 var _patrol_target: Vector2 = Vector2.ZERO
 var _idle_wait: float = 0.0
 var _leg_time: float = 0.0
@@ -97,19 +105,27 @@ static func create(cfg: Dictionary) -> Enemy:
 	e._patrol_target = e.position
 	e._idle_wait = e._rng.randf_range(0.3, 1.5)
 
-	var layout: Array = DEATH_LAYOUTS.get(e.type_name, [6, 64, 64])
-	# Feet sit on the bottom row of every frame (verified), so lifting the
-	# centered frame by half its height puts the feet exactly at node pos.
-	e._anim_offsets = {
-		"idle": Vector2(0.0, -16.0),
-		"run": Vector2(0.0, -32.0),
-		"death": Vector2(0.0, -float(layout[2]) * 0.5),
-	}
-
 	var sprite := AnimatedSprite2D.new()
 	sprite.name = "Sprite"
-	sprite.sprite_frames = _build_frames(e.type_name, layout)
 	sprite.centered = true
+	if bool(cfg.get("fauna", false)):
+		# Wilderness animal (wolf/boar/bear): LPC/PixelCrawler animal sheets
+		# with their own geometry, not the Pixel-Crawler mob idle/run/death
+		# triple. Feet sit on the bottom row of each frame -> offset -h/2.
+		var fauna: Dictionary = _build_fauna_frames(e.type_name)
+		sprite.sprite_frames = fauna["frames"]
+		e._anim_offsets = fauna["offsets"]
+		e._art_faces_left = bool(fauna["faces_left"])
+	else:
+		var layout: Array = DEATH_LAYOUTS.get(e.type_name, [6, 64, 64])
+		# Feet sit on the bottom row of every frame (verified), so lifting the
+		# centered frame by half its height puts the feet exactly at node pos.
+		e._anim_offsets = {
+			"idle": Vector2(0.0, -16.0),
+			"run": Vector2(0.0, -32.0),
+			"death": Vector2(0.0, -float(layout[2]) * 0.5),
+		}
+		sprite.sprite_frames = _build_frames(e.type_name, layout)
 	sprite.offset = e._anim_offsets["idle"]
 	sprite.play("idle")
 	sprite.animation_finished.connect(e._on_anim_finished)
@@ -155,6 +171,71 @@ static func _add_strip(sf: SpriteFrames, path: String, anim: String, count: int,
 		sf.add_frame(anim, at)
 
 
+## Builds idle/run/death SpriteFrames for a wilderness combatant animal from
+## the LPC / Wild-Boar / Pixel-Crawler wolf sheets. Every rect here was
+## PIL-verified (see wild_geometry.json + scratchpad crops); all picked rows
+## face RIGHT so the shared flip logic (faces_left=false) is unchanged. Feet on
+## the frame bottom -> offset -h/2. Returns {frames, offsets, faces_left}.
+static func _build_fauna_frames(t: String) -> Dictionary:
+	var sf := SpriteFrames.new()
+	sf.remove_animation("default")
+	var off := {}
+	match t:
+		"boar":
+			# Wild-Boar modular pack; row3 (y=192) is the RIGHT-facing side view
+			# across Walk/Stand/Die (verified). 64x64 frames.
+			var b := FAUNA_DIR + "boar/Wild Boar/Boar/"
+			var walk: Texture2D = load(b + "Boar Walk.png")
+			var stand: Texture2D = load(b + "Boar Stand.png")
+			var die: Texture2D = load(b + "Boar Die.png")
+			_fauna_anim(sf, stand, "idle", [Rect2(192, 0, 64, 64)], 3.0, true)
+			_fauna_anim(sf, walk, "run", [
+				Rect2(0, 192, 64, 64), Rect2(64, 192, 64, 64),
+				Rect2(128, 192, 64, 64), Rect2(192, 192, 64, 64)], 9.0, true)
+			_fauna_anim(sf, die, "death", [
+				Rect2(0, 192, 64, 64), Rect2(64, 192, 64, 64),
+				Rect2(128, 192, 64, 64), Rect2(192, 192, 64, 64)], 8.0, false)
+			off = {"idle": Vector2(0.0, -32.0), "run": Vector2(0.0, -32.0), "death": Vector2(0.0, -32.0)}
+		"bear":
+			# LPC-2022 grizzly, 5x12 of 64x64: row1(y64) stand, row2(y128)
+			# side walk (RIGHT-facing), row10(y640) collapse = death. tRNS
+			# transparency imports correctly in Godot (magenta only in dumb viewers).
+			var g: Texture2D = load(FAUNA_DIR + "lpc2022/lpc animals 2022 v1.1/individual creature spritesheets/bear, grizzly.png")
+			_fauna_anim(sf, g, "idle", [Rect2(0, 64, 64, 64)], 3.0, true)
+			_fauna_anim(sf, g, "run", [
+				Rect2(0, 128, 64, 64), Rect2(64, 128, 64, 64),
+				Rect2(128, 128, 64, 64), Rect2(192, 128, 64, 64)], 6.0, true)
+			_fauna_anim(sf, g, "death", [
+				Rect2(0, 640, 64, 64), Rect2(64, 640, 64, 64),
+				Rect2(128, 640, 64, 64), Rect2(192, 640, 64, 64)], 6.0, false)
+			off = {"idle": Vector2(0.0, -32.0), "run": Vector2(0.0, -32.0), "death": Vector2(0.0, -32.0)}
+		_:
+			# "wolf" (and any unknown fauna): wolfsheet1, 10x6 of 64x64. Cols 5-9
+			# are the RIGHT-facing side views. row2(y128) c5-8 = trot; row0/row3
+			# c5-6 sink into the c320,y192 flat pose = death.
+			var w: Texture2D = load(FAUNA_DIR + "wolfsheet1.png")
+			_fauna_anim(sf, w, "idle", [Rect2(320, 128, 64, 64)], 4.0, true)
+			_fauna_anim(sf, w, "run", [
+				Rect2(320, 128, 64, 64), Rect2(384, 128, 64, 64),
+				Rect2(448, 128, 64, 64), Rect2(512, 128, 64, 64)], 11.0, true)
+			_fauna_anim(sf, w, "death", [
+				Rect2(384, 0, 64, 64), Rect2(448, 0, 64, 64),
+				Rect2(512, 0, 64, 64), Rect2(320, 192, 64, 64)], 8.0, false)
+			off = {"idle": Vector2(0.0, -32.0), "run": Vector2(0.0, -32.0), "death": Vector2(0.0, -32.0)}
+	return {"frames": sf, "offsets": off, "faces_left": false}
+
+
+static func _fauna_anim(sf: SpriteFrames, tex: Texture2D, anim: String, rects: Array, fps: float, loop: bool) -> void:
+	sf.add_animation(anim)
+	sf.set_animation_speed(anim, fps)
+	sf.set_animation_loop(anim, loop)
+	for r: Rect2 in rects:
+		var at := AtlasTexture.new()
+		at.atlas = tex
+		at.region = r
+		sf.add_frame(anim, at)
+
+
 # --- AI ----------------------------------------------------------------------
 
 
@@ -186,7 +267,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _tick_patrol(delta: float, player: Node2D) -> void:
-	if player != null and global_position.distance_to(player.global_position) < AGGRO_RANGE:
+	if player != null and global_position.distance_to(player.global_position) < _aggro_range():
 		_state = "chase"
 		return
 	if _idle_wait > 0.0:
@@ -210,6 +291,18 @@ func _tick_patrol(delta: float, player: Node2D) -> void:
 		_idle_wait = _rng.randf_range(0.5, 1.5)
 	_face_move()
 	_play("run")
+
+
+## Aggro detection radius. Wolves hunt in the dark: their aggro doubles at
+## night (SPEC §6). Reads the "day_night" group's is_night (frozen DayNight);
+## non-wolves and daytime keep the base radius, and the group lookup only runs
+## for wolves so skeletons/orcs pay nothing.
+func _aggro_range() -> float:
+	if type_name == "wolf":
+		var dn := get_tree().get_first_node_in_group("day_night")
+		if dn != null and dn.get("is_night") == true:
+			return AGGRO_RANGE * 2.0
+	return AGGRO_RANGE
 
 
 func _pick_patrol_target() -> void:
@@ -370,7 +463,32 @@ func _die() -> void:
 	_sprite.position = Vector2.ZERO
 	set_deferred("collision_layer", 0)
 	_col.set_deferred("disabled", true)
+	_grant_kill_rewards()
 	_play("death")
+
+
+## Phase C kill payoff, fired exactly once from _die() (take_damage gates on
+## is_dead so this can't double-fire). Grants kill XP (XPSystem resolves family
+## prefixes: skeleton_*/orc_* and wolf/boar/bear; scarecrow never reaches here),
+## rolls the material drop table into the killer's bag, and reports the kill to
+## the Quests node for kill objectives. All look-ups are null-safe so a mob dying
+## with no player/inventory/quests present is harmless.
+func _grant_kill_rewards() -> void:
+	var killer := get_tree().get_first_node_in_group("player")
+	if killer != null:
+		XPSystem.grant_xp(killer, XPSystem.xp_for_kill(type_name))
+		var inv_v: Variant = killer.get("inventory")
+		if inv_v is Inventory:
+			var got: Array[Dictionary] = Crafting.drop_for_kill(inv_v, type_name)
+			if not got.is_empty():
+				var cui := get_tree().get_first_node_in_group("crafting_ui")
+				if cui != null:
+					for it: Dictionary in got:
+						cui.call("show_toast", "+ %s" % str(it.get("name", "")),
+								Color(0.85, 0.68, 0.35))
+	var q := get_tree().get_first_node_in_group("quests")
+	if q != null:
+		q.call("report_kill", type_name)
 
 
 func _on_anim_finished() -> void:
@@ -397,14 +515,16 @@ func _play(anim: String) -> void:
 
 
 func _face_move() -> void:
-	# Sheets face RIGHT (verified) -> mirror when heading left.
+	# Sheets face RIGHT (verified) -> mirror when heading left. _art_faces_left
+	# inverts it for any sheet whose picked row faces left (currently none —
+	# XOR with false is a no-op, so existing mobs are unchanged).
 	if absf(velocity.x) > 0.5:
-		_sprite.flip_h = velocity.x < 0.0
+		_sprite.flip_h = (velocity.x < 0.0) != _art_faces_left
 
 
 func _face_point(p: Vector2) -> void:
 	if absf(p.x - global_position.x) > 0.5:
-		_sprite.flip_h = p.x < global_position.x
+		_sprite.flip_h = (p.x < global_position.x) != _art_faces_left
 
 
 func _alive_player() -> Node2D:

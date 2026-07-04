@@ -245,6 +245,7 @@ func _refresh() -> void:
 		var slot: Dictionary = _slots[i]
 		var icon: TextureRect = slot["icon"]
 		var rim: Panel = slot["rim"]
+		var count_label: Label = slot["count"]
 		var item: Variant = _bag_item(i)
 		if item is Dictionary:
 			var dim: bool = _drag_mine and i == _drag_src_idx
@@ -255,9 +256,17 @@ func _refresh() -> void:
 			rim_sb.border_color = ItemTooltip.rarity_color(str(item.get("rarity", "common")))
 			rim.modulate = Color(1.0, 1.0, 1.0, alpha)
 			rim.visible = true
+			var n: int = Crafting.stack_count(item)
+			if n > 1:
+				count_label.text = str(n)
+				count_label.modulate = Color(1.0, 1.0, 1.0, alpha)
+				count_label.visible = true
+			else:
+				count_label.visible = false
 		else:
 			icon.texture = null
 			rim.visible = false
+			count_label.visible = false
 	if _hover_idx >= 0:
 		_update_tooltip_for(_hover_idx)
 
@@ -275,7 +284,7 @@ func _on_slot_gui_input(event: InputEvent, idx: int) -> void:
 	if mb.button_index == MOUSE_BUTTON_LEFT:
 		_try_begin_drag(idx)
 	elif mb.button_index == MOUSE_BUTTON_RIGHT:
-		_auto_equip(idx)
+		_on_slot_right_click(idx)
 
 
 func _on_slot_entered(idx: int) -> void:
@@ -300,6 +309,66 @@ func _update_tooltip_for(idx: int) -> void:
 		_tooltip.show_item(item, _mouse_pos())
 	else:
 		_tooltip.hide_tip()
+
+
+## Right-click routing (Phase C item types). Consumables are USED, recipe
+## scrolls are LEARNED, and the quest 3 wrapped dagger is buried at the
+## witness-stone; everything else (equipment, plain quest junk, materials —
+## all slot "none" for the last two) falls through to the existing auto-equip,
+## which no-ops non-equippable items exactly as before. The Crafting hooks
+## mutate the bag and emit inv.bag_changed, so _refresh repaints on its own.
+func _on_slot_right_click(idx: int) -> void:
+	if _inv == null or Inventory.DragCtx.item != null:
+		return
+	var it_v: Variant = _bag_item(idx)
+	if it_v is Dictionary:
+		var item: Dictionary = it_v
+		var kind: String = str(item.get("type", ""))
+		if kind == "consumable":
+			Crafting.use_consumable(
+				get_tree().get_first_node_in_group("player"), _inv, idx)
+			return
+		if kind == "recipe":
+			var rid: String = Crafting.learn_from_scroll(_inv, idx)
+			var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
+			if cui != null:
+				var msg: String = ("Recipe learned: %s" % Crafting.recipe_name(rid)) \
+					if rid != "" else "Already known."
+				cui.call("show_toast", msg, GOLD)
+			return
+		if str(item.get("id", "")) == "weeping_dagger" and _try_bury_dagger(idx):
+			return
+	_auto_equip(idx)
+
+
+## Quest 3 burial: reports a use_item for the wrapped dagger to Quests (which
+## only consumes it while the player stands at the witness-stone with q3_bury
+## active). On consume, the dagger leaves the bag. Returns true only when the
+## quest actually took it — otherwise the item stays and falls through to the
+## no-op auto-equip.
+func _try_bury_dagger(idx: int) -> bool:
+	var quests: Node = get_tree().get_first_node_in_group("quests")
+	if quests == null or not quests.has_method("report_use_item"):
+		return false
+	var player: Node = get_tree().get_first_node_in_group("player")
+	if player == null or not is_instance_valid(player):
+		return false
+	var pos: Vector2 = Vector2.ZERO
+	var pos_v: Variant = player.get("global_position")
+	if pos_v is Vector2:
+		pos = pos_v
+	var map_id: String = "town"
+	var root: Node = get_tree().current_scene
+	if root != null:
+		var mid_v: Variant = root.get("current_map_id")
+		if mid_v is String and mid_v != "":
+			map_id = mid_v
+	if quests.call("report_use_item", "weeping_dagger", map_id, pos) != true:
+		return false
+	if _inv != null and idx >= 0 and idx < _inv.bag.size():
+		_inv.bag[idx] = null
+		_inv.bag_changed.emit()
+	return true
 
 
 func _auto_equip(idx: int) -> void:
@@ -496,6 +565,23 @@ func _build_slot(idx: int, pos: Vector2) -> void:
 	icon.size = Vector2(SLOT - 6.0, SLOT - 6.0)
 	panel.add_child(icon)
 
+	# Stack-count caption (bottom-right, WoW-style) — shown only for stacked
+	# materials/consumables (Crafting.stack_count > 1); hidden on gear.
+	var count := Label.new()
+	count.name = "Count"
+	count.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	count.add_theme_font_override("font", _font)
+	count.add_theme_font_size_override("font_size", 8)
+	count.add_theme_color_override("font_color", GOLD)
+	count.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	count.add_theme_constant_override("outline_size", 2)
+	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	count.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	count.position = Vector2(1.0, SLOT - 12.0)
+	count.size = Vector2(SLOT - 3.0, 11.0)
+	count.visible = false
+	panel.add_child(count)
+
 	panel.gui_input.connect(_on_slot_gui_input.bind(idx))
 	panel.mouse_entered.connect(_on_slot_entered.bind(idx))
 	panel.mouse_exited.connect(_on_slot_exited.bind(idx))
@@ -505,6 +591,7 @@ func _build_slot(idx: int, pos: Vector2) -> void:
 		"rim": rim,
 		"rim_sb": rim_sb,
 		"icon": icon,
+		"count": count,
 		"sb_normal": sb_normal,
 		"sb_hover": sb_hover,
 	})
@@ -670,7 +757,13 @@ func _icon_for(item: Dictionary) -> Texture2D:
 		return _icon_cache[path] as Texture2D
 	var tex: Texture2D = null
 	if path.begins_with(PIXEL_PREFIX):
-		tex = _pixel_icon(path.substr(PIXEL_PREFIX.length()))
+		var pid: String = path.substr(PIXEL_PREFIX.length())
+		tex = _pixel_icon(pid)
+		if tex == null:
+			# Crafting-owned ids (materials / consumables / recipe scrolls /
+			# crafted gear) are not in IconsPixel.REGISTRY yet; Crafting serves
+			# their Shikashi cells as a fallback so they aren't blank in the bag.
+			tex = Crafting.icon_texture(pid)
 	elif ResourceLoader.exists(path, "Texture2D"):
 		tex = load(path)
 	_icon_cache[path] = tex

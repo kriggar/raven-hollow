@@ -55,6 +55,22 @@ const REGISTRY: Dictionary = {
 	"pinewood_buckler": Vector2i(0, 6), # round wooden buckler
 	"tarnished_band": Vector2i(4, 8),   # plain gold band
 	"ravens_eye": Vector2i(5, 18),      # glossy black orb
+	# --- Phase C: crafting materials / consumables / recipe scrolls -------
+	"wolf_pelt": Vector2i(8, 17),       # X-stretched animal hide
+	"boar_hide": Vector2i(8, 17),       # animal hide (shares the pelt art)
+	"bone": Vector2i(9, 17),            # white bone / tusk
+	"ember_dust": Vector2i(4, 20),      # smouldering red-ash powder pile
+	"iron_scrap": Vector2i(3, 17),      # metal ingot / scrap
+	"healing_draught": Vector2i(4, 9),  # red potion with a green cross
+	"hunters_stew": Vector2i(0, 15),    # roast drumstick (hearty meal)
+	"recipe_hunters_stew": Vector2i(1, 21),     # green-ribbon recipe scroll
+	"recipe_wolf_fang_dagger": Vector2i(2, 21), # red-ribbon recipe scroll
+	# --- Phase C: quest items (quest_defs.gd rewards / carried items) -----
+	"coppervein_ring": Vector2i(5, 8),  # gem ring (quest 1 reward)
+	"travelers_boots": Vector2i(3, 8),  # grey boots (quest 2 reward)
+	"gorans_targe": Vector2i(1, 6),     # heater shield (quest 3 reward)
+	"weeping_dagger": Vector2i(8, 5),   # dark wrapped dagger (quest 3 carried)
+	"charcoal_rubbing": Vector2i(7, 17),# inscribed parchment (quest 1)
 	# --- Generic UI ------------------------------------------------------
 	"backpack": Vector2i(0, 10),        # knapsack (bag button / bag UI)
 	"pouch": Vector2i(9, 8),            # leather belt pouch

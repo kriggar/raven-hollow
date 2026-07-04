@@ -15,6 +15,11 @@ const SEED: int = 20260702
 # the fenced garden plot. Sized for the tallest tree canopy (139 px, base-sorted).
 const CLEAR_TERMINUS := Rect2(980.0, 1390.0, 280.0, 210.0)
 const CLEAR_GARDEN := Rect2(800.0, 1290.0, 260.0, 270.0)
+# Gate keep-clear (contract §14 / GateBuilder): the east-gate mouth to
+# MapRegistry.TOWN_EAST_GATE (2192,816). The border forest must not wall this
+# band or the gate art / the road out of town would be blocked. main.gd builds
+# the gate art here via GateBuilder.add_gate — town_builder only leaves the gap.
+const CLEAR_GATE := Rect2(2080.0, 540.0, 160.0, 520.0)
 
 const GRASS_SHEET := "res://assets/art/terrain/cainos_grass.png"
 const STONE_SHEET := "res://assets/art/terrain/cainos_stone_ground.png"
@@ -135,8 +140,22 @@ static func build(parent: Node2D) -> Dictionary:
 			"maid": {"pos": Vector2(1235, 690), "wander_radius": 45.0},
 			"wanderer1": {"pos": Vector2(1120, 865), "wander_radius": 95.0},
 			"wanderer2": {"pos": Vector2(1130, 1140), "wander_radius": 120.0},
+			# Gatewarden Iosif holds the east gate (contract §11). Kept ~69 px
+			# from the east-gate travel point (2192,816) and its 8 px wander is
+			# tight, so a single E press never collides with the gate travel
+			# prompt (spatial exclusivity, contract §3.5).
+			"gatewarden": {"pos": Vector2(2144, 866), "wander_radius": 8.0},
 		},
 		"bounds": Rect2(0, 0, float(WORLD_TILES_W * TILE), float(WORLD_TILES_H * TILE)),
+		# Crafting stations (contract §7, spec §6b): main.gd's station loop
+		# (§3.5) shows the prompt and opens crafting_ui.open_station(id) on E.
+		# forge = Goran's anvil (drawn at 1585,855) + (0,16) walkable stand;
+		# hearth = the inn hearth, read from the courtyard south of the inn.
+		# Wilderness ships NO stations.
+		"stations": [
+			{"id": "forge", "pos": Vector2(1585, 871), "radius": 30.0, "prompt": "[E] Craft — Goran's Forge"},
+			{"id": "hearth", "pos": Vector2(1120, 620), "radius": 30.0, "prompt": "[E] Craft — The Inn Hearth"},
+		],
 	}
 
 
@@ -571,7 +590,10 @@ static func _forest_tree(props: Node2D, rng2: RandomNumberGenerator, pos: Vector
 	# so the rest of the border forest keeps its exact layout.
 	var roll: float = rng2.randf()
 	var variant: int = rng2.randi_range(0, 2) if roll < 0.82 else -1
-	if CLEAR_TERMINUS.has_point(pos) or CLEAR_GARDEN.has_point(pos):
+	# Reject inside the kept-open clearings AFTER consuming the rng2 draws above,
+	# so the rest of the border forest stays byte-identical. CLEAR_GATE keeps the
+	# east-gate mouth open for GateBuilder (contract §14).
+	if CLEAR_TERMINUS.has_point(pos) or CLEAR_GARDEN.has_point(pos) or CLEAR_GATE.has_point(pos):
 		return
 	if variant >= 0:
 		props.add_child(_sprite(PLANTS + "plant_%02d.png" % variant, pos, 10.0))
@@ -913,6 +935,14 @@ static func _light(pos: Vector2, color: Color, energy: float, radius: float) -> 
 	l.color = color
 	l.energy = energy
 	l.texture_scale = radius / 128.0
+	# Day/night registry (contract §8): every ambience light (lanterns, forge
+	# glow, plaza/inn/graveyard/well lights) joins "world_lights" so DayNight
+	# ramps its energy across the cycle. Pre-seed the base-energy meta with the
+	# authored value so the ramp restores the hand-tuned look at 17:00 (scale
+	# 1.0). Town lights are static — none run their own flicker tween, so no
+	# light opts out via "dn_ignore".
+	l.set_meta("dn_base_energy", energy)
+	l.add_to_group("world_lights")
 	return l
 
 

@@ -194,25 +194,83 @@ const _DB := {
 		"stackable": false,
 		"effect": "",
 	},
+	# ------------------------------------------------------------------
+	# QUEST REWARDS & QUEST ITEMS (Phase C — quest_defs.gd INTEGRATION §4).
+	# NOT added to _STARTING_BAG_IDS: these enter the bag only via quest
+	# grants (accept_items / rewards). "weeping_dagger" is the quest 3
+	# carried item (slot "none"); bag_ui right-clicks it to bury it.
+	# ------------------------------------------------------------------
+	"coppervein_ring": {
+		"id": "coppervein_ring",
+		"name": "Coppervein Ring",
+		"slot": "ring",
+		"rarity": "uncommon",
+		"icon": "pixel:coppervein_ring",
+		"stats": {"damage": 0.0, "armor": 0.0, "hp": 10.0, "mana": 8.0, "speed_pct": 0.0, "crit_pct": 0.0},
+		"flavor": "Buried with a woman who died old and unafraid.",
+		"stackable": false,
+		"effect": "",
+	},
+	"travelers_boots": {
+		"id": "travelers_boots",
+		"name": "Traveler's Boots",
+		"slot": "boots",
+		"rarity": "uncommon",
+		"icon": "pixel:travelers_boots",
+		"stats": {"damage": 0.0, "armor": 1.0, "hp": 5.0, "mana": 0.0, "speed_pct": 6.0, "crit_pct": 0.0},
+		"flavor": "They walked out the east gate once already.",
+		"stackable": false,
+		"effect": "",
+	},
+	"gorans_targe": {
+		"id": "gorans_targe",
+		"name": "Goran's Targe",
+		"slot": "off_hand",
+		"rarity": "rare",
+		"icon": "pixel:gorans_targe",
+		"stats": {"damage": 0.0, "armor": 4.0, "hp": 12.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
+		"flavor": "Same winter, same steel lot. The only quiet piece.",
+		"stackable": false,
+		"effect": "",
+	},
+	"weeping_dagger": {
+		"id": "weeping_dagger",
+		"name": "The Wrapped Dagger",
+		"slot": "none",
+		"rarity": "rare",
+		"icon": "pixel:weeping_dagger",
+		"stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
+		"flavor": "Kept wrapped. The cloth is damp at one corner.",
+		"stackable": false,
+		"effect": "",
+	},
+	"charcoal_rubbing": {
+		"id": "charcoal_rubbing",
+		"name": "Charcoal Rubbing",
+		"slot": "none",
+		"rarity": "common",
+		"icon": "pixel:charcoal_rubbing",
+		"stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0},
+		"flavor": "Angular runes. Keep it face-down.",
+		"stackable": false,
+		"effect": "",
+	},
 }
 
-## Order the seed items land in the bag: legendaries first (the QA stars),
-## then the slot-coverage spread.
+## Demo starter kit: humble common gear only, one basic piece per slot. The 5
+## legendaries and the epic Raven's Eye ring are EARNED through the demo quests
+## — keeping progression slow and quest rewards meaningful. (Raven's Eye is
+## quest 4A's reward, so seeding it here would double-grant.) To restore the old
+## QA loadout, prepend: emberfall, rooks_talon, gravekeepers_band, bulwark,
+## bloody_dagger, ravens_eye.
 const _STARTING_BAG_IDS: Array[String] = [
-	"emberfall",
-	"rooks_talon",
-	"gravekeepers_band",
-	"bulwark",
-	"bloody_dagger",
-	"leather_hood",
-	"patched_jerkin",
-	"iron_cuirass",
-	"padded_breeches",
-	"gravediggers_boots",
 	"rusted_shortsword",
 	"pinewood_buckler",
+	"leather_hood",
+	"patched_jerkin",
+	"padded_breeches",
+	"gravediggers_boots",
 	"tarnished_band",
-	"ravens_eye",
 ]
 
 
@@ -226,7 +284,7 @@ static func get_item(id: String) -> Dictionary:
 
 
 ## The seed items placed in the player's bag at game start
-## (5 legendaries + a spread covering every equipment slot type).
+## (a humble common starter kit — one basic piece per equipment slot).
 static func starting_bag() -> Array[Dictionary]:
 	var bag: Array[Dictionary] = []
 	for id in _STARTING_BAG_IDS:

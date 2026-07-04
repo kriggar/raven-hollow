@@ -35,6 +35,10 @@ const MAID_OFFSET := Vector2(0.0, -16.0)
 const NAME_RANGE: float = 70.0
 const NAME_GOLD := Color(0.85, 0.68, 0.35)
 const NAME_OUTLINE := Color(0.1, 0.06, 0.04, 0.95)
+## Escort-lite (SPEC §5 quest 5) + night behavior (SPEC §6) tunables.
+const FOLLOW_LEASH: float = 40.0        # she follows only while within this
+const FOLLOW_STOP_DIST: float = 18.0    # stop this close so she doesn't shove
+const NIGHT_WANDER_FACTOR: float = 0.25 # tighter wander radius after dusk
 
 const PALETTE_SHADER := preload("res://scripts/palette_swap.gdshader")
 
@@ -229,6 +233,17 @@ var display_name: String = "Villager"
 var dialogue: Array = []
 var _name_label: Label
 
+## Phase C quest/escort/day-night hooks. `_id` is the def id (== node name)
+## the Quests node keys markers and interactions on. The two _hooked flags gate
+## a one-time lazy connect to the Quests / DayNight singletons, which are added
+## to the tree AFTER the NPC cast on first boot (so _ready() is too early).
+var _id: String = "npc"
+var _marker_label: Label
+var _base_wander_radius: float = 0.0
+var _follow_target: Node2D = null
+var _quests_hooked: bool = false
+var _daynight_hooked: bool = false
+
 var _sprite: AnimatedSprite2D
 var _rng := RandomNumberGenerator.new()
 var _home: Vector2 = Vector2.ZERO
@@ -246,6 +261,7 @@ static func create(def: Dictionary) -> NPC:
 	var npc := NPC.new()
 	var id: String = String(def.get("id", "npc"))
 	npc.name = id
+	npc._id = id
 	npc.display_name = String(def.get("display_name", "Villager"))
 	npc.dialogue = def.get("dialogue", [])
 	npc._home = def.get("pos", Vector2.ZERO)
@@ -299,6 +315,29 @@ static func create(def: Dictionary) -> NPC:
 	tag.visible = false
 	npc.add_child(tag)
 	npc._name_label = tag
+
+	# Quest marker: a gold Alagard glyph floating above the name tag — "!" when
+	# this NPC has a quest to offer, "?" when a quest is ready to turn in or he
+	# is a wanted talk target, "" otherwise. Unlike the name tag it stays
+	# visible at any range (refreshed on quest signals / lazy hookup).
+	var marker := Label.new()
+	marker.name = "QuestMarker"
+	var ms := LabelSettings.new()
+	ms.font = load("res://assets/fonts/alagard.ttf")
+	ms.font_size = 16
+	ms.font_color = NAME_GOLD
+	ms.outline_size = 4
+	ms.outline_color = NAME_OUTLINE
+	marker.label_settings = ms
+	marker.text = ""
+	marker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	marker.size = Vector2(96.0, 16.0)
+	marker.position = Vector2(-48.0, -64.0)
+	marker.z_index = 3
+	marker.visible = false
+	npc.add_child(marker)
+	npc._marker_label = marker
 
 	npc.collision_layer = 1 << 2
 	npc.collision_mask = 1
@@ -362,6 +401,7 @@ static func _c8(rgb: int) -> Color:
 
 func _ready() -> void:
 	add_to_group("npcs")
+	_base_wander_radius = _wander_radius
 	_update_anim(false)
 	if _wander_radius > 0.0:
 		# Stagger first departures so villagers do not move in lockstep.
@@ -369,12 +409,23 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# Lazily connect to the Quests / DayNight singletons the first time they
+	# exist (they are added after the NPC cast on boot). Stops polling once both
+	# are wired.
+	if not (_quests_hooked and _daynight_hooked):
+		_hook_systems()
 	# Name tag first: it must track the player even for stationary or
 	# mid-dialogue villagers, whose branches below return early.
 	_update_name_tag()
 	if _talking:
 		velocity = Vector2.ZERO
 		return
+	# Escort-lite (quest 5) overrides idle wander while a follow target is set.
+	if _follow_target != null:
+		if is_instance_valid(_follow_target):
+			_tick_follow()
+			return
+		_follow_target = null
 	if _wander_radius <= 0.0:
 		return
 	if _walking:
@@ -395,6 +446,8 @@ func _physics_process(delta: float) -> void:
 
 
 ## Called by the player. Stop, face the caller, run dialogue, resume after 1 s.
+## Quest-aware: state-based quest pages (offer / talk / turn-in / choice /
+## aftermath) served by the Quests node take priority over the flavor rotation.
 func interact(by: Node2D) -> void:
 	_talking = true
 	_walking = false
@@ -412,6 +465,21 @@ func interact(by: Node2D) -> void:
 	if ui == null:
 		_on_dialogue_finished()
 		return
+
+	# Quest content first (per quests.gd INTEGRATION). npc_interact() returns {}
+	# to fall through; else {quest_id, kind, pages, choice}. npc_interact_done()
+	# (in _finish_quest_dialogue) is the ONLY talk-advance path here — do NOT
+	# also call report_talk, that would double-advance the objective.
+	var q := get_tree().get_first_node_in_group("quests")
+	if q != null:
+		var r: Dictionary = q.call("npc_interact", _id)
+		if not r.is_empty():
+			_begin_quest_dialogue(ui, q, r)
+			return
+
+	if dialogue.is_empty():
+		_on_dialogue_finished()
+		return
 	ui.show_dialogue(display_name, dialogue)
 	if not ui.is_connected("dialogue_finished", _on_dialogue_finished):
 		ui.connect("dialogue_finished", _on_dialogue_finished, CONNECT_ONE_SHOT)
@@ -422,6 +490,168 @@ func _on_dialogue_finished() -> void:
 	_talking = false
 	_walking = false
 	_idle_time_left = RESUME_DELAY
+
+
+# ----------------------------------------------------------------------
+# Quest dialogue flow (offer / talk / turn-in / world-anchored choice)
+# ----------------------------------------------------------------------
+
+## Show a quest dialogue result, then advance/turn-in on close and, if the
+## result carries a choice, present the two-option prompt.
+func _begin_quest_dialogue(ui: Node, q: Node, r: Dictionary) -> void:
+	var pages: Array = r.get("pages", [])
+	if pages.is_empty():
+		# Some states (e.g. an empty reminder) carry no pages — skip straight to
+		# the resolution so the villager never freezes mid-"conversation".
+		_finish_quest_dialogue(q, r)
+		return
+	ui.call("show_dialogue", display_name, pages)
+	ui.connect("dialogue_finished", func() -> void: _finish_quest_dialogue(q, r), CONNECT_ONE_SHOT)
+
+
+func _finish_quest_dialogue(q: Node, r: Dictionary) -> void:
+	if is_instance_valid(q):
+		q.call("npc_interact_done", r)
+	var ch: Dictionary = r.get("choice", {})
+	if not ch.is_empty():
+		var ui := get_tree().get_first_node_in_group("dialogue_ui")
+		if ui != null and is_instance_valid(q) \
+				and ui.has_method("show_choice") and ui.has_signal("choice_made"):
+			ui.connect("choice_made", func(opt: String) -> void: _on_quest_choice(q, r, opt), CONNECT_ONE_SHOT)
+			ui.call("show_choice", display_name, str(ch.get("prompt", "")),
+					_choice_label(ch.get("a")), _choice_label(ch.get("b")))
+			return
+	_refresh_marker()
+	_on_dialogue_finished()
+
+
+func _on_quest_choice(q: Node, r: Dictionary, opt: String) -> void:
+	var follow: Array = []
+	if is_instance_valid(q):
+		follow = q.call("report_choice", str(r.get("quest_id", "")), opt)
+	_refresh_marker()
+	var ui := get_tree().get_first_node_in_group("dialogue_ui")
+	if not follow.is_empty() and ui != null:
+		ui.call("show_dialogue", display_name, follow)
+		ui.connect("dialogue_finished", _on_dialogue_finished, CONNECT_ONE_SHOT)
+	else:
+		_on_dialogue_finished()
+
+
+## The choice preview from quests.gd carries option labels as plain strings
+## ({"a": String}); tolerate a {"label": String} sub-dict too so the prompt
+## never renders blank regardless of which shape the systems ship.
+static func _choice_label(v: Variant) -> String:
+	if v is Dictionary:
+		return str((v as Dictionary).get("label", ""))
+	return str(v)
+
+
+# ----------------------------------------------------------------------
+# Quest marker + day/night hookup (Quests / DayNight singletons)
+# ----------------------------------------------------------------------
+
+func _hook_systems() -> void:
+	if not _quests_hooked:
+		var q := get_tree().get_first_node_in_group("quests")
+		if q != null:
+			if q.has_signal("quest_started"):
+				q.connect("quest_started", _on_quest_signal)
+			if q.has_signal("quest_updated"):
+				q.connect("quest_updated", _on_quest_signal)
+			if q.has_signal("quest_completed"):
+				q.connect("quest_completed", _on_quest_signal)
+			_quests_hooked = true
+			_refresh_marker()
+	if not _daynight_hooked:
+		var dn := get_tree().get_first_node_in_group("day_night")
+		if dn != null:
+			if dn.has_signal("night_changed"):
+				dn.connect("night_changed", _on_night_changed)
+			_daynight_hooked = true
+			if dn.get("is_night") == true:
+				_apply_night(true)
+
+
+func _on_quest_signal(_quest_id: String) -> void:
+	_refresh_marker()
+
+
+func _refresh_marker() -> void:
+	if _marker_label == null:
+		return
+	var q := get_tree().get_first_node_in_group("quests")
+	if q == null:
+		_marker_label.visible = false
+		return
+	var m: String = str(q.call("marker_for_npc", _id))
+	if _marker_label.text != m:
+		_marker_label.text = m
+	_marker_label.visible = m != ""
+
+
+func _on_night_changed(is_night_now: bool) -> void:
+	_apply_night(is_night_now)
+
+
+## Night behavior (SPEC §6): after dusk villagers pull toward home and wander a
+## tighter radius; restored by day. No-op for stationary NPCs and while escorting.
+func _apply_night(is_night_now: bool) -> void:
+	if _base_wander_radius <= 0.0 or is_following():
+		return
+	if is_night_now:
+		_wander_radius = _base_wander_radius * NIGHT_WANDER_FACTOR
+		if not _talking:
+			_target = _home
+			_walk_time_left = (_home - global_position).length() / WALK_SPEED * 2.0 + 1.0
+			_walking = true
+	else:
+		_wander_radius = _base_wander_radius
+
+
+# ----------------------------------------------------------------------
+# Escort-lite (SPEC §5 quest 5) — opt-in follow controller
+# ----------------------------------------------------------------------
+
+## Enable follow: the NPC walks toward `t` while within FOLLOW_LEASH and keeps
+## the Quests "escort_<id>" flag in sync with whether it is keeping up. Dormant
+## for every NPC until main.gd's Mira lifecycle calls this (single owner of the
+## when/why; this node owns only the movement + flag while active).
+func set_follow_target(t: Node2D) -> void:
+	_follow_target = t
+
+
+func stop_following() -> void:
+	_follow_target = null
+	_walking = false
+	velocity = Vector2.ZERO
+	var q := get_tree().get_first_node_in_group("quests")
+	if q != null:
+		q.call("set_flag", "escort_" + _id, false)
+	_update_anim(false)
+
+
+func is_following() -> bool:
+	return _follow_target != null and is_instance_valid(_follow_target)
+
+
+func _tick_follow() -> void:
+	var tgt: Vector2 = _follow_target.global_position
+	var dist: float = global_position.distance_to(tgt)
+	var keeping_up: bool = dist <= FOLLOW_LEASH
+	var q := get_tree().get_first_node_in_group("quests")
+	if q != null:
+		q.call("set_flag", "escort_" + _id, keeping_up)
+	if keeping_up and dist > FOLLOW_STOP_DIST:
+		var dir: Vector2 = (tgt - global_position).normalized()
+		velocity = dir * WALK_SPEED
+		_set_move_facing(dir)
+		_update_anim(true)
+		move_and_slide()
+	else:
+		# Within arm's reach, or the player outran the leash: stall in place.
+		velocity = Vector2.ZERO
+		_update_anim(false)
 
 
 func _pick_new_target() -> void:

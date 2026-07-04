@@ -120,6 +120,12 @@ var _ghost: TextureRect
 ## slot_name -> {panel: Panel, sb: StyleBoxFlat, icon: TextureRect, label: Label}
 var _slots: Dictionary = {}
 var _stat_values: Array[Label] = []
+## Phase C progression readouts (level top-left, gold top-right, XP bar under
+## the preview) — read from the player's xp/level/gold fields via XPSystem.
+var _lvl_label: Label = null
+var _gold_label: Label = null
+var _xp_bar_bg: ColorRect = null
+var _xp_bar_fill: ColorRect = null
 var _inv: Inventory = null
 var _drag_from: String = ""
 var _open_tween: Tween
@@ -144,6 +150,7 @@ func _ready() -> void:
 	_build_slots()
 	_build_stage()
 	_build_stats_strip()
+	_build_progression_ui()
 
 	_tooltip = ItemTooltip.new()
 	_tooltip.name = "SheetTooltip"
@@ -174,6 +181,7 @@ func _process(_delta: float) -> void:
 	if not is_open:
 		return
 	_sync_preview()
+	_refresh_progress()  # keep level/xp/gold live while the sheet is open
 	if _drag_from != "":
 		var mouse: Vector2 = _root.get_global_mouse_position()
 		_ghost.position = mouse - _ghost.size * 0.5
@@ -338,6 +346,7 @@ func _refresh_all() -> void:
 	_sync_preview()
 	_apply_preview_tint()
 	_refresh_preview_weapon()
+	_refresh_progress()
 
 
 func _refresh_title() -> void:
@@ -441,11 +450,13 @@ func _refresh_preview_weapon() -> void:
 	_preview_weapon.texture = at
 	_preview_weapon.offset = Vector2(-reg.size.x * 0.5, -(reg.size.y - float(cfg["grip"])))
 	_preview_weapon.scale = Vector2.ONE * float(cfg["scale"])
-	# Player's facing-down hand pos (5,-10) is relative to a FEET-origin node
-	# whose sprite draws lifted by FEET_OFFSET; our preview is frame-centered
-	# with no offset, so shift by -FEET_OFFSET to keep the grip in the hand.
-	_preview_weapon.position = Vector2(5.0, -10.0) - Player.FEET_OFFSET
-	_preview_weapon.rotation = 0.42
+	# DRAWN pose, idle_down frame 0: the measured hand anchor is relative to
+	# a FEET-origin node whose sprite draws lifted by FEET_OFFSET; our preview
+	# is frame-centered with no offset, so shift by -FEET_OFFSET to keep the
+	# grip in the hand.
+	var hand: Vector2 = Player.ANCHORS["down"]["hand"][0]
+	_preview_weapon.position = hand - Player.FEET_OFFSET
+	_preview_weapon.rotation = float(Player.DRAWN_ROT["down"])
 	_preview_weapon.visible = true
 
 
@@ -855,6 +866,77 @@ func _build_stats_strip() -> void:
 		strip.add_child(value_label)
 		value_label.set_deferred("size", Vector2(w, 12.0))
 		_stat_values.append(value_label)
+
+
+func _build_progression_ui() -> void:
+	## Phase C progression surface (contract §14): a "Lv N" readout in the
+	## title's top-left corner, the gold purse in the top-right corner, and a
+	## slim gold XP bar under the character on the stage. Reads the player's
+	## xp/level/gold fields through XPSystem.xp_progress; purely additive polish
+	## that leaves the HUD's own XP bar/level readout (§6) untouched.
+	_lvl_label = Label.new()
+	_lvl_label.name = "LevelReadout"
+	_style_label(_lvl_label, 9, GOLD)
+	_lvl_label.add_theme_color_override("font_shadow_color", ENGRAVE_SHADOW)
+	_lvl_label.add_theme_constant_override("shadow_offset_x", 1)
+	_lvl_label.add_theme_constant_override("shadow_offset_y", 1)
+	_lvl_label.text = ""
+	_lvl_label.position = Vector2(PAD, 6.0)
+	_panel.add_child(_lvl_label)
+	_lvl_label.set_deferred("size", Vector2(64.0, 12.0))
+
+	_gold_label = Label.new()
+	_gold_label.name = "GoldReadout"
+	_style_label(_gold_label, 9, GOLD)
+	_gold_label.add_theme_color_override("font_shadow_color", ENGRAVE_SHADOW)
+	_gold_label.add_theme_constant_override("shadow_offset_x", 1)
+	_gold_label.add_theme_constant_override("shadow_offset_y", 1)
+	_gold_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_gold_label.text = ""
+	_gold_label.position = Vector2(PANEL_W - PAD - 64.0, 6.0)
+	_panel.add_child(_gold_label)
+	_gold_label.set_deferred("size", Vector2(64.0, 12.0))
+
+	# Slim XP bar riding under the preview's feet on the stage.
+	if _stage != null:
+		var bar_w: float = STAGE_W - 12.0
+		_xp_bar_bg = ColorRect.new()
+		_xp_bar_bg.name = "XPBarBG"
+		_xp_bar_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_xp_bar_bg.color = Color(STAGE_BG.r, STAGE_BG.g, STAGE_BG.b, 0.9)
+		_xp_bar_bg.position = Vector2(6.0, STAGE_H - 14.0)
+		_xp_bar_bg.size = Vector2(bar_w, 4.0)
+		_stage.add_child(_xp_bar_bg)
+
+		_xp_bar_fill = ColorRect.new()
+		_xp_bar_fill.name = "XPBarFill"
+		_xp_bar_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_xp_bar_fill.color = GOLD
+		_xp_bar_fill.position = Vector2.ZERO
+		_xp_bar_fill.size = Vector2(0.0, 4.0)
+		_xp_bar_bg.add_child(_xp_bar_fill)
+
+
+func _refresh_progress() -> void:
+	if _lvl_label == null:
+		return
+	var player: Node = get_tree().get_first_node_in_group("player")
+	if player == null or not is_instance_valid(player):
+		_lvl_label.text = ""
+		_gold_label.text = ""
+		if _xp_bar_fill != null:
+			_xp_bar_fill.size.x = 0.0
+		return
+	var prog: Dictionary = XPSystem.xp_progress(player)
+	var lvl: int = int(prog.get("level", 1))
+	var needed: int = int(prog.get("needed", 0))
+	_lvl_label.text = ("Lv %d MAX" % lvl) if needed <= 0 else ("Lv %d" % lvl)
+	var gold_v: Variant = player.get("gold")
+	var gold_amt: int = int(gold_v) if (gold_v is int or gold_v is float) else 0
+	_gold_label.text = "%d g" % gold_amt
+	if _xp_bar_fill != null and _xp_bar_bg != null:
+		var frac: float = clampf(float(prog.get("frac", 0.0)), 0.0, 1.0)
+		_xp_bar_fill.size.x = _xp_bar_bg.size.x * frac
 
 
 # --- helpers -----------------------------------------------------------------

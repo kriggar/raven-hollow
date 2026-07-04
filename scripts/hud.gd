@@ -20,6 +20,13 @@ extends CanvasLayer
 ##  - Bottom-center ability bar: 3 slots of 30x30 with painterly icons,
 ##    keybind captions, bottom-anchored cooldown sweep + seconds label,
 ##    grey-blue tint when mana is insufficient.
+##  - Under the player frame: a slim amber XP bar + "Lv N" readout, polled
+##    from XPSystem.xp_progress (Phase C).
+##  - Top-right, UNDER the minimap (y>=100, right edge): the quest tracker — a
+##    parchment panel showing up to 2 tracked quests (name in gold, objective
+##    inked below), driven by update_tracker(lines) from the Quests system;
+##    [] hides it. The day/night clock is owned/drawn by the Minimap (frozen),
+##    NOT here (contract §13/§14).
 
 const GOLD := Color(0.85, 0.68, 0.35)
 const PARCHMENT := Color(0.87, 0.82, 0.72)
@@ -35,6 +42,10 @@ const SLOT_BG := Color(0.07, 0.055, 0.045, 0.95)
 const SLOT_BORDER := Color(0.30, 0.22, 0.12)
 const COOLDOWN_SHADE := Color(0.04, 0.03, 0.02, 0.62)
 const MANA_LOW_TINT := Color(0.4, 0.42, 0.52)
+## Phase C: amber XP fill, parchment tracker sheet + its dark inked objective.
+const XP_FILL := Color(0.80, 0.62, 0.22)
+const PARCH_BG := Color(0.72, 0.65, 0.5)
+const INK := Color(0.22, 0.15, 0.09)
 
 ## Unit-frame geometry: 118x42 frame, 34x34 portrait box (32px face at 2x from
 ## a 16x16 crop — crisp integer pixel scale), 66px bars right of the portrait.
@@ -52,6 +63,15 @@ const SLOT_GAP: float = 6.0
 const KEYBINDS: Array[String] = ["LMB", "Q", "R"]
 const CHAR_DIR := "res://assets/art/characters/"
 const ENEMY_DIR := "res://assets/art/enemies/"
+
+## Quest tracker (top-right, under the minimap frame+clock which run to y~96).
+## Right-edge aligned like the minimap; grows downward for up to 2 quests.
+const TRACKER_W: float = 176.0
+const TRACKER_TOP: float = 100.0
+const TRACKER_PAD: float = 6.0
+const TRACKER_TITLE_H: float = 13.0
+const TRACKER_LINE_H: float = 12.0
+const TRACKER_ENTRY_GAP: float = 5.0
 
 ## 16x16 head-crop origin inside idle frame 0 (32x32), per enemy type. All
 ## rects verified with PIL at 8x — heads are NOT uniformly centered (the
@@ -94,6 +114,11 @@ var _ability_bar: Control
 ## One Dictionary per slot: {panel, icon, cd_rect, cd_label, key_label}.
 var _slots: Array[Dictionary] = []
 var _built_class_id: String = ""
+var _xp_fill: ColorRect
+var _xp_label: Label
+var _tracker: Control
+## One Dictionary per tracked-quest slot: {title Label, line Label}.
+var _tracker_entries: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -110,6 +135,8 @@ func _ready() -> void:
 	_build_player_frame()
 	_build_target_frame()
 	_build_ability_bar()
+	_build_xp_bar()
+	_build_tracker()
 
 
 func _process(_delta: float) -> void:
@@ -135,6 +162,7 @@ func _process(_delta: float) -> void:
 	_update_bars(player)
 	_update_target_frame(player)
 	_update_ability_slots(player, class_def)
+	_update_xp(player)
 
 
 # --- per-frame updates -------------------------------------------------------
@@ -221,6 +249,53 @@ func _update_ability_slots(player: Node, class_def: Dictionary) -> void:
 		var icon: TextureRect = slot["icon"]
 		var cost: float = _as_float(ability.get("mana_cost"))
 		icon.modulate = MANA_LOW_TINT if mana < cost else Color.WHITE
+
+
+## Polls XPSystem.xp_progress(player) -> {level, xp, needed, frac} and drives
+## the slim XP bar + "Lv N" under the player frame. At the cap frac is 1.0.
+func _update_xp(player: Node) -> void:
+	var prog: Dictionary = XPSystem.xp_progress(player)
+	var lvl: int = int(prog.get("level", 1))
+	var frac: float = clampf(_as_float(prog.get("frac")), 0.0, 1.0)
+	_xp_fill.size.x = roundf((UF_W - 2.0) * frac)
+	if lvl >= XPSystem.MAX_LEVEL:
+		_xp_label.text = "Lv %d  Max" % lvl
+	else:
+		_xp_label.text = "Lv %d" % lvl
+
+
+## Quest tracker (Quests contract): lines = quests.tracker_lines(), up to 2
+## dicts {title: String, line: String}. Quest name in gold, current objective
+## inked on the parchment beneath it. An empty array hides the whole panel.
+func update_tracker(lines: Array) -> void:
+	var count: int = mini(lines.size(), _tracker_entries.size())
+	if count <= 0:
+		_tracker.visible = false
+		return
+	var y: float = TRACKER_PAD
+	for i in range(_tracker_entries.size()):
+		var entry: Dictionary = _tracker_entries[i]
+		var title: Label = entry["title"]
+		var line: Label = entry["line"]
+		if i >= count:
+			title.visible = false
+			line.visible = false
+			continue
+		var data: Dictionary = {}
+		var data_v: Variant = lines[i]
+		if data_v is Dictionary:
+			data = data_v
+		title.text = str(data.get("title", ""))
+		line.text = str(data.get("line", ""))
+		title.visible = true
+		line.visible = true
+		title.position = Vector2(TRACKER_PAD, y)
+		y += TRACKER_TITLE_H
+		line.position = Vector2(TRACKER_PAD, y)
+		y += TRACKER_LINE_H + TRACKER_ENTRY_GAP
+	# Resize the panel to the used entries: drop the trailing gap, add bottom pad.
+	_tracker.offset_bottom = TRACKER_TOP + (y - TRACKER_ENTRY_GAP + TRACKER_PAD)
+	_tracker.visible = true
 
 
 func _apply_class(class_def: Dictionary) -> void:
@@ -476,6 +551,118 @@ func _build_ability_bar() -> void:
 			"cd_label": cd_label,
 			"key_label": key_label,
 		})
+
+
+## Slim amber XP bar spanning the player-frame width, just below it, with a
+## left-aligned "Lv N" caption. Fill width + text are driven by _update_xp.
+func _build_xp_bar() -> void:
+	var y: float = UF_MARGIN + UF_H + 2.0
+
+	var back := Panel.new()
+	back.name = "XPBar"
+	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	back.position = Vector2(UF_MARGIN, y)
+	back.size = Vector2(UF_W, 9.0)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = BAR_BG
+	sb.border_color = BOX_BORDER
+	sb.set_border_width_all(1)
+	sb.set_corner_radius_all(0)
+	back.add_theme_stylebox_override("panel", sb)
+	_root.add_child(back)
+
+	_xp_fill = ColorRect.new()
+	_xp_fill.name = "XPFill"
+	_xp_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_xp_fill.color = XP_FILL
+	_xp_fill.position = Vector2(1.0, 1.0)
+	_xp_fill.size = Vector2(0.0, 7.0)
+	back.add_child(_xp_fill)
+
+	_xp_label = Label.new()
+	_xp_label.name = "XPLevel"
+	_style_label(_xp_label, 8, PARCHMENT)
+	_xp_label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	_xp_label.add_theme_constant_override("outline_size", 2)
+	_xp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_xp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	# Same -4 lift the resource bars use for Alagard's tall ascent.
+	_xp_label.position = Vector2(3.0, -4.0)
+	_xp_label.size = Vector2(UF_W - 6.0, 9.0)
+	back.add_child(_xp_label)
+
+
+## Quest tracker: a parchment sheet under the minimap (right edge, y>=100)
+## with an aged-wood 9-patch rim, pre-building 2 hidden entry slots (gold
+## quest title + inked objective line). Populated/resized by update_tracker.
+func _build_tracker() -> void:
+	_tracker = Control.new()
+	_tracker.name = "QuestTracker"
+	_tracker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tracker.anchor_left = 1.0
+	_tracker.anchor_right = 1.0
+	_tracker.anchor_top = 0.0
+	_tracker.anchor_bottom = 0.0
+	_tracker.offset_left = -(UF_MARGIN + TRACKER_W)
+	_tracker.offset_right = -UF_MARGIN
+	_tracker.offset_top = TRACKER_TOP
+	_tracker.offset_bottom = TRACKER_TOP + 37.0
+	_tracker.visible = false
+	_root.add_child(_tracker)
+
+	# Parchment sheet inset under the wooden rim.
+	var fill := Panel.new()
+	fill.name = "Fill"
+	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fill.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fill.offset_left = 3.0
+	fill.offset_top = 3.0
+	fill.offset_right = -3.0
+	fill.offset_bottom = -3.0
+	var fsb := StyleBoxFlat.new()
+	fsb.bg_color = PARCH_BG
+	fsb.border_color = BOX_BORDER
+	fsb.set_border_width_all(1)
+	fsb.set_corner_radius_all(0)
+	fill.add_theme_stylebox_override("panel", fsb)
+	_tracker.add_child(fill)
+
+	var rim := NinePatchRect.new()
+	rim.name = "Rim"
+	rim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rim.texture = _panel_tex
+	rim.draw_center = false
+	rim.patch_margin_left = 10
+	rim.patch_margin_right = 10
+	rim.patch_margin_top = 10
+	rim.patch_margin_bottom = 10
+	rim.modulate = FRAME_TINT
+	rim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_tracker.add_child(rim)
+
+	var text_w: float = TRACKER_W - TRACKER_PAD * 2.0
+	for i in range(2):
+		var title := Label.new()
+		title.name = "Title%d" % i
+		_style_label(title, 10, GOLD)
+		title.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+		title.add_theme_constant_override("outline_size", 2)
+		title.clip_text = true
+		title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		title.size = Vector2(text_w, TRACKER_TITLE_H)
+		title.visible = false
+		_tracker.add_child(title)
+
+		var line := Label.new()
+		line.name = "Line%d" % i
+		_style_label(line, 9, INK)
+		line.clip_text = true
+		line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		line.size = Vector2(text_w, TRACKER_LINE_H)
+		line.visible = false
+		_tracker.add_child(line)
+
+		_tracker_entries.append({"title": title, "line": line})
 
 
 # --- portraits ---------------------------------------------------------------

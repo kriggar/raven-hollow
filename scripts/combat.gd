@@ -3,27 +3,31 @@ class_name Combat
 ##  - deal_damage: routes into a target's take_damage + floating damage number.
 ##  - spawn_projectile: faction-aware Area2D projectile (group-based hit test
 ##    within 10 px, frees on wall contact via body_entered on mask 1).
-##  - spawn_world_enemies: deterministic skeleton/orc placements outside town
-##    plus the training scarecrow (LPC decorations atlas, region verified by
-##    pixel inspection: Rect2(320, 130, 32, 62), pole base on the crop bottom).
+##  - spawn_world_enemies: deterministic TOWN skeleton placements plus the
+##    training scarecrow (LPC decorations atlas, region verified by pixel
+##    inspection: Rect2(320, 130, 32, 62), pole base on the crop bottom).
+##  - spawn_map_enemies(parent, built): Phase C wilderness spawn. The wilderness
+##    builder OWNS positions/config (built["enemy_spawns"]/["ambient_spawns"]);
+##    this OWNS instantiation — killable animals become Enemy.create (fauna flag
+##    -> LPC animal sprites, handled in enemy.gd), ambient critters become
+##    Combat.Fauna (group "ambient_fauna", flee-only, never in "enemies").
 ##  - find_nearest_enemy: nearest living member of group "enemies".
 
 const DMG_ON_ENEMY := Color(0.95, 0.92, 0.85)   # bone-white, player-dealt
 const DMG_ON_PLAYER := Color(0.9, 0.28, 0.22)   # red, player was hit
 const SCARECROW_POS := Vector2(1650.0, 950.0)
 
-## Deterministic world spawns. Skeletons haunt the graveyard OUTSKIRTS (west
-## and north of the fence, off the lane); orcs camp SE beyond the farm.
+## Deterministic TOWN spawns. Skeletons haunt the graveyard OUTSKIRTS (west and
+## north of the fence, off the lane). The Phase A orc camp used to sit SE of the
+## farm here; Phase C relocates it to the wilderness (SPEC §3e / contract §10),
+## so wilderness_builder now owns those 6 orcs + the orc_shaman via its
+## build()["enemy_spawns"], instantiated by spawn_map_enemies() below.
 const ENEMY_SPAWNS: Array[Dictionary] = [
 	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(140.0, 300.0), "hp": 32.0, "damage": 6.0, "speed": 62.0, "patrol_radius": 55.0},
 	{"type": "skeleton_rogue", "display_name": "Skeleton Rogue", "pos": Vector2(125.0, 435.0), "hp": 30.0, "damage": 7.0, "speed": 70.0, "patrol_radius": 65.0},
 	{"type": "skeleton_warrior", "display_name": "Skeleton Warrior", "pos": Vector2(185.0, 495.0), "hp": 48.0, "damage": 9.0, "speed": 55.0, "patrol_radius": 45.0},
 	{"type": "skeleton_mage", "display_name": "Skeleton Mage", "pos": Vector2(330.0, 165.0), "hp": 34.0, "damage": 8.0, "speed": 58.0, "patrol_radius": 60.0},
 	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(520.0, 155.0), "hp": 32.0, "damage": 6.0, "speed": 64.0, "patrol_radius": 80.0},
-	{"type": "orc", "display_name": "Orc Grunt", "pos": Vector2(1845.0, 1350.0), "hp": 40.0, "damage": 7.0, "speed": 60.0, "patrol_radius": 60.0},
-	{"type": "orc_warrior", "display_name": "Orc Warrior", "pos": Vector2(1955.0, 1325.0), "hp": 55.0, "damage": 10.0, "speed": 55.0, "patrol_radius": 40.0},
-	{"type": "orc_rogue", "display_name": "Orc Rogue", "pos": Vector2(2040.0, 1430.0), "hp": 35.0, "damage": 8.0, "speed": 70.0, "patrol_radius": 75.0},
-	{"type": "orc_shaman", "display_name": "Orc Shaman", "pos": Vector2(1900.0, 1460.0), "hp": 38.0, "damage": 9.0, "speed": 56.0, "patrol_radius": 50.0},
 ]
 
 
@@ -56,6 +60,24 @@ static func spawn_world_enemies(world: Node2D) -> void:
 	for cfg: Dictionary in ENEMY_SPAWNS:
 		world.add_child(Enemy.create(cfg))
 	world.add_child(Scarecrow.new(SCARECROW_POS))
+
+
+## Phase C per-map spawn (wilderness). The map builder returns the placements;
+## we instantiate them. `built["enemy_spawns"]` are killable combatants
+## (wolf/boar/bear carry "fauna": true -> animal sprites; orcs reuse the mob
+## sheets), each a full Enemy so targeting/nameplate/XP/drops/report_kill work
+## unchanged. `built["ambient_spawns"]` are deer/fox/rabbit/bird — Combat.Fauna,
+## which flee but never fight and live in group "ambient_fauna" (never
+## "enemies"), so kill/aggro/AoE logic ignores them.
+static func spawn_map_enemies(parent: Node2D, built: Dictionary) -> void:
+	if parent == null:
+		return
+	for cfg_v: Variant in built.get("enemy_spawns", []):
+		if cfg_v is Dictionary:
+			parent.add_child(Enemy.create(cfg_v))
+	for cfg_v: Variant in built.get("ambient_spawns", []):
+		if cfg_v is Dictionary:
+			parent.add_child(Fauna.new(cfg_v))
 
 
 static func find_nearest_enemy(from: Vector2, max_dist: float) -> Node2D:
@@ -303,3 +325,157 @@ class Scarecrow extends StaticBody2D:
 		_wobble.tween_property(_spr, "rotation", -0.1, 0.09)
 		_wobble.tween_property(_spr, "rotation", 0.05, 0.08)
 		_wobble.tween_property(_spr, "rotation", 0.0, 0.08)
+
+
+class Fauna extends Node2D:
+	## Ambient wilderness critter (deer / fox / rabbit / bird) — SPEC §3, contract
+	## §9. Lives in group "ambient_fauna" and NEVER in "enemies": no hp, no
+	## take_damage, no nameplate, no target, so combat/targeting/AoE ignore it
+	## entirely. It idly wanders around its spawn (home) and, when the player
+	## comes within flee_radius (~60px), walks/flies directly away for a beat —
+	## selling the forest as alive. Lightweight Node2D (no physics body); it moves
+	## its own position and clips through props, which is fine for decoration.
+	## Sprite rects are PIL-verified (wild_geometry.json + scratchpad crops); all
+	## picked rows face RIGHT (flip_h mirrors for leftward motion). Birds hop on a
+	## perched row and switch to the top-down fly row while fleeing.
+	const FAUNA_DIR := "res://_downloads/wilderness/animals/"
+	const WANDER_SPEED: float = 24.0
+	const FLEE_SPEED: float = 96.0
+	const FLEE_HOLD: float = 1.1
+
+	var type_name: String = "deer"
+	var flee_radius: float = 60.0
+	var home: Vector2 = Vector2.ZERO
+
+	var _sprite: AnimatedSprite2D
+	var _rng := RandomNumberGenerator.new()
+	var _art_faces_left: bool = false
+	var _is_bird: bool = false
+	var _off: Vector2 = Vector2(0.0, -32.0)
+	var _wander_radius: float = 56.0
+	var _target: Vector2 = Vector2.ZERO
+	var _idle_wait: float = 0.0
+	var _flee_left: float = 0.0
+
+	func _init(cfg: Dictionary) -> void:
+		type_name = str(cfg.get("type", "deer"))
+		position = cfg.get("pos", Vector2.ZERO)
+		home = position
+		flee_radius = float(cfg.get("flee_radius", 60.0))
+		name = "Fauna_" + type_name
+		y_sort_enabled = true
+		# Deterministic-ish wander seeded from the spawn (mirrors Enemy).
+		_rng.seed = hash(position)
+		_target = position
+		_idle_wait = _rng.randf_range(0.4, 2.2)
+		_build_sprite()
+
+	func _build_sprite() -> void:
+		var sf := SpriteFrames.new()
+		sf.remove_animation("default")
+		match type_name:
+			"fox":
+				# fox, woods.png 256x256 4x4; row1 (y64) = RIGHT-facing side walk.
+				var t: Texture2D = load(FAUNA_DIR + "lpc2022/lpc animals 2022 v1.1/individual creature spritesheets/fox, woods.png")
+				_add(sf, t, "idle", [Rect2(0, 64, 64, 64)], 3.0, true)
+				_add(sf, t, "move", [Rect2(0, 64, 64, 64), Rect2(64, 64, 64, 64),
+						Rect2(128, 64, 64, 64), Rect2(192, 64, 64, 64)], 9.0, true)
+				_off = Vector2(0.0, -32.0)
+			"rabbit":
+				# bunnysheet5.png is hand-packed (no clean grid); these three
+				# bottom-row side hops (facing RIGHT) are tight, PIL-verified rects.
+				var t: Texture2D = load(FAUNA_DIR + "bunnysheet5.png")
+				_add(sf, t, "idle", [Rect2(25, 283, 28, 34)], 2.0, true)
+				_add(sf, t, "move", [Rect2(25, 283, 28, 34), Rect2(59, 283, 29, 34),
+						Rect2(94, 283, 36, 34)], 8.0, true)
+				_off = Vector2(0.0, -17.0)
+			"bird":
+				# bird_1_brown.png 96x256 3x8 @32; row7 (y224) = ground/perched
+				# side (RIGHT), row2 (y64) = top-down wings-spread fly.
+				var t: Texture2D = load(FAUNA_DIR + "bird_1_brown.png")
+				_add(sf, t, "idle", [Rect2(0, 224, 32, 32), Rect2(32, 224, 32, 32),
+						Rect2(64, 224, 32, 32)], 4.0, true)
+				_add(sf, t, "fly", [Rect2(0, 64, 32, 32), Rect2(32, 64, 32, 32),
+						Rect2(64, 64, 32, 32)], 12.0, true)
+				_is_bird = true
+				_off = Vector2(0.0, -16.0)
+			_:
+				# "deer": deer, light doe.png 256x384 4x(64x96); row2 (y192) =
+				# RIGHT-facing side walk. Tall frames (antler clearance).
+				var t: Texture2D = load(FAUNA_DIR + "lpc2022/lpc animals 2022 v1.1/individual creature spritesheets/deer, light doe.png")
+				_add(sf, t, "idle", [Rect2(0, 192, 64, 96)], 3.0, true)
+				_add(sf, t, "move", [Rect2(0, 192, 64, 96), Rect2(64, 192, 64, 96),
+						Rect2(128, 192, 64, 96), Rect2(192, 192, 64, 96)], 8.0, true)
+				_off = Vector2(0.0, -48.0)
+		var spr := AnimatedSprite2D.new()
+		spr.name = "Sprite"
+		spr.sprite_frames = sf
+		spr.centered = true
+		spr.offset = _off
+		spr.play("idle")
+		add_child(spr)
+		_sprite = spr
+
+	func _add(sf: SpriteFrames, tex: Texture2D, anim: String, rects: Array, fps: float, loop: bool) -> void:
+		sf.add_animation(anim)
+		sf.set_animation_speed(anim, fps)
+		sf.set_animation_loop(anim, loop)
+		for r: Rect2 in rects:
+			var at := AtlasTexture.new()
+			at.atlas = tex
+			at.region = r
+			sf.add_frame(anim, at)
+
+	func _physics_process(delta: float) -> void:
+		var player := get_tree().get_first_node_in_group("player") as Node2D
+		if player != null and is_instance_valid(player) \
+				and global_position.distance_to(player.global_position) <= flee_radius:
+			_flee_left = FLEE_HOLD
+		_flee_left = maxf(0.0, _flee_left - delta)
+		var fleeing: bool = _flee_left > 0.0
+		if fleeing and player != null and is_instance_valid(player):
+			var away: Vector2 = global_position - player.global_position
+			if away.length_squared() < 0.01:
+				away = Vector2.from_angle(_rng.randf_range(0.0, TAU))
+			_step(global_position + away.normalized() * 40.0, FLEE_SPEED, delta)
+			_play_move(true, true)
+			return
+		# Idle / lazy wander around home.
+		if _idle_wait > 0.0:
+			_idle_wait -= delta
+			_play_move(false, false)
+			if _idle_wait <= 0.0:
+				_pick_wander()
+			return
+		if global_position.distance_to(_target) < 3.0:
+			_idle_wait = _rng.randf_range(1.2, 3.6)
+			_play_move(false, false)
+			return
+		_step(_target, WANDER_SPEED, delta)
+		_play_move(true, false)
+
+	func _step(dest: Vector2, spd: float, delta: float) -> void:
+		var to: Vector2 = dest - global_position
+		if to.length_squared() < 0.0001:
+			return
+		var step: Vector2 = to.normalized() * spd * delta
+		global_position += step
+		if absf(step.x) > 0.01:
+			_sprite.flip_h = (step.x < 0.0) != _art_faces_left
+
+	func _pick_wander() -> void:
+		var ang: float = _rng.randf_range(0.0, TAU)
+		var r: float = sqrt(_rng.randf()) * _wander_radius
+		_target = home + Vector2.from_angle(ang) * r
+
+	func _play_move(moving: bool, fleeing: bool) -> void:
+		var anim: String
+		if _is_bird:
+			anim = "fly" if fleeing else "idle"
+		else:
+			anim = "move" if moving else "idle"
+		if not _sprite.sprite_frames.has_animation(anim):
+			return
+		if _sprite.animation != StringName(anim) or not _sprite.is_playing():
+			_sprite.offset = _off
+			_sprite.play(anim)

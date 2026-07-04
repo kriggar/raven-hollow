@@ -36,6 +36,14 @@ const SLOT_LABELS: Dictionary = {
 	"ring1": "Ring", "ring2": "Ring", "trinket": "Trinket",
 }
 
+## Phase C item-type captions for slot-"none" crafting/quest items — shown on
+## the type line in place of an equip slot ("Material - Common", etc.).
+const TYPE_LABELS: Dictionary = {
+	"material": "Material",
+	"consumable": "Consumable",
+	"recipe": "Recipe Scroll",
+}
+
 ## [stats key, display name, is_percent] — display order of the stat lines.
 const STAT_ROWS: Array = [
 	["damage", "Damage", false],
@@ -53,8 +61,10 @@ var _built: bool = false
 var _name_label: Label
 var _type_label: Label
 var _stat_labels: Array[Label] = []
+var _effect_label: Label
 var _flavor_label: Label
 var _legend_label: Label
+var _use_hint_label: Label
 
 
 func _ready() -> void:
@@ -76,10 +86,16 @@ func show_item(item: Dictionary, screen_pos: Vector2) -> void:
 
 	# Slot + rarity line ("Main Hand - Rare"). Legendaries keep just the slot
 	# here — they get the dedicated gold tag line at the bottom instead.
+	# Slot-"none" crafting/quest items show their type ("Material - Common").
+	var item_type: String = str(item.get("type", ""))
 	var parts: Array[String] = []
 	var slot_pretty: String = str(SLOT_LABELS.get(str(item.get("slot", "none")), ""))
 	if not slot_pretty.is_empty():
 		parts.append(slot_pretty)
+	elif not item_type.is_empty():
+		var cat: String = str(TYPE_LABELS.get(item_type, ""))
+		if not cat.is_empty():
+			parts.append(cat)
 	if rarity != "legendary":
 		parts.append(rarity.capitalize())
 	_type_label.text = " - ".join(parts)
@@ -107,6 +123,23 @@ func show_item(item: Dictionary, screen_pos: Vector2) -> void:
 			num += "%"
 		label.text = "%s %s" % [num, str(row[1])]
 
+	# Consumable effect summary (Phase C "consumable" item type).
+	var effect_text: String = ""
+	if item_type == "consumable":
+		var fx_v: Variant = item.get("use_effect")
+		if fx_v is Dictionary:
+			var fx: Dictionary = fx_v
+			match str(fx.get("kind", "")):
+				"heal":
+					effect_text = "Restores %s HP" % _fmt_num(float(fx.get("amount", 0.0)))
+				"regen_hp":
+					effect_text = "Restores %s HP/s for %ss" % [
+						_fmt_num(float(fx.get("amount", 0.0))),
+						_fmt_num(float(fx.get("duration", 0.0)))]
+	_effect_label.visible = not effect_text.is_empty()
+	if _effect_label.visible:
+		_effect_label.text = effect_text
+
 	var flavor: String = str(item.get("flavor", ""))
 	_flavor_label.visible = not flavor.is_empty()
 	if _flavor_label.visible:
@@ -119,6 +152,16 @@ func show_item(item: Dictionary, screen_pos: Vector2) -> void:
 		_flavor_label.custom_minimum_size = Vector2(WRAP_WIDTH, wrapped.y + 1.0)
 
 	_legend_label.visible = rarity == "legendary"
+
+	# Right-click affordance for the actionable Phase C item types.
+	var hint: String = ""
+	if item_type == "consumable":
+		hint = "Right-click to use"
+	elif item_type == "recipe":
+		hint = "Right-click to learn"
+	_use_hint_label.visible = not hint.is_empty()
+	if _use_hint_label.visible:
+		_use_hint_label.text = hint
 
 	visible = true
 	reset_size()
@@ -169,12 +212,14 @@ func _build() -> void:
 	_type_label = _make_label(vbox, 8, TYPE_DIM)
 	for _i in range(STAT_ROWS.size()):
 		_stat_labels.append(_make_label(vbox, 9, PARCHMENT))
+	_effect_label = _make_label(vbox, 9, PARCHMENT)
 	_flavor_label = _make_label(vbox, FLAVOR_SIZE, FLAVOR_TINT)
 	_flavor_label.add_theme_font_override("font", _italic)
 	_flavor_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_flavor_label.custom_minimum_size = Vector2(WRAP_WIDTH, 0.0)
 	_legend_label = _make_label(vbox, 9, GOLD)
 	_legend_label.text = "Legendary"
+	_use_hint_label = _make_label(vbox, 8, GOLD)
 
 
 func _make_label(parent: Control, font_size: int, color: Color) -> Label:

@@ -9,7 +9,9 @@ class_name NPCData
 ## these are their fixed signature looks. Generic villagers (town_builder)
 ## get def["palette"] colorways from NPC.OUTFIT_COLORS / HAIR_COLORS /
 ## SKIN_TONES instead, and must never duplicate a (sheet, variant, palette)
-## combo — the 7 combos below (plus player-reserved male1:0) are taken.
+## combo — the named-cast combos below (plus player-reserved npc_male1:0) are
+## taken: female1:0, male2:1, male3:2, male4:0, male2:3, female2:1, male1:2,
+## and the Phase C additions gatewarden=male4:1 and mira=female1:2.
 
 const CHAR_DIR := "res://assets/art/characters/"
 
@@ -65,8 +67,35 @@ static func cast() -> Array:
 			"I flicked a coin in the fountain and wished for an adventure. Then you walked in. Coincidence?",
 			"You've been past the hills, yes? Is it true the cities have streets of stone all the way down?",
 		]),
+		# Phase C — Gatewarden Iosif guards the town east gate (town_builder adds
+		# his spawn at (2144,866)). Quest 4 branch B warns him at the gate; these
+		# are his ambient lines (warning about the wolves and the night, SPEC §2).
+		_def("gatewarden", "Gatewarden Iosif", CHAR_DIR + "npc_male4.png", 1, "down", [
+			"Gatewarden Iosif. I keep the east gate — and lately I keep it shut more than I keep it open.",
+			"Beyond the arch runs the Emberfall Road. Clear enough by daylight — boars, mud, the wind off the hills. Walk it while the sun's up and you'll likely walk it back.",
+			"But when the lanterns want lighting, be inside the wall. The wolves come down off the ridges after dark, and they don't hunt like wolves anymore — they spread out even and quiet, like they're pacing off the ground for someone.",
+			"Go if you must. Just be this side of the gate by nightfall. The road keeps what it catches after dark, and it has never once handed anything back.",
+		]),
+		# Phase C — Mira, the miller's daughter (quest 5, "The One Who Listens").
+		# NOT spawned in town: main.gd instantiates her dynamically at the
+		# wilderness treeline at night via NPCData.by_id("mira"). Her scripted
+		# lines are quest_defs finale_pages; these are only the eerie ambient
+		# fallback if the player talks to her outside the finale beat.
+		_def("mira", "Mira", CHAR_DIR + "npc_female1.png", 2, "up", [
+			"...",
+			"(Mira's eyes are open and fixed on nothing at all. Her head tilts, slow, as if she has caught a sound running just beneath the wind. She does not seem to know you are there.)",
+		]),
 	]
 	return defs
+
+
+## Look up a single cast def by id. main.gd uses this to spawn the dynamic Mira
+## (NPCData.by_id("mira")) at the wilderness treeline. Returns {} when unknown.
+static func by_id(id: String) -> Dictionary:
+	for d: Dictionary in cast():
+		if str(d.get("id", "")) == id:
+			return d
+	return {}
 
 
 static func _def(id: String, display_name: String, sheet: String, variant: int, facing: String, dialogue: Array[String]) -> Dictionary:
