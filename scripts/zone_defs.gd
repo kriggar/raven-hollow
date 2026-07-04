@@ -46,7 +46,12 @@ const ROUTES := {
 	"bent_oar": ["vetka_square"],
 	"vetka_square": ["bent_oar", "copper_cross"],
 	"copper_cross": ["vetka_square", "stonepath_cross"],
-	"stonepath_cross": ["copper_cross"],
+	"stonepath_cross": ["copper_cross", "marches_post"],
+	"marches_post": ["stonepath_cross", "lowlands_barge"],
+	"lowlands_barge": ["marches_post", "angel_gate"],
+	"angel_gate": ["lowlands_barge", "famine_post"],
+	"famine_post": ["angel_gate", "riverfork_docks"],
+	"riverfork_docks": ["famine_post"],
 }
 
 
@@ -268,10 +273,12 @@ const _ZONES := {
 			{"kind": "boot_prints", "pos": Vector2(5150, 3850)},
 		],
 		"waystations": [{"id": "stonepath_cross", "pos": Vector2(3420, 2660)}],
-		"border_gaps": [Rect2(0, 2480, 240, 280)],
+		"border_gaps": [Rect2(0, 2480, 240, 280), Rect2(3160, 0, 300, 240)],
 		"travel_points": [
 			{"id": "west_entry", "pos": Vector2(160.0, 2600.0), "radius": 34.0,
 				"to_map": "copper_wells", "to_point": "east_gate", "prompt": "[E] The Copper Wells"},
+			{"id": "north_gate", "pos": Vector2(3300.0, 340.0), "radius": 36.0,
+				"to_map": "grey_marches", "to_point": "east_gate", "prompt": "[E] The Grey Marches — West Road"},
 		],
 		"creature_table": [
 			{"type": "wolf", "name": "Wild Wolf", "count": 9, "pack": 3, "hp": 32, "damage": 7, "speed": 90, "patrol": 130,
@@ -285,11 +292,246 @@ const _ZONES := {
 
 	# ---------------- planned (flip built:true per batch; canon names) ------
 	"chamber_depths": {"built": false, "name": "The Chamber Depths", "continent": 1, "region": "border", "biome": "cave"},
-	"angel_wings": {"built": false, "name": "Angel Wings", "continent": 1, "region": "west", "biome": "farmland", "capital": true},
-	"western_lowlands": {"built": false, "name": "The Western Lowlands", "continent": 1, "region": "west", "biome": "farmland"},
-	"grey_marches": {"built": false, "name": "The Grey Marches", "continent": 1, "region": "west", "biome": "deadforest"},
-	"famine_fields": {"built": false, "name": "The Famine Fields", "continent": 1, "region": "west", "biome": "farmland"},
-	"riverfork": {"built": false, "name": "Riverfork", "continent": 1, "region": "west", "biome": "farmland"},
+	# ---------------- WEST — Angel Wings (Humans, Queen Fielderine) ---------
+	"grey_marches": {
+		"built": true,
+		"name": "The Grey Marches",
+		"continent": 1, "region": "west", "biome": "deadforest",
+		"tiles_w": 224, "tiles_h": 160,
+		"dusk_tint": Color(0.84, 0.82, 0.80),
+		"player_spawn": Vector2(6900.0, 2560.0),
+		"tree_density": 1.6,
+		"roads": [[Vector2(7040, 2560), Vector2(5200, 2500), Vector2(3400, 2560), Vector2(1500, 2620), Vector2(120, 2600)]],
+		"landmarks": [
+			{"type": "cottage", "pos": Vector2(4200, 1600)},       # abandoned forester's holding
+			{"type": "graves", "pos": Vector2(2600, 3400), "count": 9},
+			{"type": "inscription_stone", "pos": Vector2(3300, 1100), "live": false},
+			{"type": "dolmen", "pos": Vector2(1200, 1400)},
+			{"type": "camp", "pos": Vector2(5400, 3600)},          # cult fire
+			{"type": "bones", "pos": Vector2(3350, 1160)},
+		],
+		"warm_patches": [Vector2(3320, 1150)],
+		"vignettes": [
+			{"kind": "cold_camp", "pos": Vector2(1800, 2000)},
+			{"kind": "standing_farmer", "pos": Vector2(4900, 2800)},
+		],
+		"waystations": [{"id": "marches_post", "pos": Vector2(5300, 2620)}],
+		"border_gaps": [Rect2(6940, 2440, 220, 280), Rect2(0, 2480, 240, 280)],
+		"travel_points": [
+			{"id": "east_gate", "pos": Vector2(7000.0, 2560.0), "radius": 34.0,
+				"to_map": "stonepath", "to_point": "north_gate", "prompt": "[E] The Stonepath"},
+			{"id": "west_gate", "pos": Vector2(150.0, 2600.0), "radius": 34.0,
+				"to_map": "western_lowlands", "to_point": "east_entry", "prompt": "[E] The Western Lowlands"},
+		],
+		"creature_table": [
+			{"type": "wolf", "name": "Greywolf", "count": 10, "pack": 3, "hp": 34, "damage": 8, "speed": 92, "patrol": 130,
+				"area": Rect2(1000, 800, 3200, 1600)},
+			{"type": "orc_shaman", "name": "Cult Zealot", "count": 5, "pack": 2, "hp": 38, "damage": 9, "speed": 70, "patrol": 90,
+				"area": Rect2(4600, 3200, 1800, 1200)},
+			{"type": "skeleton_mage", "name": "The Hungering", "count": 4, "pack": 1, "hp": 24, "damage": 6, "speed": 24, "patrol": 16,
+				"area": Rect2(2200, 2800, 1400, 1000)},
+		],
+	},
+
+	"western_lowlands": {
+		"built": true,
+		"name": "The Western Lowlands",
+		"continent": 1, "region": "west", "biome": "farmland",
+		"tiles_w": 240, "tiles_h": 160,
+		"dusk_tint": Color(0.98, 0.90, 0.78),
+		"player_spawn": Vector2(7480.0, 2560.0),
+		"tree_density": 0.5,
+		"river": [Vector2(2000, 0), Vector2(2100, 1800), Vector2(2300, 3400), Vector2(2200, 5120)],
+		"river_width": 90.0,
+		"river_color": Color(0.30, 0.34, 0.38, 0.9),
+		"roads": [[Vector2(7560, 2560), Vector2(5600, 2520), Vector2(3800, 2560), Vector2(2400, 2600), Vector2(140, 2620)]],
+		"landmarks": [
+			{"type": "hamlet", "pos": Vector2(5200, 2000), "count": 4},
+			{"type": "hamlet", "pos": Vector2(3600, 3300), "count": 3},
+			{"type": "barn", "pos": Vector2(4600, 2900)},
+			{"type": "well", "pos": Vector2(5150, 2100)},
+			{"type": "shed", "pos": Vector2(3500, 1500)},
+			{"type": "graves", "pos": Vector2(6400, 3800), "count": 4},
+		],
+		"warm_patches": [],
+		"vignettes": [
+			{"kind": "full_granary", "pos": Vector2(6200, 1700)},   # famine w/ a FULL granary (canon)
+			{"kind": "standing_farmer", "pos": Vector2(4400, 2450)},
+		],
+		"waystations": [{"id": "lowlands_barge", "pos": Vector2(2350, 2650)}],
+		"border_gaps": [Rect2(7420, 2400, 260, 300), Rect2(0, 2500, 260, 280)],
+		"travel_points": [
+			{"id": "east_entry", "pos": Vector2(7520.0, 2560.0), "radius": 34.0,
+				"to_map": "grey_marches", "to_point": "west_gate", "prompt": "[E] The Grey Marches"},
+			{"id": "west_gate", "pos": Vector2(170.0, 2620.0), "radius": 34.0,
+				"to_map": "angel_wings", "to_point": "east_gate", "prompt": "[E] Angel Wings — the Human Capital"},
+		],
+		"creature_table": [
+			{"type": "orc_rogue", "name": "Bandit", "count": 8, "pack": 3, "hp": 34, "damage": 8, "speed": 80, "patrol": 110,
+				"area": Rect2(800, 800, 2400, 1400)},
+			{"type": "boar", "name": "Field Boar", "count": 6, "pack": 2, "hp": 26, "damage": 5, "speed": 70, "patrol": 90,
+				"area": Rect2(4800, 3600, 2200, 1200)},
+			{"type": "skeleton_mage", "name": "The Hungering", "count": 5, "pack": 1, "hp": 24, "damage": 6, "speed": 24, "patrol": 16,
+				"area": Rect2(5600, 1200, 1600, 1000)},
+		],
+	},
+
+	"angel_wings": {
+		"built": true,
+		"name": "Angel Wings",
+		"continent": 1, "region": "west", "biome": "farmland", "capital": true,
+		"tiles_w": 320, "tiles_h": 256,
+		"dusk_tint": Color(0.98, 0.90, 0.78),
+		"music": MUSIC_TOWN,
+		"player_spawn": Vector2(10020.0, 4100.0),
+		"tree_density": 0.35,
+		# The river-capital: the Vein delta runs through the city to the docks.
+		"river": [Vector2(5200, 0), Vector2(5100, 2600), Vector2(4900, 5200), Vector2(5100, 8192)],
+		"river_width": 130.0,
+		"river_color": Color(0.30, 0.34, 0.38, 0.9),
+		"roads": [
+			[Vector2(10100, 4100), Vector2(8200, 4080), Vector2(6400, 4100), Vector2(5400, 4120)],
+			[Vector2(5400, 4120), Vector2(4300, 4100), Vector2(2800, 4060), Vector2(1400, 4100)],
+			[Vector2(4300, 4100), Vector2(4260, 2600), Vector2(4300, 1400)],
+			[Vector2(4300, 4100), Vector2(4340, 5600), Vector2(4300, 6900)],
+			[Vector2(6400, 4100), Vector2(6440, 2800), Vector2(6400, 1800)],
+			[Vector2(6400, 4100), Vector2(6360, 5400), Vector2(6400, 6400)],
+		],
+		"landmarks": [
+			# — Grain-market heart —
+			{"type": "plaza", "pos": Vector2(5900, 4060), "count": 6},
+			{"type": "fountain", "pos": Vector2(5900, 4090)},
+			{"type": "stall", "pos": Vector2(5640, 3950)},
+			{"type": "stall", "pos": Vector2(6160, 3950)},
+			{"type": "stall", "pos": Vector2(5640, 4230)},
+			{"type": "stall", "pos": Vector2(6160, 4230)},
+			{"type": "shop", "pos": Vector2(6700, 3800)},
+			{"type": "workshop", "pos": Vector2(5200, 3700)},
+			# — The Lead Vault (NW): a room designed around NOT using power —
+			{"type": "manor", "pos": Vector2(4300, 1200)},
+			{"type": "statue", "pos": Vector2(4160, 1420)},
+			{"type": "stone_row", "pos": Vector2(4080, 1500), "count": 4},
+			# — Maren's Orphanage (E): warm, overcrowded, load-bearing —
+			{"type": "manor", "pos": Vector2(8200, 3400)},
+			{"type": "well", "pos": Vector2(8060, 3660)},
+			# — River docks (S) —
+			{"type": "workshop", "pos": Vector2(4700, 6600)},
+			{"type": "shed", "pos": Vector2(5450, 6500)},
+			{"type": "stall", "pos": Vector2(5100, 6700)},
+			# — Thatch sprawl: authored district clusters —
+			{"type": "hamlet", "pos": Vector2(7300, 2600), "count": 5},
+			{"type": "hamlet", "pos": Vector2(7600, 5200), "count": 5},
+			{"type": "hamlet", "pos": Vector2(3300, 3000), "count": 4},
+			{"type": "hamlet", "pos": Vector2(3200, 5300), "count": 5},
+			{"type": "hamlet", "pos": Vector2(6900, 6300), "count": 4},
+			{"type": "hamlet", "pos": Vector2(8700, 4400), "count": 4},
+			{"type": "hamlet", "pos": Vector2(2200, 2200), "count": 3},
+			{"type": "barn", "pos": Vector2(2600, 6000)},
+			{"type": "well", "pos": Vector2(7350, 2820)},
+			{"type": "well", "pos": Vector2(3250, 5520)},
+		],
+		"warm_patches": [Vector2(8260, 3560)],   # the copper handprint... it is here
+		"vignettes": [
+			{"kind": "chalk_handprints", "pos": Vector2(8140, 3520)},  # orphanage wall (canon)
+			{"kind": "empty_stall", "pos": Vector2(5900, 4380)},
+			{"kind": "standing_farmer", "pos": Vector2(9200, 4300)},
+		],
+		"waystations": [{"id": "angel_gate", "pos": Vector2(9800, 4180)}],
+		"border_gaps": [Rect2(9960, 3960, 280, 300), Rect2(1260, 3960, 280, 300)],
+		"travel_points": [
+			{"id": "east_gate", "pos": Vector2(10060.0, 4100.0), "radius": 36.0,
+				"to_map": "western_lowlands", "to_point": "west_gate", "prompt": "[E] The Western Lowlands"},
+			{"id": "west_gate", "pos": Vector2(1300.0, 4100.0), "radius": 36.0,
+				"to_map": "famine_fields", "to_point": "east_entry", "prompt": "[E] The Famine Fields"},
+		],
+		"creature_table": [
+			{"type": "orc_rogue", "name": "Alley Cutpurse", "count": 4, "pack": 2, "hp": 30, "damage": 7, "speed": 82, "patrol": 90,
+				"area": Rect2(1800, 6000, 1600, 1400)},
+		],
+	},
+
+	"famine_fields": {
+		"built": true,
+		"name": "The Famine Fields",
+		"continent": 1, "region": "west", "biome": "farmland",
+		"tiles_w": 224, "tiles_h": 160,
+		"dusk_tint": Color(0.94, 0.86, 0.74),
+		"player_spawn": Vector2(7000.0, 2560.0),
+		"tree_density": 0.45,
+		"roads": [[Vector2(7080, 2560), Vector2(5200, 2600), Vector2(3400, 2560), Vector2(140, 2560)]],
+		"landmarks": [
+			{"type": "hamlet", "pos": Vector2(4800, 1800), "count": 3},   # the famine village
+			{"type": "barn", "pos": Vector2(5200, 2100)},                 # the FULL granary
+			{"type": "cottage", "pos": Vector2(2600, 3400)},              # burned farmstead
+			{"type": "graves", "pos": Vector2(2900, 3700), "count": 7},
+			{"type": "camp", "pos": Vector2(1600, 1600)},                 # cult fire
+			{"type": "inscription_stone", "pos": Vector2(3800, 1200), "live": true},
+		],
+		"warm_patches": [Vector2(3820, 1260), Vector2(4850, 1900)],
+		"vignettes": [
+			{"kind": "full_granary", "pos": Vector2(5250, 2050)},
+			{"kind": "cold_camp", "pos": Vector2(6100, 3400)},
+			{"kind": "standing_farmer", "pos": Vector2(4500, 2200)},
+		],
+		"waystations": [{"id": "famine_post", "pos": Vector2(5300, 2660)}],
+		"border_gaps": [Rect2(6980, 2420, 220, 300), Rect2(0, 2440, 240, 280)],
+		"travel_points": [
+			{"id": "east_entry", "pos": Vector2(7040.0, 2560.0), "radius": 34.0,
+				"to_map": "angel_wings", "to_point": "west_gate", "prompt": "[E] Angel Wings"},
+			{"id": "west_gate", "pos": Vector2(170.0, 2560.0), "radius": 34.0,
+				"to_map": "riverfork", "to_point": "east_entry", "prompt": "[E] Riverfork"},
+		],
+		"creature_table": [
+			{"type": "orc_shaman", "name": "Cult Zealot", "count": 6, "pack": 2, "hp": 38, "damage": 9, "speed": 70, "patrol": 90,
+				"area": Rect2(1000, 1000, 2000, 1400)},
+			{"type": "wolf", "name": "Starving Dog", "count": 6, "pack": 3, "hp": 20, "damage": 5, "speed": 96, "patrol": 130,
+				"area": Rect2(4200, 3200, 2200, 1200)},
+			{"type": "skeleton_mage", "name": "The Hungering", "count": 7, "pack": 1, "hp": 24, "damage": 6, "speed": 24, "patrol": 16,
+				"area": Rect2(3600, 1600, 2200, 1400)},
+		],
+	},
+
+	"riverfork": {
+		"built": true,
+		"name": "Riverfork",
+		"continent": 1, "region": "west", "biome": "farmland",
+		"tiles_w": 208, "tiles_h": 160,
+		"dusk_tint": Color(0.92, 0.86, 0.76),
+		"player_spawn": Vector2(6480.0, 2560.0),
+		"tree_density": 0.6,
+		# The Iron Vein delta: two arms meeting — the fork.
+		"river": [Vector2(0, 1400), Vector2(2400, 2000), Vector2(4200, 2600), Vector2(6656, 2900)],
+		"river_width": 120.0,
+		"river_color": Color(0.32, 0.30, 0.30, 0.92),
+		"roads": [[Vector2(6540, 2560), Vector2(4800, 2500), Vector2(3200, 2450), Vector2(2400, 2350)]],
+		"landmarks": [
+			{"type": "workshop", "pos": Vector2(2500, 2100)},   # toll post
+			{"type": "shed", "pos": Vector2(3900, 2250)},
+			{"type": "stall", "pos": Vector2(3000, 2300)},
+			{"type": "camp", "pos": Vector2(1400, 3600)},       # bandit-lord fire
+			{"type": "graves", "pos": Vector2(5400, 1200), "count": 5},
+			{"type": "stump", "pos": Vector2(4600, 3400)},
+		],
+		"warm_patches": [],
+		"vignettes": [
+			{"kind": "empty_stall", "pos": Vector2(3060, 2380)},
+			{"kind": "boot_prints", "pos": Vector2(2550, 2200)},
+		],
+		"waystations": [{"id": "riverfork_docks", "pos": Vector2(2700, 2260)}],
+		"border_gaps": [Rect2(6420, 2420, 236, 300)],
+		"travel_points": [
+			{"id": "east_entry", "pos": Vector2(6500.0, 2560.0), "radius": 34.0,
+				"to_map": "famine_fields", "to_point": "west_gate", "prompt": "[E] The Famine Fields"},
+		],
+		"creature_table": [
+			{"type": "orc_warrior", "name": "Bandit-Lord's Enforcer", "count": 5, "pack": 2, "hp": 52, "damage": 11, "speed": 72, "patrol": 100,
+				"area": Rect2(900, 3000, 1800, 1400)},
+			{"type": "orc_rogue", "name": "River Smuggler", "count": 6, "pack": 2, "hp": 32, "damage": 8, "speed": 84, "patrol": 110,
+				"area": Rect2(4400, 1400, 1800, 1200)},
+			{"type": "boar", "name": "Bog Boar", "count": 4, "pack": 2, "hp": 26, "damage": 5, "speed": 70, "patrol": 90,
+				"area": Rect2(3200, 3400, 1800, 1000)},
+		],
+	},
 	"black_night": {"built": false, "name": "Black Night", "continent": 1, "region": "north", "biome": "tundra", "capital": true,
 		# Canon: NO fog here -- the air is unnaturally clear and still. Light
 		# constant snow under the canopy of un-light; never rain, never fog.

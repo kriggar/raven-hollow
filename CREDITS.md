@@ -9,6 +9,12 @@
 | [LPC] Medieval Village Decorations | bluecarrot16, Lanea Zimmerman (Sharm), Reemax, Xenodora, Johann CHARLOT, Johannes Sjölund, Casper Nilsson, Daniel Cook, Hyptosis, Zabin, Clint Bellanger, Jetrel, Guido Bos, Daniel Eddeland, et al. | https://opengameart.org/content/lpc-medieval-village-decorations | **CC-BY-SA 3.0 / GPL 3.0** — full list in assets/licenses/lpc_decorations_credits.txt | Graveyard, market stalls, fountain, lanterns, campfires, signs, fences |
 | Alagard font | Hewett Tsoi | https://www.dafont.com/alagard.font | Freeware (commercial OK) | UI font |
 | Ninja Adventure music | pixel-boy & AAA | https://github.com/pixel-boy/NinjaAdventure | CC0 | Ambient village music |
+| Village in Despair | Tsorthan Grove | https://opengameart.org/content/village-in-despair | **CC-BY 4.0** — credit "Tsorthan Grove" | Zone music: theme_border.ogg (Border ring, melancholy rural dread) |
+| Life in a Mystical Villlage (Looping) | Eric Matyas (soundimage.org) | https://opengameart.org/content/life-in-a-mystical-villlage-looping | **CC-BY 4.0** — credit "Music by Eric Matyas, www.soundimage.org" | Zone music: theme_west.ogg (West farmland, wary pastoral) |
+| Frost in the Northern Winter | The Oracle | https://opengameart.org/content/frost-in-the-northern-winter | CC0 | Zone music: theme_north.ogg (North undead capital/tundra) |
+| Eyes in the Shadows (loop) | Tsorthan Grove | https://opengameart.org/content/eyes-in-the-shadows | **CC-BY 4.0** — required notice: "Eyes in the Shadows by Tsorthan Grove - CC-BY 4.0 - https://opengameart.org/content/eyes-in-the-shadows" | Zone music: theme_east.ogg (East vampire spy city, tense) |
+| Forging Flames (Cinematic Dark) | Patrick Maney | https://opengameart.org/content/forging-flames-cinematic-dark | **CC-BY 3.0** — credit "Patrick Maney" | Zone music: theme_south.ogg (South werewolf forge kingdom) |
+| Dark City | muncheybobo | https://opengameart.org/content/dark-city | **CC-BY 3.0** — credit "muncheybobo" (author asks for a shout-out) | Zone music: theme_port.ogg (Collector-era port, grim noir) |
 
 ## Attribution notes
 - The LPC decoration art is CC-BY-SA: this game's distribution must retain the credits file above and derived versions of that art remain CC-BY-SA.
@@ -17,3 +23,4 @@
 
 ## World biome packs (WORLD_PLAN zones)
 - **Dead Swamp Asset Pack** by Sevarihk (https://sevarihk.itch.io/dead-swamp-tileset) — CC-BY 4.0, credit required: Sevarihk. Used: bog mud ground, animated swamp ponds, dead trunks/stumps, stilt-hut kit (assets/art/world/dead_swamp/).
+- **Free Undead Tileset Top-Down** by Free Game Assets / craftpix.net (craftpix free license) — dead trees/logs (assets/art/world/deadforest/).

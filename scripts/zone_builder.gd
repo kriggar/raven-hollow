@@ -46,7 +46,8 @@ const _PALETTES := {
 	"moor": {"tint": Color(0.86, 0.84, 0.74), "patch_chance": 0.10, "tree_tint": Color(0.72, 0.72, 0.60)},
 	"wilds": {"tint": Color(0.92, 0.92, 0.84), "patch_chance": 0.08, "tree_tint": Color(0.80, 0.82, 0.68)},
 	"farmland": {"tint": Color(1.0, 0.98, 0.88), "patch_chance": 0.06, "tree_tint": Color(0.86, 0.88, 0.72)},
-	"deadforest": {"tint": Color(0.80, 0.80, 0.78), "patch_chance": 0.14, "tree_tint": Color(0.58, 0.58, 0.56)},
+	"deadforest": {"tint": Color(0.82, 0.82, 0.80), "patch_chance": 0.14, "tree_tint": Color(0.95, 0.95, 0.95),
+		"tree_set": ["res://assets/art/world/deadforest/birch_dead.png", "res://assets/art/world/deadforest/tree_dark1.png", "res://assets/art/world/deadforest/tree_dark2.png"]},
 	"tundra": {"tint": Color(0.82, 0.88, 0.98), "patch_chance": 0.12, "tree_tint": Color(0.66, 0.70, 0.80)},
 	"volcanic": {"tint": Color(0.72, 0.58, 0.52), "patch_chance": 0.18, "tree_tint": Color(0.52, 0.42, 0.38)},
 	"ridge": {"tint": Color(0.84, 0.86, 0.82), "patch_chance": 0.12, "tree_tint": Color(0.66, 0.70, 0.62)},
@@ -245,13 +246,16 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 	var tree_tint: Color = pal["tree_tint"]
 	var density: float = float(def.get("tree_density", 1.0))
 	var n_trees: int = int(world_w * world_h / 90000.0 * density)
+	var tree_set: Array = pal.get("tree_set", [])
 	for i in range(n_trees):
 		var pos := Vector2(rng.randf_range(60, world_w - 60), rng.randf_range(60, world_h - 60))
 		if _in_any(pos, keep_clear):
 			continue
-		var idx: int = rng.randi_range(0, 2)
 		var spr := Sprite2D.new()
-		spr.texture = load(PLANTS + "plant_%02d.png" % idx)
+		if not tree_set.is_empty():
+			spr.texture = load(str(tree_set[rng.randi_range(0, tree_set.size() - 1)]))
+		else:
+			spr.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(0, 2))
 		spr.position = pos
 		spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
 		spr.modulate = tree_tint
@@ -329,6 +333,32 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				_swamp_atlas(parent, Rect2(0, 256, 128, 128), pos, true)
 			"trunk_hollow":
 				_swamp_atlas(parent, Rect2(128, 128, 128, 160), pos, true)
+			"manor":
+				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true)
+			"shop":
+				_sprite(parent, "res://assets/art/buildings/house_02.png", pos, true)
+			"workshop":
+				_sprite(parent, "res://assets/art/buildings/house_00.png", pos, true)
+			"hamlet":
+				# Authored cottage cluster: N houses ringed around the anchor.
+				var hn: int = int(lm.get("count", 4))
+				for hi in range(hn):
+					var ang: float = TAU * float(hi) / float(hn) + rng.randf_range(-0.2, 0.2)
+					var dist: float = 190.0 + rng.randf_range(-20.0, 30.0)
+					var hp: Vector2 = pos + Vector2(cos(ang), sin(ang) * 0.72) * dist
+					var kinds: Array = ["house_01", "house_05", "house_06", "house_07"]
+					_sprite(parent, "res://assets/art/buildings/%s.png" % kinds[hi % kinds.size()], hp, true)
+			"stall":
+				_atlas(parent, Rect2(0, 928, 96, 31), pos, Color.WHITE, true)
+				_atlas(parent, Rect2(272, 800, 48, 64), pos + Vector2(0, -34), Color.WHITE, true)
+			"plaza":
+				for pi in range(int(lm.get("count", 4))):
+					_sprite(parent, PROPS + "szadi_prop_01.png",
+							pos + Vector2(float(pi % 2) * 150.0 - 75.0, float(int(float(pi) / 2.0)) * 120.0 - 60.0))
+			"statue":
+				_sprite(parent, PROPS + "cainos_prop_06.png", pos, true)
+			"fountain":
+				_sprite(parent, PROPS + "cainos_prop_30.png", pos, true)
 
 
 ## Lore vignettes: authored environmental-storytelling set-pieces (bible-sourced,
@@ -367,6 +397,18 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 			"empty_stall":
 				_atlas(parent, Rect2(0, 928, 96, 31), pos, Color(0.92, 0.88, 0.8), true)
 				_dust_lines(parent, pos + Vector2(10, 26))
+			"chalk_handprints":
+				# Children's chalked handprints; ONE is faintly copper-stained
+				# and warm to the touch. No one has noticed yet. (Canon hook.)
+				for i in range(7):
+					var hp := ColorRect.new()
+					var warm: bool = i == 4
+					hp.color = Color(0.92, 0.62, 0.42, 0.9) if warm else Color(0.88, 0.88, 0.92, 0.85)
+					hp.size = Vector2(7, 9)
+					hp.position = pos + Vector2(i * 12, (i % 2) * 6)
+					hp.z_index = 3
+					parent.add_child(hp)
+				_warm_light(parent, pos + Vector2(52, 6), 0.18)
 			"full_granary":
 				_sprite(parent, "res://assets/art/buildings/house_03.png", pos, true)
 				for i in range(4):
