@@ -1,6 +1,9 @@
 # OWNER MANDATES — master ledger (single source of truth)
 Every rule the owner has issued. Nothing ships that violates one. Status: ✅ live · 📐 designed · 🔄 in design · 🗓 planned · 🔒 deferred by owner.
 
+## ⚑ THE PRIME MANDATE (obey at EVERY decision)
+**Every level is agent-swarm QA'd for cohesion and beauty. No clipping. No floating assets. Nothing bad. ABSOLUTELY NOTHING.** Tons of inspection agents sweep every zone screen-by-screen; findings get fixed and re-swept until clean. Think like the first AAA 2D-pixel studio in history aiming to out-grade Ocarina of Time. This rule outranks all others and applies to every decision, every commit, every zone.
+
 ## World & Zones
 - ✅ 40 zones (WoW-Classic count), 2 continents, lore-bible accurate (WORLD_PLAN)
 - ✅ Zones built from DOWNLOADED asset packs (22 style-gated packs; Dead Swamp/craftpix live)
