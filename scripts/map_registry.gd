@@ -54,7 +54,13 @@ static func get_map(map_id: String) -> Dictionary:
 		push_error("MapRegistry: unknown map id '%s'" % map_id)
 		return {}
 	var def: Dictionary = (defs[map_id] as Dictionary).duplicate(true)
-	def["builder"] = _builder_callable(String(def["builder_script"]))
+	if def.has("zone_id"):
+		# WORLD_PLAN zones: one generic builder + the zone's hand-authored def.
+		var zid: String = str(def["zone_id"])
+		def["builder"] = func(parent: Node2D) -> Dictionary:
+			return ZoneBuilder.build_zone(parent, ZoneDefs.zone(zid))
+	else:
+		def["builder"] = _builder_callable(String(def["builder_script"]))
 	return def
 
 
@@ -89,7 +95,7 @@ static func get_travel_point(map_id: String, point_id: String) -> Dictionary:
 # ------------------------------------------------------------------ DEFS ----
 
 static func _defs() -> Dictionary:
-	return {
+	var defs := {
 		"town": {
 			"id": "town",
 			"display_name": "Raven Hollow",
@@ -122,9 +128,20 @@ static func _defs() -> Dictionary:
 					"to_point": "east_gate",
 					"prompt": "[E] Return to Raven Hollow",
 				},
+				{
+					"id": "east_exit",
+					"pos": Vector2(2180.0, 760.0),
+					"radius": 40.0,
+					"to_map": "iron_vein",
+					"to_point": "west_entry",
+					"prompt": "[E] The Iron Vein — Border Region",
+				},
 			],
 		},
 	}
+	# WORLD_PLAN.md: merge every built zone from the 40-zone registry.
+	defs.merge(ZoneDefs.map_defs())
+	return defs
 
 
 static func _builder_callable(script_path: String) -> Callable:

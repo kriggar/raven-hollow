@@ -422,7 +422,10 @@ func _post_build_map(map_id: String, world: Node2D, built: Dictionary) -> void:
 				_quests.override_pos("q5_treeline", built.get("listener_pos", Vector2.ZERO))
 				_quests.override_pos("q5_gate", built.get("gate_pos", Vector2.ZERO))
 		_:
+			# ZoneBuilder zones (WORLD_PLAN.md): native creature ecology ships
+			# in built.enemy_spawns; npc pockets in npc_spawns.
 			_spawn_npc_cast(world, built.get("npc_spawns", {}))
+			Combat.spawn_map_enemies(world, built)
 	# Register EVERY ambience light (town lanterns, gate lights, wilderness
 	# fires) with DayNight in one robust tree walk (§8).
 	_group_world_lights(world)
@@ -524,6 +527,16 @@ func change_map(map_id: String, entry_point_id: String) -> void:
 	_changing_map = false
 
 
+## Waystation fast travel (TravelSystem): change map, then land at an exact
+## authored position instead of a travel point.
+func change_map_to_pos(map_id: String, pos: Vector2) -> void:
+	if _changing_map or not MapRegistry.has_map(map_id):
+		return
+	await change_map(map_id, "")
+	if _player != null and is_instance_valid(_player):
+		_player.global_position = pos + Vector2(0.0, 28.0)
+
+
 func _refresh_minimap(map_id: String, built: Dictionary, def: Dictionary = {}) -> void:
 	var mm: Node = get_tree().get_first_node_in_group("minimap")
 	if mm == null:
@@ -561,6 +574,12 @@ func _physics_process(_delta: float) -> void:
 			if cui != null and cui.get("is_open") != true:
 				cui.call("open_station", str(station.get("id", "")))
 		return
+
+	# Waystation discovery (WORLD_PLAN travel system): walking near an authored
+	# waystation lights it on the route graph; banner announces the discovery.
+	var ws_found: String = TravelSystem.try_discover(ppos, current_map_id)
+	if not ws_found.is_empty() and _dialogue != null:
+		_dialogue.show_banner("Waystation Discovered", ws_found.capitalize())
 
 	# Travel points.
 	for tp: Dictionary in MapRegistry.travel_points(current_map_id):
