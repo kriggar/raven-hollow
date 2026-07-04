@@ -14,3 +14,6 @@
 - The LPC decoration art is CC-BY-SA: this game's distribution must retain the credits file above and derived versions of that art remain CC-BY-SA.
 - Szadi Art / Cainos / Anokolisa raw assets must not be redistributed as an asset pack; shipping them inside the game build is permitted.
 - Research + curation date: 2026-07-02.
+
+## World biome packs (WORLD_PLAN zones)
+- **Dead Swamp Asset Pack** by Sevarihk (https://sevarihk.itch.io/dead-swamp-tileset) — CC-BY 4.0, credit required: Sevarihk. Used: bog mud ground, animated swamp ponds, dead trunks/stumps, stilt-hut kit (assets/art/world/dead_swamp/).

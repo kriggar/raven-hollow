@@ -41,7 +41,8 @@ const FIRE_FRAMES := [
 ## world tint that sells the biome until dedicated packs land.
 ## grass atlas: rows 0-3 pure grass; stone atlas: rows 0-2 slabs.
 const _PALETTES := {
-	"bog": {"tint": Color(0.78, 0.84, 0.72), "patch_chance": 0.16, "tree_tint": Color(0.62, 0.66, 0.55)},
+	"bog": {"tint": Color(1.0, 1.0, 1.0), "patch_chance": 0.0, "tree_tint": Color(0.62, 0.66, 0.55),
+		"ground_sheet": "res://assets/art/world/dead_swamp/mud_96x128.png", "ground_cols": 3, "ground_rows": 4},
 	"moor": {"tint": Color(0.86, 0.84, 0.74), "patch_chance": 0.10, "tree_tint": Color(0.72, 0.72, 0.60)},
 	"wilds": {"tint": Color(0.92, 0.92, 0.84), "patch_chance": 0.08, "tree_tint": Color(0.80, 0.82, 0.68)},
 	"farmland": {"tint": Color(1.0, 0.98, 0.88), "patch_chance": 0.06, "tree_tint": Color(0.86, 0.88, 0.72)},
@@ -72,7 +73,7 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 
 	_build_ground(parent, rng, tiles_w, tiles_h, pal, def)
 	_build_river(parent, def)
-	var road_rects: Array[Rect2] = _build_roads(parent, def)
+	var road_rects: Array[Rect2] = _build_roads(parent, def, pal.has("ground_sheet"))
 	keep_clear.append_array(road_rects)
 	_build_warm_ground(parent, rng, def)
 	_scatter_vegetation(parent, rng, tiles_w, tiles_h, pal, def, keep_clear)
@@ -98,13 +99,16 @@ static func _build_ground(parent: Node2D, rng: RandomNumberGenerator, w: int, h:
 		pal: Dictionary, def: Dictionary) -> void:
 	var ts := TileSet.new()
 	ts.tile_size = Vector2i(TILE, TILE)
-	var grass := TileSetAtlasSource.new()
-	grass.texture = load(GRASS_SHEET)
-	grass.texture_region_size = Vector2i(TILE, TILE)
-	for y in range(4):
-		for x in range(8):
-			grass.create_tile(Vector2i(x, y))
-	ts.add_source(grass, 0)
+	var sheet_path: String = str(pal.get("ground_sheet", GRASS_SHEET))
+	var cols: int = int(pal.get("ground_cols", 8))
+	var rows: int = int(pal.get("ground_rows", 4))
+	var src := TileSetAtlasSource.new()
+	src.texture = load(sheet_path)
+	src.texture_region_size = Vector2i(TILE, TILE)
+	for y in range(rows):
+		for x in range(cols):
+			src.create_tile(Vector2i(x, y))
+	ts.add_source(src, 0)
 
 	var layer := TileMapLayer.new()
 	layer.name = "Ground"
@@ -112,10 +116,15 @@ static func _build_ground(parent: Node2D, rng: RandomNumberGenerator, w: int, h:
 	layer.z_index = -10
 	layer.modulate = pal["tint"]
 	var patch: float = float(pal["patch_chance"])
+	var packed: bool = pal.has("ground_sheet")
 	for ty in range(h):
 		for tx in range(w):
 			var cell := Vector2i(0, 0)
-			if rng.randf() < patch:
+			if packed:
+				# Pack ground sheets tile as a repeating block — keep the sheet's
+				# own pattern seamless instead of randomizing cells.
+				cell = Vector2i(tx % cols, ty % rows)
+			elif rng.randf() < patch:
 				cell = Vector2i(rng.randi_range(0, 3), rng.randi_range(1, 3))
 			elif rng.randf() < 0.25:
 				cell = Vector2i(rng.randi_range(1, 3), 0)
@@ -150,7 +159,7 @@ static func _build_river(parent: Node2D, def: Dictionary) -> void:
 	parent.add_child(sheen)
 
 
-static func _build_roads(parent: Node2D, def: Dictionary) -> Array[Rect2]:
+static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = false) -> Array[Rect2]:
 	var rects: Array[Rect2] = []
 	var roads: Array = def.get("roads", [])
 	if roads.is_empty():
@@ -180,7 +189,7 @@ static func _build_roads(parent: Node2D, def: Dictionary) -> Array[Rect2]:
 				var p: Vector2 = a.lerp(b, float(s) / float(steps))
 				var c := Vector2i(int(p.x / TILE), int(p.y / TILE))
 				layer.set_cell(c, 0, Vector2i(rng.randi_range(0, 2), rng.randi_range(4, 5) - 4 + 4))
-				if rng.randf() < 0.6:
+				if not packed_ground and rng.randf() < 0.6:
 					layer.set_cell(c + Vector2i(1, 0), 0, Vector2i(rng.randi_range(4, 7), rng.randi_range(0, 3)))
 				rects.append(Rect2(p - Vector2(40, 40), Vector2(80, 80)))
 	parent.add_child(layer)
@@ -314,6 +323,12 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 			"bones":
 				for i in range(4):
 					_atlas(parent, R_BONE_A, pos + Vector2(rng.randf_range(-40, 40), rng.randf_range(-30, 30)), Color(0.95, 0.95, 0.9))
+			"pond":
+				_pond(parent, pos, rng)
+			"stump":
+				_swamp_atlas(parent, Rect2(0, 256, 128, 128), pos, true)
+			"trunk_hollow":
+				_swamp_atlas(parent, Rect2(128, 128, 128, 160), pos, true)
 
 
 ## Lore vignettes: authored environmental-storytelling set-pieces (bible-sourced,
@@ -546,3 +561,43 @@ static func _stone_light(parent: Node2D, pos: Vector2, live: bool) -> void:
 		var t := parent.create_tween().set_loops()
 		t.tween_property(l, "energy", 0.25, 1.3)
 		t.tween_property(l, "energy", 0.65, 1.1)
+
+
+# --- Dead Swamp pack helpers (assets/art/world/dead_swamp, CC-BY Sevarihk) ---
+
+const _SWAMP_TRUNKS := "res://assets/art/world/dead_swamp/trunks_256x1408.png"
+const _SWAMP_POND := "res://assets/art/world/dead_swamp/pond_anim_384x128.png"
+
+
+static func _swamp_atlas(parent: Node2D, rect: Rect2, pos: Vector2, sorted: bool = false) -> void:
+	var at := AtlasTexture.new()
+	at.atlas = load(_SWAMP_TRUNKS)
+	at.region = rect
+	var spr := Sprite2D.new()
+	spr.texture = at
+	spr.position = pos
+	if sorted:
+		spr.offset = Vector2(0, -rect.size.y * 0.5 + 10)
+		spr.y_sort_enabled = true
+	parent.add_child(spr)
+
+
+## Animated murky pond: 3 frames of a 128x128 block on the pack sheet.
+static func _pond(parent: Node2D, pos: Vector2, rng: RandomNumberGenerator) -> void:
+	var sf := SpriteFrames.new()
+	sf.remove_animation("default")
+	sf.add_animation("murk")
+	sf.set_animation_speed("murk", 2.2)
+	sf.set_animation_loop("murk", true)
+	for i in range(3):
+		var at := AtlasTexture.new()
+		at.atlas = load(_SWAMP_POND)
+		at.region = Rect2(i * 128, 0, 128, 128)
+		sf.add_frame("murk", at)
+	var spr := AnimatedSprite2D.new()
+	spr.sprite_frames = sf
+	spr.position = pos
+	spr.z_index = -7
+	spr.play("murk")
+	spr.frame = rng.randi_range(0, 2)
+	parent.add_child(spr)

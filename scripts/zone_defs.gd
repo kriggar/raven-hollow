@@ -93,6 +93,12 @@ const _ZONES := {
 			{"type": "dolmen", "pos": Vector2(1800, 900)},
 			{"type": "copper_well", "pos": Vector2(2600, 2800)},
 			{"type": "bones", "pos": Vector2(5400, 2850)},
+			{"type": "pond", "pos": Vector2(1900, 2900)},
+			{"type": "pond", "pos": Vector2(3900, 3100)},
+			{"type": "pond", "pos": Vector2(900, 2100)},
+			{"type": "stump", "pos": Vector2(2300, 1200)},
+			{"type": "stump", "pos": Vector2(5000, 2400)},
+			{"type": "trunk_hollow", "pos": Vector2(1500, 3700)},
 		],
 		"warm_patches": [Vector2(4400, 1260), Vector2(2650, 2860)],
 		"vignettes": [
