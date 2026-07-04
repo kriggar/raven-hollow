@@ -1,11 +1,11 @@
 {
-  "default":   {"exaggeration": 0.5,  "cfg_weight": 0.5},
-  "marta":     {"seed": 3120, "exaggeration": 0.5,  "cfg_weight": 0.5},
-  "goran":     {"seed": 7011, "exaggeration": 0.65, "cfg_weight": 0.4},
-  "vasile":    {"seed": 9044, "exaggeration": 0.35, "cfg_weight": 0.3},
-  "ansel":     {"seed": 2255, "exaggeration": 0.55, "cfg_weight": 0.5},
-  "petra":     {"seed": 6180, "exaggeration": 0.45, "cfg_weight": 0.5},
-  "gatewarden":{"seed": 4400, "exaggeration": 0.6,  "cfg_weight": 0.45},
-  "mira":      {"seed": 8321, "exaggeration": 0.3,  "cfg_weight": 0.35},
-  "narrator":  {"seed": 1001, "exaggeration": 0.4,  "cfg_weight": 0.4}
+  "default":   {"ref": "voices/default.wav",    "seed": 1200, "exaggeration": 0.5,  "cfg_weight": 0.5},
+  "marta":     {"ref": "voices/marta.wav",      "seed": 3120, "exaggeration": 0.5,  "cfg_weight": 0.5},
+  "goran":     {"ref": "voices/goran.wav",      "seed": 7011, "exaggeration": 0.65, "cfg_weight": 0.4},
+  "vasile":    {"ref": "voices/vasile.wav",     "seed": 9044, "exaggeration": 0.35, "cfg_weight": 0.3},
+  "ansel":     {"ref": "voices/ansel.wav",      "seed": 2255, "exaggeration": 0.55, "cfg_weight": 0.5},
+  "petra":     {"ref": "voices/petra.wav",      "seed": 6180, "exaggeration": 0.45, "cfg_weight": 0.5},
+  "gatewarden":{"ref": "voices/gatewarden.wav", "seed": 4400, "exaggeration": 0.6,  "cfg_weight": 0.45},
+  "mira":      {"ref": "voices/mira.wav",       "seed": 8321, "exaggeration": 0.3,  "cfg_weight": 0.35},
+  "narrator":  {"ref": "voices/narrator.wav",   "seed": 1001, "exaggeration": 0.4,  "cfg_weight": 0.4}
 }
