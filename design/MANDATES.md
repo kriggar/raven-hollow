@@ -55,6 +55,19 @@ Every rule the owner has issued. Nothing ships that violates one. Status: ✅ li
   + WoW map behavior: player position ALWAYS known; ZOOM zone ↔ continent ↔ world; minimap same polish
 - ✅ Spell tooltips; premium painterly ability icons; loot-window spec
 
+## Engineering Law
+- 🔄 EVERYTHING auto-QA-testable AND auto-improvable — every system ships with automated tests (headless asserts, windowed screenshot QA, build-time validators like the 40s rule) and an improvement loop (validator reports -> backfill -> re-verify). MANDATORY.
+
+## Narrative & Cinematics
+- 🔄 STORYTELLING VOICE: Tolkien / LotR register — wonder and awe — braided with Draconia dread (style guide + all quest text follows it)
+- 🔄 THE GREAT BATTLE: a massive army set-piece where the player fights beside the faction their story followed — aim: one of the greatest battles in game history
+- 🔄 FULL CINEMATICS: 6 act-chapter cinematics, DIABLO 2 STYLE (painted stills, slow pans, weary narrator) — pipeline: ComfyUI painted stills from the lore bible's own art prompts + Ken Burns + Maya1 narrator
+- 🔄 TONS of in-game world cinematics (in-engine: camera rails, letterbox, scripted scenes)
+
+## Freedom & Physics
+- 🔄 GTA-grade player freedom (go anywhere, no artificial gates, emergent systems)
+- 🔄 Real physics, Zelda-style: pushable/rollable/burnable world props, physical interactions that combine
+
 ## Audio & Voice
 - ✅ Zone themes + biome ambience + weather SFX (17 files, credited)
 - 🔄 Voice v2: Maya1 expressive acting, all 173 lines (bake self-healing in background)
