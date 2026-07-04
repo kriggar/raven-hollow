@@ -66,6 +66,7 @@ var _world: Node2D
 var _built: Dictionary = {}
 var _quests: QuestsNode
 var _day_night: DayNightNode
+var _weather: WeatherController
 var _dialogue: DialogueUI
 var _music: AudioStreamPlayer
 var _world_prompt: Label
@@ -234,6 +235,8 @@ func _bootstrap_world(class_id: String) -> void:
 	# Quest / xp / loot signal wiring; minimap + tracker.
 	_wire_quest_signals()
 	_refresh_minimap("town", built, def)
+	if _weather != null:
+		_weather.on_map_changed("town")
 	_push_tracker()
 	if _quests != null and _day_night != null:
 		_quests.set_night(_day_night.is_night)
@@ -305,6 +308,10 @@ func _spawn_systems() -> void:
 	add_child(dn)
 	_day_night = dn
 	dn.night_changed.connect(_on_night_changed)
+
+	var wx := WeatherController.new()  # _init() names it "Weather"
+	add_child(wx)
+	_weather = wx
 
 
 func _spawn_ui() -> void:
@@ -497,6 +504,8 @@ func change_map(map_id: String, entry_point_id: String) -> void:
 	_post_build_map(map_id, _world, built)
 
 	# 7. DayNight CanvasModulate already re-attached in _build_map; time carries.
+	if _weather != null:
+		_weather.on_map_changed(map_id)
 	# 8. Music swap (survives the pause-menu volume).
 	_start_music_for_def(def)
 	get_tree().call_group("pause_menu", "apply_music_volume")
@@ -784,9 +793,12 @@ func _on_quit_to_menu() -> void:
 		_quests.queue_free()
 	if _day_night != null and is_instance_valid(_day_night):
 		_day_night.queue_free()
+	if _weather != null and is_instance_valid(_weather):
+		_weather.queue_free()
 	_world = null
 	_quests = null
 	_day_night = null
+	_weather = null
 	_player = null
 	_camera = null
 	_dialogue = null
@@ -1002,6 +1014,14 @@ func _run_env_hooks() -> void:
 		var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
 		if cui != null:
 			cui.call("open_station", craft_env)
+	# RH_WEATHER=<type[,intensity]>: force weather (clear/rain/storm/snow/fog) for QA.
+	var wx_env: String = OS.get_environment("RH_WEATHER")
+	if not wx_env.is_empty() and _weather != null:
+		var parts: PackedStringArray = wx_env.split(",", false)
+		var tmap := {"clear": 0, "rain": 1, "storm": 2, "snow": 3, "fog": 4}
+		var wtype: int = int(tmap.get(parts[0].strip_edges().to_lower(), 0))
+		var wint: float = float(parts[1]) if parts.size() > 1 else 1.0
+		_weather.set_weather(wtype, wint, 0.0)
 	# RH_MAPVIEW: open the world-map overlay (synthesize the "map" action).
 	if not OS.get_environment("RH_MAPVIEW").is_empty():
 		var mev := InputEventAction.new()

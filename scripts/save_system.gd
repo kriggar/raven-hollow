@@ -104,6 +104,7 @@ const DEFAULT_CLASS: String = "warrior"
 const DEFAULT_TIME_HOURS: float = 17.0  # spec: the demo clock starts at dusk
 const QUESTS_SCRIPT: String = "res://scripts/quests.gd"
 const CRAFTING_SCRIPT: String = "res://scripts/crafting.gd"
+const WEATHER_SCRIPT: String = "res://scripts/weather.gd"
 
 
 static func save_path(slot: int = 1) -> String:
@@ -201,6 +202,7 @@ static func collect_state() -> Dictionary:
 		"inventory": _collect_inventory(player),
 		"quests": _system_snapshot("quests", QUESTS_SCRIPT),
 		"recipes": _system_snapshot("crafting", CRAFTING_SCRIPT),
+		"weather": _system_snapshot("weather", WEATHER_SCRIPT),
 	}
 
 
@@ -264,6 +266,7 @@ static func apply_systems_state(data: Dictionary) -> void:
 		return
 	_apply_system_state("quests", QUESTS_SCRIPT, data.get("quests"))
 	_apply_system_state("crafting", CRAFTING_SCRIPT, data.get("recipes"))
+	_apply_system_state("weather", WEATHER_SCRIPT, data.get("weather"))
 	_apply_time_hours(_num(data.get("time_hours"), DEFAULT_TIME_HOURS))
 
 
