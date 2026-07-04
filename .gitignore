@@ -12,3 +12,6 @@ _screens/*.import
 # OS junk
 Thumbs.db
 .DS_Store
+
+# Export builds (binaries, not source)
+build/
