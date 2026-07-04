@@ -124,6 +124,9 @@ Riverfork ⇢ (voyage, era-crossing) ⇢ The Grey Piers → Greyhollow hub ring 
 - **World map UI**: M opens a two-continent parchment map; zones fill in as discovered; waystation nodes shown lit/unlit; click a lit node to travel (if connected). Minimap already exists per-zone.
 - Engine: `TravelSystem` autoload — node registry {id, zone, pos, links[], cost}; discovered set persisted in SaveSystem; MapRegistry travel_points remain the walk-across-border seams between adjacent zones.
 
+## The 40-Second Rule (Witcher-3 law, cross-cutting)
+CDPR's Living World rule (Bartosz Von Ochman): *the player must SEE something engaging every ~40 seconds of travel* — fauna, opponents, wandering NPCs, a landmark, a vignette. Applied here: at ~88 px/s walk speed, 40 s ≈ 3,500 px; with a ~600 px sight radius, **no point in any zone may be farther than ~1,750 px from an engagement anchor** (landmark, vignette, waystation, creature territory, pond/POI). ZoneBuilder validates this at build time (warns with the worst dead-spot coordinates); every batch's QA pass backfills micro-POIs (shrines, stone rows, bone spills, abandoned camps, rare-spawn lairs) until zones pass. Capitals are exempt (density is inherent).
+
 ## Animation mandate (cross-cutting)
 Everything that can move, moves: swaying trees (GPU vertex sway, one shared shader), animated water/ponds/bubbles, torch & lantern flames, weather particles, creature idles, banner/drape flutter, chimney smoke, inscription-stone pulse. Every new pack integration wires its animation sheets (Dead Swamp shroomies/bubbles, craftpix swaying dead trees, Port Town water).
 

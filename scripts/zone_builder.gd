@@ -83,6 +83,8 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	_build_waystation(parent, def)
 	_build_border_wall(parent, rng, tiles_w, tiles_h, pal, def)
 
+	_validate_forty_second_rule(def, tiles_w, tiles_h)
+
 	var bounds := Rect2(0, 0, tiles_w * TILE, tiles_h * TILE)
 	return {
 		"player_spawn": def.get("player_spawn", Vector2(tiles_w * TILE * 0.5, tiles_h * TILE * 0.5)),
@@ -711,3 +713,46 @@ static func _bubbles(parent: Node2D, pos: Vector2, rng: RandomNumberGenerator) -
 	spr.play("blub")
 	spr.frame = rng.randi_range(0, 11)
 	parent.add_child(spr)
+
+
+## WORLD_PLAN § 40-Second Rule (Witcher-3 law): no point in a zone may be
+## farther than MAX_DEAD_PX from an engagement anchor. Grid-samples the zone
+## and warns with the worst dead spot so batch QA can backfill micro-POIs.
+const MAX_DEAD_PX: float = 1750.0
+
+
+static func _validate_forty_second_rule(def: Dictionary, w: int, h: int) -> void:
+	if bool(def.get("capital", false)):
+		return  # capitals are engagement-dense by construction
+	var anchors: Array[Vector2] = []
+	for lm_v: Variant in def.get("landmarks", []):
+		anchors.append((lm_v as Dictionary)["pos"])
+	for vg_v: Variant in def.get("vignettes", []):
+		anchors.append((vg_v as Dictionary)["pos"])
+	for ws_v: Variant in def.get("waystations", []):
+		anchors.append((ws_v as Dictionary)["pos"])
+	for row_v: Variant in def.get("creature_table", []):
+		var area: Rect2 = (row_v as Dictionary).get("area", Rect2())
+		anchors.append(area.position + area.size * 0.5)
+	if anchors.is_empty():
+		push_warning("ZoneBuilder[40s]: zone '%s' has NO engagement anchors" % def.get("id"))
+		return
+	var worst_d: float = 0.0
+	var worst_p := Vector2.ZERO
+	var step: float = 400.0
+	var y: float = step
+	while y < h * TILE - step:
+		var x: float = step
+		while x < w * TILE - step:
+			var p := Vector2(x, y)
+			var best: float = INF
+			for a in anchors:
+				best = minf(best, p.distance_to(a))
+			if best > worst_d:
+				worst_d = best
+				worst_p = p
+			x += step
+		y += step
+	if worst_d > MAX_DEAD_PX:
+		push_warning("ZoneBuilder[40s]: zone '%s' FAILS — dead spot at (%d,%d), %d px from nearest anchor (max %d). Backfill micro-POIs."
+				% [def.get("id"), int(worst_p.x), int(worst_p.y), int(worst_d), int(MAX_DEAD_PX)])

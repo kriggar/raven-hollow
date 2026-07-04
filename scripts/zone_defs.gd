@@ -75,7 +75,10 @@ static func all_ids() -> Array[String]:
 
 
 static func zone(id: String) -> Dictionary:
-	return (_ZONES.get(id, {}) as Dictionary).duplicate(true)
+	var out: Dictionary = (_ZONES.get(id, {}) as Dictionary).duplicate(true)
+	if not out.is_empty():
+		out["id"] = id
+	return out
 
 
 ## MapRegistry-shaped defs for every BUILT zone (merged in map_registry.gd).
@@ -179,6 +182,11 @@ const _ZONES := {
 			{"type": "shed", "pos": Vector2(3000, 1500)},
 			{"type": "well", "pos": Vector2(2850, 2080)},
 			{"type": "copper_well", "pos": Vector2(2300, 2420)},  # the rot arriving in real time
+			{"type": "camp", "pos": Vector2(800, 3400)},          # charcoal-burner's camp, cold
+			{"type": "stump", "pos": Vector2(1500, 3700)},
+			{"type": "dolmen", "pos": Vector2(4900, 800)},
+			{"type": "stump", "pos": Vector2(700, 700)},
+			{"type": "bones", "pos": Vector2(1500, 600)},
 		],
 		"warm_patches": [Vector2(2320, 2470)],
 		"vignettes": [
@@ -266,6 +274,10 @@ const _ZONES := {
 			{"type": "dolmen", "pos": Vector2(800, 4300)},
 			{"type": "graves", "pos": Vector2(1000, 2000), "count": 6},
 			{"type": "bones", "pos": Vector2(3350, 2700)},
+			{"type": "stone_row", "pos": Vector2(3500, 600), "count": 4},
+			{"type": "bones", "pos": Vector2(4400, 800)},
+			{"type": "camp", "pos": Vector2(2600, 4500)},
+			{"type": "bones", "pos": Vector2(3400, 4200)},
 		],
 		"warm_patches": [Vector2(3300, 2520), Vector2(3340, 2380)],
 		"vignettes": [
@@ -309,6 +321,9 @@ const _ZONES := {
 			{"type": "dolmen", "pos": Vector2(1200, 1400)},
 			{"type": "camp", "pos": Vector2(5400, 3600)},          # cult fire
 			{"type": "bones", "pos": Vector2(3350, 1160)},
+			{"type": "dolmen", "pos": Vector2(6200, 600)},
+			{"type": "graves", "pos": Vector2(5600, 900), "count": 5},
+			{"type": "bones", "pos": Vector2(900, 4300)},
 		],
 		"warm_patches": [Vector2(3320, 1150)],
 		"vignettes": [
@@ -352,6 +367,11 @@ const _ZONES := {
 			{"type": "well", "pos": Vector2(5150, 2100)},
 			{"type": "shed", "pos": Vector2(3500, 1500)},
 			{"type": "graves", "pos": Vector2(6400, 3800), "count": 4},
+			{"type": "cottage", "pos": Vector2(800, 4200)},
+			{"type": "camp", "pos": Vector2(1600, 4600)},
+			{"type": "shed", "pos": Vector2(6800, 1000)},
+			{"type": "stump", "pos": Vector2(700, 700)},
+			{"type": "graves", "pos": Vector2(1500, 1000), "count": 3},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -466,6 +486,9 @@ const _ZONES := {
 			{"type": "graves", "pos": Vector2(2900, 3700), "count": 7},
 			{"type": "camp", "pos": Vector2(1600, 1600)},                 # cult fire
 			{"type": "inscription_stone", "pos": Vector2(3800, 1200), "live": true},
+			{"type": "graves", "pos": Vector2(800, 4300), "count": 5},
+			{"type": "camp", "pos": Vector2(1500, 4600)},
+			{"type": "stone_row", "pos": Vector2(6300, 800), "count": 3},
 		],
 		"warm_patches": [Vector2(3820, 1260), Vector2(4850, 1900)],
 		"vignettes": [
@@ -511,6 +534,11 @@ const _ZONES := {
 			{"type": "camp", "pos": Vector2(1400, 3600)},       # bandit-lord fire
 			{"type": "graves", "pos": Vector2(5400, 1200), "count": 5},
 			{"type": "stump", "pos": Vector2(4600, 3400)},
+			{"type": "dolmen", "pos": Vector2(700, 600)},
+			{"type": "stump", "pos": Vector2(1500, 900)},
+			{"type": "bones", "pos": Vector2(5800, 4300)},
+			{"type": "stone_row", "pos": Vector2(3500, 700), "count": 3},
+			{"type": "dolmen", "pos": Vector2(4600, 500)},
 		],
 		"warm_patches": [],
 		"vignettes": [
