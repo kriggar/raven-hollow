@@ -69,6 +69,7 @@ var _day_night: DayNightNode
 var _weather: WeatherController
 var _dialogue: DialogueUI
 var _music: AudioStreamPlayer
+var _zone_ambience: AudioStreamPlayer
 var _world_prompt: Label
 
 var _fade_layer: CanvasLayer
@@ -870,7 +871,44 @@ func _ensure_music() -> AudioStreamPlayer:
 
 
 func _start_music_for_def(def: Dictionary) -> void:
-	_start_music_for_path(str(def.get("music", MUSIC_PATH)))
+	# Region themes may not be on disk yet (audio acquisition lands them);
+	# fall back to the base wilderness theme rather than silence.
+	var path: String = str(def.get("music", MUSIC_PATH))
+	if not ResourceLoader.exists(path):
+		path = MUSIC_PATH
+	_start_music_for_path(path)
+	_start_zone_ambience(str(def.get("ambience", "")))
+
+
+## Per-zone ambient bed (WORLD_PLAN zone audio): a looping biome soundscape —
+## howling tundra wind, swamp frogs, farmland birdsong, harbor water — living
+## UNDER the music and the weather layer. Missing files = silent (drop-in).
+func _start_zone_ambience(amb_id: String) -> void:
+	if _zone_ambience == null:
+		_zone_ambience = AudioStreamPlayer.new()
+		_zone_ambience.name = "ZoneAmbience"
+		_zone_ambience.volume_db = -14.0
+		_zone_ambience.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_zone_ambience)
+	var stream: AudioStream = null
+	if not amb_id.is_empty():
+		var p: String = "res://assets/audio/ambience/%s.ogg" % amb_id
+		if ResourceLoader.exists(p):
+			stream = load(p) as AudioStream
+	if stream == _zone_ambience.stream and _zone_ambience.playing:
+		return
+	if stream == null:
+		_zone_ambience.stop()
+		_zone_ambience.stream = null
+		return
+	if stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = true
+	_zone_ambience.stream = stream
+	_zone_ambience.play()
+	# gentle fade-in so zone changes breathe
+	_zone_ambience.volume_db = -34.0
+	var tw := create_tween()
+	tw.tween_property(_zone_ambience, "volume_db", -14.0, 2.5)
 
 
 func _start_music_for_path(path: String) -> void:

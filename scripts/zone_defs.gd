@@ -13,6 +13,32 @@ class_name ZoneDefs
 const MUSIC_WILD := "res://assets/audio/music/theme_plain.ogg"
 const MUSIC_TOWN := "res://assets/audio/music/theme_lost_village.ogg"
 
+## Zone music by REGION (canon mood per WORLD_PLAN). Files land via the audio
+## acquisition; main.gd falls back to MUSIC_WILD until a theme exists on disk.
+const REGION_MUSIC := {
+	"border": "res://assets/audio/music/theme_border.ogg",
+	"west": "res://assets/audio/music/theme_west.ogg",
+	"north": "res://assets/audio/music/theme_north.ogg",
+	"east": "res://assets/audio/music/theme_east.ogg",
+	"south": "res://assets/audio/music/theme_south.ogg",
+	"coast": "res://assets/audio/music/theme_port.ogg",
+}
+
+## Ambient bed by BIOME (zone defs may override with "ambience"). The howling
+## wind of the tundra, swamp frogs of the bog, birdsong over farmland...
+const BIOME_AMBIENCE := {
+	"bog": "amb_swamp",
+	"moor": "amb_dead_wind",
+	"wilds": "amb_forest_birds",
+	"farmland": "amb_forest_birds",
+	"deadforest": "amb_dead_wind",
+	"tundra": "amb_wind_howl",
+	"volcanic": "amb_forge_rumble",
+	"ridge": "amb_wind_howl",
+	"port": "amb_harbor",
+	"cave": "amb_cave",
+}
+
 ## Waystation route graph (WoW flight-path rules: travel only along links,
 ## both endpoints discovered). The Grey Ferry (continent link) joins in
 ## batch G: riverfork_docks <-> grey_piers.
@@ -59,7 +85,10 @@ static func map_defs() -> Dictionary:
 			"display_name": str(z.get("name", id)),
 			"zone_id": String(id),
 			"builder_script": "res://scripts/zone_builder.gd",
-			"music": str(z.get("music", MUSIC_WILD)),
+			"music": str(z.get("music",
+					REGION_MUSIC.get(str(z.get("region", "")), MUSIC_WILD))),
+			"ambience": str(z.get("ambience",
+					BIOME_AMBIENCE.get(str(z.get("biome", "")), ""))),
 			"dusk_tint": z.get("dusk_tint", Color(0.94, 0.82, 0.70)),
 			"travel_points": z.get("travel_points", []),
 		}

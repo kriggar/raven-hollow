@@ -101,6 +101,7 @@ static func _defs() -> Dictionary:
 			"display_name": "Raven Hollow",
 			"builder_script": "res://scripts/town_builder.gd",
 			"music": MUSIC_TOWN,
+			"ambience": "amb_forest_birds",
 			"dusk_tint": DUSK_TOWN,
 			"travel_points": [
 				{
@@ -118,6 +119,7 @@ static func _defs() -> Dictionary:
 			"display_name": "The Emberfall Road",
 			"builder_script": "res://scripts/wilderness_builder.gd",
 			"music": MUSIC_WILD,
+			"ambience": "amb_dead_wind",
 			"dusk_tint": DUSK_WILD,
 			"travel_points": [
 				{
