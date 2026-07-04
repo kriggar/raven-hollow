@@ -940,6 +940,7 @@ func _do_summon(ability: Dictionary, aim: Vector2, world: Node2D) -> void:
 	var params: Dictionary = ability.get("params", {})
 	var minion := Minion.new()
 	minion.owner_player = self
+	minion.minion_type = str(params.get("minion_type", "skeleton"))
 	minion.damage = float(params.get("minion_damage", float(ability.get("damage", 5.0)))) + _stat_damage()
 	minion.life_left = float(params.get("lifetime", 12.0))
 	minion.hp = float(params.get("minion_hp", 35.0))
@@ -977,53 +978,62 @@ class Minion extends CharacterBody2D:
 	var move_speed: float = 80.0
 	var _atk_cd: float = 0.0
 	var _spr: AnimatedSprite2D
+	var minion_type: String = "skeleton"
+
+	const _TYPE_CFG := {
+		"skeleton": {"run_sheet": "res://assets/art/enemies/skeleton_run.png", "run_fw": 64, "run_count": 6, "run_fps": 10.0, "idle_sheet": "res://assets/art/enemies/skeleton_idle.png", "idle_fw": 32, "idle_count": 4, "idle_fps": 5.0, "idle_pad": true, "offset": Vector2(0, -31), "tint": Color(0.82, 0.92, 0.85), "scale": 1.0},
+		"wolf": {"run_sheet": "res://assets/art/enemies/wolf_run.png", "run_fw": 64, "run_count": 5, "run_fps": 10.0, "idle_sheet": "res://assets/art/enemies/wolf_idle.png", "idle_fw": 64, "idle_count": 4, "idle_fps": 4.0, "idle_pad": false, "offset": Vector2(0, -30), "tint": Color(0.60, 0.92, 0.70, 0.82), "scale": 1.0},
+		"raven": {"run_sheet": "res://assets/art/enemies/raven_fly.png", "run_fw": 32, "run_count": 3, "run_fps": 14.0, "idle_sheet": "res://assets/art/enemies/raven_fly.png", "idle_fw": 32, "idle_count": 3, "idle_fps": 9.0, "idle_pad": false, "offset": Vector2(0, -42), "tint": Color(0.34, 0.36, 0.46), "scale": 1.6},
+	}
 
 	func _init() -> void:
-		name = "SkeletonMinion"
+		name = "SummonedMinion"
 		collision_layer = 0
 		collision_mask = 1
 		motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 		y_sort_enabled = true
 		add_to_group("minions")
-		_spr = AnimatedSprite2D.new()
-		_spr.sprite_frames = _build_frames()
-		_spr.centered = true
-		_spr.offset = Vector2(0, -31)  # 64px frames, feet at frame bottom
-		_spr.modulate = Color(0.82, 0.92, 0.85)  # faint necrotic tint
-		_spr.play("idle")
-		add_child(_spr)
 		var col := CollisionShape2D.new()
 		var circle := CircleShape2D.new()
 		circle.radius = 5.0
 		col.shape = circle
 		add_child(col)
 
+	func _ready() -> void:
+		var cfg: Dictionary = _TYPE_CFG.get(minion_type, _TYPE_CFG["skeleton"])
+		_spr = AnimatedSprite2D.new()
+		_spr.sprite_frames = _build_frames(cfg)
+		_spr.centered = true
+		_spr.offset = cfg["offset"]
+		_spr.scale = Vector2.ONE * float(cfg.get("scale", 1.0))
+		_spr.modulate = cfg["tint"]
+		_spr.play("idle")
+		add_child(_spr)
+
 	func take_damage(amount: float, _source: Node) -> void:
 		hp -= amount
 		if hp <= 0.0:
 			life_left = 0.0  # next physics tick despawns it with a smoke puff
 
-	func _build_frames() -> SpriteFrames:
+	func _build_frames(cfg: Dictionary) -> SpriteFrames:
 		var sf := SpriteFrames.new()
 		sf.remove_animation("default")
-		var run_tex: Texture2D = load("res://assets/art/enemies/skeleton_run.png")
-		sf.add_animation("run")
-		sf.set_animation_speed("run", 10.0)
-		for i in range(6):
-			var at := AtlasTexture.new()
-			at.atlas = run_tex
-			at.region = Rect2(Vector2(float(i * 64), 0.0), Vector2(64.0, 64.0))
-			sf.add_frame("run", at)
-		var idle_tex: Texture2D = load("res://assets/art/enemies/skeleton_idle.png")
-		sf.add_animation("idle")
-		sf.set_animation_speed("idle", 5.0)
-		for i in range(4):
-			var at := AtlasTexture.new()
-			at.atlas = idle_tex
-			at.region = Rect2(Vector2(float(i * 32), 0.0), Vector2(32.0, 32.0))
-			at.margin = Rect2(Vector2(16.0, 32.0), Vector2(32.0, 32.0))  # pad to 64x64, feet aligned
-			sf.add_frame("idle", at)
+		_add_anim(sf, "run", str(cfg["run_sheet"]), int(cfg["run_fw"]), int(cfg["run_count"]), float(cfg["run_fps"]), false)
+		_add_anim(sf, "idle", str(cfg["idle_sheet"]), int(cfg["idle_fw"]), int(cfg["idle_count"]), float(cfg["idle_fps"]), bool(cfg.get("idle_pad", false)))
 		return sf
+
+	func _add_anim(sf: SpriteFrames, anim: String, path: String, fw: int, count: int, fps: float, pad: bool) -> void:
+		var tex: Texture2D = load(path)
+		sf.add_animation(anim)
+		sf.set_animation_speed(anim, fps)
+		sf.set_animation_loop(anim, true)
+		for i in range(count):
+			var at := AtlasTexture.new()
+			at.atlas = tex
+			at.region = Rect2(Vector2(float(i * fw), 0.0), Vector2(float(fw), float(fw)))
+			if pad:
+				at.margin = Rect2(Vector2(16.0, 32.0), Vector2(32.0, 32.0))  # 32px idle -> 64 feet-aligned
+			sf.add_frame(anim, at)
 
 	func _physics_process(delta: float) -> void:
 		life_left -= delta

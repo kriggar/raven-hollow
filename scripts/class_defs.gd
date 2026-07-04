@@ -990,7 +990,7 @@ const _DEFS := {
 				"params": { "duration": 6.0, "heal": 18.0, "heal_per_sec": 7.0, "fx": "heal_bloom", "color": Color(0.50, 0.75, 0.45) } },
 			{ "id": "spirit_beast", "name": "Spirit Beast", "icon": "pixel:spirit_beast",
 				"cooldown": 16.0, "mana_cost": 34.0, "range": 80.0, "damage": 0.0, "kind": "summon",
-				"params": { "minion_type": "skeleton", "lifetime": 22.0, "minion_hp": 42.0, "minion_damage": 7.0, "minion_speed": 92.0, "fx": "spirit_beast", "fx_loop": "spirit_beast_loop", "fx_tint": Color(0.55, 0.70, 0.50), "color": Color(0.55, 0.70, 0.50) } },
+				"params": { "minion_type": "wolf", "lifetime": 22.0, "minion_hp": 42.0, "minion_damage": 7.0, "minion_speed": 92.0, "fx": "spirit_beast", "fx_loop": "spirit_beast_loop", "fx_tint": Color(0.55, 0.70, 0.50), "color": Color(0.55, 0.70, 0.50) } },
 			{ "id": "bear_form", "name": "Bear Form", "icon": "pixel:bear_form",
 				"cooldown": 18.0, "mana_cost": 30.0, "range": 0.0, "damage": 0.0, "kind": "buff",
 				"params": { "duration": 8.0, "damage_mult": 1.4, "speed_mult": 1.1, "absorb": 35.0, "fx": "bear_form", "fx_tint": Color(0.55, 0.42, 0.28), "color": Color(0.55, 0.42, 0.28) } },
