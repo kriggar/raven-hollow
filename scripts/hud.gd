@@ -113,6 +113,8 @@ var _target_iid: int = 0
 var _ability_bar: Control
 ## One Dictionary per slot: {panel, icon, cd_rect, cd_label, key_label}.
 var _slots: Array[Dictionary] = []
+var _ability_tip: Panel
+var _ability_tip_label: Label
 var _built_class_id: String = ""
 var _xp_fill: ColorRect
 var _xp_label: Label
@@ -135,6 +137,7 @@ func _ready() -> void:
 	_build_player_frame()
 	_build_target_frame()
 	_build_ability_bar()
+	_build_ability_tip()
 	_build_xp_bar()
 	_build_tracker()
 
@@ -162,6 +165,8 @@ func _process(_delta: float) -> void:
 	_update_bars(player)
 	_update_target_frame(player)
 	_update_ability_slots(player, class_def)
+	if not OS.get_environment("RH_TIP").is_empty():
+		_show_ability_tip(int(OS.get_environment("RH_TIP")))
 	_update_xp(player)
 
 
@@ -596,10 +601,64 @@ func _build_ability_bar() -> void:
 			"cd_label": cd_label,
 			"key_label": key_label,
 		})
+		panel.mouse_entered.connect(_on_slot_entered.bind(i))
+		panel.mouse_exited.connect(_on_slot_exited)
 
 
 ## Slim amber XP bar spanning the player-frame width, just below it, with a
 ## left-aligned "Lv N" caption. Fill width + text are driven by _update_xp.
+func _build_ability_tip() -> void:
+	## Custom in-scene spell tooltip (the default CanvasLayer subwindow tooltip
+	## does not render reliably over the HUD layer). Driven by slot hover signals.
+	_ability_tip = Panel.new()
+	_ability_tip.name = "AbilityTip"
+	_ability_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ability_tip.visible = false
+	_ability_tip.z_index = 200
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = BOX_BG
+	sb.border_color = GOLD
+	sb.set_border_width_all(1)
+	sb.set_corner_radius_all(0)
+	_ability_tip.add_theme_stylebox_override("panel", sb)
+	_root.add_child(_ability_tip)
+	_ability_tip_label = Label.new()
+	_ability_tip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_style_label(_ability_tip_label, 9, PARCHMENT)
+	_ability_tip_label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	_ability_tip_label.add_theme_constant_override("outline_size", 2)
+	_ability_tip_label.position = Vector2(6.0, 5.0)
+	_ability_tip.add_child(_ability_tip_label)
+
+
+func _show_ability_tip(i: int) -> void:
+	if _ability_tip == null or i < 0 or i >= _slots.size():
+		return
+	var panel: Panel = _slots[i]["panel"]
+	if not panel.visible or panel.tooltip_text == "":
+		_ability_tip.visible = false
+		return
+	_ability_tip_label.text = panel.tooltip_text
+	var sz: Vector2 = _ability_tip_label.get_minimum_size() + Vector2(12.0, 10.0)
+	_ability_tip.size = sz
+	var r: Rect2 = panel.get_global_rect()
+	var x: float = r.position.x + r.size.x * 0.5 - sz.x * 0.5
+	var y: float = r.position.y - sz.y - 6.0
+	var vp: Vector2 = Vector2(get_viewport().get_visible_rect().size)
+	x = clampf(x, 4.0, maxf(4.0, vp.x - sz.x - 4.0))
+	_ability_tip.global_position = Vector2(roundf(x), roundf(y))
+	_ability_tip.visible = true
+
+
+func _on_slot_entered(i: int) -> void:
+	_show_ability_tip(i)
+
+
+func _on_slot_exited() -> void:
+	if _ability_tip != null:
+		_ability_tip.visible = false
+
+
 func _build_xp_bar() -> void:
 	var y: float = UF_MARGIN + UF_H + 2.0
 
