@@ -300,6 +300,21 @@ func _bootstrap_world_from_save(data: Dictionary) -> void:
 # =============================================================================
 
 func _spawn_systems() -> void:
+	# AAA polish: subtle 2D bloom (hdr_2d) — fires, inscription glow and
+	# spell VFX bleed light softly; tuned low to respect the pixel art.
+	if get_node_or_null("GlowEnv") == null:
+		var env := Environment.new()
+		env.background_mode = Environment.BG_CANVAS
+		env.glow_enabled = true
+		env.glow_intensity = 0.35
+		env.glow_strength = 0.9
+		env.glow_bloom = 0.05
+		env.glow_hdr_threshold = 1.08
+		env.glow_blend_mode = Environment.GLOW_BLEND_MODE_ADDITIVE
+		var we := WorldEnvironment.new()
+		we.name = "GlowEnv"
+		we.environment = env
+		add_child(we)
 	var q := QuestsNode.new()
 	q.name = "Quests"
 	add_child(q)

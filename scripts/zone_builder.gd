@@ -533,6 +533,18 @@ static func _sprite(parent: Node2D, path: String, pos: Vector2, sorted: bool = f
 		spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 8)
 		spr.y_sort_enabled = true
 	parent.add_child(spr)
+	# Buildings occlude light: waystation lanterns / camp fires throw real
+	# shadows off structures ("ray-traced" feel, 2D-style).
+	if sorted and path.contains("/buildings/"):
+		var occ := LightOccluder2D.new()
+		var poly := OccluderPolygon2D.new()
+		var w: float = spr.texture.get_width() * 0.32
+		poly.polygon = PackedVector2Array([
+			Vector2(-w, -10.0), Vector2(w, -10.0), Vector2(w, 6.0), Vector2(-w, 6.0),
+		])
+		occ.occluder = poly
+		occ.position = pos
+		parent.add_child(occ)
 
 
 static func _atlas(parent: Node2D, rect: Rect2, pos: Vector2, tint: Color = Color.WHITE,
@@ -579,6 +591,11 @@ static func _fire_light(parent: Node2D, pos: Vector2, energy: float = 0.8) -> vo
 	l.color = Color(1.0, 0.75, 0.45)
 	l.energy = energy
 	l.texture_scale = 3.0
+	# AAA lighting: landmark fires cast REAL 2D shadows off occluders.
+	l.shadow_enabled = true
+	l.shadow_filter = PointLight2D.SHADOW_FILTER_PCF5
+	l.shadow_filter_smooth = 2.4
+	l.shadow_color = Color(0.0, 0.0, 0.0, 0.55)
 	parent.add_child(l)
 
 
