@@ -56,3 +56,8 @@ Phase D — spell-kit dedicated sheets (all free for commercial use)
   frostwindz_priest/dawnbreak_pillar_128x128.png — Frostwindz "Priest FREE" VFX 2 (dawnbreak)
   frostwindz_priest/heal_bloom_128x128.png       — Frostwindz "Priest FREE" VFX 1 (holy_bloom/heal_bloom)
   frostwindz_necro/necro_shell_128x128.png       — Frostwindz "Necromancer FREE" VFX 1 (bone_ward)
+
+Foozle 2DE0001 Pixel Magic Effects (free) — higher-fidelity 64x64 upgrades:
+  foozle/fireball_64x64.png  — Fire_Ball (flight 0-4 + impact 5-9) -> firebolt_fly/impact, fire_explosion
+  foozle/wind_64x64.png      — Wind -> wind_crescent, wind_hit (loosed_arrow)
+  foozle/rocks_64x64.png     — Rocks -> quake_rock (earthshaker, bone_nova)

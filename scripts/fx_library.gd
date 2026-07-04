@@ -43,9 +43,9 @@ const _VFX_DIR := "res://assets/art/vfx/"
 ## id -> {sheet, fw, fh, from, to (inclusive, row-major), fps, loop}
 const _DEFS: Dictionary = {
 	# -- fire (Pimen Fire 01 / 02) --------------------------------------
-	"firebolt_fly": {"sheet": _VFX_DIR + "pimen_fire/firebolt_48x48.png", "fw": 48, "fh": 48, "from": 0, "to": 3, "fps": 14.0, "loop": true},
-	"firebolt_impact": {"sheet": _VFX_DIR + "pimen_fire/firebolt_48x48.png", "fw": 48, "fh": 48, "from": 5, "to": 10, "fps": 16.0, "loop": false},
-	"fire_explosion": {"sheet": _VFX_DIR + "pimen_fire/explosion_64x64.png", "fw": 64, "fh": 64, "from": 1, "to": 13, "fps": 20.0, "loop": false},
+	"firebolt_fly": {"sheet": _VFX_DIR + "foozle/fireball_64x64.png", "fw": 64, "fh": 64, "from": 0, "to": 4, "fps": 14.0, "loop": true},
+	"firebolt_impact": {"sheet": _VFX_DIR + "foozle/fireball_64x64.png", "fw": 64, "fh": 64, "from": 5, "to": 9, "fps": 16.0, "loop": false},
+	"fire_explosion": {"sheet": _VFX_DIR + "foozle/fireball_64x64.png", "fw": 64, "fh": 64, "from": 5, "to": 9, "fps": 16.0, "loop": false},
 	# -- thunder (Pimen Thunder 01) -------------------------------------
 	"spark_fly": {"sheet": _VFX_DIR + "pimen_thunder/projectile_32x32.png", "fw": 32, "fh": 32, "from": 0, "to": 4, "fps": 15.0, "loop": true},
 	"spark_hit": {"sheet": _VFX_DIR + "pimen_thunder/hit_32x32.png", "fw": 32, "fh": 32, "from": 0, "to": 4, "fps": 15.0, "loop": false},
@@ -69,8 +69,8 @@ const _DEFS: Dictionary = {
 	"smoke_poof": {"sheet": _VFX_DIR + "pimen_smoke/poof_64x64.png", "fw": 64, "fh": 64, "from": 0, "to": 10, "fps": 14.0, "loop": false},
 	"dust": {"sheet": _VFX_DIR + "pimen_smoke/dust_64x64.png", "fw": 64, "fh": 64, "from": 0, "to": 7, "fps": 12.0, "loop": false},
 	# -- wind (Pimen Wind 01 / 02) ---------------------------------------
-	"wind_crescent": {"sheet": _VFX_DIR + "pimen_wind/crescent_32x32.png", "fw": 32, "fh": 32, "from": 0, "to": 5, "fps": 14.0, "loop": true},
-	"wind_hit": {"sheet": _VFX_DIR + "pimen_wind/wind_hit_32x32.png", "fw": 32, "fh": 32, "from": 0, "to": 3, "fps": 14.0, "loop": false},
+	"wind_crescent": {"sheet": _VFX_DIR + "foozle/wind_64x64.png", "fw": 64, "fh": 64, "from": 0, "to": 5, "fps": 18.0, "loop": true},
+	"wind_hit": {"sheet": _VFX_DIR + "foozle/wind_64x64.png", "fw": 64, "fh": 64, "from": 0, "to": 9, "fps": 18.0, "loop": false},
 	"air_burst": {"sheet": _VFX_DIR + "pimen_wind/air_burst_48x48.png", "fw": 48, "fh": 48, "from": 0, "to": 6, "fps": 14.0, "loop": false},
 	"air_swirl": {"sheet": _VFX_DIR + "pimen_wind/air_swirl_32x32.png", "fw": 32, "fh": 32, "from": 0, "to": 8, "fps": 16.0, "loop": false},
 	# -- wood roots (Pimen Wood 02) ---------------------------------------
@@ -81,7 +81,7 @@ const _DEFS: Dictionary = {
 	"magic_arrow": {"sheet": _VFX_DIR + "xyezawr_arrows/magic_arrow_blue_59x28.png", "fw": 59, "fh": 28, "from": 0, "to": 14, "fps": 20.0, "loop": true},
 	# -- Phase D spell-kit dedicated sheets (see CREDITS_VFX.txt) -----------
 	# earth quake rock burst (earthshaker + bone_nova, re-tinted) — 6x2 grid
-	"quake_rock": {"sheet": _VFX_DIR + "earth_spell/quake_rock_48x48.png", "fw": 48, "fh": 48, "from": 0, "to": 11, "fps": 16.0, "loop": false},
+	"quake_rock": {"sheet": _VFX_DIR + "foozle/rocks_64x64.png", "fw": 64, "fh": 64, "from": 0, "to": 9, "fps": 16.0, "loop": false},
 	# acid splash burst (venom_cloud) — Hit frames only
 	"acid_hit": {"sheet": _VFX_DIR + "acid_spell/acid_hit_32x32.png", "fw": 32, "fh": 32, "from": 0, "to": 5, "fps": 14.0, "loop": false},
 	# rotating protection ward LOOP (iron_bulwark) — 8x8 grid, 61 live frames
@@ -122,7 +122,7 @@ const _ALIASES: Dictionary = {
 	"spark": {"id": "spark_hit", "opts": {}},
 	"fireball": {"id": "fire_explosion", "opts": {}},
 	"soul_bolt": {"id": "soul_hit", "opts": {}},
-	"loosed_arrow": {"id": "wind_hit", "opts": {}},
+	"loosed_arrow": {"id": "wind_hit", "opts": {"scale": 0.55}},
 	"fan_of_knives": {"id": "blade_spin", "opts": {"duration": 0.4}},
 	# Landing impact = thunder hit per the effect mapping (the magic_arrow
 	# strip is the FLIGHT visual and would lie flat at the hit point).
