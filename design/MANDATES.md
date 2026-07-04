@@ -78,3 +78,8 @@ Every rule the owner has issued. Nothing ships that violates one. Status: ✅ li
 ## Audio & Voice
 - ✅ Zone themes + biome ambience + weather SFX (17 files, credited)
 - 🔄 Voice v2: Maya1 expressive acting, all 173 lines (bake self-healing in background)
+- 🔄 HANS-ZIMMER-LEVEL score & ambiance: adaptive layered music (exploration/tension/combat stems), per-kingdom motifs, the WHOLE score built on the canon three-note Bloodstone melody (notes converge across acts as the broadcast nears — the soundtrack IS the villain)
+- 🔄 ROCKSTAR-GRADE audio QA: automated LUFS loudness, loop-seam, clipping & spectral validators on every audio asset (feeds QA_AUTOMATION law)
+
+## Achievements
+- 🔄 MMORPG/WoW-style achievement system: categories (quests/exploration/dungeons/PvP/professions/feats), points, meta-achievements, title+mount rewards, toast UI, account ledger
