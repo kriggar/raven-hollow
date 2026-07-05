@@ -4,7 +4,7 @@ GitHub (pushed), and the agent memory system points here. Every session resumes 
 Fresh session read order: design/MANDATES.md → THIS FILE → design/*.md as needed.
 Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ queued · ⚠ owner input needed.
 
-## THE REGISTRY (97 tasks)
+## THE REGISTRY (98 tasks)
 ### Shipped foundation (1-20)
 1. ✅ TTS voice system + 173 baked NPC lines (v1)
 2. ✅ Weather system (rain/snow/storm/fog + zone-native tables + ASH + drift)
@@ -112,6 +112,8 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 95. ⬜ Local AI studio on the 5070 Ti (offline, Fable-capacity goal — honest research + narrow-role mitigation)
 96. ⬜ Corporation-of-bots departments; godot-optimization horde; 2D-pixel-design + Blizzard-audio/cinematics study hordes; playtest agents start-to-finish; bots w/ perfect navmesh + class rotations; race-vs-bots world-firsts; everyone starts from 0 on New World
 97. ⬜ Disk-space watcher (safe pruning) + BE-CHEAP operations law (standing)
+98. ⬜ SEAMLESS WORLD (owner mandate): all 40 zones interconnected, NO loading screens — edge-streaming (pre-build adjacent zone off-screen as the player nears a seam, continuous walk-across, unload behind); the player never feels a map change. Engine: async zone pre-build + world-offset stitching + camera continuity, replacing the fade-to-black change_map at seams.
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Paid-pack approval (~$15 Pimen/Frostwindz full sets)
