@@ -50,7 +50,9 @@ const INTERACT_RANGE: float = 28.0
 ## inspection: lowest opaque row (shadow bottom) is y=40 in every frame, i.e.
 ## 16 px below center; lift by 15 so the shadow ellipse straddles the node pos.
 const FEET_OFFSET: Vector2 = Vector2(0, -15)
-const INVULN_TIME: float = 0.5
+# Anti-oneshot window only — COMBAT_PACING §blocker-1: the old 0.5 s made
+# packs harmless (2 hits/sec cap regardless of attacker count).
+const INVULN_TIME: float = 0.18
 const RESPAWN_DELAY: float = 2.5
 const MELEE_CONE_DEG: float = 50.0  # half-angle of the 100-degree swing cone
 
@@ -188,6 +190,7 @@ var _spawn_point: Vector2 = Vector2.ZERO
 var _cooldowns: Array[float] = [0.0, 0.0, 0.0]
 var _cd_max: Array[float] = [1.0, 1.0, 1.0]
 var _invuln: float = 0.0
+var _ooc_timer: float = 0.0  # seconds since last damage taken
 var _dead: bool = false
 var _speed_mult: float = 1.0
 var _damage_mult: float = 1.0
@@ -470,6 +473,7 @@ func _tick_timers(delta: float) -> void:
 			_cooldowns[i] = maxf(0.0, _cooldowns[i] - delta)
 	if _invuln > 0.0:
 		_invuln = maxf(0.0, _invuln - delta)
+	_ooc_timer += delta
 	if _buff_left > 0.0:
 		_buff_left -= delta
 		if _buff_left <= 0.0:
@@ -493,6 +497,11 @@ func _tick_timers(delta: float) -> void:
 		_cast_anim_left = maxf(0.0, _cast_anim_left - delta)
 	if not _dead:
 		hp = minf(hp + _hp_regen * delta, max_hp)
+	# Out-of-combat recovery (COMBAT_PACING §9.2): fast catch-up regen after
+	# 5 s untouched — the classic rest rhythm without eating menus (yet).
+	if _ooc_timer >= 5.0 and not _dead:
+		hp = minf(hp + max_hp * 0.05 * delta, max_hp)
+		mana = minf(mana + max_mana * 0.05 * delta, max_mana)
 		mana = minf(mana + _mana_regen * delta, max_mana)
 
 
@@ -1092,6 +1101,7 @@ func take_damage(amount: float, _source: Node) -> void:
 		if _absorb <= 0.0:
 			_clear_buff_fx()  # Divine Shield wrap pops when the absorb is spent
 	_invuln = INVULN_TIME
+	_ooc_timer = 0.0
 	_flash_red()
 	_shake_camera()
 	if amt <= 0.0:
