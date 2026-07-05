@@ -17,6 +17,12 @@ integration, and verification only.
    NOT yours to decide — flag and stop).
 4. Canon: `../_lore_extract.txt` (grep it before inventing anything).
 
+## OPUS MAX-EFFORT LAW (owner, standing)
+Every Opus 4.8 invocation — driver sessions, sub-agents, painters, builders,
+researchers — runs at MAXIMUM effort and thoroughness. Never quick-pass,
+never skim. Spawning an agent? Write "MAXIMUM effort" into its mission and
+give it the full context it needs to be exhaustive.
+
 ## The driver loop
 pick task from BACKLOG → produce with LOCAL tools → run the validators →
 integrate by the established patterns → verify with screenshots → commit +
