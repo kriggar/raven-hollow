@@ -158,9 +158,30 @@ trees(d, 360, 560, 26, 130, 130)              # west — lowland woods
 trees(d, 700, 570, 20, 120, 100, dead=True)   # border — dying birch
 # the Iron Vein river: NE ridges -> interior -> west delta
 river = [(1010, 420), (900, 470), (790, 540), (700, 600), (560, 640), (430, 640), (330, 610)]
-rough_poly(d, river, width=4, color=(78, 60, 40), jitter=2.0, close=False)
+trib = [(760, 760), (720, 680), (700, 600)]
+rough_poly(d, river, width=7, color=(70, 54, 38), jitter=2.0, close=False)
+rough_poly(d, [(p[0], p[1] - 2) for p in river], width=2, color=(96, 82, 66), jitter=1.0, close=False)
+rough_poly(d, trib, width=4, color=(70, 54, 38), jitter=2.0, close=False)
 d.line([(330, 610), (300, 580)], fill=(78, 60, 40), width=3)
 d.line([(330, 610), (295, 635)], fill=(78, 60, 40), width=3)
+
+# coach routes (dotted): the western travel spine + stonepath crossing
+ROUTES_PTS = [
+    [(700, 600), (790, 648), (860, 700), (960, 660)],           # border ring
+    [(700, 600), (560, 615), (470, 560), (380, 545), (300, 545)],  # to Angel Wings
+    [(960, 660), (1080, 560), (1128, 520)],                     # to Blestem
+    [(860, 700), (905, 780)],                                   # to Sangeroasa
+    [(700, 600), (660, 480), (640, 300)],                       # to Black Night
+]
+for route in ROUTES_PTS:
+    for i in range(len(route) - 1):
+        a, b = route[i], route[i + 1]
+        steps = max(4, int(math.dist(a, b) / 16))
+        for st in range(0, steps, 2):
+            t0, t1 = st / steps, min(1.0, (st + 0.9) / steps)
+            d.line([(a[0] + (b[0] - a[0]) * t0, a[1] + (b[1] - a[1]) * t0),
+                    (a[0] + (b[0] - a[0]) * t1, a[1] + (b[1] - a[1]) * t1)],
+                   fill=(90, 60, 40, 170), width=2)
 
 # kingdom capitals — gothic keep glyphs
 def keep(d, x, y, s=20):
@@ -179,8 +200,9 @@ d.ellipse([694, 594, 706, 606], outline=INK, width=3)  # Raven Hollow / Border h
 # kingdom labels
 label(d, (640, 318), "BLACK NIGHT", F_KINGDOM)
 label(d, (640, 350), "the city over the grave", F_SMALL, INK_SOFT)
-label(d, (1122, 452), "BLESTEM", F_KINGDOM)
-label(d, (1122, 483), "the listening city", F_SMALL, INK_SOFT)
+d.rounded_rectangle([1006, 396, 1240, 462], radius=8, fill=(214, 196, 152, 210), outline=INK, width=2)
+label(d, (1122, 420), "BLESTEM", F_KINGDOM)
+label(d, (1122, 448), "the listening city", F_SMALL, INK_SOFT)
 label(d, (930, 892), "SANGEROASA", F_KINGDOM)
 label(d, (930, 924), "the forge that eats", F_SMALL, INK_SOFT)
 label(d, (300, 480), "ANGEL WINGS", F_KINGDOM)
@@ -196,7 +218,7 @@ label(d, (470, 540), "the Grey Marches", F_SMALL, INK_SOFT)
 label(d, (330, 668), "Riverfork", F_SMALL, INK_SOFT)
 label(d, (985, 760), "the Gift", F_SMALL, INK_SOFT)
 label(d, (640, 400), "the Threadlands", F_SMALL, INK_SOFT)
-label(d, (1075, 420), "the Whisper Passes", F_SMALL, INK_SOFT)
+label(d, (1000, 355), "the Whisper Passes", F_SMALL, INK_SOFT)
 
 # === CONTINENT 2: THE COLLECTOR'S COAST (right, smaller, drowned)
 COAST2 = [
@@ -224,6 +246,9 @@ for gx in range(4):
 for gy in range(3):
     d.line([(1660, 696 + gy * 24), (1748 + 12, 696 + gy * 24)], fill=INK_SOFT, width=2)
 keep(d, 1720, 660)                            # Greyhollow
+label(d, (1700, 330), "THE COLLECTOR'S COAST", F_ZONE, INK)
+d.line([(1560, 352), (1660, 348)], fill=INK_SOFT, width=2)
+d.line([(1740, 348), (1850, 352)], fill=INK_SOFT, width=2)
 label(d, (1710, 590), "GREYHOLLOW", F_KINGDOM)
 label(d, (1710, 621), "the drowned ledger", F_SMALL, INK_SOFT)
 label(d, (1620, 452), "Dead Timber", F_SMALL, INK_SOFT)
