@@ -28,6 +28,53 @@ OLLAMA = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434")
 VLM_MODEL = os.environ.get("RH_VLM", "llava:7b")
 _vlm_state = {"checked": False, "available": False}
 
+# THE ART BAR (owner #115): reference sheets become STYLE ANCHORS. Drop class/zone/monster reference
+# PNGs into either dir and the anchor lens auto-activates — candidates are compared to the owner's
+# actual reference palette. Until refs appear, the lens abstains (heuristic+VLM lenses still gate).
+_REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+REFERENCE_DIRS = [r"D:\raven hollow\reference", os.path.join(_REPO, "_downloads", "reference")]
+_anchor_state = {"loaded": False, "palette": None}
+
+
+def _load_reference_palette():
+    if _anchor_state["loaded"]:
+        return _anchor_state["palette"]
+    _anchor_state["loaded"] = True
+    import glob
+    pal = []
+    for d in REFERENCE_DIRS:
+        if not os.path.isdir(d):
+            continue
+        for f in glob.glob(os.path.join(d, "**", "*.png"), recursive=True) + \
+                 glob.glob(os.path.join(d, "**", "*.jpg"), recursive=True):
+            try:
+                q = Image.open(f).convert("RGB").quantize(colors=48, method=Image.MEDIANCUT)
+                p = q.getpalette()[:48 * 3]
+                pal += [(p[i], p[i + 1], p[i + 2]) for i in range(0, len(p), 3)]
+            except Exception:
+                pass
+    _anchor_state["palette"] = pal or None
+    if pal:
+        sys.stderr.write(f"[gauntlet] style anchors loaded: {len(pal)} reference colours\n")
+    return _anchor_state["palette"]
+
+
+def lens_style_anchor(im):
+    """Compare the candidate's palette to the owner's REFERENCE sheets (the art bar). Only active when
+    reference images exist. Passes when enough of the candidate's colours sit near a reference colour."""
+    ref = _load_reference_palette()
+    if not ref:
+        return None, "style_anchor: abstain (no reference sheets yet)"
+    pts, w, h, px = _opaque_pixels(im)
+    if not pts:
+        return False, "empty"
+    cols = set(c[:3] for _, _, c in pts)
+    near = sum(1 for c in cols if min(I._cdist(c, r) for r in ref) <= 80)
+    frac = near / len(cols)
+    if frac < 0.5:
+        return False, f"off art-bar palette ({frac:.2f} <0.50 near reference)"
+    return True, f"art-bar palette ok ({frac:.2f} near reference)"
+
 
 # ---------------------------------------------------------------------------- heuristic lenses
 def _opaque_pixels(im):
@@ -137,27 +184,41 @@ def lens_vlm_perspective(im):
 
 
 # ---------------------------------------------------------------------------- the council
-HEURISTIC_LENSES = [("pixel_art", lens_pixel_art), ("palette", lens_palette), ("ambience", lens_ambience)]
+HEURISTIC_LENSES = [("pixel_art", lens_pixel_art), ("palette", lens_palette), ("ambience", lens_ambience),
+                    ("style_anchor", lens_style_anchor)]
+def lens_vlm_identity(im, subject):
+    """IDENTITY GATE (owner, 2026-07-06, after the flame-blob fireball): style compliance is not
+    enough — the asset must READ as the thing it claims to be. Parameterized per asset."""
+    return _vlm_yesno(im, f"This is a video-game sprite that is supposed to be: {subject}. "
+                          f"Does it clearly READ as that (correct shape, silhouette and key features "
+                          f"a player would instantly recognize)?", "vlm_identity")
+
+
 VLM_LENSES = [("vlm_style", lens_vlm_style), ("vlm_perspective", lens_vlm_perspective)]
 
 
-def run_gauntlet(im, use_vlm=True):
+def run_gauntlet(im, use_vlm=True, subject=None):
     """Unanimous vision gate. Returns (passed, verdicts:list[(lens,pass_or_None,reason)]).
-    A lens that abstains (VLM unavailable) does NOT block. Any explicit fail blocks.
-    VLM lenses (~5-10s/asset) can be disabled for throughput with RH_GAUNTLET_VLM=0; the 3
-    heuristic lenses always run (they alone caught the mush/off-palette rejects)."""
+    A lens that ABSTAINS (returns None — VLM unavailable, or no reference sheets yet) does NOT block.
+    Any explicit False blocks. VLM lenses (~1.3s/asset) toggle via RH_GAUNTLET_VLM=0; the heuristic
+    lenses always run (they alone caught the mush/off-palette rejects)."""
     verdicts = []
     ok = True
     for name, fn in HEURISTIC_LENSES:
         p, reason = fn(im)
         verdicts.append((name, p, reason))
-        if not p:
+        if p is False:
             ok = False
     use_vlm = use_vlm and os.environ.get("RH_GAUNTLET_VLM", "1") != "0"
     if use_vlm and _vlm_available():
         for name, fn in VLM_LENSES:
             p, reason = fn(im)
             verdicts.append((name, p, reason))
+            if p is False:
+                ok = False
+        if subject:
+            p, reason = lens_vlm_identity(im, subject)
+            verdicts.append(("vlm_identity", p, reason))
             if p is False:
                 ok = False
     return ok, verdicts
