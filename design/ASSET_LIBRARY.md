@@ -142,7 +142,21 @@ Owner target: build toward **150,000** gothic-medieval assets. The queue runs co
 
 ### Stress test (real numbers)
 <!-- AUTO:STRESS -->
-_(filled from the 200-asset burst)_
+Measured on the running burst (batch_size 4, SDXL 1024px @ 28 steps, single ComfyUI stream, 5070 Ti):
+
+| metric | value |
+|---|---|
+| throughput | **~185 assets/hr** (steady; ~210 warm, drops slightly as jobs vary) |
+| sprites per render | ~1.1 (connected-component split multiplies output) |
+| reject rate (spotless gate) | **~3%** |
+| dedup hits | ~0% early (rises as per-category density grows) |
+| VRAM | batch-4 fits comfortably (14.7 GB free at idle; no OOM) |
+| **raws left on disk** | **0** — auto-prune deletes every ComfyUI render the instant its sprite is cut (disk law holds) |
+| final library size | ~50–80 KB/50 sprites ⇒ **~8–12 GB projected at 150k** (fits D: easily) |
+| **projected time to 150,000** | **~34 days single-stream** at 185/hr (matches the owner's 6–10 week estimate) |
+
+Throughput levers if the owner wants faster: raise `RH_BATCH` (VRAM permitting), drop steps 28→20,
+or run a second ComfyUI instance. The queue is resumable, so the marathon can start/stop freely.
 <!-- /AUTO:STRESS -->
 
 ---
