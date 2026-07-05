@@ -216,6 +216,14 @@ def validate(role, obj):
         # Bible II.4: story clusters — most landmarks must have a neighbor
         # within 300px; Bible III.11: no two inside each other's footprint.
         import math as _m
+        # type-aware footprints (owner walkthrough: flat 70px let houses clip
+        # through fountains — buildings are 200-300px wide, not dots)
+        BIG = {"tavern", "cottage", "manor", "shop", "workshop", "warehouse",
+               "barn", "cabin", "dark_keep", "forge", "spire", "shed", "hamlet"}
+        MID = {"statue", "fountain", "well", "copper_well", "dolmen", "pit",
+               "graves", "stall", "plaza", "crane", "wreck", "boat"}
+        def _rad(t):
+            return 150.0 if t in BIG else (90.0 if t in MID else 40.0)
         lonely = 0
         for i, a in enumerate(lms):
             best = 1e9
@@ -223,9 +231,11 @@ def validate(role, obj):
                 if i == j:
                     continue
                 d = _m.hypot(a["x"] - c["x"], a["y"] - c["y"])
+                need = _rad(a.get("type")) + _rad(c.get("type"))
+                if d < need:
+                    raise ValueError("footprint clip: %s and %s only %dpx apart, need %d (Bible III.11)"
+                                     % (a.get("type"), c.get("type"), int(d), int(need)))
                 best = min(best, d)
-            if best < 70:
-                raise ValueError("footprint overlap at (%d,%d) (Bible III.11)" % (a["x"], a["y"]))
             if best > 900:
                 lonely += 1
         if lonely > len(lms) // 4:
