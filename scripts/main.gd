@@ -424,6 +424,7 @@ func _build_map(map_id: String) -> Dictionary:
 		# path the WeatherSystem uses).
 		_day_night.set_underground(str(ZoneDefs.zone(map_id).get("biome", "")) == "cave")
 		_day_night.set_ambient_lock(ZoneDefs.zone(map_id).get("ambient_lock"))
+		_day_night.set_ambient_bias(ZoneDefs.zone(map_id).get("ambient_bias"))
 
 	return {"def": def, "built": built, "world": world}
 

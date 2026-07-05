@@ -427,7 +427,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					parent.add_child(bed)
 			"graves":
 				for i in range(int(lm.get("count", 6))):
-					var gp: Vector2 = pos + Vector2((i % 3) * 40, int(float(i) / 3.0) * 46)
+					var gp: Vector2 = pos + Vector2((i % 3) * 48, int(float(i) / 3.0) * 58)
 					_atlas(parent, R_STONE_LOW if i % 2 == 0 else R_STONE_TALL, gp, Color(0.85, 0.87, 0.9), true)
 			"dolmen":
 				_atlas(parent, R_MONOLITH, pos, Color(0.8, 0.82, 0.86), true)

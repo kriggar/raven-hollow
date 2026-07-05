@@ -95,6 +95,13 @@ owner opens. Either way the contract + gate applies.
 - **74**: Fable = layouts/bosses; Opus = trash population + loot hookup
 - **79/96**: Fable = council/corporation architecture; Opus = staffing + throughput
 
+## CREDIT AMENDMENT (2026-07-05 eve, owner: 93% weekly usage, resets in 6 DAYS)
+The OPUS lane is executed by the LOCAL STUDIO first (tools/studio/ — free,
+5070 Ti) for all content-production tasks (quests, barks, defs, items, docs).
+Billed Opus 4.8 agents run ONLY: (a) after the credit reset, (b) for tasks the
+local studio repeatedly fails at the QA gate (UI code, engine-adjacent work).
+Fable spends tokens on REVIEW + INTEGRATION + ENGINE only.
+
 ## Standing law
 Zones (#63) outrank everything until 40/40. Then the implementation wave
 (#27-#45) runs OPUS-parallel under Fable review while Fable builds #98/#99/#52.

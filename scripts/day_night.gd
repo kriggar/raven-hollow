@@ -118,6 +118,16 @@ func set_ambient_lock(c: Variant) -> void:
 	_apply(0.0)
 
 
+## Cold-country bias: multiplies the day-night ambient so snow zones stay
+## cool at noon instead of flipping to warm beige between snowfalls.
+var _ambient_bias: Variant = null
+
+
+func set_ambient_bias(c: Variant) -> void:
+	_ambient_bias = c if c is Color else null
+	_apply(0.0)
+
+
 ## Current ambient color for the given (or current) hour — exposed so menus /
 ## the minimap can tint against the live palette.
 func ambient_color() -> Color:
@@ -167,7 +177,12 @@ func _apply(delta: float) -> void:
 		elif _ambient_lock is Color:
 			cm.color = _ambient_lock
 		else:
-			cm.color = _ambient_at(time_of_day)
+			var amb: Color = _ambient_at(time_of_day)
+			if _ambient_bias is Color:
+				amb = Color(amb.r * (_ambient_bias as Color).r,
+						amb.g * (_ambient_bias as Color).g,
+						amb.b * (_ambient_bias as Color).b)
+			cm.color = amb
 
 	if underground:
 		_update_lights(1.0)
