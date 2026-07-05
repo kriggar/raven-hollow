@@ -25,7 +25,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 17. ✅ 4K one-shot level cameras (RH_RES) + 142-shot sweep grid
 18. ✅ Prime-Mandate sitting #1 (14/14 inspectors) + 7-defect fix pass + re-sweep
 19. ✅ Combat unblock: INVULN 0.5→0.18 + out-of-combat recovery
-20. ✅ Voice v2: Maya1 expressive re-bake 173/173 (5 shell files re-baking now 🔧)
+20. ✅ Voice v2 COMPLETE: 173/173 expressive lines verified + committed
 ### Governance systems (21-26)
 21. ✅ MANDATES.md master rule ledger + this BACKLOG registry
 22. ✅ Million Design Council (1M bots, Ocarina Bar, tools/design_council)
@@ -62,7 +62,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 51. 📐→⬜ Cinematics: 6 D2 films (ComfyUI stills + Chronicler VO) + in-world system (CINEMATICS)
 52. 📐→⬜ Freedom & physics: no-walls audit + Zelda props (FREEDOM_PHYSICS)
 53. 📐→⬜ Score production: C–E♭–D motif stems, MusicDirector adaptive layers (SCORE_BIBLE)
-54. 📐→⬜ Audio QA: fix the 14 RED fails (theme_south clipping, wind_loop hot, loop seams) + audio_qa.py validator (AUDIO_QA)
+54. 🔧 Audio QA: file fixes SHIPPED (declip/gains/seam-crossfades ✅) — remaining: VO gain trim after final 5 lines, audio_qa.py validator build
 55. 📐→⬜ Achievements "Deed-Book": 9 categories, toasts, 60 exemplars (ACHIEVEMENTS)
 56. 📐→⬜ VFX AAA plan — REWORK to owner's uniqueness law: no repeats, palette swaps ILLEGAL, unique per spell AND creature (VFX_AAA_PLAN amendment)
 57. ⬜ Crafting ANIMATIONS from packs (stations + character craft-bob)
@@ -70,10 +70,10 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 59. ⬜ Spellbook UI (browsable) + CONCRETE tooltip law enforcement
 60. ⬜ Achievement/deed toast + panel implementation
 ### Zone production (61-66)
-61. ⬜ RAVEN HOLLOW REDO (owner: make it perfect) — next zone task
+61. 🔧 RAVEN HOLLOW REDO: stall-float fix SHIPPED (all 3 builders) — remaining: plaza edge transition, orphan stone patch, branch-thru-grave, dying west road, SW dead space, lantern-fence clip
 62. ⬜ Batch C: North arm + Black Night capital (snow + Szadi catacombs) at WoW-REAL-ZONE-SIZE, Stormwind-scale capital w/ castles
 63. ⬜ Batches D-H: East, South, dungeons, Continent 2 port ring, remainder → all 40 zones
-64. ⬜ Sitting-#1 round-2 fixes: moor/grass road art (scattered-square read), dust-lines "≡" artifact, vetka/angel_wings findings
+64. 🔧 Sitting-#1 round-2 fixes: roads-all-solid ✅, '≡' artifact ✅, breakup keep-clear ✅ — remaining: minor vetka floaters + angel_wings quadrant findings
 65. ⬜ Terrain blending (GK up/down illusion): study-bots then implement
 66. ⬜ Per-zone lighting/ambiance polish passes + densely-painted cohesion (Prime-Mandate loop forever)
 ### World systems (67-76)
