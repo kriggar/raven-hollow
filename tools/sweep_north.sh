@@ -1,0 +1,23 @@
+#!/bin/bash
+cd "c:/Users/vstef/Desktop/rpg/medieval_rpg"
+G="C:/Users/vstef/tools/godot/Godot_v4.6.3-stable_win64_console.exe"
+O="c:/Users/vstef/Desktop/rpg/medieval_rpg/_screens/sweep"
+shoot() {
+  local z=$1 w=$2 h=$3; mkdir -p "$O/$z"; rm -f "$O/$z"/*.png
+  local m=650 sx=1900 sy=1050 y=$m r=0
+  while [ $y -le $((h - m)) ]; do
+    local x=$m c=0
+    while [ $x -le $((w - m)) ]; do
+      RH_CLASS=warrior RH_MAP=$z RH_TIME=12 RH_ZOOM=0.55 RH_NOHUD=1 RH_FOCUS="$x,$y" RH_SHOT="$O/$z/r${r}c${c}.png" timeout 200 "$G" res://scenes/main.tscn >/dev/null 2>&1
+      x=$((x + sx)); c=$((c + 1))
+    done
+    y=$((y + sy)); r=$((r + 1))
+  done
+  echo "SWEEP_DONE $z $(ls "$O/$z" | wc -l)"
+}
+shoot listening_steppe 7680 5632
+shoot threadlands 7680 5632
+shoot black_night 10240 8192
+shoot gravemark_tundra 7168 5120
+shoot town 2240 1600
+echo "NORTH_SWEEP_ALL_DONE"

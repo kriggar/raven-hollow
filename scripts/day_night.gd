@@ -98,6 +98,26 @@ func attach_canvas_modulate(cm: CanvasModulate) -> void:
 	_rescan_cooldown = 0
 
 
+## Underground zones (biome "cave") ignore the sky: constant dim ambient and
+## torch/glow lights at full burn, whatever the surface clock says.
+const UNDERGROUND_AMBIENT := Color(0.40, 0.42, 0.50)
+var underground: bool = false
+
+
+func set_underground(on: bool) -> void:
+	underground = on
+	_apply(0.0)
+
+
+## Zones can pin their ambient (Blestem's perpetual dusk). null = follow the sky.
+var _ambient_lock: Variant = null
+
+
+func set_ambient_lock(c: Variant) -> void:
+	_ambient_lock = c if c is Color else null
+	_apply(0.0)
+
+
 ## Current ambient color for the given (or current) hour — exposed so menus /
 ## the minimap can tint against the live palette.
 func ambient_color() -> Color:
@@ -142,9 +162,20 @@ func _apply(delta: float) -> void:
 
 	var cm: CanvasModulate = _resolve_canvas_modulate()
 	if cm != null:
-		cm.color = _ambient_at(time_of_day)
+		if underground:
+			cm.color = UNDERGROUND_AMBIENT
+		elif _ambient_lock is Color:
+			cm.color = _ambient_lock
+		else:
+			cm.color = _ambient_at(time_of_day)
 
-	_update_lights(_light_scale_at(time_of_day))
+	if underground:
+		_update_lights(1.0)
+	elif _ambient_lock is Color:
+		# Perpetual-dusk streets keep their lamps burning.
+		_update_lights(maxf(0.8, _light_scale_at(time_of_day)))
+	else:
+		_update_lights(_light_scale_at(time_of_day))
 
 	var night_now: bool = _compute_is_night(time_of_day)
 	if night_now != is_night:

@@ -6,8 +6,7 @@
 _downloads/
 
 # Screenshots (regenerable; keep the folder)
-_screens/*.png
-_screens/*.import
+_screens/
 
 # OS junk
 Thumbs.db

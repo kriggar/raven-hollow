@@ -136,6 +136,11 @@ func set_weather(type: int, target_intensity: float = 1.0, blend_time: float = 3
 	if family_change or blend_time <= 0.0:
 		_configure_precip(type)
 		_configure_fog(type)
+		# Hard transitions (teleports, cave entries) purge live drops too —
+		# rain must never follow the player through a map change.
+		if blend_time <= 0.0 and _precip != null:
+			_precip.restart()
+			_precip.emitting = _intensity > 0.0
 	_configure_ambience(type)
 	weather_changed.emit(type)
 

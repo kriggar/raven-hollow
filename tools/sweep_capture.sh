@@ -32,3 +32,5 @@ shoot angel_wings 10240 8192
 shoot town 2240 1600
 shoot wilderness 2240 1760
 echo "SWEEP_ALL_DONE"
+# Batch C additions (invoked with ZONESET=north)
+if [ "$ZONESET" = "north" ]; then :; fi

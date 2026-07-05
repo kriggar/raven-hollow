@@ -72,7 +72,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 ### Zone production (61-66)
 61. ✅ RAVEN HOLLOW REDO: all sitting-#1 town findings fixed (stalls, plaza fringe, orphan patches, grave clip, west road, SW clearing, gate lantern) — Council re-confirmation at next sitting
 62. ✅ Batch C SHIPPED: North arm + Black Night capital (13 zones live) — rows of twelve, Thread filaments, snow tundra; Council sweep next sitting; catacombs-stone district detailing continues under Prime-Mandate loop
-63. ⬜ Batches D-H: East, South, dungeons, Continent 2 port ring, remainder → all 40 zones
+63. 🔧 Batches D-H → all 40 zones — **Batch D SHIPPED** (East arm: whisper_passes, eastern_ridges, BLESTEM capital — perpetual-dusk ambient lock, Black Spire, lamp-lit streets, Riddler's Quarter, Lower Market — lichenreach FIRST CAVE — underground ambient, biolume lichen — transcub_vale). 18 zones live. Engine adds: cave biome (dark ground/rock walls/no weather), rain-purge on hard transitions, DayNight underground+ambient_lock modes, tools/validate_travel.py (18 zones, all seams reciprocal). Batches E-H remain (South, dungeons, Continent 2 port ring)
 64. ✅ Sitting-#1 round-2 fixes complete (roads, ≡ artifact, keep-clear, stalls) — angel_wings quadrant findings folded into next sitting
 65. ⬜ Terrain blending (GK up/down illusion): study-bots then implement
 66. ⬜ Per-zone lighting/ambiance polish passes + densely-painted cohesion (Prime-Mandate loop forever)

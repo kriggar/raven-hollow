@@ -53,8 +53,11 @@ const _PALETTES := {
 		"ground_sheet": "res://assets/art/world/snow/snow_96x64.png", "ground_cols": 3, "ground_rows": 2,
 		"tree_set": ["res://assets/art/world/deadforest/birch_dead.png", "res://assets/art/world/deadforest/tree_dark1.png", "res://assets/art/world/deadforest/tree_dark2.png"]},
 	"volcanic": {"tint": Color(0.72, 0.58, 0.52), "patch_chance": 0.18, "tree_tint": Color(0.52, 0.42, 0.38)},
-	"ridge": {"tint": Color(0.84, 0.86, 0.82), "patch_chance": 0.12, "tree_tint": Color(0.66, 0.70, 0.62)},
+	"ridge": {"tint": Color(0.80, 0.82, 0.80), "patch_chance": 0.12, "tree_tint": Color(0.64, 0.68, 0.62), "rocky": true},
 	"port": {"tint": Color(0.76, 0.80, 0.82), "patch_chance": 0.10, "tree_tint": Color(0.58, 0.62, 0.62)},
+	"cave": {"tint": Color(0.52, 0.50, 0.56), "patch_chance": 0.0, "tree_tint": Color(0.5, 0.5, 0.55),
+		"ground_sheet": "res://assets/art/world/dead_swamp/mud_96x128.png", "ground_cols": 3, "ground_rows": 4,
+		"wall_rocks": true, "no_trees": true},
 }
 
 
@@ -293,12 +296,23 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 	var tree_tint: Color = pal["tree_tint"]
 	var density: float = float(def.get("tree_density", 1.0))
 	var n_trees: int = int(world_w * world_h / 90000.0 * density)
+	if bool(pal.get("no_trees", false)):
+		n_trees = 0
+	var rocky: bool = bool(pal.get("rocky", false))
 	var tree_set: Array = pal.get("tree_set", [])
 	for i in range(n_trees):
 		var pos := Vector2(rng.randf_range(60, world_w - 60), rng.randf_range(60, world_h - 60))
 		if _in_any(pos, keep_clear):
 			continue
 		var spr := Sprite2D.new()
+		if rocky and rng.randf() < 0.4:
+			# Ridge country: boulders share the treeline (no sway on stone).
+			spr.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+			spr.scale = Vector2.ONE * rng.randf_range(0.9, 1.6)
+			spr.position = pos
+			spr.y_sort_enabled = true
+			parent.add_child(spr)
+			continue
 		if not tree_set.is_empty():
 			spr.texture = load(str(tree_set[rng.randi_range(0, tree_set.size() - 1)]))
 		else:
@@ -386,6 +400,46 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for oi in range(int(lm.get("count", 4))):
 					var op: Vector2 = pos + Vector2(rng.randf_range(-60, 60), rng.randf_range(-45, 45))
 					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true)
+			"spire":
+				# The Black Spire: windowless violet-black surveillance tower.
+				# Under detection it bleeds shifting orange at its base (canon).
+				_sprite(parent, "res://assets/art/buildings/house_02.png", pos + Vector2(0, 60), true, Color(0.22, 0.18, 0.30))
+				_sprite(parent, "res://assets/art/buildings/house_02.png", pos, true, Color(0.18, 0.15, 0.26))
+				_sprite(parent, "res://assets/art/buildings/house_02.png", pos + Vector2(0, -60), true, Color(0.14, 0.12, 0.22))
+				var sp_l := PointLight2D.new()
+				sp_l.position = pos + Vector2(0, 100)
+				sp_l.texture = _radial_tex()
+				sp_l.color = Color(1.0, 0.55, 0.15)
+				sp_l.energy = 0.4
+				sp_l.texture_scale = 2.4
+				parent.add_child(sp_l)
+				var sp_t := parent.create_tween().set_loops()
+				sp_t.tween_property(sp_l, "energy", 0.18, 1.7)
+				sp_t.tween_property(sp_l, "energy", 0.5, 1.3)
+			"lamp":
+				_atlas(parent, Rect2(354, 198, 24, 79), pos, Color(0.75, 0.72, 0.80), true)
+				_atlas(parent, R_LANTERN_LIT, pos + Vector2(0, -58), Color(1, 0.9, 0.6))
+				_fire_light(parent, pos + Vector2(0, -58), 0.55)
+			"lichen_glow":
+				# Bioluminescent lichen: the Strigoi export (canon) — teal glow.
+				for li in range(int(lm.get("count", 4))):
+					var lp: Vector2 = pos + Vector2(rng.randf_range(-90, 90), rng.randf_range(-60, 60))
+					var patch := Sprite2D.new()
+					patch.texture = load(PROPS + "szadi_prop_02.png")
+					patch.position = lp
+					patch.z_index = -6
+					patch.rotation = rng.randf_range(0.0, TAU)
+					patch.scale = Vector2.ONE * rng.randf_range(0.7, 1.4)
+					patch.modulate = Color(rng.randf_range(0.30, 0.50), 0.95,
+							rng.randf_range(0.75, 0.95), 0.9)
+					parent.add_child(patch)
+					var gl := PointLight2D.new()
+					gl.position = lp
+					gl.texture = _radial_tex()
+					gl.color = Color(0.35, 0.95, 0.85)
+					gl.energy = 0.75
+					gl.texture_scale = 1.8
+					parent.add_child(gl)
 			"cabin":
 				_sprite(parent, "res://assets/art/world/snow/log_cabin.png", pos, true)
 			"dark_keep":
@@ -579,11 +633,15 @@ static func _build_border_wall(parent: Node2D, rng: RandomNumberGenerator, w: in
 			if skip:
 				continue
 			var spr := Sprite2D.new()
-			spr.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(0, 2))
-			spr.position = pos
-			spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
-			spr.modulate = (pal["tree_tint"] as Color).darkened(0.12)
-			spr.material = _tree_sway_material()
+			if bool(pal.get("wall_rocks", false)):
+				spr.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+				spr.scale = Vector2.ONE * rng.randf_range(1.4, 2.2)
+				spr.modulate = Color(0.55, 0.53, 0.60)
+			else:
+				spr.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(0, 2))
+				spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
+				spr.modulate = (pal["tree_tint"] as Color).darkened(0.12)
+				spr.material = _tree_sway_material()
 			spr.y_sort_enabled = true
 			parent.add_child(spr)
 			var col := StaticBody2D.new()
