@@ -92,6 +92,11 @@ push (authorized) → update BACKLOG + memory → report with evidence.
    changed materially.
 
 ## What the driver must NOT do
+- NOTHING VISUAL — FABLE-ONLY VISUAL LAW (owner): zone painting, landmark
+  placement, terrain/vignette/lighting composition, any zone_defs.gd or
+  zone_builder.gd visual edit is Fable-personal. Studio def_author output
+  is a DRAFT for Fable, never integrate it yourself. Drivers do systems,
+  data, text, UI code, audio batches, QA runs — not the world's look.
 - No engine rewrites, no canon changes, no new mandates, no paid downloads,
   no deleting owner files, no billed sub-agents while the credit law stands
   (check BACKLOG #105/#108). When blocked on any of these: write the

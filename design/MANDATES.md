@@ -1,5 +1,13 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**FABLE-ONLY VISUAL LAW (2026-07-05, owner):** ALL level painting is done by
+FABLE 5 PERSONALLY — zone composition, landmark placement, terrain dressing,
+lore landmarks, CURIOSITY SITES, MURDER/CRIME SCENES, every vignette, every
+visual pass. Drivers (Opus 4.8) and the local studio NEVER place or alter
+anything visual: they may draft (studio def_author output = suggestion only)
+but only Fable integrates visuals. Per-zone vignette quota under #100:
+>=2 curiosity sites + >=1 murder/crime scene per zone, lore-derived.
+
 **WITCHBROOK BAR (2026-07-05, owner):** capital cities, terrain and ALL visual assets at Witchbrook-level detail and density. Level polish is done BY FABLE personally (task division law). Every operation must be super cost-effective AND remain triple-A standard.
 
 Every rule the owner has issued. Nothing ships that violates one. Status: ✅ live · 📐 designed · 🔄 in design · 🗓 planned · 🔒 deferred by owner.
