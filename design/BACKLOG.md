@@ -125,6 +125,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 105. 🔧 LOCAL STUDIO OPERATIONS (credit law): v1 shipped (#95) — OWNER: install Ollama + pull qwen2.5-coder:14b; then first free batches (50 Coast quests, 200 barks, sparse-zone densification drafts, item tables) → Fable review/integration gates; QLoRA eval adopt-if-better
 106. ⬜ SITTING #3 COMPLETION: resume the 51 dead verifiers from cache (wf_4e2ced37-fd9) AFTER reset; adjudicate the unverified findings for steppe/gravemark/whisper/bloodroad/basaltfang/ashvents/gift/sangeroasa/angel_wings
 107. ⬜ COAST CONTENT WAVE: the 14 Collector's-Coast zones need NPC cast (extends #29), quest lines (#27/#77), per-zone arenas (#46), lighting/ambience polish, sweep + 4K one-shots (Prime-Mandate cameras) — currently creature tables only
+108b. ✅ DRIVER PROTOCOL (CLAUDE.md in repo root): any Claude session opened here — Opus 4.8 included — auto-loads the full driving manual (read order, driver loop, local-studio commands, verification hooks, mapped potholes, quality gates, escalation limits). The driver conducts; the pipelines + validators hold the Fable bar.
 108. ✅ TASK DIVISION & LANES (design/TASK_DIVISION.md, owner directive): Fable = engine/canon/balance/QA (~24 tasks); spec-complete implementation lane (~35) runs LOCAL STUDIO first (free), billed Opus 4.8 only post-reset for tasks failing the local QA gate; every handoff has doc + acceptance criteria + Fable review gate
 
 ### Held for owner (⚠)
