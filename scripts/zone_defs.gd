@@ -217,6 +217,8 @@ const _ZONES := {
 		"travel_points": [
 			{"id": "west_entry", "pos": Vector2(140.0, 2010.0), "radius": 34.0,
 				"to_map": "iron_vein", "to_point": "east_gate", "prompt": "[E] The Iron Vein"},
+			{"id": "chamber_stairs", "pos": Vector2(3150.0, 2350.0), "radius": 34.0,
+				"to_map": "chamber_depths", "to_point": "south_entry", "prompt": "[E] The Chamber Depths — down"},
 			{"id": "south_gate", "pos": Vector2(2800.0, 3950.0), "radius": 34.0,
 				"to_map": "copper_wells", "to_point": "north_entry", "prompt": "[E] The Copper Wells"},
 		],
@@ -329,7 +331,49 @@ const _ZONES := {
 	},
 
 	# ---------------- planned (flip built:true per batch; canon names) ------
-	"chamber_depths": {"built": false, "name": "The Chamber Depths", "continent": 1, "region": "border", "biome": "cave"},
+	"chamber_depths": {
+		"built": true,
+		"name": "The Chamber Depths",
+		"continent": 1, "region": "border", "biome": "cave",
+		"tiles_w": 128, "tiles_h": 128,
+		"dusk_tint": Color(0.50, 0.55, 0.62),
+		"player_spawn": Vector2(2048.0, 3900.0),
+		"tree_density": 0.0,
+		"roads": [[Vector2(2048, 3980), Vector2(2000, 2900), Vector2(2100, 1800), Vector2(2048, 900)]],
+		"landmarks": [
+			# the transmission floor: every stone here is LIVE
+			{"type": "inscription_stone", "pos": Vector2(2048, 1000), "live": true},
+			{"type": "inscription_stone", "pos": Vector2(1400, 1600), "live": true},
+			{"type": "inscription_stone", "pos": Vector2(2700, 1500), "live": true},
+			{"type": "thread_lines", "pos": Vector2(2048, 1300), "count": 7},
+			{"type": "thread_lines", "pos": Vector2(1600, 2200), "count": 5},
+			{"type": "stone_row", "pos": Vector2(1300, 2800), "count": 5},   # buried architecture
+			{"type": "stone_row", "pos": Vector2(2800, 2600), "count": 5},
+			{"type": "dolmen", "pos": Vector2(2400, 2100)},
+			{"type": "rocks", "pos": Vector2(1100, 3400), "count": 6},
+			{"type": "rocks", "pos": Vector2(3000, 3300), "count": 5},
+			{"type": "lichen_glow", "pos": Vector2(1500, 3000), "count": 4},
+			{"type": "lichen_glow", "pos": Vector2(2650, 3350), "count": 4},
+			{"type": "bones", "pos": Vector2(2300, 2900)},
+		],
+		"warm_patches": [Vector2(2068, 1060), Vector2(1420, 1660)],
+		"vignettes": [
+			{"kind": "courier_seal", "pos": Vector2(2100, 1150)},   # he never delivered it
+			{"kind": "boot_prints", "pos": Vector2(1950, 1400)},
+		],
+		"waystations": [],
+		"border_gaps": [Rect2(1900, 3900, 300, 196)],
+		"travel_points": [
+			{"id": "south_entry", "pos": Vector2(2048.0, 3960.0), "radius": 36.0,
+				"to_map": "vetka", "to_point": "chamber_stairs", "prompt": "[E] Vetka — the cellar stairs"},
+		],
+		"creature_table": [
+			{"type": "skeleton_mage", "name": "Transmission Shell", "count": 8, "pack": 1, "hp": 40, "damage": 11, "speed": 22, "patrol": 12,
+				"area": Rect2(1300, 1200, 1600, 1400)},
+			{"type": "skeleton", "name": "Buried Listener", "count": 8, "pack": 2, "hp": 44, "damage": 11, "speed": 58, "patrol": 70,
+				"area": Rect2(1600, 2400, 1600, 1200)},
+		],
+	},
 	# ---------------- WEST — Angel Wings (Humans, Queen Fielderine) ---------
 	"grey_marches": {
 		"built": true,
@@ -797,6 +841,8 @@ const _ZONES := {
 		"travel_points": [
 			{"id": "south_gate", "pos": Vector2(5120.0, 8080.0), "radius": 38.0,
 				"to_map": "threadlands", "to_point": "north_gate", "prompt": "[E] The Threadlands"},
+			{"id": "grave_stairs", "pos": Vector2(5120.0, 3400.0), "radius": 38.0,
+				"to_map": "bloodstone_pit", "to_point": "north_entry", "prompt": "[E] The Grave — down"},
 			{"id": "east_gate", "pos": Vector2(9980.0, 4800.0), "radius": 38.0,
 				"to_map": "gravemark_tundra", "to_point": "west_entry", "prompt": "[E] Gravemark Tundra"},
 		],
@@ -857,7 +903,62 @@ const _ZONES := {
 				"area": Rect2(800, 3400, 2000, 1400)},
 		],
 	},
-	"bloodstone_pit": {"built": false, "name": "The Grave & Bloodstone Pit", "continent": 1, "region": "north", "biome": "cave"},
+	"bloodstone_pit": {
+		"built": true,
+		"name": "The Grave & Bloodstone Pit",
+		"continent": 1, "region": "north", "biome": "cave",
+		"tiles_w": 160, "tiles_h": 160,
+		"dusk_tint": Color(0.46, 0.48, 0.58),
+		"player_spawn": Vector2(2560.0, 4900.0),
+		"tree_density": 0.0,
+		"roads": [[Vector2(2560, 4980), Vector2(2500, 3800), Vector2(2600, 2900), Vector2(2560, 2400)]],
+		"landmarks": [
+			# the Pit itself: the literal foundation (finale raid floor)
+			{"type": "pit", "pos": Vector2(2560, 1900)},
+			{"type": "dark_keep", "pos": Vector2(2560, 1100)},         # Lilith's tomb
+			{"type": "thread_lines", "pos": Vector2(2560, 2100), "count": 8},
+			{"type": "thread_lines", "pos": Vector2(2000, 1700), "count": 6},
+			{"type": "thread_lines", "pos": Vector2(3100, 1700), "count": 6},
+			# every stone in the network converges here — all LIVE
+			{"type": "inscription_stone", "pos": Vector2(1800, 2300), "live": true},
+			{"type": "inscription_stone", "pos": Vector2(3300, 2300), "live": true},
+			{"type": "inscription_stone", "pos": Vector2(2560, 3000), "live": true},
+			# grave rings: the dead of a thousand years, filed in circles
+			{"type": "graves", "pos": Vector2(1600, 3200), "count": 10},
+			{"type": "graves", "pos": Vector2(3200, 3400), "count": 10},
+			{"type": "graves", "pos": Vector2(2200, 4000), "count": 8},
+			{"type": "stone_row", "pos": Vector2(1400, 2600), "count": 6},
+			{"type": "stone_row", "pos": Vector2(3500, 2800), "count": 6},
+			{"type": "dolmen", "pos": Vector2(1300, 1800)},
+			{"type": "dolmen", "pos": Vector2(3700, 1900)},
+			{"type": "bones", "pos": Vector2(2000, 2800)},
+			{"type": "bones", "pos": Vector2(3000, 3000)},
+			{"type": "rocks", "pos": Vector2(1200, 4200), "count": 6},
+			{"type": "rocks", "pos": Vector2(3800, 4000), "count": 6},
+			{"type": "lichen_glow", "pos": Vector2(1700, 4400), "count": 4},
+			{"type": "lichen_glow", "pos": Vector2(3400, 4400), "count": 4},
+		],
+		"warm_patches": [Vector2(2560, 2960), Vector2(1820, 2360), Vector2(3320, 2360)],
+		"vignettes": [
+			{"kind": "boot_prints", "pos": Vector2(2450, 2200)},    # twelve, facing the Pit
+			{"kind": "rows_of_twelve", "pos": Vector2(2560, 3600)},
+			{"kind": "cold_camp", "pos": Vector2(3600, 4600)},
+		],
+		"waystations": [],
+		"border_gaps": [Rect2(2410, 4900, 300, 220)],
+		"travel_points": [
+			{"id": "north_entry", "pos": Vector2(2560.0, 4960.0), "radius": 38.0,
+				"to_map": "black_night", "to_point": "grave_stairs", "prompt": "[E] Black Night — the grave stairs"},
+		],
+		"creature_table": [
+			{"type": "skeleton_warrior", "name": "Grave Shell", "count": 12, "pack": 3, "hp": 64, "damage": 14, "speed": 62, "patrol": 80,
+				"area": Rect2(1400, 2400, 2400, 1800)},
+			{"type": "skeleton_mage", "name": "Will-Driven Shell", "count": 8, "pack": 2, "hp": 52, "damage": 13, "speed": 40, "patrol": 40,
+				"area": Rect2(1800, 1400, 1600, 1400)},
+			{"type": "skeleton_rogue", "name": "Thread-Walker", "count": 6, "pack": 2, "hp": 48, "damage": 13, "speed": 88, "patrol": 110,
+				"area": Rect2(1200, 3600, 2800, 1200)},
+		],
+	},
 	# ---------------- EAST — Blestem (Strigoi, Cazimir) --------------------
 	"whisper_passes": {
 		"built": true,

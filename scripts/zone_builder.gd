@@ -691,6 +691,26 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 		var vg: Dictionary = vg_v
 		var pos: Vector2 = vg["pos"]
 		match str(vg.get("kind", "")):
+			"courier_seal":
+				# The Courier: intact, unmarked, dead of understanding. His
+				# satchel still packed, wax seal unbroken (lore 614/1426).
+				_atlas(parent, R_BONE_A, pos, Color(0.92, 0.92, 0.88))
+				_atlas(parent, R_BONE_A, pos + Vector2(18, 8), Color(0.88, 0.88, 0.84))
+				var sat := ColorRect.new()
+				sat.size = Vector2(14, 10)
+				sat.position = pos + Vector2(-24, -4)
+				sat.color = Color(0.42, 0.30, 0.18)
+				parent.add_child(sat)
+				var strap := ColorRect.new()
+				strap.size = Vector2(14, 2)
+				strap.position = pos + Vector2(-24, -1)
+				strap.color = Color(0.30, 0.20, 0.11)
+				parent.add_child(strap)
+				var wax := ColorRect.new()
+				wax.size = Vector2(4, 4)
+				wax.position = pos + Vector2(-19, -2)
+				wax.color = Color(0.72, 0.12, 0.10)
+				parent.add_child(wax)
 			"burned_farmstead":
 				# A peasant tried to copy Fielderine's discipline and failed:
 				# charred farmhouse, a cheap lead box open and empty,
