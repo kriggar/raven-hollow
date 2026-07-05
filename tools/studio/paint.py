@@ -87,16 +87,28 @@ TREE_DENSITY = {
 }
 
 
-def legal_swap(t, role, biome):
+def legal_swap(t, biome, fallback_role="curiosity"):
+    """Role-PRESERVING biome swap: a forbidden/non-canon prop is replaced only
+    by a prop of the SAME role tag (a camp bedroll can never become a grave)."""
     if t not in KNOWN:                       # drop non-canon library types (plankv)
+        role = ep._TYPE_ROLE.get(t, fallback_role)
         t = ROLE_SWAP.get(role, UNIVERSAL)
     bad = FORBID.get(biome, set())
     if t not in bad:
         return t
+    role = ep._TYPE_ROLE.get(t, fallback_role)   # the PROP's own role — preserved
     for cand in (ROLE_SWAP.get(role, UNIVERSAL), UNIVERSAL, "cairn", "stone_row"):
-        if cand not in bad:
+        if cand not in bad and cand in KNOWN:
             return cand
     return UNIVERSAL
+
+
+def sep_rad(t):
+    """Solver-only SEPARATION radius: bigger than the validator footprint for
+    buildings, because a building SPRITE (~250-300px) is wider than its 150px
+    footprint — spacing them at only the wall's floor merges their roofs."""
+    r = rad(t)
+    return r * 1.34 if t in ep.BIG else (r * 1.08 if t in ep.MID else r)
 
 
 # =============================================================== geometry =====
