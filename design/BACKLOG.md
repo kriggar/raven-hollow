@@ -4,7 +4,7 @@ GitHub (pushed), and the agent memory system points here. Every session resumes 
 Fresh session read order: design/MANDATES.md → THIS FILE → design/*.md as needed.
 Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ queued · ⚠ owner input needed.
 
-## THE REGISTRY (98 tasks)
+## THE REGISTRY (99 tasks)
 ### Shipped foundation (1-20)
 1. ✅ TTS voice system + 173 baked NPC lines (v1)
 2. ✅ Weather system (rain/snow/storm/fog + zone-native tables + ASH + drift)
@@ -113,6 +113,8 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 96. ⬜ Corporation-of-bots departments; godot-optimization horde; 2D-pixel-design + Blizzard-audio/cinematics study hordes; playtest agents start-to-finish; bots w/ perfect navmesh + class rotations; race-vs-bots world-firsts; everyone starts from 0 on New World
 97. ⬜ Disk-space watcher (safe pruning) + BE-CHEAP operations law (standing)
 98. ⬜ SEAMLESS WORLD (owner mandate): all 40 zones interconnected, NO loading screens — edge-streaming (pre-build adjacent zone off-screen as the player nears a seam, continuous walk-across, unload behind); the player never feels a map change. Engine: async zone pre-build + world-offset stitching + camera continuity, replacing the fade-to-black change_map at seams.
+
+99. ⬜ COLLISION AUDIT (owner mandate): study EVERY prop class — does it need collision or not (decals/ivy/tufts walkable; wells/stones/logs solid; canopies pass-under) — footprint-accurate shapes (feet-line, not sprite rect), tied into the FREEDOM_PHYSICS engine (#52: pushable/rollable props get RigidBody2D, static get accurate StaticBody2D, dressing gets none); audit table per prop id + validator in tests/qa.py.
 
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
