@@ -26,4 +26,10 @@ shoot eastern_ridges 7680 5632
 shoot blestem 10240 8192
 shoot lichenreach 4096 4096
 shoot transcub_vale 7168 5120
-echo "NORTHEAST_SWEEP_ALL_DONE"
+shoot bloodroad 7168 5120
+shoot basaltfang 7680 5632
+shoot sangeroasa 10240 8192
+shoot the_gift 7168 5120
+shoot ashvents 7168 5120
+shoot angel_wings 10240 8192
+echo "FULL_SWEEP_ALL_DONE"

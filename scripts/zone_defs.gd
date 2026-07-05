@@ -454,7 +454,8 @@ const _ZONES := {
 			{"type": "shop", "pos": Vector2(6700, 3800)},
 			{"type": "workshop", "pos": Vector2(5200, 3700)},
 			# — The Lead Vault (NW): a room designed around NOT using power —
-			{"type": "manor", "pos": Vector2(4300, 1200)},
+			# lead-grey, lightless, counter-cultural (canon)
+			{"type": "manor", "pos": Vector2(4300, 1200), "tint": Color(0.60, 0.64, 0.70)},
 			{"type": "statue", "pos": Vector2(4160, 1420)},
 			{"type": "stone_row", "pos": Vector2(4080, 1500), "count": 4},
 			# — Maren's Orphanage (E): warm, overcrowded, load-bearing —
@@ -475,10 +476,44 @@ const _ZONES := {
 			{"type": "barn", "pos": Vector2(2600, 6000)},
 			{"type": "well", "pos": Vector2(7350, 2820)},
 			{"type": "well", "pos": Vector2(3250, 5520)},
+			# — sitting #3 identity pass: POOR, CROWDED, ORDINARY (canon):
+			#   packed lanes, woodsmoke over every roofline —
+			{"type": "cottage", "pos": Vector2(6900, 4400)},
+			{"type": "cottage", "pos": Vector2(7150, 4620)},
+			{"type": "cottage", "pos": Vector2(6850, 4850)},
+			{"type": "cottage", "pos": Vector2(7500, 4700)},
+			{"type": "cottage", "pos": Vector2(6650, 4600)},
+			{"type": "chimney_smoke", "pos": Vector2(6900, 4400)},
+			{"type": "chimney_smoke", "pos": Vector2(7150, 4620)},
+			{"type": "chimney_smoke", "pos": Vector2(7500, 4700)},
+			{"type": "cottage", "pos": Vector2(3400, 3700)},
+			{"type": "cottage", "pos": Vector2(3600, 4150)},
+			{"type": "cottage", "pos": Vector2(2900, 4200)},
+			{"type": "chimney_smoke", "pos": Vector2(3400, 3700)},
+			{"type": "chimney_smoke", "pos": Vector2(3600, 4150)},
+			{"type": "cottage", "pos": Vector2(4600, 2300)},
+			{"type": "cottage", "pos": Vector2(4050, 2600)},
+			{"type": "cottage", "pos": Vector2(4550, 3000)},
+			{"type": "chimney_smoke", "pos": Vector2(4600, 2300)},
+			# Maren's Orphanage yard (warm, overcrowded, load-bearing)
+			{"type": "cottage", "pos": Vector2(8500, 3700)},
+			{"type": "stall", "pos": Vector2(8350, 3850)},
+			{"type": "statue", "pos": Vector2(8000, 3500)},
+			{"type": "chimney_smoke", "pos": Vector2(8200, 3400)},
+			{"type": "chimney_smoke", "pos": Vector2(8500, 3700)},
+			{"type": "stall", "pos": Vector2(5750, 4550)},
+			{"type": "lamp", "pos": Vector2(7000, 4140)},
+			{"type": "lamp", "pos": Vector2(4800, 4060)},
+			{"type": "lamp", "pos": Vector2(3600, 4140)},
+			{"type": "lamp", "pos": Vector2(8300, 4060)},
+			{"type": "graves", "pos": Vector2(2200, 5400), "count": 7},
 		],
 		"warm_patches": [Vector2(8260, 3560)],   # the copper handprint... it is here
 		"vignettes": [
 			{"kind": "chalk_handprints", "pos": Vector2(8140, 3520)},  # orphanage wall (canon)
+			{"kind": "full_granary", "pos": Vector2(3050, 4550)},   # bread everywhere, hunger anyway
+			{"kind": "full_granary", "pos": Vector2(7250, 2950)},
+			{"kind": "burned_farmstead", "pos": Vector2(2400, 2600)},
 			{"kind": "empty_stall", "pos": Vector2(5900, 4380)},
 			{"kind": "standing_farmer", "pos": Vector2(9200, 4300)},
 		],
@@ -724,6 +759,17 @@ const _ZONES := {
 			{"type": "statue", "pos": Vector2(5000, 4720)},
 			{"type": "statue", "pos": Vector2(5240, 4720)},
 			{"type": "thread_lines", "pos": Vector2(5120, 4700), "count": 8},
+			# — sitting #3: outskirt quadrants filled —
+			{"type": "statue", "pos": Vector2(2400, 6400)},
+			{"type": "statue", "pos": Vector2(8200, 2000)},
+			{"type": "stone_row", "pos": Vector2(2000, 2400), "count": 5},
+			{"type": "stone_row", "pos": Vector2(8000, 6200), "count": 5},
+			{"type": "lamp", "pos": Vector2(3400, 4200)},
+			{"type": "lamp", "pos": Vector2(6800, 4100)},
+			{"type": "lamp", "pos": Vector2(5200, 2600)},
+			{"type": "lamp", "pos": Vector2(5100, 5800)},
+			{"type": "graves", "pos": Vector2(8600, 4800), "count": 8},
+			{"type": "camp", "pos": Vector2(1600, 6800)},
 			{"type": "thread_lines", "pos": Vector2(3600, 4600), "count": 6},
 			{"type": "thread_lines", "pos": Vector2(6600, 4700), "count": 6},
 			{"type": "thread_lines", "pos": Vector2(5100, 3200), "count": 7},
@@ -902,6 +948,8 @@ const _ZONES := {
 		"built": true,
 		"name": "Blestem",
 		"continent": 1, "region": "east", "biome": "ridge", "capital": true,
+		"palette": "blestem",   # black basalt + old iron (canon: a city that
+		                        # does not want to be walked)
 		"tiles_w": 320, "tiles_h": 256,
 		"dusk_tint": Color(0.52, 0.50, 0.72),
 		"ambient_lock": Color(0.60, 0.55, 0.72),   # perpetual dusk — canon
@@ -945,6 +993,18 @@ const _ZONES := {
 			{"type": "lamp", "pos": Vector2(3400, 2860)},
 			{"type": "dark_keep", "pos": Vector2(7000, 2200)},
 			{"type": "dark_keep", "pos": Vector2(2200, 5600)},
+			# — maze thickening: old iron and dead ends —
+			{"type": "dark_keep", "pos": Vector2(6300, 1700)},
+			{"type": "dark_keep", "pos": Vector2(7600, 3300)},
+			{"type": "dark_keep", "pos": Vector2(3000, 6100)},
+			{"type": "dark_keep", "pos": Vector2(1700, 3600)},
+			{"type": "stone_row", "pos": Vector2(4400, 3100), "count": 5},
+			{"type": "stone_row", "pos": Vector2(5900, 4600), "count": 4},
+			{"type": "stone_row", "pos": Vector2(3700, 5000), "count": 4},
+			{"type": "lamp", "pos": Vector2(5480, 3700)},
+			{"type": "lamp", "pos": Vector2(4500, 2820)},
+			{"type": "lamp", "pos": Vector2(6100, 5420)},
+			{"type": "camp", "pos": Vector2(8200, 6000)},
 			{"type": "rocks", "pos": Vector2(8600, 4400), "count": 6},
 			{"type": "rocks", "pos": Vector2(1200, 2000), "count": 5},
 			{"type": "inscription_stone", "pos": Vector2(5100, 2000), "live": false},

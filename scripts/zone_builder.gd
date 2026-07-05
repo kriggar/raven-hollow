@@ -61,6 +61,8 @@ const _PALETTES := {
 			"res://assets/art/world/volcanic/scrub1.png", "res://assets/art/world/volcanic/scrub2.png"]},
 	"ridge": {"tint": Color(0.80, 0.82, 0.80), "patch_chance": 0.12, "tree_tint": Color(0.64, 0.68, 0.62), "rocky": true},
 	"steppe": {"tint": Color(1.0, 0.94, 0.70), "patch_chance": 0.10, "tree_tint": Color(0.88, 0.82, 0.56)},
+	"blestem": {"tint": Color(0.60, 0.58, 0.68), "patch_chance": 0.0, "tree_tint": Color(0.45, 0.44, 0.54),
+		"ground_sheet": "res://assets/art/world/volcanic/basalt_128x64.png", "ground_cols": 4, "ground_rows": 2},
 	"port": {"tint": Color(0.76, 0.80, 0.82), "patch_chance": 0.10, "tree_tint": Color(0.58, 0.62, 0.62)},
 	"cave": {"tint": Color(0.52, 0.50, 0.56), "patch_chance": 0.0, "tree_tint": Color(0.5, 0.5, 0.55),
 		"ground_sheet": "res://assets/art/world/dead_swamp/mud_96x128.png", "ground_cols": 3, "ground_rows": 4,
@@ -74,7 +76,8 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	var tiles_w: int = int(def.get("tiles_w", 256))
 	var tiles_h: int = int(def.get("tiles_h", 192))
 	var biome: String = str(def.get("biome", "wilds"))
-	var pal: Dictionary = _PALETTES.get(biome, _PALETTES["wilds"])
+	var pal_key: String = str(def.get("palette", biome))
+	var pal: Dictionary = _PALETTES.get(pal_key, _PALETTES["wilds"])
 
 	var keep_clear: Array[Rect2] = []
 	for lm_v: Variant in def.get("landmarks", []):
@@ -368,7 +371,8 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 		var pos: Vector2 = lm["pos"]
 		match str(lm.get("type", "")):
 			"cottage":
-				_sprite(parent, "res://assets/art/buildings/house_01.png", pos, true)
+				_sprite(parent, "res://assets/art/buildings/house_01.png", pos, true,
+						lm.get("tint", Color.WHITE))
 			"tavern":
 				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true)
 				_atlas(parent, R_LANTERN_LIT, pos + Vector2(-60, 40), Color(1, 0.9, 0.6))
@@ -442,6 +446,26 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for oi in range(int(lm.get("count", 4))):
 					var op: Vector2 = pos + Vector2(rng.randf_range(-60, 60), rng.randf_range(-45, 45))
 					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true)
+			"chimney_smoke":
+				# def pos = the HOUSE anchor; the emitter climbs to the
+				# chimney mouth (house_01 family: ~+68,-285 from the base)
+				var smoke := CPUParticles2D.new()
+				smoke.position = pos + Vector2(68, -285)
+				smoke.amount = 7
+				smoke.lifetime = 3.2
+				smoke.preprocess = 3.0
+				smoke.direction = Vector2(0.15, -1.0)
+				smoke.spread = 9.0
+				smoke.gravity = Vector2(4.0, -14.0)
+				smoke.initial_velocity_min = 10.0
+				smoke.initial_velocity_max = 18.0
+				smoke.scale_amount_min = 5.0
+				smoke.scale_amount_max = 9.0
+				smoke.amount = 12
+				smoke.color = Color(0.80, 0.78, 0.76, 0.55)
+				smoke.color_ramp = _smoke_ramp()
+				smoke.z_index = 4
+				parent.add_child(smoke)
 			"cairn":
 				_sprite(parent, "res://assets/art/world/volcanic/cairn.png", pos, true)
 			"signboard":
@@ -624,7 +648,8 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 			"trunk_hollow":
 				_swamp_atlas(parent, Rect2(128, 128, 128, 160), pos, true)
 			"manor":
-				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true)
+				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true,
+						lm.get("tint", Color.WHITE))
 			"shop":
 				_sprite(parent, "res://assets/art/buildings/house_02.png", pos, true)
 			"workshop":
@@ -666,6 +691,29 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 		var vg: Dictionary = vg_v
 		var pos: Vector2 = vg["pos"]
 		match str(vg.get("kind", "")):
+			"burned_farmstead":
+				# A peasant tried to copy Fielderine's discipline and failed:
+				# charred farmhouse, a cheap lead box open and empty,
+				# scratch-marks on the inside (lore 08 / Angel Wings).
+				var bf_char := Sprite2D.new()
+				bf_char.texture = _radial_tex()
+				bf_char.position = pos
+				bf_char.scale = Vector2(1.4, 0.9)
+				bf_char.modulate = Color(0.10, 0.08, 0.08, 0.8)
+				bf_char.z_index = -6
+				parent.add_child(bf_char)
+				_sprite(parent, "res://assets/art/buildings/house_05.png", pos, true, Color(0.16, 0.13, 0.12))
+				var bf_box := ColorRect.new()
+				bf_box.size = Vector2(10, 7)
+				bf_box.position = pos + Vector2(44, 38)
+				bf_box.color = Color(0.55, 0.58, 0.62)
+				parent.add_child(bf_box)
+				var bf_lid := ColorRect.new()
+				bf_lid.size = Vector2(10, 3)
+				bf_lid.position = pos + Vector2(56, 34)
+				bf_lid.rotation = 0.5
+				bf_lid.color = Color(0.48, 0.51, 0.55)
+				parent.add_child(bf_lid)
 			"childs_shoe":
 				# A child's shoe pressed into the red soil, and a good harvest
 				# growing out of the print (lore 08). Blink and you miss it.
@@ -1026,6 +1074,17 @@ static var _sway_mat: ShaderMaterial = null
 ## One shared canvas_item shader sways every tree canopy on the GPU: phase is
 ## de-synced per tree by its world position, roots stay planted (sway scales
 ## with height above the pivot). Zero CPU cost, one material for the world.
+static var _smoke_grad: Gradient = null
+
+
+static func _smoke_ramp() -> Gradient:
+	if _smoke_grad == null:
+		_smoke_grad = Gradient.new()
+		_smoke_grad.set_color(0, Color(0.85, 0.82, 0.80, 0.6))
+		_smoke_grad.set_color(1, Color(0.85, 0.85, 0.85, 0.0))
+	return _smoke_grad
+
+
 static func _tree_sway_material() -> ShaderMaterial:
 	if _sway_mat != null:
 		return _sway_mat
