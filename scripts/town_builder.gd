@@ -110,6 +110,12 @@ static func build(parent: Node2D) -> Dictionary:
 	lights.name = "Lights"
 	parent.add_child(lights)
 
+	# SW wood-gatherer's clearing (sitting #1: bottom-left dead field).
+	props.add_child(_sprite(PROPS + "szadi_prop_30.png", Vector2(330, 1240), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_25.png", Vector2(392, 1268), 2.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_17.png", Vector2(276, 1276), 2.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_36.png", Vector2(430, 1230), 2.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_13.png", Vector2(300, 1198), 2.0))
 	_world_border(props)
 	_plaza(props, decals, lights, rng)
 	_inn(props, decals, lights)
@@ -206,7 +212,7 @@ static func _build_ground(rng: RandomNumberGenerator, rng2: RandomNumberGenerato
 		Rect2i(34, 29, 2, 14),  # south road to the cottages
 		Rect2i(20, 24, 10, 2),  # west road to merchant row
 		Rect2i(40, 24, 9, 2),   # east road to the smithy
-		Rect2i(15, 23, 5, 2),   # graveyard lane (horizontal)
+		Rect2i(15, 24, 5, 2),   # graveyard lane (horizontal, meets the west road row)
 		Rect2i(13, 18, 2, 6),   # graveyard lane (vertical, ends at the gate)
 		Rect2i(36, 35, 15, 2),  # farm lane to the barn
 	]
@@ -330,6 +336,8 @@ static func _smithy(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 
 	# Forge work floor: anvil and fire pit ON the stone patch.
 	_decal(decals, PROPS + "szadi_prop_01.png", Vector2(1545, 865))
+	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1512, 848), 2.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(1578, 880), 2.0))
 	props.add_child(_atlas_sprite(R_ANVIL, Vector2(1585, 855), 4.0))
 	props.add_child(_circle_collider(Vector2(1585, 855), 9.0, Vector2(0, -6)))
 	var fire := _anim_sprite(FIRE_FRAMES, 8.0, Vector2(1508, 855), 4.0)
@@ -450,15 +458,19 @@ static func _graveyard(props: Node2D, decals: Node2D, lights: Node2D, rng: Rando
 			x += 56.0
 
 	# Ivy creeping across the yard.
-	for p: Vector2 in [Vector2(350, 452), Vector2(556, 296), Vector2(262, 300)]:
+	for p: Vector2 in [Vector2(378, 486), Vector2(584, 326), Vector2(292, 336)]:
 		_decal(decals, PROPS + "szadi_prop_00.png", p)
 
 	# A lantern by the gate; a worn stone patch outside it.
-	var gate := Vector2(464, 610)
+	# Lantern beside the gate mouth, clear of the fence rail (sitting #1).
+	var gate := Vector2(500, 624)
 	props.add_child(_lamp_post(gate))
 	props.add_child(_circle_collider(gate, 4.0, Vector2(0, -2)))
 	lights.add_child(_light(gate + Vector2(0, -62), Color(1.0, 0.78, 0.45), 0.7, 85.0))
 	_decal(decals, PROPS + "szadi_prop_01.png", Vector2(448, 640))
+	# Context so the worn patch reads as a ruined threshold, not an orphan tile.
+	props.add_child(_sprite(PROPS + "cainos_prop_35.png", Vector2(414, 652), 2.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_38.png", Vector2(486, 660), 2.0))
 
 	# Fence collision (thin strips, gate gap in the south side).
 	var mid_y: float = (top + bottom) * 0.5
