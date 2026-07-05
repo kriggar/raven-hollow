@@ -305,14 +305,14 @@ func _configure_precip(type: int) -> void:
 	var fam: int = _precip_family(type)
 	var mat := ParticleProcessMaterial.new()
 	mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
-	mat.emission_box_extents = Vector3(340.0, 4.0, 1.0)
+	mat.emission_box_extents = Vector3(720.0, 4.0, 1.0)
 	if fam == Type.SNOW:
 		_precip.texture = _ash_tex if type == Type.ASH else _snow_tex
 		_precip.lifetime = 6.0
 		_precip.position = Vector2(320.0, 180.0)
 		# Slow snow: emit across the WHOLE view so flakes fill the screen
 		# instantly (no top-cluster while they fall) and recycle in place.
-		mat.emission_box_extents = Vector3(340.0, 200.0, 1.0)
+		mat.emission_box_extents = Vector3(720.0, 260.0, 1.0)
 		mat.direction = Vector3(0.0, 1.0, 0.0)
 		mat.spread = 12.0
 		mat.gravity = Vector3(0.0, 8.0, 0.0)

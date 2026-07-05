@@ -41,8 +41,9 @@ const FIRE_FRAMES := [
 ## world tint that sells the biome until dedicated packs land.
 ## grass atlas: rows 0-3 pure grass; stone atlas: rows 0-2 slabs.
 const _PALETTES := {
-	"bog": {"tint": Color(1.0, 1.0, 1.0), "patch_chance": 0.0, "tree_tint": Color(0.62, 0.66, 0.55),
-		"ground_sheet": "res://assets/art/world/dead_swamp/mud_96x128.png", "ground_cols": 3, "ground_rows": 4},
+	"bog": {"tint": Color(1.0, 1.0, 1.0), "patch_chance": 0.0, "tree_tint": Color(0.72, 0.74, 0.66),
+		"ground_sheet": "res://assets/art/world/dead_swamp/mud_96x128.png", "ground_cols": 3, "ground_rows": 4,
+		"tree_set": ["res://assets/art/vegetation/plant_00.png", "res://assets/art/vegetation/plant_01.png", "res://assets/art/world/deadforest/birch_dead.png", "res://assets/art/world/deadforest/tree_dark1.png", "res://assets/art/vegetation/plant_02.png"]},
 	"moor": {"tint": Color(0.86, 0.84, 0.74), "patch_chance": 0.10, "tree_tint": Color(0.72, 0.72, 0.60)},
 	"wilds": {"tint": Color(0.92, 0.92, 0.84), "patch_chance": 0.08, "tree_tint": Color(0.80, 0.82, 0.68)},
 	"farmland": {"tint": Color(1.0, 0.98, 0.88), "patch_chance": 0.06, "tree_tint": Color(0.86, 0.88, 0.72)},
@@ -73,7 +74,10 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 		keep_clear.append(Rect2((vg["pos"] as Vector2) - Vector2(90, 70), Vector2(180, 140)))
 
 	_build_ground(parent, rng, tiles_w, tiles_h, pal, def)
+	_ground_breakup(parent, rng, tiles_w, tiles_h, pal)
 	_build_river(parent, def)
+	for rp_v: Variant in def.get("river", []):
+		keep_clear.append(Rect2((rp_v as Vector2) - Vector2(180, 130), Vector2(360, 260)))
 	var road_rects: Array[Rect2] = _build_roads(parent, def, pal.has("ground_sheet"))
 	keep_clear.append_array(road_rects)
 	_build_warm_ground(parent, rng, def)
@@ -151,15 +155,37 @@ static func _build_river(parent: Node2D, def: Dictionary) -> void:
 	line.joint_mode = Line2D.LINE_JOINT_ROUND
 	line.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	line.end_cap_mode = Line2D.LINE_CAP_ROUND
+	# BANKS first (under the water): a wider dark mud edge so the river reads
+	# as a cut channel, not a painted smear (sitting-#1 finding).
+	var bank := Line2D.new()
+	bank.z_index = -9
+	for p: Variant in pts:
+		bank.add_point(p as Vector2)
+	bank.width = line.width * 1.35
+	bank.default_color = Color(0.20, 0.16, 0.13, 0.85)
+	bank.joint_mode = Line2D.LINE_JOINT_ROUND
+	bank.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	bank.end_cap_mode = Line2D.LINE_CAP_ROUND
+	parent.add_child(bank)
 	parent.add_child(line)
-	# faint moving sheen strip to sell current
+	# water sheen: cool highlight + a second ripple strip, both animated slow
 	var sheen := Line2D.new()
 	sheen.z_index = -7
 	for p: Variant in pts:
 		sheen.add_point(p as Vector2)
-	sheen.width = line.width * 0.35
-	sheen.default_color = Color(1.0, 1.0, 1.0, 0.05)
+	sheen.width = line.width * 0.45
+	sheen.default_color = Color(0.55, 0.62, 0.68, 0.10)
 	parent.add_child(sheen)
+	var ripple := Line2D.new()
+	ripple.z_index = -7
+	for p: Variant in pts:
+		ripple.add_point((p as Vector2) + Vector2(0, 8))
+	ripple.width = line.width * 0.16
+	ripple.default_color = Color(0.72, 0.76, 0.80, 0.08)
+	parent.add_child(ripple)
+	var tw := parent.create_tween().set_loops()
+	tw.tween_property(sheen, "default_color:a", 0.16, 2.2)
+	tw.tween_property(sheen, "default_color:a", 0.07, 2.6)
 
 
 static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = false) -> Array[Rect2]:
@@ -176,6 +202,15 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 		for x in range(8):
 			grass.create_tile(Vector2i(x, y))
 	ts.add_source(grass, 0)
+	# Solid stone slabs for roads over pack ground (grass-slab tiles let the
+	# ground bleed through — sitting-#1 "translucent debug path" finding).
+	var stone := TileSetAtlasSource.new()
+	stone.texture = load(STONE_SHEET)
+	stone.texture_region_size = Vector2i(TILE, TILE)
+	for y in range(3):
+		for x in range(3):
+			stone.create_tile(Vector2i(x, y))
+	ts.add_source(stone, 1)
 	var layer := TileMapLayer.new()
 	layer.name = "Roads"
 	layer.tile_set = ts
@@ -191,10 +226,14 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 			for s in range(steps + 1):
 				var p: Vector2 = a.lerp(b, float(s) / float(steps))
 				var c := Vector2i(int(p.x / TILE), int(p.y / TILE))
-				layer.set_cell(c, 0, Vector2i(rng.randi_range(0, 2), rng.randi_range(4, 5) - 4 + 4))
-				if not packed_ground and rng.randf() < 0.6:
-					layer.set_cell(c + Vector2i(1, 0), 0, Vector2i(rng.randi_range(4, 7), rng.randi_range(0, 3)))
-				rects.append(Rect2(p - Vector2(40, 40), Vector2(80, 80)))
+				if packed_ground:
+					# contiguous 2-wide solid slab road, no jogs
+					layer.set_cell(c, 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
+					layer.set_cell(c + Vector2i(0, 1), 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
+				else:
+					layer.set_cell(c, 0, Vector2i(rng.randi_range(0, 2), rng.randi_range(4, 5) - 4 + 4))
+					layer.set_cell(c + Vector2i(0, 1), 0, Vector2i(rng.randi_range(0, 2), rng.randi_range(4, 5) - 4 + 4))
+				rects.append(Rect2(p - Vector2(44, 44), Vector2(88, 88)))
 	parent.add_child(layer)
 	return rects
 
@@ -330,6 +369,17 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 			"bones":
 				for i in range(4):
 					_atlas(parent, R_BONE_A, pos + Vector2(rng.randf_range(-40, 40), rng.randf_range(-30, 30)), Color(0.95, 0.95, 0.9))
+			"ore_rocks":
+				# Rust-tinted rock cluster + glint — the zone fantasy made visible.
+				for oi in range(int(lm.get("count", 5))):
+					var op: Vector2 = pos + Vector2(rng.randf_range(-70, 70), rng.randf_range(-50, 50))
+					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true,
+							Color(0.85, 0.62, 0.48))
+				_warm_light(parent, pos, 0.22)
+			"rocks":
+				for oi in range(int(lm.get("count", 4))):
+					var op: Vector2 = pos + Vector2(rng.randf_range(-60, 60), rng.randf_range(-45, 45))
+					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true)
 			"pond":
 				_pond(parent, pos, rng)
 				_bubbles(parent, pos + Vector2(rng.randf_range(-30, 30), rng.randf_range(-20, 20)), rng)
@@ -505,10 +555,13 @@ static func _enemy_spawns(rng: RandomNumberGenerator, def: Dictionary) -> Array:
 				rng.randf_range(area.position.y, area.end.y))
 			var etype: String = str(row.get("type", "skeleton"))
 			for k in range(mini(pack, count - i)):
+				# ring placement: pack members spread (sitting-#1: stacked blobs)
+				var ang: float = TAU * float(k) / float(maxi(1, pack)) + rng.randf_range(-0.4, 0.4)
+				var dist: float = 70.0 + rng.randf_range(0.0, 50.0)
 				out.append({
 					"type": etype,
 					"display_name": str(row.get("name", "Creature")),
-					"pos": anchor + Vector2(rng.randf_range(-40, 40), rng.randf_range(-30, 30)),
+					"pos": anchor + Vector2(cos(ang), sin(ang) * 0.7) * dist,
 					"hp": float(row.get("hp", 30.0)),
 					"damage": float(row.get("damage", 6.0)),
 					"speed": float(row.get("speed", 62.0)),
@@ -756,3 +809,36 @@ static func _validate_forty_second_rule(def: Dictionary, w: int, h: int) -> void
 	if worst_d > MAX_DEAD_PX:
 		push_warning("ZoneBuilder[40s]: zone '%s' FAILS — dead spot at (%d,%d), %d px from nearest anchor (max %d). Backfill micro-POIs."
 				% [def.get("id"), int(worst_p.x), int(worst_p.y), int(worst_d), int(MAX_DEAD_PX)])
+
+
+## Sitting-#1 fix: irregular ground decals kill the tile repeat-grid read.
+static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, h: int,
+		pal: Dictionary) -> void:
+	var world_w: float = w * TILE
+	var world_h: float = h * TILE
+	var n: int = int(world_w * world_h / 220000.0)
+	for i in range(n):
+		var pos := Vector2(rng.randf_range(40, world_w - 40), rng.randf_range(40, world_h - 40))
+		var roll: float = rng.randf()
+		if roll < 0.45:
+			var spr := Sprite2D.new()
+			spr.texture = load(PROPS + "szadi_prop_%02d.png" % [0, 2, 3, 4, 5][rng.randi_range(0, 4)])
+			spr.position = pos
+			spr.z_index = -8
+			spr.modulate = Color(1, 1, 1, rng.randf_range(0.35, 0.7))
+			spr.scale = Vector2.ONE * rng.randf_range(0.6, 1.0)
+			parent.add_child(spr)
+		elif roll < 0.75:
+			var rk := Sprite2D.new()
+			rk.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+			rk.position = pos
+			rk.z_index = -6
+			rk.scale = Vector2.ONE * rng.randf_range(0.5, 0.9)
+			rk.modulate = (pal.get("tree_tint", Color.WHITE) as Color).lightened(0.15)
+			parent.add_child(rk)
+		else:
+			var tf := Sprite2D.new()
+			tf.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(9, 14))
+			tf.position = pos
+			tf.z_index = -6
+			parent.add_child(tf)

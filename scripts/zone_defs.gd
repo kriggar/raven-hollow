@@ -136,6 +136,11 @@ const _ZONES := {
 			{"type": "stump", "pos": Vector2(2300, 1200)},
 			{"type": "stump", "pos": Vector2(5000, 2400)},
 			{"type": "trunk_hollow", "pos": Vector2(1500, 3700)},
+			{"type": "ore_rocks", "pos": Vector2(4800, 1600), "count": 6},   # bog-iron diggings
+			{"type": "ore_rocks", "pos": Vector2(1400, 2500), "count": 5},
+			{"type": "ore_rocks", "pos": Vector2(5900, 3400), "count": 5},
+			{"type": "rocks", "pos": Vector2(3600, 800), "count": 4},
+			{"type": "rocks", "pos": Vector2(700, 1400), "count": 4},
 		],
 		"warm_patches": [Vector2(4400, 1260), Vector2(2650, 2860)],
 		"vignettes": [
