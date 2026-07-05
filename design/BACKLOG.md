@@ -4,7 +4,7 @@ GitHub (pushed), and the agent memory system points here. Every session resumes 
 Fresh session read order: design/MANDATES.md → THIS FILE → design/*.md as needed.
 Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ queued · ⚠ owner input needed.
 
-## THE REGISTRY (108 tasks)
+## THE REGISTRY (110 tasks)
 ### Shipped foundation (1-20)
 1. ✅ TTS voice system + 173 baked NPC lines (v1)
 2. ✅ Weather system (rain/snow/storm/fog + zone-native tables + ASH + drift)
@@ -127,6 +127,9 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 107. ⬜ COAST CONTENT WAVE: the 14 Collector's-Coast zones need NPC cast (extends #29), quest lines (#27/#77), per-zone arenas (#46), lighting/ambience polish, sweep + 4K one-shots (Prime-Mandate cameras) — currently creature tables only
 108b. ✅ DRIVER PROTOCOL (CLAUDE.md in repo root): any Claude session opened here — Opus 4.8 included — auto-loads the full driving manual (read order, driver loop, local-studio commands, verification hooks, mapped potholes, quality gates, escalation limits). The driver conducts; the pipelines + validators hold the Fable bar.
 108. ✅ TASK DIVISION & LANES (design/TASK_DIVISION.md, owner directive): Fable = engine/canon/balance/QA (~24 tasks); spec-complete implementation lane (~35) runs LOCAL STUDIO first (free), billed Opus 4.8 only post-reset for tasks failing the local QA gate; every handoff has doc + acceptance criteria + Fable review gate
+
+109. 🔧 THE PAINTER PROGRAM (owner priority: the studio's strongest target = flawless level painting): design/LEVEL_PAINTING_BIBLE.md (Fable's doctrine: the read/composition/ground/light/story/sourcing/verification) + level_painter role primed with it + HARD WALLS (density floor 16-24, footprint spacing, cluster cohesion, biome-legality — no forges in bogs, repetition law — one-of-everything = prop salad, ≥2 curiosity + 1 murder vignettes) + inspection mode (rejected drafts still render, labeled) + tools/studio/render_draft.py (draft JSON → temporary studio_canvas zone → real-engine boot → screenshots). EXAM IN PROGRESS: "create Raven Hollow from scratch" on qwen3:30b-a3b (/no_think after thinking-mode timeout) with qwen3:14b backup → owner reviews the pictures. Verdicts so far: 14B quests ~90% of bar; 14B painting REJECTED by walls (prop salad, biome illegals) — painting stays Fable's hand (visual law) with machine drafts under art direction
+110. ⬜ THE SPECIALIST FINE-TUNE (QLoRA on the 5070 Ti): teach a local model THIS project's conventions from Fable's own shipped work — dataset builder DONE (119 instruction pairs harvested: 40 zone layouts, doc sections, VO lines; grows as the game grows), Unsloth 4-bit recipe committed (r=16, ~1-3h for 7B), GGUF→Ollama export, adopt-if-better eval vs studio validators first-try pass-rate. HONESTY LINE (standing): no local model equals Fable's general intelligence; no training on Claude transcripts (ToS); the goal is a professional SPECIALIST on our narrow roles
 
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
