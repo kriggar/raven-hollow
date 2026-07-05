@@ -266,6 +266,18 @@ static func _paint_plaza(layer: TileMapLayer, rng: RandomNumberGenerator, path_c
 			var cell := Vector2i(x, y)
 			layer.set_cell(cell, 1, coords)
 			path_cells[cell] = true
+	# Worn transition fringe (sitting #1: the plaza ended in razor-straight
+	# edges against grass). A ring of cracked partial slabs bleeds the square
+	# into the green, denser at the middles of each side, sparse at corners.
+	for y in range(y0 - 1, y1 + 2):
+		for x in range(x0 - 1, x1 + 2):
+			var on_ring: bool = x == x0 - 1 or x == x1 + 1 or y == y0 - 1 or y == y1 + 1
+			var cell2 := Vector2i(x, y)
+			if not on_ring or path_cells.has(cell2):
+				continue
+			if rng.randf() < 0.62:
+				layer.set_cell(cell2, 0, Vector2i(rng.randi_range(0, 1), rng.randi_range(4, 7)))
+				path_cells[cell2] = true
 
 
 # ------------------------------------------------------------- DISTRICTS ----
