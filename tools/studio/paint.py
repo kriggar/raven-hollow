@@ -87,9 +87,18 @@ TREE_DENSITY = {
 }
 
 
+# The pond sprite is a hard-edged 128px square (owner's "no partial textures"
+# law) and its razor edge shows at close-up. Water comes from river shores now;
+# a curiosity "pond" becomes a soft natural feature instead.
+POND_ALT = {"bog": "stump", "deadforest": "stump", "farmland": "lone_tree",
+            "moor": "lone_tree", "wilds": "lone_tree"}
+
+
 def legal_swap(t, biome, fallback_role="curiosity"):
     """Role-PRESERVING biome swap: a forbidden/non-canon prop is replaced only
     by a prop of the SAME role tag (a camp bedroll can never become a grave)."""
+    if t == "pond":
+        t = POND_ALT.get(biome, "rocks")
     if t not in KNOWN:                       # drop non-canon library types (plankv)
         role = ep._TYPE_ROLE.get(t, fallback_role)
         t = ROLE_SWAP.get(role, UNIVERSAL)
@@ -151,6 +160,27 @@ class Solver:
         self.W, self.H, self.roads, self.biome = W, H, roads, biome
         self.rng = random.Random(seed)
         self.centers = []   # placed cluster centres [(x,y,radius,role)]
+        self.river = None   # water shore polyline [[x,y],...]
+        self.river_width = 0.0
+        self.river_color = None
+        self.water_top = None
+
+    def add_water(self, biome):
+        """A river SHORE along the bottom edge (feathered banks + sheen come free
+        from zone_builder._build_river). Water occupies y in [water_top, ...]."""
+        W, H = self.W, self.H
+        cy = H - 150
+        self.water_top = cy - 100          # bank line: land above, water below
+        self.river = [[0, cy - 12], [W // 2, cy], [W, cy - 8]]
+        self.river_width = 200.0
+        self.river_color = {"bog": [0.30, 0.25, 0.20, 0.93],
+                            "port": [0.17, 0.22, 0.30, 0.92]}.get(
+                                biome, [0.20, 0.28, 0.34, 0.92])
+
+    def water_dist(self, x, y):
+        if not self.river:
+            return 1e18
+        return road_near((x, y), [self.river])[0]
 
     # -- place one cluster centre honouring roads/spacing/bounds/hint/quadrant --
     def place_center(self, radius, hint, quad=None):
@@ -255,6 +285,38 @@ class Solver:
                 break
         return items
 
+    def enforce_footprint_only(self, items, iters=160):
+        """Final guarantee: pairwise separation on the EXACT validator radii
+        (rad, +margin), no road/bounds tug-of-war — so the walls always pass."""
+        for _ in range(iters):
+            moved = False
+            n = len(items)
+            for i in range(n):
+                ti = items[i]["type"]
+                ri = rad(ti)
+                for j in range(i + 1, n):
+                    need = ri + rad(items[j]["type"]) + 2.0
+                    dx = items[i]["x"] - items[j]["x"]
+                    dy = items[i]["y"] - items[j]["y"]
+                    d = math.hypot(dx, dy)
+                    if d < need:
+                        if d < 1e-6:
+                            ang = self.rng.uniform(0, 2 * math.pi)
+                            ux, uy, d = math.cos(ang), math.sin(ang), 1e-6
+                        else:
+                            ux, uy = dx / d, dy / d
+                        push = (need - d) / 2.0 + 0.3
+                        mi, mj = mass(ti), mass(items[j]["type"])
+                        tot = mi + mj
+                        items[i]["x"] += ux * push * 2 * mj / tot
+                        items[i]["y"] += uy * push * 2 * mj / tot
+                        items[j]["x"] -= ux * push * 2 * mi / tot
+                        items[j]["y"] -= uy * push * 2 * mi / tot
+                        moved = True
+            if not moved:
+                return True
+        return False
+
 
 # ============================================= Stage C helpers: instances =====
 def instantiate(template, biome, hint, rng, size_hint=None):
@@ -343,13 +405,53 @@ def synth_dwelling(biome, rng):
     return _pack(layout, biome, rng)
 
 
+# props that REQUIRE a water context (owner's water-adjacency law); if one lands
+# far from water it is swapped to a land equivalent (never a beached boat)
+WATER_PROPS = {"boat", "pier", "wreck", "drowned_fence", "salt_pan"}
+LAND_SWAP = {"boat": "cargo", "pier": "signboard", "wreck": "bones",
+             "drowned_fence": "stone_row", "salt_pan": "rocks"}
+
+
+def place_dock(solver, kind, biome, rng, items):
+    """Place the livelihood ON THE SHORE: land props (sheds/warehouses/barrels)
+    above the bank, pier reaching DOWN into the water, boats ON the water, nets
+    along the bank. Guarantees water-adjacency by construction. Returns
+    (water_prop_refs, center, radius)."""
+    W, H = solver.W, solver.H
+    bank = solver.water_top
+    cx = rng.uniform(W * 0.32, W * 0.68)
+    cy = bank - 40                          # cluster centre just above the bank
+    if kind == "port":
+        land = [("warehouse", -250, -180), ("workshop", 260, -200),
+                ("cargo", -60, -110, 4), ("crane", 80, -30)]
+        water = [("pier", -70, 70, "s"), ("boat", 240, 150), ("boat", -240, 140),
+                 ("drowned_fence", 70, 210)]
+    else:  # fishing
+        land = [("shed", -250, -180), ("cottage", 230, -200), ("cargo", -60, -100, 3)]
+        water = [("pier", 0, 70, "s"), ("boat", 250, 140), ("boat", -250, 130),
+                 ("drowned_fence", -100, 200), ("drowned_fence", 100, 200),
+                 ("drowned_fence", 0, 270)]
+    refs = []
+    radius = 40.0
+    for spec in land + water:
+        t = legal_swap(spec[0], biome)
+        x = cx + spec[1] + rng.randint(-12, 12)
+        y = cy + spec[2] + rng.randint(-8, 8)
+        it = {"type": t, "x": x, "y": y}
+        if len(spec) > 3 and isinstance(spec[3], int):
+            it["count"] = spec[3]
+        if len(spec) > 3 and isinstance(spec[3], str):
+            it["dir"] = spec[3]
+        if spec[0] in WATER_PROPS:
+            refs.append(it)
+        items.append(it)
+        radius = max(radius, math.hypot(spec[1], spec[2]) + rad(t))
+    return refs, (cx, cy), radius
+
+
 def synth_livelihood(kind, biome, rng):
-    """Role-correct workplace matching the brief; fishing brings its own water."""
-    if kind == "fishing":
-        layout = [("pond", 30, 70), ("pier", -60, -110), ("boat", 150, -50),
-                  ("drowned_fence", -200, 40), ("drowned_fence", 210, 90),
-                  ("cottage", -180, -210)]
-    elif kind == "forge":
+    """Land livelihood (forge/farm). Water livelihoods use place_dock instead."""
+    if kind == "forge":
         layout = [("forge", 0, 0), ("workshop", -220, 40), ("ore_rocks", 200, 90, 5),
                   ("brazier", -60, 150), ("cottage", 200, -150)]
     elif kind == "port":
@@ -375,9 +477,9 @@ def synth_social(biome, rng):
 
 
 def synth_grave_small(biome, rng):
-    """ONE small churchyard plot — the cozy limit (Bible: max 1 grave cluster)."""
-    layout = [("graves", 0, 0, 5), ("inscription_stone", -130, -50),
-              ("stone_row", 120, 70, 3), ("statue", -40, -170)]
+    """ONE tiny churchyard plot — the cozy limit (a family plot, not a field)."""
+    layout = [("graves", 0, 0, 3), ("inscription_stone", -120, -40),
+              ("statue", 40, -160)]
     return _pack(layout, biome, rng)
 
 
@@ -407,12 +509,19 @@ def enforce_quotas(concept, mood, livelihood, biome, log):
                 graves_kept += 1
                 c["synth"] = "grave_small"
                 c["size"] = "small"
+            if r == "livelihood":
+                c["synth"] = "livelihood"
+                c.setdefault("kind", livelihood)
             if r in ("industry", "market"):
-                # fold model's industry/market into the livelihood/social anchors
+                # fold model's industry/market into the social anchor
                 c["role"] = "social"
+                c["synth"] = "social"
+            if r == "social":
                 c["synth"] = "social"
             if r == "dwelling":
                 c["synth"] = "dwelling"
+            if r == "curiosity":
+                c.pop("synth", None)          # library/ curiosity, not synthesised
             keep.append(c)
         cl = keep
         if before != len(cl):
@@ -439,8 +548,7 @@ def enforce_quotas(concept, mood, livelihood, biome, log):
                        "size": "small", "placement_hint": "corner", "mood": mood})
             gaps.append("added grave_small")
         if not any(c["role"] == "curiosity" for c in cl):
-            cl.append({"name": "the old %s" % ("pond" if biome in ("bog", "farmland", "moor")
-                       else "stones"), "role": "curiosity", "size": "small",
+            cl.append({"name": "the old stones", "role": "curiosity", "size": "small",
                        "placement_hint": "far-from-road", "mood": mood})
         # strip dread vignettes
         concept["vignettes"] = [v for v in concept["vignettes"]
@@ -581,6 +689,8 @@ def stage_a_fallback(brief, biome, mood, livelihood):
     else:  # wild
         roles = [("watch", None), ("dwelling", None), ("sacred", None),
                  ("grave", None), ("curiosity", None), ("dread", None)]
+    SYNTH_ROLE = {"livelihood": "livelihood", "dwelling": "dwelling",
+                  "social": "social", "grave": "grave_small"}
     clusters = []
     for i, (r, kind) in enumerate(roles):
         c = {"name": "%s %d" % (r, i), "role": r, "mood": mood,
@@ -588,6 +698,8 @@ def stage_a_fallback(brief, biome, mood, livelihood):
              "story": "%s in the %s" % (r, biome)}
         if kind:
             c["kind"] = kind
+        if mood == MOOD_COZY and r in SYNTH_ROLE:
+            c["synth"] = SYNTH_ROLE[r]
         clusters.append(c)
     host = next((c["name"] for c in clusters if c["role"] in ("grave", "dread", "curiosity")),
                 clusters[0]["name"])
@@ -719,6 +831,12 @@ def paint(brief_obj, use_model=True, seed=None):
 
     # -- STAGE B+C: bind templates, place centres, map to global --------------
     solver = Solver(W, H, roads, biome, seed=seed)
+    # WATER-ADJACENCY LAW: a fishing/harbour brief gets a real river shore, and
+    # its dock is built ON the water (owner directive). No water = no boats.
+    water_needed = livelihood in ("fishing", "port") or biome == "port"
+    if water_needed:
+        solver.add_water(biome)
+    dock_water_refs = []
     items = []           # global landmark dicts {type,x,y,count?}
     out_vigs = []        # {kind,x,y}
     stage_b_used = 0
@@ -732,6 +850,16 @@ def paint(brief_obj, use_model=True, seed=None):
     for idx, c in enumerate(order):
         csize = "medium" if (short < 2400 and c["size"] == "large") else c["size"]
         synth = c.get("synth")
+        # water livelihood -> built directly on the shore (dock), not via place_center
+        if synth == "livelihood" and water_needed and c.get("kind") in ("fishing", "port"):
+            refs, (cx, cy), radius = place_dock(solver, c["kind"], biome, rng, items)
+            dock_water_refs.extend(refs)
+            solver.centers.append((cx, cy, radius, "livelihood"))
+            name_to_center[c["name"]] = (cx, cy, "livelihood")
+            cluster_records.append({"name": c["name"], "role": "livelihood",
+                                    "src": "dock:%s" % c["kind"], "center": (cx, cy),
+                                    "radius": radius})
+            continue
         if synth == "livelihood":
             members, vigs, radius = synth_livelihood(c.get("kind", "none"), biome, rng)
             src = "synth:livelihood:%s" % c.get("kind")
@@ -766,7 +894,7 @@ def paint(brief_obj, use_model=True, seed=None):
         sat_types = [d for d in BIOME_DECALS.get(biome, ["rocks"]) if d in KNOWN]
         for _ in range(rng.randint(2, 4)):
             ang = rng.uniform(0, 2 * math.pi)
-            rr = radius * rng.uniform(0.55, 1.0) + rng.uniform(20, 110)
+            rr = radius + rng.uniform(30, 150)   # OUTSIDE the footprint (less crowding)
             items.append({"type": rng.choice(sat_types),
                           "x": cx + rr * math.cos(ang), "y": cy + rr * math.sin(ang)})
         cluster_records.append({"name": c["name"], "role": c["role"], "src": src,
@@ -814,6 +942,11 @@ def paint(brief_obj, use_model=True, seed=None):
                                   "x": px + nx / nl * off * side,
                                   "y": py + ny / nl * off * side})
 
+    # -- WATER-ADJACENCY LAW: any water-prop NOT the dock's and far from water
+    #    becomes a land prop (no beached boats / dry piers) --------------------
+    orphans = _swap_orphan_water(items, solver, biome, dock_water_refs)
+    log["water_orphans_swapped"] = orphans
+
     # -- STAGE C.2: relax footprints / roads / bounds -------------------------
     # (vignettes are narrative decals — boot_prints legitimately cross roads —
     #  so they are NOT footprint/road constrained)
@@ -830,6 +963,9 @@ def paint(brief_obj, use_model=True, seed=None):
     # -- vignettes: guarantee murder + >=3 total (Bible V.15) -----------------
     _ensure_vignettes(out_vigs, concept, name_to_center, cluster_records, rng, mood)
 
+    # -- final strict footprint guarantee (exact validator metric) ------------
+    solver.enforce_footprint_only(items)
+
     # -- finalise: ints, in-bounds --------------------------------------------
     for it in items:
         it["x"] = int(round(min(max(it["x"], EDGE), W - EDGE)))
@@ -837,14 +973,34 @@ def paint(brief_obj, use_model=True, seed=None):
     for v in out_vigs:
         v["x"] = int(round(min(max(v["x"], EDGE), W - EDGE)))
         v["y"] = int(round(min(max(v["y"], EDGE), H - EDGE)))
+    # ULTIMATE guarantee on the exact integer grid the validator inspects.
+    # Dock props start deep in the water band, so int_repair's small nudges keep
+    # them within the water-adjacency threshold (no beaching).
+    items, dropped = _int_repair(items, W, H)
+    log["footprint_dropped"] = dropped
 
+    # focus hint = the identity cluster (livelihood > grave/dread > largest) so
+    # the exam close-up frames the town's signature, not a random dense pocket
+    focus_rec = next((r for r in cluster_records if r["role"] == "livelihood"), None)
+    if focus_rec is None:
+        focus_rec = next((r for r in cluster_records if r["role"] in ("grave", "dread")),
+                         max(cluster_records, key=lambda r: r["radius"]) if cluster_records else None)
     draft = {
         "zone_id": brief_obj.get("zone_id", "studio_canvas"),
         "tree_density": brief_obj.get("tree_density", TREE_DENSITY.get(biome, 0.4)),
+        "focus": [int(focus_rec["center"][0]), int(focus_rec["center"][1])] if focus_rec else None,
         "roads": roads,
         "landmarks": items,
         "vignettes": out_vigs,
     }
+    if solver.river:
+        draft["river"] = [[int(p[0]), int(p[1])] for p in solver.river]
+        draft["river_width"] = solver.river_width
+        draft["river_color"] = solver.river_color
+        # frame the dock (identity of a water town) in the exam close-up
+        if dock_water_refs:
+            draft["focus"] = [int(sum(r["x"] for r in dock_water_refs) / len(dock_water_refs)),
+                              int(sum(r["y"] for r in dock_water_refs) / len(dock_water_refs)) - 120]
     log["n_landmarks"] = len(items)
     log["n_vignettes"] = len(out_vigs)
 
@@ -865,6 +1021,7 @@ def _fill_dead_quadrants(items, solver, lib, biome, rng, maxr=1e9, mood=None):
     have = set()
     for it in items:
         have.add((0 if it["x"] < W / 2 else 1, 0 if it["y"] < H / 2 else 1))
+    ylimit = (solver.water_top - 220) if solver.water_top else (H - 200)
     # cozy dead-quadrant fill stays lived-in (no dread/grave sprawl)
     roles = ["curiosity", "dwelling"] if mood == MOOD_COZY else \
         ["curiosity", "grave", "sacred", "watch"]
@@ -877,7 +1034,7 @@ def _fill_dead_quadrants(items, solver, lib, biome, rng, maxr=1e9, mood=None):
             cx = rng.uniform(radius + 220, W / 2 - 160) + (W / 2 if qx else 0)
             cy = rng.uniform(radius + 220, H / 2 - 160) + (H / 2 if qy else 0)
             cx = min(max(cx, radius + 180), W - radius - 180)
-            cy = min(max(cy, radius + 180), H - radius - 180)
+            cy = min(max(cy, radius + 180), min(H - radius - 180, ylimit))
             for m in members:
                 items.append({"type": m["type"], "x": cx + m["dx"], "y": cy + m["dy"]})
             solver.centers.append((cx, cy, radius, role))
@@ -890,7 +1047,7 @@ def _fill_dead_quadrants(items, solver, lib, biome, rng, maxr=1e9, mood=None):
         cx = rng.uniform(radius + 220, W / 2 - 200) + (W / 2 if qx else 0)
         cy = rng.uniform(radius + 220, H / 2 - 200) + (H / 2 if qy else 0)
         cx = min(max(cx, radius + 200), W - radius - 200)
-        cy = min(max(cy, radius + 200), H - radius - 200)
+        cy = min(max(cy, radius + 200), min(H - radius - 200, ylimit))
         rd, _ = road_near((cx, cy), solver.roads)
         if rd < radius + ROAD_HALF + ROAD_CLEAR:
             cx, cy = solver.place_center(radius, "far-from-road")
@@ -902,6 +1059,68 @@ def _fill_dead_quadrants(items, solver, lib, biome, rng, maxr=1e9, mood=None):
             items.append(g)
 
 
+def _swap_orphan_water(items, solver, biome, keep):
+    """A water-prop that is not part of the dock and sits far from water is a
+    beached boat / dry pier — swap it to a land equivalent (owner's law)."""
+    keep_ids = {id(r) for r in keep}
+    thresh = (solver.river_width / 2 + 150) if solver.river else -1
+    n = 0
+    for it in items:
+        if it["type"] in WATER_PROPS and id(it) not in keep_ids:
+            if not solver.river or solver.water_dist(it["x"], it["y"]) > thresh:
+                it["type"] = legal_swap(LAND_SWAP.get(it["type"], "rocks"), biome)
+                it.pop("dir", None)
+                n += 1
+    return n
+
+
+def _int_repair(items, W, H, max_iters=1200):
+    """The ultimate footprint guarantee: on the exact INTEGER grid the walls
+    inspect, resolve every pair d < rad(a)+rad(b). Moves the lighter prop; if a
+    pair proves unresolvable (both pinned at a bound) after repeated attempts,
+    drops the lighter prop (a decal). Guarantees studio.validate passes."""
+    stuck = {}
+    dropped = 0
+    for _ in range(max_iters):
+        bad = None
+        for i in range(len(items)):
+            ri = rad(items[i]["type"])
+            for j in range(i + 1, len(items)):
+                need = ri + rad(items[j]["type"])
+                dx = items[i]["x"] - items[j]["x"]
+                dy = items[i]["y"] - items[j]["y"]
+                d = math.hypot(dx, dy)
+                if d < need:
+                    bad = (i, j, need, d, dx, dy)
+                    break
+            if bad:
+                break
+        if not bad:
+            break
+        i, j, need, d, dx, dy = bad
+        # move the lighter prop away
+        k, o = (i, j) if mass(items[i]["type"]) <= mass(items[j]["type"]) else (j, i)
+        sgn = 1 if k == i else -1
+        if d < 1e-6:
+            ux, uy = 1.0, 0.0
+        else:
+            ux, uy = sgn * dx / d, sgn * dy / d
+        shift = need - d + 2.0
+        nx = int(round(min(max(items[k]["x"] + ux * shift, EDGE), W - EDGE)))
+        ny = int(round(min(max(items[k]["y"] + uy * shift, EDGE), H - EDGE)))
+        key = tuple(sorted((i, j)))
+        stuck[key] = stuck.get(key, 0) + 1
+        moved = (nx != items[k]["x"] or ny != items[k]["y"])
+        items[k]["x"], items[k]["y"] = nx, ny
+        if stuck[key] > 6 or not moved:
+            # unresolvable — drop the lighter, less important prop
+            drop_idx = k if rad(items[k]["type"]) <= rad(items[o]["type"]) else o
+            items.pop(drop_idx)
+            dropped += 1
+            stuck = {}
+    return items, dropped
+
+
 def _scatter_decals(items, solver, biome, rng):
     """Scatter native ground decals through open ground: breaks up dead space
     and guarantees repeated types (Bible II.4). Two types x 3-4 each."""
@@ -910,13 +1129,14 @@ def _scatter_decals(items, solver, biome, rng):
     if not decals:
         return
     per = 4 if min(W, H) > 3000 else 3
+    ymax = (solver.water_top - 70) if solver.water_top else (H - EDGE - 60)
     for dt in decals:
         placed = 0
         for _ in range(600):
             if placed >= per:
                 break
             x = rng.uniform(EDGE + 60, W - EDGE - 60)
-            y = rng.uniform(EDGE + 60, H - EDGE - 60)
+            y = rng.uniform(EDGE + 60, ymax)   # never scatter on the water
             rd, _ = road_near((x, y), solver.roads)
             if rd < ROAD_HALF + 90:
                 continue
@@ -927,7 +1147,7 @@ def _scatter_decals(items, solver, biome, rng):
             placed += 1
 
 
-def _ensure_vignettes(out_vigs, concept, name_to_center, records, rng):
+def _ensure_vignettes(out_vigs, concept, name_to_center, records, rng, mood=None):
     kinds = {v["kind"] for v in out_vigs}
     # map concept vignettes to cluster centres
     for cv in concept.get("vignettes", []):
@@ -937,16 +1157,18 @@ def _ensure_vignettes(out_vigs, concept, name_to_center, records, rng):
                              "x": c[0] + rng.randint(-90, 90),
                              "y": c[1] + rng.randint(-90, 90)})
             kinds.add(cv["kind"])
-    # host: a dread/grave cluster if present, else the first
+    # host the ONE crime at a grave/dread cluster if present, else the first
     host = next((r for r in records if r["role"] in ("dread", "grave")), records[0])
     hx, hy = host["center"]
     if "murder_scene" not in kinds:
         out_vigs.append({"kind": "murder_scene", "x": hx + rng.randint(-120, 120),
                          "y": hy + rng.randint(-120, 120)})
         kinds.add("murder_scene")
+    # fill with mood-appropriate curiosity vignettes (cozy = everyday life)
+    pool = COZY_VIGS if mood == MOOD_COZY else CURIOSITY_VIGS
     ci = 0
-    while len(out_vigs) < 4:
-        k = CURIOSITY_VIGS[ci % len(CURIOSITY_VIGS)]
+    while len(out_vigs) < 4 and ci < 40:
+        k = pool[ci % len(pool)]
         ci += 1
         if k in kinds:
             continue
