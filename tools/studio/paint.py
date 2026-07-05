@@ -78,6 +78,15 @@ BIOME_DECALS = {
 }
 
 
+# per-biome canopy density (Fable sets this per zone: iron_vein bog 1.25,
+# greyhollow port 0.25) — the verticals + sway layer that fills open ground
+TREE_DENSITY = {
+    "farmland": 0.7, "bog": 1.0, "moor": 0.5, "deadforest": 1.1, "wilds": 1.1,
+    "tundra": 0.28, "volcanic": 0.16, "port": 0.26, "steppe": 0.34, "ridge": 0.4,
+    "cave": 0.0,
+}
+
+
 def legal_swap(t, role, biome):
     if t not in KNOWN:                       # drop non-canon library types (plankv)
         t = ROLE_SWAP.get(role, UNIVERSAL)
@@ -434,12 +443,12 @@ def paint(brief_obj, use_model=True, seed=None):
     log["stage_a_source"] = concept["_source"]
     log["n_concept_clusters"] = len(concept["clusters"])
 
-    # zone-size adaptivity: a small zone can't hold many big Fable cores without
-    # forcing clips. Budget the per-cluster radius and the cluster count to the
-    # zone so the town stays clean and Fable-scaled.
+    # zone-size adaptivity: budget the per-cluster radius (so a big Fable core
+    # never overruns a small zone) and the cluster count to the zone AREA (so a
+    # zone stays densely filled — Bible I.1 40-second rule — not sparse).
     short = min(W, H)
-    maxr = max(220.0, min(520.0, short / 3.0))
-    n_cap = 4 if short < 2400 else (5 if short < 3400 else 7)
+    maxr = max(200.0, min(360.0, short / 4.0))
+    n_cap = int(max(5, min(8, (W * H) / 650000.0)))
     # keep the identity core (grave/sacred) + diverse roles up to n_cap
     picked, seen_roles = [], set()
     for c in sorted(concept["clusters"],
@@ -484,6 +493,14 @@ def paint(brief_obj, use_model=True, seed=None):
             items.append(g)
         for v in vigs:
             out_vigs.append({"kind": v["kind"], "x": cx + v["dx"], "y": cy + v["dy"]})
+        # satellites (Bible II.7 — every anchor gets 2-5 small props): native
+        # decals ringing the cluster, so anchors read as inhabited, not lonely.
+        sat_types = [d for d in BIOME_DECALS.get(biome, ["rocks"]) if d in KNOWN]
+        for _ in range(rng.randint(2, 4)):
+            ang = rng.uniform(0, 2 * math.pi)
+            rr = radius * rng.uniform(0.55, 1.0) + rng.uniform(20, 110)
+            items.append({"type": rng.choice(sat_types),
+                          "x": cx + rr * math.cos(ang), "y": cy + rr * math.sin(ang)})
         cluster_records.append({"name": c["name"], "role": c["role"], "src": src,
                                 "center": (cx, cy), "radius": radius})
     log["stage_b_fills"] = stage_b_used
@@ -554,6 +571,7 @@ def paint(brief_obj, use_model=True, seed=None):
 
     draft = {
         "zone_id": brief_obj.get("zone_id", "studio_canvas"),
+        "tree_density": brief_obj.get("tree_density", TREE_DENSITY.get(biome, 0.4)),
         "roads": roads,
         "landmarks": items,
         "vignettes": out_vigs,

@@ -19,7 +19,7 @@ L.append('\t\t"continent": 1, "region": "border", "biome": "%s",' % biome)
 L.append('\t\t"tiles_w": %d, "tiles_h": %d,' % (tw, th))
 L.append('\t\t"dusk_tint": Color(0.9, 0.85, 0.75),')
 L.append('\t\t"player_spawn": Vector2(%d.0, %d.0),' % (W // 2, H // 2))
-L.append('\t\t"tree_density": 0.4,')
+L.append('\t\t"tree_density": %s,' % float(draft.get("tree_density", 0.4)))
 roads = draft.get("roads") or [[[140, H // 2], [W // 2, H // 2 + 20], [W - 140, H // 2]]]
 L.append('\t\t"roads": [')
 for rd in roads:

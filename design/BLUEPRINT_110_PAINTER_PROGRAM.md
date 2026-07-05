@@ -95,11 +95,42 @@ tonally right. Publish shots to _screens/painter_exams/ for the owner.
 - Genuinely NEW set-pieces (a never-seen Black Spire): still need a mind —
   the model proposes, the owner/successor approves. The visual law stands.
 
+## THE SELF-TRAINING FLYWHEEL (owner directive: the AI trains ITSELF)
+The walls + probe encode Fable's judgment — so they can TEACH. Closed loop,
+runs nightly on the owner's GPU, zero credits, ratchets quality upward:
+
+1. GENERATE: tools/studio/flywheel.py samples ~40 briefs/night from a brief
+   generator (zone-type x biome x mood x livelihood grid, seeded from
+   ZONE_QUEST_MATRIX vocabulary) and runs the staged painter on each.
+2. FILTER: walls (geometry/mood/role quotas) -> render probe -> vision
+   grader checklist. Three verdict bins:
+   PASS   -> (brief, layout) appended to the training pool as a POSITIVE
+   FAIL   -> (brief, draft, rejection reasons) appended as a CRITIQUE pair
+   BEST-OF-NIGHT -> top 3 by grader score saved as exam shots for the owner
+3. RETRAIN: when the pool grows by +200 pairs, run the QLoRA recipe on
+   base model + pool (Fable's 40 originals ALWAYS pinned in, weighted 3x —
+   the north star never dilutes).
+4. RATCHET GATE: candidate model must beat the incumbent on the fixed
+   12-brief eval (first-try wall pass-rate + probe pass-rate + grader
+   mean). Strictly better -> `ollama create ravenpainter:vN` and swap.
+   Worse/equal -> discard, keep generating. NEVER regress.
+5. Nightly supervisor: tools/studio/flywheel.bat (detached Start-Process
+   pattern per CLAUDE.md; writes _downloads/_studio/flywheel_log.txt).
+
+HONEST CEILING (recorded): the loop converges toward the ENCODED judgment —
+the Bible, the walls, the probe. It becomes as good as Fable's written
+doctrine, generation by generation; it does not exceed it. Raising the bar
+afterward = the owner adds rules to the Bible/walls, and the flywheel
+climbs to the new bar. That is the mechanism by which Fable's eye keeps
+teaching after July 7.
+
 ## Build order for Opus 4.8 (authorized by owner, Max plan)
 1. Stage C assembly solver (pure python, testable without any model).
 2. Stage A/B prompts + chain in studio.py; exam with BASE qwen3:14b.
 3. Dataset decomposer + training run + eval gate.
 4. Vision-probe checklist (pull a local VL model).
 5. Re-run the Raven Hollow exam; deliver screenshots to the owner.
+6. THE FLYWHEEL: flywheel.py + brief generator + verdict bins + retrain
+   trigger + ratchet gate + nightly .bat supervisor (detached).
 Acceptance: exam screenshots pass walls+probe with zero clipping and no
 empty quadrant, using ONLY local models at inference time.
