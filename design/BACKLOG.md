@@ -133,7 +133,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 
 ### ⏰ FABLE SUNSET PLAN (Fable 5 disabled JULY 7 — 2 days; owner directive: milk Fable maximally)
 What ONLY Fable should do before the 7th, in strict priority order:
-S1. **ARCHITECTURE BLUEPRINTS** (cheapest, highest leverage — Fable designs, Opus builds after the 7th):
+S1. 🔧 **ARCHITECTURE BLUEPRINTS** — SHIPPED: BLUEPRINT_98_SEAMLESS_WORLD.md, BLUEPRINT_27_QUEST_ENGINE.md, BLUEPRINT_33_COMBAT_RETUNE.md, BLUEPRINT_99_COLLISION_PHYSICS.md (each: architecture, exact integration points, data schemas, potholes, Opus build order, acceptance tests). REMAINING blueprints: #67/#68 shaders, #74 dungeons/raids, #50 Great Battle, #51 cinematics, #53 score — (cheapest, highest leverage — Fable designs, Opus builds after the 7th):
     full build-ready blueprints for #98 SEAMLESS WORLD, #99+#52 COLLISION/PHYSICS, #33 COMBAT RETUNE,
     #27 QUEST ENGINE, #67 DROVA FOG + #68 D2 TRANSPARENCY shaders, #74 dungeon/raid layouts + boss
     designs, #50 GREAT BATTLE staging, #51 cinematics shot-lists, #53 MusicDirector spec — each with
