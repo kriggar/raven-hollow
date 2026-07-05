@@ -408,7 +408,14 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					_sprite(parent, "res://assets/art/buildings/%s.png" % kinds[hi % kinds.size()], hp, true)
 			"stall":
 				_atlas(parent, Rect2(0, 928, 96, 31), pos, Color.WHITE, true)
-				_atlas(parent, Rect2(272, 800, 48, 64), pos + Vector2(0, -34), Color.WHITE, true)
+				for spx in [-40.0, 40.0]:
+					var spole := ColorRect.new()
+					spole.color = Color(0.32, 0.22, 0.13)
+					spole.size = Vector2(3, 34)
+					spole.position = pos + Vector2(spx - 1.5, -50.0)
+					spole.z_index = 1
+					parent.add_child(spole)
+				_atlas(parent, Rect2(272, 800, 48, 64), pos + Vector2(0, -20), Color.WHITE, true)
 			"plaza":
 				for pi in range(int(lm.get("count", 4))):
 					_sprite(parent, PROPS + "szadi_prop_01.png",

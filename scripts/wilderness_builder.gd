@@ -498,11 +498,17 @@ static func _tent(pos: Vector2, drape: Rect2) -> Node2D:
 	base.centered = false
 	base.offset = Vector2(-48.0, -31.0)
 	tent.add_child(base)
+	for px in [-40.0, 40.0]:
+		var tpole := ColorRect.new()
+		tpole.color = Color(0.30, 0.21, 0.12)
+		tpole.size = Vector2(3, 34)
+		tpole.position = Vector2(px - 1.5, -52.0)
+		tent.add_child(tpole)
 	var canvas := Sprite2D.new()
 	canvas.texture = _region(DECOR, drape)
 	canvas.centered = false
 	canvas.offset = Vector2(drape.size.x * -0.5, -drape.size.y)
-	canvas.position = Vector2(0.0, -28.0)
+	canvas.position = Vector2(0.0, -18.0)
 	tent.add_child(canvas)
 	return tent
 

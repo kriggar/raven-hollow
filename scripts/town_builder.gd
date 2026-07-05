@@ -836,11 +836,19 @@ static func _market_stall(pos: Vector2, drape: Rect2) -> Node2D:
 	counter.centered = false
 	counter.offset = Vector2(-48.0, -31.0)  # counter bottom on the feet line
 	stall.add_child(counter)
+	# Support poles FIRST (behind the canopy): the drape art has transparent
+	# bottom padding, so without visible posts the canopy floats (sitting #1).
+	for px in [-40.0, 40.0]:
+		var pole := ColorRect.new()
+		pole.color = Color(0.32, 0.22, 0.13)
+		pole.size = Vector2(3, 34)
+		pole.position = Vector2(px - 1.5, -52.0)
+		stall.add_child(pole)
 	var roof := Sprite2D.new()
 	roof.texture = _region(DECOR, drape)
 	roof.centered = false
 	roof.offset = Vector2(drape.size.x * -0.5, -drape.size.y)
-	roof.position = Vector2(0, -28)  # fringe overlaps the counter top (-31) slightly
+	roof.position = Vector2(0, -18)  # deep overlap onto the counter top
 	stall.add_child(roof)
 	return stall
 
