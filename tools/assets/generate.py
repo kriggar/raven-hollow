@@ -51,10 +51,12 @@ def _prune_comfy(info):
 STYLE = ("pixel art, top-down three-quarter view video game asset, ONE single centered object only, "
          "muted gothic dark-fantasy palette, mud brown moss green cold slate grey warm lantern gold, "
          "desaturated weathered aged, clean flat shaded pixels, crisp dark outline, "
-         "plain solid flat {bg} background, no ground, no shadow, no scenery")
+         "isolated on a plain uniform solid flat {bg} screen background, "
+         "no ground, no floor, no shadow, no drop shadow, no cast shadow, no scenery")
 NEG = ("blurry, jpeg artifacts, anti-aliasing, smooth gradient, 3d render, octane, photo, realistic, "
        "multiple objects, two, three, row of objects, duplicated, group, collection, set, grid of items, "
-       "cluttered scene, landscape, horizon, text, letters, numbers, watermark, "
+       "cluttered scene, landscape, horizon, ground, floor, drop shadow, cast shadow, ground shadow, "
+       "reflection, text, letters, numbers, watermark, "
        "signature, ui, frame, border, bright saturated neon colors, rainbow, glow, lens flare, "
        "person, human, face, animal, deformed, extra parts")
 

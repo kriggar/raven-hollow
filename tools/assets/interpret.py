@@ -234,7 +234,7 @@ def isolate_fullres(src_im, min_blob_full=48):
     return _despeckle(im, min_blob=min_blob_full)
 
 
-def extract_objects(iso, merge_gap=4, min_area_frac=0.14, min_abs=90):
+def extract_objects(iso, merge_gap=4, min_area_frac=0.22, min_abs=110):
     """Split an isolate into its ALPHA-CONNECTED-COMPONENT objects (owner: one sprite per cell).
     A MaxFilter dilation of `merge_gap` bridges tiny gaps first, so a boat+resting-oar stay ONE
     object while three separated boats become THREE objects. Returns object crops, largest first."""
@@ -293,22 +293,192 @@ def extract_objects(iso, merge_gap=4, min_area_frac=0.14, min_abs=90):
     return [o for _, o in out]
 
 
-def finish_object(obj, target_px=64, n_colors=24, nudge=0.34, alpha_thr=140, min_blob=6):
-    """One object -> spotless sprite: defringe -> downscale long side to target_px ->
-    quantize + cohesion nudge -> hard binary alpha -> despeckle -> tight trim (+1px margin)."""
+def _despill(im):
+    """Neutralise chroma spill (green/magenta bg tint) on kept pixels — sorceress 'chroma cleanup'.
+    Stops a coloured fringe leaking from the keyed background."""
+    im = im.convert("RGBA")
+    px = im.load(); w, h = im.size
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a == 0:
+                continue
+            if g > r + 16 and g > b + 16:            # green spill
+                px[x, y] = (r, max(r, b), b, a)
+            elif r > g + 26 and b > g + 26:          # magenta spill
+                px[x, y] = (r, min(r, (r + b) // 2), b, a)
+    return im
+
+
+def _object_luma_median(im):
+    px = im.load(); w, h = im.size
+    lums = []
+    for y in range(0, h, 2):
+        for x in range(0, w, 2):
+            r, g, b, a = px[x, y]
+            if a >= 128:
+                lums.append(0.299 * r + 0.587 * g + 0.114 * b)
+    if not lums:
+        return 128.0
+    lums.sort()
+    return lums[len(lums) // 2]
+
+
+def _dehalo(im, passes=2):
+    """SORCERESS 'no half-tones' EDGE CLEANUP: iteratively strip silhouette pixels that are
+    LIGHT + LOW-SATURATION (the pale bg halo) while PRESERVING dark detail (dark outlines stay).
+    Removed pixels go fully outside; survivors stay fully inside — a hard matte edge."""
+    im = im.convert("RGBA")
+    w, h = im.size
+    px = im.load()
+    med = _object_luma_median(im)
+    # CONSERVATIVE: only NEAR-WHITE, very-low-saturation edge pixels that are clearly brighter than
+    # the object body = true bg halo. Light-but-coloured object edges (pale wood hulls) are KEPT.
+    hi = max(206, med + 70)
+    for _ in range(passes):
+        rem = []
+        for y in range(h):
+            for x in range(w):
+                r, g, b, a = px[x, y]
+                if a == 0:
+                    continue
+                edge = False
+                for dx in (-1, 0, 1):
+                    for dy in (-1, 0, 1):
+                        nx, ny = x + dx, y + dy
+                        if nx < 0 or ny < 0 or nx >= w or ny >= h or px[nx, ny][3] == 0:
+                            edge = True
+                            break
+                    if edge:
+                        break
+                if not edge:
+                    continue
+                lum = 0.299 * r + 0.587 * g + 0.114 * b
+                sat = max(r, g, b) - min(r, g, b)
+                if lum >= hi and sat < 24:          # near-white low-sat halo -> outside (drop)
+                    rem.append((x, y))
+        if not rem:
+            break
+        for x, y in rem:
+            r, g, b, _ = px[x, y]
+            px[x, y] = (r, g, b, 0)
+    return im
+
+
+def _erode1(im):
+    """Remove the outermost 1px opaque ring (owner: 'erode alpha 1px'). Applied only to SOLID
+    sprites (guarded) so it never eats thin features (net ropes, crane arm, fence rails)."""
+    im = im.convert("RGBA")
+    w, h = im.size
+    px = im.load()
+    rem = []
+    for y in range(h):
+        for x in range(w):
+            if px[x, y][3] == 0:
+                continue
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                nx, ny = x + dx, y + dy
+                if nx < 0 or ny < 0 or nx >= w or ny >= h or px[nx, ny][3] == 0:
+                    rem.append((x, y))
+                    break
+    for x, y in rem:
+        r, g, b, _ = px[x, y]
+        px[x, y] = (r, g, b, 0)
+    return im
+
+
+def strip_shadow(im):
+    """Remove a baked drop-shadow: an opaque low-saturation grey blob in the lower band reading as
+    ground-shade under the object. Soft (semi-transparent) shadows are already gone via the hard
+    matte; this catches an opaque grey one. Conservative — only lower rows, only low-sat greys with
+    little object body directly above them in that column."""
+    im = im.convert("RGBA")
+    w, h = im.size
+    px = im.load()
+    band0 = int(h * 0.60)
+    for x in range(w):
+        col_top = None
+        for y in range(h):
+            if px[x, y][3] >= 128:
+                col_top = y
+                break
+        for y in range(band0, h):
+            r, g, b, a = px[x, y]
+            if a == 0:
+                continue
+            sat = max(r, g, b) - min(r, g, b)
+            lum = 0.299 * r + 0.587 * g + 0.114 * b
+            if sat < 26 and 40 <= lum <= 155 and (col_top is None or y - col_top > int(h * 0.45)):
+                px[x, y] = (r, g, b, 0)
+    return im
+
+
+def _keep_largest_component(im):
+    """Keep ONLY the largest alpha-connected component (owner: one object per cell). Kills stray
+    fragments and detached shadow blobs. NOT used for lacy/porous single objects (nets/fences)."""
+    im = im.convert("RGBA")
+    w, h = im.size
+    a = im.split()[3].load()
+    px = im.load()
+    seen = bytearray(w * h)
+    best = []
+    best_sz = 0
+    for sy in range(h):
+        for sx in range(w):
+            i0 = sy * w + sx
+            if seen[i0] or a[sx, sy] < 128:
+                continue
+            comp = []
+            dq = deque([(sx, sy)])
+            seen[i0] = 1
+            while dq:
+                x, y = dq.popleft()
+                comp.append((x, y))
+                for dx in (-1, 0, 1):
+                    for dy in (-1, 0, 1):
+                        nx, ny = x + dx, y + dy
+                        if 0 <= nx < w and 0 <= ny < h:
+                            j = ny * w + nx
+                            if not seen[j] and a[nx, ny] >= 128:
+                                seen[j] = 1
+                                dq.append((nx, ny))
+            if len(comp) > best_sz:
+                best_sz = len(comp)
+                best = comp
+    keep = set(best)
+    for y in range(h):
+        for x in range(w):
+            if a[x, y] and (x, y) not in keep:
+                r, g, b, _ = px[x, y]
+                px[x, y] = (r, g, b, 0)
+    return im
+
+
+def finish_object(obj, target_px=64, n_colors=24, nudge=0.34, alpha_thr=230, min_blob=8, keep_largest=True):
+    """One object -> RAZOR-CLEAN sprite (owner mandate + sorceress 'hard matte / no half-tones'):
+      despill -> defringe -> downscale -> quantize+cohesion -> HARD MATTE (alpha<230=0) ->
+      conservative de-halo (drop only NEAR-WHITE bg halo, keep the object's own light/dark edges) ->
+      despeckle -> keep-largest-component (one object) -> tight trim (+1px margin).
+    The hard matte at 230 is what erodes the soft anti-aliased ring — no blind erosion (it ate light
+    hulls) and no aggressive shadow-strip (soft shadows die at the matte; detached ones die at
+    keep-largest). Binary alpha, no pale fringe, no shadow, one object."""
     bb = alpha_bbox(obj, 128)
     if bb:
         obj = obj.crop(bb)
+    obj = _despill(obj)
     obj = _defringe(obj)
     scale = target_px / float(max(obj.size))
     nw, nh = max(1, round(obj.width * scale)), max(1, round(obj.height * scale))
     obj = obj.resize((nw, nh), Image.LANCZOS)
     r, g, b, a = obj.split()
     rgb = quantize_gothic(Image.merge("RGB", (r, g, b)), n_colors=n_colors, nudge=nudge)
-    a = a.point(lambda v: 255 if v >= alpha_thr else 0)
+    a = a.point(lambda v: 255 if v >= alpha_thr else 0)          # HARD MATTE — no half-tones
     out = Image.merge("RGBA", (*rgb.split(), a))
+    out = _dehalo(out, passes=1)
     out = _despeckle(out, min_blob=min_blob)
-    bb = alpha_bbox(out, 140)
+    if keep_largest:
+        out = _keep_largest_component(out)
+    bb = alpha_bbox(out, 200)
     if bb:
         out = out.crop(bb)
     pad = Image.new("RGBA", (out.width + 2, out.height + 2), (0, 0, 0, 0))
@@ -404,6 +574,36 @@ def largest_blob_fraction(im):
     return (biggest / total) if total else 0.0
 
 
+def _fringe_edge_fraction(im):
+    """Fraction of silhouette (edge) pixels that are pale/low-saturation HALO — the fringe the owner
+    rejected. Low = razor-clean. Preserves dark detail (dark edges are not counted as fringe)."""
+    im = im.convert("RGBA")
+    w, h = im.size
+    px = im.load()
+    med = _object_luma_median(im)
+    hi = max(206, med + 70)                       # match _dehalo: only near-white halo counts
+    edge = fringe = 0
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a < 128:
+                continue
+            is_edge = False
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)):
+                nx, ny = x + dx, y + dy
+                if nx < 0 or ny < 0 or nx >= w or ny >= h or px[nx, ny][3] < 128:
+                    is_edge = True
+                    break
+            if not is_edge:
+                continue
+            edge += 1
+            lum = 0.299 * r + 0.587 * g + 0.114 * b
+            sat = max(r, g, b) - min(r, g, b)
+            if lum >= hi and sat < 24:
+                fringe += 1
+    return (fringe / edge) if edge else 0.0
+
+
 def cleanliness_report(im, require_single_subject=True):
     """Return (passed:bool, scores:dict). Machine half of the verification; a vision pass
     (the montage eyeball) is the perceptual half. `require_single_subject` is disabled for
@@ -438,6 +638,7 @@ def cleanliness_report(im, require_single_subject=True):
 
     blob_frac = largest_blob_fraction(im) if frac > 0 else 0.0
     uncut_bg = _has_uncut_background(im) if frac > 0 else False
+    fringe = _fringe_edge_fraction(im) if frac > 0 else 0.0
     checks = {
         "edge_clean_no_halo": semi == 0,                       # strictly binary alpha
         "has_content": 0.02 <= frac <= 0.93,                   # not empty, bg actually removed
@@ -446,6 +647,7 @@ def cleanliness_report(im, require_single_subject=True):
         "palette_compatible": compat_frac >= 0.45,             # sits in the gothic family
         "single_subject": (blob_frac >= 0.40) or not require_single_subject,
         "no_uncut_background": not uncut_bg,                    # no leftover white/chroma bg block
+        "razor_edge": fringe <= 0.06,                          # <=6% of edge is pale halo (owner: zero-fringe)
     }
     scores = {
         "opaque_fraction": round(frac, 4),
@@ -455,6 +657,7 @@ def cleanliness_report(im, require_single_subject=True):
         "palette_compat_frac": round(compat_frac, 3),
         "largest_blob_frac": round(blob_frac, 3),
         "uncut_background": uncut_bg,
+        "fringe_frac": round(fringe, 3),
         "size": [w, h],
     }
     passed = all(checks.values())
