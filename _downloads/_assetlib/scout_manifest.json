@@ -1,0 +1,152 @@
+{
+  "generated": "tools/assets/scout.py",
+  "policy": "commercial-OK + free only (CC0/CC-BY/CC-BY-SA/GPL/OGA-BY/explicit-free-commercial); NC and ND rejected; unclear -> NEEDS_MANUAL. Generation (ComfyUI) is the primary library source.",
+  "owned_skipped": [
+    "Kenney \u2014 Roguelike/RPG Pack",
+    "Kenney \u2014 Tiny Town",
+    "OGA \u2014 LPC City Outside",
+    "OGA \u2014 LPC Medieval Village Decorations",
+    "OGA \u2014 LPC Trees"
+  ],
+  "packs": [
+    {
+      "name": "Kenney \u2014 Tiny Town",
+      "source": "kenney",
+      "url": "https://kenney.nl/assets/tiny-town",
+      "category": [
+        "village",
+        "terrain",
+        "buildings"
+      ],
+      "style_notes": "16x16 top-down, clean flat pixel, CC0 -- great base tiles/props",
+      "owned": true,
+      "verified_note": "WebFetch 2026-07-05: 'License: Creative Commons CC0', 130 files, top-down 16px",
+      "verdict": "OWNED",
+      "license": "WebFetch 2026-07-05: 'License: Creative Commons CC0', 130 files, top-down 16px",
+      "license_evidence": "WebFetch 2026-07-05: 'License: Creative Commons CC0', 130 files, top-down 16px"
+    },
+    {
+      "name": "Kenney \u2014 Roguelike/RPG Pack",
+      "source": "kenney",
+      "url": "https://kenney.nl/assets/roguelike-rpg-pack",
+      "category": [
+        "village",
+        "creatures",
+        "interiors"
+      ],
+      "style_notes": "16x16 top-down roguelike, CC0",
+      "owned": true,
+      "verdict": "OWNED",
+      "license": "already in repo (world_packs)",
+      "license_evidence": "owned"
+    },
+    {
+      "name": "OGA \u2014 LPC Medieval Village Decorations",
+      "source": "opengameart",
+      "url": "https://opengameart.org/content/lpc-medieval-village-decorations",
+      "category": [
+        "village",
+        "monuments",
+        "market",
+        "graveyard"
+      ],
+      "style_notes": "32px top-down LPC: graveyard, statues, lamps, banners, fences (wang), market stalls, guillotine",
+      "owned": true,
+      "verified_note": "WebFetch 2026-07-05: licenses 'CC-BY-SA 4.0' + 'CC-BY-SA 3.0', top-down",
+      "verdict": "OWNED",
+      "license": "WebFetch 2026-07-05: licenses 'CC-BY-SA 4.0' + 'CC-BY-SA 3.0', top-down",
+      "license_evidence": "WebFetch 2026-07-05: licenses 'CC-BY-SA 4.0' + 'CC-BY-SA 3.0', top-down"
+    },
+    {
+      "name": "OGA \u2014 LPC City Outside",
+      "source": "opengameart",
+      "url": "https://opengameart.org/content/lpc-city-outside",
+      "category": [
+        "buildings",
+        "monuments"
+      ],
+      "style_notes": "32px top-down: walls/roofs, statues, obelisk, well, market booth",
+      "owned": true,
+      "verified_note": "WebFetch 2026-07-05: 'CC-BY-SA 3.0' + 'GPL 3.0' + 'GPL 2.0'",
+      "verdict": "OWNED",
+      "license": "WebFetch 2026-07-05: 'CC-BY-SA 3.0' + 'GPL 3.0' + 'GPL 2.0'",
+      "license_evidence": "WebFetch 2026-07-05: 'CC-BY-SA 3.0' + 'GPL 3.0' + 'GPL 2.0'"
+    },
+    {
+      "name": "OGA \u2014 LPC Trees",
+      "source": "opengameart",
+      "url": "https://opengameart.org/content/lpc-trees",
+      "category": [
+        "nature"
+      ],
+      "style_notes": "top-down trees, LPC",
+      "owned": true,
+      "verdict": "OWNED",
+      "license": "already in repo (world_packs)",
+      "license_evidence": "owned"
+    },
+    {
+      "name": "OGA \u2014 Isometric/Top-down Medieval Buildings (various CC0)",
+      "source": "opengameart",
+      "url": "https://opengameart.org/content/medieval-buildings-lpc",
+      "category": [
+        "buildings"
+      ],
+      "style_notes": "candidate top-down medieval buildings",
+      "owned": false,
+      "verdict": "NEEDS_MANUAL",
+      "license": "unfetched",
+      "license_evidence": "machine-fetch failed: HTTP Error 404: Not Found; verify via WebFetch/browser"
+    },
+    {
+      "name": "OGA \u2014 Graveyard tileset",
+      "source": "opengameart",
+      "url": "https://opengameart.org/content/graveyard-tileset",
+      "category": [
+        "graveyard",
+        "monuments"
+      ],
+      "style_notes": "candidate gothic graveyard props",
+      "owned": false,
+      "verdict": "NEEDS_MANUAL",
+      "license": "unfetched",
+      "license_evidence": "machine-fetch failed: HTTP Error 404: Not Found; verify via WebFetch/browser"
+    },
+    {
+      "name": "OGA \u2014 Medieval Farm / Fishing props",
+      "source": "opengameart",
+      "url": "https://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements",
+      "category": [
+        "farm",
+        "fishing",
+        "props"
+      ],
+      "style_notes": "candidate farm/fishing props, LPC",
+      "owned": false,
+      "verdict": "FAIL",
+      "license": "CC-BY-NC (non-commercial)",
+      "license_evidence": "l the LPC assets in one place</a></li><li><a href=\"/content/non-commercial-art\">Non-Commercial - Art</a></li><li><a href=\"/content/oci"
+    },
+    {
+      "name": "OGA \u2014 Castle tileset (top-down)",
+      "source": "opengameart",
+      "url": "https://opengameart.org/content/castle-tiles-for-you",
+      "category": [
+        "castle",
+        "buildings"
+      ],
+      "style_notes": "candidate top-down castle stone tiles",
+      "owned": false,
+      "verdict": "NEEDS_MANUAL",
+      "license": "unfetched",
+      "license_evidence": "machine-fetch failed: HTTP Error 404: Not Found; verify via WebFetch/browser"
+    }
+  ],
+  "counts": {
+    "candidates": 9,
+    "owned": 5,
+    "pass": 0,
+    "needs_manual": 3,
+    "fail": 1
+  }
+}

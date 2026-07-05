@@ -2,11 +2,22 @@
 .godot/
 *.tmp
 
-# Asset staging & downloads (not needed in repo — assets/ has the curated copies)
-_downloads/
+# Asset staging & downloads (raw art not needed in repo — assets/ has the curated copies)
+_downloads/*
+# ...but DO commit the generated ASSET LIBRARY deliverables (#114):
+!_downloads/_assetlib/
+_downloads/_assetlib/raw/
+_downloads/_assetlib/*.log
+_downloads/_assetlib/_batch_g_specs.json
+_downloads/_assetlib/**/*.import
+_downloads/_assetlib/**/_interpret_report.json
 
 # Screenshots (regenerable; keep the folder)
 _screens/
+
+# Python cache
+__pycache__/
+*.pyc
 
 # OS junk
 Thumbs.db
