@@ -62,7 +62,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 51. 📐→⬜ Cinematics: 6 D2 films (ComfyUI stills + Chronicler VO) + in-world system (CINEMATICS)
 52. 📐→⬜ Freedom & physics: no-walls audit + Zelda props (FREEDOM_PHYSICS)
 53. 📐→⬜ Score production: C–E♭–D motif stems, MusicDirector adaptive layers (SCORE_BIBLE)
-54. 🔧 Audio QA: file fixes SHIPPED (declip/gains/seam-crossfades ✅) — remaining: VO gain trim after final 5 lines, audio_qa.py validator build
+54. ✅ Audio QA COMPLETE: tools/audio_qa.py validator (192 files: decode/duration/peak/LUFS-windows/loop-seam) + tools/audio_fix_loops.py (seamless-loop rotation render); 9 beds repaired, all 173 VO pass — validator runs per audio batch forever
 55. 📐→⬜ Achievements "Deed-Book": 9 categories, toasts, 60 exemplars (ACHIEVEMENTS)
 56. 📐→⬜ VFX AAA plan — REWORK to owner's uniqueness law: no repeats, palette swaps ILLEGAL, unique per spell AND creature (VFX_AAA_PLAN amendment)
 57. ⬜ Crafting ANIMATIONS from packs (stations + character craft-bob)
@@ -75,7 +75,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 63. 🔧 Batches D-H → all 40 zones — **Batch D SHIPPED** (East arm: whisper_passes, eastern_ridges, BLESTEM capital — perpetual-dusk ambient lock, Black Spire, lamp-lit streets, Riddler's Quarter, Lower Market — lichenreach FIRST CAVE — underground ambient, biolume lichen — transcub_vale). 18 zones live. Engine adds: cave biome (dark ground/rock walls/no weather), rain-purge on hard transitions, DayNight underground+ambient_lock modes, tools/validate_travel.py (18 zones, all seams reciprocal). **Batch E SHIPPED** (South arm: bloodroad, basaltfang, SANGEROASA capital — THE FORGE THAT EATS: Debt Pit + forge district + killing floors + ambient-lock forge haze — the_gift red fields w/ childs_shoe vignettes, ashvents). 23 zones live. Engine adds: volcanic biome art (schwarnhild basalt + burnt trees + vents, credited), lava_vent/forge/pit/gift_field/brazier/cairn/signboard landmark types. Batches F-H remain (dungeons, Continent 2 port ring, remainder)
 64. ✅ Sitting-#1 round-2 fixes complete (roads, ≡ artifact, keep-clear, stalls) — angel_wings quadrant findings folded into next sitting
 65. ⬜ Terrain blending (GK up/down illusion): study-bots then implement
-66. ⬜ Per-zone lighting/ambiance polish passes + densely-painted cohesion (Prime-Mandate loop forever)
+66. 🔧 Prime-Mandate polish loop — SITTING #2 DONE (11 inspectors, 220 shots, 161 findings: town A- PASS, angel_wings F, blestem D-): root causes fixed — sweep-camera smoothing lag (~300px off-center, corrupted overlap analysis), camp composite (bedroll row read as graves, floating flame → stone-ring pit + fanned warm bedrolls), ice-pond spacing + footprint keep-clear (bush-on-pond), road keep-clear inflation (tree-on-kerbstones), thread filaments now anchored to posts, stall poles lengthened; GOLDEN steppe palette (canon) + North-arm densification (steppe/threadlands/gravemark +30 landmarks). NEXT: re-sweep evidence → sitting #3; capital identity passes (angel_wings white city, blestem basalt maze, black_night outskirts)
 ### World systems (67-76)
 67. ⬜ Drova-style visibility fog (2D line-of-sight)
 68. ⬜ D2 behind-texture transparency (occluding sprites fade)

@@ -35,6 +35,7 @@ const BIOME_AMBIENCE := {
 	"tundra": "amb_wind_howl",
 	"volcanic": "amb_forge_rumble",
 	"ridge": "amb_wind_howl",
+	"steppe": "amb_wind_howl",
 	"port": "amb_harbor",
 	"cave": "amb_cave",
 }
@@ -589,7 +590,7 @@ const _ZONES := {
 	"listening_steppe": {
 		"built": true,
 		"name": "The Listening Steppe",
-		"continent": 1, "region": "north", "biome": "tundra",
+		"continent": 1, "region": "north", "biome": "steppe",
 		"tiles_w": 240, "tiles_h": 176,
 		"dusk_tint": Color(0.74, 0.80, 0.94),
 		"player_spawn": Vector2(3840.0, 5400.0),
@@ -605,8 +606,21 @@ const _ZONES := {
 			{"type": "bones", "pos": Vector2(4600, 3200)},
 			{"type": "rocks", "pos": Vector2(1400, 3200), "count": 5},
 			{"type": "rocks", "pos": Vector2(6200, 3600), "count": 4},
+			# — sitting #2 densification: the steppe LISTENS —
+			{"type": "camp", "pos": Vector2(5400, 2600)},            # listener post
+			{"type": "camp", "pos": Vector2(1800, 1800)},            # listener post
+			{"type": "inscription_stone", "pos": Vector2(2400, 3400), "live": false},
+			{"type": "inscription_stone", "pos": Vector2(6000, 4600), "live": true},
+			{"type": "dolmen", "pos": Vector2(1400, 4600)},
+			{"type": "dolmen", "pos": Vector2(6400, 1400)},
+			{"type": "hamlet", "pos": Vector2(4800, 4800), "count": 3},   # herder huts
+			{"type": "stall", "pos": Vector2(4000, 4400)},           # wool stall
+			{"type": "stone_row", "pos": Vector2(5000, 3600), "count": 4},
+			{"type": "stone_row", "pos": Vector2(2000, 2900), "count": 3},
+			{"type": "stump", "pos": Vector2(3200, 4700)},
+			{"type": "bones", "pos": Vector2(1600, 2400)},
 		],
-		"warm_patches": [Vector2(3420, 3660)],
+		"warm_patches": [Vector2(3420, 3660), Vector2(6020, 4660)],
 		"vignettes": [
 			{"kind": "standing_farmer", "pos": Vector2(3900, 3000)},
 			{"kind": "standing_farmer", "pos": Vector2(3600, 2200)},
@@ -649,6 +663,18 @@ const _ZONES := {
 			{"type": "dolmen", "pos": Vector2(1600, 2600)},
 			{"type": "cabin", "pos": Vector2(5800, 1400)},
 			{"type": "bones", "pos": Vector2(3000, 2600)},
+			# — sitting #2 densification: the Threads are EVERYWHERE here —
+			{"type": "thread_lines", "pos": Vector2(5600, 4600), "count": 6},
+			{"type": "thread_lines", "pos": Vector2(1800, 4200), "count": 5},
+			{"type": "thread_lines", "pos": Vector2(6200, 3000), "count": 5},
+			{"type": "thread_lines", "pos": Vector2(3600, 1200), "count": 6},
+			{"type": "dark_keep", "pos": Vector2(2400, 3400)},
+			{"type": "dark_keep", "pos": Vector2(5200, 5000)},
+			{"type": "camp", "pos": Vector2(4400, 3400)},
+			{"type": "camp", "pos": Vector2(1400, 1400)},
+			{"type": "hamlet", "pos": Vector2(6000, 1800), "count": 3},
+			{"type": "stone_row", "pos": Vector2(4600, 5200), "count": 4},
+			{"type": "graves", "pos": Vector2(2000, 5200), "count": 6},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -756,6 +782,14 @@ const _ZONES := {
 			{"type": "bones", "pos": Vector2(2600, 2800)},
 			{"type": "bones", "pos": Vector2(4200, 1400)},
 			{"type": "cabin", "pos": Vector2(1200, 1400)},
+			# — sitting #2 densification —
+			{"type": "graves", "pos": Vector2(1600, 4400), "count": 8},
+			{"type": "graves", "pos": Vector2(6200, 2600), "count": 6},
+			{"type": "stone_row", "pos": Vector2(3200, 4200), "count": 5},
+			{"type": "stone_row", "pos": Vector2(5000, 1200), "count": 4},
+			{"type": "dolmen", "pos": Vector2(2200, 2200)},
+			{"type": "camp", "pos": Vector2(6400, 4200)},
+			{"type": "statue", "pos": Vector2(3900, 3900)},
 		],
 		"warm_patches": [Vector2(4620, 4060)],
 		"vignettes": [

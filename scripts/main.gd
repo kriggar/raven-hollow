@@ -1042,6 +1042,11 @@ func _run_env_hooks() -> void:
 				var parts: PackedStringArray = focus.split(",")
 				if parts.size() == 2 and _player != null:
 					_player.global_position = Vector2(parts[0].to_float(), parts[1].to_float())
+			# Snap AFTER a frame so the camera's follow target has moved —
+			# a same-frame reset leaves the sweep shots ~300px off-center.
+			await get_tree().process_frame
+			_camera.reset_smoothing()
+			await get_tree().process_frame
 			_camera.reset_smoothing()
 	var did_cast := false
 	if not cast_action.is_empty():

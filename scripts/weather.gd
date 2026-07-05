@@ -62,6 +62,7 @@ const BIOME_TABLES := {
 	"tundra":     [[Type.SNOW, 8], [Type.CLEAR, 1]],
 	"volcanic":   [[Type.ASH, 8], [Type.CLEAR, 1]],
 	"ridge":      [[Type.FOG, 4], [Type.SNOW, 2], [Type.STORM, 2], [Type.CLEAR, 1]],
+	"steppe":     [[Type.CLEAR, 5], [Type.FOG, 2], [Type.STORM, 1]],
 	"port":       [[Type.FOG, 5], [Type.RAIN, 3], [Type.CLEAR, 1]],
 	"cave":       [[Type.CLEAR, 1]],
 }

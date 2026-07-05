@@ -60,6 +60,7 @@ const _PALETTES := {
 		"tree_set": ["res://assets/art/world/volcanic/tree_burnt1.png", "res://assets/art/world/volcanic/tree_burnt2.png",
 			"res://assets/art/world/volcanic/scrub1.png", "res://assets/art/world/volcanic/scrub2.png"]},
 	"ridge": {"tint": Color(0.80, 0.82, 0.80), "patch_chance": 0.12, "tree_tint": Color(0.64, 0.68, 0.62), "rocky": true},
+	"steppe": {"tint": Color(1.0, 0.94, 0.70), "patch_chance": 0.10, "tree_tint": Color(0.88, 0.82, 0.56)},
 	"port": {"tint": Color(0.76, 0.80, 0.82), "patch_chance": 0.10, "tree_tint": Color(0.58, 0.62, 0.62)},
 	"cave": {"tint": Color(0.52, 0.50, 0.56), "patch_chance": 0.0, "tree_tint": Color(0.5, 0.5, 0.55),
 		"ground_sheet": "res://assets/art/world/dead_swamp/mud_96x128.png", "ground_cols": 3, "ground_rows": 4,
@@ -89,8 +90,12 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	for rp_v: Variant in def.get("river", []):
 		keep_clear.append(Rect2((rp_v as Vector2) - Vector2(180, 130), Vector2(360, 260)))
 	var road_rects: Array[Rect2] = _build_roads(parent, def, pal.has("ground_sheet"))
-	keep_clear.append_array(road_rects)
-	_ground_breakup(parent, rng, tiles_w, tiles_h, pal, keep_clear)
+	for rr: Rect2 in road_rects:
+		# inflate: a tree planted at the rect edge still leans its trunk
+		# and canopy over the slabs
+		keep_clear.append(rr.grow(44.0))
+	var decal_rects: Array[Rect2] = _ground_breakup(parent, rng, tiles_w, tiles_h, pal, keep_clear)
+	keep_clear.append_array(decal_rects)
 	_build_warm_ground(parent, rng, def)
 	_scatter_vegetation(parent, rng, tiles_w, tiles_h, pal, def, keep_clear)
 	_build_landmarks(parent, rng, def)
@@ -385,9 +390,36 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for i in range(int(lm.get("count", 4))):
 					_atlas(parent, R_STONE_TALL, pos + Vector2(i * 44, rng.randf_range(-6, 6)), Color(0.86, 0.88, 0.9), true)
 			"camp":
+				# char circle + stone ring ground the fire; bedrolls fan
+				# around it (a straight pale row read as grave plots).
+				var char_st := Sprite2D.new()
+				char_st.texture = _radial_tex()
+				char_st.position = pos
+				char_st.scale = Vector2(0.42, 0.30)
+				char_st.modulate = Color(0.12, 0.10, 0.09, 0.75)
+				char_st.z_index = -6
+				parent.add_child(char_st)
+				for ri in range(6):
+					var ra: float = TAU * float(ri) / 6.0 + 0.3
+					var ring := Sprite2D.new()
+					ring.texture = load(PROPS + "cainos_prop_%02d.png" % (33 + ri % 4))
+					ring.position = pos + Vector2(cos(ra) * 26.0, sin(ra) * 18.0)
+					ring.scale = Vector2.ONE * 0.35
+					ring.z_index = -5
+					parent.add_child(ring)
 				_fire(parent, pos)
 				for i in range(3):
-					_atlas(parent, R_MOUND, pos + Vector2(-50 + i * 50, 34), Color(0.9, 0.86, 0.8))
+					var ba: float = -PI * 0.15 + PI * 0.55 * float(i)
+					var bed := Sprite2D.new()
+					var bat := AtlasTexture.new()
+					bat.atlas = load(DECOR)
+					bat.region = R_MOUND
+					bed.texture = bat
+					bed.position = pos + Vector2(cos(ba) * 78.0, sin(ba) * 56.0 + 20.0)
+					bed.rotation = ba * 0.35
+					bed.modulate = Color(0.82, 0.62, 0.45)
+					bed.y_sort_enabled = true
+					parent.add_child(bed)
 			"graves":
 				for i in range(int(lm.get("count", 6))):
 					var gp: Vector2 = pos + Vector2((i % 3) * 40, int(float(i) / 3.0) * 46)
@@ -572,6 +604,14 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					th.default_color = Color(0.45, 0.65, 1.0, 0.55)
 					th.z_index = 2
 					parent.add_child(th)
+					for anchor: Vector2 in [a, b]:
+						var tp := Sprite2D.new()
+						tp.texture = load(PROPS + "cainos_prop_17.png")
+						tp.position = anchor + Vector2(0, 6)
+						tp.scale = Vector2.ONE * 0.55
+						tp.modulate = Color(0.55, 0.58, 0.72)
+						tp.y_sort_enabled = true
+						parent.add_child(tp)
 					var tw := parent.create_tween().set_loops()
 					tw.tween_property(th, "default_color:a", 0.25, 1.4 + float(ti) * 0.2)
 					tw.tween_property(th, "default_color:a", 0.6, 1.2)
@@ -603,8 +643,8 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for spx in [-40.0, 40.0]:
 					var spole := ColorRect.new()
 					spole.color = Color(0.32, 0.22, 0.13)
-					spole.size = Vector2(3, 34)
-					spole.position = pos + Vector2(spx - 1.5, -50.0)
+					spole.size = Vector2(4, 48)
+					spole.position = pos + Vector2(spx - 2.0, -56.0)
 					spole.z_index = 1
 					parent.add_child(spole)
 				_atlas(parent, Rect2(272, 800, 48, 64), pos + Vector2(0, -20), Color.WHITE, true)
@@ -1071,14 +1111,16 @@ static func _validate_forty_second_rule(def: Dictionary, w: int, h: int) -> void
 
 ## Sitting-#1 fix: irregular ground decals kill the tile repeat-grid read.
 static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, h: int,
-		pal: Dictionary, keep_clear: Array[Rect2]) -> void:
+		pal: Dictionary, keep_clear: Array[Rect2]) -> Array[Rect2]:
 	var world_w: float = w * TILE
 	var world_h: float = h * TILE
 	var n: int = int(world_w * world_h / 220000.0)
 	var cold: bool = bool(pal.get("cold", false))
+	var occupied: Array[Rect2] = []
+	var ice_spots: Array[Vector2] = []
 	for i in range(n):
 		var pos := Vector2(rng.randf_range(40, world_w - 40), rng.randf_range(40, world_h - 40))
-		if _in_any(pos, keep_clear):
+		if _in_any(pos, keep_clear) or _in_any(pos, occupied):
 			continue
 		if cold:
 			# Snowbound clutter: rocks, fallen logs, ice patches — never foliage.
@@ -1098,13 +1140,24 @@ static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, 
 				lg.z_index = -6
 				parent.add_child(lg)
 			else:
+				# frozen pools: never stamped near one another, and they own
+				# their footprint so scatter can't grow a bush on the ice
+				var too_close := false
+				for prev: Vector2 in ice_spots:
+					if prev.distance_to(pos) < 420.0:
+						too_close = true
+						break
+				if too_close:
+					continue
 				var ic := Sprite2D.new()
 				ic.texture = load("res://assets/art/world/snow/ice_circle.png")
 				ic.position = pos
 				ic.z_index = -8
-				ic.scale = Vector2.ONE * rng.randf_range(1.0, 1.8)
-				ic.modulate = Color(1, 1, 1, 0.85)
+				ic.scale = Vector2.ONE * rng.randf_range(0.8, 1.8)
+				ic.modulate = Color(1, 1, 1, rng.randf_range(0.7, 0.9))
 				parent.add_child(ic)
+				ice_spots.append(pos)
+				occupied.append(Rect2(pos - Vector2(90, 65) * ic.scale.x, Vector2(180, 130) * ic.scale.x))
 			continue
 		var roll: float = rng.randf()
 		if roll < 0.45:
@@ -1129,3 +1182,5 @@ static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, 
 			tf.position = pos
 			tf.z_index = -6
 			parent.add_child(tf)
+	return occupied
+
