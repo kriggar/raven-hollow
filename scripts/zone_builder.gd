@@ -49,7 +49,9 @@ const _PALETTES := {
 	"farmland": {"tint": Color(1.0, 0.98, 0.88), "patch_chance": 0.06, "tree_tint": Color(0.86, 0.88, 0.72)},
 	"deadforest": {"tint": Color(0.82, 0.82, 0.80), "patch_chance": 0.14, "tree_tint": Color(0.95, 0.95, 0.95),
 		"tree_set": ["res://assets/art/world/deadforest/birch_dead.png", "res://assets/art/world/deadforest/tree_dark1.png", "res://assets/art/world/deadforest/tree_dark2.png"]},
-	"tundra": {"tint": Color(0.82, 0.88, 0.98), "patch_chance": 0.12, "tree_tint": Color(0.66, 0.70, 0.80)},
+	"tundra": {"tint": Color(0.96, 0.97, 1.0), "patch_chance": 0.0, "tree_tint": Color(0.78, 0.80, 0.90), "cold": true,
+		"ground_sheet": "res://assets/art/world/snow/snow_96x64.png", "ground_cols": 3, "ground_rows": 2,
+		"tree_set": ["res://assets/art/world/deadforest/birch_dead.png", "res://assets/art/world/deadforest/tree_dark1.png", "res://assets/art/world/deadforest/tree_dark2.png"]},
 	"volcanic": {"tint": Color(0.72, 0.58, 0.52), "patch_chance": 0.18, "tree_tint": Color(0.52, 0.42, 0.38)},
 	"ridge": {"tint": Color(0.84, 0.86, 0.82), "patch_chance": 0.12, "tree_tint": Color(0.66, 0.70, 0.62)},
 	"port": {"tint": Color(0.76, 0.80, 0.82), "patch_chance": 0.10, "tree_tint": Color(0.58, 0.62, 0.62)},
@@ -384,6 +386,32 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for oi in range(int(lm.get("count", 4))):
 					var op: Vector2 = pos + Vector2(rng.randf_range(-60, 60), rng.randf_range(-45, 45))
 					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true)
+			"cabin":
+				_sprite(parent, "res://assets/art/world/snow/log_cabin.png", pos, true)
+			"dark_keep":
+				# Blue-black keep: the manor silhouette in Black Night's stone.
+				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true, Color(0.45, 0.48, 0.62))
+				_sprite(parent, "res://assets/art/buildings/house_02.png", pos + Vector2(-170, 60), true, Color(0.42, 0.45, 0.58))
+				_sprite(parent, "res://assets/art/buildings/house_02.png", pos + Vector2(170, 60), true, Color(0.42, 0.45, 0.58))
+			"thread_lines":
+				# The Thread: filaments of blue light threading the stone (canon).
+				var tl_rng := RandomNumberGenerator.new()
+				tl_rng.seed = hash(pos)
+				for ti in range(int(lm.get("count", 5))):
+					var a: Vector2 = pos + Vector2(tl_rng.randf_range(-260, 260), tl_rng.randf_range(-180, 180))
+					var b: Vector2 = a + Vector2(tl_rng.randf_range(-160, 160), tl_rng.randf_range(-120, 120))
+					var th := Line2D.new()
+					th.add_point(a)
+					th.add_point(a.lerp(b, 0.5) + Vector2(0, -14))
+					th.add_point(b)
+					th.width = 2.0
+					th.default_color = Color(0.45, 0.65, 1.0, 0.55)
+					th.z_index = 2
+					parent.add_child(th)
+					var tw := parent.create_tween().set_loops()
+					tw.tween_property(th, "default_color:a", 0.25, 1.4 + float(ti) * 0.2)
+					tw.tween_property(th, "default_color:a", 0.6, 1.2)
+				_stone_light(parent, pos, false)
 			"pond":
 				_pond(parent, pos, rng)
 				_bubbles(parent, pos + Vector2(rng.randf_range(-30, 30), rng.randf_range(-20, 20)), rng)
@@ -462,6 +490,20 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 			"empty_stall":
 				_atlas(parent, Rect2(0, 928, 96, 31), pos, Color(0.92, 0.88, 0.8), true)
 				_dust_lines(parent, pos + Vector2(10, 26))
+			"rows_of_twelve":
+				# Iele shells standing perfectly still, arranged in rows of
+				# twelve — the Thread and the ledger speak the same tongue.
+				for ri in range(12):
+					var shell := Sprite2D.new()
+					var sheet2: Texture2D = load("res://assets/art/characters/npc_male%d.png" % [1, 2, 3, 4][ri % 4])
+					var at2 := AtlasTexture.new()
+					at2.atlas = sheet2
+					at2.region = Rect2(0, ((ri % 4) * 3 + 1) * 48, 32, 48)
+					shell.texture = at2
+					shell.position = pos + Vector2(float(ri % 6) * 40.0, float(int(float(ri) / 6.0)) * 52.0)
+					shell.modulate = Color(0.62, 0.66, 0.82, 0.92)
+					shell.y_sort_enabled = true
+					parent.add_child(shell)
 			"chalk_handprints":
 				# Children's chalked handprints; ONE is faintly copper-stained
 				# and warm to the touch. No one has noticed yet. (Canon hook.)
@@ -837,9 +879,36 @@ static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, 
 	var world_w: float = w * TILE
 	var world_h: float = h * TILE
 	var n: int = int(world_w * world_h / 220000.0)
+	var cold: bool = bool(pal.get("cold", false))
 	for i in range(n):
 		var pos := Vector2(rng.randf_range(40, world_w - 40), rng.randf_range(40, world_h - 40))
 		if _in_any(pos, keep_clear):
+			continue
+		if cold:
+			# Snowbound clutter: rocks, fallen logs, ice patches — never foliage.
+			var croll: float = rng.randf()
+			if croll < 0.5:
+				var crk := Sprite2D.new()
+				crk.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+				crk.position = pos
+				crk.z_index = -6
+				crk.scale = Vector2.ONE * rng.randf_range(0.5, 0.9)
+				crk.modulate = Color(0.86, 0.88, 0.98)
+				parent.add_child(crk)
+			elif croll < 0.8:
+				var lg := Sprite2D.new()
+				lg.texture = load("res://assets/art/world/snow/log.png")
+				lg.position = pos
+				lg.z_index = -6
+				parent.add_child(lg)
+			else:
+				var ic := Sprite2D.new()
+				ic.texture = load("res://assets/art/world/snow/ice_circle.png")
+				ic.position = pos
+				ic.z_index = -8
+				ic.scale = Vector2.ONE * rng.randf_range(1.0, 1.8)
+				ic.modulate = Color(1, 1, 1, 0.85)
+				parent.add_child(ic)
 			continue
 		var roll: float = rng.randf()
 		if roll < 0.45:

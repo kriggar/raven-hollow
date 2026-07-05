@@ -37,3 +37,4 @@ harbor mix: water by RandomMind (CC0) + gulls by Rango Mango (CC0).
 Weather: rain loop by looneybits (CC0); 'Wind Loop' by InspectorJ (Jonathan Shaw, www.jshaw.co.uk), loop edit AntumDeluge (CC-BY 3.0);
 'Thunder, Very Close, Rain, 01' by InspectorJ of freesound.org (CC-BY 3.0).
 All via OpenGameArt.org.
+- **Snowy Asset Pack** by wurls/nyx (free, credit required: wurls) — tundra ground/ice/cabin (assets/art/world/snow/).
