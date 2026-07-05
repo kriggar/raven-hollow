@@ -70,10 +70,10 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 59. ⬜ Spellbook UI (browsable) + CONCRETE tooltip law enforcement
 60. ⬜ Achievement/deed toast + panel implementation
 ### Zone production (61-66)
-61. 🔧 RAVEN HOLLOW REDO: stall-float ✅ + plaza fringe ✅ — remaining: orphan stone patch, branch-thru-grave, dying west road, SW dead space, lantern-fence clip
+61. ✅ RAVEN HOLLOW REDO: all sitting-#1 town findings fixed (stalls, plaza fringe, orphan patches, grave clip, west road, SW clearing, gate lantern) — Council re-confirmation at next sitting
 62. ⬜ Batch C: North arm + Black Night capital (snow + Szadi catacombs) at WoW-REAL-ZONE-SIZE, Stormwind-scale capital w/ castles
 63. ⬜ Batches D-H: East, South, dungeons, Continent 2 port ring, remainder → all 40 zones
-64. 🔧 Sitting-#1 round-2 fixes: roads-all-solid ✅, '≡' artifact ✅, breakup keep-clear ✅ — remaining: minor vetka floaters + angel_wings quadrant findings
+64. ✅ Sitting-#1 round-2 fixes complete (roads, ≡ artifact, keep-clear, stalls) — angel_wings quadrant findings folded into next sitting
 65. ⬜ Terrain blending (GK up/down illusion): study-bots then implement
 66. ⬜ Per-zone lighting/ambiance polish passes + densely-painted cohesion (Prime-Mandate loop forever)
 ### World systems (67-76)
