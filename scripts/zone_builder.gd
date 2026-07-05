@@ -237,21 +237,59 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 	layer.z_index = -9
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash(str(def.get("id")) + "roads")
+	var cells := {}
 	for road_v: Variant in roads:
 		var road: Array = road_v
 		for i in range(road.size() - 1):
 			var a: Vector2 = road[i]
 			var b: Vector2 = road[i + 1]
+			var seg: Vector2 = b - a
+			var horiz: bool = absf(seg.x) >= absf(seg.y)
+			var diag: bool = absf(seg.x) > 40.0 and absf(seg.y) > 40.0
 			var steps: int = int(a.distance_to(b) / (TILE * 0.5)) + 1
 			for s in range(steps + 1):
 				var p: Vector2 = a.lerp(b, float(s) / float(steps))
 				var c := Vector2i(int(p.x / TILE), int(p.y / TILE))
-				# Solid contiguous 2-wide slab road on EVERY biome — the grass-slab
-				# variants read as scattered squares (sitting-#1 round 2).
-				layer.set_cell(c, 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
-				layer.set_cell(c + Vector2i(0, 1), 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
+				# 2-wide PERPENDICULAR to travel (the old always-vertical pair
+				# left every north-south road one tile wide — sitting #3), and
+				# 2x2 on diagonals so stair-steps join flush, never corner-only.
+				cells[c] = true
+				cells[c + (Vector2i(0, 1) if horiz else Vector2i(1, 0))] = true
+				if diag:
+					cells[c + Vector2i(1, 1)] = true
 				rects.append(Rect2(p - Vector2(44, 44), Vector2(88, 88)))
+			# rounded elbow: 2x2 pad at every polyline joint
+			var jc := Vector2i(int(b.x / TILE), int(b.y / TILE))
+			for jx in range(2):
+				for jy in range(2):
+					cells[jc + Vector2i(jx, jy)] = true
+	for c_v: Variant in cells:
+		layer.set_cell(c_v as Vector2i, 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
 	parent.add_child(layer)
+	# Edge blending: tufts and pebbles straddle the razor edge so the slabs
+	# sit IN the ground instead of on top of it (sitting-#3 top defect).
+	var tuft_tex: Array = []
+	for t in [9, 10, 11]:
+		tuft_tex.append(load(PLANTS + "plant_%02d.png" % t))
+	var rock_tex: Texture2D = load(PROPS + "cainos_prop_35.png")
+	for c_v: Variant in cells:
+		var c2: Vector2i = c_v
+		for off: Vector2i in [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]:
+			if cells.has(c2 + off):
+				continue
+			if rng.randf() > 0.22:
+				continue
+			var e := Sprite2D.new()
+			if rng.randf() < 0.75:
+				e.texture = tuft_tex[rng.randi_range(0, 2)]
+				e.modulate = Color(1, 1, 1, rng.randf_range(0.5, 0.8))
+			else:
+				e.texture = rock_tex
+				e.scale = Vector2.ONE * rng.randf_range(0.3, 0.5)
+				e.modulate = Color(0.9, 0.9, 0.88, 0.9)
+			e.position = Vector2(c2.x * TILE, c2.y * TILE) + Vector2(TILE * 0.5, TILE * 0.5) 					+ Vector2(off) * (TILE * 0.5 + rng.randf_range(-4.0, 6.0)) 					+ Vector2(rng.randf_range(-10, 10), rng.randf_range(-6, 6))
+			e.z_index = -8
+			parent.add_child(e)
 	return rects
 
 
