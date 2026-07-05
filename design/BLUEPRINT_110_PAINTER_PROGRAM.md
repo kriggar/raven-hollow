@@ -124,6 +124,29 @@ afterward = the owner adds rules to the Bible/walls, and the flywheel
 climbs to the new bar. That is the mechanism by which Fable's eye keeps
 teaching after July 7.
 
+## THE ACADEMY (owner supreme law: reach and hold the Fable 5 standard)
+The AI studies like a junior artist under a master — everything local, free:
+1. REFERENCE LIBRARY (tools/studio/academy/collect.py): harvest DESIGN
+   KNOWLEDGE — YouTube tutorial/GDC-talk TRANSCRIPTS on top-down level and
+   town design (fetch captions), articles, and screenshot libraries of the
+   reference games (press-kit images; owner-taken screenshots of games he
+   owns: Graveyard Keeper, Witchbrook previews, Stardew, Eastward). Assets
+   are NEVER extracted or copied — principles only.
+2. THE ANALYST (academy/analyze.py): local vision model (pull qwen2.5-vl
+   or llava) inspects every reference image with the fixed rubric: density
+   layering, cluster logic, road hierarchy, light-source placement, focal
+   composition, edge blending, color discipline. Transcripts get the text
+   model with the same rubric. Output: dated OBSERVATION notes.
+3. DISTILLATION (academy/distill.py): observations -> candidate rules in
+   LEARNED_PRINCIPLES.md; a rule graduates into the PAINTING BIBLE only
+   after the review gate (owner or driver approves; the Bible stays clean).
+4. COMPARATIVE EXAMS: flywheel gains a mode — render own draft beside a
+   reference screenshot; the Analyst scores the GAP per rubric axis; gap
+   scores steer which briefs the flywheel drills hardest.
+5. The flywheel retrain-ratchet then climbs to every newly graduated rule.
+This is the standing self-improvement engine: study -> distill -> gate ->
+train -> exam -> repeat, forever, at $0/token.
+
 ## Build order for Opus 4.8 (authorized by owner, Max plan)
 1. Stage C assembly solver (pure python, testable without any model).
 2. Stage A/B prompts + chain in studio.py; exam with BASE qwen3:14b.
@@ -132,5 +155,8 @@ teaching after July 7.
 5. Re-run the Raven Hollow exam; deliver screenshots to the owner.
 6. THE FLYWHEEL: flywheel.py + brief generator + verdict bins + retrain
    trigger + ratchet gate + nightly .bat supervisor (detached).
+7. THE ACADEMY: collect.py (transcripts+press-kit refs) + analyze.py
+   (vision-model rubric inspection) + distill.py (LEARNED_PRINCIPLES.md,
+   review-gated) + comparative exam mode in the flywheel.
 Acceptance: exam screenshots pass walls+probe with zero clipping and no
 empty quadrant, using ONLY local models at inference time.

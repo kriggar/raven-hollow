@@ -1,5 +1,14 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**THE ACADEMY LAW (2026-07-05, owner — THE MOST MANDATORY RULE): the local AI
+must reach and hold the Fable 5 standard.** It trains continuously: fine-tunes
+on the project's shipped work, STUDIES references (tutorial transcripts, design
+talks, screenshot libraries of the target games — Graveyard Keeper, Witchbrook,
+Stardew, Eastward), INSPECTS them with the vision model against a fixed rubric,
+distills observations into LEARNED_PRINCIPLES.md (review-gated into the Painting
+Bible), and self-plays nightly via the flywheel with a never-regress ratchet.
+Design principles are learned; ASSETS ARE NEVER COPIED from references.
+
 **ZERO-PURCHASE LAW (2026-07-05, owner):** NOTHING is ever bought. All assets verified-free; anything a paid pack would provide is instead scouted free (#101) or generated locally on the owner's GPU (ComfyUI). No held purchase questions may be raised again.
 
 **FABLE-ONLY VISUAL LAW (2026-07-05, owner):** ALL level painting is done by
