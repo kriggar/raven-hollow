@@ -814,7 +814,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					var tw := parent.create_tween().set_loops()
 					tw.tween_property(th, "default_color:a", 0.25, 1.4 + float(ti) * 0.2)
 					tw.tween_property(th, "default_color:a", 0.6, 1.2)
-				_stone_light(parent, pos, false)
+				# dead-stone glow removed: floated sprite-less (sitting-3 floater)
 			"pond":
 				_pond(parent, pos, rng)
 				_bubbles(parent, pos + Vector2(rng.randf_range(-30, 30), rng.randf_range(-20, 20)), rng)
