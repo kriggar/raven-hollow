@@ -116,6 +116,12 @@ static func create(cfg: Dictionary) -> Enemy:
 		sprite.sprite_frames = fauna["frames"]
 		e._anim_offsets = fauna["offsets"]
 		e._art_faces_left = bool(fauna["faces_left"])
+		# Owner QA (2026-07-05): LPC animal sheets are 64px art in a ~32px
+		# world and read a size class too big + a shade too bright. Scale
+		# to species size and mute toward the house palette.
+		var fscale: float = {"boar": 0.60, "bear": 0.85, "wolf": 0.72}.get(e.type_name, 0.70)
+		sprite.scale = Vector2.ONE * fscale
+		sprite.modulate = Color(0.90, 0.87, 0.83)
 	else:
 		var layout: Array = DEATH_LAYOUTS.get(e.type_name, [6, 64, 64])
 		# Feet sit on the bottom row of every frame (verified), so lifting the

@@ -410,6 +410,12 @@ class Fauna extends Node2D:
 		var spr := AnimatedSprite2D.new()
 		spr.name = "Sprite"
 		spr.sprite_frames = sf
+		# Owner QA (2026-07-05): size + palette harmonization (see enemy.gd).
+		var fscale: float = {"fox": 0.55, "deer": 0.62, "rabbit": 0.90,
+				"bird": 1.0}.get(type_name, 0.65)
+		spr.scale = Vector2.ONE * fscale
+		if type_name != "bird":
+			spr.modulate = Color(0.90, 0.87, 0.83)
 		spr.centered = true
 		spr.offset = _off
 		spr.play("idle")
