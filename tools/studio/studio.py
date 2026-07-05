@@ -20,7 +20,7 @@ MODEL = os.environ.get("STUDIO_MODEL", "qwen2.5-coder:14b")
 # Prose roles ride the strongest local writer; code/data roles ride the coder.
 MODEL_PROSE = os.environ.get("STUDIO_MODEL_PROSE", "qwen3:14b")
 ROLE_MODEL = {"quest_writer": MODEL_PROSE, "bark_writer": MODEL_PROSE,
-              "item_smith": MODEL_PROSE, "def_author": MODEL, "qa_triage": MODEL}
+              "item_smith": MODEL_PROSE, "def_author": MODEL_PROSE, "qa_triage": MODEL}
 
 RUBRIC = (
     "QUALITY RUBRIC (the house bar): 1) CANON-GROUNDED - names, places, dread "
@@ -79,16 +79,42 @@ def _sys_bark():
         + _read("design/NARRATIVE_VOICE.md", 2500))
 
 
+BIOME_FORBID = {
+    "bog": "lava_vent, forge, lichen_glow, spire, gift_field, copper_well",
+    "deadforest": "lava_vent, forge, lichen_glow, pier, boat, salt_pan",
+    "tundra": "lava_vent, gift_field, lichen_glow, salt_pan",
+    "volcanic": "lichen_glow, pond, salt_pan, pier, boat",
+    "cave": "pier, boat, wreck, chimney_smoke, lava_vent, salt_pan, gift_field, lone_tree",
+    "port": "lava_vent, lichen_glow, gift_field, copper_well",
+    "moor": "lava_vent, lichen_glow, pier, boat, salt_pan",
+    "steppe": "lava_vent, lichen_glow, pier, boat, salt_pan, gift_field",
+    "ridge": "lava_vent, lichen_glow, pier, boat, salt_pan, gift_field",
+}
+
+
 def _sys_def():
+    biome = os.environ.get("STUDIO_BIOME", "").strip().lower()
+    biome_law = ""
+    if biome in BIOME_FORBID:
+        biome_law = ("\nBIOME LAW: this zone is %s. These types are FORBIDDEN here "
+                     "and any draft using them is rejected: %s. Repeat the zone's "
+                     "native types instead (real places repeat: 3 salt pans, 4 "
+                     "fences, 2 sheds).\n" % (biome.upper(), BIOME_FORBID[biome]))
     return (
-        "You author landmark layouts for zones in 'Raven Hollow'. Return pure JSON: "
+        "You are a AAA level painter drafting for Raven Hollow. Your draft goes to "
+        "the art director (Fable) for final hand." + biome_law +
+        " OBEY THE PAINTING BIBLE:\n"
+        + _read("design/LEVEL_PAINTING_BIBLE.md", 7000)
+        + "\nYou author landmark layouts. Return pure JSON: "
         "{\"zone_id\", \"landmarks\": [{\"type\", \"x\": int, \"y\": int, \"count\": int?}], "
         "\"vignettes\": [{\"kind\", \"x\", \"y\", \"concept\"}]}. "
         "Allowed types: " + ", ".join(sorted(KNOWN_TYPES)) + ". "
-        "Allowed vignette kinds: standing_farmer, cold_camp, boot_prints, empty_stall, "
+        "Allowed vignette kinds: murder_scene, standing_farmer, cold_camp, boot_prints, empty_stall, "
         "full_granary, chalk_handprints, rows_of_twelve, childs_shoe, burned_farmstead, "
-        "courier_seal. Coordinates in world px, keep 700px from the stated zone bounds, "
-        "cluster things that tell one story. EXEMPLAR (mirror the density and storytelling):\n"
+        "courier_seal. Coordinates in world px, keep 700px from the stated zone bounds. "
+        "Produce 16-24 landmarks organized as 4-6 STORY CLUSTERS (3-7 props each, "
+        "60-300px apart within a cluster), plus >=3 vignettes (>=2 curiosity + "
+        "1 murder_scene). EXEMPLAR (mirror the density and storytelling):\n"
         + _read("scripts/zone_defs.gd", 5000))
 
 
@@ -147,13 +173,68 @@ def validate(role, obj):
         if not obj.get("barks"):
             raise ValueError("no barks")
     elif role == "def_author":
-        for lm in obj.get("landmarks", []):
-            if lm.get("type") not in KNOWN_TYPES:
-                raise ValueError("unknown landmark type: %s" % lm.get("type"))
+        lms = obj.get("landmarks", [])
+        # Bible VI/I.2: biome legality — no vents in bogs, no boats in caves.
+        FORBID = {
+            "bog": {"lava_vent", "forge", "lichen_glow", "spire", "gift_field", "copper_well"},
+            "deadforest": {"lava_vent", "forge", "lichen_glow", "pier", "boat", "salt_pan"},
+            "tundra": {"lava_vent", "gift_field", "lichen_glow", "salt_pan"},
+            "volcanic": {"lichen_glow", "pond", "salt_pan", "pier", "boat"},
+            "cave": {"pier", "boat", "wreck", "chimney_smoke", "lava_vent", "salt_pan", "gift_field", "lone_tree"},
+            "port": {"lava_vent", "lichen_glow", "gift_field", "copper_well"},
+            "moor": {"lava_vent", "lichen_glow", "pier", "boat", "salt_pan"},
+            "steppe": {"lava_vent", "lichen_glow", "pier", "boat", "salt_pan", "gift_field"},
+            "ridge": {"lava_vent", "lichen_glow", "pier", "boat", "salt_pan", "gift_field"},
+        }
+        # biome supplied by the caller (STUDIO_BIOME env) — the task brief's truth
+        biome = os.environ.get("STUDIO_BIOME", "").strip().lower()
+        bad = FORBID.get(biome, set())
+        ALIAS = {"fence": "drowned_fence", "house": "cottage", "hut": "cabin",
+                 "tree": "lone_tree", "rock": "rocks", "grave": "graves",
+                 "dock": "pier", "crate": "cargo", "crates": "cargo",
+                 "tablet": "ledger_tablet", "lantern": "lamp", "fire": "brazier",
+                 "boulder": "rocks", "gravestone": "graves", "shack": "shed"}
+        counts = {}
+        for lm in lms:
+            t = ALIAS.get(lm.get("type"), lm.get("type"))
+            lm["type"] = t
+            if t not in KNOWN_TYPES:
+                raise ValueError("unknown landmark type: %s" % t)
+            if t in bad:
+                raise ValueError("type '%s' is illegal in a %s biome (Bible I.2)" % (t, biome))
+            counts[t] = counts.get(t, 0) + 1
+        # Bible II.4: real clusters REPEAT types (3 salt pans, 4 fences) —
+        # one-of-everything is prop salad, not a story.
+        repeated = sum(1 for v in counts.values() if v >= 2)
+        if len(lms) >= 14 and repeated < 3:
+            raise ValueError("prop salad: %d types all appear once — real places repeat "
+                             "(need >=3 types used 2+ times, Bible II.4)" % len(counts))
             if not (isinstance(lm.get("x"), int) and isinstance(lm.get("y"), int)):
                 raise ValueError("non-integer coords")
-        if len(obj.get("landmarks", [])) < 8:
-            raise ValueError("too sparse: give 8+ landmarks (Witchbrook bar)")
+        if len(lms) < 14:
+            raise ValueError("too sparse: 14+ landmarks (Witchbrook bar, Bible I.3)")
+        # Bible II.4: story clusters — most landmarks must have a neighbor
+        # within 300px; Bible III.11: no two inside each other's footprint.
+        import math as _m
+        lonely = 0
+        for i, a in enumerate(lms):
+            best = 1e9
+            for j, c in enumerate(lms):
+                if i == j:
+                    continue
+                d = _m.hypot(a["x"] - c["x"], a["y"] - c["y"])
+                best = min(best, d)
+            if best < 70:
+                raise ValueError("footprint overlap at (%d,%d) (Bible III.11)" % (a["x"], a["y"]))
+            if best > 900:
+                lonely += 1
+        if lonely > len(lms) // 4:
+            raise ValueError("%d isolated landmarks — cluster into stories (Bible II.4)" % lonely)
+        kinds = {v.get("kind") for v in obj.get("vignettes", [])}
+        if "murder_scene" not in kinds:
+            raise ValueError("missing the murder/crime scene (Bible V.15)")
+        if len(obj.get("vignettes", [])) < 3:
+            raise ValueError("need >=3 vignettes: 2 curiosity + 1 murder (Bible V.15)")
     elif role == "item_smith":
         for it in obj.get("items", []):
             for k in ("id", "name", "slot", "ilvl", "rarity", "stats", "flavor"):
