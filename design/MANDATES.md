@@ -1,4 +1,7 @@
 # OWNER MANDATES — master ledger (single source of truth)
+
+**WITCHBROOK BAR (2026-07-05, owner):** capital cities, terrain and ALL visual assets at Witchbrook-level detail and density. Level polish is done BY FABLE personally (task division law). Every operation must be super cost-effective AND remain triple-A standard.
+
 Every rule the owner has issued. Nothing ships that violates one. Status: ✅ live · 📐 designed · 🔄 in design · 🗓 planned · 🔒 deferred by owner.
 
 ## ⚑ THE PRIME MANDATE (obey at EVERY decision)

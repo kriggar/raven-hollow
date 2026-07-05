@@ -89,6 +89,7 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 		keep_clear.append(Rect2((vg["pos"] as Vector2) - Vector2(90, 70), Vector2(180, 140)))
 
 	_build_ground(parent, rng, tiles_w, tiles_h, pal, def)
+	_build_sea(parent, tiles_w, tiles_h, def, keep_clear)
 	_build_river(parent, def)
 	for rp_v: Variant in def.get("river", []):
 		keep_clear.append(Rect2((rp_v as Vector2) - Vector2(180, 130), Vector2(360, 260)))
@@ -446,6 +447,142 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for oi in range(int(lm.get("count", 4))):
 					var op: Vector2 = pos + Vector2(rng.randf_range(-60, 60), rng.randf_range(-45, 45))
 					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true)
+			"pier":
+				# grey-wood pier: plank deck marching into the water
+				var pdir: Vector2 = Vector2(-1, 0) if str(lm.get("dir", "w")) == "w" else Vector2(0, 1)
+				for pi in range(int(lm.get("count", 6))):
+					var deck := ColorRect.new()
+					deck.size = Vector2(34, 62) if pdir.x != 0 else Vector2(62, 34)
+					deck.position = pos + pdir * float(pi) * (32.0 if pdir.x != 0 else 32.0) - deck.size * 0.5
+					deck.color = Color(0.42, 0.33, 0.24) if pi % 2 == 0 else Color(0.38, 0.30, 0.22)
+					deck.z_index = -6
+					parent.add_child(deck)
+					if pi % 2 == 1:
+						for side in [-1.0, 1.0]:
+							var post := ColorRect.new()
+							post.size = Vector2(5, 10)
+							post.position = pos + pdir * float(pi) * 32.0 + (Vector2(0, side * 28.0) if pdir.x != 0 else Vector2(side * 28.0, 0)) - Vector2(2.5, 5)
+							post.color = Color(0.24, 0.19, 0.14)
+							post.z_index = -5
+							parent.add_child(post)
+			"boat":
+				var bspr := Sprite2D.new()
+				bspr.texture = load("res://assets/art/world/coast/%s.png" % ("rowboat" if str(lm.get("kind", "")) == "row" else "sailboat"))
+				bspr.position = pos
+				bspr.y_sort_enabled = true
+				parent.add_child(bspr)
+				var btw := parent.create_tween().set_loops()
+				btw.tween_property(bspr, "position:y", pos.y - 2.0, 1.6)
+				btw.tween_property(bspr, "position:y", pos.y + 2.0, 1.6)
+			"wreck":
+				var wspr := Sprite2D.new()
+				wspr.texture = load("res://assets/art/world/coast/sailboat.png")
+				wspr.position = pos
+				wspr.rotation = 0.5
+				wspr.modulate = Color(0.45, 0.44, 0.50)
+				wspr.y_sort_enabled = true
+				parent.add_child(wspr)
+				var wl := ColorRect.new()
+				wl.size = Vector2(80, 22)
+				wl.position = pos + Vector2(-40, 12)
+				wl.color = Color(0.15, 0.19, 0.25, 0.85)
+				wl.z_index = 1
+				parent.add_child(wl)
+			"warehouse":
+				_sprite(parent, "res://assets/art/buildings/house_03.png", pos, true, Color(0.60, 0.62, 0.66))
+			"crane":
+				var mast := ColorRect.new()
+				mast.size = Vector2(7, 74)
+				mast.position = pos + Vector2(-3.5, -74)
+				mast.color = Color(0.32, 0.25, 0.17)
+				parent.add_child(mast)
+				var arm := ColorRect.new()
+				arm.size = Vector2(56, 6)
+				arm.position = pos + Vector2(0, -70)
+				arm.color = Color(0.36, 0.28, 0.19)
+				parent.add_child(arm)
+				var rope := Line2D.new()
+				rope.add_point(pos + Vector2(52, -64))
+				rope.add_point(pos + Vector2(52, -22))
+				rope.width = 1.5
+				rope.default_color = Color(0.72, 0.66, 0.52)
+				parent.add_child(rope)
+				var hook_crate := ColorRect.new()
+				hook_crate.size = Vector2(18, 16)
+				hook_crate.position = pos + Vector2(43, -22)
+				hook_crate.color = Color(0.48, 0.36, 0.22)
+				parent.add_child(hook_crate)
+			"cargo":
+				for ci in range(int(lm.get("count", 3))):
+					var crate := ColorRect.new()
+					crate.size = Vector2(20, 18)
+					crate.position = pos + Vector2(float(ci % 2) * 24.0 - 12.0, float(int(float(ci) / 2.0)) * 20.0 - 10.0)
+					crate.color = Color(0.50, 0.38, 0.24) if ci % 2 == 0 else Color(0.44, 0.33, 0.21)
+					parent.add_child(crate)
+					var slat := ColorRect.new()
+					slat.size = Vector2(20, 2)
+					slat.position = crate.position + Vector2(0, 8)
+					slat.color = Color(0.30, 0.22, 0.14)
+					parent.add_child(slat)
+			"salt_pan":
+				var pan := Polygon2D.new()
+				var pan_pts := PackedVector2Array()
+				for pk in range(12):
+					var pa: float = TAU * float(pk) / 12.0
+					pan_pts.append(pos + Vector2(cos(pa) * 90.0, sin(pa) * 55.0))
+				pan.polygon = pan_pts
+				pan.color = Color(0.88, 0.87, 0.80)
+				pan.z_index = -7
+				parent.add_child(pan)
+				for sk in range(4):
+					var streak := ColorRect.new()
+					streak.size = Vector2(rng.randf_range(20, 50), 2)
+					streak.position = pos + Vector2(rng.randf_range(-60, 30), rng.randf_range(-30, 30))
+					streak.color = Color(1, 1, 1, 0.55)
+					streak.z_index = -6
+					parent.add_child(streak)
+			"drowned_fence":
+				for fi in range(int(lm.get("count", 6))):
+					var fpost := ColorRect.new()
+					fpost.size = Vector2(5, 16 - float(fi % 3) * 3.0)
+					fpost.position = pos + Vector2(float(fi) * 26.0, float(fi % 2) * 4.0)
+					fpost.color = Color(0.30, 0.26, 0.22)
+					parent.add_child(fpost)
+			"ledger_tablet":
+				# the debt-grammar made object: a filed stone tablet
+				var tab := ColorRect.new()
+				tab.size = Vector2(22, 28)
+				tab.position = pos - Vector2(11, 14)
+				tab.color = Color(0.52, 0.54, 0.58)
+				parent.add_child(tab)
+				var tab_rim := ColorRect.new()
+				tab_rim.size = Vector2(22, 3)
+				tab_rim.position = pos - Vector2(11, 14)
+				tab_rim.color = Color(0.40, 0.42, 0.47)
+				parent.add_child(tab_rim)
+				for li2 in range(3):
+					var rune := ColorRect.new()
+					rune.size = Vector2(14, 2)
+					rune.position = pos + Vector2(-7, -6 + float(li2) * 6.0)
+					rune.color = Color(0.34, 0.36, 0.40)
+					parent.add_child(rune)
+				if bool(lm.get("live", false)):
+					var tl2 := PointLight2D.new()
+					tl2.position = pos
+					tl2.texture = _radial_tex()
+					tl2.color = Color(1.0, 0.55, 0.2)
+					tl2.energy = 0.3
+					tl2.texture_scale = 1.0
+					parent.add_child(tl2)
+			"lone_tree":
+				# one living tree in a dead land — it is noticed
+				var lt := Sprite2D.new()
+				lt.texture = load(PLANTS + "plant_00.png")
+				lt.position = pos
+				lt.offset = Vector2(0, -lt.texture.get_height() * 0.5 + 10)
+				lt.y_sort_enabled = true
+				lt.material = _tree_sway_material()
+				parent.add_child(lt)
 			"chimney_smoke":
 				# def pos = the HOUSE anchor; the emitter climbs to the
 				# chimney mouth (house_01 family: ~+68,-285 from the base)
@@ -851,10 +988,58 @@ static func _build_waystation(parent: Node2D, def: Dictionary) -> void:
 		TravelSystem.register_station(str(ws.get("id", "")), str(def.get("id", "")), pos)
 
 
+## Open sea along named zone edges: dark band + animated sheen + keep-clear.
+static func _build_sea(parent: Node2D, w: int, h: int, def: Dictionary,
+		keep_clear: Array[Rect2]) -> void:
+	var ww: float = w * TILE
+	var wh: float = h * TILE
+	const BAND := 300.0
+	for e_v: Variant in def.get("sea_edges", []):
+		var band := Rect2()
+		match str(e_v):
+			"west": band = Rect2(0, 0, BAND, wh)
+			"east": band = Rect2(ww - BAND, 0, BAND, wh)
+			"north": band = Rect2(0, 0, ww, BAND)
+			"south": band = Rect2(0, wh - BAND, ww, BAND)
+		var water := ColorRect.new()
+		water.position = band.position
+		water.size = band.size
+		water.color = Color(0.15, 0.19, 0.25)
+		water.z_index = -8
+		parent.add_child(water)
+		var horiz: bool = str(e_v) in ["north", "south"]
+		for i in range(int((band.size.x if horiz else band.size.y) / 640.0) + 1):
+			var sheen := Line2D.new()
+			var sy: float = band.position.y + (60.0 + float(i * 640 % int(maxf(band.size.y - 90.0, 90.0))))
+			var sx: float = band.position.x + (60.0 + float(i * 640 % int(maxf(band.size.x - 90.0, 90.0))))
+			if horiz:
+				sheen.add_point(Vector2(sx, band.position.y + band.size.y * 0.5))
+				sheen.add_point(Vector2(sx + 90, band.position.y + band.size.y * 0.5 + 5))
+			else:
+				sheen.add_point(Vector2(band.position.x + band.size.x * 0.5, sy))
+				sheen.add_point(Vector2(band.position.x + band.size.x * 0.5 + 70, sy + 4))
+			sheen.width = 2.0
+			sheen.default_color = Color(0.55, 0.66, 0.74, 0.35)
+			sheen.z_index = -7
+			parent.add_child(sheen)
+			var stw := parent.create_tween().set_loops()
+			stw.tween_property(sheen, "default_color:a", 0.12, 1.6 + float(i % 3) * 0.3)
+			stw.tween_property(sheen, "default_color:a", 0.4, 1.4)
+		keep_clear.append(band.grow(30.0))
+
+
 ## Ring of edge forest with authored gaps at travel seams (gap rects in def).
 static func _build_border_wall(parent: Node2D, rng: RandomNumberGenerator, w: int, h: int,
 		pal: Dictionary, def: Dictionary) -> void:
 	var gaps: Array = def.get("border_gaps", [])
+	for e_v: Variant in def.get("sea_edges", []):
+		var ww2: float = w * TILE
+		var wh2: float = h * TILE
+		match str(e_v):
+			"west": gaps.append(Rect2(0, 0, 340, wh2))
+			"east": gaps.append(Rect2(ww2 - 340, 0, 340, wh2))
+			"north": gaps.append(Rect2(0, 0, ww2, 340))
+			"south": gaps.append(Rect2(0, wh2 - 340, ww2, 340))
 	var world_w: float = w * TILE
 	var world_h: float = h * TILE
 	var step: float = 54.0

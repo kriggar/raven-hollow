@@ -152,8 +152,9 @@ func on_map_changed(map_id: String) -> void:
 	var floor_i: float = float(BIOME_MIN_INTENSITY.get(biome, 0.0))
 	var inten: float = maxf(floor_i, _rng.randf_range(0.55, 1.0))
 	if _fog_mat != null:
+		var zfog: Variant = ZoneDefs.zone(map_id).get("fog_color")
 		_fog_mat.set_shader_parameter("fog_col",
-				BIOME_FOG_COL.get(biome, Color(0.62, 0.64, 0.68)))
+				zfog if zfog is Color else BIOME_FOG_COL.get(biome, Color(0.62, 0.64, 0.68)))
 	set_weather(_roll_for_map(map_id), inten, 0.0)
 	_drift_left = _rng.randf_range(DRIFT_MIN_S, DRIFT_MAX_S)
 
