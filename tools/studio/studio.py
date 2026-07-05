@@ -17,6 +17,18 @@ import urllib.request
 
 OLLAMA = os.environ.get("STUDIO_OLLAMA", "http://localhost:11434")
 MODEL = os.environ.get("STUDIO_MODEL", "qwen2.5-coder:14b")
+# Prose roles ride the strongest local writer; code/data roles ride the coder.
+MODEL_PROSE = os.environ.get("STUDIO_MODEL_PROSE", "qwen3:14b")
+ROLE_MODEL = {"quest_writer": MODEL_PROSE, "bark_writer": MODEL_PROSE,
+              "item_smith": MODEL_PROSE, "def_author": MODEL, "qa_triage": MODEL}
+
+RUBRIC = (
+    "QUALITY RUBRIC (the house bar): 1) CANON-GROUNDED - names, places, dread "
+    "specific to Raven Hollow, never generic fantasy filler. 2) CONCRETE - "
+    "objects, numbers, places; no vague mysticism ('secrets', 'destiny', "
+    "'shadows stir'). 3) PERIOD VOICE - medieval Eastern-European cadence, "
+    "no modern idiom. 4) SURPRISING-BUT-INEVITABLE - one image or turn the "
+    "player will remember. 5) ECONOMY - no wasted words.")
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 MAX_TRIES = 3
 
@@ -151,11 +163,11 @@ def validate(role, obj):
 
 
 # ------------------------------------------------------------------ model ---
-def ask(system, user, temperature=0.5):
+def ask(system, user, temperature=0.5, model=None):
     req = urllib.request.Request(
         OLLAMA + "/api/chat",
         data=json.dumps({
-            "model": MODEL, "stream": False,
+            "model": model or MODEL, "stream": False,
             "options": {"temperature": temperature, "num_ctx": 8192},
             "messages": [{"role": "system", "content": system},
                          {"role": "user", "content": user}],
@@ -167,17 +179,37 @@ def ask(system, user, temperature=0.5):
 
 def run_task(role, task):
     system = ROLES[role]()
+    model = ROLE_MODEL.get(role, MODEL)
     err = ""
+    obj = None
     for attempt in range(MAX_TRIES):
         user = task if not err else (
             task + "\n\nYour previous answer FAILED validation: %s\n"
             "Return corrected pure JSON only." % err)
         try:
-            obj = validate(role, _extract_json(ask(system, user)))
-            return obj, attempt + 1
+            obj = validate(role, _extract_json(ask(system, user, model=model)))
+            break
         except Exception as exc:  # noqa: BLE001 - feed anything back to the model
             err = str(exc)
-    raise SystemExit("FAILED after %d tries: %s" % (MAX_TRIES, err))
+            if "404" in err and model != MODEL:
+                model = MODEL  # requested model not pulled yet - fall back
+                err = ""
+    if obj is None:
+        raise SystemExit("FAILED after %d tries: %s" % (MAX_TRIES, err))
+    # CRITIQUE-AND-REVISE (the house-bar pass): the model attacks its own
+    # draft against the rubric, then rewrites. The revision ships only if
+    # it still validates; otherwise the original draft stands.
+    try:
+        crit = ask(system,
+                   task + "\n\nHere is a draft:\n" + json.dumps(obj) +
+                   "\n\n" + RUBRIC +
+                   "\nList the draft's 3 worst failures against the rubric, "
+                   "then return the IMPROVED version as pure JSON only.",
+                   temperature=0.6, model=model)
+        obj2 = validate(role, _extract_json(crit))
+        return obj2, MAX_TRIES + 1
+    except Exception:  # noqa: BLE001 - revision failed, original stands
+        return obj, MAX_TRIES
 
 
 def main():
