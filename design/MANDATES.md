@@ -1,5 +1,7 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**ZERO-PURCHASE LAW (2026-07-05, owner):** NOTHING is ever bought. All assets verified-free; anything a paid pack would provide is instead scouted free (#101) or generated locally on the owner's GPU (ComfyUI). No held purchase questions may be raised again.
+
 **FABLE-ONLY VISUAL LAW (2026-07-05, owner):** ALL level painting is done by
 FABLE 5 PERSONALLY — zone composition, landmark placement, terrain dressing,
 lore landmarks, CURIOSITY SITES, MURDER/CRIME SCENES, every vignette, every

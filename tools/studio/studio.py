@@ -263,12 +263,14 @@ def run_task(role, task):
     model = ROLE_MODEL.get(role, MODEL)
     err = ""
     obj = None
+    last_draft = None
     for attempt in range(MAX_TRIES):
         user = task if not err else (
             task + "\n\nYour previous answer FAILED validation: %s\n"
             "Return corrected pure JSON only." % err)
         try:
-            obj = validate(role, _extract_json(ask(system, user, model=model)))
+            last_draft = _extract_json(ask(system, user, model=model))
+            obj = validate(role, last_draft)
             break
         except Exception as exc:  # noqa: BLE001 - feed anything back to the model
             err = str(exc)
@@ -276,6 +278,11 @@ def run_task(role, task):
                 model = MODEL  # requested model not pulled yet - fall back
                 err = ""
     if obj is None:
+        if os.environ.get("STUDIO_ACCEPT_DRAFT") and last_draft is not None:
+            sys.stderr.write("WARNING: gates REJECTED all drafts (%s) - "
+                             "shipping last draft for inspection only\n" % err)
+            last_draft["_gate_verdict"] = "REJECTED: " + err
+            return last_draft, -1
         raise SystemExit("FAILED after %d tries: %s" % (MAX_TRIES, err))
     # CRITIQUE-AND-REVISE (the house-bar pass): the model attacks its own
     # draft against the rubric, then rewrites. The revision ships only if
