@@ -131,6 +131,21 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 109. 🔧 THE PAINTER PROGRAM (owner priority: the studio's strongest target = flawless level painting): design/LEVEL_PAINTING_BIBLE.md (Fable's doctrine: the read/composition/ground/light/story/sourcing/verification) + level_painter role primed with it + HARD WALLS (density floor 16-24, footprint spacing, cluster cohesion, biome-legality — no forges in bogs, repetition law — one-of-everything = prop salad, ≥2 curiosity + 1 murder vignettes) + inspection mode (rejected drafts still render, labeled) + tools/studio/render_draft.py (draft JSON → temporary studio_canvas zone → real-engine boot → screenshots). EXAM IN PROGRESS: "create Raven Hollow from scratch" on qwen3:30b-a3b (/no_think after thinking-mode timeout) with qwen3:14b backup → owner reviews the pictures. Verdicts so far: 14B quests ~90% of bar; 14B painting REJECTED by walls (prop salad, biome illegals) — painting stays Fable's hand (visual law) with machine drafts under art direction
 110. ⬜ THE SPECIALIST FINE-TUNE (QLoRA on the 5070 Ti): teach a local model THIS project's conventions from Fable's own shipped work — dataset builder DONE (119 instruction pairs harvested: 40 zone layouts, doc sections, VO lines; grows as the game grows), Unsloth 4-bit recipe committed (r=16, ~1-3h for 7B), GGUF→Ollama export, adopt-if-better eval vs studio validators first-try pass-rate. HONESTY LINE (standing): no local model equals Fable's general intelligence; no training on Claude transcripts (ToS); the goal is a professional SPECIALIST on our narrow roles
 
+### ⏰ FABLE SUNSET PLAN (Fable 5 disabled JULY 7 — 2 days; owner directive: milk Fable maximally)
+What ONLY Fable should do before the 7th, in strict priority order:
+S1. **ARCHITECTURE BLUEPRINTS** (cheapest, highest leverage — Fable designs, Opus builds after the 7th):
+    full build-ready blueprints for #98 SEAMLESS WORLD, #99+#52 COLLISION/PHYSICS, #33 COMBAT RETUNE,
+    #27 QUEST ENGINE, #67 DROVA FOG + #68 D2 TRANSPARENCY shaders, #74 dungeon/raid layouts + boss
+    designs, #50 GREAT BATTLE staging, #51 cinematics shot-lists, #53 MusicDirector spec — each with
+    file-level integration points, data schemas, acceptance tests, and pothole warnings.
+S2. **FINAL FABLE PAINT PASSES** (the visual law becomes impossible after the 7th): coast detail pass +
+    capital one-image compositions + sitting #4 verdicts — as budget allows after S1.
+S3. **SUCCESSION**: after July 7 the driver protocol (CLAUDE.md) stands with Opus 4.8 as chief driver;
+    the Fable-Only Visual Law transfers to "Bible + walls + fine-tuned painter drafts + owner's eye";
+    the Painting Bible, gotcha ledger, and these blueprints ARE Fable's hand, encoded.
+If the owner buys the +$100: ~40% Fable (S1+S2 complete), ~60% Opus implementation wave run NOW so
+Fable can still review it before shutoff. Without the purchase: S1 only, inside the remaining quota.
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish
