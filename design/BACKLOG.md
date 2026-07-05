@@ -71,7 +71,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 60. ⬜ Achievement/deed toast + panel implementation
 ### Zone production (61-66)
 61. ✅ RAVEN HOLLOW REDO: all sitting-#1 town findings fixed (stalls, plaza fringe, orphan patches, grave clip, west road, SW clearing, gate lantern) — Council re-confirmation at next sitting
-62. ⬜ Batch C: North arm + Black Night capital (snow + Szadi catacombs) at WoW-REAL-ZONE-SIZE, Stormwind-scale capital w/ castles
+62. ✅ Batch C SHIPPED: North arm + Black Night capital (13 zones live) — rows of twelve, Thread filaments, snow tundra; Council sweep next sitting; catacombs-stone district detailing continues under Prime-Mandate loop
 63. ⬜ Batches D-H: East, South, dungeons, Continent 2 port ring, remainder → all 40 zones
 64. ✅ Sitting-#1 round-2 fixes complete (roads, ≡ artifact, keep-clear, stalls) — angel_wings quadrant findings folded into next sitting
 65. ⬜ Terrain blending (GK up/down illusion): study-bots then implement
