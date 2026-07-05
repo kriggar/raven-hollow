@@ -40,6 +40,18 @@ extends Object
 
 const _VFX_DIR := "res://assets/art/vfx/"
 
+## ============================ FIREBALL ART SWAP POINT ============================
+## The in-game fireball projectile sheet (id "fireball_anim"). To drop in a redone
+## fireball, edit ONLY these consts: the sheet path, its cell size, its 0-based last
+## frame index, and playback fps. Horizontal strip, RGBA, cell = FW x FH, cols = width/FW.
+## (Current sheet = the gauntlet flame strip; owner flagged it MECHANICS-only, art TBD.)
+const FIREBALL_ANIM_SHEET := "res://assets/fx/fireball_anim.png"
+const FIREBALL_ANIM_FW := 156
+const FIREBALL_ANIM_FH := 164
+const FIREBALL_ANIM_LAST := 17   # last frame index (0-based); 18-frame strip => 17
+const FIREBALL_ANIM_FPS := 9.09  # 110 ms/frame
+## ================================================================================
+
 ## id -> {sheet, fw, fh, from, to (inclusive, row-major), fps, loop}
 const _DEFS: Dictionary = {
 	# -- fire (Pimen Fire 01 / 02) --------------------------------------
@@ -103,6 +115,11 @@ const _DEFS: Dictionary = {
 	"rogue_vanish": {"sheet": _VFX_DIR + "rogue_kit/vanish.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 16.0, "loop": false},
 	"rogue_shadowstep": {"sheet": _VFX_DIR + "rogue_kit/shadowstep.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 20.0, "loop": false},
 	"rogue_deathmark": {"sheet": _VFX_DIR + "rogue_kit/deathmark.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 16.0, "loop": false},
+	# -- FIREBALL sprite animation (BACKLOG: in-game fireball demo). 18-frame pixel-art flame
+	# strip built from the gauntlet-passed GIF (110 ms/frame => 9.09 fps, looping projectile).
+	# NOTE: not a SpellVFX id, so play() falls through to this sprite-sheet path. Distinct from
+	# the "fireball" GPUParticles2D detonation (spell_vfx.gd) which is the IMPACT burst.
+	"fireball_anim": {"sheet": FIREBALL_ANIM_SHEET, "fw": FIREBALL_ANIM_FW, "fh": FIREBALL_ANIM_FH, "from": 0, "to": FIREBALL_ANIM_LAST, "fps": FIREBALL_ANIM_FPS, "loop": true},
 }
 
 ## Ability-id aliases: gameplay code (class_defs params.fx / fx_loop) plays
@@ -213,6 +230,10 @@ static func _resolve(id: String, opts: Dictionary) -> Array:
 static func play(id: String, parent: Node2D, pos: Vector2, opts: Dictionary = {}) -> Node2D:
 	if parent == null or not is_instance_valid(parent):
 		return null
+	# AAA engine VFX (GPUParticles2D + additive HDR + glow) take priority over the old
+	# sprite-sheet path for the spells rebuilt in spell_vfx.gd (owner pivot 2026-07-05).
+	if SpellVFX.has_fx(id):
+		return SpellVFX.play(id, parent, pos, opts)
 	match id:
 		"hammer_blow":
 			return _play_hammer_blow(parent, pos, opts)

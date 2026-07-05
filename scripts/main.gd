@@ -1050,9 +1050,17 @@ func _run_env_hooks() -> void:
 			await get_tree().process_frame
 			_camera.reset_smoothing()
 	var did_cast := false
+	var fb_demo := false
 	if not cast_action.is_empty():
 		did_cast = true
-		await _run_cast_sequence(cast_action)
+		if cast_action == "fireball_anim":
+			fb_demo = true  # dedicated projectile demo; runs after night/NOHUD framing below
+		else:
+			await _run_cast_sequence(cast_action)
+	var fx_env: String = OS.get_environment("RH_FX")
+	if not fx_env.is_empty():
+		did_cast = true
+		await _run_fx_showcase(fx_env)
 	# RH_UI: force-open the bag + character sheet (before any RH_SHOT capture).
 	if not ui_env.is_empty():
 		for _i in range(30):
@@ -1098,6 +1106,10 @@ func _run_env_hooks() -> void:
 	var time_env: String = OS.get_environment("RH_TIME")
 	if not time_env.is_empty() and _day_night != null:
 		_day_night.set_time(time_env.to_float())
+	# RH_CAST=fireball_anim: fireball SPRITE projectile flying east + impact burst. Runs HERE
+	# (after RH_TIME night + RH_NOHUD) so the glow reads against the dark and the HUD is hidden.
+	if fb_demo:
+		await _run_fireball_demo()
 	# RH_CRAFT=<station id>: open a crafting station panel (verify crafting UI).
 	var craft_env: String = OS.get_environment("RH_CRAFT")
 	if not craft_env.is_empty():
@@ -1139,6 +1151,9 @@ func _run_env_hooks() -> void:
 			if npc != null and _player != null:
 				npc.call("interact", _player)
 		var shot_wait: int = CAST_SHOT_FRAMES if did_cast else SHOT_FRAMES
+		var fxw_env: String = OS.get_environment("RH_FXWAIT")
+		if not fxw_env.is_empty():
+			shot_wait = int(fxw_env)
 		for _i in range(shot_wait):
 			await get_tree().process_frame
 		_save_screenshot(shot_path)
@@ -1171,6 +1186,85 @@ func _run_cast_sequence(action: String) -> void:
 			for _j in range(CAST_GAP_FRAMES):
 				await get_tree().process_frame
 		_player.debug_cast(action, aim)
+
+
+func _run_fx_showcase(id: String) -> void:
+	## RH_FX hook: play ONE engine VFX at the scarecrow (clean single-effect beauty shot).
+	for _i in range(CAST_WARMUP_FRAMES):
+		await get_tree().process_frame
+	if _player == null:
+		return
+	_player.global_position = CAST_STAND_POS
+	if _camera != null:
+		_camera.reset_smoothing()
+	var world: Node2D = _player.get_parent() as Node2D
+	if world == null:
+		world = _player
+	var sc: float = 1.0
+	var se: String = OS.get_environment("RH_FXSCALE")
+	if not se.is_empty():
+		sc = se.to_float()
+	FXLib.play(id, world, CAST_TARGET_POS + Vector2(0.0, -18.0), {"scale": sc, "rotation": deg_to_rad(-40.0)})
+
+
+## RH_CAST=fireball_anim demo: a flat-trajectory fireball PROJECTILE (the fireball_anim sprite,
+## kept alpha-blend so the WorldEnvironment glow cannot blow the pale pixels to white) flying EAST
+## ~200 px over ~1.2 s with a warm PointLight2D escort, then the SpellVFX "fireball" GPUParticles2D
+## detonation at the impact point, plus a ~0.5 s settle. Player sits frame-left; camera holds the
+## flight midpoint. Self-contained so it composes over whatever zone/time the harness set.
+func _run_fireball_demo() -> void:
+	if _player == null or not is_instance_valid(_player):
+		return
+	_player.visible = true  # RH_NOHUD hid the "player" group; the caster must be seen
+	var world: Node2D = _player.get_parent() as Node2D
+	if world == null:
+		world = _player
+	# Hold the flight midpoint so caster + impact both stay framed (design spec).
+	if _camera != null and is_instance_valid(_camera):
+		_camera.offset = Vector2(118.0, -18.0)
+		await get_tree().process_frame
+		_camera.reset_smoothing()
+		await get_tree().process_frame
+		_camera.reset_smoothing()
+	var start: Vector2 = _player.global_position + Vector2(18.0, -20.0)
+	var target: Vector2 = _player.global_position + Vector2(218.0, -20.0)
+	var proj := Node2D.new()
+	proj.position = start
+	proj.z_index = 40
+	world.add_child(proj)
+	var spr: AnimatedSprite2D = FXLib.make_sprite("fireball_anim")
+	spr.scale = Vector2(0.35, 0.35)  # 156 px art -> ~55 px projectile (~1.7 tiles)
+	proj.add_child(spr)
+	var light := PointLight2D.new()
+	light.texture = _soft_light_texture()
+	light.color = Color("ff8c3c")
+	light.energy = 0.8
+	light.texture_scale = 0.9
+	proj.add_child(light)
+	var tw := proj.create_tween()
+	tw.tween_property(proj, "position", target, 1.2).set_trans(Tween.TRANS_LINEAR)
+	await tw.finished
+	FXLib.play("fireball", world, target, {"scale": 0.85})  # AAA GPUParticles2D detonation
+	for _i in range(3):  # brief overlap: the crisp sprite hands off INTO the burst (no empty gap)
+		await get_tree().process_frame
+	proj.queue_free()
+	for _i in range(33):  # ~0.5 s settle so the burst reads before the clip ends
+		await get_tree().process_frame
+
+
+## Soft radial light texture (white core -> transparent edge) for the projectile escort light.
+func _soft_light_texture() -> Texture2D:
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 1.0])
+	g.colors = PackedColorArray([Color(1, 1, 1, 1), Color(1, 1, 1, 0)])
+	var tex := GradientTexture2D.new()
+	tex.gradient = g
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 128
+	tex.height = 128
+	return tex
 
 
 func _force_open_ui() -> void:
