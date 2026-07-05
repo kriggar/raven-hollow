@@ -1,90 +1,118 @@
-# THE BACKLOG — durable owner-directive ledger (anti-hallucination law)
-Owner mandate: every todo lives HERE, committed, so any session resumes instantly with zero loss.
-Read order for a fresh session: MANDATES.md → this file → todo state below → design/*.md.
-Status: ✅ done · 🔧 in progress · 📐 designed (doc exists) · ⬜ queued · ⚠ needs owner input.
+# THE BACKLOG — canonical numbered task registry (NEVER LOSE THIS — owner mandate)
+Anti-hallucination law: this is THE definitive task list. Triple-stored: this repo (committed),
+GitHub (pushed), and the agent memory system points here. Every session resumes from this file.
+Fresh session read order: design/MANDATES.md → THIS FILE → design/*.md as needed.
+Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ queued · ⚠ owner input needed.
 
-## ⚑ SUPREME RULES (owner's words, latest session)
-1. **VERIFIED FREE ASSETS ONLY — "the absolute most mandatory rule of them all."** Everything built from fully-scouted, verified-free asset packs (license recorded). The Asset Gauntlet enforces.
-2. **ANTI-HALLUCINATION LAW**: all state written durably (this file + MANDATES + memory); definitive resume point always exists.
-3. **BE CHEAP**: minimal credit spend while keeping quality exceptional — reuse agent caches, batch designs, prefer local compute (5070 Ti) and scripts over agents when equal.
-4. **SPELL VFX UNIQUENESS LAW** (supersedes VFX_AAA_PLAN's palette-sharing): spell VFX CANNOT repeat; palette swaps for spells are ILLEGAL; every spell and every creature's effects independent and unique. (Feasibility note: with free-assets-only this is the single biggest asset demand in the project — resolve via per-spell composite recipes: unique sheet combos + motion + timing per spell, not shared tints.)
-5. **CONCRETE TOOLTIPS LAW**: spell/spellbook text states exactly what it does with numbers ("empowers you" is banned); the text must match the actual effect. Applies to every tooltip.
-
-## Sitting #1 verdict (Prime Mandate — 9/14 inspectors reported before session limit)
-BLOCKED zones with the fix list (fix → re-sweep → Council):
-- ⬜ **Ground tiling seams zone-wide** (mud repeat grid nakedly visible) → variant tiles/rotation/decal breakup
-- ⬜ **Road system conflict** (translucent tile path vs dark smear trail within 100px; mis-snapped segments; trees standing IN roads) → one road art, routed around props
-- ⬜ **Creature pack stacking** (wolves/boars collapse into one blob — separation radius broken zone-wide) → separation steering in enemy wander/chase
-- ⬜ **Weather rain covers only bottom screen band at some world offsets** (weather surface not spanning viewport) → WeatherController surface fix
-- ⬜ **Zone identity gaps** (iron_vein shows zero "iron": no ore, carts, scree, mine mouths) → zone-fantasy prop passes per zone
-- ⬜ **Asset monotony** (1 tree + 1 bush) → scatter variety per biome (packs already owned)
-- ⬜ **Vetka + Angel Wings quadrants uninspected** (agent limit) → resume sitting #1 from cache
-- ⬜ **REDO RAVEN HOLLOW** (owner: "not good enough — make it perfect")
-
-## New owner directives (the 4am batch) — all captured
-### World & feel
-- ⬜ Skyrim vibe layered onto the tone mix
-- ⬜ WoW-scale zone SIZE feel ("Stormwind scale" capitals, castles); painted, dense, cohesive levels
-- ⬜ Terrain blending like Graveyard Keeper (ground reads as rising/falling) — deploy study bots, then implement height-illusion blending
-- ⬜ Drova-style visibility fog (2D line-of-sight fog trick)
-- ⬜ Diablo-2-style transparency when the player walks behind tall textures
-- ⬜ Per-zone lighting/ambiance focus pass (continues AAA lighting work)
-- ⬜ Cow-level-style secret zone, lore-accurate to Draconia
-- ⬜ Resting activities (player downtime systems: inn rest, fishing?, hearth)
-### NPCs & world life
-- ⬜ Town barks in speech bubbles ("Fresh bread!" near the bakery) via TTS
-- ⬜ Organic NPC chatter: roaming, greetings, friendships forming (WoW-server community feel among bots)
-- ⬜ NPC jobs/routes; rest at the inn; sit/sleep/work animations from free packs — flawless
-- ⬜ TONS of vendors; profession-appropriate intriguing quests, some class-specific with powerful rewards
-### Classes & combat
-- ⬜ Druid CAT FORM + BEAR FORM with full transformation animations, fully textured from packs, perfect fit (lore-named forms)
-- ⬜ Rogue kit rework: stealth, dagger poisons, vanish, assassinate-target-and-escape fantasy
-- ⬜ Character sprite must pair perfectly with EVERY equippable item (full animation test matrix — sprite×item QA)
-- ⬜ The shipped sword sprite "looks pygame-drawn" — replace with real pack pixel art; REAL hand animation when sheathing to the back
-- ⬜ 1,500-2,000 creatures w/ distinct debuffs + death animations each + PERFECT navigation (navmesh emphasis)
-- ⬜ Spellbook UI (visible, browsable) + concrete tooltips law
-### Quests & story
-- ⬜ +1,000 MORE lore-of-the-land quests (2,000 total: sheep-herding small → artifact epics)
-- ⬜ Romance side-quests: many, all different, fully diverse (treated as side quests; tasteful per no-sexuality law)
-- ⬜ RDR2-grade world detail & reactivity; mysteries — "small quests" that unfold into 2-continent 4-hour epics with epic loot
-- ⬜ Loot SCARCE; professional AUCTION HOUSE for mats + BANKER in capitals
-- ⬜ Writers council working with quest masters on every quest/bark/gossip
-- ⬜ Game length: ≥1,000 hours to beat; players race BOTS to world-firsts (first to kill the big boss, first to 1,000 quests)
-### Items & economy
-- ⬜ Every item: own icon asset + perfect equipped animation; designed for FUN
-- ⬜ Artifact/runeword color = Diablo dark gold (update RUNEWORDS' shifting-orange → D2 dark gold #C7B377-ish; keep orange for live-stone lore FX only)
-- ⬜ Mount trophies (Witcher-style, bloody) from world elites — random drops, per-class advantages
-- ⬜ Max crafting skill 1000 (updates CRAFTING's 300); legendary recipes per profession AND class-specific from bosses
-### Factions
-- ⬜ 2D-pixel faction EMBLEMS + race emblems; full REPUTATION system per faction
-### PvP
-- ⬜ 1v1 arenas in EVERY zone, each thematically native (updates PVP_RANKS_TITLES' single venue → a network; Reckoning Floor stays the flagship)
-### Audio & voice (the 10k Sound Council)
-- ⬜ Zone music with Diablo 2 / Warcraft 3 / WoW feel (Elwynn Forest nostalgia bar) — research-bots on why Blizzard leads audio design + cinematics; apply
-- ⬜ ALL sound produced on the local TTS/audio server; menu sounds + full UI SFX, AAA grade
-- ⬜ Distinct voice per character, sprite-appropriate (old name = old voice), Mark Hamill/Kevin-Conroy bar; Diablo 2 style — narrator = "that Marius storyteller voice" (maps to our Chronicler; re-cast Maya1 desc toward warm weary Marius timbre)
-- ⬜ 10,000-agent Sound Council reviews every sound before it ships (ledger like the Million Council)
-### Engineering & tooling (owner software orders)
-- ⬜ OWNER CONTROL INTERFACE: ground-up app (language of my choice) — simple-but-deep AAA-studio software controlling every aspect of the game
-- ⬜ ADMIN PANEL: super-easy manual QA of every feature (in-game debug/admin UI — cheapest correct start; fold into control interface)
-- ⬜ C++/native ENGINE layer automating level design + AAA-studio pipelines for 2D pixel art
-- ⬜ PROMPT-TO-GAME ENGINE ("Microsoft level"): "make me a 2D RPG about autumn" → asks style questions → builds from our engine (mandatory; huge — staged after the game itself)
-- ⬜ LOCAL AI STUDIO: the whole bot corporation running OFFLINE on the 5070 Ti at Fable-like capacity (research: local LLM orchestration — Qwen/Llama on 16GB VRAM + the pipelines we've built; honest gap noted: local models ≠ Fable capability; we mitigate via narrow fine-tuned roles + our validators)
-- ⬜ Corporation structure: departments of bots (design/audio/QA/writers/godot-optimization), Rockstar-grade prolific QA teams
-- ⬜ Godot hacker horde: engine-limit optimization + automation everywhere
-- ⬜ Disk-space watcher: prune unneeded files automatically (with safety rules)
-- ⬜ Study-bots: all of 2D pixel game design; terrain blending; UI design courses → style-appropriate UI overhaul (massive)
-- ⬜ Bots: perfect navmesh + class-appropriate spell rotations; everyone starts from 0 on "New World"
-- ⬜ Agents playtest the game start-to-finish (first drop → final boss)
-### Character creation
-- ⬜ AAA character-creation screen + UI: tons of customization
-
-## In-flight (resume-from-cache, cheap)
-- 🔧 Sitting #1 remainder: vetka + angel_wings q1-q4 inspectors (resumeFromRunId wf_4fc3249f-577)
-- 🔧 TALENTS_SPELLS doc (resumeFromRunId wf_36e70e40-f6d)
-- 🔧 SCORE_BIBLE / AUDIO_QA / ACHIEVEMENTS (resumeFromRunId wf_34a6119b-647)
-- 🔧 Voice v2 bake (detached supervisor, self-healing)
-- ✅ CRAFTING / STARTING_ZONES / LEGENDARY_WEAPONS / QA_AUTOMATION / NARRATIVE_VOICE / GREAT_BATTLE / CINEMATICS / FREEDOM_PHYSICS / MAP_SYSTEM / PVP_RANKS_TITLES / PROFICIENCY_WYSIWYG / VFX_AAA_PLAN — committed
-
-## Standing build order (post-fix)
-Sitting-#1 fixes → re-sweep → Raven Hollow redo → map v3 + zoom tiers → Batch C (North) under full Prime-Mandate loop → implementation wave 1 (combat retune/INVULN, loot window, stats, status effects, starting quests) → onward per WORLD_PLAN batches.
+## THE REGISTRY (97 tasks)
+### Shipped foundation (1-20)
+1. ✅ TTS voice system + 173 baked NPC lines (v1)
+2. ✅ Weather system (rain/snow/storm/fog + zone-native tables + ASH + drift)
+3. ✅ Class sprite decision (Szadi originals kept per owner revert)
+4. ✅ [E] prompt fix + spell tooltips (custom in-scene)
+5. ✅ WoW-style spell kits ×7 classes + Druid class + distinct palettes (54 abilities)
+6. ✅ Premium painterly ability icons (54)
+7. ✅ Foozle/pack VFX upgrades + beast summons (spirit-wolf, raven)
+8. ✅ AAA 2D lighting: HDR-2D glow + shadow-casting lights + occluders
+9. ✅ GPU tree-sway + pond/bubble animation layer
+10. ✅ World engine: ZoneBuilder + ZoneDefs + TravelSystem (waystations/fast travel)
+11. ✅ WORLD_PLAN: 40 zones / 2 continents from the lore bible
+12. ✅ Batch A: Border ring (iron_vein, vetka, copper_wells, stonepath)
+13. ✅ Batch B: West arm + Angel Wings capital (9 zones live total)
+14. ✅ Dead Swamp + craftpix pack terrain integration (bog/deadforest)
+15. ✅ Zone audio v1: 6 region themes + 8 ambience beds + weather SFX (credited)
+16. ✅ 40-Second Rule validator + all live zones densified to pass
+17. ✅ 4K one-shot level cameras (RH_RES) + 142-shot sweep grid
+18. ✅ Prime-Mandate sitting #1 (14/14 inspectors) + 7-defect fix pass + re-sweep
+19. ✅ Combat unblock: INVULN 0.5→0.18 + out-of-combat recovery
+20. ✅ Voice v2: Maya1 expressive re-bake 173/173 (5 shell files re-baking now 🔧)
+### Governance systems (21-26)
+21. ✅ MANDATES.md master rule ledger + this BACKLOG registry
+22. ✅ Million Design Council (1M bots, Ocarina Bar, tools/design_council)
+23. ✅ Asset Gauntlet (1000-bot military corps, tools/asset_gauntlet) — ⬜ round 1 on 22 packs
+24. ✅ Map masterpiece v1-v3.1 (parchment, routes, plates) — 🔧 iterate forever
+25. ✅ 30+ design docs committed (see design/)
+26. ✅ Anti-hallucination triple storage (this file + GitHub + memory)
+### Design docs complete, implementation queued (27-45)
+27. 📐→⬜ Quest system v2 + 1,000-quest campaign (QUEST_ARCHITECTURE/VILLAIN_ARC/ZONE_QUEST_MATRIX/EXEMPLARS)
+28. 📐→⬜ Calendar events (12, WoW dates) implementation
+29. 📐→⬜ NPC cast rollout (~243 across 40 zones)
+30. 📐→⬜ Item progression + rarities + budgets (ITEM_PROGRESSION)
+31. 📐→⬜ Loot tables + 16 named rares (LOOT_TABLES)
+32. 📐→⬜ LOOT WINDOW implementation ("super nice" — LOOT_WINDOW spec)
+33. 📐→⬜ Combat pacing full retune: archetypes, telegraphs/casts/charges AI, zone tables, XP-to-60 (COMBAT_PACING)
+34. 📐→⬜ Character stats: 5 WoW primaries (CHARACTER_STATS)
+35. 📐→⬜ Status effects + wolf→Infected chain (STATUS_EFFECTS)
+36. 📐→⬜ 35 hidden debuffs, symptom-first (HIDDEN_DEBUFFS)
+37. 📐→⬜ Runewords/sockets/12 runes — recolor to D2 DARK GOLD (RUNEWORDS + owner amendment)
+38. 📐→⬜ Mounts system + 31 mounts + trainers (MOUNTS) + mount TROPHIES from elites (Witcher-style, class advantages)
+39. 📐→⬜ Options suite (OPTIONS_SUITE) + settings UI
+40. 📐→⬜ Smart NPCs: schedules/vendors/reactions (SMART_NPCS)
+41. 📐→⬜ Talent trees (21 statted) + spellbook→~15/class + trainers (TALENTS_SPELLS)
+42. 📐→⬜ Crafting: 7 Draconia professions — raise cap to 1000 per owner (CRAFTING amendment) + legendary recipes per profession AND class from bosses
+43. 📐→⬜ Class starting experiences: 7 mentor pockets (STARTING_ZONES)
+44. 📐→⬜ Legendary weapons ×7 + no-transmog visual gear (LEGENDARY_WEAPONS)
+45. 📐→⬜ Proficiencies cloth/leather/mail/plate + WYSIWYG pipeline (PROFICIENCY_WYSIWYG)
+### Design docs complete, systems queued (46-60)
+46. 📐→⬜ PvP arena (Reckoning Floor) + Accord Roll ranks + titles (PVP_RANKS_TITLES) — EXPANDED per owner: thematic 1v1 arenas in EVERY zone
+47. 📐→⬜ Map system: 3-tier zoom + fog-of-war + pins + minimap polish (MAP_SYSTEM)
+48. 📐→⬜ QA automation stack: tests/qa.py 4 layers (QA_AUTOMATION)
+49. 📐→⬜ Narrative voice rollout: Tolkien×dread registers to ALL text (NARRATIVE_VOICE)
+50. 📐→⬜ THE GREAT BATTLE build ("The Second Cooperation" — GREAT_BATTLE)
+51. 📐→⬜ Cinematics: 6 D2 films (ComfyUI stills + Chronicler VO) + in-world system (CINEMATICS)
+52. 📐→⬜ Freedom & physics: no-walls audit + Zelda props (FREEDOM_PHYSICS)
+53. 📐→⬜ Score production: C–E♭–D motif stems, MusicDirector adaptive layers (SCORE_BIBLE)
+54. 📐→⬜ Audio QA: fix the 14 RED fails (theme_south clipping, wind_loop hot, loop seams) + audio_qa.py validator (AUDIO_QA)
+55. 📐→⬜ Achievements "Deed-Book": 9 categories, toasts, 60 exemplars (ACHIEVEMENTS)
+56. 📐→⬜ VFX AAA plan — REWORK to owner's uniqueness law: no repeats, palette swaps ILLEGAL, unique per spell AND creature (VFX_AAA_PLAN amendment)
+57. ⬜ Crafting ANIMATIONS from packs (stations + character craft-bob)
+58. ⬜ Spell trainers NPCs in world + trainer UI
+59. ⬜ Spellbook UI (browsable) + CONCRETE tooltip law enforcement
+60. ⬜ Achievement/deed toast + panel implementation
+### Zone production (61-66)
+61. ⬜ RAVEN HOLLOW REDO (owner: make it perfect) — next zone task
+62. ⬜ Batch C: North arm + Black Night capital (snow + Szadi catacombs) at WoW-REAL-ZONE-SIZE, Stormwind-scale capital w/ castles
+63. ⬜ Batches D-H: East, South, dungeons, Continent 2 port ring, remainder → all 40 zones
+64. ⬜ Sitting-#1 round-2 fixes: moor/grass road art (scattered-square read), dust-lines "≡" artifact, vetka/angel_wings findings
+65. ⬜ Terrain blending (GK up/down illusion): study-bots then implement
+66. ⬜ Per-zone lighting/ambiance polish passes + densely-painted cohesion (Prime-Mandate loop forever)
+### World systems (67-76)
+67. ⬜ Drova-style visibility fog (2D line-of-sight)
+68. ⬜ D2 behind-texture transparency (occluding sprites fade)
+69. ⬜ Cow-level-style secret (lore-accurate)
+70. ⬜ Resting activities (inn rest, hearth, downtime systems)
+71. ⬜ Faction + race EMBLEMS (2D pixel) + REPUTATION system
+72. ⬜ Auction house (mats) + banker in capitals
+73. ⬜ Scarce-loot tuning pass
+74. ⬜ Dungeons (10) + Raids (3, finale Bloodstone Pit)
+75. ⬜ Grey Ferry voyage + Continent 2 travel
+76. ⬜ 1,500-2,000 creatures w/ unique debuffs + death anims + perfect navmesh (staged; bestiary round 2 wolves→dragons)
+### Quests & narrative expansion (77-81)
+77. ⬜ +1,000 lore-of-the-land quests (2,000 total)
+78. ⬜ Romance side quests (many, all-different, diverse, tasteful)
+79. ⬜ Writers council + quest masters production system
+80. ⬜ RDR2-grade detail & mysteries (small→epic 2-continent chains); ≥1,000-hour game audit
+81. ⬜ Skyrim vibe layer on top of Witcher heavy-cheerful tone
+### Characters & audio expansion (82-88)
+82. ⬜ Druid CAT + BEAR forms w/ full pack-textured transform animations
+83. ⬜ Rogue rework: stealth/dagger-poison/vanish/assassinate
+84. ⬜ AAA character-creation screen (tons of customization)
+85. ⬜ Distinct voice per NPC (sprite-appropriate; Hamill/Conroy bar); D2-style + Marius-timbre Chronicler recast
+86. ⬜ Menu/UI sounds via TTS-server pipeline, AAA grade
+87. ⬜ 10k Sound Council system (reviews every sound)
+88. ⬜ NPC bark bubbles ("Fresh bread!") + organic chatter/friendships; jobs/routes/inn-rest w/ sit anims from free packs
+### Items & sprites (89-91)
+89. ⬜ Replace "pygame-looking" sword sprites w/ real pack art; REAL hand animation on sheathing
+90. ⬜ Sprite×item full animation test matrix (every item on every character)
+91. ⬜ Scout assets fitting our characters EXACTLY with tons of animations (gauntlet-gated)
+### Engineering mega-projects (92-97)
+92. ⬜ Owner CONTROL INTERFACE (ground-up AAA-studio app) + easy ADMIN PANEL for manual QA
+93. ⬜ C++/native engine layer: level-design + studio-pipeline automation
+94. ⬜ PROMPT-TO-GAME engine ("make me a 2D RPG about autumn" → builds on our engine)
+95. ⬜ Local AI studio on the 5070 Ti (offline, Fable-capacity goal — honest research + narrow-role mitigation)
+96. ⬜ Corporation-of-bots departments; godot-optimization horde; 2D-pixel-design + Blizzard-audio/cinematics study hordes; playtest agents start-to-finish; bots w/ perfect navmesh + class rotations; race-vs-bots world-firsts; everyone starts from 0 on New World
+97. ⬜ Disk-space watcher (safe pruning) + BE-CHEAP operations law (standing)
+### Held for owner (⚠)
+- ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
+- ⚠ Paid-pack approval (~$15 Pimen/Frostwindz full sets)
+- ⚠ Quest QA playthrough; itch.io publish
