@@ -64,7 +64,11 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 53. 📐→⬜ Score production: C–E♭–D motif stems, MusicDirector adaptive layers (SCORE_BIBLE)
 54. ✅ Audio QA COMPLETE: tools/audio_qa.py validator (192 files: decode/duration/peak/LUFS-windows/loop-seam) + tools/audio_fix_loops.py (seamless-loop rotation render); 9 beds repaired, all 173 VO pass — validator runs per audio batch forever
 55. 📐→⬜ Achievements "Deed-Book": 9 categories, toasts, 60 exemplars (ACHIEVEMENTS)
-56. 📐→⬜ VFX AAA plan — REWORK to owner's uniqueness law: no repeats, palette swaps ILLEGAL, unique per spell AND creature (VFX_AAA_PLAN amendment). OWNER RULING 2026-07-05: NO PURCHASES EVER — the ~$15 Pimen/Frostwindz proposal is DEAD; VFX pool depth comes from free packs (#101 scout) + ComfyUI generation on the owner's GPU (SDXL + Pixel Art XL, already proven for icons)
+56. 🔧 VFX AAA plan — REWORK to owner's uniqueness law: no repeats, palette swaps ILLEGAL, unique per spell AND creature (VFX_AAA_PLAN amendment). OWNER RULING 2026-07-05: NO PURCHASES EVER — the ~$15 Pimen/Frostwindz proposal is DEAD; VFX pool depth comes from free packs (#101 scout) + ComfyUI generation on the owner's GPU (SDXL + Pixel Art XL, already proven for icons)
+    - ✅ PROVEN: ComfyUI-generated, per-spell-UNIQUE VFX with a perfect-cutting pipeline
+      (tools/assets/gridcut.py + rogue_vfx.py) — first full kit = rogue (6 sheets, #83). Each
+      VFX is its own generated element + distinct motion model (NOT a recolour) → uniqueness law
+      satisfied. Reusable for the other 6 classes' kits + creature VFX.
 57. ⬜ Crafting ANIMATIONS from packs (stations + character craft-bob)
 58. ⬜ Spell trainers NPCs in world + trainer UI
 59. ⬜ Spellbook UI (browsable) + CONCRETE tooltip law enforcement
@@ -95,7 +99,18 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 81. ⬜ Skyrim vibe layer on top of Witcher heavy-cheerful tone
 ### Characters & audio expansion (82-88)
 82. ⬜ Druid CAT + BEAR forms w/ full pack-textured transform animations
-83. ⬜ Rogue rework: stealth/dagger-poison/vanish/assassinate
+83. 🔧 Rogue rework: stealth/dagger-poison/vanish/assassinate
+    - ✅ ROGUE SPELL-KIT VFX (6 unique sheets, ComfyUI SDXL+PixelArtXL + authored motion,
+      gothic venom/violet/steel): backstab, poison_blade, fan_of_knives, vanish, shadowstep,
+      deathmark. Perfect-cut 96x96 grids (tools/assets/gridcut.py — every frame in its own
+      centred cell, zero bleed, binary alpha; grid-overlay montages under
+      _screens/rogue_kit/sheets/). Wired into FXLib (rogue_* ids) + verified in Godot
+      (_screens/rogue_kit/godot/: showcase grid + 4 RH_CAST-on-scarecrow shots). Generator:
+      tools/assets/rogue_vfx.py.
+    - CHARACTER: kept the consistent szadi rogue (npc_male4 v3) — SDXL cannot hold cross-frame
+      character identity (probe: _screens/rogue_kit/sheets/_char_probe.png); ComfyUI rogue art
+      delivered as REFERENCE only (rogue_reference.png). Honest fallback per mission guidance.
+    - ⬜ REMAINING: talent-tree/ability-system rework, stealth mechanic, assassinate execute logic.
 84. ⬜ AAA character-creation screen (tons of customization)
 85. ⬜ Distinct voice per NPC (sprite-appropriate; Hamill/Conroy bar); D2-style + Marius-timbre Chronicler recast
 86. ⬜ Menu/UI sounds via TTS-server pipeline, AAA grade

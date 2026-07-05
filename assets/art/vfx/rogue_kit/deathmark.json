@@ -1,0 +1,150 @@
+{
+  "cell": 96,
+  "cols": 8,
+  "rows": 1,
+  "count": 8,
+  "fw": 96,
+  "fh": 96,
+  "margin": 6,
+  "anchor": "center",
+  "global_scale": 0.5316,
+  "frames": [
+    {
+      "index": 0,
+      "cell": [
+        0,
+        0
+      ],
+      "content_size": [
+        61,
+        60
+      ],
+      "offset_in_cell": [
+        17,
+        18
+      ]
+    },
+    {
+      "index": 1,
+      "cell": [
+        1,
+        0
+      ],
+      "content_size": [
+        66,
+        65
+      ],
+      "offset_in_cell": [
+        15,
+        15
+      ]
+    },
+    {
+      "index": 2,
+      "cell": [
+        2,
+        0
+      ],
+      "content_size": [
+        73,
+        73
+      ],
+      "offset_in_cell": [
+        11,
+        11
+      ]
+    },
+    {
+      "index": 3,
+      "cell": [
+        3,
+        0
+      ],
+      "content_size": [
+        79,
+        80
+      ],
+      "offset_in_cell": [
+        8,
+        8
+      ]
+    },
+    {
+      "index": 4,
+      "cell": [
+        4,
+        0
+      ],
+      "content_size": [
+        81,
+        79
+      ],
+      "offset_in_cell": [
+        7,
+        8
+      ]
+    },
+    {
+      "index": 5,
+      "cell": [
+        5,
+        0
+      ],
+      "content_size": [
+        79,
+        79
+      ],
+      "offset_in_cell": [
+        8,
+        8
+      ]
+    },
+    {
+      "index": 6,
+      "cell": [
+        6,
+        0
+      ],
+      "content_size": [
+        77,
+        72
+      ],
+      "offset_in_cell": [
+        9,
+        12
+      ]
+    },
+    {
+      "index": 7,
+      "cell": [
+        7,
+        0
+      ],
+      "content_size": [
+        84,
+        77
+      ],
+      "offset_in_cell": [
+        6,
+        9
+      ]
+    }
+  ],
+  "name": "deathmark",
+  "fps": 16.0,
+  "loop": false,
+  "sheet": "deathmark.png",
+  "bleed_ok": true,
+  "bleed_violations": [],
+  "fit_attempts": [
+    {
+      "margin": 6,
+      "ok": true,
+      "violations": 0
+    }
+  ],
+  "spell": "deathmark",
+  "palette": "rogue venom/violet/steel",
+  "desc": "mark + execute burst (violet + blood)",
+  "source": "comfyui:sdxl+pixelartxl+authored-motion"
+}

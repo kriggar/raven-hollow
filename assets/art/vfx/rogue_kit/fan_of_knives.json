@@ -1,0 +1,150 @@
+{
+  "cell": 96,
+  "cols": 8,
+  "rows": 1,
+  "count": 8,
+  "fw": 96,
+  "fh": 96,
+  "margin": 6,
+  "anchor": "center",
+  "global_scale": 0.3818,
+  "frames": [
+    {
+      "index": 0,
+      "cell": [
+        0,
+        0
+      ],
+      "content_size": [
+        29,
+        29
+      ],
+      "offset_in_cell": [
+        33,
+        33
+      ]
+    },
+    {
+      "index": 1,
+      "cell": [
+        1,
+        0
+      ],
+      "content_size": [
+        32,
+        32
+      ],
+      "offset_in_cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "index": 2,
+      "cell": [
+        2,
+        0
+      ],
+      "content_size": [
+        42,
+        42
+      ],
+      "offset_in_cell": [
+        27,
+        27
+      ]
+    },
+    {
+      "index": 3,
+      "cell": [
+        3,
+        0
+      ],
+      "content_size": [
+        54,
+        54
+      ],
+      "offset_in_cell": [
+        21,
+        21
+      ]
+    },
+    {
+      "index": 4,
+      "cell": [
+        4,
+        0
+      ],
+      "content_size": [
+        65,
+        65
+      ],
+      "offset_in_cell": [
+        15,
+        15
+      ]
+    },
+    {
+      "index": 5,
+      "cell": [
+        5,
+        0
+      ],
+      "content_size": [
+        81,
+        81
+      ],
+      "offset_in_cell": [
+        7,
+        7
+      ]
+    },
+    {
+      "index": 6,
+      "cell": [
+        6,
+        0
+      ],
+      "content_size": [
+        84,
+        84
+      ],
+      "offset_in_cell": [
+        6,
+        6
+      ]
+    },
+    {
+      "index": 7,
+      "cell": [
+        7,
+        0
+      ],
+      "content_size": [
+        84,
+        84
+      ],
+      "offset_in_cell": [
+        6,
+        6
+      ]
+    }
+  ],
+  "name": "fan_of_knives",
+  "fps": 18.0,
+  "loop": false,
+  "sheet": "fan_of_knives.png",
+  "bleed_ok": true,
+  "bleed_violations": [],
+  "fit_attempts": [
+    {
+      "margin": 6,
+      "ok": true,
+      "violations": 0
+    }
+  ],
+  "spell": "fan_of_knives",
+  "palette": "rogue venom/violet/steel",
+  "desc": "radial blade burst (steel + venom tip)",
+  "source": "comfyui:sdxl+pixelartxl+authored-motion"
+}

@@ -1,0 +1,150 @@
+{
+  "cell": 96,
+  "cols": 8,
+  "rows": 1,
+  "count": 8,
+  "fw": 96,
+  "fh": 96,
+  "margin": 6,
+  "anchor": "center",
+  "global_scale": 0.56,
+  "frames": [
+    {
+      "index": 0,
+      "cell": [
+        0,
+        0
+      ],
+      "content_size": [
+        22,
+        84
+      ],
+      "offset_in_cell": [
+        37,
+        6
+      ]
+    },
+    {
+      "index": 1,
+      "cell": [
+        1,
+        0
+      ],
+      "content_size": [
+        22,
+        84
+      ],
+      "offset_in_cell": [
+        37,
+        6
+      ]
+    },
+    {
+      "index": 2,
+      "cell": [
+        2,
+        0
+      ],
+      "content_size": [
+        22,
+        84
+      ],
+      "offset_in_cell": [
+        37,
+        6
+      ]
+    },
+    {
+      "index": 3,
+      "cell": [
+        3,
+        0
+      ],
+      "content_size": [
+        22,
+        84
+      ],
+      "offset_in_cell": [
+        37,
+        6
+      ]
+    },
+    {
+      "index": 4,
+      "cell": [
+        4,
+        0
+      ],
+      "content_size": [
+        22,
+        84
+      ],
+      "offset_in_cell": [
+        37,
+        6
+      ]
+    },
+    {
+      "index": 5,
+      "cell": [
+        5,
+        0
+      ],
+      "content_size": [
+        24,
+        84
+      ],
+      "offset_in_cell": [
+        36,
+        6
+      ]
+    },
+    {
+      "index": 6,
+      "cell": [
+        6,
+        0
+      ],
+      "content_size": [
+        25,
+        84
+      ],
+      "offset_in_cell": [
+        35,
+        6
+      ]
+    },
+    {
+      "index": 7,
+      "cell": [
+        7,
+        0
+      ],
+      "content_size": [
+        22,
+        84
+      ],
+      "offset_in_cell": [
+        37,
+        6
+      ]
+    }
+  ],
+  "name": "poison_blade",
+  "fps": 14.0,
+  "loop": false,
+  "sheet": "poison_blade.png",
+  "bleed_ok": true,
+  "bleed_violations": [],
+  "fit_attempts": [
+    {
+      "margin": 6,
+      "ok": true,
+      "violations": 0
+    }
+  ],
+  "spell": "poison_blade",
+  "palette": "rogue venom/violet/steel",
+  "desc": "venom coat + drip (venom green + steel)",
+  "source": "comfyui:sdxl+pixelartxl+authored-motion"
+}

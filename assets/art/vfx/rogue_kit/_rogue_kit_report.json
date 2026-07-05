@@ -1,0 +1,68 @@
+[
+  {
+    "name": "backstab",
+    "sheet": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\backstab.png",
+    "manifest": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\backstab.json",
+    "montage": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\_screens\\rogue_kit\\sheets\\backstab.png",
+    "bleed_ok": true,
+    "cols": 8,
+    "rows": 1,
+    "count": 8,
+    "cell": 96
+  },
+  {
+    "name": "poison_blade",
+    "sheet": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\poison_blade.png",
+    "manifest": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\poison_blade.json",
+    "montage": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\_screens\\rogue_kit\\sheets\\poison_blade.png",
+    "bleed_ok": true,
+    "cols": 8,
+    "rows": 1,
+    "count": 8,
+    "cell": 96
+  },
+  {
+    "name": "fan_of_knives",
+    "sheet": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\fan_of_knives.png",
+    "manifest": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\fan_of_knives.json",
+    "montage": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\_screens\\rogue_kit\\sheets\\fan_of_knives.png",
+    "bleed_ok": true,
+    "cols": 8,
+    "rows": 1,
+    "count": 8,
+    "cell": 96
+  },
+  {
+    "name": "vanish",
+    "sheet": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\vanish.png",
+    "manifest": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\vanish.json",
+    "montage": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\_screens\\rogue_kit\\sheets\\vanish.png",
+    "bleed_ok": true,
+    "cols": 8,
+    "rows": 1,
+    "count": 8,
+    "cell": 96
+  },
+  {
+    "name": "shadowstep",
+    "sheet": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\shadowstep.png",
+    "manifest": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\shadowstep.json",
+    "montage": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\_screens\\rogue_kit\\sheets\\shadowstep.png",
+    "bleed_ok": true,
+    "cols": 8,
+    "rows": 1,
+    "count": 8,
+    "cell": 96
+  },
+  {
+    "name": "deathmark",
+    "sheet": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\deathmark.png",
+    "manifest": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\assets\\art\\vfx\\rogue_kit\\deathmark.json",
+    "montage": "C:\\Users\\vstef\\Desktop\\rpg\\medieval_rpg\\_screens\\rogue_kit\\sheets\\deathmark.png",
+    "bleed_ok": true,
+    "cols": 8,
+    "rows": 1,
+    "count": 8,
+    "cell": 96
+  }
+]

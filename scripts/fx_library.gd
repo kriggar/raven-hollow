@@ -94,6 +94,15 @@ const _DEFS: Dictionary = {
 	"necro_shell": {"sheet": _VFX_DIR + "frostwindz_necro/necro_shell_128x128.png", "fw": 128, "fh": 128, "from": 0, "to": 8, "fps": 12.0, "loop": true},
 	# soft golden heal bloom (holy_bloom gold + heal_bloom green)
 	"heal_bloom_base": {"sheet": _VFX_DIR + "frostwindz_priest/heal_bloom_128x128.png", "fw": 128, "fh": 128, "from": 0, "to": 7, "fps": 14.0, "loop": false},
+	# -- ROGUE SPELL KIT (BACKLOG #83/#56): ComfyUI-generated + authored motion, each UNIQUE,
+	# gothic venom/violet/steel palette, gridcut-perfect 96x96 cells (tools/assets/rogue_vfx.py).
+	# Sheets are PRE-COLOURED -> play() strips any incoming tint for rogue_* ids (see below).
+	"rogue_backstab": {"sheet": _VFX_DIR + "rogue_kit/backstab.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 20.0, "loop": false},
+	"rogue_poison_blade": {"sheet": _VFX_DIR + "rogue_kit/poison_blade.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 14.0, "loop": false},
+	"rogue_fan_of_knives": {"sheet": _VFX_DIR + "rogue_kit/fan_of_knives.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 18.0, "loop": false},
+	"rogue_vanish": {"sheet": _VFX_DIR + "rogue_kit/vanish.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 16.0, "loop": false},
+	"rogue_shadowstep": {"sheet": _VFX_DIR + "rogue_kit/shadowstep.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 20.0, "loop": false},
+	"rogue_deathmark": {"sheet": _VFX_DIR + "rogue_kit/deathmark.png", "fw": 96, "fh": 96, "from": 0, "to": 7, "fps": 16.0, "loop": false},
 }
 
 ## Ability-id aliases: gameplay code (class_defs params.fx / fx_loop) plays
@@ -105,7 +114,7 @@ const _ALIASES: Dictionary = {
 	# air_swirl's native art is leaf-green; desaturate toward warrior red-steel.
 	"whirlwind": {"id": "air_swirl", "opts": {"scale": 2.4, "speed": 1.15, "tint": Color(0.95, 0.62, 0.48)}},
 	"war_cry": {"id": "air_burst", "opts": {"scale": 1.9}},
-	"shadowstep": {"id": "smoke_puff", "opts": {"scale": 1.1}},
+	"shadowstep": {"id": "rogue_shadowstep", "opts": {"scale": 1.05}},   # violet dash smoke trail
 	"grave_grasp": {"id": "roots", "opts": {"scale": 2.4}},
 	# holy_pillar / dark_rise art hangs from the frame BOTTOM (PIL: pillar base
 	# y≈46-47 of 48, wisp starts y≈56-64 of 64) — the "offset" bottom-anchors
@@ -123,7 +132,7 @@ const _ALIASES: Dictionary = {
 	"fireball": {"id": "fire_explosion", "opts": {}},
 	"soul_bolt": {"id": "soul_hit", "opts": {}},
 	"loosed_arrow": {"id": "wind_hit", "opts": {"scale": 0.55}},
-	"fan_of_knives": {"id": "blade_spin", "opts": {"duration": 0.4}},
+	"fan_of_knives": {"id": "rogue_fan_of_knives", "opts": {"scale": 1.15}},   # radial steel blade burst
 	# Landing impact = thunder hit per the effect mapping (the magic_arrow
 	# strip is the FLIGHT visual and would lie flat at the hit point).
 	"arrow_storm": {"id": "spark_hit", "opts": {}},
@@ -133,11 +142,12 @@ const _ALIASES: Dictionary = {
 	"sunder": {"id": "hit_spark", "opts": {"tint": Color(0.92, 0.62, 0.50)}},
 	"iron_bulwark": {"id": "protection_ward", "opts": {"scale": 0.85, "z": 1, "tint": Color(0.62, 0.66, 0.70, 0.9)}},  # cold iron rune ward (codemanu protection circle)
 	"earthshaker": {"id": "quake_rock", "opts": {"scale": 1.6, "tint": Color(0.66, 0.50, 0.40)}},  # earth quake rock burst
-	# Rogue
-	"backstab": {"id": "hit_spark", "opts": {"tint": Color(0.72, 0.16, 0.16)}},
-	"shroud": {"id": "smoke_poof", "opts": {"tint": Color(0.20, 0.20, 0.24)}},
+	# Rogue -- dedicated ComfyUI rogue-kit sheets (pre-coloured; tint auto-stripped in play()).
+	"backstab": {"id": "rogue_backstab", "opts": {"scale": 0.95}},          # crit slash arc + blood spark
+	"shroud": {"id": "rogue_vanish", "opts": {"scale": 1.0}},               # violet smoke-puff vanish
+	"venom_cloud": {"id": "rogue_poison_blade", "opts": {"scale": 1.0}},    # venom blade coat + drip
+	"deathmark": {"id": "rogue_deathmark", "opts": {"scale": 1.05}},        # violet mark -> blood execute
 	"death_blossom": {"id": "blade_spin", "opts": {"scale": 1.4, "speed": 1.2, "duration": 0.6, "tint": Color(0.72, 0.34, 0.34)}},
-	"venom_cloud": {"id": "acid_hit", "opts": {"scale": 1.6, "tint": Color(0.48, 0.62, 0.32)}},  # acid splash burst
 	# Mage
 	"ice_lance": {"id": "frost_start", "opts": {"tint": Color(0.55, 0.72, 0.86)}},
 	"flame_strike": {"id": "fire_explosion", "opts": {"tint": Color(0.86, 0.40, 0.20)}},
@@ -211,6 +221,10 @@ static func play(id: String, parent: Node2D, pos: Vector2, opts: Dictionary = {}
 	var resolved: Array = _resolve(id, opts)
 	id = str(resolved[0])
 	opts = resolved[1] as Dictionary
+	# Rogue-kit sheets are already colour-authored (venom/violet/steel) — a caller fx_tint
+	# would multiply and muddy them, so it is dropped for these pre-coloured ids.
+	if id.begins_with("rogue_"):
+		opts.erase("tint")
 	var frames: SpriteFrames = _get_frames(id)
 	if frames.get_frame_count(&"fx") == 0:
 		return null

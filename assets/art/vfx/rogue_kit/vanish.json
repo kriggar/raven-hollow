@@ -1,0 +1,150 @@
+{
+  "cell": 96,
+  "cols": 8,
+  "rows": 1,
+  "count": 8,
+  "fw": 96,
+  "fh": 96,
+  "margin": 6,
+  "anchor": "center",
+  "global_scale": 0.4855,
+  "frames": [
+    {
+      "index": 0,
+      "cell": [
+        0,
+        0
+      ],
+      "content_size": [
+        18,
+        24
+      ],
+      "offset_in_cell": [
+        39,
+        36
+      ]
+    },
+    {
+      "index": 1,
+      "cell": [
+        1,
+        0
+      ],
+      "content_size": [
+        23,
+        26
+      ],
+      "offset_in_cell": [
+        36,
+        35
+      ]
+    },
+    {
+      "index": 2,
+      "cell": [
+        2,
+        0
+      ],
+      "content_size": [
+        30,
+        36
+      ],
+      "offset_in_cell": [
+        33,
+        30
+      ]
+    },
+    {
+      "index": 3,
+      "cell": [
+        3,
+        0
+      ],
+      "content_size": [
+        40,
+        50
+      ],
+      "offset_in_cell": [
+        28,
+        23
+      ]
+    },
+    {
+      "index": 4,
+      "cell": [
+        4,
+        0
+      ],
+      "content_size": [
+        50,
+        66
+      ],
+      "offset_in_cell": [
+        23,
+        15
+      ]
+    },
+    {
+      "index": 5,
+      "cell": [
+        5,
+        0
+      ],
+      "content_size": [
+        61,
+        79
+      ],
+      "offset_in_cell": [
+        17,
+        8
+      ]
+    },
+    {
+      "index": 6,
+      "cell": [
+        6,
+        0
+      ],
+      "content_size": [
+        70,
+        83
+      ],
+      "offset_in_cell": [
+        13,
+        6
+      ]
+    },
+    {
+      "index": 7,
+      "cell": [
+        7,
+        0
+      ],
+      "content_size": [
+        75,
+        84
+      ],
+      "offset_in_cell": [
+        10,
+        6
+      ]
+    }
+  ],
+  "name": "vanish",
+  "fps": 16.0,
+  "loop": false,
+  "sheet": "vanish.png",
+  "bleed_ok": true,
+  "bleed_violations": [],
+  "fit_attempts": [
+    {
+      "margin": 6,
+      "ok": true,
+      "violations": 0
+    }
+  ],
+  "spell": "vanish",
+  "palette": "rogue venom/violet/steel",
+  "desc": "smoke-puff vanish (violet shadow)",
+  "source": "comfyui:sdxl+pixelartxl+authored-motion"
+}
