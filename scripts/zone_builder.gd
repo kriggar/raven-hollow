@@ -828,6 +828,31 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 		var vg: Dictionary = vg_v
 		var pos: Vector2 = vg["pos"]
 		match str(vg.get("kind", "")):
+			"murder_scene":
+				# A death the world stepped around. Stain, what is left,
+				# drag-marks, and the thing they dropped. Examined text
+				# hooks in via the quest system later.
+				var mk_stain := Sprite2D.new()
+				mk_stain.texture = _radial_tex()
+				mk_stain.position = pos
+				mk_stain.scale = Vector2(0.55, 0.34)
+				mk_stain.modulate = Color(0.30, 0.10, 0.08, 0.55)
+				mk_stain.z_index = -6
+				parent.add_child(mk_stain)
+				_atlas(parent, R_BONE_A, pos + Vector2(-6, -4), Color(0.90, 0.90, 0.86))
+				_atlas(parent, R_BONE_A, pos + Vector2(14, 6), Color(0.86, 0.86, 0.82))
+				for dm in range(3):
+					var drag := ColorRect.new()
+					drag.size = Vector2(26 - dm * 6, 2)
+					drag.position = pos + Vector2(20 + dm * 14, 10 + dm * 5)
+					drag.color = Color(0.32, 0.16, 0.12, 0.45)
+					drag.z_index = -5
+					parent.add_child(drag)
+				var mk_drop := ColorRect.new()
+				mk_drop.size = Vector2(9, 7)
+				mk_drop.position = pos + Vector2(-22, 12)
+				mk_drop.color = Color(0.55, 0.47, 0.28)
+				parent.add_child(mk_drop)
 			"courier_seal":
 				# The Courier: intact, unmarked, dead of understanding. His
 				# satchel still packed, wax seal unbroken (lore 614/1426).

@@ -150,6 +150,10 @@ const _ZONES := {
 		"river_color": Color(0.34, 0.24, 0.20, 0.94),
 		"roads": [[Vector2(100, 1800), Vector2(1600, 1880), Vector2(3200, 1960), Vector2(5000, 2010), Vector2(6560, 2060)]],
 		"landmarks": [
+			{"type": "cairn", "pos": Vector2(1198, 3225)},
+			{"type": "cairn", "pos": Vector2(1331, 3409)},
+			{"type": "cairn", "pos": Vector2(1464, 3225)},
+			{"type": "lone_tree", "pos": Vector2(1331, 3317)},
 			{"type": "tavern", "pos": Vector2(3200, 1780)},          # The Bent Oar — hub on the north bank
 			{"type": "camp", "pos": Vector2(1200, 3200)},
 			{"type": "graves", "pos": Vector2(5200, 3400), "count": 8},
@@ -171,6 +175,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(4400, 1260), Vector2(2650, 2860)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4126, 1382)},
+			{"kind": "boot_prints", "pos": Vector2(4259, 1520)},
 			{"kind": "cold_camp", "pos": Vector2(5400, 1500)},       # in, none out
 			{"kind": "standing_farmer", "pos": Vector2(2400, 2150)}, # "resting" since Tuesday
 		],
@@ -207,6 +213,8 @@ const _ZONES := {
 			[Vector2(2400, 1800), Vector2(2800, 2050), Vector2(3300, 2300)],
 		],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(3942, 1228)},
+			{"type": "signboard", "pos": Vector2(3829, 1351)},
 			{"type": "cottage", "pos": Vector2(2200, 1700)},   # Old Marta's herb cottage
 			{"type": "cottage", "pos": Vector2(3300, 1750)},   # Torn's holding
 			{"type": "cottage", "pos": Vector2(2600, 2350)},   # Dorica's
@@ -222,6 +230,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(2320, 2470)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(675, 2539)},
 			{"kind": "standing_farmer", "pos": Vector2(4400, 1600)},  # faced toward the Chamber
 			{"kind": "empty_stall", "pos": Vector2(2750, 1950)},      # flat grey bread, no eye contact
 		],
@@ -252,6 +261,7 @@ const _ZONES := {
 		"roads": [[Vector2(2900, 120), Vector2(2950, 1400), Vector2(3000, 2200), Vector2(4500, 2280), Vector2(6060, 2300)],
 			[Vector2(3000, 2200), Vector2(2950, 3400), Vector2(3000, 4480)]],
 		"landmarks": [
+			{"type": "stone_row", "pos": Vector2(4300, 3133), "count": 5},
 			{"type": "copper_well", "pos": Vector2(2400, 1800)},
 			{"type": "copper_well", "pos": Vector2(2700, 1980)},
 			{"type": "copper_well", "pos": Vector2(2200, 2120)},
@@ -266,6 +276,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(2450, 1860), Vector2(2650, 2360), Vector2(3400, 3260)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2334, 2119)},
+			{"kind": "chalk_handprints", "pos": Vector2(2457, 2257)},
 			{"kind": "empty_stall", "pos": Vector2(1650, 3450)},
 			{"kind": "cold_camp", "pos": Vector2(900, 900)},
 		],
@@ -302,6 +314,7 @@ const _ZONES := {
 			[Vector2(3300, 300), Vector2(3320, 1500), Vector2(3300, 2600), Vector2(3280, 3900), Vector2(3300, 5000)],
 		],
 		"landmarks": [
+			{"type": "signboard", "pos": Vector2(3527, 3379)},
 			{"type": "inscription_stone", "pos": Vector2(3300, 2450), "live": true},
 			{"type": "inscription_stone", "pos": Vector2(1400, 1200), "live": false},
 			{"type": "inscription_stone", "pos": Vector2(5200, 3800), "live": false},
@@ -318,6 +331,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(3300, 2520), Vector2(3340, 2380)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3660, 3481)},
+			{"kind": "boot_prints", "pos": Vector2(3793, 3584)},
 			{"kind": "empty_stall", "pos": Vector2(3360, 2720)},
 			{"kind": "boot_prints", "pos": Vector2(5150, 3850)},
 		],
@@ -354,6 +369,7 @@ const _ZONES := {
 		"tree_density": 0.0,
 		"roads": [[Vector2(2048, 3980), Vector2(2000, 2900), Vector2(2100, 1800), Vector2(2048, 900)]],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(2170, 1310)},
 			# the transmission floor: every stone here is LIVE
 			{"type": "inscription_stone", "pos": Vector2(2048, 1000), "live": true},
 			{"type": "inscription_stone", "pos": Vector2(1400, 1600), "live": true},
@@ -371,6 +387,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(2068, 1060), Vector2(1420, 1660)],
 		"vignettes": [
+			{"kind": "boot_prints", "pos": Vector2(2129, 1392)},
 			{"kind": "courier_seal", "pos": Vector2(2100, 1150)},   # he never delivered it
 			{"kind": "boot_prints", "pos": Vector2(1950, 1400)},
 		],
@@ -398,6 +415,10 @@ const _ZONES := {
 		"tree_density": 1.6,
 		"roads": [[Vector2(7040, 2560), Vector2(5200, 2500), Vector2(3400, 2560), Vector2(1500, 2620), Vector2(120, 2600)]],
 		"landmarks": [
+			{"type": "stump", "pos": Vector2(4300, 3174)},
+			{"type": "stump", "pos": Vector2(4515, 3072)},
+			{"type": "stump", "pos": Vector2(4372, 3379)},
+			{"type": "stump", "pos": Vector2(4157, 3276)},
 			{"type": "cottage", "pos": Vector2(4200, 1600)},       # abandoned forester's holding
 			{"type": "graves", "pos": Vector2(2600, 3400), "count": 9},
 			{"type": "inscription_stone", "pos": Vector2(3300, 1100), "live": false},
@@ -410,6 +431,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(3320, 1150)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2293, 1433)},
 			{"kind": "cold_camp", "pos": Vector2(1800, 2000)},
 			{"kind": "standing_farmer", "pos": Vector2(4900, 2800)},
 		],
@@ -444,6 +466,7 @@ const _ZONES := {
 		"river_color": Color(0.30, 0.34, 0.38, 0.9),
 		"roads": [[Vector2(7560, 2560), Vector2(5600, 2520), Vector2(3800, 2560), Vector2(2400, 2600), Vector2(140, 2620)]],
 		"landmarks": [
+			{"type": "drowned_fence", "pos": Vector2(2150, 3584), "count": 7},
 			{"type": "hamlet", "pos": Vector2(5200, 2000), "count": 4},
 			{"type": "hamlet", "pos": Vector2(3600, 3300), "count": 3},
 			{"type": "barn", "pos": Vector2(4600, 2900)},
@@ -458,6 +481,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(5376, 2969)},
 			{"kind": "full_granary", "pos": Vector2(6200, 1700)},   # famine w/ a FULL granary (canon)
 			{"kind": "standing_farmer", "pos": Vector2(4400, 2450)},
 		],
@@ -501,6 +525,7 @@ const _ZONES := {
 			[Vector2(6400, 4100), Vector2(6360, 5400), Vector2(6400, 6400)],
 		],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(8396, 5079)},
 			# — Grain-market heart —
 			{"type": "plaza", "pos": Vector2(5900, 4060), "count": 6},
 			{"type": "fountain", "pos": Vector2(5900, 4090)},
@@ -567,6 +592,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(8260, 3560)],   # the copper handprint... it is here
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(1638, 2457)},
+			{"kind": "chalk_handprints", "pos": Vector2(1740, 2621)},
 			{"kind": "chalk_handprints", "pos": Vector2(8140, 3520)},  # orphanage wall (canon)
 			{"kind": "full_granary", "pos": Vector2(3050, 4550)},   # bread everywhere, hunger anyway
 			{"kind": "full_granary", "pos": Vector2(7250, 2950)},
@@ -598,6 +625,7 @@ const _ZONES := {
 		"tree_density": 0.45,
 		"roads": [[Vector2(7080, 2560), Vector2(5200, 2600), Vector2(3400, 2560), Vector2(140, 2560)]],
 		"landmarks": [
+			{"type": "stone_row", "pos": Vector2(2150, 1536), "count": 6},
 			{"type": "hamlet", "pos": Vector2(4800, 1800), "count": 3},   # the famine village
 			{"type": "barn", "pos": Vector2(5200, 2100)},                 # the FULL granary
 			{"type": "cottage", "pos": Vector2(2600, 3400)},              # burned farmstead
@@ -610,6 +638,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(3820, 1260), Vector2(4850, 1900)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3942, 2150)},
 			{"kind": "full_granary", "pos": Vector2(5250, 2050)},
 			{"kind": "cold_camp", "pos": Vector2(6100, 3400)},
 			{"kind": "standing_farmer", "pos": Vector2(4500, 2200)},
@@ -646,6 +675,7 @@ const _ZONES := {
 		"river_color": Color(0.32, 0.30, 0.30, 0.92),
 		"roads": [[Vector2(6540, 2560), Vector2(4800, 2500), Vector2(3200, 2450), Vector2(2400, 2350)]],
 		"landmarks": [
+			{"type": "wreck", "pos": Vector2(1996, 2048)},
 			{"type": "workshop", "pos": Vector2(2500, 2100)},   # toll post
 			{"type": "shed", "pos": Vector2(3900, 2250)},
 			{"type": "stall", "pos": Vector2(3000, 2300)},
@@ -660,6 +690,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4126, 3788)},
 			{"kind": "empty_stall", "pos": Vector2(3060, 2380)},
 			{"kind": "boot_prints", "pos": Vector2(2550, 2200)},
 		],
@@ -691,6 +722,10 @@ const _ZONES := {
 		"tree_density": 0.5,
 		"roads": [[Vector2(3840, 5560), Vector2(3800, 4200), Vector2(3760, 2800), Vector2(3800, 1400), Vector2(3840, 140)]],
 		"landmarks": [
+			{"type": "cairn", "pos": Vector2(5376, 2816)},
+			{"type": "cairn", "pos": Vector2(5529, 2984)},
+			{"type": "cairn", "pos": Vector2(5683, 2816)},
+			{"type": "cairn", "pos": Vector2(5529, 2647)},
 			{"type": "inscription_stone", "pos": Vector2(3400, 3600), "live": true},
 			{"type": "stone_row", "pos": Vector2(2600, 2400), "count": 5},
 			{"type": "dolmen", "pos": Vector2(5200, 4200)},
@@ -716,6 +751,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(3420, 3660), Vector2(6020, 4660)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3379, 1802)},
 			{"kind": "standing_farmer", "pos": Vector2(3900, 3000)},
 			{"kind": "standing_farmer", "pos": Vector2(3600, 2200)},
 			{"kind": "cold_camp", "pos": Vector2(5000, 5000)},
@@ -749,6 +785,7 @@ const _ZONES := {
 		"tree_density": 0.35,
 		"roads": [[Vector2(3840, 5560), Vector2(3880, 4000), Vector2(3840, 2400), Vector2(3800, 140)]],
 		"landmarks": [
+			{"type": "thread_lines", "pos": Vector2(4761, 1576), "count": 8},
 			{"type": "thread_lines", "pos": Vector2(3200, 3400), "count": 7},
 			{"type": "thread_lines", "pos": Vector2(4800, 2200), "count": 6},
 			{"type": "thread_lines", "pos": Vector2(2200, 1800), "count": 5},
@@ -777,6 +814,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3072, 3379)},
 			{"kind": "cold_camp", "pos": Vector2(4400, 5000)},   # 3 bedrolls, prints in, none out
 			{"kind": "standing_farmer", "pos": Vector2(3500, 1600)},
 		],
@@ -818,6 +856,7 @@ const _ZONES := {
 			[Vector2(5120, 3400), Vector2(3800, 3420), Vector2(3000, 3400)]
 		],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(4812, 3031)},
 			# — The city over the grave: dark keeps around the still market —
 			{"type": "dark_keep", "pos": Vector2(5120, 2600)},          # Council of Six halls
 			{"type": "stone_row", "pos": Vector2(4780, 4880), "count": 6},  # the still market's kerbstones
@@ -872,6 +911,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(5120, 5660)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4710, 3112)},
+			{"kind": "chalk_handprints", "pos": Vector2(3072, 5734)},
 			{"kind": "rows_of_twelve", "pos": Vector2(4900, 4600)},   # the still market (canon)
 			{"kind": "cold_camp", "pos": Vector2(3400, 6800)},        # the living family's camp
 			{"kind": "standing_farmer", "pos": Vector2(6400, 5600)},
@@ -926,6 +967,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(4620, 4060)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2437, 1740)},
+			{"kind": "boot_prints", "pos": Vector2(2580, 1843)},
 			{"kind": "cold_camp", "pos": Vector2(5600, 4400)},
 			{"kind": "boot_prints", "pos": Vector2(3050, 2260)},
 		],
@@ -982,6 +1025,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(2560, 2960), Vector2(1820, 2360), Vector2(3320, 2360)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(1536, 2969)},
 			{"kind": "boot_prints", "pos": Vector2(2450, 2200)},    # twelve, facing the Pit
 			{"kind": "rows_of_twelve", "pos": Vector2(2560, 3600)},
 			{"kind": "cold_camp", "pos": Vector2(3600, 4600)},
@@ -1012,6 +1056,7 @@ const _ZONES := {
 		"tree_density": 0.9,
 		"roads": [[Vector2(140, 2560), Vector2(1800, 2500), Vector2(3600, 2600), Vector2(5400, 2520), Vector2(7020, 2560)]],
 		"landmarks": [
+			{"type": "stone_row", "pos": Vector2(4444, 3788), "count": 5},
 			{"type": "rocks", "pos": Vector2(2400, 1800), "count": 6},
 			{"type": "rocks", "pos": Vector2(4600, 3400), "count": 6},
 			{"type": "camp", "pos": Vector2(3200, 1400)},              # listener watch-post
@@ -1023,6 +1068,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3297, 1433)},
 			{"kind": "boot_prints", "pos": Vector2(3250, 1450)},       # twelve, facing the wall
 			{"kind": "cold_camp", "pos": Vector2(1800, 1200)},
 		],
@@ -1054,6 +1100,9 @@ const _ZONES := {
 		"tree_density": 1.1,
 		"roads": [[Vector2(140, 2820), Vector2(2000, 2760), Vector2(3840, 2820), Vector2(5600, 2760), Vector2(7540, 2820)]],
 		"landmarks": [
+			{"type": "signboard", "pos": Vector2(2304, 3379)},
+			{"type": "signboard", "pos": Vector2(2457, 3153)},
+			{"type": "signboard", "pos": Vector2(2611, 2928)},
 			{"type": "rocks", "pos": Vector2(2000, 1600), "count": 8},
 			{"type": "rocks", "pos": Vector2(5200, 4200), "count": 8},
 			{"type": "rocks", "pos": Vector2(3600, 1200), "count": 6},
@@ -1066,6 +1115,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(2820, 3860)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4454, 1464)},
 			{"kind": "standing_farmer", "pos": Vector2(3000, 2300)},
 			{"kind": "cold_camp", "pos": Vector2(6600, 4400)},
 		],
@@ -1110,6 +1160,7 @@ const _ZONES := {
 			[Vector2(5060, 5400), Vector2(6300, 5360), Vector2(7200, 5400)],
 		],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(2764, 2703)},
 			# — The Black Spire at the heart —
 			{"type": "spire", "pos": Vector2(5480, 3400)},
 			{"type": "thread_lines", "pos": Vector2(5480, 3500), "count": 4},
@@ -1171,6 +1222,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(5480, 3520)],   # the Spire's base... it is warm
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2867, 2785)},
+			{"kind": "boot_prints", "pos": Vector2(2969, 2949)},
 			{"kind": "boot_prints", "pos": Vector2(2650, 2900)},   # twelve, facing the wall
 			{"kind": "empty_stall", "pos": Vector2(6500, 5400)},   # coin-box full, stall abandoned
 			{"kind": "standing_farmer", "pos": Vector2(4200, 4800)},
@@ -1203,6 +1256,7 @@ const _ZONES := {
 		"tree_density": 0.0,
 		"roads": [[Vector2(2048, 3980), Vector2(2000, 2800), Vector2(2100, 1600), Vector2(2048, 600)]],
 		"landmarks": [
+			{"type": "lichen_glow", "pos": Vector2(1638, 1556), "count": 7},
 			{"type": "lichen_glow", "pos": Vector2(1400, 2800), "count": 6},
 			{"type": "lichen_glow", "pos": Vector2(2700, 2000), "count": 6},
 			{"type": "lichen_glow", "pos": Vector2(1800, 1200), "count": 5},
@@ -1215,6 +1269,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(2068, 860)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2375, 2129)},
 			{"kind": "cold_camp", "pos": Vector2(2600, 3600)},
 			{"kind": "boot_prints", "pos": Vector2(2100, 1000)},
 		],
@@ -1242,6 +1297,7 @@ const _ZONES := {
 		"tree_density": 1.0,
 		"roads": [[Vector2(3580, 140), Vector2(3540, 1600), Vector2(3580, 2800), Vector2(3540, 4200)]],
 		"landmarks": [
+			{"type": "gift_field", "pos": Vector2(4372, 2355), "w": 2, "h": 1},
 			{"type": "manor", "pos": Vector2(2800, 2000)},        # ivy-eaten temple
 			{"type": "manor", "pos": Vector2(4400, 3000)},        # ivy-eaten temple
 			{"type": "graves", "pos": Vector2(2500, 2400), "count": 8},
@@ -1255,6 +1311,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(2860, 2100)],   # "the stone beneath the altar is warm"
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3010, 2252)},
 			{"kind": "standing_farmer", "pos": Vector2(3800, 2400)},
 			{"kind": "cold_camp", "pos": Vector2(5200, 4200)},
 		],
@@ -1282,6 +1339,9 @@ const _ZONES := {
 		"tree_density": 0.8,
 		"roads": [[Vector2(3580, 140), Vector2(3540, 1400), Vector2(3600, 2800), Vector2(3560, 4200), Vector2(3580, 4980)]],
 		"landmarks": [
+			{"type": "signboard", "pos": Vector2(3727, 1126)},
+			{"type": "signboard", "pos": Vector2(3655, 2048)},
+			{"type": "signboard", "pos": Vector2(3512, 3174)},
 			{"type": "lava_vent", "pos": Vector2(2200, 1800)},
 			{"type": "lava_vent", "pos": Vector2(4800, 3200)},
 			{"type": "camp", "pos": Vector2(4200, 1600)},           # drover camp
@@ -1296,6 +1356,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3440, 2969)},
 			{"kind": "cold_camp", "pos": Vector2(2000, 1200)},
 			{"kind": "boot_prints", "pos": Vector2(3650, 2900)},
 		],
@@ -1327,6 +1388,9 @@ const _ZONES := {
 		"tree_density": 1.0,
 		"roads": [[Vector2(3840, 140), Vector2(3800, 1600), Vector2(3860, 3200), Vector2(3800, 4800), Vector2(3840, 5492)]],
 		"landmarks": [
+			{"type": "cairn", "pos": Vector2(3379, 2252)},
+			{"type": "cairn", "pos": Vector2(3609, 2478)},
+			{"type": "cairn", "pos": Vector2(3840, 2703)},
 			{"type": "lava_vent", "pos": Vector2(2400, 1600)},
 			{"type": "lava_vent", "pos": Vector2(5400, 2400)},
 			{"type": "lava_vent", "pos": Vector2(2000, 3800)},
@@ -1342,6 +1406,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(3220, 4860)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2611, 1689)},
 			{"kind": "cold_camp", "pos": Vector2(5600, 5000)},
 			{"kind": "standing_farmer", "pos": Vector2(4000, 2400)},
 		],
@@ -1382,6 +1447,7 @@ const _ZONES := {
 			[Vector2(6400, 3960), Vector2(6440, 2800)],
 		],
 		"landmarks": [
+			{"type": "workshop", "pos": Vector2(3072, 4587)},
 			# — the Debt Pit at the heart (lore 04/08) —
 			{"type": "pit", "pos": Vector2(5120, 3000)},
 			{"type": "inscription_stone", "pos": Vector2(5120, 2600), "live": true},
@@ -1416,6 +1482,8 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(5120, 2660)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4710, 3276)},
+			{"kind": "boot_prints", "pos": Vector2(4915, 3358)},
 			{"kind": "boot_prints", "pos": Vector2(5000, 3250)},     # facing the Pit
 			{"kind": "standing_farmer", "pos": Vector2(4400, 4200)},
 			{"kind": "empty_stall", "pos": Vector2(2650, 4520)},
@@ -1466,6 +1534,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2437, 1331)},
 			{"kind": "childs_shoe", "pos": Vector2(2450, 1720)},
 			{"kind": "childs_shoe", "pos": Vector2(4750, 3920)},
 			{"kind": "full_granary", "pos": Vector2(3100, 2500)},
@@ -1495,6 +1564,10 @@ const _ZONES := {
 		"tree_density": 0.9,
 		"roads": [[Vector2(3580, 140), Vector2(3540, 1400), Vector2(3600, 2600), Vector2(3560, 3800)]],
 		"landmarks": [
+			{"type": "bones", "pos": Vector2(2867, 2662)},
+			{"type": "bones", "pos": Vector2(3082, 2816)},
+			{"type": "bones", "pos": Vector2(2867, 2969)},
+			{"type": "bones", "pos": Vector2(2652, 2816)},
 			{"type": "lava_vent", "pos": Vector2(2200, 1400)},
 			{"type": "lava_vent", "pos": Vector2(4800, 1800)},
 			{"type": "lava_vent", "pos": Vector2(1800, 2800)},
@@ -1513,6 +1586,7 @@ const _ZONES := {
 		],
 		"warm_patches": [Vector2(4020, 3460)],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(5304, 3993)},
 			{"kind": "cold_camp", "pos": Vector2(1600, 3600)},
 			{"kind": "chalk_handprints", "pos": Vector2(3900, 3350)},
 		],
@@ -1550,6 +1624,9 @@ const _ZONES := {
 			[Vector2(10060, 4096), Vector2(7590, 4133), Vector2(5120, 4096)],
 		],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(3072, 5079)},
+			{"type": "ledger_tablet", "pos": Vector2(3174, 5242)},
+			{"type": "ledger_tablet", "pos": Vector2(3276, 5079)},
 			{"type": "pit", "pos": Vector2(5120, 3600)},
 			{"type": "inscription_stone", "pos": Vector2(5340, 3520)},
 			{"type": "stone_row", "pos": Vector2(4880, 3420), "count": 5},
@@ -1632,6 +1709,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4915, 2129)},
 			{"kind": "chalk_handprints", "pos": Vector2(4470, 5170)},
 			{"kind": "rows_of_twelve", "pos": Vector2(5040, 3680)},
 		],
@@ -1678,6 +1756,7 @@ const _ZONES := {
 			[Vector2(3584, 4940), Vector2(3621, 3750), Vector2(3584, 2560)],
 		],
 		"landmarks": [
+			{"type": "cottage", "pos": Vector2(4587, 2048)},
 			{"type": "tavern", "pos": Vector2(3020, 1120)},
 			{"type": "workshop", "pos": Vector2(2550, 950)},
 			{"type": "shed", "pos": Vector2(3850, 900)},
@@ -1703,6 +1782,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2150, 3379)},
 			{"kind": "chalk_handprints", "pos": Vector2(2320, 2020)},
 			{"kind": "empty_stall", "pos": Vector2(3620, 1230)},
 			{"kind": "boot_prints", "pos": Vector2(3280, 4080)},
@@ -1748,6 +1828,7 @@ const _ZONES := {
 			[Vector2(3584, 4940), Vector2(3621, 3750), Vector2(3584, 2560)],
 		],
 		"landmarks": [
+			{"type": "pier", "pos": Vector2(2867, 3584), "count": 4, "dir": "s"},
 			{"type": "warehouse", "pos": Vector2(1600, 1400)},
 			{"type": "warehouse", "pos": Vector2(2200, 1800)},
 			{"type": "warehouse", "pos": Vector2(5000, 1600)},
@@ -1778,6 +1859,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4874, 3072)},
 			{"kind": "empty_stall", "pos": Vector2(2500, 3000)},
 			{"kind": "boot_prints", "pos": Vector2(3050, 2450)},
 		],
@@ -1819,6 +1901,8 @@ const _ZONES := {
 			[Vector2(180, 4055), Vector2(3840, 3435), Vector2(3840, 2816)],
 		],
 		"landmarks": [
+			{"type": "cargo", "pos": Vector2(4608, 2590), "count": 4},
+			{"type": "cargo", "pos": Vector2(4838, 2816), "count": 3},
 			{"type": "pier", "pos": Vector2(3200, 4650)},
 			{"type": "boat", "pos": Vector2(3420, 4780)},
 			{"type": "pier", "pos": Vector2(2150, 4600)},
@@ -1858,6 +1942,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(4454, 2703)},
 			{"kind": "empty_stall", "pos": Vector2(1500, 4020)},
 			{"kind": "boot_prints", "pos": Vector2(6050, 4180)},
 		],
@@ -1903,6 +1988,7 @@ const _ZONES := {
 			[Vector2(3840, 180), Vector2(3877, 1498), Vector2(3840, 2816)],
 		],
 		"landmarks": [
+			{"type": "drowned_fence", "pos": Vector2(4608, 1689), "count": 8},
 			{"type": "cabin", "pos": Vector2(3780, 2680)},
 			{"type": "signboard", "pos": Vector2(3480, 2740)},
 			{"type": "lamp", "pos": Vector2(3660, 3060)},
@@ -1932,6 +2018,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3379, 2928)},
 			{"kind": "standing_farmer", "pos": Vector2(6350, 2050)},
 			{"kind": "boot_prints", "pos": Vector2(3380, 4060)},
 			{"kind": "cold_camp", "pos": Vector2(950, 3450)},
@@ -1975,6 +2062,8 @@ const _ZONES := {
 			[Vector2(180, 2560), Vector2(1882, 2597), Vector2(3584, 2560)],
 		],
 		"landmarks": [
+			{"type": "lone_tree", "pos": Vector2(4444, 2969)},
+			{"type": "rocks", "pos": Vector2(4372, 3072), "count": 3},
 			{"type": "workshop", "pos": Vector2(4650, 2250)},
 			{"type": "cabin", "pos": Vector2(4900, 2110)},
 			{"type": "barn", "pos": Vector2(4400, 2060)},
@@ -2004,6 +2093,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2723, 2252)},
 			{"kind": "cold_camp", "pos": Vector2(5560, 1560)},
 			{"kind": "boot_prints", "pos": Vector2(3220, 3520)},
 			{"kind": "childs_shoe", "pos": Vector2(2160, 4260)},
@@ -2046,6 +2136,8 @@ const _ZONES := {
 			[Vector2(7500, 2816), Vector2(5670, 2853), Vector2(3840, 2816)],
 		],
 		"landmarks": [
+			{"type": "inscription_stone", "pos": Vector2(2150, 2590), "live": false},
+			{"type": "inscription_stone", "pos": Vector2(2457, 2478), "live": false},
 			{"type": "dark_keep", "pos": Vector2(3500, 2400)},
 			{"type": "dark_keep", "pos": Vector2(4300, 3300)},
 			{"type": "signboard", "pos": Vector2(3900, 2700)},
@@ -2068,6 +2160,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3686, 2252)},
 			{"kind": "standing_farmer", "pos": Vector2(4100, 3000)},
 			{"kind": "cold_camp", "pos": Vector2(6000, 4600)},
 			{"kind": "boot_prints", "pos": Vector2(3800, 2500)},
@@ -2110,6 +2203,9 @@ const _ZONES := {
 			[Vector2(7500, 2816), Vector2(5670, 2853), Vector2(3840, 2816)],
 		],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(2611, 3266)},
+			{"type": "ledger_tablet", "pos": Vector2(2918, 3266)},
+			{"type": "ledger_tablet", "pos": Vector2(3225, 3266)},
 			{"type": "tavern", "pos": Vector2(4050, 2900)},
 			{"type": "manor", "pos": Vector2(4700, 1500)},
 			{"type": "statue", "pos": Vector2(4550, 1700)},
@@ -2141,6 +2237,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3993, 2027)},
 			{"kind": "empty_stall", "pos": Vector2(2990, 1720)},
 			{"kind": "boot_prints", "pos": Vector2(2240, 4340)},
 			{"kind": "cold_camp", "pos": Vector2(5300, 3700)},
@@ -2181,6 +2278,8 @@ const _ZONES := {
 			[Vector2(5120, 8012), Vector2(5157, 6054), Vector2(5120, 4096)],
 		],
 		"landmarks": [
+			{"type": "ledger_tablet", "pos": Vector2(3993, 4669)},
+			{"type": "ledger_tablet", "pos": Vector2(6144, 2457)},
 			{"type": "manor", "pos": Vector2(5100, 2400), "tint": Color(0.85, 0.88, 0.95)},
 			{"type": "manor", "pos": Vector2(4400, 2800), "tint": Color(0.82, 0.85, 0.92)},
 			{"type": "manor", "pos": Vector2(5800, 2800), "tint": Color(0.82, 0.85, 0.92)},
@@ -2223,6 +2322,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3891, 4751)},
 			{"kind": "rows_of_twelve", "pos": Vector2(5100, 4400)},
 			{"kind": "boot_prints", "pos": Vector2(5050, 2200)},
 			{"kind": "standing_farmer", "pos": Vector2(4400, 4700)},
@@ -2328,6 +2428,7 @@ const _ZONES := {
 			[Vector2(6988, 2560), Vector2(5286, 2597), Vector2(3584, 2560)],
 		],
 		"landmarks": [
+			{"type": "graves", "pos": Vector2(3870, 2867), "count": 1},
 			{"type": "graves", "pos": Vector2(2000, 1600), "count": 12},
 			{"type": "graves", "pos": Vector2(3200, 1600), "count": 12},
 			{"type": "graves", "pos": Vector2(4400, 1600), "count": 12},
@@ -2349,6 +2450,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(3727, 2867)},
 			{"kind": "rows_of_twelve", "pos": Vector2(3300, 3300)},
 			{"kind": "standing_farmer", "pos": Vector2(2700, 2000)},
 			{"kind": "boot_prints", "pos": Vector2(3650, 4340)},
@@ -2382,6 +2484,7 @@ const _ZONES := {
 			[Vector2(2048, 180), Vector2(2085, 1114), Vector2(2048, 2048)],
 		],
 		"landmarks": [
+			{"type": "cargo", "pos": Vector2(1802, 2457), "count": 4},
 			{"type": "ledger_tablet", "pos": Vector2(2048, 1000), "live": true},
 			{"type": "ledger_tablet", "pos": Vector2(1500, 1700), "live": true},
 			{"type": "ledger_tablet", "pos": Vector2(2600, 1600)},
@@ -2398,6 +2501,7 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(2293, 1638)},
 			{"kind": "cold_camp", "pos": Vector2(2500, 3600)},
 			{"kind": "boot_prints", "pos": Vector2(2000, 1200)},
 		],
@@ -2429,6 +2533,7 @@ const _ZONES := {
 			[Vector2(3584, 180), Vector2(3621, 1370), Vector2(3584, 2560)],
 		],
 		"landmarks": [
+			{"type": "rocks", "pos": Vector2(5017, 2662), "count": 5},
 			{"type": "inscription_stone", "pos": Vector2(2400, 2000), "live": true},
 			{"type": "inscription_stone", "pos": Vector2(4400, 2600), "live": true},
 			{"type": "inscription_stone", "pos": Vector2(3400, 3800), "live": true},
@@ -2448,6 +2553,8 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "murder_scene", "pos": Vector2(5591, 2457)},
+			{"kind": "boot_prints", "pos": Vector2(5734, 2457)},
 			{"kind": "boot_prints", "pos": Vector2(2450, 2100)},
 			{"kind": "standing_farmer", "pos": Vector2(3450, 3900)},
 			{"kind": "cold_camp", "pos": Vector2(6000, 2000)},
@@ -2482,6 +2589,7 @@ const _ZONES := {
 			[Vector2(3072, 4428), Vector2(3109, 3366), Vector2(3072, 2304)],
 		],
 		"landmarks": [
+			{"type": "cairn", "pos": Vector2(3440, 2211)},
 			{"type": "tavern", "pos": Vector2(3000, 2200)},
 			{"type": "camp", "pos": Vector2(3100, 2500)},
 			{"type": "brazier", "pos": Vector2(2900, 2400)},
@@ -2503,6 +2611,8 @@ const _ZONES := {
 		],
 		"warm_patches": [],
 		"vignettes": [
+			{"kind": "chalk_handprints", "pos": Vector2(3072, 2027)},
+			{"kind": "full_granary", "pos": Vector2(2826, 2396)},
 			{"kind": "full_granary", "pos": Vector2(2450, 2900)},
 			{"kind": "chalk_handprints", "pos": Vector2(3050, 1950)},
 		],
