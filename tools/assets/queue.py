@@ -25,6 +25,8 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import interpret as I
 import generate as G   # reuse comfy client + sdxl workflow + STYLE/NEG/BGWORDS
+import gauntlet as GAUNTLET   # the vision gauntlet (#115) — final unanimous gate
+import council as COUNCIL     # generation-council routing (#115)
 
 # ---------------------------------------------------------------------------- storage (D:)
 LIB_ROOT = os.environ.get("RH_ASSETLIB_ROOT", r"D:\raven hollow\assetlib")
@@ -220,6 +222,12 @@ def run_one(cat, man, ph, lib):
             ok, sc = I.cleanliness_report(obj, require_single_subject=not single)
             if not ok:
                 man["rejected"] += 1
+                continue
+            gok, gv = GAUNTLET.run_gauntlet(obj)          # THE VISION GAUNTLET — unanimous or rejected
+            if not gok:
+                man["rejected"] += 1
+                man.setdefault("gauntlet_rejected", 0)
+                man["gauntlet_rejected"] += 1
                 continue
             h = dhash(obj)
             if any(hamming(h, e) <= DHASH_MIN_DISTANCE for e in ph[cat]):

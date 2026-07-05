@@ -28,6 +28,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import interpret as I   # clean_sprite, cleanliness_report, montage, animated_strip_montage, library_add, ASSETLIB
+import gauntlet as _GAUNTLET   # the vision gauntlet (#115) — final unanimous gate
 
 COMFY = os.environ.get("COMFYUI_URL", "http://127.0.0.1:8188")
 # Disk law (owner): bulk/raw output goes to D:, NEVER C:. Only the small committed deliverables
@@ -159,6 +160,10 @@ def run_inanimate(specs, tag):
             for j, clean in enumerate(objs):
                 ok, scores = I.cleanliness_report(clean, require_single_subject=not spec.get("single", False))
                 suffix = f"_{seed}" + (f"_{j}" if len(objs) > 1 else "")
+                gok, gv = _GAUNTLET.run_gauntlet(clean) if ok else (False, [])
+                if ok and not gok:
+                    ok = False
+                    scores["gauntlet"] = _GAUNTLET.verdict_reasons(gv)
                 if ok:
                     aid = f"{spec['id']}{suffix}"
                     outp = os.path.join(outdir, aid + ".png")
@@ -176,8 +181,9 @@ def run_inanimate(specs, tag):
                     print(f"  PASS {aid}  colors={scores['n_colors']} blob={scores['largest_blob_frac']} compat={scores['palette_compat_frac']}", flush=True)
                 else:
                     fails = [k2 for k2, v in scores["checks"].items() if not v]
-                    rejected.append((f"{spec['id']}{suffix}", seed, ",".join(fails)))
-                    print(f"  REJECT {spec['id']}{suffix}  fails={fails}", flush=True)
+                    extra = (" | gauntlet: " + scores["gauntlet"]) if scores.get("gauntlet") else ""
+                    rejected.append((f"{spec['id']}{suffix}", seed, ",".join(fails) + extra))
+                    print(f"  REJECT {spec['id']}{suffix}  fails={fails}{extra}", flush=True)
     if sprites:
         m = I.montage(sprites, cols=6, title=f"gen_{tag}")
         mp = os.path.join(outdir, f"gen_{tag}_montage.png")

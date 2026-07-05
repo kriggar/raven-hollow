@@ -1,0 +1,40 @@
+{
+  "scores": {
+    "SDXL+PixelArtXL": {
+      "status": "ok",
+      "seconds": 308.3,
+      "gauntlet_pass": true,
+      "gauntlet": "pixel-art ok (flat 0.83, 23 colours); palette ok (1.00 in gothic family); ambience ok (mean sat 30); vlm_style: YES \u2014 Yes, the image is pixel art and it features a muted gothic medieval style with dark, desat; vlm_perspective: YES \u2014 Yes, the image is drawn from a top-down game view. It shows an in-game scene of a shop wit"
+    },
+    "SDXL base (no LoRA)": {
+      "status": "ok",
+      "seconds": 26.5,
+      "gauntlet_pass": true,
+      "gauntlet": "pixel-art ok (flat 0.70, 23 colours); palette ok (1.00 in gothic family); ambience ok (mean sat 29); vlm_style: YES \u2014 Yes, the image you've provided is pixel art and it features a muted color palette with a d; vlm_perspective: YES \u2014 Yes, the image is drawn from a top-down or bird's eye view, which is typical for games tha"
+    },
+    "FLUX-dev + 2DHD-pixel LoRA": {
+      "status": "ok",
+      "seconds": 89.7,
+      "gauntlet_pass": true,
+      "gauntlet": "pixel-art ok (flat 0.77, 20 colours); palette ok (1.00 in gothic family); ambience ok (mean sat 8); vlm_style: YES \u2014 Yes, the image you've provided is pixel art and it appears to be in a muted gothic medieva; vlm_perspective: YES \u2014 Yes, the image appears to be drawn from a top-down or 3/4 overhead game view, as it shows "
+    },
+    "FLUX-dev + topdown-pixel LoRA": {
+      "status": "ok",
+      "seconds": 64.2,
+      "gauntlet_pass": true,
+      "gauntlet": "pixel-art ok (flat 0.85, 20 colours); palette ok (1.00 in gothic family); ambience ok (mean sat 31); vlm_style: YES \u2014 Yes, the image you've provided is pixel art and it features a muted gothic medieval style ; vlm_perspective: YES \u2014 Yes, the image appears to be drawn from a top-down or isometric game view, as it shows the"
+    },
+    "Wan2.2 TI2V-5B (video)": {
+      "status": "ok",
+      "frames": 5
+    }
+  },
+  "skipped": {
+    "SD1.5": "not installed (no v1-5 checkpoint in ComfyUI/models)",
+    "AnimateDiff": "custom nodes not installed",
+    "LTX-Video": "not installed (would need ~ multi-GB fetch)",
+    "CogVideoX-2B": "not installed (would need fetch + nodes)",
+    "Flux-schnell": "not installed (only flux1-dev-fp8 present)",
+    "Hunyuan3D-v2": "image->3D model, not a text->2D-sprite generator (out of scope for the 2D matrix)"
+  }
+}
