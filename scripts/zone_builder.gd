@@ -74,12 +74,12 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 		keep_clear.append(Rect2((vg["pos"] as Vector2) - Vector2(90, 70), Vector2(180, 140)))
 
 	_build_ground(parent, rng, tiles_w, tiles_h, pal, def)
-	_ground_breakup(parent, rng, tiles_w, tiles_h, pal)
 	_build_river(parent, def)
 	for rp_v: Variant in def.get("river", []):
 		keep_clear.append(Rect2((rp_v as Vector2) - Vector2(180, 130), Vector2(360, 260)))
 	var road_rects: Array[Rect2] = _build_roads(parent, def, pal.has("ground_sheet"))
 	keep_clear.append_array(road_rects)
+	_ground_breakup(parent, rng, tiles_w, tiles_h, pal, keep_clear)
 	_build_warm_ground(parent, rng, def)
 	_scatter_vegetation(parent, rng, tiles_w, tiles_h, pal, def, keep_clear)
 	_build_landmarks(parent, rng, def)
@@ -226,13 +226,10 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 			for s in range(steps + 1):
 				var p: Vector2 = a.lerp(b, float(s) / float(steps))
 				var c := Vector2i(int(p.x / TILE), int(p.y / TILE))
-				if packed_ground:
-					# contiguous 2-wide solid slab road, no jogs
-					layer.set_cell(c, 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
-					layer.set_cell(c + Vector2i(0, 1), 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
-				else:
-					layer.set_cell(c, 0, Vector2i(rng.randi_range(0, 2), rng.randi_range(4, 5) - 4 + 4))
-					layer.set_cell(c + Vector2i(0, 1), 0, Vector2i(rng.randi_range(0, 2), rng.randi_range(4, 5) - 4 + 4))
+				# Solid contiguous 2-wide slab road on EVERY biome — the grass-slab
+				# variants read as scattered squares (sitting-#1 round 2).
+				layer.set_cell(c, 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
+				layer.set_cell(c + Vector2i(0, 1), 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
 				rects.append(Rect2(p - Vector2(44, 44), Vector2(88, 88)))
 	parent.add_child(layer)
 	return rects
@@ -250,11 +247,18 @@ static func _build_warm_ground(parent: Node2D, rng: RandomNumberGenerator, def: 
 		glow.energy = 0.35
 		glow.texture_scale = 2.2
 		parent.add_child(glow)
-		for i in range(4):
+		var wstain := Sprite2D.new()
+		wstain.texture = _radial_tex()
+		wstain.position = pos
+		wstain.scale = Vector2(0.7, 0.4)
+		wstain.modulate = Color(0.55, 0.38, 0.22, 0.26)
+		wstain.z_index = -7
+		parent.add_child(wstain)
+		for i in range(3):
 			var scratch := ColorRect.new()
-			scratch.color = Color(0.62, 0.50, 0.38, 0.5)
-			scratch.size = Vector2(rng.randf_range(26, 44), 2)
-			scratch.position = pos + Vector2(rng.randf_range(-30, 12), -22 + i * 12)
+			scratch.color = Color(0.55, 0.44, 0.32, 0.35)
+			scratch.size = Vector2(rng.randf_range(14, 24), 1)
+			scratch.position = pos + Vector2(rng.randf_range(-16, 6), -10 + i * 8)
 			scratch.z_index = -6
 			parent.add_child(scratch)
 
@@ -470,11 +474,20 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 
 
 static func _dust_lines(parent: Node2D, pos: Vector2) -> void:
-	for i in range(3):
+	# Aligned-dust ground stain: layered soft ellipses + THIN short scores —
+	# reads as disturbed earth (the old 3-bar version floated like a glyph).
+	var stain := Sprite2D.new()
+	stain.texture = _radial_tex()
+	stain.position = pos
+	stain.scale = Vector2(0.55, 0.28)
+	stain.modulate = Color(0.42, 0.34, 0.24, 0.30)
+	stain.z_index = -7
+	parent.add_child(stain)
+	for i in range(4):
 		var ln := ColorRect.new()
-		ln.color = Color(0.66, 0.56, 0.44, 0.55)
-		ln.size = Vector2(34, 2)
-		ln.position = pos + Vector2(-16, i * 9)
+		ln.color = Color(0.50, 0.42, 0.32, 0.38)
+		ln.size = Vector2(16.0 + float(i % 2) * 6.0, 1)
+		ln.position = pos + Vector2(-10.0 + float(i % 2) * 4.0, -6.0 + i * 5.0)
 		ln.z_index = -6
 		parent.add_child(ln)
 
@@ -813,12 +826,14 @@ static func _validate_forty_second_rule(def: Dictionary, w: int, h: int) -> void
 
 ## Sitting-#1 fix: irregular ground decals kill the tile repeat-grid read.
 static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, h: int,
-		pal: Dictionary) -> void:
+		pal: Dictionary, keep_clear: Array[Rect2]) -> void:
 	var world_w: float = w * TILE
 	var world_h: float = h * TILE
 	var n: int = int(world_w * world_h / 220000.0)
 	for i in range(n):
 		var pos := Vector2(rng.randf_range(40, world_w - 40), rng.randf_range(40, world_h - 40))
+		if _in_any(pos, keep_clear):
+			continue
 		var roll: float = rng.randf()
 		if roll < 0.45:
 			var spr := Sprite2D.new()
