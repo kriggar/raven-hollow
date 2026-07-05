@@ -17,11 +17,15 @@ integration, and verification only.
    NOT yours to decide — flag and stop).
 4. Canon: `../_lore_extract.txt` (grep it before inventing anything).
 
-## OPUS MAX-EFFORT LAW (owner, standing)
-Every Opus 4.8 invocation — driver sessions, sub-agents, painters, builders,
-researchers — runs at MAXIMUM effort and thoroughness. Never quick-pass,
-never skim. Spawning an agent? Write "MAXIMUM effort" into its mission and
-give it the full context it needs to be exhaustive.
+## MAX-EFFORT LAW (owner, standing — ALL AI)
+Every Opus 4.8 invocation AND every LOCAL AI invocation (Ollama models,
+ComfyUI generation, vision inspectors, the studio roles, the flywheel)
+runs at MAXIMUM effort and thoroughness. Concretely for local models:
+highest-quality settings that fit the hardware — full sampling steps (no
+draft/turbo shortcuts on final assets), best-fitting quant, retries over
+shortcuts, full validator passes, never skip a gate to save time. Never
+quick-pass, never skim. Spawning an agent? Write "MAXIMUM effort" into its
+mission and give it the full context it needs to be exhaustive.
 
 ## The driver loop
 pick task from BACKLOG → produce with LOCAL tools → run the validators →
