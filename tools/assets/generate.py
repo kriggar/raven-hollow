@@ -201,6 +201,76 @@ WAN_NEG = ("static, still, frozen, blurry, low quality, jpeg artifacts, watermar
            "grass, scenery, fire, flames, torch, glow, glowing, magic, aura, lens flare, smoke, "
            "particles, color change, recolor")
 
+# ---------------------------------------------------------------------------------------
+# WAN ENVELOPE  (owner MAX-EFFORT law, sorceress-derived, 2026-07-06)
+# Wan2.2-TI2V-5B is happiest inside a fixed envelope: latent length must be 4k+1 (the temporal VAE
+# packs 4 frames per latent + 1 anchor), 24 fps, 720p base. We SNAP any requested length to 4k+1 and
+# WARN, and the seed is always logged + settable so a clip is reproducible / retry-routable (part E).
+# ---------------------------------------------------------------------------------------
+WAN_FPS = 24
+WAN_DEFAULT_RES = (1280, 720)          # 720p envelope default (sprite lane overrides to a square)
+
+
+def snap_wan_length(n):
+    """Snap a requested frame length to the nearest valid Wan 4k+1 value (min 5). Returns
+    (snapped, changed:bool) so the caller can warn."""
+    n = max(5, int(n))
+    k = max(1, round((n - 1) / 4.0))
+    snapped = k * 4 + 1
+    return snapped, (snapped != n)
+
+
+# Frame-budget presets: each sets the EXTRACTION frame count (how many keyframes we pull from the
+# clip for the sprite) + a motion prompt hint. `vfx` = free (keep all usable frames). The Wan clip
+# LENGTH is independent and always snapped to the 4k+1 envelope.
+PRESETS = {
+    "idle":   {"frames": 4, "hint": "subtle idle breathing, gentle sway, minimal motion, weight shift"},
+    "walk4":  {"frames": 4, "hint": "4-pose walk cycle, legs striding, contact-pass-contact-pass"},
+    "walk8":  {"frames": 8, "hint": "smooth 8-frame walk cycle, legs striding, gentle body bob"},
+    "attack": {"frames": 6, "hint": "attack swing, wind-up then strike then recover, clear silhouette"},
+    "vfx":    {"frames": 0, "hint": "roiling energy, layered particles, glow falloff, secondary motion"},
+}
+
+
+# ---------------------------------------------------------------------------------------
+# RETRY ROUTES  (owner law, part E — never fail a whole batch for one item)
+# On a gauntlet FAIL of an animation item: attempts 1-2 re-roll the SEED (same settings); attempt 3
+# switches the SETTINGS route (more steps + different cfg/denoise). Route history is logged. A single
+# item that exhausts its routes is DROPPED (returns None) — the batch keeps going.
+# ---------------------------------------------------------------------------------------
+def plan_routes(base_seed, max_attempts=3):
+    routes = []
+    for i in range(max_attempts):
+        seed = (int(base_seed) + i * 104729) % 2_000_000_000
+        if i < 2:
+            settings = {"steps": 28, "cfg": 5.0, "denoise": 1.0}
+            why = ("primary route" if i == 0 else "alternate seed (settings held)")
+        else:
+            settings = {"steps": 36, "cfg": 6.0, "denoise": 0.9}
+            why = "alternate settings route (steps 36 / cfg 6.0 / denoise 0.9)"
+        routes.append({"attempt": i + 1, "seed": seed, "settings": settings, "why": why})
+    return routes
+
+
+def run_with_retry(item_id, attempt_fn, base_seed, max_attempts=3, log=None):
+    """Run attempt_fn(seed, settings) -> (ok:bool, payload, detail:str) across the retry plan.
+    Logs every route, returns (payload_or_None, history). NEVER raises for a single item."""
+    log = log or (lambda m: print(m, flush=True))
+    history = []
+    for r in plan_routes(base_seed, max_attempts):
+        try:
+            ok, payload, detail = attempt_fn(r["seed"], r["settings"])
+        except Exception as e:
+            ok, payload, detail = False, None, f"exception: {e}"
+        history.append({"attempt": r["attempt"], "seed": r["seed"], "why": r["why"],
+                        "ok": bool(ok), "detail": detail})
+        log(f"[retry] {item_id} attempt {r['attempt']} seed={r['seed']} ({r['why']}): "
+            f"{'PASS' if ok else 'FAIL'} - {detail}")
+        if ok:
+            return payload, history
+    log(f"[retry] {item_id}: all {max_attempts} routes failed - item DROPPED, batch continues")
+    return None, history
+
 
 def _prep_start(clean_char, W, H):
     im = clean_char.convert("RGBA")
@@ -218,7 +288,11 @@ def _prep_start(clean_char, W, H):
     return name
 
 
-def wan_workflow(start_name, pos, seed, W, H, length):
+def wan_workflow(start_name, pos, seed, W, H, length, steps=28, cfg=5.0, denoise=1.0):
+    length, changed = snap_wan_length(length)
+    if changed:
+        sys.stderr.write(f"[wan] envelope: snapped length -> {length} (must be 4k+1)\n")
+    sys.stderr.write(f"[wan] seed={seed} {W}x{H} length={length} fps={WAN_FPS} steps={steps} cfg={cfg} denoise={denoise}\n")
     return {
         "37": {"class_type": "UNETLoader", "inputs": {"unet_name": "wan2.2_ti2v_5B_fp16.safetensors", "weight_dtype": "default"}},
         "38": {"class_type": "CLIPLoader", "inputs": {"clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors", "type": "wan", "device": "default"}},
@@ -228,7 +302,7 @@ def wan_workflow(start_name, pos, seed, W, H, length):
         "7": {"class_type": "CLIPTextEncode", "inputs": {"text": WAN_NEG, "clip": ["38", 0]}},
         "55": {"class_type": "LoadImage", "inputs": {"image": start_name}},
         "63": {"class_type": "Wan22ImageToVideoLatent", "inputs": {"vae": ["39", 0], "width": W, "height": H, "length": length, "batch_size": 1, "start_image": ["55", 0]}},
-        "3": {"class_type": "KSampler", "inputs": {"seed": seed, "steps": 28, "cfg": 5.0, "sampler_name": "uni_pc", "scheduler": "simple", "denoise": 1.0, "model": ["48", 0], "positive": ["6", 0], "negative": ["7", 0], "latent_image": ["63", 0]}},
+        "3": {"class_type": "KSampler", "inputs": {"seed": seed, "steps": steps, "cfg": cfg, "sampler_name": "uni_pc", "scheduler": "simple", "denoise": denoise, "model": ["48", 0], "positive": ["6", 0], "negative": ["7", 0], "latent_image": ["63", 0]}},
         "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["39", 0]}},
         "9": {"class_type": "SaveImage", "inputs": {"images": ["8", 0], "filename_prefix": "rh_wan_frames"}},
     }
@@ -284,11 +358,17 @@ def pixelsnap_frames(frame_imgs, count=8, target_px=56, n_colors=32, skip=6):
     return frames
 
 
-def gen_creature(spec):
-    """base pose -> Wan clip per state -> pixel-snap -> clean frames -> strip + gif + library."""
-    W = spec.get("wan_w", 512); H = spec.get("wan_h", 512); length = spec.get("wan_len", 41)
+def gen_creature(spec, preset=None, seed=None):
+    """base pose -> Wan clip per state -> pixel-snap -> clean frames -> strip + gif + library.
+    `preset` (idle|walk4|walk8|attack|vfx) sets the extraction frame budget + a motion hint;
+    `seed` overrides spec's seed (retry routing, part E). The Wan length is snapped to the 4k+1
+    envelope inside wan_workflow and the seed is logged there."""
+    W = spec.get("wan_w", 512); H = spec.get("wan_h", 512)
+    length, _ = snap_wan_length(spec.get("wan_len", 41))
+    use_seed = seed if seed is not None else spec.get("seed", 700)
+    pre = PRESETS.get(preset, {})
     base_pos = f"{spec['subject']}, full body, side view, " + STYLE.format(bg=BGWORDS["green"])
-    imgs = run_workflow(sdxl_workflow(base_pos, NEG, spec.get("seed", 700), w=768, h=768))
+    imgs = run_workflow(sdxl_workflow(base_pos, NEG, use_seed, w=768, h=768))
     if not imgs:
         print(f"  [wan] {spec['id']}: base gen failed", flush=True); return None
     base = I.cutout(_fetch_image(imgs[0]))
@@ -297,19 +377,40 @@ def gen_creature(spec):
     base.save(os.path.join(outdir, "_base.png"))
 
     states = spec.get("states", {"walk": "walking, legs striding, gentle body bob"})
-    lib_states, fps_map, all_first = {}, {}, []
+    n_extract = pre.get("frames") or spec.get("frames", 8)
+    if not n_extract:          # vfx preset (0) -> keep the default budget of usable frames
+        n_extract = spec.get("frames", 8)
+    min_frac = spec.get("gauntlet_min_frac", 0.7)
+    lib_states, fps_map, all_first, routes_log = {}, {}, [], {}
     for st, motion in states.items():
-        start = _prep_start(base, W, H)
-        pos = (f"pixel art, retro RPG creature sprite, {spec['subject']}, {motion}, "
+        hint = (motion + ", " + pre["hint"]) if pre.get("hint") else motion
+        pos = (f"pixel art, retro RPG creature sprite, {spec['subject']}, {hint}, "
                "single centered character only, plain solid flat chroma green background, "
                "no ground no floor no shadow, consistent character, smooth looping animation, dark fantasy gothic")
-        print(f"  [wan] {spec['id']}/{st}: {W}x{H}x{length} generating...", flush=True)
-        fr = run_workflow(wan_workflow(start, pos, spec.get("seed", 700), W, H, length), timeout=1200)
-        if not fr:
-            print(f"  [wan] {spec['id']}/{st}: FAILED (no frames)", flush=True); continue
-        frame_imgs = [_fetch_image(x) for x in fr]
-        frames = pixelsnap_frames(frame_imgs, count=spec.get("frames", 8), target_px=spec.get("target_px", 56))
-        # verify each frame is clean/isolated
+
+        def _attempt(clip_seed, settings, _st=st, _pos=pos):
+            """One clip generation + gauntlet gate. Returns (ok, frames, detail) for the retry harness."""
+            start = _prep_start(base, W, H)
+            print(f"  [wan] {spec['id']}/{_st}: {W}x{H}x{length} seed={clip_seed} preset={preset} "
+                  f"steps={settings['steps']} denoise={settings['denoise']} generating...", flush=True)
+            fr = run_workflow(wan_workflow(start, _pos, clip_seed, W, H, length, **settings), timeout=1200)
+            if not fr:
+                return False, None, "no frames from Wan"
+            frame_imgs = [_fetch_image(x) for x in fr]
+            frames = pixelsnap_frames(frame_imgs, count=n_extract, target_px=spec.get("target_px", 56))
+            n = len(frames)
+            clean_ok = sum(1 for f in frames if I.cleanliness_report(f)[0])
+            gpass = sum(1 for f in frames if _GAUNTLET.run_gauntlet(f)[0])
+            frac = gpass / n if n else 0.0
+            ok = (clean_ok == n) and (frac >= min_frac)
+            return ok, frames, f"{clean_ok}/{n} clean, {gpass}/{n} gauntlet ({frac:.2f} vs min {min_frac})"
+
+        frames, history = run_with_retry(f"{spec['id']}/{st}", _attempt, use_seed,
+                                         max_attempts=spec.get("max_attempts", 3))
+        routes_log[st] = history
+        if not frames:
+            print(f"  [wan] {spec['id']}/{st}: DROPPED after retries (batch continues)", flush=True)
+            continue
         clean_ok = sum(1 for f in frames if I.cleanliness_report(f)[0])
         strip, gif = I.animated_strip_montage(frames, scale=4)
         strip.convert("RGB").save(os.path.join(outdir, f"{st}_strip.png"))
@@ -322,7 +423,8 @@ def gen_creature(spec):
             sheet.alpha_composite(f, (i * cw + (cw - f.width) // 2, ch - f.height))
         sheet.save(os.path.join(outdir, f"{st}_sheet.png"))
         lib_states[st] = {"frames": len(frames), "frame_size": [cw, ch], "clean_frames": clean_ok,
-                          "sheet": os.path.relpath(os.path.join(outdir, f"{st}_sheet.png"), I.ASSETLIB)}
+                          "sheet": os.path.relpath(os.path.join(outdir, f"{st}_sheet.png"), I.ASSETLIB),
+                          "route_history": routes_log.get(st, [])}
         fps_map[st] = len(frames)
         all_first.append(frames[0])
         print(f"  [wan] {spec['id']}/{st}: {len(frames)} frames, {clean_ok} clean -> {st}_sheet.png", flush=True)
@@ -349,12 +451,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--batch", default="sample", help="sample | props | harbor | buildings | all | animated")
     ap.add_argument("--limit", type=int, default=0, help="cap number of specs (0=all)")
+    ap.add_argument("--preset", default=None, choices=list(PRESETS.keys()),
+                    help="frame-budget preset for the animated lane (idle|walk4|walk8|attack|vfx)")
+    ap.add_argument("--seed", type=int, default=None, help="override the Wan/base seed (reproducible)")
     args = ap.parse_args()
 
     if args.batch == "animated":
         done = []
         for cs in (CREATURE_SPECS[: args.limit] if args.limit else CREATURE_SPECS):
-            d = gen_creature(cs)
+            d = gen_creature(cs, preset=args.preset, seed=args.seed)
             if d:
                 done.append(cs["id"])
         print(f"[gen] animated done: {done}", flush=True)

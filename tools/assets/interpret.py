@@ -119,17 +119,76 @@ def _dominant_border_color(im):
     return c.most_common(1)[0][0]
 
 
-def cutout(im):
-    """Isolate the subject on transparent. Collects candidate cuts -- border flood-fill from the
-    dominant border colour (two tolerances), an explicit near-white key when the border is bright,
-    and rembg (u2net) -- keeps the VALID ones (0.03..0.90 opaque) and returns the one that removed
-    the MOST background. This defeats the 'raw white render slips through' failure: a flat light
-    background is always keyed, never returned as the sprite."""
+def _chroma_kind(col):
+    """Classify a border colour as a chroma KEY: 'green', 'magenta', or 'neutral'."""
+    r, g, b = col[:3]
+    if g > 90 and g > r + 35 and g > b + 35:
+        return "green"
+    if r > 90 and b > 90 and g + 30 < r and g + 30 < b:
+        return "magenta"
+    return "neutral"
+
+
+def detect_key_color(im):
+    """Sorceress adaptive chroma detection. Returns (kind, border_col, collision_frac) where kind is
+    'green'|'magenta'|'neutral' and collision_frac is the fraction of the SPRITE's interior opaque
+    pixels that share the key hue (i.e. would be wrongly eaten by a naive global colour key). A high
+    collision means the render should have used the OTHER key screen — we log it and stay spatial."""
     im = im.convert("RGBA")
     bgcol = _dominant_border_color(im)
+    kind = _chroma_kind(bgcol)
+    if kind == "neutral":
+        return kind, bgcol, 0.0
+    keyed = _border_floodfill_key(im.copy(), bgcol, tol=96)     # spatial removal (safe interior)
+    px = keyed.load(); w, h = keyed.size
+    survive = collide = 0
+    for y in range(0, h, 2):
+        for x in range(0, w, 2):
+            r, g, b, a = px[x, y]
+            if a < 128:
+                continue
+            survive += 1
+            if kind == "green" and g > r + 24 and g > b + 24:
+                collide += 1
+            elif kind == "magenta" and r > g + 24 and b > g + 24:
+                collide += 1
+    return kind, bgcol, (collide / survive if survive else 0.0)
+
+
+def adaptive_chroma_key(im, tol=96):
+    """Remove a uniform green/magenta key screen by border flood-fill (spatial: cannot punch holes in
+    same-hued interior detail the way a global colour test would), then RGB-despill the survivors so
+    no coloured fringe leaks from the key. Returns (keyed_rgba, info). Neutral bg falls back to cutout."""
+    im = im.convert("RGBA")
+    kind, bgcol, coll = detect_key_color(im)
+    if kind == "neutral":
+        return cutout(im), {"key": "neutral", "collision_frac": 0.0}
+    keyed = _despill(_border_floodfill_key(im.copy(), bgcol, tol=tol))
+    if coll > 0.15:
+        sys.stderr.write(f"[interpret] chroma collision {coll:.2f}: sprite shares the {kind} key hue — "
+                         f"render on the OTHER key for a cleaner cut (keying stayed spatial)\n")
+    return keyed, {"key": kind, "border": list(bgcol), "collision_frac": round(coll, 3)}
+
+
+def cutout(im):
+    """Isolate the subject on transparent. Collects candidate cuts -- an ADAPTIVE CHROMA-KEY pass
+    (green/magenta detected + despilled), border flood-fill from the dominant border colour (two
+    tolerances), an explicit near-white key when the border is bright, and rembg (u2net) -- keeps
+    the VALID ones (0.03..0.90 opaque) and returns the one that removed the MOST background. This
+    defeats the 'raw white render slips through' failure: a flat light background is always keyed."""
+    im = im.convert("RGBA")
+    bgcol = _dominant_border_color(im)
+    kind = _chroma_kind(bgcol)
     cands = []
+    if kind != "neutral":                          # adaptive chroma-key candidate (despilled)
+        k = _despill(_border_floodfill_key(im.copy(), bgcol, tol=96))
+        f = _opaque_fraction(k)
+        if 0.03 < f < 0.90:
+            cands.append((f, k))
     for tol in (72, 112):
         k = _border_floodfill_key(im.copy(), bgcol, tol=tol)
+        if kind != "neutral":
+            k = _despill(k)
         f = _opaque_fraction(k)
         if 0.03 < f < 0.90:
             cands.append((f, k))
@@ -792,6 +851,17 @@ def library_add(entry):
     lib["assets"].append(entry)
     save_library(lib)
     return lib["count"] if "count" in lib else len(lib["assets"])
+
+
+# ========================================================================================
+# ANIMATION CALL-THROUGH  --  optional finishing chain for animation batches (sorceress)
+# ========================================================================================
+def finish_animation_frames(source, cell=64, colors=24, anchor="centroid", **kw):
+    """Optional call-through to the animation finishing chain (palette-lock + silhouette downscale +
+    hard-edge + anchor-align + temporal de-sparkle) for animation batches, BEFORE the frames are cut.
+    Lazily imports anim_finish to avoid a circular import. Returns (finished_frames, report)."""
+    import anim_finish as AF
+    return AF.finish_animation(source, cell=cell, colors=colors, anchor=anchor, **kw)
 
 
 # ========================================================================================
