@@ -389,6 +389,10 @@ class Fauna extends Node2D:
 				_add(sf, t, "move", [Rect2(25, 283, 28, 34), Rect2(59, 283, 29, 34),
 						Rect2(94, 283, 36, 34)], 8.0, true)
 				_off = Vector2(0.0, -17.0)
+				# PIXEL-VERIFIED 2026-07-05 (owner bug report: rabbits ran left
+				# facing right): these frames face LEFT, not right as the old
+				# annotation claimed. facing_check.png is the evidence.
+				_art_faces_left = true
 			"bird":
 				# bird_1_brown.png 96x256 3x8 @32; row7 (y224) = ground/perched
 				# side (RIGHT), row2 (y64) = top-down wings-spread fly.
