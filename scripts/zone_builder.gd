@@ -52,7 +52,13 @@ const _PALETTES := {
 	"tundra": {"tint": Color(0.96, 0.97, 1.0), "patch_chance": 0.0, "tree_tint": Color(0.78, 0.80, 0.90), "cold": true,
 		"ground_sheet": "res://assets/art/world/snow/snow_96x64.png", "ground_cols": 3, "ground_rows": 2,
 		"tree_set": ["res://assets/art/world/deadforest/birch_dead.png", "res://assets/art/world/deadforest/tree_dark1.png", "res://assets/art/world/deadforest/tree_dark2.png"]},
-	"volcanic": {"tint": Color(0.72, 0.58, 0.52), "patch_chance": 0.18, "tree_tint": Color(0.52, 0.42, 0.38)},
+	"volcanic": {"tint": Color(0.86, 0.80, 0.78), "patch_chance": 0.0, "tree_tint": Color(0.72, 0.66, 0.64),
+		"ground_sheet": "res://assets/art/world/volcanic/basalt_128x64.png", "ground_cols": 4, "ground_rows": 2,
+		"rocky": true, "rock_set": ["res://assets/art/world/volcanic/rock_a.png", "res://assets/art/world/volcanic/rock_b.png",
+			"res://assets/art/world/volcanic/rock_c.png", "res://assets/art/world/volcanic/rock_d.png",
+			"res://assets/art/world/volcanic/cairn.png"],
+		"tree_set": ["res://assets/art/world/volcanic/tree_burnt1.png", "res://assets/art/world/volcanic/tree_burnt2.png",
+			"res://assets/art/world/volcanic/scrub1.png", "res://assets/art/world/volcanic/scrub2.png"]},
 	"ridge": {"tint": Color(0.80, 0.82, 0.80), "patch_chance": 0.12, "tree_tint": Color(0.64, 0.68, 0.62), "rocky": true},
 	"port": {"tint": Color(0.76, 0.80, 0.82), "patch_chance": 0.10, "tree_tint": Color(0.58, 0.62, 0.62)},
 	"cave": {"tint": Color(0.52, 0.50, 0.56), "patch_chance": 0.0, "tree_tint": Color(0.5, 0.5, 0.55),
@@ -307,7 +313,11 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 		var spr := Sprite2D.new()
 		if rocky and rng.randf() < 0.4:
 			# Ridge country: boulders share the treeline (no sway on stone).
-			spr.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+			var rocks: Array = pal.get("rock_set", [])
+			if rocks.is_empty():
+				spr.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+			else:
+				spr.texture = load(str(rocks[rng.randi_range(0, rocks.size() - 1)]))
 			spr.scale = Vector2.ONE * rng.randf_range(0.9, 1.6)
 			spr.position = pos
 			spr.y_sort_enabled = true
@@ -400,6 +410,106 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for oi in range(int(lm.get("count", 4))):
 					var op: Vector2 = pos + Vector2(rng.randf_range(-60, 60), rng.randf_range(-45, 45))
 					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true)
+			"cairn":
+				_sprite(parent, "res://assets/art/world/volcanic/cairn.png", pos, true)
+			"signboard":
+				_sprite(parent, "res://assets/art/world/volcanic/signboard.png", pos, true)
+			"lava_vent":
+				# Active vent: erupting basalt mound, ember light breathing.
+				var vt := ["vent_big1", "vent_big2", "vent_ring1", "vent_ring2", "vent_small"]
+				_sprite(parent, "res://assets/art/world/volcanic/%s.png" % vt[rng.randi_range(0, vt.size() - 1)], pos, true)
+				var vl := PointLight2D.new()
+				vl.position = pos + Vector2(0, -6)
+				vl.texture = _radial_tex()
+				vl.color = Color(1.0, 0.45, 0.15)
+				vl.energy = 0.7
+				vl.texture_scale = 1.6
+				parent.add_child(vl)
+				var vtw := parent.create_tween().set_loops()
+				vtw.tween_property(vl, "energy", 0.4, rng.randf_range(0.9, 1.5))
+				vtw.tween_property(vl, "energy", 0.85, rng.randf_range(0.7, 1.2))
+			"brazier":
+				_fire(parent, pos, true)
+			"forge":
+				# Sangeroasa forge-hall: soot-dark workshop, furnace maw burning.
+				_sprite(parent, "res://assets/art/buildings/house_00.png", pos, true, Color(0.55, 0.48, 0.46))
+				var fl := PointLight2D.new()
+				fl.position = pos + Vector2(0, 34)
+				fl.texture = _radial_tex()
+				fl.color = Color(1.0, 0.5, 0.18)
+				fl.energy = 0.85
+				fl.texture_scale = 2.0
+				parent.add_child(fl)
+				var ftw := parent.create_tween().set_loops()
+				ftw.tween_property(fl, "energy", 0.55, 0.5)
+				ftw.tween_property(fl, "energy", 0.95, 0.4)
+				_fire(parent, pos + Vector2(52, 40), true)
+			"pit":
+				# The Debt Pit: a black mouth in the basalt, ringed in stone,
+				# ember-lit from far below (lore 04/08: the raw debt-node).
+				var pit := Polygon2D.new()
+				var ppts := PackedVector2Array()
+				for pi in range(24):
+					var pa: float = TAU * float(pi) / 24.0
+					ppts.append(pos + Vector2(cos(pa) * 150.0, sin(pa) * 95.0))
+				pit.polygon = ppts
+				pit.color = Color(0.05, 0.03, 0.05)
+				pit.z_index = -5
+				parent.add_child(pit)
+				var inner := Polygon2D.new()
+				var ipts := PackedVector2Array()
+				for pi in range(24):
+					var pa2: float = TAU * float(pi) / 24.0
+					ipts.append(pos + Vector2(cos(pa2) * 96.0, sin(pa2) * 60.0))
+				inner.polygon = ipts
+				inner.color = Color(0.0, 0.0, 0.0)
+				inner.z_index = -4
+				parent.add_child(inner)
+				for pi in range(12):
+					var pa3: float = TAU * float(pi) / 12.0 + rng.randf_range(-0.1, 0.1)
+					_sprite(parent, "res://assets/art/world/volcanic/rock_%s.png" % ["a", "b", "c", "d"][rng.randi_range(0, 3)],
+							pos + Vector2(cos(pa3) * 165.0, sin(pa3) * 108.0), true)
+				var el := PointLight2D.new()
+				el.position = pos
+				el.texture = _radial_tex()
+				el.color = Color(0.9, 0.3, 0.1)
+				el.energy = 0.35
+				el.texture_scale = 2.2
+				parent.add_child(el)
+				var etw := parent.create_tween().set_loops()
+				etw.tween_property(el, "energy", 0.18, 2.3)
+				etw.tween_property(el, "energy", 0.4, 1.9)
+			"gift_field":
+				# The Gift: bands of impossibly red soil grown from the war
+				# dead — and things growing out of it (lore 03/08).
+				var mud := load("res://assets/art/world/dead_swamp/mud_96x128.png")
+				var gw: int = int(lm.get("w", 6))
+				var gh: int = int(lm.get("h", 3))
+				for gy in range(gh):
+					for gx in range(gw):
+						# ragged band: corners and edges thin out organically
+						var edge: bool = gx == 0 or gy == 0 or gx == gw - 1 or gy == gh - 1
+						if edge and rng.randf() < 0.35:
+							continue
+						var at := AtlasTexture.new()
+						at.atlas = mud
+						at.region = Rect2(float(rng.randi_range(0, 2)) * 32.0, float(rng.randi_range(0, 3)) * 32.0, 32.0, 32.0)
+						var soil := Sprite2D.new()
+						soil.texture = at
+						soil.position = pos + Vector2(float(gx) * 32.0, float(gy) * 32.0)
+						var glow: float = rng.randf_range(0.82, 1.05)
+						soil.modulate = Color(0.92 * glow, 0.38 * glow, 0.32 * glow)
+						soil.z_index = -6
+						parent.add_child(soil)
+				for si in range(gw):
+					# saplings, not oaks: the harvest is YOUNG (and wrong)
+					var sprout := Sprite2D.new()
+					sprout.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(0, 2))
+					sprout.scale = Vector2.ONE * rng.randf_range(0.22, 0.34)
+					sprout.position = pos + Vector2(rng.randf_range(16.0, float(gw) * 32.0 - 16.0), rng.randf_range(8.0, float(gh) * 32.0 - 8.0))
+					sprout.modulate = Color(0.55, 0.95, 0.45)
+					sprout.y_sort_enabled = true
+					parent.add_child(sprout)
 			"spire":
 				# The Black Spire: windowless violet-black surveillance tower.
 				# Under detection it bleeds shifting orange at its base (canon).
@@ -516,6 +626,34 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 		var vg: Dictionary = vg_v
 		var pos: Vector2 = vg["pos"]
 		match str(vg.get("kind", "")):
+			"childs_shoe":
+				# A child's shoe pressed into the red soil, and a good harvest
+				# growing out of the print (lore 08). Blink and you miss it.
+				var sh_at := AtlasTexture.new()
+				sh_at.atlas = load("res://assets/art/world/dead_swamp/mud_96x128.png")
+				sh_at.region = Rect2(32, 32, 32, 32)
+				var sh_patch := Sprite2D.new()
+				sh_patch.texture = sh_at
+				sh_patch.position = pos
+				sh_patch.modulate = Color(0.92, 0.38, 0.32)
+				sh_patch.z_index = -6
+				parent.add_child(sh_patch)
+				var sh_heel := ColorRect.new()
+				sh_heel.size = Vector2(5, 4)
+				sh_heel.position = pos + Vector2(-2, 2)
+				sh_heel.color = Color(0.24, 0.14, 0.10)
+				parent.add_child(sh_heel)
+				var sh_toe := ColorRect.new()
+				sh_toe.size = Vector2(6, 7)
+				sh_toe.position = pos + Vector2(-3, -6)
+				sh_toe.color = Color(0.28, 0.17, 0.12)
+				parent.add_child(sh_toe)
+				var sh_grow := Sprite2D.new()
+				sh_grow.texture = load(PLANTS + "plant_00.png")
+				sh_grow.scale = Vector2.ONE * 0.2
+				sh_grow.position = pos + Vector2(1, -8)
+				sh_grow.modulate = Color(0.5, 1.0, 0.42)
+				parent.add_child(sh_grow)
 			"standing_farmer":
 				# A villager stood perfectly still, facing an authored direction.
 				# Placed via npc-style sheet, no wander — stillness IS the horror.

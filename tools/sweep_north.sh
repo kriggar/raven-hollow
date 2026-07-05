@@ -4,7 +4,8 @@ G="C:/Users/vstef/tools/godot/Godot_v4.6.3-stable_win64_console.exe"
 O="c:/Users/vstef/Desktop/rpg/medieval_rpg/_screens/sweep"
 shoot() {
   local z=$1 w=$2 h=$3; mkdir -p "$O/$z"; rm -f "$O/$z"/*.png
-  local m=650 sx=1900 sy=1050 y=$m r=0
+  local m=650 sx=1900 sy=1050 r=0
+  local y=$m
   while [ $y -le $((h - m)) ]; do
     local x=$m c=0
     while [ $x -le $((w - m)) ]; do
@@ -20,4 +21,9 @@ shoot threadlands 7680 5632
 shoot black_night 10240 8192
 shoot gravemark_tundra 7168 5120
 shoot town 2240 1600
-echo "NORTH_SWEEP_ALL_DONE"
+shoot whisper_passes 7168 5120
+shoot eastern_ridges 7680 5632
+shoot blestem 10240 8192
+shoot lichenreach 4096 4096
+shoot transcub_vale 7168 5120
+echo "NORTHEAST_SWEEP_ALL_DONE"
