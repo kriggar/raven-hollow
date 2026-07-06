@@ -1,0 +1,121 @@
+{
+	"_doc": "Raven Hollow D2-style class SELECT SCREEN pedestal data (BLUEPRINT_84, BACKLOG #84). One entry per playable class, laid out left-to-right by array order. Consumed by scripts/systems/select_screen_system.gd, which self-instances a pure-code CanvasLayer hall of pedestals. Facts (name/title/lore/sheet/variant/color) mirror scripts/class_defs.gd; ability blurbs are concrete one-line tooltips; stat_bias is the level-1 primary base from data/classes_stats.json (the UI normalizes it into bias bars). portrait = the animated szadi char sheet + variant sliced by SheetAnim.make_szadi_frames, or null to fall back to a labeled placeholder.",
+	"title": "CHOOSE YOUR CHAMPION",
+	"subtitle": "Raven Hollow -- Emberfall",
+	"primaries": ["stamina", "strength", "agility", "intellect", "spirit"],
+	"stat_labels": {"stamina": "STA", "strength": "STR", "agility": "AGI", "intellect": "INT", "spirit": "SPI"},
+	"pedestals": [
+		{
+			"id": "warrior",
+			"name": "Warrior",
+			"tagline": "Shield of the Hollow",
+			"lore": "When the Emberfall razed the old garrison, only the drill-yard's stubbornness survived in him. Now he stands where the palisade burned, daring the dark to try Raven Hollow twice.",
+			"color": [0.68, 0.30, 0.26],
+			"portrait": {"sheet": "res://assets/art/characters/npc_male1.png", "variant": 0},
+			"playstyle": ["Melee", "Bruiser", "Frontline"],
+			"stat_bias": {"stamina": 11.0, "strength": 12.0, "agility": 6.0, "intellect": 3.5, "spirit": 8.0},
+			"abilities": [
+				{"name": "Shield Charge", "icon": "pixel:shield_charge", "blurb": "Charge a foe; your next blow lands at 180% force."},
+				{"name": "Sunder", "icon": "pixel:sunder", "blurb": "A heavy 70-degree cleave that shatters a single target."},
+				{"name": "War Cry", "icon": "pixel:war_cry", "blurb": "Roar for 5s: +40% move speed, +30% damage."},
+				{"name": "Earthshaker", "icon": "pixel:earthshaker", "blurb": "Slam the ground for wide damage and a 50% slow."}
+			]
+		},
+		{
+			"id": "rogue",
+			"name": "Rogue",
+			"tagline": "Knife in the Fog",
+			"lore": "Raised in the fog-alleys behind the tavern, he learned young that a quiet knife settles what loud men cannot. The Hollow's shadows owe him favors, and he collects them nightly.",
+			"color": [0.62, 0.62, 0.66],
+			"portrait": {"sheet": "res://assets/art/characters/npc_male4.png", "variant": 3},
+			"playstyle": ["Melee", "Assassin", "Mobile"],
+			"stat_bias": {"stamina": 6.0, "strength": 7.0, "agility": 12.0, "intellect": 3.0, "spirit": 10.0},
+			"abilities": [
+				{"name": "Backstab", "icon": "pixel:backstab", "blurb": "A tight strike from the shadows for burst damage."},
+				{"name": "Shadowstep", "icon": "pixel:shadowstep", "blurb": "Blink 70px through smoke; your next hit deals double."},
+				{"name": "Fan of Knives", "icon": "pixel:fan_of_knives", "blurb": "Hurl eight blades outward in a radial burst."},
+				{"name": "Death Blossom", "icon": "pixel:death_blossom", "blurb": "Whirl a lingering blade-storm around yourself."}
+			]
+		},
+		{
+			"id": "mage",
+			"name": "Mage",
+			"tagline": "Keeper of the Violet Flame",
+			"lore": "She copied forbidden ember-script by candlelight until the candle answered back. The town council distrusts her violet fire, yet they knock on her door whenever the dark grows teeth.",
+			"color": [0.62, 0.42, 0.78],
+			"portrait": {"sheet": "res://assets/art/characters/npc_female2.png", "variant": 3},
+			"playstyle": ["Ranged", "Caster", "Burst"],
+			"stat_bias": {"stamina": 5.0, "strength": 4.0, "agility": 6.0, "intellect": 10.0, "spirit": 16.0},
+			"abilities": [
+				{"name": "Fireball", "icon": "pixel:fireball", "blurb": "Lob a bursting fireball with a 30px splash."},
+				{"name": "Frost Nova", "icon": "pixel:frost_nova", "blurb": "Freeze nearby foes, slowing them 50% for 3s."},
+				{"name": "Blink", "icon": "pixel:arcane_blink", "blurb": "Teleport 90px through the arcane weave."},
+				{"name": "Cinderfall", "icon": "pixel:meteor", "blurb": "Call twelve meteors down over a wide area."}
+			]
+		},
+		{
+			"id": "paladin",
+			"name": "Paladin",
+			"tagline": "Lantern of the Ashen Chapel",
+			"lore": "Sworn at the ashen chapel on the hill, he carries the last consecrated hammer left in the Hollow. His faith is quiet, dented, and yet to break.",
+			"color": [0.85, 0.68, 0.35],
+			"portrait": {"sheet": "res://assets/art/characters/npc_male1.png", "variant": 1},
+			"playstyle": ["Melee", "Holy", "Support"],
+			"stat_bias": {"stamina": 9.0, "strength": 10.0, "agility": 6.0, "intellect": 5.0, "spirit": 10.0},
+			"abilities": [
+				{"name": "Holy Smite", "icon": "pixel:holy_smite", "blurb": "Sear a foe with a bolt of dawnlight."},
+				{"name": "Consecration", "icon": "pixel:consecration", "blurb": "Bless the ground; it burns the wicked for 4s."},
+				{"name": "Lay on Hands", "icon": "pixel:lay_on_hands", "blurb": "Instantly restore 50 health."},
+				{"name": "Dawnbreak", "icon": "pixel:dawnbreak", "blurb": "A pillar of dawn roots and scorches a wide ring."}
+			]
+		},
+		{
+			"id": "necromancer",
+			"name": "Necromancer",
+			"tagline": "Warden of the Old Graves",
+			"lore": "Years tending Raven Hollow's graveyard taught him that the dead make loyal neighbors. He raises them politely, works them briefly, and always tucks them back in.",
+			"color": [0.45, 0.72, 0.35],
+			"portrait": {"sheet": "res://assets/art/characters/npc_male3.png", "variant": 1},
+			"playstyle": ["Ranged", "Summoner", "Attrition"],
+			"stat_bias": {"stamina": 5.5, "strength": 4.0, "agility": 6.0, "intellect": 9.0, "spirit": 14.0},
+			"abilities": [
+				{"name": "Drain Life", "icon": "pixel:drain_life", "blurb": "Siphon a foe, healing for 35% of the damage."},
+				{"name": "Raise Dead", "icon": "pixel:raise_dead", "blurb": "Summon a skeleton to fight at your side."},
+				{"name": "Grave Grasp", "icon": "pixel:grave_grasp", "blurb": "Cold hands erupt and root foes for 1.5s."},
+				{"name": "Soul Harvest", "icon": "pixel:soul_harvest", "blurb": "Rain fourteen soul-bolts across the field."}
+			]
+		},
+		{
+			"id": "rookwarden",
+			"name": "Hunter",
+			"tagline": "Rookwarden of the Hollow",
+			"lore": "The rooks of the Hollow choose one warden a generation, and they chose him at the gallows-tree. His arrows fly where the ravens point, and the ravens are never wrong.",
+			"color": [0.24, 0.48, 0.50],
+			"portrait": {"sheet": "res://assets/art/characters/npc_male2.png", "variant": 0},
+			"playstyle": ["Ranged", "Marksman", "Traps"],
+			"stat_bias": {"stamina": 6.5, "strength": 6.0, "agility": 11.0, "intellect": 6.0, "spirit": 12.0},
+			"abilities": [
+				{"name": "Piercing Shot", "icon": "pixel:piercing_shot", "blurb": "A fast arrow that punches through armor."},
+				{"name": "Snare Trap", "icon": "pixel:snare_trap", "blurb": "Set a trap that roots and slows for 2.5s."},
+				{"name": "Rook Companion", "icon": "pixel:rook_companion", "blurb": "Call a raven to harry your foes."},
+				{"name": "Arrow Storm", "icon": "pixel:arrow_storm", "blurb": "Rain arrows over a marked patch of ground."}
+			]
+		},
+		{
+			"id": "druid",
+			"name": "Druid",
+			"tagline": "Warden of the Wildwood",
+			"lore": "When the blight crept up out of the mire, she swore herself to the old wildwood that remembers Raven Hollow older than its walls. Root and storm answer her call now -- though the forest, as it always does, will name its price.",
+			"color": [0.36, 0.55, 0.30],
+			"portrait": {"sheet": "res://assets/art/characters/npc_female1.png", "variant": 3},
+			"playstyle": ["Hybrid", "Shapeshift", "Nature"],
+			"stat_bias": {"stamina": 7.0, "strength": 8.0, "agility": 7.0, "intellect": 9.0, "spirit": 13.0},
+			"abilities": [
+				{"name": "Gale", "icon": "pixel:gale", "blurb": "A gust-orb that bursts on impact."},
+				{"name": "Thornroot", "icon": "pixel:thornroot", "blurb": "Roots erupt, pinning a foe for 1.6s."},
+				{"name": "Rejuvenation", "icon": "pixel:rejuvenation", "blurb": "Bloom a healing-over-time on yourself."},
+				{"name": "Bear Form", "icon": "pixel:bear_form", "blurb": "Become a bear: +40% damage and a 35-point absorb."}
+			]
+		}
+	]
+}

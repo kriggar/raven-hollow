@@ -1,60 +1,117 @@
 {
   "_doc": "Raven Hollow loot tables. Consumed by LootSystem.roll_loot(table_id, luck). Each table: optional gold {chance,min,max}; picks {min,max} = how many weighted draws; drops[] entries {item_id, weight, rarity, quantity}. rarity values: 'roll' (roll a tier from this table's rarity_weights then budget-roll the base item), a fixed tier ('common'..'epic'), 'named' (item_id is a named_rare, fixed stats), or 'material'/'junk' (simple stackable). '__gear__' item_id picks a random base from gear_pool.",
+  "_tuning": {
+    "pass": "scarcity-2026-07-06 (BACKLOG #73)",
+    "goal": "Top-tier loot should feel EARNED. Reduced rare/epic rarity_weights (~0.5x on rare, ~0.4-0.6x on epic) and trimmed named-drop weights across the four base tables. Gold untouched. Fully reversible: restore the 'prior' values below.",
+    "prior": {
+      "trash_b1.rarity_weights": {"common": 80, "uncommon": 17.5, "rare": 2.3, "epic": 0.2},
+      "trash_b1.drops.whitepelt_cloak.weight": 1,
+      "trash_b1.drops.mourncoat_ruff.weight": 1,
+      "trash_b3.rarity_weights": {"common": 74, "uncommon": 21, "rare": 4.4, "epic": 0.6},
+      "trash_b3.drops.vascas_second_knife.weight": 2,
+      "trash_b3.drops.guildless_gloves.weight": 2,
+      "trash_b3.drops.dragans_toll_hammer.weight": 1,
+      "elite_b3.rarity_weights": {"common": 30, "uncommon": 52, "rare": 16, "epic": 2},
+      "elite_b3.drops.whitepelt_cloak.weight": 8,
+      "elite_b3.drops.coppertongue_mantle.weight": 8,
+      "elite_b3.drops.ribcage_collar.weight": 6,
+      "boss_digging_creature.rarity_weights": {"common": 0, "uncommon": 74, "rare": 24, "epic": 2},
+      "boss_digging_creature.drops.kerbstone_greatblade.weight": 6
+    }
+  },
   "tables": {
     "trash_b1": {
       "name": "Border Wilds",
       "gold": {"chance": 0.45, "min": 1, "max": 3},
       "picks": {"min": 1, "max": 2},
-      "rarity_weights": {"common": 80, "uncommon": 17.5, "rare": 2.3, "epic": 0.2},
+      "rarity_weights": {"common": 83, "uncommon": 15.5, "rare": 1.3, "epic": 0.08},
       "gear_pool": ["leather_cap", "hide_hood", "worn_jerkin", "cloth_breeches", "traveler_shoes", "bent_dagger", "iron_shortsword", "cracked_buckler", "copper_band", "luck_coin"],
       "drops": [
         {"item_id": "wolf_pelt_mat", "weight": 34, "rarity": "material", "quantity": [1, 1]},
         {"item_id": "raw_meat_mat", "weight": 22, "rarity": "material", "quantity": [1, 1]},
         {"item_id": "__gear__", "weight": 14, "rarity": "roll", "quantity": [1, 1]},
-        {"item_id": "whitepelt_cloak", "weight": 1, "rarity": "named", "quantity": [1, 1]},
-        {"item_id": "mourncoat_ruff", "weight": 1, "rarity": "named", "quantity": [1, 1]}
+        {"item_id": "whitepelt_cloak", "weight": 0.7, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "mourncoat_ruff", "weight": 0.7, "rarity": "named", "quantity": [1, 1]}
       ]
     },
     "trash_b3": {
       "name": "Lowland Raiders",
       "gold": {"chance": 0.9, "min": 4, "max": 10},
       "picks": {"min": 1, "max": 3},
-      "rarity_weights": {"common": 74, "uncommon": 21, "rare": 4.4, "epic": 0.6},
+      "rarity_weights": {"common": 77, "uncommon": 19.5, "rare": 2.8, "epic": 0.3},
       "gear_pool": ["padded_coif", "boiled_leather", "ringmail_vest", "studded_greaves", "scout_boots", "notched_axe", "hunting_spear", "warhammer", "bog_targe", "iron_signet", "bone_ring", "raven_charm"],
       "drops": [
         {"item_id": "iron_scrap_mat", "weight": 30, "rarity": "material", "quantity": [1, 2]},
         {"item_id": "linen_scrap_mat", "weight": 24, "rarity": "material", "quantity": [1, 2]},
         {"item_id": "__gear__", "weight": 20, "rarity": "roll", "quantity": [1, 1]},
-        {"item_id": "vascas_second_knife", "weight": 2, "rarity": "named", "quantity": [1, 1]},
-        {"item_id": "guildless_gloves", "weight": 2, "rarity": "named", "quantity": [1, 1]},
-        {"item_id": "dragans_toll_hammer", "weight": 1, "rarity": "named", "quantity": [1, 1]}
+        {"item_id": "vascas_second_knife", "weight": 1.2, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "guildless_gloves", "weight": 1.2, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "dragans_toll_hammer", "weight": 0.6, "rarity": "named", "quantity": [1, 1]}
       ]
     },
     "elite_b3": {
       "name": "Rare Spawn",
       "gold": {"chance": 1.0, "min": 8, "max": 18},
       "picks": {"min": 2, "max": 3},
-      "rarity_weights": {"common": 30, "uncommon": 52, "rare": 16, "epic": 2},
+      "rarity_weights": {"common": 34, "uncommon": 52, "rare": 11, "epic": 1.1},
       "gear_pool": ["ringmail_vest", "plated_legguards", "hunting_spear", "warhammer", "iron_ward", "bog_targe", "bone_ring", "bone_totem"],
       "drops": [
         {"item_id": "__gear__", "weight": 40, "rarity": "roll", "quantity": [1, 1]},
         {"item_id": "iron_scrap_mat", "weight": 20, "rarity": "material", "quantity": [1, 3]},
-        {"item_id": "whitepelt_cloak", "weight": 8, "rarity": "named", "quantity": [1, 1]},
-        {"item_id": "coppertongue_mantle", "weight": 8, "rarity": "named", "quantity": [1, 1]},
-        {"item_id": "ribcage_collar", "weight": 6, "rarity": "named", "quantity": [1, 1]}
+        {"item_id": "whitepelt_cloak", "weight": 5, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "coppertongue_mantle", "weight": 5, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "ribcage_collar", "weight": 4, "rarity": "named", "quantity": [1, 1]}
       ]
     },
     "boss_digging_creature": {
       "name": "The Digging Creature",
       "gold": {"chance": 1.0, "min": 25, "max": 40},
       "picks": {"min": 3, "max": 4},
-      "rarity_weights": {"common": 0, "uncommon": 74, "rare": 24, "epic": 2},
+      "rarity_weights": {"common": 0, "uncommon": 78, "rare": 20, "epic": 1.2},
       "gear_pool": ["chainmail_hauberk", "plated_legguards", "iron_ward", "warhammer", "bone_totem"],
       "guaranteed_named": ["tunnelers_claws", "wells_warning_band", "carapace_kite_shield"],
       "drops": [
         {"item_id": "chitin_plate_mat", "weight": 100, "rarity": "material", "quantity": [2, 3]},
         {"item_id": "__gear__", "weight": 50, "rarity": "roll", "quantity": [1, 1]},
-        {"item_id": "kerbstone_greatblade", "weight": 6, "rarity": "named", "quantity": [1, 1]}
+        {"item_id": "kerbstone_greatblade", "weight": 4, "rarity": "named", "quantity": [1, 1]}
+      ]
+    },
+    "secret_unfiled_field": {
+      "name": "The Unfiled",
+      "gold": {"chance": 1.0, "min": 30, "max": 55},
+      "picks": {"min": 2, "max": 3},
+      "rarity_weights": {"common": 0, "uncommon": 60, "rare": 32, "epic": 8},
+      "gear_pool": ["ringmail_vest", "plated_legguards", "iron_ward", "warhammer", "bone_totem", "chainmail_hauberk"],
+      "guaranteed_named": ["ribcage_collar", "coppertongue_mantle"],
+      "drops": [
+        {"item_id": "__gear__", "weight": 50, "rarity": "roll", "quantity": [1, 1]},
+        {"item_id": "iron_scrap_mat", "weight": 20, "rarity": "material", "quantity": [1, 3]},
+        {"item_id": "whitepelt_cloak", "weight": 6, "rarity": "named", "quantity": [1, 1]}
+      ]
+    },
+    "secret_threadbare_fold": {
+      "name": "The Threadbare Fold",
+      "gold": {"chance": 1.0, "min": 20, "max": 40},
+      "picks": {"min": 1, "max": 2},
+      "rarity_weights": {"common": 0, "uncommon": 50, "rare": 38, "epic": 12},
+      "gear_pool": ["iron_ward", "chainmail_hauberk", "plated_legguards", "warhammer"],
+      "guaranteed_named": ["carapace_kite_shield", "tunnelers_claws"],
+      "drops": [
+        {"item_id": "__gear__", "weight": 40, "rarity": "roll", "quantity": [1, 1]},
+        {"item_id": "chitin_plate_mat", "weight": 25, "rarity": "material", "quantity": [1, 2]},
+        {"item_id": "kerbstone_greatblade", "weight": 4, "rarity": "named", "quantity": [1, 1]}
+      ]
+    },
+    "secret_collectors_office": {
+      "name": "The Collector's Office",
+      "gold": {"chance": 1.0, "min": 60, "max": 120},
+      "picks": {"min": 1, "max": 2},
+      "rarity_weights": {"common": 0, "uncommon": 45, "rare": 40, "epic": 15},
+      "gear_pool": ["copper_band", "iron_signet", "bone_ring", "raven_charm", "luck_coin"],
+      "guaranteed_named": ["wells_warning_band"],
+      "drops": [
+        {"item_id": "__gear__", "weight": 40, "rarity": "roll", "quantity": [1, 1]},
+        {"item_id": "vascas_second_knife", "weight": 6, "rarity": "named", "quantity": [1, 1]}
       ]
     }
   },

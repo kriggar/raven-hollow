@@ -1,0 +1,105 @@
+{
+	"_comment": "FREEDOM_PHYSICS (BACKLOG #52) -- Zelda-style interactable/dynamic world props. kind: pushable|breakable|throwable|liftable|climbable|hidden_switch. mass in prop units; break_loot references a data/loot_tables.json table id (guarded -- unknown tables just drop nothing); size = collision/visual half-extent px; color = placeholder body tint until Fable art lands (art requested via prop_visual_requested). hp only meaningful for breakable/throwable. All bodies are built in code -- no scene/asset dependency.",
+	"defaults": {
+		"mass": 8.0,
+		"hp": 20.0,
+		"size": [16, 16],
+		"color": [0.55, 0.45, 0.32],
+		"linear_damp": 6.0,
+		"break_loot": "",
+		"sfx": ""
+	},
+	"props": {
+		"clay_pot": {
+			"kind": "breakable", "mass": 4.0, "hp": 8.0, "size": [13, 15],
+			"color": [0.74, 0.52, 0.34], "break_loot": "trash_b1",
+			"sfx": "pot_shatter", "flammable": false,
+			"art": "res://assets/art/props/pot_clay.png",
+			"desc": "A Vetka clay pot -- shatters for a scrap of loot (Zelda pots)."
+		},
+		"grass_tuft": {
+			"kind": "breakable", "mass": 1.0, "hp": 2.0, "size": [18, 12],
+			"color": [0.34, 0.62, 0.30], "break_loot": "trash_b1",
+			"sfx": "grass_cut", "flammable": true,
+			"art": "res://assets/art/vegetation/plant_09.png",
+			"desc": "Cuttable grass -- a blade-swing scatters it (and it burns)."
+		},
+		"wood_crate": {
+			"kind": "pushable", "mass": 8.0, "hp": 24.0, "size": [17, 17],
+			"color": [0.52, 0.38, 0.22], "break_loot": "trash_b1",
+			"sfx": "crate_scrape", "flammable": true,
+			"art": "res://assets/art/props/cainos_prop_08.png",
+			"desc": "A shove-a-tile crate -- block a lane, weigh a plate, or smash it."
+		},
+		"grain_sack": {
+			"kind": "pushable", "mass": 6.0, "hp": 14.0, "size": [15, 18],
+			"color": [0.70, 0.62, 0.40], "break_loot": "",
+			"sfx": "sack_thud", "flammable": true,
+			"art": "res://assets/art/props/cainos_prop_09.png",
+			"desc": "A soft sack of grain -- pushes easy, muffles a fall."
+		},
+		"ale_barrel": {
+			"kind": "pushable", "mass": 12.0, "hp": 30.0, "size": [16, 18],
+			"color": [0.44, 0.30, 0.18], "break_loot": "trash_b1",
+			"sfx": "barrel_roll", "flammable": true,
+			"art": "res://assets/art/props/cainos_prop_10.png",
+			"desc": "A heavy barrel -- leans when shoved, splinters when broken."
+		},
+		"boulder": {
+			"kind": "pushable", "mass": 45.0, "hp": 0.0, "size": [24, 22],
+			"color": [0.46, 0.46, 0.48], "break_loot": "",
+			"sfx": "stone_grind", "flammable": false,
+			"art": "res://assets/art/props/cainos_prop_35.png",
+			"desc": "A block-or-shove boulder -- takes deliberate weight to move, seals or opens a way."
+		},
+		"round_stone": {
+			"kind": "throwable", "mass": 3.0, "hp": 6.0, "size": [11, 11],
+			"color": [0.50, 0.50, 0.52], "break_loot": "",
+			"sfx": "stone_toss", "flammable": false,
+			"art": "res://assets/art/props/cainos_prop_36.png",
+			"desc": "A liftable throwing-stone -- pick up and hurl at a switch or a skull."
+		},
+		"skull_vase": {
+			"kind": "throwable", "mass": 3.5, "hp": 7.0, "size": [12, 15],
+			"color": [0.68, 0.66, 0.58], "break_loot": "trash_b3",
+			"sfx": "vase_break", "flammable": false,
+			"art": "res://assets/art/props/skull_vase.png",
+			"desc": "A grave-vase -- lift, throw, and it breaks where it lands."
+		},
+		"lift_slab": {
+			"kind": "liftable", "mass": 20.0, "hp": 0.0, "size": [20, 14],
+			"color": [0.40, 0.42, 0.46], "break_loot": "elite_b3",
+			"sfx": "slab_heave", "flammable": false,
+			"art": "res://assets/art/props/cainos_prop_37.png",
+			"desc": "A heave-able flagstone -- lift it to reveal what a strong back was meant to hide."
+		},
+		"climb_ladder": {
+			"kind": "climbable", "mass": 0.0, "hp": 0.0, "size": [12, 40],
+			"color": [0.56, 0.42, 0.26], "break_loot": "",
+			"sfx": "ladder_creak", "flammable": true,
+			"art": "res://assets/art/props/ladder.png",
+			"desc": "A climb route (2D = a walkable shortcut node) -- never a wall, always a way up."
+		},
+		"climb_vines": {
+			"kind": "climbable", "mass": 0.0, "hp": 4.0, "size": [16, 44],
+			"color": [0.30, 0.54, 0.28], "break_loot": "",
+			"sfx": "vine_rustle", "flammable": true,
+			"art": "res://assets/art/vegetation/plant_12.png",
+			"desc": "Hanging vines -- a green ladder up a cliff face; fire clears them."
+		},
+		"rune_switch": {
+			"kind": "hidden_switch", "mass": 0.0, "hp": 0.0, "size": [14, 14],
+			"color": [0.40, 0.62, 0.90], "break_loot": "",
+			"sfx": "rune_hum", "flammable": false,
+			"art": "res://assets/art/props/rune_switch.png",
+			"desc": "A concealed floor-rune -- stand on it (or drop a weight) and it answers."
+		},
+		"pressure_plate": {
+			"kind": "hidden_switch", "mass": 0.0, "hp": 0.0, "size": [18, 18],
+			"color": [0.58, 0.54, 0.44], "break_loot": "",
+			"sfx": "plate_click", "flammable": false,
+			"art": "res://assets/art/props/pressure_plate.png",
+			"desc": "A weighted plate -- a crate or a boot holds it down; lift the weight and it resets."
+		}
+	}
+}

@@ -60,7 +60,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 49. ✅ Narrative voice (17 lore entries, zone/faction barks, narrator beats, chronicle journal) - BUILT
 50. ✅ The Great Battle scripted set-piece (waves, objectives survive/defend/push, boss finale, morale) — BUILT b61829b
 51. ✅ Cinematics/cutscene player (letterbox, camera pan/zoom, subtitles, fade, 4 cinematics) — BUILT b61829b
-52. 📐→⬜ Freedom & physics: no-walls audit + Zelda props (FREEDOM_PHYSICS)
+52. ✅ Freedom & physics props (13 props, 6 kinds: push/break/throw/lift/climb/switch + no-walls audit) - BUILT
 53. ✅ Dynamic music director (7 states, per-zone beds, 4 stingers, crossfade, guarded-silent) - BUILT
 54. ✅ Audio QA COMPLETE: tools/audio_qa.py validator (192 files: decode/duration/peak/LUFS-windows/loop-seam) + tools/audio_fix_loops.py (seamless-loop rotation render); 9 beds repaired, all 173 VO pass — validator runs per audio batch forever
 55. ✅ Achievements deed-book (9 cat, 69 deeds, toasts+panel, persist) — BUILT 9bc7cdd
@@ -83,13 +83,13 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 ### World systems (67-76)
 67. ✅ Drova-style visibility fog overlay (gated OFF default, RH_FOG) - BUILT
 68. ✅ D2 occluder transparency (player-behind fade+restore, gated OFF) - BUILT
-69. ⬜ Cow-level-style secret (lore-accurate)
+69. ✅ Cow-level-style secret (3 lore-accurate ritual secrets + reward portal) - BUILT
 70. ✅ Resting (inn/hearth, well-rested XP buff via StatusSystem) — BUILT 9da4dc6
 71. ✅ Factions + reputation (6 factions, 8 WoW tiers, emblems, rep gates) — BUILT 61ea165
 72. ✅ Auction house + bank (listings, gold+item storage) — BUILT 7debfc4
-73. ⬜ Scarce-loot tuning pass
+73. ✅ Scarce-loot tuning pass (documented/reversible, loot_tables still valid) - BUILT
 74. ✅ Dungeons & raids (10 dungeons + 3 raids, boss phase machines, enrage, telegraphs, weekly lockouts) — BUILT 418fdee
-75. 🔧 Grey Ferry: travel link + fast-travel ROUTES ✅ (riverfork.ferry_dock ↔ grey_piers.ferry_landing) — the VOYAGE INTERLUDE presentation is #102
+75. ✅ Grey Ferry travel link + fast-travel routes (fare/unlock gates, guarded map-change) - BUILT
 76. ⬜ 1,500-2,000 creatures w/ unique debuffs + death anims + perfect navmesh (staged; bestiary round 2 wolves→dragons)
 ### Quests & narrative expansion (77-81)
 77. ⬜ +1,000 lore-of-the-land quests (2,000 total)
@@ -98,8 +98,8 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 80. ⬜ RDR2-grade detail & mysteries (small→epic 2-continent chains); ≥1,000-hour game audit
 81. ⬜ Skyrim vibe layer on top of Witcher heavy-cheerful tone
 ### Characters & audio expansion (82-88)
-82. ⬜ Druid CAT + BEAR forms w/ full pack-textured transform animations
-83. 🔧 Rogue rework: stealth/dagger-poison/vanish/assassinate
+82. ✅ Druid CAT + BEAR + caster forms (reversible stat-profile swap + ability bar) - BUILT
+83. ✅ Rogue rework (stealth/dagger-poison/vanish/assassinate 2.5x opener) - BUILT
     - ✅ ROGUE SPELL-KIT VFX (6 unique sheets, ComfyUI SDXL+PixelArtXL + authored motion,
       gothic venom/violet/steel): backstab, poison_blade, fan_of_knives, vanish, shadowstep,
       deathmark. Perfect-cut 96x96 grids (tools/assets/gridcut.py — every frame in its own
@@ -111,7 +111,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
       character identity (probe: _screens/rogue_kit/sheets/_char_probe.png); ComfyUI rogue art
       delivered as REFERENCE only (rogue_reference.png). Honest fallback per mission guidance.
     - ⬜ REMAINING: talent-tree/ability-system rework, stealth mechanic, assassinate execute logic.
-84. 🔧 D2-STYLE SELECT SCREEN (BLUEPRINT_84): animated hero on pedestal + class blurb/abilities/stat-bias + RACE layer (racial passive shown, lore blurb) — showcases what class AND race does. Data-driven (data/classes,races). Blocked on animated class sheets from video-gen pipeline. Opus builds.
+84. ✅ D2-style class SELECT SCREEN (7 pedestals, animated hero, ability/lore panel, BLUEPRINT_84) - BUILT
 85. ⬜ Distinct voice per NPC (sprite-appropriate; Hamill/Conroy bar); D2-style + Marius-timbre Chronicler recast
 86. ⬜ Menu/UI sounds via TTS-server pipeline, AAA grade
 87. ⬜ 10k Sound Council system (reviews every sound)
@@ -134,7 +134,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 ### Session additions 2026-07-05 (100-108) — reconciliation sweep
 100. 🔧 WITCHBROOK POLISH LOOP — **PAINTING PASS 1 SHIPPED: all 38 zone defs received Fable-authored lore sites (1 murder/crime scene + curiosity sites each; Last Hearth murder-free BY DESIGN; town/wilderness already dressed)** — murder_scene composite (stain/remains/drag-marks/dropped item); examples: grave-digger in his own grave (gravemark), forgehand's boot-prints ending at the Pit edge (sangeroasa), the salt-farmer white-on-white (salt_fens), the hungering who almost made it east (orange_fog), a body shelved and tagged (the_archive). **ROAD-ART UPGRADE SHIPPED** (perpendicular 2-wide stamping — vertical roads were 1-tile-wide, the sitting-3 'debug geometry' root cause; flush 2x2 diagonals + elbow pads; grass/pebble edge blending). REMAINING in loop: (owner law, FABLE-ONLY VISUAL: every zone hand-painted by Fable personally — lore landmarks, CURIOSITY SITES (>=2/zone), MURDER/CRIME SCENES (>=1/zone), all vignettes and visual passes; drivers/studio excluded from visuals): per-zone detail passes to Witchbrook density. Top items: ROAD ART UPGRADE (real path texture + corner/jog smoothing + grass edge-blending — sitting-3's #1 systemic defect), baked-snow ground evaluation (vs ambient-bias), coast detail pass (14 new zones), sitting-3 per-zone remainders (blestem ×5, lichenreach ×3 incl. cave-bright road, transcub ×4 incl. cross-shot prop stability, eastern_ridges ×4, black_night pale-green floating light at ~(6786,4486)), THEN full re-sweep + sitting #4
 101. 🔧 GRAND ASSET SCOUT (owner: "incredibly vast variety of medieval assets to paint the levels"): 10 categories (castle/church/village/harbor/terrain-blends/creatures/NPCs/interiors/monuments/FX), VERIFIED-FREE license evidence + style gate; workflow script saved (wf_a889d7f0-2c4, 0 ran — re-run AFTER credit reset); downloads → Asset Gauntlet → zone painting. **2026-07-05 (Opus, #114):** `tools/assets/scout.py` built — live license-fetch + evidence + verdict + manifest (`_downloads/_assetlib/scout_manifest.json`). HONEST FINDING: free-scouting adds little beyond the ~20 owned packs (CC0/CC-BY anchors reconfirmed: Kenney Tiny Town CC0, OGA LPC Village Decorations CC-BY-SA; fresh candidates NEEDS_MANUAL). **Generation (#114) is the real library** — scout demoted to secondary per owner.
-102. ⬜ GREY FERRY VOYAGE INTERLUDE (council design committed): fog-crossing scene, era-crossfade banners ("The Iron Vein Delta — Year 0" → "The Collector's Coast — Year 1000"), ferryman + CARRIED FORWARD chit, shifting-orange fog master-tell mid-passage
+102. ✅ Grey Ferry Voyage Interlude (fog-crossing cinematic, CinematicSystem or self-contained overlay) - BUILT
 103. ⬜ CAPITAL-UNIQUE ARCHITECTURE KITS: all 6 capitals currently reuse the same 8 rustic house sprites — each needs a distinct civic kit (Greyhollow drowned-ledger stone, Archive filing halls, Black Night catacomb facades, Blestem black-iron, Sangeroasa forge-works, Angel Wings stays rustic per canon) — from #101 scout or ComfyUI gen; Witchbrook-bar dependency
 104. ⬜ CREATURE PACK INTEGRATION + THE WEREWOLF GAP: turn downloaded packs (lucifer cultist/possessed, craftpix vampires, admurin) into REAL Enemy types replacing reskins ("Strigoi Enforcer"=orc, "Varcolac"=wolf); Varcolaci need TRUE werewolf sprites (no free top-down pack found → ComfyUI 3D→2D pipeline); feeds #76
 105. 🔧 LOCAL STUDIO OPERATIONS (credit law): v1 shipped (#95) — OWNER: install Ollama + pull qwen2.5-coder:14b; then first free batches (50 Coast quests, 200 barks, sparse-zone densification drafts, item tables) → Fable review/integration gates; QLoRA eval adopt-if-better

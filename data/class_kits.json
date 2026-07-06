@@ -1,0 +1,69 @@
+{
+	"_doc": "Raven Hollow class kit reworks (design/BACKLOG.md #82 Druid CAT/BEAR forms, #83 Rogue stealth/poison/vanish/assassinate). Consumed by scripts/systems/class_kit_system.gd. Every numeric value is a REAL stat delta routed onto the StatsSystem modifier bus (primaries: stamina/strength/agility/intellect/spirit; pools: speed_pct/crit_pct/attack_power/spell_power/armor/hp/mana). modulate arrays are [r,g,b,a] placeholder tints standing in for the Fable transform/stealth art. Poison DoT rides the existing StatusSystem 'poison' effect; a stat-mod fallback covers a world without StatusSystem.",
+	"kits": {
+		"rogue": {
+			"name": "Shadowblade",
+			"class": "rogue",
+			"stealth": {
+				"speed_pct": -30.0,
+				"stealth_rating": 40.0,
+				"modulate": [0.55, 0.58, 0.72, 0.55]
+			},
+			"poison": {
+				"status": "poison",
+				"stacks": 1,
+				"fallback": {"speed_pct": -10.0}
+			},
+			"vanish": {
+				"invis_duration": 3.0,
+				"restealth": true,
+				"break_combat": true,
+				"modulate": [0.45, 0.48, 0.62, 0.28]
+			},
+			"assassinate": {
+				"base_damage": 24.0,
+				"open_mult": 2.5,
+				"normal_mult": 1.0,
+				"breaks_stealth": true
+			}
+		},
+		"druid": {
+			"name": "Wildshape",
+			"class": "druid",
+			"default_form": "caster",
+			"forms": {
+				"caster": {
+					"name": "Caster",
+					"profile": {},
+					"abilities": ["wrath", "moonfire", "rejuvenation", "entangling_roots"],
+					"modulate": [1.0, 1.0, 1.0, 1.0]
+				},
+				"cat": {
+					"name": "Cat Form",
+					"profile": {
+						"agility": 20.0,
+						"speed_pct": 30.0,
+						"crit_pct": 5.0,
+						"attack_power": 30.0
+					},
+					"abilities": ["claw", "shred", "rake", "rip", "prowl"],
+					"bleed_status": "bleed",
+					"modulate": [0.85, 0.70, 0.42, 1.0]
+				},
+				"bear": {
+					"name": "Bear Form",
+					"profile": {
+						"stamina": 25.0,
+						"strength": 15.0,
+						"armor": 120.0,
+						"hp": 200.0,
+						"speed_pct": -5.0
+					},
+					"abilities": ["maul", "growl", "swipe", "bash", "enrage"],
+					"taunt": "growl",
+					"modulate": [0.50, 0.36, 0.24, 1.0]
+				}
+			}
+		}
+	}
+}

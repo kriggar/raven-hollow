@@ -1,0 +1,76 @@
+{
+	"config": {
+		"default_fare": 15,
+		"voyage_step_dur": 3.2,
+		"fog_color": "#8a929c",
+		"fog_fade": 1.2
+	},
+	"docks": {
+		"riverfork.ferry_dock": {
+			"name": "Riverfork Ferry Dock",
+			"region": "The Iron Vein Delta",
+			"map": "riverfork",
+			"point": "ferry_dock",
+			"continent": 1,
+			"links": ["grey_piers.ferry_landing"]
+		},
+		"grey_piers.ferry_landing": {
+			"name": "Grey Piers Landing",
+			"region": "The Collector's Coast",
+			"map": "grey_piers",
+			"point": "ferry_landing",
+			"continent": 2,
+			"links": ["riverfork.ferry_dock"]
+		}
+	},
+	"routes": {
+		"grey_ferry_out": {
+			"name": "The Drowned Ledger Route",
+			"from_dock": "riverfork.ferry_dock",
+			"to_dock": "grey_piers.ferry_landing",
+			"from_map": "riverfork",
+			"from_point": "ferry_dock",
+			"to_map": "grey_piers",
+			"to_point": "ferry_landing",
+			"fare": 15,
+			"travel_time": 45,
+			"unlocked_by": "",
+			"voyage": "crossing_to_coast"
+		},
+		"grey_ferry_back": {
+			"name": "The Riverfork Passage",
+			"from_dock": "grey_piers.ferry_landing",
+			"to_dock": "riverfork.ferry_dock",
+			"from_map": "grey_piers",
+			"from_point": "ferry_landing",
+			"to_map": "riverfork",
+			"to_point": "ferry_dock",
+			"fare": 15,
+			"travel_time": 45,
+			"unlocked_by": "",
+			"voyage": "crossing_to_draconia"
+		}
+	},
+	"voyages": {
+		"crossing_to_coast": {
+			"name": "The Grey Crossing",
+			"fog_color": "#8a929c",
+			"steps": [
+				{"speaker": "The Ferryman", "line": "Keep your hands inside the rail. The Grey does not give back what it takes.", "duration": 3.4},
+				{"speaker": "The Ferryman", "line": "This water runs between the years. You will feel the cold change under you.", "duration": 3.6},
+				{"speaker": "The Chronicler", "line": "Behind you the war is still being fought. Ahead it has already been counted and filed.", "duration": 3.8},
+				{"speaker": "The Ferryman", "line": "Welcome to the Coast, traveller, where every debt found its ledger.", "duration": 3.4}
+			]
+		},
+		"crossing_to_draconia": {
+			"name": "The Grey Crossing, Homeward",
+			"fog_color": "#8a929c",
+			"steps": [
+				{"speaker": "The Ferryman", "line": "Back across, then. Few of the counted ever ask to return.", "duration": 3.4},
+				{"speaker": "The Ferryman", "line": "The fog will lift on an older world. Torches, not tallies.", "duration": 3.6},
+				{"speaker": "The Chronicler", "line": "The ledger closes behind you. The war opens again ahead.", "duration": 3.8},
+				{"speaker": "The Ferryman", "line": "Mind the step. Draconia has not finished bleeding.", "duration": 3.4}
+			]
+		}
+	}
+}

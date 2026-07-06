@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+NPCLifeSystem="*res://scripts/systems/npc_life_system.gd"
+AdminSystem="*res://scripts/systems/admin_system.gd"
+UISoundSystem="*res://scripts/systems/ui_sound_system.gd"
+NPCCastSystem="*res://scripts/systems/npc_cast_system.gd"
 PhysicsPropSystem="*res://scripts/systems/physics_prop_system.gd"
 ClassKitSystem="*res://scripts/systems/class_kit_system.gd"
 SelectScreenSystem="*res://scripts/systems/select_screen_system.gd"
