@@ -1,0 +1,15 @@
+{
+	"_doc": "QASystem console cheat hints (BACKLOG #48). Purely advisory: the console never crashes on a bad arg, this only powers `help`/tab-friendly suggestions and sensible defaults. All optional -- QASystem degrades safely if this file is missing.",
+	"default_give": "iron_shortsword",
+	"item_hints": [
+		"iron_shortsword", "bent_dagger", "notched_axe", "leather_cap",
+		"boiled_leather", "chainmail_hauberk", "scout_boots", "traveler_shoes"
+	],
+	"enemy_hints": [
+		"skeleton", "wolf", "boar", "bandit", "orc_warrior"
+	],
+	"zone_hints": [
+		"town", "wilderness", "iron_vein", "vetka", "angel_wings", "black_night"
+	],
+	"gold_step": 100
+}

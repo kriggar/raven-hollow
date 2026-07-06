@@ -1,0 +1,281 @@
+{
+  "_doc": "NarrativeSystem data (BACKLOG #49). Voice = design/NARRATIVE_VOICE.md. Three registers: R1 world-chronicle (lore, narrator, inscriptions), R2 hearth-plain / ledger-noir (barks), R3 the stone (villain inscriptions). Lore = unlock-once journal + parchment toast. Barks vary by call index (no RNG). Narrator fires on beats: enter_zone, boss_intro, quest_turnin, first_death.",
+
+  "lore": {
+    "iron_vein_footfall": {
+      "title": "The Iron Vein",
+      "register": "R1",
+      "zone": "iron_vein",
+      "trigger": "enter_zone",
+      "toast": "Men named the river for its ore. It has run the color of old blood longer than the name.",
+      "body": "A bog-valley under leaning birches, where the slow river carries its rust down to a sea no one here has seen. On the north bank stands the Bent Oar, the last warm hearth before it gets bad, and it has been the last for longer than any keeper can say. The dust between the bank-stones lies in fine parallel lines. It points upstream."
+    },
+    "vetka_footfall": {
+      "title": "Vetka",
+      "register": "R1",
+      "zone": "vetka",
+      "trigger": "enter_zone",
+      "toast": "Mud, thatch, and small warm doors. The oldest houses no longer face the fields.",
+      "body": "Vetka has stood in the border fog since before the kingdoms took their names, and it endures the way moss endures, by being too low for the wind to bother. The bread here comes out flat and grey, and the baking-women have stopped apologizing for it. Beneath the town, it is said, there is a chamber. Nobody says it twice."
+    },
+    "copper_wells_footfall": {
+      "title": "The Copper Wells",
+      "register": "R1",
+      "zone": "copper_wells",
+      "trigger": "enter_zone",
+      "toast": "The moor gives water in many wells. All but one have learned a new taste.",
+      "body": "Herdsmen sank these wells in a kinder age and cut their names in the wellstones, and the moss took the names as it takes everything, without hurry. Now the farmsteads stand open and unlooted, which is worse than burned, and the pilgrims on the old paths have stopped walking anywhere in particular. One well still runs clean. Drink at that one, and count the others."
+    },
+    "stonepath_footfall": {
+      "title": "The Stonepath",
+      "register": "R1",
+      "zone": "stonepath",
+      "trigger": "enter_zone",
+      "toast": "All the roads of the four kingdoms cross here, among stones older than all four.",
+      "body": "Whoever raised the standing stones raised them before roads existed to cross, and the roads, when they came, bent to meet the stones and not the other way. Every carving here has been growing since, every carving but one. At the crossroads leans a stone under a dead man's handprint whose marks are fading, line by patient line. It is the only inscription in Draconia that is getting shorter, and no one who studies it stays curious for long."
+    },
+    "chamber_depths_footfall": {
+      "title": "The Chamber Depths",
+      "register": "R1",
+      "zone": "chamber_depths",
+      "trigger": "enter_zone",
+      "toast": "The town keeps a room below it, and the room keeps talking.",
+      "body": "The stairs go down under Vetka into stone that was cut and then buried, and no keeper now serving remembers who first sealed the door. Every marking here is fresh where the marks above ground are worn, as if the work started at the bottom and is climbing. A courier came down once with a sealed satchel. He set it on a step. He never carried it back up."
+    },
+    "grey_marches_footfall": {
+      "title": "The Grey Marches",
+      "register": "R1",
+      "zone": "grey_marches",
+      "trigger": "enter_zone",
+      "toast": "No axe felled this forest. It goes grey from within, needle by needle.",
+      "body": "This was the deep wood once, the green rampart of the west, and old men in the Lowlands still call it the Greenmarch out of a habit their grandfathers should not have handed down. The needles do not fall. They fade where they hang, as if the trees were being asked, one by one, to stop agreeing to live. Somewhere among them a cult keeps a fire lit. The fire is not what warms the ground."
+    },
+    "western_lowlands_footfall": {
+      "title": "The Western Lowlands",
+      "register": "R1",
+      "zone": "western_lowlands",
+      "trigger": "enter_zone",
+      "toast": "River-country, warm and uncounted. The fog itself thins here for the harvest.",
+      "body": "The kindest land in Draconia: black river-mud, straight furrows, woodsmoke going up from more chimneys than any clerk has ever managed to tax. The west has fed three kingdoms through six hundred years of vigil, and it has done it the way rivers do everything, without being thanked. Lately, some of the neighbors walk east and do not come back for supper. Their families set a place anyway."
+    },
+    "angel_wings_footfall": {
+      "title": "Angel Wings",
+      "register": "R1",
+      "zone": "angel_wings",
+      "trigger": "enter_zone",
+      "toast": "The poorest throne in Draconia, and the only one that never wanted the stone.",
+      "body": "A capital of thatch and grain and too many people, sprawled where the Vein slows and remembers it is a working river. There is no marble here and no spire; the queens of the west built granaries instead, and one room in the northwest that no one speaks of loudly, a room designed, stone by stone, around not using a power it keeps. On an orphanage wall by the east district, children have pressed their hands in chalk. One print is faintly copper. It is here."
+    },
+    "famine_fields_footfall": {
+      "title": "The Famine Fields",
+      "register": "R1",
+      "zone": "famine_fields",
+      "trigger": "enter_zone",
+      "toast": "Good soil, straight furrows, empty tables. The land did not do this.",
+      "body": "These fields were the pride of the west within living memory, soil so willing, the saying went, you could plant a walking-stick and harvest a chair. The furrows are still straight. The soil is still willing. The hunger came anyway, and it moved through the villages with a strange neatness, house by house in order, like a man reading down a list. The grave-rows by the burned farmstead are counted and kept. Somebody counts them."
+    },
+    "riverfork_footfall": {
+      "title": "Riverfork",
+      "register": "R1",
+      "zone": "riverfork",
+      "trigger": "enter_zone",
+      "toast": "Two arms of the Vein meet here and go on together, toward a sea no map shows.",
+      "body": "The delta country: bridges, toll-posts, and the smell of tar and wet rope, the last working edge of the west before the water takes over. Everything that leaves the kingdoms comes through Riverfork sooner or later, paying at the narrow places, the way it has since the first plank bridge went across. Dockmen speak of grey piers far downriver where the light arrives tired. They speak of them quietly, and they are never hiring for that run."
+    },
+    "raven_hollow_footfall": {
+      "title": "Raven Hollow",
+      "register": "R1",
+      "zone": "raven_hollow",
+      "trigger": "enter_zone",
+      "toast": "The wildwood remembers a hollow here older than any wall men raised over it.",
+      "body": "The rooks came before the founders and will outstay them, and the town has had the good manners never to ask what they are waiting for. A small, warm, ordinary place: one inn, one forge, one gravekeeper who has never once apologized. The wells went copper on a Thursday."
+    },
+    "emberfall_road_footfall": {
+      "title": "The Emberfall Road",
+      "register": "R1",
+      "zone": "wilderness",
+      "trigger": "enter_zone",
+      "toast": "It carried lanterns east once, in the years when a lantern was enough.",
+      "body": "The old road runs east out of the hollow under trees that have watched it since it was a footpath, and it keeps its ruts the way an old man keeps his scars, proudly, and without explaining. Travelers used to walk it singing. The woods remember the songs. Lately they lean in, as if listening for the next verse, and the rooks will not land past the treeline."
+    },
+
+    "book_greenmarch": {
+      "title": "Of the Greenmarch, and Its Keeping",
+      "register": "R1",
+      "zone": "grey_marches",
+      "trigger": "book",
+      "condition": "The ink is good; the optimism has not kept as well.",
+      "toast": "You find a forester's book. The last margin note is not in the same hand.",
+      "body": "The wood of the western march is the oldest living thing in Draconia, older than the four thrones and the roads between them, and it has been cut and has grown back nine times in the memory of the west. The forester's law is short: take the grey trees, leave the green, and the march will outlast your grandchildren's grandchildren.",
+      "marginalia": "there are no green ones left past the second ridge. we stopped logging tuesday. nobody ordered it. you just don't swing an axe in a room where something is dying."
+    },
+    "waystone_vein_ford": {
+      "title": "The Vein Ford Waystone",
+      "register": "R1",
+      "zone": "iron_vein",
+      "trigger": "inscription",
+      "toast": "A boundary stone. The last three words were cut deeper, later, by another hand.",
+      "body": "THE VEIN FORD. TWO LEAGUES. WALK IT BY DAY. The first line has weathered to a whisper of its edges; the last three words are new-cut and deep, by a different chisel, as if the stone had been argued with and lost."
+    },
+    "grave_magda_vetkan": {
+      "title": "Magda Vetkan's Kerb",
+      "register": "R1",
+      "zone": "vetka",
+      "trigger": "inscription",
+      "toast": "A grave-kerb in the Vetka yard, cut with one plain fact.",
+      "body": "MAGDA VETKAN. SIXTY-ONE WINTERS. SHE FED SIX WINTERS OF STRANGERS AND ASKED ONE QUESTION. The question is not recorded. The moss has left this stone alone, which the gravekeeper says it does for the ones the ground is ashamed of."
+    },
+    "stone_inscription_river": {
+      "title": "The Stone's Bookkeeping",
+      "register": "R3",
+      "zone": "stonepath",
+      "trigger": "inscription",
+      "toast": "Chalk, on the crossroads stone. Second person. It knows you looked.",
+      "body": "YOU LOOKED AT A RIVER AND REPORTED A COLOR. THE ENTRY IS SHORT. ENTRIES GROW."
+    },
+    "stone_inscription_rest": {
+      "title": "An Offer of Rest",
+      "register": "R3",
+      "zone": "chamber_depths",
+      "trigger": "inscription",
+      "toast": "Scratched into the chamber wall, at a tired traveler's height.",
+      "body": "YOU ARE TIRED. THE GROUND HERE IS WARM. IT IS THE ONLY PLACE THAT WILL FEEL LIKE REST."
+    }
+  },
+
+  "barks": {
+    "zone": {
+      "iron_vein": [
+        "Bent Oar's the last dry stool before the moor. Drink slow, the road east don't get friendlier.",
+        "River's running high and rusty. My father'd say that meant fish. My father's been wrong before.",
+        "Mind the bank-stones. Somebody's been raking the dust into lines, and it ain't me.",
+        "You headed upstream? Good. Somebody should look at what's up there. Better you than me."
+      ],
+      "vetka": [
+        "Bread's flat and grey. Always was. I stopped saying sorry for it about a month back.",
+        "Don't go asking after the chamber under the town. Ask once, folk answer. Ask twice, they don't.",
+        "Marta's well went off. Copper on the tongue. She's counting candles now, whatever that means.",
+        "The Bakes woman won't meet your eye. Not rude. Just tired in a way I don't have a word for."
+      ],
+      "copper_wells": [
+        "One well left that tastes right. The rest went copper, one by one, in order, like they was told.",
+        "Farmstead's stood open a week. Nothing took. Nothing burned. That's the part I can't sleep on.",
+        "Pilgrims used to walk the paths with somewhere to be. Now they just walk. Ask 'em where. Go on.",
+        "Read the live stone if you must. Look at your boots after. That's the trick, looking away."
+      ],
+      "stonepath": [
+        "Every road worth walking crosses here, and every stone here's older than the roads. Bend to that.",
+        "There's a carving at the cross that's getting shorter. Shorter, mind. I don't study it long.",
+        "Deserters camp the north ridge. Won't fight you if you don't look like pay. Don't look like pay.",
+        "Handprint stone's fading a line a week. Somebody's keeping count. It isn't the dead man."
+      ],
+      "grey_marches": [
+        "We call it the Greenmarch still. Habit. There's no green past the second ridge to call it after.",
+        "Needles don't fall here. They go grey on the branch. Like the tree's been asked to quit, polite.",
+        "Cult keeps a fire up the west track. Warms the ground, they say. Ground was never cold, I say.",
+        "Forester's holding's empty. He left his good axe. A forester don't leave his axe for nothing."
+      ],
+      "western_lowlands": [
+        "Kindest dirt in the world, this. Plant a stick, get a chair. Used to be a joke. We stopped laughing.",
+        "Granary's full to the beams and folk are hungry anyway. Explain that one to me slow.",
+        "Neighbor walked east Tuesday. Didn't come back for supper. His wife set his place regardless.",
+        "Fog thins here for the harvest. Only kindness the weather's shown the west in six hundred years."
+      ],
+      "angel_wings": [
+        "Poorest throne there is, and proud of it. No spire. We built barns where the marble should've gone.",
+        "There's a room up northwest nobody names loud. Built around not using a thing it keeps. Leave it.",
+        "Chalk hands on the orphanage wall, children's. One's gone copper. Maren won't let 'em wash it off.",
+        "Cutpurses in the south lanes. Hungry, mostly. Give 'em a loaf before your purse and you'll keep both."
+      ],
+      "famine_fields": [
+        "Soil's still willing. Furrows still straight. Tables still empty. The land didn't do this to us.",
+        "Hunger came house by house, in order, neat as a man reading a list. That's the part that's wrong.",
+        "Grave-rows by the burned holding are counted. Somebody keeps the count fresh. Wasn't asked to.",
+        "Full granary, empty bellies. My gran had a word for that kind of quiet. She'd not say it now."
+      ],
+      "riverfork": [
+        "Everything the kingdoms send out passes my toll sooner or later. Pay at the narrows and go on.",
+        "Dockmen talk of grey piers downriver where the light comes in tired. Nobody's hiring that run.",
+        "Tar, wet rope, and the sea past the last bridge. That's Riverfork. Don't book passage after dark.",
+        "Two arms of the Vein meet and go on together. Toward what, no map I've paid for will say."
+      ],
+      "raven_hollow": [
+        "Wells went copper on a Thursday. Whole town at once. Vasile burned the runes and won't discuss it.",
+        "Rooks were here before the founders. They're waiting on something. We've the manners not to ask.",
+        "One inn, one forge, one gravekeeper. Vasile's never apologized in his life and he's not starting.",
+        "Small warm place, this. Everything good's temporary, my mother said. That's what makes it good."
+      ]
+    },
+    "faction": {
+      "strigoi": [
+        "The Strigoi keep the old covenants. Cross one and they remember longer than you'll live to regret.",
+        "Blood-lords, folk call them. They call themselves keepers. Both are true, and neither's comfort.",
+        "A Strigoi debt outlives the borrower. They are patient the way stone is patient."
+      ],
+      "varcolaci": [
+        "Varcolaci run with the moon and the pack law. Fair to their own, and their own is a narrow gate.",
+        "Sangeroasa breeds fighters who'd rather die on their feet than treat with the stone. I respect it.",
+        "Cross a Varcolac and he'll tell you to your face. That's more than most enemies grant you."
+      ],
+      "iele": [
+        "The Iele of the Black Night keep no roads and answer no gate. You do not find them. They allow it.",
+        "Dance-folk, the villages call them, and never at night. Their friendship is a weather, not a word.",
+        "Wrong the Iele and the wronging finds you later, in a field, alone. They are never in a hurry."
+      ],
+      "angelwings": [
+        "Angel Wings feeds three kingdoms and taxes none of them right. Poorest crown, straightest backs.",
+        "The Humans built granaries where thrones build monuments. History will not thank them. It never does.",
+        "A queen of the west would sooner hoard grain than power. That restraint is the whole west's shield."
+      ],
+      "accord": [
+        "The Accord keeps the peace between four races that would rather not. Thankless, and it holds. Mostly.",
+        "Bring the Accord a clean record and clean hands and they'll open doors. They keep a ledger too.",
+        "The Accord's roll of ranks is long and its patience short. Earn the standing. Do not claim it."
+      ],
+      "morven": [
+        "The Morven trade in what everyone needs and nobody admits: passage, silence, the odd forged seal.",
+        "A Morven contract is honest to the letter and cruel in the margins. Read the margins twice.",
+        "The Morven keep no side but the ledger's. Useful, that, until the day the ledger balances against you."
+      ]
+    }
+  },
+
+  "narrator": {
+    "enter_zone": {
+      "_default": "A new road, or a secret gate. The land was here first, and it remembers.",
+      "iron_vein": "Men named the river for its ore. It has run the color of old blood longer than the name.",
+      "vetka": "Mud, thatch, and small warm doors. The oldest houses no longer face the fields.",
+      "copper_wells": "The moor gives water in many wells. All but one have learned a new taste.",
+      "stonepath": "All the roads of the four kingdoms cross here, among stones older than all four.",
+      "chamber_depths": "The town keeps a room below it, and the room keeps talking.",
+      "grey_marches": "No axe felled this forest. It goes grey from within, needle by needle.",
+      "western_lowlands": "River-country, warm and uncounted. The fog itself thins here for the harvest.",
+      "angel_wings": "The poorest throne in Draconia, and the only one that never wanted the stone.",
+      "famine_fields": "Good soil, straight furrows, empty tables. The land did not do this.",
+      "riverfork": "Two arms of the Vein meet here and go on together, toward a sea no map shows.",
+      "raven_hollow": "The wildwood remembers a hollow here older than any wall men raised over it.",
+      "wilderness": "It carried lanterns east once, in the years when a lantern was enough."
+    },
+    "boss_intro": {
+      "_default": "Older than the road and slower to forgive. It has been waiting the way the ground waits.",
+      "digging_creature": "It was a boar once, before the ground fed it wrong. It has been digging toward something for a long time.",
+      "warden_of_the_wells": "It kept the clean well when there were still hands to thank for it. It keeps it yet, and thanks no one.",
+      "the_stonewatcher": "It reads the shortening stone the way a clerk reads a debt. It has been reading a long while.",
+      "marches_alpha": "The pack ran green wood once. It runs grey now, and it has learned to hunt on the branch.",
+      "bandit_captain": "A soldier of the west, before the pay stopped and the roads went quiet. He remembers being paid."
+    },
+    "quest_turnin": {
+      "_default": "Set it in the chronicle, then. Written down, a thing at least stops arguing that it never happened.",
+      "rh_boar_cull": "The boars are culled and the field may yet see harvest. The tracks that ring it now are dog-shaped, and too many.",
+      "rh_wolves_gate": "The road keeps what it catches, and gives back less. One debt closed. The road keeps its own count.",
+      "rh_graveyard_bones": "The yard is quiet again, for now. The ground was patient before you, and it is patient still.",
+      "rh_bear_hollow": "The thing in the hollow is dealt with. The hollow was here before the thing, and outlasts it."
+    },
+    "first_death": [
+      "The ground here is warm, and it is patient. You are neither, yet. Get up.",
+      "It has an entry for you now. It is short. The chronicle is not finished with you.",
+      "Everything good is temporary. So, it seems, is this. The road is not done being walked.",
+      "You fell where better folk have fallen and been forgotten. Do not be forgotten. Stand."
+    ]
+  }
+}

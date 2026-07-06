@@ -17,6 +17,11 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+PhysicsPropSystem="*res://scripts/systems/physics_prop_system.gd"
+ClassKitSystem="*res://scripts/systems/class_kit_system.gd"
+SelectScreenSystem="*res://scripts/systems/select_screen_system.gd"
+FerrySystem="*res://scripts/systems/ferry_system.gd"
+SecretSystem="*res://scripts/systems/secret_system.gd"
 MusicSystem="*res://scripts/systems/music_system.gd"
 NarrativeSystem="*res://scripts/systems/narrative_system.gd"
 QASystem="*res://scripts/systems/qa_system.gd"

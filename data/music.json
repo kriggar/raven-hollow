@@ -1,0 +1,78 @@
+{
+  "_doc": "Dynamic Music Director data (BACKLOG #53, design/SCORE_BIBLE.md). Per-zone/region/biome exploration beds, a global state set (explore/tension/combat/boss/victory/town/night), stingers, and equal-power crossfade times. Track values are LOGICAL paths -- the real .ogg stems are authored later (SCORE_BIBLE section 8); MusicSystem stays silent + guarded when a file is absent.",
+
+  "default_volume_db": -14.0,
+
+  "crossfades": {
+    "explore": 3.0,
+    "tension": 1.5,
+    "combat": 0.8,
+    "boss": 1.2,
+    "victory": 1.0,
+    "town": 2.5,
+    "night": 2.0,
+    "default": 1.5
+  },
+
+  "states": {
+    "explore": { "track": "res://assets/audio/music/state_explore.ogg", "volume_db": -14.0, "loop": true },
+    "tension": { "track": "res://assets/audio/music/state_tension.ogg", "volume_db": -13.0, "loop": true },
+    "combat":  { "track": "res://assets/audio/music/state_combat.ogg",  "volume_db": -11.0, "loop": true },
+    "boss":    { "track": "res://assets/audio/music/state_boss.ogg",    "volume_db": -10.0, "loop": true },
+    "victory": { "track": "res://assets/audio/music/state_victory.ogg", "volume_db": -11.0, "loop": false, "hold": 6.0 },
+    "town":    { "track": "res://assets/audio/music/state_town.ogg",    "volume_db": -15.0, "loop": true },
+    "night":   { "track": "res://assets/audio/music/state_night.ogg",   "volume_db": -16.0, "loop": true }
+  },
+
+  "start_state": "explore",
+
+  "ambient_state": "explore",
+  "combat_release_s": 4.0,
+
+  "town_zones": [
+    "vetka", "angel_wings", "sangeroasa", "blestem", "black_night",
+    "greyhollow", "iron_vein"
+  ],
+
+  "zones": {
+    "vetka": "res://assets/audio/music/theme_lost_village.ogg",
+    "iron_vein": "res://assets/audio/music/theme_lost_village.ogg",
+    "angel_wings": "res://assets/audio/music/z07_angel_wings_explore.ogg",
+    "blestem": "res://assets/audio/music/z17_blestem_explore.ogg",
+    "sangeroasa": "res://assets/audio/music/z22_sangeroasa_explore.ogg",
+    "black_night": "res://assets/audio/music/z12_black_night_explore.ogg",
+    "greyhollow": "res://assets/audio/music/z27_greyhollow_explore.ogg",
+    "stonepath": "res://assets/audio/music/theme_stonepath.ogg",
+    "chamber_depths": "res://assets/audio/music/theme_chamber.ogg"
+  },
+
+  "regions": {
+    "border": "res://assets/audio/music/theme_border.ogg",
+    "west":   "res://assets/audio/music/theme_west.ogg",
+    "north":  "res://assets/audio/music/theme_north.ogg",
+    "east":   "res://assets/audio/music/theme_east.ogg",
+    "south":  "res://assets/audio/music/theme_south.ogg",
+    "coast":  "res://assets/audio/music/theme_port.ogg"
+  },
+
+  "biomes": {
+    "bog":        "res://assets/audio/music/bed_bog.ogg",
+    "moor":       "res://assets/audio/music/bed_moor.ogg",
+    "wilds":      "res://assets/audio/music/bed_wilds.ogg",
+    "farmland":   "res://assets/audio/music/bed_farmland.ogg",
+    "deadforest": "res://assets/audio/music/bed_deadforest.ogg",
+    "tundra":     "res://assets/audio/music/bed_tundra.ogg",
+    "volcanic":   "res://assets/audio/music/bed_volcanic.ogg",
+    "ridge":      "res://assets/audio/music/bed_ridge.ogg",
+    "steppe":     "res://assets/audio/music/bed_steppe.ogg",
+    "port":       "res://assets/audio/music/bed_port.ogg",
+    "cave":       "res://assets/audio/music/bed_cave.ogg"
+  },
+
+  "stingers": {
+    "level_up":       { "track": "res://assets/audio/music/sting_level_up.ogg",       "volume_db": -8.0,  "duck_db": -7.0, "duration": 2.5 },
+    "quest_complete": { "track": "res://assets/audio/music/sting_quest_complete.ogg", "volume_db": -8.0,  "duck_db": -6.0, "duration": 3.0 },
+    "death":          { "track": "res://assets/audio/music/sting_death.ogg",          "volume_db": -7.0,  "duck_db": -12.0, "duration": 3.5 },
+    "discovery":      { "track": "res://assets/audio/music/sting_discovery.ogg",      "volume_db": -9.0,  "duck_db": -5.0, "duration": 2.0 }
+  }
+}
