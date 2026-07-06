@@ -11,8 +11,11 @@ extends Node2D
 
 const CELL := 64
 const FRAMES := 12
-const OUT_DIR := "res://_screens/fb_particle/raw"
 const VIEW := 576          # windowed preview size (9x upscale of 64)
+
+# RH_FB_MODE=dir -> directional/comet variant into raw_dir/; else radial spin into raw/
+var _mode := 0
+var _out_dir := "res://_screens/fb_particle/raw"
 
 var _render_vp: SubViewport
 var _palette_vp: SubViewport
@@ -22,8 +25,11 @@ var _use_gpu := false
 
 func _ready() -> void:
 	_use_gpu = OS.get_environment("RH_FB_GPU") == "1"
+	if OS.get_environment("RH_FB_MODE") == "dir":
+		_mode = 1
+		_out_dir = "res://_screens/fb_particle/raw_dir"
 	RenderingServer.set_default_clear_color(Color(0.05, 0.045, 0.06))
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT_DIR))
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_out_dir))
 
 	var win := get_window()
 	win.size = Vector2i(VIEW, VIEW)
@@ -38,6 +44,7 @@ func _ready() -> void:
 	add_child(_render_vp)
 
 	_core = FBBakeCore.new()
+	_core.mode = _mode
 	_render_vp.add_child(_core)
 
 	if _use_gpu:
@@ -92,11 +99,11 @@ func _capture_loop() -> void:
 		for _j in 3:
 			await RenderingServer.frame_post_draw
 		var img := _palette_vp.get_texture().get_image()
-		var path := "%s/frame_%02d.png" % [OUT_DIR, i]
+		var path := "%s/frame_%02d.png" % [_out_dir, i]
 		img.save_png(path)
 		print("[fb_bake] saved ", path, " ", img.get_size())
 
-	print("[fb_bake] DONE ", FRAMES, " frames -> ", OUT_DIR)
+	print("[fb_bake] DONE ", FRAMES, " frames -> ", _out_dir)
 
 
 func _add_gpu_flame(parent: Node2D) -> void:
