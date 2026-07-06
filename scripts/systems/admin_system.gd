@@ -89,6 +89,8 @@ func _ready() -> void:
 	set_process(false)  # only ticks while godmode is ON
 	if not OS.get_environment("RH_ADMIN_TEST").is_empty():
 		call_deferred("_run_selftest")
+	elif not OS.get_environment("RH_ADMIN").is_empty():
+		call_deferred("open_admin")  # QA/screenshot: open the hub on boot
 
 
 func _load_config() -> void:
