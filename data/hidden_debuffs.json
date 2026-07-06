@@ -1,0 +1,114 @@
+{
+	"_doc": "Raven Hollow hidden debuffs / curses (BACKLOG #36, design/HIDDEN_DEBUFFS.md). Curses/afflictions applied SILENTLY (no toast, no obvious HUD icon) with a discovery condition (inspect / cleanse-item / quest / stage-reached). Consumed by scripts/systems/trainer_system.gd. The world writes on you: curiosity is the vector, warmth is the symptom. Contract law (doc sec 1): while hidden an effect never deals direct HP damage and never moves a stat > ~10%. stat_mods use StatsSystem keys (hp/armor/speed_pct/crit_pct/mana_regen/damage) and ride the SAME StatsSystem modifier bus StatusSystem uses. status_mirror (optional) names an existing data/status_effects.json effect that surfaces on the visible debuff bar the moment the hidden effect is REVEALED - the honest 'hidden thing left alone becomes a visible worse thing' escalation. wash = which of Hessik's four detection washes reveals it (blue|violet|green|orange).",
+	"max_hidden": 3,
+	"debuffs": {
+		"copperbelly": {
+			"id": "copperbelly", "name": "Copperbelly", "family": "land_that_reads",
+			"engine": "underlanguage", "wash": "green", "signature": false,
+			"symptom": "The stew sits in you like river-water. The yeast dies in you.",
+			"reveal": {"kind": "food_failed", "count": 2},
+			"cures": ["hearth_bread", "priest_gut_blessing", "wait_out_24h"],
+			"stat_mods": {"mana_regen": -1.0},
+			"status_mirror": ""
+		},
+		"warm_soled": {
+			"id": "warm_soled", "name": "Warm-Soled", "family": "land_that_reads",
+			"engine": "underlanguage", "wash": "green", "signature": false,
+			"symptom": "Your footsteps steam. Snow will not settle on you.",
+			"reveal": {"kind": "family_early_aggro", "family": "underlanguage"},
+			"cures": ["cold_ford", "swap_boots", "black_night_clear_air"],
+			"stat_mods": {"speed_pct": -2.0},
+			"status_mirror": ""
+		},
+		"pack_scent": {
+			"id": "pack_scent", "name": "Pack-Scented", "family": "wolves_canines",
+			"engine": "cruelty", "wash": "green", "signature": true,
+			"symptom": "Distant howls grow more frequent. They marked you three fights ago.",
+			"reveal": {"kind": "social_aggro_beyond", "px": 200},
+			"cures": ["boar_tallow", "river_ford", "kill_the_alpha"],
+			"stat_mods": {"speed_pct": -3.0},
+			"status_mirror": ""
+		},
+		"greywolf_tick": {
+			"id": "greywolf_tick", "name": "Greywolf Tick", "family": "wolves_canines",
+			"engine": "cruelty", "wash": "green", "signature": false,
+			"symptom": "A single scratch sound, a tiny shiver. Something rides you.",
+			"reveal": {"kind": "campfire_rest"},
+			"cures": ["campfire_burn", "verdigris_scrub"],
+			"stat_mods": {"speed_pct": -5.0},
+			"status_mirror": "infected"
+		},
+		"bog_sour": {
+			"id": "bog_sour", "name": "Bog-Sour", "family": "boars_bloodfed",
+			"engine": "ecology", "wash": "green", "signature": false,
+			"symptom": "Squelching footsteps on dry land. Vendors take a step back.",
+			"reveal": {"kind": "vendor_bark"},
+			"cures": ["rain", "clean_ford", "inn_hot_water"],
+			"stat_mods": {"speed_pct": -3.0},
+			"status_mirror": ""
+		},
+		"grave_dim": {
+			"id": "grave_dim", "name": "Grave-Dim", "family": "undead_thread",
+			"engine": "thread", "wash": "blue", "signature": true,
+			"symptom": "The minimap darkens from the edges. The dead lie thickest where you cannot see.",
+			"reveal": {"kind": "open_map_while_dimmed"},
+			"cures": ["dawn_outdoors", "shrine_candle", "gravekeepers_lantern"],
+			"stat_mods": {"crit_pct": -3.0},
+			"status_mirror": "chilled"
+		},
+		"thread_crossed": {
+			"id": "thread_crossed", "name": "Thread-Crossed", "family": "undead_thread",
+			"engine": "thread", "wash": "blue", "signature": false,
+			"symptom": "Your summons stop and face north. The dead you kill stand back up, take a step, and fall.",
+			"reveal": {"kind": "restanding_corpse"},
+			"cures": ["cross_running_water", "priest_cut", "council_refile"],
+			"stat_mods": {"mana_regen": -1.0},
+			"status_mirror": ""
+		},
+		"blood_tithed": {
+			"id": "blood_tithed", "name": "Blood-Tithed", "family": "strigoi_listeners",
+			"engine": "cruelty", "wash": "violet", "signature": false,
+			"symptom": "Your reflection renders paler. Your footsteps stop making sound.",
+			"reveal": {"kind": "inn_mirror"},
+			"cures": ["rare_meat_and_sleep", "priest_transfusion", "kill_12_strigoi"],
+			"stat_mods": {"hp": -8.0},
+			"status_mirror": "weakened"
+		},
+		"marked": {
+			"id": "marked", "name": "Marked", "family": "strigoi_listeners",
+			"engine": "cruelty", "wash": "violet", "signature": true,
+			"symptom": "Blestem vendors overcharge you. Gate guards greet you by a name you never gave.",
+			"reveal": {"kind": "buy_your_file", "gold": 5},
+			"cures": ["burn_your_file", "kill_the_listener", "leave_the_east_48h"],
+			"stat_mods": {"crit_pct": -2.0},
+			"status_mirror": ""
+		},
+		"moon_fever": {
+			"id": "moon_fever", "name": "Moon-Fever", "family": "varcolaci_forge",
+			"engine": "cruelty", "wash": "green", "signature": true,
+			"symptom": "At nightfall you feel wonderful - stronger, faster, a red vignette, a heartbeat under the music. The crash comes at dawn.",
+			"reveal": {"kind": "stage_reached", "stage": 3},
+			"cures": ["wolfsbane_draught", "shrine_of_the_old_hunt", "ride_it_out"],
+			"stat_mods": {"damage": -3.0, "speed_pct": -5.0},
+			"status_mirror": "weakened"
+		},
+		"under_hearing": {
+			"id": "under_hearing", "name": "Under-Hearing", "family": "digging_creature",
+			"engine": "subterrestrial", "wash": "violet", "signature": true,
+			"symptom": "Surface sound ducks; a low rumble rises over buried tunnels. You can hear the under.",
+			"reveal": {"kind": "audio_duck_stage", "stage": 2},
+			"cures": ["priest_closes_the_ear", "wax_earplugs", "let_it_mature"],
+			"stat_mods": {"crit_pct": -5.0},
+			"status_mirror": ""
+		},
+		"collected": {
+			"id": "collected", "name": "Collected", "family": "finalized_coast",
+			"engine": "bureau", "wash": "orange", "signature": true,
+			"symptom": "Your gold counts down, one coin a minute, each tick a faint stamp. A debt-tablet with your name appears in your bag.",
+			"reveal": {"kind": "debt_tablet_in_bag"},
+			"cures": ["crack_your_tablet", "kill_the_finalized", "give_freely_to_a_beggar"],
+			"stat_mods": {"mana_regen": -1.0},
+			"status_mirror": "weakened"
+		}
+	}
+}

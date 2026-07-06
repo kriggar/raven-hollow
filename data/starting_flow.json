@@ -1,0 +1,48 @@
+{
+	"_doc": "Raven Hollow starting-zone new-player flow (BACKLOG #43, design/STARTING_ZONES.md). Per-class starting zone + mentor + a short ORDERED onboarding checklist (move, attack, loot, talk-to-trainer, equip). Consumed by scripts/systems/trainer_system.gd. Every class starts in Raven Hollow (respects the shipped main.gd new-game flow, STARTING_ZONES sec 0/1); the mentor is the class trainer in data/trainers.json. On completion the flow grants a starter reward via LootSystem (gold + one class-identity piece + a come-of-age title). The flow is GUARDED: it only runs for a fresh actor (level 1, no xp, first session).",
+	"checklist": [
+		{"id": "move", "text": "Find your feet - walk the lanes of Raven Hollow."},
+		{"id": "attack", "text": "Draw steel - strike a training pell or a restless thing."},
+		{"id": "loot", "text": "Take up what the dead leave - open your first spoils."},
+		{"id": "talk_trainer", "text": "Seek your mentor - they have work for hands like yours."},
+		{"id": "equip", "text": "Wear the trade - equip a weapon or a piece of armor."}
+	],
+	"reward_fallback": {"gold": 20, "items": [{"id": "leather_cap", "rarity": "common"}], "title": "of the Hollow"},
+	"flows": {
+		"warrior": {
+			"class_id": "warrior", "start_zone": "raven_hollow", "mentor": "Veteran Codrin",
+			"welcome": "The yard behind Goran's still drills at dawn. Codrin asked after anyone wearing a soldier's boots.",
+			"reward": {"gold": 25, "items": [{"id": "worn_jerkin", "rarity": "uncommon"}], "title": "Shield of the Hollow"}
+		},
+		"rogue": {
+			"class_id": "rogue", "start_zone": "raven_hollow", "mentor": "Ilinca the Lamplighter",
+			"welcome": "Ilinca keeps one lamp dark on purpose. She lights it for people worth the shadow.",
+			"reward": {"gold": 25, "items": [{"id": "bent_dagger", "rarity": "uncommon"}], "title": "Knife in the Fog"}
+		},
+		"mage": {
+			"class_id": "mage", "start_zone": "raven_hollow", "mentor": "Candle-Keeper Ruxandra",
+			"welcome": "The council sealed the candle-house and never quite locked it. Ruxandra is expecting you.",
+			"reward": {"gold": 25, "items": [{"id": "bone_totem", "rarity": "uncommon"}], "title": "Keeper of the Violet Flame"}
+		},
+		"paladin": {
+			"class_id": "paladin", "start_zone": "raven_hollow", "mentor": "Prior Costin",
+			"welcome": "Prior Costin polishes a lantern he has never once needed to relight, and checks anyway.",
+			"reward": {"gold": 25, "items": [{"id": "round_shield", "rarity": "uncommon"}], "title": "Lantern of the Ashen Chapel"}
+		},
+		"necromancer": {
+			"class_id": "necromancer", "start_zone": "raven_hollow", "mentor": "Gravekeeper Voicu",
+			"welcome": "Voicu keeps a ledger of aptitudes. Yours has a page. He has been expecting a client.",
+			"reward": {"gold": 25, "items": [{"id": "bone_ring", "rarity": "uncommon"}], "title": "Warden of the Old Graves"}
+		},
+		"rookwarden": {
+			"class_id": "rookwarden", "start_zone": "raven_hollow", "mentor": "Old Petra",
+			"welcome": "Old Petra's birds have been bragging. She says the rooks chose you at the gallows-tree.",
+			"reward": {"gold": 25, "items": [{"id": "hunting_spear", "rarity": "uncommon"}], "title": "Rookwarden of the Hollow"}
+		},
+		"druid": {
+			"class_id": "druid", "start_zone": "raven_hollow", "mentor": "Baba Iva",
+			"welcome": "Baba Iva predates the walls, and the walls do not argue. The wildwood will name its price.",
+			"reward": {"gold": 25, "items": [{"id": "oak_cudgel", "rarity": "uncommon"}], "title": "Warden of the Wildwood"}
+		}
+	}
+}

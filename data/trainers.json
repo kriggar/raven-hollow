@@ -1,0 +1,136 @@
+{
+	"_doc": "Raven Hollow spell/ability trainers (BACKLOG #58, design/TALENTS_SPELLS.md sec 6 + design/STARTING_ZONES.md sec 3). Trainer NPCs per class/zone; each teaches a list of kit abilities (ids verbatim from scripts/class_defs.gd) at a gold + level cost. Cost model: cost_gold = max(1, round(0.35 * level_req)) per TALENTS_SPELLS sec 2.4. Consumed by scripts/systems/trainer_system.gd (TrainerSystem autoload). Tier-1 mentors live in the Raven Hollow starter hub (the seven STARTING_ZONES mentors); tier-2 trainers teach the capstone-band kit in the capitals along the ZONE_QUEST_MATRIX bands. Basic attack (abilities[0]) is free at L1 and is never trained.",
+	"trainers": {
+		"rh_codrin": {
+			"id": "rh_codrin", "name": "Veteran Codrin", "class_id": "warrior",
+			"zone": "raven_hollow", "tier": 1, "title": "the Drill-Yard Warden",
+			"teaches": [
+				{"ability": "shield_charge", "rank": 1, "level_req": 4, "gold_cost": 1},
+				{"ability": "sunder", "rank": 1, "level_req": 8, "gold_cost": 3},
+				{"ability": "whirlwind", "rank": 1, "level_req": 12, "gold_cost": 4},
+				{"ability": "war_cry", "rank": 1, "level_req": 16, "gold_cost": 6}
+			]
+		},
+		"sangeroasa_pitmaster": {
+			"id": "sangeroasa_pitmaster", "name": "Pit-Master Ilion", "class_id": "warrior",
+			"zone": "sangeroasa", "tier": 2, "title": "of the Debt-Pit circuits",
+			"teaches": [
+				{"ability": "iron_bulwark", "rank": 1, "level_req": 20, "gold_cost": 7},
+				{"ability": "earthshaker", "rank": 1, "level_req": 24, "gold_cost": 8}
+			]
+		},
+		"rh_ilinca": {
+			"id": "rh_ilinca", "name": "Ilinca the Lamplighter", "class_id": "rogue",
+			"zone": "raven_hollow", "tier": 1, "title": "who keeps one lamp dark",
+			"teaches": [
+				{"ability": "backstab", "rank": 1, "level_req": 4, "gold_cost": 1},
+				{"ability": "shadowstep", "rank": 1, "level_req": 8, "gold_cost": 3},
+				{"ability": "noxious_vial", "rank": 1, "level_req": 12, "gold_cost": 4},
+				{"ability": "fan_of_knives", "rank": 1, "level_req": 16, "gold_cost": 6}
+			]
+		},
+		"blestem_fencemaster": {
+			"id": "blestem_fencemaster", "name": "Fence-Mistress Draja", "class_id": "rogue",
+			"zone": "blestem", "tier": 2, "title": "of the Lower Market",
+			"teaches": [
+				{"ability": "shroud", "rank": 1, "level_req": 20, "gold_cost": 7},
+				{"ability": "death_blossom", "rank": 1, "level_req": 24, "gold_cost": 8}
+			]
+		},
+		"rh_ruxandra": {
+			"id": "rh_ruxandra", "name": "Candle-Keeper Ruxandra", "class_id": "mage",
+			"zone": "raven_hollow", "tier": 1, "title": "of the sealed candle-house",
+			"teaches": [
+				{"ability": "ice_lance", "rank": 1, "level_req": 4, "gold_cost": 1},
+				{"ability": "fireball", "rank": 1, "level_req": 8, "gold_cost": 3},
+				{"ability": "flame_strike", "rank": 1, "level_req": 12, "gold_cost": 4},
+				{"ability": "frost_nova", "rank": 1, "level_req": 16, "gold_cost": 6}
+			]
+		},
+		"angelwings_archmagister": {
+			"id": "angelwings_archmagister", "name": "Archmagister Fenn", "class_id": "mage",
+			"zone": "angel_wings", "tier": 2, "title": "of the Lead Vault annex",
+			"teaches": [
+				{"ability": "blink", "rank": 1, "level_req": 20, "gold_cost": 7},
+				{"ability": "mana_shield", "rank": 1, "level_req": 24, "gold_cost": 8},
+				{"ability": "cinderfall", "rank": 1, "level_req": 30, "gold_cost": 11}
+			]
+		},
+		"rh_costin": {
+			"id": "rh_costin", "name": "Prior Costin", "class_id": "paladin",
+			"zone": "raven_hollow", "tier": 1, "title": "last keeper of the Ashen Chapel",
+			"teaches": [
+				{"ability": "holy_smite", "rank": 1, "level_req": 4, "gold_cost": 1},
+				{"ability": "judgment", "rank": 1, "level_req": 8, "gold_cost": 3},
+				{"ability": "consecration", "rank": 1, "level_req": 12, "gold_cost": 4},
+				{"ability": "lay_on_hands", "rank": 1, "level_req": 16, "gold_cost": 6}
+			]
+		},
+		"angelwings_highprior": {
+			"id": "angelwings_highprior", "name": "High Prior Anselm", "class_id": "paladin",
+			"zone": "angel_wings", "tier": 2, "title": "of the mother-see",
+			"teaches": [
+				{"ability": "divine_shield", "rank": 1, "level_req": 20, "gold_cost": 7},
+				{"ability": "sacred_bulwark", "rank": 1, "level_req": 24, "gold_cost": 8},
+				{"ability": "dawnbreak", "rank": 1, "level_req": 30, "gold_cost": 11}
+			]
+		},
+		"rh_voicu": {
+			"id": "rh_voicu", "name": "Gravekeeper Voicu", "class_id": "necromancer",
+			"zone": "raven_hollow", "tier": 1, "title": "who keeps the ledger of aptitudes",
+			"teaches": [
+				{"ability": "drain_life", "rank": 1, "level_req": 4, "gold_cost": 1},
+				{"ability": "withering_curse", "rank": 1, "level_req": 8, "gold_cost": 3},
+				{"ability": "bone_nova", "rank": 1, "level_req": 12, "gold_cost": 4},
+				{"ability": "grave_grasp", "rank": 1, "level_req": 16, "gold_cost": 6}
+			]
+		},
+		"blacknight_threadwarden": {
+			"id": "blacknight_threadwarden", "name": "Thread-Warden Ilka", "class_id": "necromancer",
+			"zone": "black_night", "tier": 2, "title": "of the filed dead",
+			"teaches": [
+				{"ability": "bone_armor", "rank": 1, "level_req": 20, "gold_cost": 7},
+				{"ability": "raise_dead", "rank": 1, "level_req": 24, "gold_cost": 8},
+				{"ability": "soul_harvest", "rank": 1, "level_req": 30, "gold_cost": 11}
+			]
+		},
+		"rh_petra": {
+			"id": "rh_petra", "name": "Old Petra", "class_id": "rookwarden",
+			"zone": "raven_hollow", "tier": 1, "title": "who reads the rooks",
+			"teaches": [
+				{"ability": "piercing_shot", "rank": 1, "level_req": 4, "gold_cost": 1},
+				{"ability": "snare_trap", "rank": 1, "level_req": 8, "gold_cost": 3},
+				{"ability": "raven_dash", "rank": 1, "level_req": 12, "gold_cost": 4},
+				{"ability": "hunters_mark", "rank": 1, "level_req": 16, "gold_cost": 6}
+			]
+		},
+		"greymarches_rookmistress": {
+			"id": "greymarches_rookmistress", "name": "Rook-Mistress Sable", "class_id": "rookwarden",
+			"zone": "grey_marches", "tier": 2, "title": "of the fog-line rookery",
+			"teaches": [
+				{"ability": "rook_companion", "rank": 1, "level_req": 20, "gold_cost": 7},
+				{"ability": "arrow_storm", "rank": 1, "level_req": 24, "gold_cost": 8},
+				{"ability": "storm_of_feathers", "rank": 1, "level_req": 30, "gold_cost": 11}
+			]
+		},
+		"rh_iva": {
+			"id": "rh_iva", "name": "Baba Iva", "class_id": "druid",
+			"zone": "raven_hollow", "tier": 1, "title": "the wildwood hermit",
+			"teaches": [
+				{"ability": "gale", "rank": 1, "level_req": 4, "gold_cost": 1},
+				{"ability": "thornroot", "rank": 1, "level_req": 8, "gold_cost": 3},
+				{"ability": "stormbolt", "rank": 1, "level_req": 12, "gold_cost": 4},
+				{"ability": "rejuvenation", "rank": 1, "level_req": 16, "gold_cost": 6}
+			]
+		},
+		"transcub_grovespeaker": {
+			"id": "transcub_grovespeaker", "name": "Grove-Speaker Ansel", "class_id": "druid",
+			"zone": "transcub_vale", "tier": 2, "title": "of the ivy-eaten shrine",
+			"teaches": [
+				{"ability": "spirit_beast", "rank": 1, "level_req": 20, "gold_cost": 7},
+				{"ability": "bear_form", "rank": 1, "level_req": 24, "gold_cost": 8},
+				{"ability": "tempest", "rank": 1, "level_req": 30, "gold_cost": 11}
+			]
+		}
+	}
+}
