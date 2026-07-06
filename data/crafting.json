@@ -1,0 +1,339 @@
+{
+  "_doc": "Raven Hollow crafting DB (BACKLOG #42, design/CRAFTING.md). Consumed by CraftingSystem (scripts/systems/crafting_system.gd). Seven Draconia primary professions, WoW-Classic structure with a raised skill cap of 1000. professions = the craft roster + home station + trainer; materials = reagent DB (icon resolves through IconsPixel as 'pixel:<icon>'); recipes = materials -> output item (LootSystem/Inventory item shape). unlock: trainer recipes are auto-known when the profession is learned (still gated by skill_req); fragment/master/festival/vendor/legendary/boss recipes must be learned (learn_recipe) from the world. Each profession carries one legendary recipe; boss-drop legendaries (boss_drop:true) are class-flavored per owner amendment.",
+  "config": {
+    "max_skill": 1000,
+    "ranks": {"1": "Hand", "150": "Sworn", "375": "Master", "650": "Keeper"},
+    "ink_bands": {"wet": 40, "settled": 80, "fading": 120}
+  },
+
+  "professions": {
+    "bog_iron": {
+      "id": "bog_iron", "name": "Bog-Iron Smelting", "kind": "primary",
+      "station": "forge", "field_gather": "pan_shallows", "trainer": "blacksmith",
+      "flavor": "River-smelted. Ugly work, honest metal. The only craft the Stone cannot subvert, because it never meant anything but nails."
+    },
+    "blackglass": {
+      "id": "blackglass", "name": "Blackglass Working", "kind": "primary",
+      "station": "knapping_bench", "field_gather": "knap_the_seam", "trainer": "cw_tinker",
+      "flavor": "Flint before glass, dear. Blackglass takes an edge once - it has never needed a second."
+    },
+    "thread_binding": {
+      "id": "thread_binding", "name": "Thread-Binding", "kind": "primary",
+      "station": "binding_post", "field_gather": "wind_a_loose_end", "trainer": "bn_threadtender",
+      "flavor": "Filament is Iele state property. Every legal gram comes with paperwork; every illegal gram comes with a story."
+    },
+    "ledger_craft": {
+      "id": "ledger_craft", "name": "Ledger-Scribing", "kind": "primary",
+      "station": "scribe_desk", "field_gather": "copy_the_board", "trainer": "aw_lera",
+      "flavor": "Information turned into consumables. A dossier is a buff; a cipher is immunity to being listened to."
+    },
+    "folk_warding": {
+      "id": "folk_warding", "name": "Folk-Warding", "kind": "primary",
+      "station": "hearth", "field_gather": "gather_the_hedge", "trainer": "vk_marta",
+      "flavor": "It means nothing. That is the whole defense. Protection that works BECAUSE it refuses to mean anything."
+    },
+    "lichen_culture": {
+      "id": "lichen_culture", "name": "Lichen-Culturing", "kind": "primary",
+      "station": "culture_trough", "field_gather": "scrape_the_bed", "trainer": "cw_circuit",
+      "flavor": "Grow light instead of burning it. Beds must be cultured in true dark; the brightest strains grow on things best not asked about."
+    },
+    "hessik_method": {
+      "id": "hessik_method", "name": "Hessik-Method Brewing", "kind": "primary",
+      "station": "still", "field_gather": "draw_a_sample", "trainer": "iv_zorka",
+      "flavor": "Not potion-spam: reading the land. The one person in the party who knows which well is clean."
+    }
+  },
+
+  "materials": {
+    "bog_iron_lump":     {"name": "Bog-Iron Lump",     "icon": "iron_scrap",   "rarity": "common",    "flavor": "River-smelted. Ugly work, honest metal."},
+    "iron_scrap":        {"name": "Iron Scrap",        "icon": "iron_scrap",   "rarity": "common",    "flavor": "Orc-struck. It remembers a worse shape."},
+    "slag_iron":         {"name": "Slag Iron",         "icon": "iron_scrap",   "rarity": "uncommon",  "flavor": "The forge's leavings. Still has a temper."},
+    "cold_iron_shard":   {"name": "Cold-Iron Shard",   "icon": "iron_scrap",   "rarity": "rare",      "flavor": "It never rings. Cold-forged, cold-kept."},
+    "kerbstone_chip":    {"name": "Kerbstone Chip",    "icon": "iron_scrap",   "rarity": "uncommon",  "flavor": "A curbstone remembers every name it edged."},
+    "bone":              {"name": "Bone",              "icon": "bone",         "rarity": "common",    "flavor": "Dry, light, patient."},
+    "ember_dust":        {"name": "Ember Dust",        "icon": "ember_dust",   "rarity": "uncommon",  "flavor": "It keeps a warmth the fire never gave it."},
+    "wolf_pelt":         {"name": "Wolf Pelt",         "icon": "wolf_pelt",    "rarity": "common",    "flavor": "Grey as the hour they hunt in."},
+    "boar_hide":         {"name": "Boar Hide",         "icon": "boar_hide",    "rarity": "common",    "flavor": "Thick enough to turn a thorn. Or a knife, once."},
+    "vein_flint":        {"name": "Vein-Flint",        "icon": "bone",         "rarity": "common",    "flavor": "River flint. It remembers being an edge."},
+    "blackglass_shard":  {"name": "Blackglass Shard",  "icon": "ravens_eye",   "rarity": "rare",      "flavor": "It took an edge once. It has never needed a second."},
+    "marsh_lichen":      {"name": "Marsh Lichen",      "icon": "ember_dust",   "rarity": "common",    "flavor": "Border strain. Faint, patient light."},
+    "luminous_lichen":   {"name": "Luminous Lichen",   "icon": "ember_dust",   "rarity": "uncommon",  "flavor": "Grown in true dark. It glows because it was asked to."},
+    "blackvein_ore":     {"name": "Blackvein Ore",     "icon": "iron_scrap",   "rarity": "uncommon",  "flavor": "Ore with a dark grain running through."},
+    "thread_filament":   {"name": "Thread-Filament",   "icon": "pouch",        "rarity": "rare",      "flavor": "Iele state property. Sign here; do not tell me what for."},
+    "raven_feather":     {"name": "Raven Feather",     "icon": "ravens_eye",   "rarity": "common",    "flavor": "The hollow watches back."},
+    "linen_scrap":       {"name": "Linen Scrap",       "icon": "charcoal_rubbing", "rarity": "common", "flavor": "More thread than cloth now."},
+    "riddle_ink":        {"name": "Riddle-Ink",        "icon": "charcoal_rubbing", "rarity": "uncommon", "flavor": "Reads differently to each pair of eyes."},
+    "oak_gall_ink":      {"name": "Oak-Gall Ink",      "icon": "charcoal_rubbing", "rarity": "common", "flavor": "Honest ink. It only says what you wrote."},
+    "grain_sack_seal":   {"name": "Grain-Sack Seal",   "icon": "charcoal_rubbing", "rarity": "common", "flavor": "A broker's mark, lifted whole."},
+    "cedar_shavings":    {"name": "Cedar Shavings",    "icon": "pouch",        "rarity": "common",    "flavor": "His grandmother did it too."},
+    "chalk_nub":         {"name": "Chalk Nub",         "icon": "bone",         "rarity": "common",    "flavor": "Worn to a thumbnail. Forty walls ago."},
+    "clean_salt":        {"name": "Clean Salt",        "icon": "bone",         "rarity": "common",    "flavor": "The one thing the Yeastless fear."},
+    "cult_wax":          {"name": "Cult Wax",          "icon": "ember_dust",   "rarity": "uncommon",  "flavor": "Rendered from candles that burned too long."},
+    "copper_scale":      {"name": "Copper Scale",      "icon": "tarnished_band", "rarity": "common",  "flavor": "Flaked from the wells. Green at the edges."},
+    "ashvent_salt":      {"name": "Ashvent Salt",      "icon": "bone",         "rarity": "uncommon",  "flavor": "Sweated from a vent that never cooled."},
+    "river_pearl":       {"name": "River Pearl",       "icon": "tarnished_band", "rarity": "uncommon", "flavor": "The river's one apology."},
+    "dragon_heartcinder":{"name": "Dragon Heart-Cinder", "icon": "emberfall",  "rarity": "legendary", "flavor": "It still beats, faintly, against the palm. Cut from the wyrm the fork river argued up."},
+    "wyrm_sinew":        {"name": "Wyrm Sinew",        "icon": "wolf_pelt",    "rarity": "epic",      "flavor": "Drawn from the thing that sleeps under the ice."},
+    "grave_silk":        {"name": "Grave-Silk",        "icon": "pouch",        "rarity": "epic",      "flavor": "Spun by the Threadwarden's own hand, once, for one shell."}
+  },
+
+  "recipes": {
+    "riverset_nail_hook": {
+      "id": "riverset_nail_hook", "name": "Bog-Iron Pot Hook", "profession": "bog_iron", "station": "forge",
+      "category": "tool", "skill_req": 1, "difficulty": 8, "skill_gain": 8, "unlock": "trainer",
+      "materials": {"bog_iron_lump": 2},
+      "output": {"id": "bogiron_pot_hook", "name": "Bog-Iron Pot Hook", "slot": "none", "rarity": "common", "icon": "pixel:iron_scrap", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Every kitchen on the river hangs its pot on one of these.", "stackable": true, "effect": "", "type": "material"},
+      "count": 1
+    },
+    "riverset_blade": {
+      "id": "riverset_blade", "name": "Riverset Blade", "profession": "bog_iron", "station": "forge",
+      "category": "weapon", "skill_req": 40, "difficulty": 45, "skill_gain": 7, "unlock": "trainer",
+      "materials": {"bog_iron_lump": 4, "bone": 2},
+      "output": {"id": "riverset_blade", "name": "Riverset Blade", "slot": "main_hand", "rarity": "uncommon", "icon": "pixel:rusted_shortsword", "stats": {"damage": 8.0, "armor": 0.0, "hp": 5.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Quenched in the river it came from. It keeps the color.", "stackable": false, "effect": ""}
+    },
+    "wardsmiths_riverplate": {
+      "id": "wardsmiths_riverplate", "name": "Wardsmith's Riverplate", "profession": "bog_iron", "station": "forge",
+      "category": "armor", "skill_req": 160, "difficulty": 170, "skill_gain": 6, "unlock": "fragment",
+      "source": "Drowned Holding smithy slate (Iron Vein)",
+      "materials": {"bog_iron_lump": 6, "iron_scrap": 4, "linen_scrap": 4},
+      "output": {"id": "wardsmiths_riverplate", "name": "Wardsmith's Riverplate", "slot": "chest", "rarity": "rare", "icon": "pixel:iron_cuirass", "stats": {"damage": 0.0, "armor": 6.0, "hp": 22.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Goran's pattern, one size too honest.", "stackable": false, "effect": ""}
+    },
+    "emberfold_edge": {
+      "id": "emberfold_edge", "name": "Emberfold Edge", "profession": "bog_iron", "station": "forge",
+      "category": "weapon", "skill_req": 450, "difficulty": 460, "skill_gain": 4, "unlock": "legendary",
+      "legendary": true, "condition": {"kind": "at_station", "station": "blood_channel_quench"},
+      "source": "sg_forgemaster - 'The Hammer as Language'",
+      "materials": {"slag_iron": 6, "ember_dust": 8, "blackglass_shard": 1, "cold_iron_shard": 2},
+      "output": {"id": "emberfold_edge", "name": "Emberfold Edge", "slot": "main_hand", "rarity": "legendary", "icon": "pixel:emberfall", "stats": {"damage": 29.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 6.0}, "flavor": "Folded nine times. The ninth fold is the one you don't ask about.", "stackable": false, "effect": ""}
+    },
+    "dragonbone_reaver": {
+      "id": "dragonbone_reaver", "name": "Dragonbone Reaver", "profession": "bog_iron", "station": "forge",
+      "category": "weapon", "skill_req": 600, "difficulty": 610, "skill_gain": 3, "unlock": "boss",
+      "legendary": true, "boss_drop": true, "boss": "The Fork-River Wyrm (Sangeroasa)", "class_flavor": "warrior",
+      "source": "Pattern torn from the Wyrm's hoard-slate; only a Warrior's arm can close the last weld.",
+      "materials": {"dragon_heartcinder": 1, "slag_iron": 8, "cold_iron_shard": 4, "ember_dust": 10},
+      "output": {"id": "dragonbone_reaver", "name": "Dragonbone Reaver", "slot": "main_hand", "rarity": "legendary", "icon": "pixel:hammer_blow", "stats": {"damage": 38.0, "armor": 0.0, "hp": 20.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 5.0}, "flavor": "The cinder in the pommel keeps a warmth the fire never gave it.", "stackable": false, "effect": ""}
+    },
+
+    "veinflint_striker": {
+      "id": "veinflint_striker", "name": "Vein-Flint Striker", "profession": "blackglass", "station": "knapping_bench",
+      "category": "trinket", "skill_req": 5, "difficulty": 12, "skill_gain": 8, "unlock": "trainer",
+      "materials": {"vein_flint": 2, "bone": 1},
+      "output": {"id": "veinflint_striker", "name": "Vein-Flint Striker", "slot": "trinket", "rarity": "common", "icon": "pixel:tarnished_band", "stats": {"damage": 0.0, "armor": 0.0, "hp": 6.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Flint and iron agree about exactly one thing.", "stackable": false, "effect": ""}
+    },
+    "knapped_skinner": {
+      "id": "knapped_skinner", "name": "Knapped Skinner", "profession": "blackglass", "station": "knapping_bench",
+      "category": "weapon", "skill_req": 55, "difficulty": 60, "skill_gain": 7, "unlock": "trainer",
+      "materials": {"vein_flint": 3, "wolf_pelt": 1},
+      "output": {"id": "knapped_skinner", "name": "Knapped Skinner", "slot": "main_hand", "rarity": "uncommon", "icon": "pixel:bloody_dagger", "stats": {"damage": 7.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 4.0}, "flavor": "The first edge anyone in the Border learns to trust.", "stackable": false, "effect": ""}
+    },
+    "blackglass_razor": {
+      "id": "blackglass_razor", "name": "Blackglass Razor", "profession": "blackglass", "station": "knapping_bench",
+      "category": "weapon", "skill_req": 240, "difficulty": 250, "skill_gain": 6, "unlock": "master",
+      "source": "bf_knapper - bring him a flawed core intact",
+      "materials": {"blackglass_shard": 4, "wolf_pelt": 2, "slag_iron": 1},
+      "output": {"id": "blackglass_razor", "name": "Blackglass Razor", "slot": "main_hand", "rarity": "rare", "icon": "pixel:weeping_dagger", "stats": {"damage": 25.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 4.0, "crit_pct": 6.0}, "flavor": "It took an edge once. It has never needed a second.", "stackable": false, "effect": ""}
+    },
+    "riddlers_lens": {
+      "id": "riddlers_lens", "name": "Riddler's Lens", "profession": "blackglass", "station": "knapping_bench",
+      "category": "offhand", "skill_req": 470, "difficulty": 480, "skill_gain": 4, "unlock": "legendary",
+      "legendary": true, "condition": {"kind": "night"},
+      "source": "Grey Fair rotation, one month a year",
+      "materials": {"blackglass_shard": 8, "riddle_ink": 2, "river_pearl": 1},
+      "output": {"id": "riddlers_lens", "name": "Riddler's Lens", "slot": "off_hand", "rarity": "legendary", "icon": "pixel:ravens_eye", "stats": {"damage": 0.0, "armor": 0.0, "hp": 20.0, "mana": 60.0, "speed_pct": 0.0, "crit_pct": 5.0}, "flavor": "Ground so fine it corrects for the truth.", "stackable": false, "effect": ""}
+    },
+    "obsidian_heart_focus": {
+      "id": "obsidian_heart_focus", "name": "Obsidian Heart-Focus", "profession": "blackglass", "station": "knapping_bench",
+      "category": "offhand", "skill_req": 610, "difficulty": 620, "skill_gain": 3, "unlock": "boss",
+      "legendary": true, "boss_drop": true, "boss": "The Basaltfang Riddler (Cremene)", "class_flavor": "mage",
+      "source": "Knapped from a core the Riddler died protecting; sees what the fog is hiding.",
+      "materials": {"blackglass_shard": 12, "dragon_heartcinder": 1, "luminous_lichen": 4},
+      "output": {"id": "obsidian_heart_focus", "name": "Obsidian Heart-Focus", "slot": "off_hand", "rarity": "legendary", "icon": "pixel:emberfall", "stats": {"damage": 0.0, "armor": 0.0, "hp": 30.0, "mana": 80.0, "speed_pct": 0.0, "crit_pct": 7.0}, "flavor": "It shows the fog what the fog is hiding. They argue. You listen.", "stackable": false, "effect": ""}
+    },
+
+    "soothing_knot": {
+      "id": "soothing_knot", "name": "Soothing Knot", "profession": "thread_binding", "station": "binding_post",
+      "category": "consumable", "skill_req": 1, "difficulty": 10, "skill_gain": 8, "unlock": "trainer",
+      "materials": {"thread_filament": 1, "linen_scrap": 1}, "count": 3,
+      "output": {"id": "soothing_knot", "name": "Soothing Knot", "slot": "none", "rarity": "uncommon", "icon": "pixel:pouch", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Ilka ties one for every shell she names. Regulations forbid both.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "cleanse", "tag": "fear"}}
+    },
+    "keepsake_cord": {
+      "id": "keepsake_cord", "name": "Keepsake Cord", "profession": "thread_binding", "station": "binding_post",
+      "category": "trinket", "skill_req": 70, "difficulty": 78, "skill_gain": 7, "unlock": "trainer",
+      "materials": {"thread_filament": 2, "linen_scrap": 2, "raven_feather": 1},
+      "output": {"id": "keepsake_cord", "name": "Keepsake Cord", "slot": "trinket", "rarity": "uncommon", "icon": "pixel:tarnished_band", "stats": {"damage": 0.0, "armor": 0.0, "hp": 15.0, "mana": 10.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "A knot that won't say whose thread it kept.", "stackable": false, "effect": ""}
+    },
+    "bound_keepsake": {
+      "id": "bound_keepsake", "name": "Bound Keepsake", "profession": "thread_binding", "station": "binding_post",
+      "category": "trinket", "skill_req": 210, "difficulty": 220, "skill_gain": 6, "unlock": "fragment",
+      "condition": {"kind": "near_the_dead"},
+      "source": "Gravemark kerb-row lodge (Vosk's shelf)",
+      "materials": {"thread_filament": 2, "raven_feather": 2, "bone": 1},
+      "output": {"id": "bound_keepsake", "name": "Bound Keepsake", "slot": "trinket", "rarity": "rare", "icon": "pixel:gravekeepers_band", "stats": {"damage": 0.0, "armor": 0.0, "hp": 25.0, "mana": 20.0, "speed_pct": 0.0, "crit_pct": 3.0}, "flavor": "Something of theirs, something of yours, and a knot that won't say which.", "stackable": false, "effect": ""}
+    },
+    "kept_name_token": {
+      "id": "kept_name_token", "name": "Kept-Name Token", "profession": "thread_binding", "station": "binding_post",
+      "category": "trinket", "skill_req": 440, "difficulty": 450, "skill_gain": 4, "unlock": "legendary",
+      "legendary": true, "condition": {"kind": "festival:kept_names"},
+      "source": "The Kept Names (Jan 23 - Feb 10)",
+      "materials": {"thread_filament": 4, "cedar_shavings": 2, "grave_silk": 1},
+      "output": {"id": "kept_name_token", "name": "Kept-Name Token", "slot": "trinket", "rarity": "legendary", "icon": "pixel:gravekeepers_band", "stats": {"damage": 0.0, "armor": 0.0, "hp": 55.0, "mana": 30.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "You get to choose whose. Choose out loud.", "stackable": false, "effect": ""}
+    },
+    "shroud_of_the_named": {
+      "id": "shroud_of_the_named", "name": "Shroud of the Named", "profession": "thread_binding", "station": "binding_post",
+      "category": "armor", "skill_req": 620, "difficulty": 630, "skill_gain": 3, "unlock": "boss",
+      "legendary": true, "boss_drop": true, "boss": "The Unnamed Shell (Gravemark)", "class_flavor": "necromancer",
+      "source": "Woven from grave-silk the Threadwarden spun for the shell you laid to rest.",
+      "materials": {"grave_silk": 2, "thread_filament": 8, "wyrm_sinew": 1},
+      "output": {"id": "shroud_of_the_named", "name": "Shroud of the Named", "slot": "head", "rarity": "legendary", "icon": "pixel:leather_hood", "stats": {"damage": 0.0, "armor": 8.0, "hp": 40.0, "mana": 55.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Everything worn is woven. Everything woven can be told again.", "stackable": false, "effect": ""}
+    },
+
+    "marked_map_border": {
+      "id": "marked_map_border", "name": "Marked Map: the Border", "profession": "ledger_craft", "station": "scribe_desk",
+      "category": "consumable", "skill_req": 20, "difficulty": 28, "skill_gain": 8, "unlock": "trainer",
+      "materials": {"linen_scrap": 2, "oak_gall_ink": 1}, "count": 2,
+      "output": {"id": "marked_map_border", "name": "Marked Map: the Border", "slot": "none", "rarity": "common", "icon": "pixel:charcoal_rubbing", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Vlaicu draws one road wrong on purpose. This one is all yours.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "reveal_map"}}
+    },
+    "toll_receipt_forgery": {
+      "id": "toll_receipt_forgery", "name": "Forged Toll Receipt", "profession": "ledger_craft", "station": "scribe_desk",
+      "category": "consumable", "skill_req": 80, "difficulty": 88, "skill_gain": 7, "unlock": "trainer",
+      "materials": {"grain_sack_seal": 1, "oak_gall_ink": 1}, "count": 1,
+      "output": {"id": "toll_receipt_forgery", "name": "Forged Toll Receipt", "slot": "none", "rarity": "uncommon", "icon": "pixel:charcoal_rubbing", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "A coach fare you don't pay. The clerk never looks twice at his own hand.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "free_fare"}}
+    },
+    "dossier_of_habits": {
+      "id": "dossier_of_habits", "name": "Dossier of Habits", "profession": "ledger_craft", "station": "scribe_desk",
+      "category": "consumable", "skill_req": 250, "difficulty": 260, "skill_gain": 6, "unlock": "master",
+      "condition": {"kind": "in_capital"},
+      "source": "Cazimir web chain - he shows you the format",
+      "materials": {"riddle_ink": 3, "grain_sack_seal": 1}, "count": 1,
+      "output": {"id": "dossier_of_habits", "name": "Dossier of Habits", "slot": "none", "rarity": "rare", "icon": "pixel:charcoal_rubbing", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "You know when he drops his guard. I do not collect assumptions.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "family_crit", "amount": 10.0}}
+    },
+    "writ_of_unfiling": {
+      "id": "writ_of_unfiling", "name": "Writ of Un-Filing", "profession": "ledger_craft", "station": "scribe_desk",
+      "category": "consumable", "skill_req": 480, "difficulty": 490, "skill_gain": 4, "unlock": "legendary",
+      "legendary": true,
+      "source": "gh_pell - 'A Discrepancy of One's Own'",
+      "materials": {"riddle_ink": 4, "cold_iron_shard": 1, "grain_sack_seal": 2}, "count": 1,
+      "output": {"id": "writ_of_unfiling", "name": "Writ of Un-Filing", "slot": "none", "rarity": "legendary", "icon": "pixel:charcoal_rubbing", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Stamped, un-stamped. There is no third impression on this one.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "unbind_item"}}
+    },
+    "ledger_of_the_drowned_quarter": {
+      "id": "ledger_of_the_drowned_quarter", "name": "Ledger of the Drowned Quarter", "profession": "ledger_craft", "station": "scribe_desk",
+      "category": "trinket", "skill_req": 630, "difficulty": 640, "skill_gain": 3, "unlock": "boss",
+      "legendary": true, "boss_drop": true, "boss": "The Grey Ferryman (Greyhollow)", "class_flavor": "rogue",
+      "source": "Copied from the debt-tablet the Ferryman carried across; every name in it owes you now.",
+      "materials": {"riddle_ink": 8, "dragon_heartcinder": 1, "kerbstone_chip": 4}, "count": 1,
+      "output": {"id": "ledger_of_the_drowned_quarter", "name": "Ledger of the Drowned Quarter", "slot": "trinket", "rarity": "legendary", "icon": "pixel:ravens_eye", "stats": {"damage": 0.0, "armor": 0.0, "hp": 30.0, "mana": 20.0, "speed_pct": 6.0, "crit_pct": 8.0}, "flavor": "Every crossing has a price. This one collected it, and kept the change.", "stackable": false, "effect": ""}
+    },
+
+    "salt_line_pouch": {
+      "id": "salt_line_pouch", "name": "Salt-Line Pouch", "profession": "folk_warding", "station": "hearth",
+      "category": "consumable", "skill_req": 1, "difficulty": 10, "skill_gain": 8, "unlock": "trainer",
+      "materials": {"clean_salt": 2, "linen_scrap": 1}, "count": 3,
+      "output": {"id": "salt_line_pouch", "name": "Salt-Line Pouch", "slot": "none", "rarity": "common", "icon": "pixel:pouch", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Salt keeps nothing out. It reminds them there's a door.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "ward_line"}}
+    },
+    "incurious_charm": {
+      "id": "incurious_charm", "name": "Incurious Charm", "profession": "folk_warding", "station": "hearth",
+      "category": "charm", "skill_req": 90, "difficulty": 98, "skill_gain": 7, "unlock": "trainer",
+      "materials": {"cedar_shavings": 2, "raven_feather": 1, "chalk_nub": 1},
+      "output": {"id": "incurious_charm", "name": "Incurious Charm", "slot": "trinket", "rarity": "uncommon", "icon": "pixel:tarnished_band", "stats": {"damage": 0.0, "armor": 2.0, "hp": 15.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "It means nothing. That is the whole defense.", "stackable": false, "effect": ""}
+    },
+    "hearth_hex_sign": {
+      "id": "hearth_hex_sign", "name": "Hearth Hex-Sign", "profession": "folk_warding", "station": "hearth",
+      "category": "consumable", "skill_req": 230, "difficulty": 240, "skill_gain": 6, "unlock": "fragment",
+      "condition": {"kind": "rain"},
+      "source": "Grey Marches cult deserter's kit",
+      "materials": {"cedar_shavings": 3, "cult_wax": 2, "chalk_nub": 1}, "count": 1,
+      "output": {"id": "hearth_hex_sign", "name": "Hearth Hex-Sign", "slot": "none", "rarity": "rare", "icon": "pixel:pouch", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Paint it slow, in rain, so the wet can teach it patience.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "rest_aura"}}
+    },
+    "chalk_handprint_ward": {
+      "id": "chalk_handprint_ward", "name": "Chalk Handprint Ward", "profession": "folk_warding", "station": "hearth",
+      "category": "charm", "skill_req": 460, "difficulty": 470, "skill_gain": 4, "unlock": "legendary",
+      "legendary": true, "condition": {"kind": "at_station", "station": "last_hearth_wall"},
+      "source": "lh_wallkeeper Semn - Keeper rite",
+      "materials": {"chalk_nub": 3, "cedar_shavings": 2, "clean_salt": 4},
+      "output": {"id": "chalk_handprint_ward", "name": "Chalk Handprint Ward", "slot": "trinket", "rarity": "legendary", "icon": "pixel:gravekeepers_band", "stats": {"damage": 0.0, "armor": 4.0, "hp": 55.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "One of these prints is warm. Today it's yours.", "stackable": false, "effect": ""}
+    },
+    "veil_of_the_thinning": {
+      "id": "veil_of_the_thinning", "name": "Veil of the Thinning", "profession": "folk_warding", "station": "hearth",
+      "category": "armor", "skill_req": 625, "difficulty": 635, "skill_gain": 3, "unlock": "boss",
+      "legendary": true, "boss_drop": true, "boss": "The Thing at Last Hearth (The Thinning)", "class_flavor": "druid",
+      "source": "Veil-salt gathered where the finale's Moment tokens are folk-warded.",
+      "materials": {"clean_salt": 10, "cedar_shavings": 6, "dragon_heartcinder": 1},
+      "output": {"id": "veil_of_the_thinning", "name": "Veil of the Thinning", "slot": "head", "rarity": "legendary", "icon": "pixel:leather_hood", "stats": {"damage": 0.0, "armor": 10.0, "hp": 60.0, "mana": 25.0, "speed_pct": 4.0, "crit_pct": 0.0}, "flavor": "Wards against fear, entrancement, and the undead's attention. It refuses to mean anything, loudly.", "stackable": false, "effect": ""}
+    },
+
+    "marshlight_jar": {
+      "id": "marshlight_jar", "name": "Marshlight Jar", "profession": "lichen_culture", "station": "culture_trough",
+      "category": "consumable", "skill_req": 25, "difficulty": 33, "skill_gain": 8, "unlock": "trainer",
+      "materials": {"marsh_lichen": 3}, "count": 2,
+      "output": {"id": "marshlight_jar", "name": "Marshlight Jar", "slot": "none", "rarity": "common", "icon": "pixel:healing_draught", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Reads by it fine. The dark doesn't seem to mind. That's new.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "light"}}
+    },
+    "cultured_poultice": {
+      "id": "cultured_poultice", "name": "Cultured Poultice", "profession": "lichen_culture", "station": "culture_trough",
+      "category": "consumable", "skill_req": 95, "difficulty": 103, "skill_gain": 7, "unlock": "trainer",
+      "materials": {"marsh_lichen": 2, "luminous_lichen": 1}, "count": 3,
+      "output": {"id": "cultured_poultice", "name": "Cultured Poultice", "slot": "none", "rarity": "uncommon", "icon": "pixel:noxious_vial", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Grown, not mixed. The cure is alive and knows it's needed.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "heal", "amount": 60.0}}
+    },
+    "deepbed_lantern": {
+      "id": "deepbed_lantern", "name": "Deep-Bed Lantern", "profession": "lichen_culture", "station": "culture_trough",
+      "category": "offhand", "skill_req": 260, "difficulty": 270, "skill_gain": 6, "unlock": "fragment",
+      "condition": {"kind": "true_dark"},
+      "source": "Lichenreach deep-gallery surveyor kit",
+      "materials": {"luminous_lichen": 5, "blackvein_ore": 1},
+      "output": {"id": "deepbed_lantern", "name": "Deep-Bed Lantern", "slot": "off_hand", "rarity": "rare", "icon": "pixel:healing_draught", "stats": {"damage": 0.0, "armor": 0.0, "hp": 20.0, "mana": 25.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Cultured light is dark's kin. It does not break the true dark - it belongs to it.", "stackable": false, "effect": ""}
+    },
+    "coldlight_crown": {
+      "id": "coldlight_crown", "name": "Coldlight Crown", "profession": "lichen_culture", "station": "culture_trough",
+      "category": "armor", "skill_req": 455, "difficulty": 465, "skill_gain": 4, "unlock": "legendary",
+      "legendary": true, "condition": {"kind": "at_station", "station": "deep_bed_gallery"},
+      "source": "lr_miner Toader - he describes it; you write it",
+      "materials": {"luminous_lichen": 8, "blackvein_ore": 2, "river_pearl": 1},
+      "output": {"id": "coldlight_crown", "name": "Coldlight Crown", "slot": "head", "rarity": "legendary", "icon": "pixel:gravekeepers_band", "stats": {"damage": 0.0, "armor": 0.0, "hp": 20.0, "mana": 55.0, "speed_pct": 0.0, "crit_pct": 4.0}, "flavor": "It sheds light with no heat and asks a small rent of memory.", "stackable": false, "effect": ""}
+    },
+    "heart_of_the_deep_bed": {
+      "id": "heart_of_the_deep_bed", "name": "Heart of the Deep Bed", "profession": "lichen_culture", "station": "culture_trough",
+      "category": "offhand", "skill_req": 615, "difficulty": 625, "skill_gain": 3, "unlock": "boss",
+      "legendary": true, "boss_drop": true, "boss": "The Bed That Grew a Man (Lichenreach)", "class_flavor": "mage",
+      "source": "Harvested from the brightest bed, grown in the outline of a man who doesn't need it.",
+      "materials": {"luminous_lichen": 12, "dragon_heartcinder": 1, "blackvein_ore": 4},
+      "output": {"id": "heart_of_the_deep_bed", "name": "Heart of the Deep Bed", "slot": "off_hand", "rarity": "legendary", "icon": "pixel:emberfall", "stats": {"damage": 0.0, "armor": 0.0, "hp": 40.0, "mana": 90.0, "speed_pct": 0.0, "crit_pct": 5.0}, "flavor": "Cold light with a pulse. He doesn't need it. You will.", "stackable": false, "effect": ""}
+    },
+
+    "reading_draught_blue": {
+      "id": "reading_draught_blue", "name": "Reading Draught (Blue)", "profession": "hessik_method", "station": "still",
+      "category": "consumable", "skill_req": 15, "difficulty": 23, "skill_gain": 8, "unlock": "trainer",
+      "materials": {"marsh_lichen": 2, "copper_scale": 1}, "count": 2,
+      "output": {"id": "reading_draught_blue", "name": "Reading Draught (Blue)", "slot": "none", "rarity": "common", "icon": "pixel:healing_draught", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "If it reads blue, you may finish your tea.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "scan", "color": "blue"}}
+    },
+    "salt_brine_tonic": {
+      "id": "salt_brine_tonic", "name": "Salt-Brine Tonic", "profession": "hessik_method", "station": "still",
+      "category": "consumable", "skill_req": 85, "difficulty": 93, "skill_gain": 7, "unlock": "trainer",
+      "materials": {"clean_salt": 2, "copper_scale": 1, "river_pearl": 1}, "count": 2,
+      "output": {"id": "salt_brine_tonic", "name": "Salt-Brine Tonic", "slot": "none", "rarity": "uncommon", "icon": "pixel:noxious_vial", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Bitter as the argument it settles.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "cure_poison"}}
+    },
+    "counteragent_of_quiet": {
+      "id": "counteragent_of_quiet", "name": "Counteragent of Quiet", "profession": "hessik_method", "station": "still",
+      "category": "consumable", "skill_req": 245, "difficulty": 255, "skill_gain": 6, "unlock": "master",
+      "condition": {"kind": "warm_ground"},
+      "source": "gm_pall - 'Read the Land' capstone",
+      "materials": {"cult_wax": 1, "clean_salt": 1, "river_pearl": 1}, "count": 1,
+      "output": {"id": "counteragent_of_quiet", "name": "Counteragent of Quiet", "slot": "none", "rarity": "rare", "icon": "pixel:healing_draught", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Must be brewed where the symptom lives: the cure keeps a grudge.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "cleanse", "tag": "entrancement"}}
+    },
+    "orange_reading_still": {
+      "id": "orange_reading_still", "name": "Orange Reading (Still-Run)", "profession": "hessik_method", "station": "still",
+      "category": "consumable", "skill_req": 490, "difficulty": 500, "skill_gain": 4, "unlock": "legendary",
+      "legendary": true, "condition": {"kind": "at_station", "station": "cold_hollow_still"},
+      "source": "av_hessikist Irod - Act IV close",
+      "materials": {"ashvent_salt": 3, "luminous_lichen": 2, "cold_iron_shard": 1}, "count": 1,
+      "output": {"id": "orange_reading_still", "name": "Orange Reading (Still-Run)", "slot": "none", "rarity": "legendary", "icon": "pixel:healing_draught", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Brewed in the one cold place it left you. Drink it angry.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "scan", "color": "orange"}}
+    },
+    "first_edition_draught": {
+      "id": "first_edition_draught", "name": "Draught of the First Edition", "profession": "hessik_method", "station": "still",
+      "category": "consumable", "skill_req": 640, "difficulty": 650, "skill_gain": 3, "unlock": "boss",
+      "legendary": true, "boss_drop": true, "boss": "The Brinewitch Sarea (Salt Fens)", "class_flavor": "hunter",
+      "source": "Distilled from the first, uncorrupted edition of the Practical Foundations - five later editions lied.",
+      "materials": {"ashvent_salt": 6, "dragon_heartcinder": 1, "river_pearl": 3}, "count": 2,
+      "output": {"id": "first_edition_draught", "name": "Draught of the First Edition", "slot": "none", "rarity": "legendary", "icon": "pixel:healing_draught", "stats": {"damage": 0.0, "armor": 0.0, "hp": 0.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 0.0}, "flavor": "Everything the later editions were paid to forget, tasted at once.", "stackable": true, "effect": "", "type": "consumable", "use_effect": {"kind": "greater_scan"}}
+    }
+  }
+}
