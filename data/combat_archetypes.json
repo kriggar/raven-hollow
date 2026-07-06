@@ -1,0 +1,111 @@
+{
+	"_doc": "Combat archetype + rank tuning for Raven Hollow (BLUEPRINT_33_COMBAT_RETUNE / COMBAT_PACING.md). Data-driven so designers tune feel without code. hp_mult/dmg_mult are the FAMILY_MULT / RANK_MULT tuning law (COMBAT_PACING s4); scripts/mob_scaling.gd reads this file, scripts/enemy.gd reads per-archetype behavior. Zone creature_table rows carry level/archetype/rank; their hp/damage are the hand-nudged shipped truth generated from these mults (verify with tools/retune_tables.py).",
+	"constants": {
+		"ref_dps_base": 25.0,
+		"ref_dps_growth": 1.046,
+		"dmg_base": 10.8,
+		"dmg_growth": 1.055,
+		"uptime": 0.9,
+		"ttk_min": 8.0,
+		"ttk_max": 12.0,
+		"ttk_ramp_levels": 19.0,
+		"max_level": 60
+	},
+	"ranks": {
+		"normal": {"hp_mult": 1.0, "dmg_mult": 1.0, "xp_mult": 1.0, "plate": "none"},
+		"elite":  {"hp_mult": 3.2, "dmg_mult": 1.6, "xp_mult": 5.0, "plate": "silver"},
+		"rare":   {"hp_mult": 7.0, "dmg_mult": 1.9, "xp_mult": 12.0, "plate": "gold"}
+	},
+	"archetypes": {
+		"brute": {
+			"hp_mult": 1.00, "dmg_mult": 1.00, "aggro_px": 100.0, "leash_px": 280.0,
+			"telegraph": "heavy",
+			"behaviors": ["heavy_swing"],
+			"note": "skeletons, thread-touched dead: slow, steady, telegraphed heavy 3rd swing. Teaches rotation fundamentals + dodge rhythm."
+		},
+		"stalker": {
+			"hp_mult": 0.85, "dmg_mult": 1.00, "aggro_px": 150.0, "leash_px": 340.0,
+			"telegraph": "heavy",
+			"behaviors": ["heavy_swing", "social_aggro", "flank", "pack_bonus", "night_aggro"],
+			"note": "wolves: fast flanking packs, aggro x2 at night. Teaches kiting + careful pulls."
+		},
+		"charger": {
+			"hp_mult": 1.00, "dmg_mult": 1.00, "aggro_px": 120.0, "leash_px": 280.0,
+			"telegraph": "charge",
+			"behaviors": ["charge", "enrage"],
+			"note": "boars: telegraphed locked line charge + enrage under 30%. Teaches sidestep telegraphs, save burst for enrage."
+		},
+		"caster": {
+			"hp_mult": 0.75, "dmg_mult": 1.30, "aggro_px": 170.0, "leash_px": 320.0,
+			"telegraph": "cast",
+			"behaviors": ["kite", "cast", "interruptible"],
+			"note": "entranced / cult zealots: kite-away + interruptible cast bar. Teaches interrupt, gap-close, LoS, kill-order."
+		},
+		"duelist": {
+			"hp_mult": 0.90, "dmg_mult": 0.85, "aggro_px": 130.0, "leash_px": 300.0,
+			"telegraph": "fast",
+			"behaviors": ["fast_swing"],
+			"note": "rogues / bandits / deserters: fast 0.9s cadence, low per-hit. Teaches sustained mitigation + disengage."
+		},
+		"guarded": {
+			"hp_mult": 1.40, "dmg_mult": 1.25, "aggro_px": 100.0, "leash_px": 280.0,
+			"telegraph": "heavy",
+			"behaviors": ["heavy_swing"],
+			"note": "warriors / enforcers: slow, high hp, big telegraphed swing. Teaches burst windows, positioning."
+		},
+		"swarm": {
+			"hp_mult": 0.55, "dmg_mult": 0.70, "aggro_px": 130.0, "leash_px": 300.0,
+			"telegraph": "light",
+			"behaviors": ["social_aggro", "flank", "pack_bonus"],
+			"note": "starving dogs / the Hungering: 3-5 pulls, weak singly, share aggro. Teaches AoE usage + when NOT to AoE."
+		}
+	},
+	"telegraph": {
+		"light_windup": 0.4,
+		"fast_windup": 0.3,
+		"fast_cooldown": 0.9,
+		"heavy_windup": 0.8,
+		"heavy_mult": 1.6,
+		"heavy_every": 3,
+		"charge_windup": 0.7,
+		"charge_speed_mult": 3.2,
+		"charge_dmg_mult": 1.5,
+		"charge_slow_mult": 0.5,
+		"charge_slow_dur": 1.0,
+		"charge_cooldown": 6.0,
+		"charge_miss_recovery": 1.2,
+		"charge_vuln_mult": 1.25,
+		"charge_trigger_min": 90.0,
+		"charge_trigger_max": 170.0,
+		"charge_dash_time": 0.42
+	},
+	"cast": {
+		"channel": 1.6,
+		"range_pref": 240.0,
+		"range_near": 180.0,
+		"range_flee": 70.0,
+		"kite_speed_mult": 0.8,
+		"projectile_speed": 180.0,
+		"projectile_range": 560.0,
+		"interrupt_min_frac": 0.35,
+		"stagger": 1.5,
+		"recovery": 2.5,
+		"cooldown": 2.2
+	},
+	"pack": {
+		"social_px": 140.0,
+		"cohesion_px": 400.0,
+		"bonus_per_ally": 0.10,
+		"bonus_cap": 0.30,
+		"bonus_px": 120.0,
+		"flank_deg": 55.0
+	},
+	"enrage": {
+		"hp_frac": 0.30,
+		"speed_bonus": 0.35,
+		"dmg_bonus": 0.40
+	},
+	"leash": {
+		"hard_reset_px": 1400.0
+	}
+}
