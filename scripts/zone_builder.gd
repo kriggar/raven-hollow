@@ -119,6 +119,87 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	}
 
 
+## Time-sliced twin of build_zone (BLUEPRINT_98 seamless streaming): builds an
+## off-screen neighbor zone across several frames so there is no hard hitch.
+## Same single seeded rng and the SAME stage call order as build_zone, so the
+## produced map is byte-for-byte identical -- the only difference is the awaits.
+## `parent` must already be in the tree (it drives the frame awaits).
+static func build_zone_staged(parent: Node2D, def: Dictionary) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(str(def.get("id", "zone")))
+	var tiles_w: int = int(def.get("tiles_w", 256))
+	var tiles_h: int = int(def.get("tiles_h", 192))
+	var biome: String = str(def.get("biome", "wilds"))
+	var pal_key: String = str(def.get("palette", biome))
+	var pal: Dictionary = _PALETTES.get(pal_key, _PALETTES["wilds"])
+
+	var keep_clear: Array[Rect2] = []
+	for lm_v: Variant in def.get("landmarks", []):
+		var lm: Dictionary = lm_v
+		var p: Vector2 = lm["pos"]
+		keep_clear.append(Rect2(p - Vector2(140, 120), Vector2(280, 240)))
+	for vg_v: Variant in def.get("vignettes", []):
+		var vg: Dictionary = vg_v
+		keep_clear.append(Rect2((vg["pos"] as Vector2) - Vector2(90, 70), Vector2(180, 140)))
+
+	if not _staged_ok(parent):
+		return {}
+	_build_ground(parent, rng, tiles_w, tiles_h, pal, def)
+	await parent.get_tree().process_frame
+	if not _staged_ok(parent):
+		return {}
+	_build_sea(parent, tiles_w, tiles_h, def, keep_clear)
+	_build_river(parent, def)
+	for rp_v: Variant in def.get("river", []):
+		keep_clear.append(Rect2((rp_v as Vector2) - Vector2(180, 130), Vector2(360, 260)))
+	await parent.get_tree().process_frame
+	if not _staged_ok(parent):
+		return {}
+	var road_rects: Array[Rect2] = _build_roads(parent, def, pal.has("ground_sheet"))
+	for rr: Rect2 in road_rects:
+		keep_clear.append(rr.grow(44.0))
+	await parent.get_tree().process_frame
+	if not _staged_ok(parent):
+		return {}
+	var decal_rects: Array[Rect2] = _ground_breakup(parent, rng, tiles_w, tiles_h, pal, keep_clear)
+	keep_clear.append_array(decal_rects)
+	_build_warm_ground(parent, rng, def)
+	await parent.get_tree().process_frame
+	if not _staged_ok(parent):
+		return {}
+	_scatter_vegetation(parent, rng, tiles_w, tiles_h, pal, def, keep_clear)
+	await parent.get_tree().process_frame
+	if not _staged_ok(parent):
+		return {}
+	_build_landmarks(parent, rng, def)
+	await parent.get_tree().process_frame
+	if not _staged_ok(parent):
+		return {}
+	_build_vignettes(parent, def)
+	_build_waystation(parent, def)
+	await parent.get_tree().process_frame
+	if not _staged_ok(parent):
+		return {}
+	_build_border_wall(parent, rng, tiles_w, tiles_h, pal, def)
+
+	_validate_forty_second_rule(def, tiles_w, tiles_h)
+
+	var bounds := Rect2(0, 0, tiles_w * TILE, tiles_h * TILE)
+	return {
+		"player_spawn": def.get("player_spawn", Vector2(tiles_w * TILE * 0.5, tiles_h * TILE * 0.5)),
+		"npc_spawns": def.get("npc_spawns", {}),
+		"bounds": bounds,
+		"enemy_spawns": _enemy_spawns(rng, def),
+		"ambient_spawns": def.get("ambient_spawns", []),
+	}
+
+
+## Guard: abort a staged build cleanly if the neighbor root was freed mid-build
+## (player retreated / streaming reset) so we never touch a dangling node.
+static func _staged_ok(parent: Node2D) -> bool:
+	return parent != null and is_instance_valid(parent) and parent.is_inside_tree()
+
+
 # --- ground -----------------------------------------------------------------
 
 

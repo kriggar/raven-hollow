@@ -130,6 +130,132 @@ static func map_defs() -> Dictionary:
 	return out
 
 
+const SEAM_TILE: int = 32  # ZoneBuilder.TILE (px per tile)
+
+
+## World size of a zone in pixels (tiles_w/h * 32).
+static func zone_world_size(id: String) -> Vector2:
+	var z: Dictionary = zone(id)
+	return Vector2(float(int(z.get("tiles_w", 256)) * SEAM_TILE),
+			float(int(z.get("tiles_h", 192)) * SEAM_TILE))
+
+
+## Which world edge a border_gap sits on ("" = not an edge gap).
+static func _seam_gap_edge(gap: Rect2, world: Vector2) -> String:
+	var d_w: float = absf(gap.position.x)
+	var d_e: float = absf(gap.position.x + gap.size.x - world.x)
+	var d_n: float = absf(gap.position.y)
+	var d_s: float = absf(gap.position.y + gap.size.y - world.y)
+	var m: float = minf(minf(d_w, d_e), minf(d_n, d_s))
+	if m > 60.0:
+		return ""
+	if m == d_w:
+		return "west"
+	if m == d_e:
+		return "east"
+	if m == d_n:
+		return "north"
+	return "south"
+
+
+## The edge border_gap nearest to a zone's travel point ({} if none within 400px).
+static func _seam_gap_for_point(id: String, point_id: String) -> Dictionary:
+	var z: Dictionary = zone(id)
+	var tp: Dictionary = {}
+	for t_v: Variant in z.get("travel_points", []):
+		if str((t_v as Dictionary).get("id", "")) == point_id:
+			tp = t_v
+			break
+	if tp.is_empty():
+		return {}
+	var world: Vector2 = zone_world_size(id)
+	var tpos: Vector2 = tp.get("pos", Vector2.ZERO)
+	var best: Dictionary = {}
+	var best_d: float = 400.0
+	for g_v: Variant in z.get("border_gaps", []):
+		var g: Rect2 = g_v
+		var edge: String = _seam_gap_edge(g, world)
+		if edge.is_empty():
+			continue
+		var c: Vector2 = g.position + g.size * 0.5
+		var d: float = c.distance_to(tpos)
+		if d < best_d:
+			best_d = d
+			best = {"edge": edge, "center": c, "rect": g}
+	return best
+
+
+## Seam geometry for a border travel point (BLUEPRINT_98): the world offset at
+## which the neighbor zone must be built so the two paired border gaps line up,
+## plus the crossing axis / boundary line / gap span the streamer needs.
+## Returns {"valid": false} for interior points (cellar stairs, ferries) and any
+## point whose reciprocal is not an opposite edge gap -- the caller then falls
+## back to the normal fade change_map. Pure data; no side effects.
+static func seam_offset(a_id: String, point_id: String) -> Dictionary:
+	var z: Dictionary = zone(a_id)
+	var tp: Dictionary = {}
+	for t_v: Variant in z.get("travel_points", []):
+		if str((t_v as Dictionary).get("id", "")) == point_id:
+			tp = t_v
+			break
+	if tp.is_empty():
+		return {"valid": false}
+	var b_id: String = str(tp.get("to_map", ""))
+	var q_id: String = str(tp.get("to_point", ""))
+	if b_id.is_empty() or q_id.is_empty():
+		return {"valid": false}
+	var ga: Dictionary = _seam_gap_for_point(a_id, point_id)
+	if ga.is_empty():
+		return {"valid": false}
+	var gb: Dictionary = _seam_gap_for_point(b_id, q_id)
+	if gb.is_empty():
+		return {"valid": false}
+	var opp: Dictionary = {"east": "west", "west": "east", "north": "south", "south": "north"}
+	var edge: String = str(ga.get("edge", ""))
+	if str(gb.get("edge", "")) != str(opp.get(edge, "")):
+		return {"valid": false}
+	var wa: Vector2 = zone_world_size(a_id)
+	var wb: Vector2 = zone_world_size(b_id)
+	var ca: Vector2 = ga.get("center", Vector2.ZERO)
+	var cb: Vector2 = gb.get("center", Vector2.ZERO)
+	var off: Vector2 = Vector2.ZERO
+	var axis: String = "x"
+	var boundary: float = 0.0
+	var dir_sign: float = 1.0
+	match edge:
+		"east":
+			off = Vector2(wa.x, ca.y - cb.y)
+			axis = "x"; boundary = wa.x; dir_sign = 1.0
+		"west":
+			off = Vector2(-wb.x, ca.y - cb.y)
+			axis = "x"; boundary = 0.0; dir_sign = -1.0
+		"south":
+			off = Vector2(ca.x - cb.x, wa.y)
+			axis = "y"; boundary = wa.y; dir_sign = 1.0
+		"north":
+			off = Vector2(ca.x - cb.x, -wb.y)
+			axis = "y"; boundary = 0.0; dir_sign = -1.0
+	var grect: Rect2 = ga.get("rect", Rect2())
+	var gap_min: float = grect.position.y if axis == "x" else grect.position.x
+	var gap_max: float = (grect.position.y + grect.size.y) if axis == "x" else (grect.position.x + grect.size.x)
+	return {
+		"valid": true,
+		"to_map": b_id,
+		"to_point": q_id,
+		"edge": edge,
+		"offset": off,
+		"axis": axis,
+		"boundary": boundary,
+		"dir_sign": dir_sign,
+		"gap_min": gap_min,
+		"gap_max": gap_max,
+		"world_a": wa,
+		"world_b": wb,
+		"tp_pos": tp.get("pos", Vector2.ZERO),
+		"radius": float(tp.get("radius", 34.0)),
+	}
+
+
 # ======================================================================
 # THE ZONES — Continent 1: DRACONIA (Year 0)
 # ======================================================================

@@ -534,6 +534,9 @@ func change_map(map_id: String, entry_point_id: String) -> void:
 	if _changing_map or not MapRegistry.has_map(map_id):
 		return
 	_changing_map = true
+	# A manual fade change_map supersedes any in-flight streaming: drop the
+	# pre-built neighbor so it can never leak a stale root.
+	WorldStreamSystem.reset()
 	_hide_world_prompt()
 
 	# 1. Fade to black.
@@ -618,6 +621,157 @@ func change_map_to_pos(map_id: String, pos: Vector2) -> void:
 		_player.global_position = pos + Vector2(0.0, 28.0)
 
 
+# =============================================================================
+# SEAMLESS EDGE-STREAMING HOOKS (WorldStreamSystem / BLUEPRINT_98)
+# Only reached when streaming is enabled; with it OFF the game runs exactly as
+# before. These give the streamer the minimal main-side surface it needs.
+# =============================================================================
+
+## A sibling of World that holds pre-built neighbor roots (independently freeable,
+## never confused with the current map).
+func stream_container() -> Node2D:
+	var c: Node = get_node_or_null("Streaming")
+	if c is Node2D:
+		return c
+	var n := Node2D.new()
+	n.name = "Streaming"
+	n.y_sort_enabled = true
+	add_child(n)
+	return n
+
+
+func stream_world() -> Node2D:
+	return _world
+
+
+func stream_built() -> Dictionary:
+	return _built
+
+
+## Expand the camera limits to the union of the current zone and a neighbor at
+## `offset` (size `world_b`) so the camera can pan past our edge and reveal it.
+func stream_set_camera_union(offset: Vector2, world_b: Vector2) -> void:
+	if _camera == null or not is_instance_valid(_camera):
+		return
+	var a: Rect2 = _built.get("bounds", DEFAULT_BOUNDS)
+	var b: Rect2 = Rect2(offset, world_b)
+	_apply_camera_limits(_camera, a.merge(b))
+
+
+## THE flip (BLUEPRINT_98 step 2): atomically shift the world by -shift so the
+## neighbor lands at origin and becomes the current zone, reparent the player
+## (carrying its camera) into it, fire the same change hooks change_map fires
+## (minus the fade), and return the OLD world root (the streamer keeps it as the
+## new behind-neighbor). One frame, imperceptible: roots + player + camera all
+## move by the same -shift and the camera smoothing is reset.
+func stream_commit_flip(new_id: String, new_root: Node2D, new_built: Dictionary, shift: Vector2) -> Node2D:
+	if _player == null or not is_instance_valid(_player) or new_root == null or not is_instance_valid(new_root):
+		return null
+	var old_world: Node2D = _world
+	var old_built: Dictionary = _built
+	# Reparent the player into the new zone, keeping its on-screen position.
+	var gpos: Vector2 = _player.global_position
+	var pp: Node = _player.get_parent()
+	if pp != null:
+		pp.remove_child(_player)
+	new_root.add_child(_player)
+	_player.global_position = gpos
+	# Atomic -shift: new_root -> origin (player rides it), old_world -> -shift.
+	new_root.position -= shift
+	if old_world != null and is_instance_valid(old_world):
+		old_world.position -= shift
+	# Camera continuity: reset smoothing so the (uniform) shift is invisible.
+	if _camera != null and is_instance_valid(_camera):
+		_camera.reset_smoothing()
+	# Bookkeeping.
+	_world = new_root
+	_built = new_built
+	current_map_id = new_id
+	# DayNight CanvasModulate: the new zone gets its own; drop the old one so a
+	# single modulate stays active (auto-discovery would otherwise fight).
+	var new_cm := CanvasModulate.new()
+	new_cm.name = "DuskModulate"
+	new_root.add_child(new_cm)
+	if _day_night != null:
+		_day_night.attach_canvas_modulate(new_cm)
+		_day_night.set_underground(str(ZoneDefs.zone(new_id).get("biome", "")) == "cave")
+		_day_night.set_ambient_lock(ZoneDefs.zone(new_id).get("ambient_lock"))
+		_day_night.set_ambient_bias(ZoneDefs.zone(new_id).get("ambient_bias"))
+	if old_world != null and is_instance_valid(old_world):
+		var ocm: Node = old_world.get_node_or_null("DuskModulate")
+		if ocm != null:
+			ocm.queue_free()
+	# Live actors for the new zone spawn NOW (enemies are physics bodies -> on
+	# commit, not during pre-build), plus npc pockets + light registry.
+	_post_build_map(new_id, new_root, new_built)
+	# Camera limits: union of new (origin) + old (behind at -shift) so there is
+	# no clamp-pop while the player is still near the seam.
+	if _camera != null and is_instance_valid(_camera):
+		var nb: Rect2 = new_built.get("bounds", DEFAULT_BOUNDS)
+		var camu: Rect2 = nb
+		if old_world != null and is_instance_valid(old_world):
+			camu = nb.merge(Rect2(old_world.position, (old_built.get("bounds", DEFAULT_BOUNDS) as Rect2).size))
+		_apply_camera_limits(_camera, camu)
+	# The same hooks change_map fires, without the fade.
+	var def: Dictionary = MapRegistry.get_map(new_id)
+	_start_music_for_def(def)
+	get_tree().call_group("pause_menu", "apply_music_volume")
+	if _weather != null:
+		_weather.on_map_changed(new_id)
+	_refresh_minimap(new_id, new_built, def)
+	if _dialogue != null:
+		_dialogue.show_banner(str(def.get("display_name", "")), "")
+	if _quests != null and _day_night != null:
+		_quests.set_night(_day_night.is_night)
+	_push_tracker()
+	return old_world
+
+
+## Free a behind zone once the player has fully crossed; clamp the camera back
+## to the current zone bounds.
+func stream_free_behind(root: Node2D) -> void:
+	if root != null and is_instance_valid(root):
+		root.queue_free()
+	if _camera != null and is_instance_valid(_camera):
+		_apply_camera_limits(_camera, _built.get("bounds", DEFAULT_BOUNDS))
+
+
+## RH_SEAMLESS QA: pre-build the current map's first streamable seam, frame the
+## player just short of the boundary so a wide shot shows both zones' terrain
+## meeting with no black bar, and (RH_SEAMWALK) force-walk the player across to
+## exercise the flip. ASCII logs only.
+func _run_seamless_qa() -> void:
+	var seam: Dictionary = await WorldStreamSystem.debug_prebuild_first_seam(self)
+	if seam.is_empty() or _player == null or not is_instance_valid(_player):
+		return
+	var axis: String = str(seam.get("axis", "x"))
+	var line: float = float(seam.get("boundary", 0.0))
+	var dir: float = float(seam.get("dir_sign", 1.0))
+	var gmid: float = (float(seam.get("gap_min", 0.0)) + float(seam.get("gap_max", 0.0))) * 0.5
+	var back: float = line - dir * 120.0  # sit on OUR side of the seam
+	_player.global_position = Vector2(back, gmid) if axis == "x" else Vector2(gmid, back)
+	if _camera != null and is_instance_valid(_camera):
+		await get_tree().process_frame
+		_camera.reset_smoothing()
+		await get_tree().process_frame
+		_camera.reset_smoothing()
+	print("[SEAMLESS] framed seam at boundary %d (axis %s); player on our side" % [int(line), axis])
+	var walk_env: String = OS.get_environment("RH_SEAMWALK")
+	if walk_env.is_empty():
+		return
+	var before_id: String = current_map_id
+	var announced: bool = false
+	for i in range(300):
+		var stepv: Vector2 = Vector2(dir * 10.0, 0.0) if axis == "x" else Vector2(0.0, dir * 10.0)
+		_player.global_position += stepv
+		await get_tree().process_frame
+		if not announced and current_map_id != before_id:
+			announced = true
+			print("[SEAMLESS] crossed seam by walking: '%s' -> '%s' (frame %d, no fade)" % [before_id, current_map_id, i])
+	for _j in range(24):
+		await get_tree().process_frame
+
+
 func _refresh_minimap(map_id: String, built: Dictionary, def: Dictionary = {}) -> void:
 	var mm: Node = get_tree().get_first_node_in_group("minimap")
 	if mm == null:
@@ -646,6 +800,13 @@ func _physics_process(_delta: float) -> void:
 
 	var ppos: Vector2 = _player.global_position
 
+	# Seamless edge-streaming (BLUEPRINT_98): pre-build the adjacent zone off-
+	# screen as we near a border seam, flip ownership on cross, unload behind.
+	# GATED -- no-op unless enabled; the [E] fade change_map below stays as the
+	# guaranteed fallback for any seam streaming declines.
+	if WorldStreamSystem.enabled:
+		WorldStreamSystem.tick(self, ppos)
+
 	# Crafting stations (town only ships them).
 	var station: Dictionary = _nearest_station(ppos)
 	if not station.is_empty():
@@ -665,7 +826,10 @@ func _physics_process(_delta: float) -> void:
 	# Travel points.
 	for tp: Dictionary in MapRegistry.travel_points(current_map_id):
 		if ppos.distance_to(tp["pos"]) <= float(tp["radius"]):
-			_show_world_prompt(str(tp.get("prompt", "[E] Travel")))
+			# Streamed border seams cross seamlessly (no prompt); the E-press
+			# still fires change_map as the guaranteed fade fallback.
+			if not (WorldStreamSystem.enabled and WorldStreamSystem.owns_seam(current_map_id, str(tp["id"]))):
+				_show_world_prompt(str(tp.get("prompt", "[E] Travel")))
 			if Input.is_action_just_pressed("interact"):
 				change_map(str(tp["to_map"]), str(tp["to_point"]))
 			return
@@ -877,13 +1041,14 @@ func _dim_world_one_beat() -> void:
 
 func _on_quit_to_menu() -> void:
 	set_physics_process(false)
+	WorldStreamSystem.reset()
 	_hide_world_prompt()
 	_despawn_mira()
 	for grp: String in ["hud", "minimap", "bag_ui", "sheet_ui", "crafting_ui", "dialogue_ui", "pause_menu"]:
 		var n: Node = get_tree().get_first_node_in_group(grp)
 		if n != null:
 			n.queue_free()
-	for named: String in ["WorldPromptLayer", "Vignette", "Music", "FadeLayer"]:
+	for named: String in ["WorldPromptLayer", "Vignette", "Music", "FadeLayer", "Streaming"]:
 		var node: Node = get_node_or_null(named)
 		if node != null:
 			node.queue_free()
@@ -1072,6 +1237,11 @@ func _run_env_hooks() -> void:
 	var map_env: String = OS.get_environment("RH_MAP")
 	if not map_env.is_empty() and map_env != current_map_id and MapRegistry.has_map(map_env):
 		await change_map(map_env, "")
+	# RH_SEAMLESS QA (BLUEPRINT_98): with streaming enabled, prove the neighbor
+	# pre-builds at the seam offset (RH_SEAMWALK also force-walks the flip).
+	# Purely additive; skipped entirely when streaming is OFF.
+	if WorldStreamSystem.enabled:
+		await _run_seamless_qa()
 	# RH_RES=WxH: PRIME-MANDATE 4K cameras — resize the OS window so the
 	# viewport texture (and thus RH_SHOT) captures at the requested size.
 	var res_env: String = OS.get_environment("RH_RES")
