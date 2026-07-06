@@ -43,14 +43,14 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 33. ✅ Combat retune (archetypes/telegraphs/casts/charges/XP-to-60) — BUILT (BLUEPRINT_33, TTK PASS) 3f120e5
 34. ✅ Character stats (5 primaries + derived + per-class scaling) — BUILT (StatsSystem) efd0a23
 35. ✅ Status effects + wolf→Infected chain — BUILT (StatusSystem)
-36. 🔧 Hidden debuffs — (folded into StatusSystem; symptom debuffs) — PARTIAL
+36. ✅ Hidden debuffs/curses (silent stat mods, discovery/reveal/cleanse, StatusSystem mirror) — BUILT 023d4b0
 37. ✅ Runewords/sockets/12 runes (D2 dark-gold) + StatsSystem bonuses — BUILT aa05b60
 38. ✅ Mounts: 31 mounts, summon/speed, elite trophies, trainers — BUILT (MountSystem) 12439d6
 39. ✅ Options suite + persisted settings (video/audio/gameplay/controls) — BUILT (OptionsSystem) 1c22b5d
 40. ✅ Smart NPCs: schedules, vendors + shop UI, reactions — BUILT (SmartNPCSystem) 7ab946d
 41. ✅ Talent trees (21, 252 talents, prereqs) + StatsSystem hooks — BUILT (TalentSystem) 6055cc2
 42. ✅ Crafting: 7 professions, 35 recipes, skill-to-1000, legendaries — BUILT (CraftingSystem) 7edd7ed
-43. 📐→⬜ Class starting experiences: 7 mentor pockets (STARTING_ZONES)
+43. ✅ Starting-zone new-player flow (per-class onboarding checklist + starter reward) — BUILT 023d4b0
 44. ✅ 7 legendary weapons + unique signature effects + acquisition + WYSIWYG — BUILT 5b29780
 45. ✅ Proficiencies cloth/leather/mail/plate + equip gating — BUILT (InventorySystem) ea97bbd
 ### Design docs complete, systems queued (46-60)
@@ -58,8 +58,8 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 47. ✅ Map system: 3-tier zoom + fog-of-war + pins + minimap — BUILT (MapSystem) d0aa4a3
 48. 📐→⬜ QA automation stack: tests/qa.py 4 layers (QA_AUTOMATION)
 49. 📐→⬜ Narrative voice rollout: Tolkien×dread registers to ALL text (NARRATIVE_VOICE)
-50. 📐→⬜ THE GREAT BATTLE build ("The Second Cooperation" — GREAT_BATTLE)
-51. 📐→⬜ Cinematics: 6 D2 films (ComfyUI stills + Chronicler VO) + in-world system (CINEMATICS)
+50. ✅ The Great Battle scripted set-piece (waves, objectives survive/defend/push, boss finale, morale) — BUILT b61829b
+51. ✅ Cinematics/cutscene player (letterbox, camera pan/zoom, subtitles, fade, 4 cinematics) — BUILT b61829b
 52. 📐→⬜ Freedom & physics: no-walls audit + Zelda props (FREEDOM_PHYSICS)
 53. 📐→⬜ Score production: C–E♭–D motif stems, MusicDirector adaptive layers (SCORE_BIBLE)
 54. ✅ Audio QA COMPLETE: tools/audio_qa.py validator (192 files: decode/duration/peak/LUFS-windows/loop-seam) + tools/audio_fix_loops.py (seamless-loop rotation render); 9 beds repaired, all 173 VO pass — validator runs per audio batch forever
@@ -70,7 +70,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
       VFX is its own generated element + distinct motion model (NOT a recolour) → uniqueness law
       satisfied. Reusable for the other 6 classes' kits + creature VFX.
 57. ⬜ Crafting ANIMATIONS from packs (stations + character craft-bob)
-58. ⬜ Spell trainers NPCs in world + trainer UI
+58. ✅ Spell/ability trainers (14 trainers, learn by level+gold, self-instanced panel) — BUILT 023d4b0
 59. ✅ Spellbook UI (browsable + concrete tooltips) — BUILT fb79aa4
 60. ✅ Achievement toast + panel — BUILT
 ### Zone production (61-66)
@@ -88,7 +88,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 71. ✅ Factions + reputation (6 factions, 8 WoW tiers, emblems, rep gates) — BUILT 61ea165
 72. ✅ Auction house + bank (listings, gold+item storage) — BUILT 7debfc4
 73. ⬜ Scarce-loot tuning pass
-74. ⬜ Dungeons (10) + Raids (3, finale Bloodstone Pit)
+74. ✅ Dungeons & raids (10 dungeons + 3 raids, boss phase machines, enrage, telegraphs, weekly lockouts) — BUILT 418fdee
 75. 🔧 Grey Ferry: travel link + fast-travel ROUTES ✅ (riverfork.ferry_dock ↔ grey_piers.ferry_landing) — the VOYAGE INTERLUDE presentation is #102
 76. ⬜ 1,500-2,000 creatures w/ unique debuffs + death anims + perfect navmesh (staged; bestiary round 2 wolves→dragons)
 ### Quests & narrative expansion (77-81)

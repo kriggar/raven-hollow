@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+MusicSystem="*res://scripts/systems/music_system.gd"
+NarrativeSystem="*res://scripts/systems/narrative_system.gd"
+QASystem="*res://scripts/systems/qa_system.gd"
+RenderFXSystem="*res://scripts/systems/render_fx_system.gd"
 DungeonSystem="*res://scripts/systems/dungeon_system.gd"
 BattleSystem="*res://scripts/systems/battle_system.gd"
 CinematicSystem="*res://scripts/systems/cinematic_system.gd"
