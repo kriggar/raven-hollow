@@ -1254,6 +1254,11 @@ func on_level_up(new_level: int) -> void:
 	var dlg: Node = get_tree().get_first_node_in_group("dialogue_ui")
 	if dlg != null and dlg.has_method("show_banner"):
 		dlg.call("show_banner", "Level %d" % new_level, "")
+	# Talent points accrue per level (design/TALENTS_SPELLS.md 2.1). Guarded so
+	# the level-up beat never hard-depends on the talent autoload being present.
+	var _ts: Node = get_node_or_null("/root/TalentSystem")
+	if _ts != null and _ts.has_method("notify_level_up"):
+		_ts.call("notify_level_up", self, new_level)
 
 
 func _slot_effect(slots: Array, key: String) -> bool:

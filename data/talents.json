@@ -1,0 +1,5545 @@
+{
+ "meta": {
+  "source": "design/TALENTS_SPELLS.md",
+  "backlog": 41,
+  "level_cap": 60,
+  "point_start_level": 10,
+  "point_end_level": 60,
+  "points_total": 51,
+  "tier_gate_step": 5,
+  "capstone_tier": 7,
+  "rank_growth": 1.046,
+  "note": "Talent points: 1/level from 10..60 (51). Tree tier N unlocks at 5*(N-1) spent in-tree; capstone (tier 7) needs 30 in-tree +1."
+ },
+ "classes": {
+  "warrior": {
+   "trees": [
+    {
+     "id": "war_pit",
+     "name": "Pit-Fighter",
+     "class_id": "warrior",
+     "role": "offense",
+     "lore": "The Debt-Pit fighting circuits of Sangeroasa.",
+     "talents": [
+      {
+       "id": "war_pit_dirty_openers",
+       "name": "Dirty Openers",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+5% at max)."
+      },
+      {
+       "id": "war_pit_instinct",
+       "name": "Pit Instinct",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit chance per rank (+3% at max)."
+      },
+      {
+       "id": "war_pit_heavy_hands",
+       "name": "Heavy Hands",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "cleave",
+        "damage_pct": 3
+       },
+       "desc": "Cleave +3% damage per rank (+15% at max)."
+      },
+      {
+       "id": "war_pit_wide_swing",
+       "name": "Wide Swing",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "cleave",
+        "add_params": {
+         "arc_degrees": 10
+        }
+       },
+       "desc": "Cleave arc +10 deg/rank (110->130 deg)."
+      },
+      {
+       "id": "war_pit_opened_vein",
+       "name": "Opened Vein",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "crit",
+        "chance_pct": 100,
+        "effect": "talent_bleed",
+        "target": "target",
+        "icd": 0
+       },
+       "desc": "On crit: bleed 4s, ticking 3%/rank of the crit per second."
+      },
+      {
+       "id": "war_pit_sundering_depth",
+       "name": "Sundering Depth",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "sunder",
+        "add_params": {
+         "guard_break_s": 1.0
+        }
+       },
+       "desc": "Sunder guard-break +1.0s per rank (armor-break window)."
+      },
+      {
+       "id": "war_pit_blood_rhythm",
+       "name": "Blood Rhythm",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 100,
+        "speed_pct": 5,
+        "duration": 4,
+        "icd": 0
+       },
+       "desc": "On kill: +5%/rank move speed for 4s (chain-pull juice)."
+      },
+      {
+       "id": "war_pit_lean_economy",
+       "name": "Lean Economy",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "*",
+        "mana_cost_pct": -4
+       },
+       "desc": "All warrior abilities -4% mana cost per rank."
+      },
+      {
+       "id": "war_pit_executioners_eye",
+       "name": "Executioner's Eye",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "target_below_hp:0.35"
+       },
+       "desc": "+2%/rank damage vs targets below 35% hp."
+      },
+      {
+       "id": "war_pit_whirl_of_iron",
+       "name": "Whirl of Iron",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "whirlwind",
+        "cooldown_pct": -15
+       },
+       "desc": "Whirlwind -15% cooldown per rank (6s->4.2s)."
+      },
+      {
+       "id": "war_pit_red_sand_rhythm",
+       "name": "Red Sand Rhythm",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "war_pit_sundering_depth",
+       "kind": "proc",
+       "per_rank": {
+        "on": "basic_hit",
+        "chance_pct": 100,
+        "cdr": {
+         "ability": "sunder",
+         "s": 0.2
+        }
+       },
+       "desc": "On basic hit: shave 0.2s/rank off Sunder cooldown."
+      },
+      {
+       "id": "war_pit_capstone",
+       "name": "Executioner's Toll",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: a 60-deg cleave that hits for 3x vs targets below 35% hp.",
+       "ability": {
+        "id": "executioners_toll",
+        "name": "Executioner's Toll",
+        "icon": "pixel:executioners_toll",
+        "cooldown": 20.0,
+        "mana_cost": 25.0,
+        "range": 30.0,
+        "damage": 30.0,
+        "kind": "melee_arc",
+        "params": {
+         "arc_degrees": 60.0,
+         "execute_below": 0.35,
+         "execute_mult": 3.0,
+         "fx": "executioners_toll",
+         "color": [
+          0.7,
+          0.24,
+          0.2
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "war_wall",
+     "name": "Shieldwall",
+     "class_id": "warrior",
+     "role": "protection",
+     "lore": "The palisade that burned and the man who didn't.",
+     "talents": [
+      {
+       "id": "war_wall_quilted",
+       "name": "Quilted Under-Plate",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "armor": 1
+       },
+       "desc": "+1 armor per rank (+5 at max)."
+      },
+      {
+       "id": "war_wall_stubborn",
+       "name": "Stubborn Yard",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "stamina": 2
+       },
+       "desc": "+2 stamina per rank (+20 hp at max)."
+      },
+      {
+       "id": "war_wall_discipline",
+       "name": "Shield Discipline",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -1
+       },
+       "desc": "-1% damage taken per rank (-5% at max)."
+      },
+      {
+       "id": "war_wall_charge_line",
+       "name": "Charge the Line",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "shield_charge",
+        "cooldown_pct": -14
+       },
+       "desc": "Shield Charge -14% cooldown per rank (7s->5s)."
+      },
+      {
+       "id": "war_wall_brace",
+       "name": "Brace",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 10,
+        "effect": "absorb_5pct",
+        "icd": 6
+       },
+       "desc": "On hit taken (10%): absorb 5% max hp for 4s. ICD 6s."
+      },
+      {
+       "id": "war_wall_bulwark_weight",
+       "name": "Bulwark Weight",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "iron_bulwark",
+        "add_params": {
+         "absorb": 8
+        }
+       },
+       "desc": "Iron Bulwark +8 absorb per rank."
+      },
+      {
+       "id": "war_wall_constitution",
+       "name": "Hollow's Constitution",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "hp_regen": 0.5
+       },
+       "desc": "+0.5 hp regen per rank."
+      },
+      {
+       "id": "war_wall_riposte",
+       "name": "Riposte",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "dodge",
+        "chance_pct": 100,
+        "damage_dealt_pct": 10,
+        "duration": 3
+       },
+       "desc": "On dodge: +10% damage dealt for 3s."
+      },
+      {
+       "id": "war_wall_palisade_footing",
+       "name": "Palisade Footing",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "cc_reduction_pct": 10
+       },
+       "desc": "Slow/root durations on you -10% (small StatusEffects hook)."
+      },
+      {
+       "id": "war_wall_charge_momentum",
+       "name": "Charge Momentum",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "shield_charge",
+        "add_params": {
+         "arrive_absorb": 15
+        }
+       },
+       "desc": "Shield Charge +15 arrive-absorb per rank."
+      },
+      {
+       "id": "war_wall_iron_constitution",
+       "name": "Iron Constitution",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "max_hp_pct": 2
+       },
+       "desc": "+2% max hp per rank (+6% at max)."
+      },
+      {
+       "id": "war_wall_capstone",
+       "name": "Last Palisade",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 8s, -50% damage taken, immune to crowd control.",
+       "ability": {
+        "id": "last_palisade",
+        "name": "Last Palisade",
+        "icon": "pixel:last_palisade",
+        "cooldown": 60.0,
+        "mana_cost": 30.0,
+        "range": 0.0,
+        "damage": 0.0,
+        "kind": "buff",
+        "params": {
+         "duration": 8.0,
+         "damage_taken_pct": -50.0,
+         "cc_immune": true,
+         "fx_loop": "iron_bulwark",
+         "color": [
+          0.58,
+          0.62,
+          0.66
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "war_call",
+     "name": "Warcaller",
+     "class_id": "warrior",
+     "role": "shouts",
+     "lore": "The drill-yard's stubbornness, out loud.",
+     "talents": [
+      {
+       "id": "war_call_pace",
+       "name": "Drillmaster's Pace",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "speed_pct": 1
+       },
+       "desc": "+1% move speed per rank (+5% at max)."
+      },
+      {
+       "id": "war_call_lungs",
+       "name": "Loud Lungs",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana": 5
+       },
+       "desc": "+5 mana per rank (warrior pool 55)."
+      },
+      {
+       "id": "war_call_voice",
+       "name": "Carrying Voice",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "war_cry",
+        "duration_pct": 10
+       },
+       "desc": "War Cry +10% duration per rank (5s->7.5s)."
+      },
+      {
+       "id": "war_call_second_wind",
+       "name": "Second Wind Drill",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "war_cry",
+        "add_params": {
+         "heal_per_sec": 2
+        }
+       },
+       "desc": "War Cry heals +2 hp/s per rank while up."
+      },
+      {
+       "id": "war_call_cadence",
+       "name": "Cadence",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "cast",
+        "chance_pct": 10,
+        "effect": "next_basic_30",
+        "icd": 3
+       },
+       "desc": "On cast (10%): next basic +30% (one hit). ICD 3s."
+      },
+      {
+       "id": "war_call_warning_bark",
+       "name": "Warning Bark",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "cowing_shout",
+        "range_pct": 15
+       },
+       "desc": "Cowing Shout +15% range per rank."
+      },
+      {
+       "id": "war_call_marching",
+       "name": "Marching Order",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "speed_pct": 3,
+        "when": "out_of_combat"
+       },
+       "desc": "Out-of-combat +3%/rank move speed."
+      },
+      {
+       "id": "war_call_rousing",
+       "name": "Rousing Cry",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "war_cry",
+        "add_params": {
+         "absorb": 10
+        }
+       },
+       "desc": "War Cry grants +10 absorb per rank."
+      },
+      {
+       "id": "war_call_economy",
+       "name": "Veteran's Economy",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana_regen": 0.5
+       },
+       "desc": "+0.5 mana regen per rank."
+      },
+      {
+       "id": "war_call_echoing",
+       "name": "Echoing Cry",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "war_cry",
+        "cooldown_pct": -12
+       },
+       "desc": "War Cry -12% cooldown per rank."
+      },
+      {
+       "id": "war_call_voice_palisade",
+       "name": "Voice of the Palisade",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "war_cry",
+        "add_params": {
+         "damage_mult": 0.05
+        }
+       },
+       "desc": "War Cry damage bonus +0.05/rank (1.3->1.45)."
+      },
+      {
+       "id": "war_call_capstone",
+       "name": "Gallows Horn",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 70px ring, slows to 50% for 3s, resets Shield Charge.",
+       "ability": {
+        "id": "gallows_horn",
+        "name": "Gallows Horn",
+        "icon": "pixel:gallows_horn",
+        "cooldown": 45.0,
+        "mana_cost": 40.0,
+        "range": 70.0,
+        "damage": 20.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": false,
+         "slow_mult": 0.5,
+         "slow_duration": 3.0,
+         "reset_cooldown": "shield_charge",
+         "fx": "war_cry",
+         "color": [
+          0.86,
+          0.52,
+          0.26
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "spellbook": [
+    {
+     "id": "hurled_axe",
+     "name": "Hurled Axe",
+     "icon": "pixel:hurled_axe",
+     "cooldown": 8.0,
+     "mana_cost": 8.0,
+     "range": 200.0,
+     "damage": 10.0,
+     "kind": "projectile",
+     "req_level": 6,
+     "rank_levels": [
+      6,
+      26,
+      46
+     ],
+     "trainer_verb": "pull",
+     "params": {
+      "speed": 260.0,
+      "projectile": "arrow",
+      "thin": true,
+      "slow_mult": 0.7,
+      "slow_duration": 3.0,
+      "color": [
+       0.66,
+       0.6,
+       0.52
+      ]
+     }
+    },
+    {
+     "id": "second_wind",
+     "name": "Second Wind",
+     "icon": "pixel:second_wind",
+     "cooldown": 25.0,
+     "mana_cost": 15.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 10,
+     "rank_levels": [
+      10,
+      30,
+      50
+     ],
+     "trainer_verb": "defensive",
+     "params": {
+      "duration": 8.0,
+      "heal_per_sec": 4.0,
+      "color": [
+       0.72,
+       0.52,
+       0.36
+      ]
+     }
+    },
+    {
+     "id": "hobbling_strike",
+     "name": "Hobbling Strike",
+     "icon": "pixel:hobbling_strike",
+     "cooldown": 10.0,
+     "mana_cost": 10.0,
+     "range": 26.0,
+     "damage": 6.0,
+     "kind": "melee_arc",
+     "req_level": 14,
+     "rank_levels": [
+      14,
+      34,
+      54
+     ],
+     "trainer_verb": "snare",
+     "params": {
+      "arc_degrees": 60.0,
+      "slow_mult": 0.4,
+      "slow_duration": 4.0,
+      "color": [
+       0.7,
+       0.56,
+       0.44
+      ]
+     }
+    },
+    {
+     "id": "cowing_shout",
+     "name": "Cowing Shout",
+     "icon": "pixel:cowing_shout",
+     "cooldown": 20.0,
+     "mana_cost": 18.0,
+     "range": 55.0,
+     "damage": 0.0,
+     "kind": "aoe_ring",
+     "req_level": 18,
+     "rank_levels": [],
+     "trainer_verb": "special",
+     "params": {
+      "at_aim": false,
+      "enemy_damage_dealt_pct": -15.0,
+      "debuff_duration": 6.0,
+      "color": [
+       0.54,
+       0.5,
+       0.46
+      ]
+     }
+    },
+    {
+     "id": "batter",
+     "name": "Batter",
+     "icon": "pixel:batter",
+     "cooldown": 12.0,
+     "mana_cost": 12.0,
+     "range": 26.0,
+     "damage": 8.0,
+     "kind": "melee_arc",
+     "req_level": 22,
+     "rank_levels": [],
+     "trainer_verb": "interrupt",
+     "params": {
+      "arc_degrees": 45.0,
+      "interrupt": true,
+      "color": [
+       0.78,
+       0.7,
+       0.58
+      ]
+     }
+    },
+    {
+     "id": "bloodrush",
+     "name": "Bloodrush",
+     "icon": "pixel:bloodrush",
+     "cooldown": 30.0,
+     "mana_cost": 12.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 34,
+     "rank_levels": [],
+     "trainer_verb": "mobility",
+     "params": {
+      "duration": 4.0,
+      "speed_mult": 1.4,
+      "break_snares": true,
+      "color": [
+       0.76,
+       0.32,
+       0.24
+      ]
+     }
+    },
+    {
+     "id": "ironhide_stance",
+     "name": "Ironhide Stance",
+     "icon": "pixel:ironhide_stance",
+     "cooldown": 45.0,
+     "mana_cost": 20.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 42,
+     "rank_levels": [],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 30.0,
+      "damage_taken_pct": -15.0,
+      "damage_dealt_pct": -10.0,
+      "group": "form",
+      "color": [
+       0.56,
+       0.58,
+       0.6
+      ]
+     }
+    }
+   ]
+  },
+  "rogue": {
+   "trees": [
+    {
+     "id": "rog_knife",
+     "name": "Knifework",
+     "class_id": "rogue",
+     "role": "burst",
+     "lore": "The quiet knife that settles what loud men cannot.",
+     "talents": [
+      {
+       "id": "rog_knife_honed",
+       "name": "Honed Edges",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit chance per rank (+5% at max)."
+      },
+      {
+       "id": "rog_knife_alley",
+       "name": "Alley Discipline",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+3% at max)."
+      },
+      {
+       "id": "rog_knife_deep_angles",
+       "name": "Deep Angles",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "backstab",
+        "damage_pct": 4
+       },
+       "desc": "Backstab +4% damage per rank (+20% at max)."
+      },
+      {
+       "id": "rog_knife_quick_wrists",
+       "name": "Quick Wrists",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "quick_slash",
+        "cooldown_pct": -8
+       },
+       "desc": "Quick Slash -8% cooldown per rank (0.35->0.30s)."
+      },
+      {
+       "id": "rog_knife_opened_vein",
+       "name": "Opened Vein",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "crit",
+        "chance_pct": 100,
+        "effect": "talent_bleed",
+        "target": "target",
+        "icd": 0
+       },
+       "desc": "On crit: bleed 4s, 3%/rank of the crit per second."
+      },
+      {
+       "id": "rog_knife_collector",
+       "name": "Collector's Patience",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 3,
+        "when": "target_below_hp:0.35"
+       },
+       "desc": "+3%/rank damage vs targets below 35% hp."
+      },
+      {
+       "id": "rog_knife_fan_craft",
+       "name": "Knife-Fan Craft",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "fan_of_knives",
+        "damage_pct": 5
+       },
+       "desc": "Fan of Knives +5% damage per rank."
+      },
+      {
+       "id": "rog_knife_fresh_favors",
+       "name": "Fresh Favors",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 100,
+        "effect": "refund_8_mana",
+        "icd": 0
+       },
+       "desc": "On kill: refund 8 mana."
+      },
+      {
+       "id": "rog_knife_twist",
+       "name": "Twist the Blade",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_mult": 0.05
+       },
+       "desc": "Crit multiplier +0.05/rank (1.5 base)."
+      },
+      {
+       "id": "rog_knife_step",
+       "name": "Step Into Murder",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "shadowstep",
+        "add_params": {
+         "next_hit_mult": 0.25
+        }
+       },
+       "desc": "Shadowstep next-hit +0.25/rank (2.0->2.5)."
+      },
+      {
+       "id": "rog_knife_red_habits",
+       "name": "Red Ledger Habits",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "rog_knife_opened_vein",
+       "kind": "proc",
+       "per_rank": {
+        "on": "ability:backstab",
+        "chance_pct": 100,
+        "cdr": {
+         "ability": "shadowstep",
+         "s": 1.0
+        }
+       },
+       "desc": "Backstab vs bleeding target: -1.0s/rank Shadowstep cooldown."
+      },
+      {
+       "id": "rog_knife_capstone",
+       "name": "Red Ledger",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 45-deg strike, 2x damage vs bleeding targets.",
+       "ability": {
+        "id": "red_ledger",
+        "name": "Red Ledger",
+        "icon": "pixel:red_ledger",
+        "cooldown": 25.0,
+        "mana_cost": 25.0,
+        "range": 28.0,
+        "damage": 34.0,
+        "kind": "melee_arc",
+        "params": {
+         "arc_degrees": 45.0,
+         "bonus_vs_bleeding_mult": 2.0,
+         "fx": "backstab",
+         "color": [
+          0.6,
+          0.16,
+          0.16
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "rog_nox",
+     "name": "Noxious Trade",
+     "class_id": "rogue",
+     "role": "poisons",
+     "lore": "Vials from the fog-alleys behind the tavern.",
+     "talents": [
+      {
+       "id": "rog_nox_mixing",
+       "name": "Practiced Mixing",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "poison_bleed_pct": 2
+       },
+       "desc": "Poison/bleed ticks you cause +2% per rank."
+      },
+      {
+       "id": "rog_nox_stomach",
+       "name": "Iron Stomach",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "poison_disease_reduction_pct": 10
+       },
+       "desc": "Poison/disease durations on you -10% per rank."
+      },
+      {
+       "id": "rog_nox_thicker",
+       "name": "Thicker Vials",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "noxious_vial",
+        "damage_pct": 6
+       },
+       "desc": "Noxious Vial +6% tick damage per rank."
+      },
+      {
+       "id": "rog_nox_splash",
+       "name": "Wider Splash",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "noxious_vial",
+        "range_pct": 10
+       },
+       "desc": "Noxious Vial +10% ring radius per rank."
+      },
+      {
+       "id": "rog_nox_smeared",
+       "name": "Smeared Blades",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "basic_hit",
+        "chance_pct": 15,
+        "effect": "talent_poison",
+        "target": "target",
+        "icd": 0
+       },
+       "desc": "On basic hit (15%/rank): poison 3s, 2/s tick."
+      },
+      {
+       "id": "rog_nox_lingering",
+       "name": "Lingering Stock",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "noxious_vial",
+        "duration_pct": 25
+       },
+       "desc": "Noxious Vial +25% duration per rank (4s->6s)."
+      },
+      {
+       "id": "rog_nox_cardio",
+       "name": "Cutpurse Cardio",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "max_hp_pct": 2
+       },
+       "desc": "+2% max hp per rank (attrition fights)."
+      },
+      {
+       "id": "rog_nox_reagents",
+       "name": "Cheap Reagents",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "noxious_vial",
+        "mana_cost_pct": -10
+       },
+       "desc": "Noxious Vial & Grit Toss -10% mana per rank."
+      },
+      {
+       "id": "rog_nox_fester",
+       "name": "Fester",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "poison_per_dot_pct": 8
+       },
+       "desc": "Your poison ticks +8%/rank per other DoT on target."
+      },
+      {
+       "id": "rog_nox_choking",
+       "name": "Choking Cloud",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "noxious_vial",
+        "add_params": {
+         "slow_mult": -0.05,
+         "slow_duration": 0.4
+        }
+       },
+       "desc": "Noxious Vial slow stronger + longer per rank."
+      },
+      {
+       "id": "rog_nox_ledger",
+       "name": "Apothecary's Ledger",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "poison_death",
+        "chance_pct": 33,
+        "effect": "spread_poison",
+        "icd": 0
+       },
+       "desc": "On death of a poisoned target (33%/rank): nearest enemy inherits the poison fresh."
+      },
+      {
+       "id": "rog_nox_capstone",
+       "name": "Plaguebloom Vial",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: thrown cloud, 6s, ticks + slows an area.",
+       "ability": {
+        "id": "plaguebloom_vial",
+        "name": "Plaguebloom Vial",
+        "icon": "pixel:plaguebloom_vial",
+        "cooldown": 40.0,
+        "mana_cost": 40.0,
+        "range": 44.0,
+        "damage": 9.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": true,
+         "cast_range": 130.0,
+         "tick_interval": 0.5,
+         "duration": 6.0,
+         "slow_mult": 0.6,
+         "slow_duration": 1.5,
+         "fx": "venom_cloud",
+         "color": [
+          0.46,
+          0.6,
+          0.28
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "rog_fog",
+     "name": "Fogwalk",
+     "class_id": "rogue",
+     "role": "evasion",
+     "lore": "The shadows that owe him favors, collected nightly.",
+     "talents": [
+      {
+       "id": "rog_fog_feet",
+       "name": "Fog-Alley Feet",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "speed_pct": 1
+       },
+       "desc": "+1% move speed per rank (+5% at max)."
+      },
+      {
+       "id": "rog_fog_thin",
+       "name": "Thin Silhouette",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -1
+       },
+       "desc": "-1% damage taken per rank (-3% at max)."
+      },
+      {
+       "id": "rog_fog_shadows",
+       "name": "Longer Shadows",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "shadowstep",
+        "range_pct": 8
+       },
+       "desc": "Shadowstep +8% range per rank (70->98px)."
+      },
+      {
+       "id": "rog_fog_ash_economy",
+       "name": "Ash Economy",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "shroud",
+        "mana_cost_pct": -15
+       },
+       "desc": "Shroud of Ash -15% mana per rank."
+      },
+      {
+       "id": "rog_fog_slip",
+       "name": "Slip the Hit",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 6,
+        "effect": "absorb_next",
+        "icd": 8
+       },
+       "desc": "On hit taken (6%/rank): absorb the next hit entirely (2s). ICD 8s."
+      },
+      {
+       "id": "rog_fog_landing",
+       "name": "Quiet Landing",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "tumble",
+        "cooldown_pct": -15
+       },
+       "desc": "Tumble -15% cooldown per rank."
+      },
+      {
+       "id": "rog_fog_discipline",
+       "name": "Fog Discipline",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "shroud",
+        "duration_pct": 15
+       },
+       "desc": "Shroud +15% duration per rank (4s->5.8s)."
+      },
+      {
+       "id": "rog_fog_debts",
+       "name": "Debts Collected Nightly",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "night"
+       },
+       "desc": "+2%/rank damage dealt at night."
+      },
+      {
+       "id": "rog_fog_vanish",
+       "name": "Vanish Reflex",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "dodge",
+        "chance_pct": 100,
+        "speed_pct": 8,
+        "duration": 3
+       },
+       "desc": "On dodge: +8%/rank move speed for 3s."
+      },
+      {
+       "id": "rog_fog_second_step",
+       "name": "Second Step",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "shadowstep",
+        "cooldown_pct": -12
+       },
+       "desc": "Shadowstep -12% cooldown per rank (5s->3.8s)."
+      },
+      {
+       "id": "rog_fog_never_seen",
+       "name": "Never Seen Twice",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -8,
+        "when": "after_dash"
+       },
+       "desc": "After any dash: -8%/rank damage taken for 3s."
+      },
+      {
+       "id": "rog_fog_capstone",
+       "name": "Become the Fog",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 4s, -50% dmg taken, +30% speed, next hit x3.",
+       "ability": {
+        "id": "become_the_fog",
+        "name": "Become the Fog",
+        "icon": "pixel:become_the_fog",
+        "cooldown": 60.0,
+        "mana_cost": 30.0,
+        "range": 0.0,
+        "damage": 0.0,
+        "kind": "buff",
+        "params": {
+         "duration": 4.0,
+         "damage_taken_pct": -50.0,
+         "speed_mult": 1.3,
+         "next_hit_mult": 3.0,
+         "bonus_duration": 6.0,
+         "fx": "shroud",
+         "color": [
+          0.4,
+          0.4,
+          0.46
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "spellbook": [
+    {
+     "id": "flick_knife",
+     "name": "Flick Knife",
+     "icon": "pixel:flick_knife",
+     "cooldown": 6.0,
+     "mana_cost": 6.0,
+     "range": 180.0,
+     "damage": 8.0,
+     "kind": "projectile",
+     "req_level": 6,
+     "rank_levels": [
+      6,
+      26,
+      46
+     ],
+     "trainer_verb": "pull",
+     "params": {
+      "speed": 300.0,
+      "projectile": "fan_of_knives",
+      "thin": true,
+      "color": [
+       0.76,
+       0.78,
+       0.82
+      ]
+     }
+    },
+    {
+     "id": "grit_toss",
+     "name": "Grit Toss",
+     "icon": "pixel:grit_toss",
+     "cooldown": 14.0,
+     "mana_cost": 12.0,
+     "range": 30.0,
+     "damage": 0.0,
+     "kind": "aoe_ring",
+     "req_level": 10,
+     "rank_levels": [],
+     "trainer_verb": "interrupt",
+     "params": {
+      "at_aim": true,
+      "cast_range": 100.0,
+      "root_duration": 1.2,
+      "interrupt": true,
+      "color": [
+       0.6,
+       0.54,
+       0.44
+      ]
+     }
+    },
+    {
+     "id": "tumble",
+     "name": "Tumble",
+     "icon": "pixel:tumble",
+     "cooldown": 9.0,
+     "mana_cost": 8.0,
+     "range": 55.0,
+     "damage": 0.0,
+     "kind": "dash",
+     "req_level": 14,
+     "rank_levels": [],
+     "trainer_verb": "mobility",
+     "params": {
+      "smoke": false,
+      "color": [
+       0.58,
+       0.58,
+       0.62
+      ]
+     }
+    },
+    {
+     "id": "garrote",
+     "name": "Garrote",
+     "icon": "pixel:garrote",
+     "cooldown": 12.0,
+     "mana_cost": 14.0,
+     "range": 24.0,
+     "damage": 6.0,
+     "kind": "melee_arc",
+     "req_level": 20,
+     "rank_levels": [
+      20,
+      40,
+      58
+     ],
+     "trainer_verb": "dot",
+     "params": {
+      "arc_degrees": 45.0,
+      "bleed_per_sec": 4.0,
+      "bleed_duration": 6.0,
+      "color": [
+       0.64,
+       0.22,
+       0.2
+      ]
+     }
+    },
+    {
+     "id": "smoke_bomb",
+     "name": "Smoke Bomb",
+     "icon": "pixel:smoke_bomb",
+     "cooldown": 30.0,
+     "mana_cost": 22.0,
+     "range": 50.0,
+     "damage": 0.0,
+     "kind": "aoe_ring",
+     "req_level": 28,
+     "rank_levels": [],
+     "trainer_verb": "defensive",
+     "params": {
+      "at_aim": false,
+      "enemy_damage_dealt_pct": -50.0,
+      "debuff_duration": 4.0,
+      "color": [
+       0.36,
+       0.36,
+       0.4
+      ]
+     }
+    },
+    {
+     "id": "distracting_whistle",
+     "name": "Distracting Whistle",
+     "icon": "pixel:distracting_whistle",
+     "cooldown": 15.0,
+     "mana_cost": 8.0,
+     "range": 220.0,
+     "damage": 0.0,
+     "kind": "projectile",
+     "req_level": 36,
+     "rank_levels": [],
+     "trainer_verb": "special",
+     "params": {
+      "speed": 400.0,
+      "projectile": "spark",
+      "thin": true,
+      "single_pull": true,
+      "color": [
+       0.58,
+       0.62,
+       0.66
+      ]
+     }
+    },
+    {
+     "id": "deathmark",
+     "name": "Deathmark",
+     "icon": "pixel:deathmark",
+     "cooldown": 35.0,
+     "mana_cost": 20.0,
+     "range": 200.0,
+     "damage": 0.0,
+     "kind": "projectile",
+     "req_level": 44,
+     "rank_levels": [],
+     "trainer_verb": "mark",
+     "params": {
+      "speed": 400.0,
+      "projectile": "soul_bolt",
+      "thin": true,
+      "mark_damage_taken_pct": 15.0,
+      "mark_duration": 8.0,
+      "per_source": true,
+      "color": [
+       0.66,
+       0.3,
+       0.3
+      ]
+     }
+    }
+   ]
+  },
+  "mage": {
+   "trees": [
+    {
+     "id": "mag_ember",
+     "name": "Emberscript",
+     "class_id": "mage",
+     "role": "fire",
+     "lore": "The forbidden script she copied until the candle answered.",
+     "talents": [
+      {
+       "id": "mag_ember_candle",
+       "name": "Candle Discipline",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+5% at max)."
+      },
+      {
+       "id": "mag_ember_warm",
+       "name": "Warm Study",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana": 8
+       },
+       "desc": "+8 mana per rank (+24 at max)."
+      },
+      {
+       "id": "mag_ember_legible",
+       "name": "Legible Flame",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "fireball",
+        "damage_pct": 3
+       },
+       "desc": "Fireball +3% damage per rank (+15% at max)."
+      },
+      {
+       "id": "mag_ember_splash",
+       "name": "Fat Splash",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "fireball",
+        "add_params": {
+         "aoe_radius": 6
+        }
+       },
+       "desc": "Fireball +6 aoe radius per rank (30->42px)."
+      },
+      {
+       "id": "mag_ember_ignite",
+       "name": "Ignite",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "crit",
+        "chance_pct": 100,
+        "effect": "talent_burn",
+        "target": "target",
+        "icd": 0
+       },
+       "desc": "On fire-spell crit: burn 4s, 5%/rank of the crit per second."
+      },
+      {
+       "id": "mag_ember_quick_quill",
+       "name": "Quick Quill",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "fireball",
+        "cooldown_pct": -10
+       },
+       "desc": "Fireball -10% cooldown per rank (5s->4s)."
+      },
+      {
+       "id": "mag_ember_violet",
+       "name": "Violet Intensity",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit chance per rank (+3% at max)."
+      },
+      {
+       "id": "mag_ember_strike",
+       "name": "Strike the Page",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "flame_strike",
+        "damage_pct": 6
+       },
+       "desc": "Flame Strike +6% damage per rank."
+      },
+      {
+       "id": "mag_ember_memory",
+       "name": "Emberfall Memory",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "target_burning"
+       },
+       "desc": "+2%/rank damage vs burning targets."
+      },
+      {
+       "id": "mag_ember_ink",
+       "name": "Cheap Ink",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "fire",
+        "mana_cost_pct": -6
+       },
+       "desc": "Fire spells -6% mana per rank."
+      },
+      {
+       "id": "mag_ember_cinder",
+       "name": "Cinder Momentum",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 33,
+        "cdr": {
+         "ability": "fireball",
+         "s": 99
+        }
+       },
+       "desc": "On fire kill (33%/rank): reset Fireball cooldown. ICD 6s."
+      },
+      {
+       "id": "mag_ember_capstone",
+       "name": "Pyroclasm",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: slow heavy fireball, 50px aoe blast.",
+       "ability": {
+        "id": "pyroclasm",
+        "name": "Pyroclasm",
+        "icon": "pixel:pyroclasm",
+        "cooldown": 30.0,
+        "mana_cost": 45.0,
+        "range": 240.0,
+        "damage": 40.0,
+        "kind": "projectile",
+        "params": {
+         "speed": 180.0,
+         "projectile": "fireball",
+         "aoe_radius": 50.0,
+         "fx": "pyroclasm",
+         "color": [
+          0.8,
+          0.4,
+          0.44
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "mag_frost",
+     "name": "Hoarfrost",
+     "class_id": "mage",
+     "role": "frost/control",
+     "lore": "The cold the North teaches whether you ask or not.",
+     "talents": [
+      {
+       "id": "mag_frost_patience",
+       "name": "Northern Patience",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+5% at max)."
+      },
+      {
+       "id": "mag_frost_cold_blood",
+       "name": "Cold Blood",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "stamina": 2
+       },
+       "desc": "+2 stamina per rank (frost is survival)."
+      },
+      {
+       "id": "mag_frost_deep_chill",
+       "name": "Deep Chill",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "ice_lance",
+        "add_params": {
+         "slow_mult": 0.7,
+         "slow_duration": 0.4
+        }
+       },
+       "desc": "Ice Lance becomes a snare: +0.4s slow per rank."
+      },
+      {
+       "id": "mag_frost_long_lance",
+       "name": "Long Lance",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "ice_lance",
+        "range_pct": 8
+       },
+       "desc": "Ice Lance +8% range per rank."
+      },
+      {
+       "id": "mag_frost_shatter",
+       "name": "Shatter",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 5,
+        "when": "target_cc"
+       },
+       "desc": "+5%/rank damage vs slowed/rooted targets."
+      },
+      {
+       "id": "mag_frost_wide_nova",
+       "name": "Wide Nova",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "frost_nova",
+        "range_pct": 10
+       },
+       "desc": "Frost Nova +10% range per rank."
+      },
+      {
+       "id": "mag_frost_rimeguard",
+       "name": "Rimeguard",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 10,
+        "effect": "slow_attacker",
+        "icd": 2
+       },
+       "desc": "On hit taken (10%/rank): attacker slowed 30%, 2s. ICD 2s."
+      },
+      {
+       "id": "mag_frost_nova_economy",
+       "name": "Nova Economy",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "frost_nova",
+        "cooldown_pct": -12,
+        "mana_cost_pct": -8
+       },
+       "desc": "Frost Nova -12% cd, -8% mana per rank."
+      },
+      {
+       "id": "mag_frost_sight",
+       "name": "Hoarfrost Sight",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit per rank; +1 more vs slowed targets."
+      },
+      {
+       "id": "mag_frost_grip",
+       "name": "Winter's Grip",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "frost_nova",
+        "add_params": {
+         "root_duration": 0.5
+        }
+       },
+       "desc": "Frost Nova roots +0.5s per rank."
+      },
+      {
+       "id": "mag_frost_everwinter",
+       "name": "Everwinter",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "slow_amp_pct": 15
+       },
+       "desc": "Your slows last +15% and are 5% stronger."
+      },
+      {
+       "id": "mag_frost_capstone",
+       "name": "Winter's Vice",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: placed ring, roots 2s, 1.5x vs CC'd targets.",
+       "ability": {
+        "id": "winters_vice",
+        "name": "Winter's Vice",
+        "icon": "pixel:winters_vice",
+        "cooldown": 35.0,
+        "mana_cost": 45.0,
+        "range": 50.0,
+        "damage": 30.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": true,
+         "cast_range": 150.0,
+         "root_duration": 2.0,
+         "bonus_vs_cc_mult": 1.5,
+         "fx": "frost_nova",
+         "color": [
+          0.58,
+          0.76,
+          0.88
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "mag_thread",
+     "name": "Threadwork",
+     "class_id": "mage",
+     "role": "arcane/economy",
+     "lore": "Filament-sight; mana as a woven thing.",
+     "talents": [
+      {
+       "id": "mag_thread_filament",
+       "name": "Filament Sense",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana_regen": 0.4
+       },
+       "desc": "+0.4 mana regen per rank (+2.0 at max)."
+      },
+      {
+       "id": "mag_thread_reserves",
+       "name": "Woven Reserves",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "max_mana_pct": 3
+       },
+       "desc": "+3% max mana per rank (+9% at max)."
+      },
+      {
+       "id": "mag_thread_spark",
+       "name": "Spark Economy",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "spark",
+        "damage_pct": 4
+       },
+       "desc": "Spark +4% damage per rank (arcane builds)."
+      },
+      {
+       "id": "mag_thread_stitch",
+       "name": "Short Stitch",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "blink",
+        "cooldown_pct": -12
+       },
+       "desc": "Blink -12% cooldown per rank (6s->4.6s)."
+      },
+      {
+       "id": "mag_thread_clarity",
+       "name": "Clarity",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "cast",
+        "chance_pct": 4,
+        "effect": "next_free",
+        "icd": 4
+       },
+       "desc": "On cast (4%/rank): next spell costs 0 mana. ICD 4s."
+      },
+      {
+       "id": "mag_thread_ward",
+       "name": "Woven Ward",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "mana_shield",
+        "add_params": {
+         "absorb": 10
+        }
+       },
+       "desc": "Mana Shield +10 absorb per rank."
+      },
+      {
+       "id": "mag_thread_sight",
+       "name": "Thread-Sight",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit chance per rank."
+      },
+      {
+       "id": "mag_thread_double",
+       "name": "Double Stitch",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "blink",
+        "range_pct": 10
+       },
+       "desc": "Blink +10% range per rank (90->108px)."
+      },
+      {
+       "id": "mag_thread_unravel",
+       "name": "Unravel",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "silence_amp": 0.4
+       },
+       "desc": "Your interrupts/silences last +0.4s."
+      },
+      {
+       "id": "mag_thread_loom",
+       "name": "Loom Discipline",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -2,
+        "when": "mana_shield"
+       },
+       "desc": "-2%/rank damage taken while Mana Shield holds."
+      },
+      {
+       "id": "mag_thread_candle",
+       "name": "The Candle Answers",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 33,
+        "cdr": {
+         "ability": "blink",
+         "s": 99
+        }
+       },
+       "desc": "Below 35% hp when hit (33%/rank): free Blink. ICD 20s."
+      },
+      {
+       "id": "mag_thread_capstone",
+       "name": "Thread-Sever",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: bolt that interrupts, silences 3s, strips 1 buff.",
+       "ability": {
+        "id": "thread_sever",
+        "name": "Thread-Sever",
+        "icon": "pixel:thread_sever",
+        "cooldown": 30.0,
+        "mana_cost": 35.0,
+        "range": 240.0,
+        "damage": 22.0,
+        "kind": "projectile",
+        "params": {
+         "speed": 340.0,
+         "projectile": "soul_bolt",
+         "interrupt": true,
+         "silence_duration": 3.0,
+         "dispel_target_buffs": 1,
+         "fx": "thread_sever",
+         "color": [
+          0.56,
+          0.52,
+          0.86
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "spellbook": [
+    {
+     "id": "ember_sigil",
+     "name": "Ember Sigil",
+     "icon": "pixel:ember_sigil",
+     "cooldown": 10.0,
+     "mana_cost": 20.0,
+     "range": 40.0,
+     "damage": 5.0,
+     "kind": "aoe_ring",
+     "req_level": 6,
+     "rank_levels": [
+      6,
+      18,
+      30,
+      42,
+      54
+     ],
+     "trainer_verb": "dot",
+     "params": {
+      "at_aim": true,
+      "cast_range": 130.0,
+      "tick_interval": 0.5,
+      "duration": 4.0,
+      "color": [
+       0.8,
+       0.44,
+       0.36
+      ]
+     }
+    },
+    {
+     "id": "frost_armor",
+     "name": "Frost Armor",
+     "icon": "pixel:frost_armor",
+     "cooldown": 3.0,
+     "mana_cost": 15.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 10,
+     "rank_levels": [
+      10,
+      30,
+      50
+     ],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 600.0,
+      "armor": 4.0,
+      "chill_attackers_mult": 0.7,
+      "chill_duration": 2.0,
+      "group": "armor",
+      "color": [
+       0.56,
+       0.74,
+       0.86
+      ]
+     }
+    },
+    {
+     "id": "firebrand",
+     "name": "Firebrand",
+     "icon": "pixel:firebrand",
+     "cooldown": 3.0,
+     "mana_cost": 18.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 14,
+     "rank_levels": [
+      14,
+      34,
+      54
+     ],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 600.0,
+      "basic_burn_per_sec": 2.0,
+      "basic_burn_duration": 3.0,
+      "group": "armor",
+      "color": [
+       0.86,
+       0.46,
+       0.26
+      ]
+     }
+    },
+    {
+     "id": "counterspell",
+     "name": "Counterspell",
+     "icon": "pixel:counterspell",
+     "cooldown": 18.0,
+     "mana_cost": 15.0,
+     "range": 240.0,
+     "damage": 0.0,
+     "kind": "projectile",
+     "req_level": 18,
+     "rank_levels": [],
+     "trainer_verb": "interrupt",
+     "params": {
+      "speed": 420.0,
+      "projectile": "spark",
+      "thin": true,
+      "interrupt": true,
+      "silence_duration": 2.0,
+      "color": [
+       0.6,
+       0.48,
+       0.84
+      ]
+     }
+    },
+    {
+     "id": "ring_of_rime",
+     "name": "Ring of Rime",
+     "icon": "pixel:ring_of_rime",
+     "cooldown": 16.0,
+     "mana_cost": 24.0,
+     "range": 46.0,
+     "damage": 4.0,
+     "kind": "aoe_ring",
+     "req_level": 26,
+     "rank_levels": [],
+     "trainer_verb": "snare",
+     "params": {
+      "at_aim": true,
+      "cast_range": 150.0,
+      "slow_mult": 0.5,
+      "slow_duration": 4.0,
+      "color": [
+       0.6,
+       0.76,
+       0.88
+      ]
+     }
+    },
+    {
+     "id": "mirror_wisp",
+     "name": "Mirror Wisp",
+     "icon": "pixel:mirror_wisp",
+     "cooldown": 40.0,
+     "mana_cost": 30.0,
+     "range": 60.0,
+     "damage": 0.0,
+     "kind": "summon",
+     "req_level": 36,
+     "rank_levels": [],
+     "trainer_verb": "defensive",
+     "params": {
+      "minion_type": "wisp",
+      "lifetime": 6.0,
+      "minion_hp": 30.0,
+      "minion_damage": 0.0,
+      "minion_speed": 0.0,
+      "decoy": true,
+      "color": [
+       0.62,
+       0.44,
+       0.82
+      ]
+     }
+    },
+    {
+     "id": "violet_clarity",
+     "name": "Violet Clarity",
+     "icon": "pixel:violet_clarity",
+     "cooldown": 60.0,
+     "mana_cost": 0.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 44,
+     "rank_levels": [],
+     "trainer_verb": "special",
+     "params": {
+      "duration": 10.0,
+      "free_casts": 3,
+      "color": [
+       0.64,
+       0.42,
+       0.84
+      ]
+     }
+    }
+   ]
+  },
+  "paladin": {
+   "trees": [
+    {
+     "id": "pal_lantern",
+     "name": "Lantern",
+     "class_id": "paladin",
+     "role": "holy sustain",
+     "lore": "The light carried, not brandished.",
+     "talents": [
+      {
+       "id": "pal_lantern_kept",
+       "name": "Kept Flame",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana_regen": 0.4
+       },
+       "desc": "+0.4 mana regen per rank (+2.0 at max)."
+      },
+      {
+       "id": "pal_lantern_vows",
+       "name": "Chapel Vows",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana": 8
+       },
+       "desc": "+8 mana per rank (+24 at max)."
+      },
+      {
+       "id": "pal_lantern_gentle",
+       "name": "Gentle Hands",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "lay_on_hands",
+        "add_params": {
+         "heal": 6
+        }
+       },
+       "desc": "Lay on Hands +6 heal per rank (50->80)."
+      },
+      {
+       "id": "pal_lantern_litany",
+       "name": "Quick Litany",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "lay_on_hands",
+        "cooldown_pct": -12
+       },
+       "desc": "Lay on Hands -12% cooldown per rank."
+      },
+      {
+       "id": "pal_lantern_warming",
+       "name": "Warming Light",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "ability:holy_smite",
+        "chance_pct": 33,
+        "effect": "heal_self_3pct",
+        "icd": 3
+       },
+       "desc": "On Holy Smite hit (33%/rank): heal self 3% max hp. ICD 3s."
+      },
+      {
+       "id": "pal_lantern_oil",
+       "name": "Oil Economy",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "consecration",
+        "mana_cost_pct": -12
+       },
+       "desc": "Consecration -12% mana per rank."
+      },
+      {
+       "id": "pal_lantern_bearer",
+       "name": "Lantern-Bearer",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "hp_regen": 0.5
+       },
+       "desc": "+0.5 hp regen per rank."
+      },
+      {
+       "id": "pal_lantern_glow",
+       "name": "Sheltering Glow",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "divine_shield",
+        "duration_pct": 15
+       },
+       "desc": "Divine Shield +15% duration per rank."
+      },
+      {
+       "id": "pal_lantern_wick",
+       "name": "Unspent Wick",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "cast",
+        "chance_pct": 5,
+        "effect": "refund_mana",
+        "icd": 5
+       },
+       "desc": "On cast (5%/rank): refund the spell's mana. ICD 5s."
+      },
+      {
+       "id": "pal_lantern_ground",
+       "name": "Consecrated Ground",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "consecration",
+        "add_params": {
+         "self_heal_per_tick": 2
+        }
+       },
+       "desc": "Consecration heals you +2/tick per rank."
+      },
+      {
+       "id": "pal_lantern_stays",
+       "name": "The Light That Stays",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "healing_done_pct": 8
+       },
+       "desc": "Healing you cast +8% per rank."
+      },
+      {
+       "id": "pal_lantern_capstone",
+       "name": "Beacon of the Ashen Chapel",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: ground beacon, 6s, heals you each tick.",
+       "ability": {
+        "id": "ashen_beacon",
+        "name": "Beacon of the Ashen Chapel",
+        "icon": "pixel:ashen_beacon",
+        "cooldown": 45.0,
+        "mana_cost": 45.0,
+        "range": 50.0,
+        "damage": 8.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": false,
+         "tick_interval": 0.5,
+         "duration": 6.0,
+         "self_heal_per_tick": 4.0,
+         "fx": "consecration",
+         "color": [
+          0.94,
+          0.84,
+          0.54
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "pal_vigil",
+     "name": "Vigil",
+     "class_id": "paladin",
+     "role": "protection",
+     "lore": "The watch that does not end; Twelfth-Watcher liturgy.",
+     "talents": [
+      {
+       "id": "pal_vigil_faith",
+       "name": "Dented Faith",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "armor": 1
+       },
+       "desc": "+1 armor per rank (+5 at max)."
+      },
+      {
+       "id": "pal_vigil_rations",
+       "name": "Watch Rations",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "stamina": 2
+       },
+       "desc": "+2 stamina per rank."
+      },
+      {
+       "id": "pal_vigil_stand",
+       "name": "Stand the Line",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -1
+       },
+       "desc": "-1% damage taken per rank (-5% at max)."
+      },
+      {
+       "id": "pal_vigil_drills",
+       "name": "Shield Drills",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "divine_shield",
+        "add_params": {
+         "absorb": 8
+        }
+       },
+       "desc": "Divine Shield +8 absorb per rank."
+      },
+      {
+       "id": "pal_vigil_posture",
+       "name": "Twelfth Posture",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 8,
+        "effect": "absorb_5pct",
+        "icd": 6
+       },
+       "desc": "On hit taken (8%/rank): absorb 5% max hp for 4s. ICD 6s."
+      },
+      {
+       "id": "pal_vigil_judged",
+       "name": "Judged and Held",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "judgment",
+        "add_params": {
+         "root_duration": 0.35
+        }
+       },
+       "desc": "Judgment root +0.35s per rank (1.25->1.95s)."
+      },
+      {
+       "id": "pal_vigil_constitution",
+       "name": "Lantern Oil Constitution",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "max_hp_pct": 2
+       },
+       "desc": "+2% max hp per rank (+6% at max)."
+      },
+      {
+       "id": "pal_vigil_bulwark",
+       "name": "Bulwark Liturgy",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "sacred_bulwark",
+        "cooldown_pct": -12
+       },
+       "desc": "Sacred Bulwark -12% cooldown per rank."
+      },
+      {
+       "id": "pal_vigil_unmoved",
+       "name": "Unmoved",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "cc_reduction_pct": 10
+       },
+       "desc": "Slow/root durations on you -10%."
+      },
+      {
+       "id": "pal_vigil_punish",
+       "name": "Punish the Lapse",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "dodge",
+        "chance_pct": 100,
+        "damage_dealt_pct": 10,
+        "duration": 3
+       },
+       "desc": "On dodge: +10% damage dealt for 3s."
+      },
+      {
+       "id": "pal_vigil_watch",
+       "name": "The Watch Does Not End",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -4,
+        "when": "below_30_hp"
+       },
+       "desc": "Below 30% hp: -4%/rank damage taken."
+      },
+      {
+       "id": "pal_vigil_capstone",
+       "name": "The Unbroken Vigil",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 10s, 120 absorb, reflects 20% of hits.",
+       "ability": {
+        "id": "unbroken_vigil",
+        "name": "The Unbroken Vigil",
+        "icon": "pixel:unbroken_vigil",
+        "cooldown": 90.0,
+        "mana_cost": 40.0,
+        "range": 0.0,
+        "damage": 0.0,
+        "kind": "buff",
+        "params": {
+         "duration": 10.0,
+         "absorb": 120.0,
+         "reflect_pct": 20.0,
+         "fx_loop": "holy_dome",
+         "color": [
+          0.9,
+          0.78,
+          0.46
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "pal_dawn",
+     "name": "Dawnfire",
+     "class_id": "paladin",
+     "role": "retribution",
+     "lore": "The consecrated hammer's answer; Emberdawn rites.",
+     "talents": [
+      {
+       "id": "pal_dawn_morning",
+       "name": "Morning Drill",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+5% at max)."
+      },
+      {
+       "id": "pal_dawn_zeal",
+       "name": "Zeal",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit chance per rank (+3% at max)."
+      },
+      {
+       "id": "pal_dawn_verdicts",
+       "name": "Heavier Verdicts",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "hammer_blow",
+        "damage_pct": 3
+       },
+       "desc": "Hammer Blow +3% damage per rank (+15% at max)."
+      },
+      {
+       "id": "pal_dawn_arm",
+       "name": "Throwing Arm",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "holy_smite",
+        "cooldown_pct": -12
+       },
+       "desc": "Holy Smite -12% cooldown per rank (3s->2.3s)."
+      },
+      {
+       "id": "pal_dawn_brand",
+       "name": "Emberdawn Brand",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "crit",
+        "chance_pct": 100,
+        "effect": "talent_holyfire",
+        "target": "target",
+        "icd": 0
+       },
+       "desc": "On crit: holy burn 4s, 4%/rank of the crit per second."
+      },
+      {
+       "id": "pal_dawn_weight",
+       "name": "Judgment Weight",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "judgment",
+        "damage_pct": 8
+       },
+       "desc": "Judgment +8% damage per rank."
+      },
+      {
+       "id": "pal_dawn_pace",
+       "name": "Righteous Pace",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "speed_pct": 1
+       },
+       "desc": "+1% move speed per rank."
+      },
+      {
+       "id": "pal_dawn_grave",
+       "name": "Grave-Lit",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 3,
+        "when": "vs_undead"
+       },
+       "desc": "+3%/rank damage vs undead/thread-touched families."
+      },
+      {
+       "id": "pal_dawn_discipline",
+       "name": "Dawnbreak Discipline",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "dawnbreak",
+        "cooldown_pct": -8,
+        "damage_pct": 3
+       },
+       "desc": "Dawnbreak -8% cd, +3% damage per rank."
+      },
+      {
+       "id": "pal_dawn_sparks",
+       "name": "Sparks from the Anvil",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "ability:judgment",
+        "chance_pct": 100,
+        "cdr": {
+         "ability": "holy_smite",
+         "s": 99
+        }
+       },
+       "desc": "On Judgment hit: reset Holy Smite cooldown."
+      },
+      {
+       "id": "pal_dawn_hammer",
+       "name": "The Hammer Remembers",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 33,
+        "effect": "next_judgment_free",
+        "icd": 8
+       },
+       "desc": "On kill (33%/rank): next Judgment free +15% damage. ICD 8s."
+      },
+      {
+       "id": "pal_dawn_capstone",
+       "name": "Emberdawn Verdict",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 90-deg strike, 1.75x vs undead/thread families.",
+       "ability": {
+        "id": "emberdawn_verdict",
+        "name": "Emberdawn Verdict",
+        "icon": "pixel:emberdawn_verdict",
+        "cooldown": 25.0,
+        "mana_cost": 30.0,
+        "range": 30.0,
+        "damage": 32.0,
+        "kind": "melee_arc",
+        "params": {
+         "arc_degrees": 90.0,
+         "bonus_vs_families": [
+          "skeleton",
+          "thread"
+         ],
+         "family_mult": 1.75,
+         "fx": "dawnbreak_pillar",
+         "color": [
+          0.96,
+          0.84,
+          0.48
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "spellbook": [
+    {
+     "id": "chapels_censure",
+     "name": "Chapel's Censure",
+     "icon": "pixel:chapels_censure",
+     "cooldown": 7.0,
+     "mana_cost": 8.0,
+     "range": 200.0,
+     "damage": 9.0,
+     "kind": "projectile",
+     "req_level": 6,
+     "rank_levels": [
+      6,
+      26,
+      46
+     ],
+     "trainer_verb": "pull",
+     "params": {
+      "speed": 260.0,
+      "projectile": "bolt",
+      "bonus_vs_families": [
+       "skeleton"
+      ],
+      "family_mult": 1.5,
+      "color": [
+       0.9,
+       0.8,
+       0.48
+      ]
+     }
+    },
+    {
+     "id": "blessing_of_the_hearth",
+     "name": "Blessing of the Hearth",
+     "icon": "pixel:blessing_of_the_hearth",
+     "cooldown": 3.0,
+     "mana_cost": 15.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 10,
+     "rank_levels": [
+      10,
+      30,
+      50
+     ],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 600.0,
+      "hp_regen": 2.0,
+      "group": "blessing",
+      "color": [
+       0.92,
+       0.84,
+       0.56
+      ]
+     }
+    },
+    {
+     "id": "blessing_of_iron",
+     "name": "Blessing of Iron",
+     "icon": "pixel:blessing_of_iron",
+     "cooldown": 3.0,
+     "mana_cost": 15.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 18,
+     "rank_levels": [],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 600.0,
+      "armor": 4.0,
+      "group": "blessing",
+      "color": [
+       0.78,
+       0.74,
+       0.62
+      ]
+     }
+    },
+    {
+     "id": "cleanse",
+     "name": "Cleanse",
+     "icon": "pixel:cleanse",
+     "cooldown": 10.0,
+     "mana_cost": 14.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 14,
+     "rank_levels": [],
+     "trainer_verb": "dispel",
+     "params": {
+      "duration": 0.1,
+      "dispel_schools": [
+       "poison",
+       "disease",
+       "curse"
+      ],
+      "dispel_count": 1,
+      "color": [
+       0.94,
+       0.9,
+       0.7
+      ]
+     }
+    },
+    {
+     "id": "hammer_of_the_gallows",
+     "name": "Hammer of the Gallows",
+     "icon": "pixel:hammer_of_the_gallows",
+     "cooldown": 22.0,
+     "mana_cost": 20.0,
+     "range": 200.0,
+     "damage": 10.0,
+     "kind": "projectile",
+     "req_level": 24,
+     "rank_levels": [
+      24,
+      44
+     ],
+     "trainer_verb": "stun",
+     "params": {
+      "speed": 240.0,
+      "projectile": "bolt",
+      "root_on_hit": 1.5,
+      "interrupt": true,
+      "color": [
+       0.92,
+       0.78,
+       0.44
+      ]
+     }
+    },
+    {
+     "id": "aegis_step",
+     "name": "Aegis Step",
+     "icon": "pixel:aegis_step",
+     "cooldown": 18.0,
+     "mana_cost": 16.0,
+     "range": 80.0,
+     "damage": 0.0,
+     "kind": "dash",
+     "req_level": 32,
+     "rank_levels": [],
+     "trainer_verb": "mobility",
+     "params": {
+      "arrive_absorb": 25.0,
+      "color": [
+       0.88,
+       0.76,
+       0.46
+      ]
+     }
+    },
+    {
+     "id": "litany_of_dawn",
+     "name": "Litany of Dawn",
+     "icon": "pixel:litany_of_dawn",
+     "cooldown": 30.0,
+     "mana_cost": 35.0,
+     "range": 55.0,
+     "damage": 14.0,
+     "kind": "aoe_ring",
+     "req_level": 42,
+     "rank_levels": [
+      42,
+      56
+     ],
+     "trainer_verb": "special",
+     "params": {
+      "at_aim": false,
+      "heal_per_enemy_hit": 6.0,
+      "color": [
+       0.94,
+       0.86,
+       0.54
+      ]
+     }
+    }
+   ]
+  },
+  "necromancer": {
+   "trees": [
+    {
+     "id": "nec_thread",
+     "name": "Thread",
+     "class_id": "necromancer",
+     "role": "command",
+     "lore": "The invisible leash Lilith taught the world; will-driven shells.",
+     "talents": [
+      {
+       "id": "nec_thread_wise",
+       "name": "Threadwise",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana_regen": 0.4
+       },
+       "desc": "+0.4 mana regen per rank (+2.0 at max)."
+      },
+      {
+       "id": "nec_thread_hands",
+       "name": "Steady Hands",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana": 8
+       },
+       "desc": "+8 mana per rank (+24 at max)."
+      },
+      {
+       "id": "nec_thread_knots",
+       "name": "Firmer Knots",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "raise_dead",
+        "add_params": {
+         "minion_damage": 1
+        }
+       },
+       "desc": "Raise Dead +1 minion damage per rank (6->11)."
+      },
+      {
+       "id": "nec_thread_leash",
+       "name": "Longer Leash",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "raise_dead",
+        "add_params": {
+         "lifetime": 5
+        }
+       },
+       "desc": "Raise Dead +5s minion lifetime per rank (20->30s)."
+      },
+      {
+       "id": "nec_thread_puppets",
+       "name": "Sturdier Puppets",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "raise_dead",
+        "add_params": {
+         "minion_hp": 8
+        }
+       },
+       "desc": "Raise Dead +8 minion hp per rank (35->59)."
+      },
+      {
+       "id": "nec_thread_spare",
+       "name": "Spare Thread",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 100,
+        "cdr": {
+         "ability": "raise_dead",
+         "s": 2.0
+        }
+       },
+       "desc": "On kill: -2.0s Raise Dead cooldown per rank."
+      },
+      {
+       "id": "nec_thread_two_graves",
+       "name": "Two Graves Deep",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "minion_damage_pct": 4
+       },
+       "desc": "Your minions' damage +4% per rank."
+      },
+      {
+       "id": "nec_thread_quiet",
+       "name": "Quiet Work",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "raise_dead",
+        "mana_cost_pct": -10
+       },
+       "desc": "Raise Dead -10% mana per rank."
+      },
+      {
+       "id": "nec_thread_etiquette",
+       "name": "Warden's Etiquette",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "minion_alive"
+       },
+       "desc": "+2%/rank damage while a minion of yours lives."
+      },
+      {
+       "id": "nec_thread_second_shovel",
+       "name": "Second Shovel",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "raise_dead",
+        "add_params": {
+         "max_active": 1
+        }
+       },
+       "desc": "Rank2: Raise Dead max active 1->2 (rank1: taunt-pulse)."
+      },
+      {
+       "id": "nec_thread_tucked",
+       "name": "Tucked Back In",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "minion_death",
+        "chance_pct": 33,
+        "effect": "refund_15_heal_3pct",
+        "icd": 0
+       },
+       "desc": "On your minion's death (33%/rank): refund 15 mana + heal 3% max hp."
+      },
+      {
+       "id": "nec_thread_capstone",
+       "name": "The Threaded Host",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: raise 3 skeletons at once for 15s.",
+       "ability": {
+        "id": "threaded_host",
+        "name": "The Threaded Host",
+        "icon": "pixel:threaded_host",
+        "cooldown": 60.0,
+        "mana_cost": 50.0,
+        "range": 80.0,
+        "damage": 0.0,
+        "kind": "summon",
+        "params": {
+         "minion_type": "skeleton",
+         "count": 3,
+         "lifetime": 15.0,
+         "minion_hp": 30.0,
+         "minion_damage": 7.0,
+         "minion_speed": 80.0,
+         "fx": "raise_dead",
+         "color": [
+          0.48,
+          0.7,
+          0.4
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "nec_grave",
+     "name": "Grave",
+     "class_id": "necromancer",
+     "role": "attrition",
+     "lore": "Drains, curses, and debts the ledger can't close.",
+     "talents": [
+      {
+       "id": "nec_grave_patience",
+       "name": "Grave-Tender's Patience",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+5% at max)."
+      },
+      {
+       "id": "nec_grave_cold",
+       "name": "Cold Comfort",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "hp_regen": 0.4
+       },
+       "desc": "+0.4 hp regen per rank."
+      },
+      {
+       "id": "nec_grave_draw",
+       "name": "Deeper Draw",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "drain_life",
+        "damage_pct": 3
+       },
+       "desc": "Drain Life +3% damage per rank (+15% at max)."
+      },
+      {
+       "id": "nec_grave_roots",
+       "name": "Thirsty Roots",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "drain_life",
+        "add_params": {
+         "lifesteal": 0.05
+        }
+       },
+       "desc": "Drain Life +0.05 lifesteal per rank (0.35->0.45)."
+      },
+      {
+       "id": "nec_grave_old_debts",
+       "name": "Old Debts",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 100,
+        "effect": "heal_2pct",
+        "icd": 0
+       },
+       "desc": "On kill: heal 2%/rank max hp."
+      },
+      {
+       "id": "nec_grave_pall",
+       "name": "Wider Pall",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "withering_curse",
+        "range_pct": 10
+       },
+       "desc": "Withering Curse +10% ring radius per rank."
+      },
+      {
+       "id": "nec_grave_lead",
+       "name": "Lead in the Veins",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "curse_shadow_pct": 4
+       },
+       "desc": "Your curse/shadow ticks +4% per rank."
+      },
+      {
+       "id": "nec_grave_economy",
+       "name": "Grave Economy",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "withering_curse",
+        "mana_cost_pct": -10
+       },
+       "desc": "Withering Curse -10% mana per rank."
+      },
+      {
+       "id": "nec_grave_both_feet",
+       "name": "Both Feet in the Earth",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "target_cc_or_cursed"
+       },
+       "desc": "+2%/rank damage vs slowed/rooted/cursed targets."
+      },
+      {
+       "id": "nec_grave_unfinished",
+       "name": "Unfinished Business",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 50,
+        "cdr": {
+         "ability": "drain_life",
+         "s": 99
+        }
+       },
+       "desc": "Below 35% hp when hit (50%/rank): free Drain Life. ICD 15s."
+      },
+      {
+       "id": "nec_grave_ledger",
+       "name": "The Ledger Never Closes",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "lifesteal_pct": 1
+       },
+       "desc": "All damage you deal leeches +1%/rank as healing."
+      },
+      {
+       "id": "nec_grave_capstone",
+       "name": "Grave-Debt",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: soul bolt with full lifesteal; refunds cd on kill.",
+       "ability": {
+        "id": "grave_debt",
+        "name": "Grave-Debt",
+        "icon": "pixel:grave_debt",
+        "cooldown": 30.0,
+        "mana_cost": 35.0,
+        "range": 220.0,
+        "damage": 34.0,
+        "kind": "projectile",
+        "params": {
+         "speed": 200.0,
+         "projectile": "soul_bolt",
+         "lifesteal": 1.0,
+         "reset_on_kill": true,
+         "fx": "grave_debt",
+         "color": [
+          0.56,
+          0.38,
+          0.64
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "nec_bone",
+     "name": "Bone",
+     "class_id": "necromancer",
+     "role": "defense/nova",
+     "lore": "The neighbors' donated armor.",
+     "talents": [
+      {
+       "id": "nec_bone_marrow",
+       "name": "Marrow Lessons",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "armor": 1
+       },
+       "desc": "+1 armor per rank (+5 at max)."
+      },
+      {
+       "id": "nec_bone_will",
+       "name": "Calcified Will",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "stamina": 2
+       },
+       "desc": "+2 stamina per rank."
+      },
+      {
+       "id": "nec_bone_splinters",
+       "name": "Sharper Splinters",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "bone_nova",
+        "damage_pct": 4
+       },
+       "desc": "Bone Nova +4% damage per rank (+20% at max)."
+      },
+      {
+       "id": "nec_bone_scatter",
+       "name": "Wide Scatter",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "bone_nova",
+        "range_pct": 8
+       },
+       "desc": "Bone Nova +8% range per rank (55->64px)."
+      },
+      {
+       "id": "nec_bone_guard",
+       "name": "Splinter Guard",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 8,
+        "effect": "absorb_5pct",
+        "icd": 6
+       },
+       "desc": "On hit taken (8%/rank): absorb 5% max hp for 4s. ICD 6s."
+      },
+      {
+       "id": "nec_bone_plating",
+       "name": "Heavier Plating",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "bone_armor",
+        "add_params": {
+         "absorb": 8
+        }
+       },
+       "desc": "Bone Armor +8 absorb per rank."
+      },
+      {
+       "id": "nec_bone_ossified",
+       "name": "Ossified",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "max_hp_pct": 2
+       },
+       "desc": "+2% max hp per rank (+6% at max)."
+      },
+      {
+       "id": "nec_bone_calcium",
+       "name": "Cheap Calcium",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "bone_armor",
+        "cooldown_pct": -10,
+        "mana_cost_pct": -10
+       },
+       "desc": "Bone Armor -10% cd, -10% mana per rank."
+      },
+      {
+       "id": "nec_bone_mantle",
+       "name": "Jagged Mantle",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "thorns_flat": 3,
+        "when": "bone_armor"
+       },
+       "desc": "While Bone Armor holds: melee attackers take 3/rank per hit."
+      },
+      {
+       "id": "nec_bone_numb",
+       "name": "Numb to It",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "cc_reduction_pct": 10
+       },
+       "desc": "Slow/root durations on you -10%."
+      },
+      {
+       "id": "nec_bone_reflex",
+       "name": "Splinter Reflex",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "absorb_break",
+        "chance_pct": 33,
+        "effect": "free_bone_nova",
+        "icd": 10
+       },
+       "desc": "When your absorb breaks (33%/rank): free self-centered Bone Nova. ICD 10s."
+      },
+      {
+       "id": "nec_bone_capstone",
+       "name": "Ossuary Cage",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: placed ring, roots 2s in a cage of bone.",
+       "ability": {
+        "id": "ossuary_cage",
+        "name": "Ossuary Cage",
+        "icon": "pixel:ossuary_cage",
+        "cooldown": 35.0,
+        "mana_cost": 45.0,
+        "range": 48.0,
+        "damage": 26.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": true,
+         "cast_range": 130.0,
+         "root_duration": 2.0,
+         "fx": "bone_nova",
+         "color": [
+          0.82,
+          0.8,
+          0.72
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "spellbook": [
+    {
+     "id": "corpse_lance",
+     "name": "Corpse Lance",
+     "icon": "pixel:corpse_lance",
+     "cooldown": 7.0,
+     "mana_cost": 8.0,
+     "range": 240.0,
+     "damage": 9.0,
+     "kind": "projectile",
+     "req_level": 6,
+     "rank_levels": [
+      6,
+      26,
+      46
+     ],
+     "trainer_verb": "pull",
+     "params": {
+      "speed": 300.0,
+      "projectile": "soul_bolt",
+      "thin": true,
+      "slow_mult": 0.75,
+      "slow_duration": 2.0,
+      "color": [
+       0.7,
+       0.72,
+       0.62
+      ]
+     }
+    },
+    {
+     "id": "corpse_pact",
+     "name": "Corpse Pact",
+     "icon": "pixel:corpse_pact",
+     "cooldown": 25.0,
+     "mana_cost": 10.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 10,
+     "rank_levels": [],
+     "trainer_verb": "defensive",
+     "params": {
+      "duration": 0.1,
+      "consume_minion": true,
+      "heal_pct_max_hp": 25.0,
+      "color": [
+       0.48,
+       0.64,
+       0.4
+      ]
+     }
+    },
+    {
+     "id": "stifle",
+     "name": "Stifle",
+     "icon": "pixel:stifle",
+     "cooldown": 18.0,
+     "mana_cost": 15.0,
+     "range": 220.0,
+     "damage": 0.0,
+     "kind": "projectile",
+     "req_level": 14,
+     "rank_levels": [],
+     "trainer_verb": "interrupt",
+     "params": {
+      "speed": 420.0,
+      "projectile": "soul_bolt",
+      "thin": true,
+      "interrupt": true,
+      "silence_duration": 2.0,
+      "color": [
+       0.44,
+       0.5,
+       0.44
+      ]
+     }
+    },
+    {
+     "id": "curse_of_lead",
+     "name": "Curse of Lead",
+     "icon": "pixel:curse_of_lead",
+     "cooldown": 14.0,
+     "mana_cost": 16.0,
+     "range": 200.0,
+     "damage": 0.0,
+     "kind": "projectile",
+     "req_level": 18,
+     "rank_levels": [
+      18,
+      38
+     ],
+     "trainer_verb": "snare",
+     "params": {
+      "speed": 400.0,
+      "projectile": "soul_bolt",
+      "thin": true,
+      "slow_mult": 0.7,
+      "slow_duration": 8.0,
+      "enemy_damage_dealt_pct": -10.0,
+      "debuff_duration": 8.0,
+      "color": [
+       0.5,
+       0.52,
+       0.44
+      ]
+     }
+    },
+    {
+     "id": "wraithwalk",
+     "name": "Wraithwalk",
+     "icon": "pixel:wraithwalk",
+     "cooldown": 22.0,
+     "mana_cost": 14.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 28,
+     "rank_levels": [],
+     "trainer_verb": "mobility",
+     "params": {
+      "duration": 3.0,
+      "speed_mult": 1.5,
+      "break_snares": true,
+      "color": [
+       0.4,
+       0.48,
+       0.42
+      ]
+     }
+    },
+    {
+     "id": "gravekeepers_patience",
+     "name": "Gravekeeper's Patience",
+     "icon": "pixel:gravekeepers_patience",
+     "cooldown": 3.0,
+     "mana_cost": 18.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 34,
+     "rank_levels": [],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 600.0,
+      "hp_regen": 1.5,
+      "mana_regen": 1.5,
+      "group": "blessing",
+      "color": [
+       0.58,
+       0.66,
+       0.48
+      ]
+     }
+    },
+    {
+     "id": "borrowed_shroud",
+     "name": "Borrowed Shroud",
+     "icon": "pixel:borrowed_shroud",
+     "cooldown": 60.0,
+     "mana_cost": 20.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 42,
+     "rank_levels": [],
+     "trainer_verb": "special",
+     "params": {
+      "duration": 4.0,
+      "untargetable": true,
+      "speed_mult": 0.6,
+      "color": [
+       0.36,
+       0.4,
+       0.36
+      ]
+     }
+    }
+   ]
+  },
+  "rookwarden": {
+   "trees": [
+    {
+     "id": "rook_eye",
+     "name": "Gallows-Eye",
+     "class_id": "rookwarden",
+     "role": "marksman",
+     "lore": "Chosen at the gallows-tree, and the eye that earned it.",
+     "talents": [
+      {
+       "id": "rook_eye_dead_eye",
+       "name": "Dead Eye",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit chance per rank (+5% at max)."
+      },
+      {
+       "id": "rook_eye_fletcher",
+       "name": "Fletcher's Care",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+3% at max)."
+      },
+      {
+       "id": "rook_eye_draw",
+       "name": "Heavier Draw",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "piercing_shot",
+        "damage_pct": 3
+       },
+       "desc": "Piercing Shot +3% damage per rank (+15% at max)."
+      },
+      {
+       "id": "rook_eye_sight",
+       "name": "Long Sight",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "loosed_arrow",
+        "range_pct": 6
+       },
+       "desc": "Loosed Arrow +6% range per rank (260->291px)."
+      },
+      {
+       "id": "rook_eye_patience",
+       "name": "Gallows Patience",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "range_beyond_140"
+       },
+       "desc": "+2%/rank damage vs targets beyond 140px."
+      },
+      {
+       "id": "rook_eye_pierce",
+       "name": "Clean Pierce",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "piercing_shot",
+        "add_params": {
+         "aoe_radius": 6
+        }
+       },
+       "desc": "Piercing Shot +6 aoe radius per rank (20->32px)."
+      },
+      {
+       "id": "rook_eye_whisper",
+       "name": "Raven's Whisper",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "crit",
+        "chance_pct": 33,
+        "effect": "next_arrow_50",
+        "icd": 3
+       },
+       "desc": "On crit (33%/rank): next Loosed Arrow +50% (one shot). ICD 3s."
+      },
+      {
+       "id": "rook_eye_quiver",
+       "name": "Quick Quiver",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "piercing_shot",
+        "cooldown_pct": -10
+       },
+       "desc": "Piercing Shot -10% cooldown per rank (6s->4.8s)."
+      },
+      {
+       "id": "rook_eye_marked",
+       "name": "Marked for the Rope",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "hunters_mark",
+        "add_params": {
+         "damage_mult": 0.05
+        }
+       },
+       "desc": "Hunter's Mark bonus +0.05/rank (1.35->1.50)."
+      },
+      {
+       "id": "rook_eye_breath",
+       "name": "One Loosed Breath",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_mult": 0.05
+       },
+       "desc": "Crit multiplier +0.05 (1.5 base)."
+      },
+      {
+       "id": "rook_eye_rooks",
+       "name": "The Rooks Point",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 33,
+        "effect": "free_piercing_speed",
+        "icd": 6
+       },
+       "desc": "On kill (33%/rank): free Piercing Shot + 6% speed 4s. ICD 6s."
+      },
+      {
+       "id": "rook_eye_capstone",
+       "name": "Gallows Shot",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: long-range shot, 2.5x vs targets below 35% hp.",
+       "ability": {
+        "id": "gallows_shot",
+        "name": "Gallows Shot",
+        "icon": "pixel:gallows_shot",
+        "cooldown": 25.0,
+        "mana_cost": 28.0,
+        "range": 320.0,
+        "damage": 36.0,
+        "kind": "projectile",
+        "params": {
+         "speed": 460.0,
+         "projectile": "arrow",
+         "thin": true,
+         "execute_below": 0.35,
+         "execute_mult": 2.5,
+         "fx": "gallows_shot",
+         "color": [
+          0.3,
+          0.44,
+          0.48
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "rook_rookery",
+     "name": "Rookery",
+     "class_id": "rookwarden",
+     "role": "companion",
+     "lore": "The rooks choose one warden a generation.",
+     "talents": [
+      {
+       "id": "rook_rookery_bond",
+       "name": "Carrion Bond",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana_regen": 0.4
+       },
+       "desc": "+0.4 mana regen per rank (+2.0 at max)."
+      },
+      {
+       "id": "rook_rookery_watch",
+       "name": "Feathered Watch",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "speed_pct": 1
+       },
+       "desc": "+1% move speed per rank."
+      },
+      {
+       "id": "rook_rookery_wings",
+       "name": "Stronger Wings",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "rook_companion",
+        "add_params": {
+         "minion_damage": 1
+        }
+       },
+       "desc": "Rook Companion +1 damage per rank (8->13)."
+      },
+      {
+       "id": "rook_rookery_visit",
+       "name": "Longer Visit",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "rook_companion",
+        "add_params": {
+         "lifetime": 4
+        }
+       },
+       "desc": "Rook Companion +4s lifetime per rank (18->26s)."
+      },
+      {
+       "id": "rook_rookery_beak",
+       "name": "Beak and Claw",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "rook_companion",
+        "add_params": {
+         "minion_hp": 8
+        }
+       },
+       "desc": "Rook Companion +8 hp per rank (45->69)."
+      },
+      {
+       "id": "rook_rookery_eyes",
+       "name": "Shared Eyes",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "minion_hit",
+        "chance_pct": 15,
+        "effect": "next_shot_20",
+        "icd": 3
+       },
+       "desc": "On rook hit (15%/rank): your next shot +20%. ICD 3s."
+      },
+      {
+       "id": "rook_rookery_memory",
+       "name": "Unkind Memory",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "minion_damage_pct": 4
+       },
+       "desc": "Your minions' damage +4% per rank."
+      },
+      {
+       "id": "rook_rookery_whistle",
+       "name": "Whistle Economy",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "rook_companion",
+        "cooldown_pct": -10,
+        "mana_cost_pct": -10
+       },
+       "desc": "Rook Companion -10% cd, -10% mana per rank."
+      },
+      {
+       "id": "rook_rookery_hunt",
+       "name": "Hunt as One",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "companion_alive"
+       },
+       "desc": "+2%/rank damage while your companion lives."
+      },
+      {
+       "id": "rook_rookery_second",
+       "name": "Second Rook",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "rook_companion",
+        "add_params": {
+         "max_active": 1
+        }
+       },
+       "desc": "Rank2: Rook Companion max active 1->2 (rank1: revive once)."
+      },
+      {
+       "id": "rook_rookery_fed",
+       "name": "Fed at the Gallows",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 33,
+        "effect": "rook_heal_buff",
+        "icd": 0
+       },
+       "desc": "On kill (33%/rank): rook heals to full + damage +15% for 5s."
+      },
+      {
+       "id": "rook_rookery_capstone",
+       "name": "The Unkindness",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 16 ravens fall on the target area over 1.8s.",
+       "ability": {
+        "id": "the_unkindness",
+        "name": "The Unkindness",
+        "icon": "pixel:the_unkindness",
+        "cooldown": 45.0,
+        "mana_cost": 45.0,
+        "range": 130.0,
+        "damage": 10.0,
+        "kind": "volley",
+        "params": {
+         "count": 16,
+         "pattern": "rain",
+         "radius": 60.0,
+         "duration": 1.8,
+         "speed": 280.0,
+         "projectile": "arrow_storm",
+         "fx": "the_unkindness",
+         "color": [
+          0.22,
+          0.26,
+          0.3
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "rook_snare",
+     "name": "Snarewood",
+     "class_id": "rookwarden",
+     "role": "traps/survival",
+     "lore": "The weathered coat, the wire, the paths only wardens walk.",
+     "talents": [
+      {
+       "id": "rook_snare_paths",
+       "name": "Warden's Paths",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "speed_pct": 1
+       },
+       "desc": "+1% move speed per rank (+5% at max)."
+      },
+      {
+       "id": "rook_snare_coat",
+       "name": "Weathered Coat",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -1
+       },
+       "desc": "-1% damage taken per rank (-3% at max)."
+      },
+      {
+       "id": "rook_snare_teeth",
+       "name": "Cruel Teeth",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "snare_trap",
+        "damage_pct": 6
+       },
+       "desc": "Snare Trap +6% damage per rank."
+      },
+      {
+       "id": "rook_snare_jaws",
+       "name": "Wider Jaws",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "snare_trap",
+        "range_pct": 10
+       },
+       "desc": "Snare Trap +10% ring radius per rank."
+      },
+      {
+       "id": "rook_snare_wire",
+       "name": "Patient Wire",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "snare_trap",
+        "add_params": {
+         "root_duration": 0.2
+        }
+       },
+       "desc": "Snare Trap +0.2s root per rank (1.6->2.2s)."
+      },
+      {
+       "id": "rook_snare_step",
+       "name": "Light Step",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "raven_dash",
+        "cooldown_pct": -10
+       },
+       "desc": "Raven Dash -10% cooldown per rank (5s->4s)."
+      },
+      {
+       "id": "rook_snare_living",
+       "name": "Living off the Hollow",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "hp_regen": 0.5
+       },
+       "desc": "+0.5 hp regen per rank."
+      },
+      {
+       "id": "rook_snare_escape",
+       "name": "Feathered Escape",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 8,
+        "cdr": {
+         "ability": "raven_dash",
+         "s": 99
+        }
+       },
+       "desc": "On hit taken (8%/rank): free Raven Dash. ICD 10s."
+      },
+      {
+       "id": "rook_snare_forager",
+       "name": "Forager's Constitution",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "max_hp_pct": 2
+       },
+       "desc": "+2% max hp per rank (+6% at max)."
+      },
+      {
+       "id": "rook_snare_double",
+       "name": "Double Line",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "snare_trap",
+        "add_params": {
+         "charges": 1
+        }
+       },
+       "desc": "Rank2: Snare Trap charges 1->2 (rank1: arms faster)."
+      },
+      {
+       "id": "rook_snare_remembers",
+       "name": "The Wood Remembers",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "target_cc"
+       },
+       "desc": "+2%/rank damage vs rooted/slowed targets."
+      },
+      {
+       "id": "rook_snare_capstone",
+       "name": "Warden's Snarewood",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: placed thicket, roots then slows an area for 4s.",
+       "ability": {
+        "id": "wardens_snarewood",
+        "name": "Warden's Snarewood",
+        "icon": "pixel:wardens_snarewood",
+        "cooldown": 40.0,
+        "mana_cost": 40.0,
+        "range": 55.0,
+        "damage": 4.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": true,
+         "cast_range": 140.0,
+         "root_duration": 1.5,
+         "tick_interval": 0.5,
+         "duration": 4.0,
+         "slow_mult": 0.5,
+         "slow_duration": 2.0,
+         "fx": "snare_trap",
+         "color": [
+          0.42,
+          0.54,
+          0.34
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "spellbook": [
+    {
+     "id": "barbed_arrow",
+     "name": "Barbed Arrow",
+     "icon": "pixel:barbed_arrow",
+     "cooldown": 9.0,
+     "mana_cost": 12.0,
+     "range": 260.0,
+     "damage": 6.0,
+     "kind": "projectile",
+     "req_level": 6,
+     "rank_levels": [
+      6,
+      26,
+      46
+     ],
+     "trainer_verb": "dot",
+     "params": {
+      "speed": 320.0,
+      "projectile": "arrow",
+      "thin": true,
+      "bleed_per_sec": 3.0,
+      "bleed_duration": 6.0,
+      "color": [
+       0.62,
+       0.5,
+       0.4
+      ]
+     }
+    },
+    {
+     "id": "concussive_shot",
+     "name": "Concussive Shot",
+     "icon": "pixel:concussive_shot",
+     "cooldown": 10.0,
+     "mana_cost": 12.0,
+     "range": 240.0,
+     "damage": 7.0,
+     "kind": "projectile",
+     "req_level": 10,
+     "rank_levels": [
+      10,
+      30,
+      50
+     ],
+     "trainer_verb": "snare",
+     "params": {
+      "speed": 300.0,
+      "projectile": "arrow",
+      "thin": true,
+      "slow_mult": 0.5,
+      "slow_duration": 4.0,
+      "color": [
+       0.58,
+       0.6,
+       0.56
+      ]
+     }
+    },
+    {
+     "id": "salt_shot",
+     "name": "Salt Shot",
+     "icon": "pixel:salt_shot",
+     "cooldown": 16.0,
+     "mana_cost": 14.0,
+     "range": 240.0,
+     "damage": 4.0,
+     "kind": "projectile",
+     "req_level": 14,
+     "rank_levels": [],
+     "trainer_verb": "interrupt",
+     "params": {
+      "speed": 420.0,
+      "projectile": "arrow",
+      "thin": true,
+      "interrupt": true,
+      "color": [
+       0.8,
+       0.8,
+       0.76
+      ]
+     }
+    },
+    {
+     "id": "disengage",
+     "name": "Disengage",
+     "icon": "pixel:disengage",
+     "cooldown": 14.0,
+     "mana_cost": 10.0,
+     "range": 70.0,
+     "damage": 0.0,
+     "kind": "dash",
+     "req_level": 18,
+     "rank_levels": [],
+     "trainer_verb": "mobility",
+     "params": {
+      "feathers": true,
+      "backward": true,
+      "break_snares": true,
+      "color": [
+       0.3,
+       0.5,
+       0.52
+      ]
+     }
+    },
+    {
+     "id": "thicket_veil",
+     "name": "Thicket Veil",
+     "icon": "pixel:thicket_veil",
+     "cooldown": 30.0,
+     "mana_cost": 18.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 26,
+     "rank_levels": [],
+     "trainer_verb": "defensive",
+     "params": {
+      "duration": 6.0,
+      "absorb": 35.0,
+      "speed_mult": 1.15,
+      "color": [
+       0.38,
+       0.48,
+       0.34
+      ]
+     }
+    },
+    {
+     "id": "wardens_gait",
+     "name": "Warden's Gait",
+     "icon": "pixel:wardens_gait",
+     "cooldown": 3.0,
+     "mana_cost": 16.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 36,
+     "rank_levels": [],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 600.0,
+      "speed_pct": 6.0,
+      "crit_pct": 2.0,
+      "group": "aspect",
+      "color": [
+       0.28,
+       0.46,
+       0.48
+      ]
+     }
+    },
+    {
+     "id": "flush_the_quarry",
+     "name": "Flush the Quarry",
+     "icon": "pixel:flush_the_quarry",
+     "cooldown": 25.0,
+     "mana_cost": 18.0,
+     "range": 46.0,
+     "damage": 0.0,
+     "kind": "aoe_ring",
+     "req_level": 44,
+     "rank_levels": [],
+     "trainer_verb": "special",
+     "params": {
+      "at_aim": true,
+      "cast_range": 150.0,
+      "mark_damage_taken_pct": 10.0,
+      "mark_duration": 8.0,
+      "reveal_stealth": true,
+      "color": [
+       0.5,
+       0.56,
+       0.4
+      ]
+     }
+    }
+   ]
+  },
+  "druid": {
+   "trees": [
+    {
+     "id": "dru_wild",
+     "name": "Wildwood",
+     "class_id": "druid",
+     "role": "feral",
+     "lore": "Root and claw; the forest older than the walls.",
+     "talents": [
+      {
+       "id": "dru_wild_hide",
+       "name": "Thick Hide",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "armor": 1
+       },
+       "desc": "+1 armor per rank (+5 at max)."
+      },
+      {
+       "id": "dru_wild_strength",
+       "name": "Old Strength",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+3% at max)."
+      },
+      {
+       "id": "dru_wild_paw",
+       "name": "Heavier Paw",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "maul",
+        "damage_pct": 3
+       },
+       "desc": "Maul +3% damage per rank (+15% at max)."
+      },
+      {
+       "id": "dru_wild_swipe",
+       "name": "Broad Swipe",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "maul",
+        "add_params": {
+         "arc_degrees": 10
+        }
+       },
+       "desc": "Maul arc +10 deg/rank (115->135 deg)."
+      },
+      {
+       "id": "dru_wild_claws",
+       "name": "Rending Claws",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "crit",
+        "chance_pct": 100,
+        "effect": "talent_bleed",
+        "target": "target",
+        "icd": 0
+       },
+       "desc": "On crit: bleed 4s, 3%/rank of the crit per second."
+      },
+      {
+       "id": "dru_wild_rage",
+       "name": "Longer Rage",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "bear_form",
+        "duration_pct": 15
+       },
+       "desc": "Bear Form +15% duration per rank (8s->10.4s)."
+      },
+      {
+       "id": "dru_wild_constitution",
+       "name": "Wild Constitution",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "max_hp_pct": 2
+       },
+       "desc": "+2% max hp per rank (+6% at max)."
+      },
+      {
+       "id": "dru_wild_economy",
+       "name": "Bear's Economy",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "bear_form",
+        "cooldown_pct": -10,
+        "mana_cost_pct": -10
+       },
+       "desc": "Bear Form -10% cd, -10% mana per rank."
+      },
+      {
+       "id": "dru_wild_bark",
+       "name": "Scarred Bark",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_taken_pct": -1
+       },
+       "desc": "-1% damage taken per rank."
+      },
+      {
+       "id": "dru_wild_fury",
+       "name": "Forest's Fury",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "bear_form",
+        "add_params": {
+         "damage_mult": 0.05
+        }
+       },
+       "desc": "Bear Form damage bonus +0.05/rank (1.4->1.5)."
+      },
+      {
+       "id": "dru_wild_apex",
+       "name": "Apex Memory",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 100,
+        "effect": "heal_speed",
+        "icd": 0
+       },
+       "desc": "On kill: heal 2%/rank max hp + 5% speed 4s."
+      },
+      {
+       "id": "dru_wild_capstone",
+       "name": "The Forest's Price",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: 12s, 1.5x damage, +15% speed, 60 absorb (costs 10% hp when it ends).",
+       "ability": {
+        "id": "forests_price",
+        "name": "The Forest's Price",
+        "icon": "pixel:forests_price",
+        "cooldown": 90.0,
+        "mana_cost": 45.0,
+        "range": 0.0,
+        "damage": 0.0,
+        "kind": "buff",
+        "params": {
+         "duration": 12.0,
+         "damage_mult": 1.5,
+         "speed_mult": 1.15,
+         "absorb": 60.0,
+         "group": "form",
+         "price_hp_pct": 10.0,
+         "fx": "bear_form",
+         "color": [
+          0.48,
+          0.38,
+          0.26
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "dru_storm",
+     "name": "Stormcall",
+     "class_id": "druid",
+     "role": "balance/storm",
+     "lore": "Gale and thunder answer her call.",
+     "talents": [
+      {
+       "id": "dru_storm_reader",
+       "name": "Sky Reader",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 1
+       },
+       "desc": "+1% damage dealt per rank (+5% at max)."
+      },
+      {
+       "id": "dru_storm_air",
+       "name": "Charged Air",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana": 8
+       },
+       "desc": "+8 mana per rank (+24 at max)."
+      },
+      {
+       "id": "dru_storm_gale",
+       "name": "Gathering Gale",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "gale",
+        "damage_pct": 3
+       },
+       "desc": "Gale +3% damage per rank (+15% at max)."
+      },
+      {
+       "id": "dru_storm_split",
+       "name": "Split Wind",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "gale",
+        "add_params": {
+         "aoe_radius": 5
+        }
+       },
+       "desc": "Gale +5 aoe radius per rank (26->36px)."
+      },
+      {
+       "id": "dru_storm_recoil",
+       "name": "Static Recoil",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 10,
+        "effect": "slow_attacker",
+        "icd": 2
+       },
+       "desc": "On hit taken (10%/rank): attacker slowed 30%, 2s. ICD 2s."
+      },
+      {
+       "id": "dru_storm_thunder",
+       "name": "Thunder Weight",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "stormbolt",
+        "damage_pct": 6
+       },
+       "desc": "Stormbolt +6% damage per rank."
+      },
+      {
+       "id": "dru_storm_sight",
+       "name": "Storm Sight",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "crit_pct": 1
+       },
+       "desc": "+1% crit chance per rank."
+      },
+      {
+       "id": "dru_storm_front",
+       "name": "Far Front",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "stormbolt",
+        "add_params": {
+         "cast_range": 20
+        }
+       },
+       "desc": "Stormbolt +20 cast range per rank (200->240px)."
+      },
+      {
+       "id": "dru_storm_grounded",
+       "name": "Grounded Prey",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "damage_dealt_pct": 2,
+        "when": "target_cc"
+       },
+       "desc": "+2%/rank damage vs slowed/rooted targets."
+      },
+      {
+       "id": "dru_storm_rolling",
+       "name": "Rolling Thunder",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "ability:stormbolt",
+        "chance_pct": 50,
+        "cdr": {
+         "ability": "gale",
+         "s": 99
+        }
+       },
+       "desc": "On Stormbolt hit (50%/rank): reset Gale cooldown. ICD 4s."
+      },
+      {
+       "id": "dru_storm_tempest",
+       "name": "Tempest Momentum",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "kill",
+        "chance_pct": 33,
+        "effect": "next_stormbolt_free",
+        "icd": 6
+       },
+       "desc": "On storm kill (33%/rank): next Stormbolt free. ICD 6s."
+      },
+      {
+       "id": "dru_storm_capstone",
+       "name": "Skybreak",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: placed storm ring, big hit + 50% slow 3s.",
+       "ability": {
+        "id": "skybreak",
+        "name": "Skybreak",
+        "icon": "pixel:skybreak",
+        "cooldown": 35.0,
+        "mana_cost": 50.0,
+        "range": 44.0,
+        "damage": 42.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": true,
+         "cast_range": 200.0,
+         "slow_mult": 0.5,
+         "slow_duration": 3.0,
+         "fx": "skybreak",
+         "color": [
+          0.68,
+          0.78,
+          0.9
+         ]
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "dru_mire",
+     "name": "Mirebloom",
+     "class_id": "druid",
+     "role": "restoration",
+     "lore": "What pushes the blight back out of the mire.",
+     "talents": [
+      {
+       "id": "dru_mire_lessons",
+       "name": "Mire Lessons",
+       "tier": 1,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "mana_regen": 0.4
+       },
+       "desc": "+0.4 mana regen per rank (+2.0 at max)."
+      },
+      {
+       "id": "dru_mire_roots",
+       "name": "Deep Roots",
+       "tier": 1,
+       "col": 2,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "stamina": 2
+       },
+       "desc": "+2 stamina per rank."
+      },
+      {
+       "id": "dru_mire_bloom",
+       "name": "Fuller Bloom",
+       "tier": 2,
+       "col": 0,
+       "max_ranks": 5,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "rejuvenation",
+        "add_params": {
+         "heal_per_sec": 1
+        }
+       },
+       "desc": "Rejuvenation +1 heal/s per rank (7->12)."
+      },
+      {
+       "id": "dru_mire_season",
+       "name": "Longer Season",
+       "tier": 2,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "rejuvenation",
+        "duration_pct": 15
+       },
+       "desc": "Rejuvenation +15% duration per rank (6s->7.8s)."
+      },
+      {
+       "id": "dru_mire_blightwarden",
+       "name": "Blightwarden",
+       "tier": 3,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "poison_disease_reduction_pct": 10
+       },
+       "desc": "Poison/disease durations on you -10% per rank."
+      },
+      {
+       "id": "dru_mire_thorn",
+       "name": "Thorn Tithe",
+       "tier": 3,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "thornroot",
+        "damage_pct": 8
+       },
+       "desc": "Thornroot +8% damage per rank."
+      },
+      {
+       "id": "dru_mire_clarity",
+       "name": "Green Clarity",
+       "tier": 4,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "cast",
+        "chance_pct": 4,
+        "effect": "next_free",
+        "icd": 4
+       },
+       "desc": "On cast (4%/rank): next spell costs 0 mana. ICD 4s."
+      },
+      {
+       "id": "dru_mire_vigor",
+       "name": "Pact Vigor",
+       "tier": 4,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "ability_mod",
+       "per_rank": {
+        "ability": "spirit_beast",
+        "add_params": {
+         "minion_hp": 8
+        }
+       },
+       "desc": "Spirit Beast +8 hp per rank (42->58)."
+      },
+      {
+       "id": "dru_mire_provides",
+       "name": "The Wood Provides",
+       "tier": 5,
+       "col": 0,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "passive",
+       "per_rank": {
+        "healing_done_pct": 4
+       },
+       "desc": "Healing you cast +4% per rank."
+      },
+      {
+       "id": "dru_mire_wrath",
+       "name": "Waking Wrath",
+       "tier": 5,
+       "col": 2,
+       "max_ranks": 2,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "self_heal",
+        "chance_pct": 100,
+        "damage_dealt_pct": 6,
+        "duration": 3,
+        "icd": 3
+       },
+       "desc": "When your spell heals you: +6% damage dealt for 3s. ICD 3s."
+      },
+      {
+       "id": "dru_mire_sap",
+       "name": "Second Sap",
+       "tier": 6,
+       "col": 1,
+       "max_ranks": 3,
+       "requires": "",
+       "kind": "proc",
+       "per_rank": {
+        "on": "hit_taken",
+        "chance_pct": 33,
+        "cdr": {
+         "ability": "rejuvenation",
+         "s": 99
+        }
+       },
+       "desc": "Below 35% hp when hit (33%/rank): free Rejuvenation. ICD 20s."
+      },
+      {
+       "id": "dru_mire_capstone",
+       "name": "Heartwood Bloom",
+       "tier": 7,
+       "col": 1,
+       "max_ranks": 1,
+       "requires": "",
+       "kind": "ability",
+       "per_rank": {},
+       "desc": "CAPSTONE: ground bloom, 6s, heals you each tick.",
+       "ability": {
+        "id": "heartwood_bloom",
+        "name": "Heartwood Bloom",
+        "icon": "pixel:heartwood_bloom",
+        "cooldown": 45.0,
+        "mana_cost": 50.0,
+        "range": 50.0,
+        "damage": 10.0,
+        "kind": "aoe_ring",
+        "params": {
+         "at_aim": false,
+         "tick_interval": 0.5,
+         "duration": 6.0,
+         "self_heal_per_tick": 5.0,
+         "fx": "heal_bloom",
+         "color": [
+          0.5,
+          0.74,
+          0.44
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ],
+   "spellbook": [
+    {
+     "id": "thornlash",
+     "name": "Thornlash",
+     "icon": "pixel:thornlash",
+     "cooldown": 7.0,
+     "mana_cost": 8.0,
+     "range": 220.0,
+     "damage": 8.0,
+     "kind": "projectile",
+     "req_level": 6,
+     "rank_levels": [
+      6,
+      26,
+      46
+     ],
+     "trainer_verb": "pull",
+     "params": {
+      "speed": 280.0,
+      "projectile": "spark",
+      "thin": true,
+      "slow_mult": 0.75,
+      "slow_duration": 2.0,
+      "color": [
+       0.44,
+       0.56,
+       0.32
+      ]
+     }
+    },
+    {
+     "id": "clinging_mire",
+     "name": "Clinging Mire",
+     "icon": "pixel:clinging_mire",
+     "cooldown": 15.0,
+     "mana_cost": 20.0,
+     "range": 44.0,
+     "damage": 0.0,
+     "kind": "aoe_ring",
+     "req_level": 10,
+     "rank_levels": [],
+     "trainer_verb": "snare",
+     "params": {
+      "at_aim": true,
+      "cast_range": 140.0,
+      "slow_mult": 0.45,
+      "slow_duration": 4.0,
+      "color": [
+       0.38,
+       0.44,
+       0.3
+      ]
+     }
+    },
+    {
+     "id": "skyclap",
+     "name": "Skyclap",
+     "icon": "pixel:skyclap",
+     "cooldown": 16.0,
+     "mana_cost": 14.0,
+     "range": 30.0,
+     "damage": 5.0,
+     "kind": "aoe_ring",
+     "req_level": 14,
+     "rank_levels": [],
+     "trainer_verb": "interrupt",
+     "params": {
+      "at_aim": true,
+      "cast_range": 160.0,
+      "interrupt": true,
+      "color": [
+       0.72,
+       0.8,
+       0.9
+      ]
+     }
+    },
+    {
+     "id": "cleanse_blight",
+     "name": "Cleanse Blight",
+     "icon": "pixel:cleanse_blight",
+     "cooldown": 10.0,
+     "mana_cost": 14.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 18,
+     "rank_levels": [],
+     "trainer_verb": "dispel",
+     "params": {
+      "duration": 0.1,
+      "dispel_schools": [
+       "poison",
+       "disease"
+      ],
+      "dispel_count": 1,
+      "color": [
+       0.56,
+       0.74,
+       0.48
+      ]
+     }
+    },
+    {
+     "id": "stag_form",
+     "name": "Stag Form",
+     "icon": "pixel:stag_form",
+     "cooldown": 6.0,
+     "mana_cost": 12.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 22,
+     "rank_levels": [],
+     "trainer_verb": "mobility",
+     "params": {
+      "duration": 10.0,
+      "speed_mult": 1.4,
+      "break_snares": true,
+      "group": "form",
+      "cancel_on_cast": true,
+      "color": [
+       0.5,
+       0.58,
+       0.4
+      ]
+     }
+    },
+    {
+     "id": "barkskin",
+     "name": "Barkskin",
+     "icon": "pixel:barkskin",
+     "cooldown": 30.0,
+     "mana_cost": 20.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 34,
+     "rank_levels": [],
+     "trainer_verb": "defensive",
+     "params": {
+      "duration": 8.0,
+      "damage_taken_pct": -20.0,
+      "color": [
+       0.48,
+       0.44,
+       0.32
+      ]
+     }
+    },
+    {
+     "id": "mark_of_the_wildwood",
+     "name": "Mark of the Wildwood",
+     "icon": "pixel:mark_of_the_wildwood",
+     "cooldown": 3.0,
+     "mana_cost": 18.0,
+     "range": 0.0,
+     "damage": 0.0,
+     "kind": "buff",
+     "req_level": 42,
+     "rank_levels": [
+      42,
+      56
+     ],
+     "trainer_verb": "long_buff",
+     "params": {
+      "duration": 600.0,
+      "stamina": 4.0,
+      "hp_regen": 1.0,
+      "group": "blessing",
+      "color": [
+       0.42,
+       0.58,
+       0.36
+      ]
+     }
+    }
+   ]
+  }
+ }
+}
