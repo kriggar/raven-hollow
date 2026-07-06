@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/achievements_ui.gd" id="1_achvui"]
+
+[node name="AchievementsUI" type="CanvasLayer"]
+layer = 12
+script = ExtResource("1_achvui")
