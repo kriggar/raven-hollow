@@ -397,6 +397,7 @@ func _spawn_ui() -> void:
 	add_child(CharacterSheetUI.new())
 	add_child(SpellbookUI.new())
 	add_child(CraftingUI.new())
+	add_child(ProfessionCraftingUI.new())
 
 	var ui := DialogueUI.new()
 	add_child(ui)
@@ -1182,6 +1183,13 @@ func _run_env_hooks() -> void:
 		var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
 		if cui != null:
 			cui.call("open_station", craft_env)
+	# RH_PROFCRAFT=<profession id|1>: open the seven-profession crafting window
+	# (BACKLOG #42) on the given profession tab for the verification screenshot.
+	var profcraft_env: String = OS.get_environment("RH_PROFCRAFT")
+	if not profcraft_env.is_empty():
+		var pcui: Node = get_tree().get_first_node_in_group("profession_crafting_ui")
+		if pcui != null and pcui.has_method("debug_present"):
+			pcui.call("debug_present", profcraft_env)
 	# RH_PROMPT: force the "[E] Talk" interact prompt visible (QA layout check).
 	if not OS.get_environment("RH_PROMPT").is_empty():
 		var du: Node = get_tree().get_first_node_in_group("dialogue_ui")
@@ -1209,6 +1217,17 @@ func _run_env_hooks() -> void:
 		mev.action = "map"
 		mev.pressed = true
 		Input.parse_input_event(mev)
+	# RH_INVENTORY: instance the systems-layer paperdoll inventory, seed the
+	# player's InventorySystem with loot + a full equipped kit, prove the
+	# loot->stats link through StatsSystem, then open it (inventory/equip/
+	# proficiency deliverable). Guarded: no player -> no-op.
+	if not OS.get_environment("RH_INVENTORY").is_empty() and _player != null:
+		var _inv_ui: Node = load("res://scenes/ui/inventory.tscn").instantiate()
+		add_child(_inv_ui)
+		if _inv_ui.has_method("demo_open"):
+			_inv_ui.call("demo_open", _player)
+		for _iv in range(12):
+			await get_tree().process_frame
 	if not shot_path.is_empty():
 		if not OS.get_environment("RH_TALK").is_empty():
 			for _i in range(20):
