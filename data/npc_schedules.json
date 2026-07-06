@@ -1,0 +1,47 @@
+{
+  "_doc": "Raven Hollow NPC daily schedules (design/SMART_NPCS.md 2). Consumed by SmartNPCSystem. Keyed by npc id (matches scripts/npc_data.gd cast ids). Each block covers an hour range [from,to) on the 24h DayNight clock (wrap-around allowed when from>to) and carries a human-readable activity plus a world-space offset (dx,dy) from the NPC's spawn home and a wander radius. Registered NPCs relocate their activity area by time of day; NPCs with no schedule here keep their shipped behavior untouched (additive).",
+  "schedules": {
+    "blacksmith": {"blocks": [
+      {"from": 6.0,  "to": 19.0, "activity": "working the forge",           "dx": 0,   "dy": 0,   "radius": 12},
+      {"from": 19.0, "to": 23.0, "activity": "drinking at the Ember Hearth", "dx": -70, "dy": -24, "radius": 8},
+      {"from": 23.0, "to": 6.0,  "activity": "asleep at home",              "dx": 0,   "dy": 0,   "radius": 0}
+    ]},
+    "merchant": {"blocks": [
+      {"from": 7.0,  "to": 12.5, "activity": "minding the market stall",     "dx": 0,   "dy": 0,   "radius": 14},
+      {"from": 12.5, "to": 14.0, "activity": "taking the midday square",     "dx": 40,  "dy": 30,  "radius": 22},
+      {"from": 14.0, "to": 19.0, "activity": "minding the market stall",     "dx": 0,   "dy": 0,   "radius": 14},
+      {"from": 19.0, "to": 22.5, "activity": "counting coin at the inn",     "dx": -60, "dy": -20, "radius": 8},
+      {"from": 22.5, "to": 7.0,  "activity": "asleep at home",              "dx": 0,   "dy": 0,   "radius": 0}
+    ]},
+    "innkeeper": {"blocks": [
+      {"from": 6.0,  "to": 23.5, "activity": "tending the taproom",          "dx": 0,   "dy": 0,   "radius": 10},
+      {"from": 23.5, "to": 6.0,  "activity": "resting behind the bar",       "dx": 0,   "dy": 0,   "radius": 4}
+    ]},
+    "farmer": {"blocks": [
+      {"from": 5.5,  "to": 12.0, "activity": "working the fields",           "dx": 30,  "dy": 40,  "radius": 24},
+      {"from": 12.0, "to": 13.5, "activity": "eating in the square",         "dx": -20, "dy": 10,  "radius": 18},
+      {"from": 13.5, "to": 19.5, "activity": "working the fields",           "dx": 30,  "dy": 40,  "radius": 24},
+      {"from": 19.5, "to": 22.0, "activity": "a mug at the inn",             "dx": -60, "dy": -20, "radius": 8},
+      {"from": 22.0, "to": 5.5,  "activity": "asleep at home",              "dx": 0,   "dy": 0,   "radius": 0}
+    ]},
+    "gravekeeper": {"blocks": [
+      {"from": 8.0,  "to": 20.0, "activity": "tending the graveyard hill",   "dx": 0,   "dy": 0,   "radius": 16},
+      {"from": 20.0, "to": 8.0,  "activity": "walking the rows by lantern",  "dx": 0,   "dy": 0,   "radius": 20}
+    ]},
+    "maid": {"blocks": [
+      {"from": 6.5,  "to": 20.0, "activity": "keeping the inn spotless",     "dx": 0,   "dy": 0,   "radius": 10},
+      {"from": 20.0, "to": 6.5,  "activity": "asleep in the loft",           "dx": 0,   "dy": 0,   "radius": 0}
+    ]},
+    "wanderer1": {"blocks": [
+      {"from": 7.0,  "to": 18.0, "activity": "wandering the lanes",          "dx": 0,   "dy": 0,   "radius": 40},
+      {"from": 18.0, "to": 7.0,  "activity": "resting at home",             "dx": 0,   "dy": 0,   "radius": 8}
+    ]},
+    "wanderer2": {"blocks": [
+      {"from": 7.0,  "to": 19.0, "activity": "dreaming of the open road",    "dx": 20,  "dy": -20, "radius": 36},
+      {"from": 19.0, "to": 7.0,  "activity": "asleep at home",              "dx": 0,   "dy": 0,   "radius": 8}
+    ]},
+    "gatewarden": {"blocks": [
+      {"from": 0.0,  "to": 24.0, "activity": "holding the east gate",        "dx": 0,   "dy": 0,   "radius": 8}
+    ]}
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "_doc": "Raven Hollow vendor definitions (design/SMART_NPCS.md 3). Consumed by SmartNPCSystem; the shop UI (scenes/ui/shop.tscn) is a dumb view over this. Keyed by npc id (scripts/npc_data.gd cast ids). type = vendor archetype; stock ids resolve through LootSystem.roll_item / Items.get_item (guarded) so icons + rarity come free. price = gold to BUY (buy > sell always, per ITEM_PROGRESSION 7). open_from/open_to mirror the vendor's work hours; outside them the shop is shut.",
+  "vendors": {
+    "blacksmith": {
+      "type": "weaponsmith",
+      "name": "Goran the Blacksmith",
+      "greeting": "Mind the sparks. Need something with an edge?",
+      "open_from": 6.0, "open_to": 19.0,
+      "stock": [
+        {"id": "iron_shortsword", "price": 24},
+        {"id": "notched_axe",     "price": 28},
+        {"id": "oak_cudgel",      "price": 20},
+        {"id": "bent_dagger",     "price": 18},
+        {"id": "warhammer",       "price": 44}
+      ]
+    },
+    "merchant": {
+      "type": "general",
+      "name": "Merchant Tibalt",
+      "greeting": "Finest goods this side of the old road.",
+      "open_from": 7.0, "open_to": 19.0,
+      "stock": [
+        {"id": "leather_cap",     "price": 14},
+        {"id": "cloth_breeches",  "price": 14},
+        {"id": "traveler_shoes",  "price": 22},
+        {"id": "copper_band",     "price": 16},
+        {"id": "round_shield",    "price": 20}
+      ]
+    },
+    "innkeeper": {
+      "type": "provisioner",
+      "name": "Innkeeper Marta",
+      "greeting": "Sit yourself down before you fall down.",
+      "open_from": 6.0, "open_to": 23.5,
+      "stock": [
+        {"id": "worn_jerkin",     "price": 12},
+        {"id": "hide_hood",       "price": 14},
+        {"id": "heavy_sabatons",  "price": 26}
+      ]
+    }
+  },
+  "sell_prices": {
+    "common": 3, "uncommon": 8, "rare": 20, "epic": 40, "legendary": 80
+  }
+}
