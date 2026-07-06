@@ -1,0 +1,81 @@
+{
+	"config": {
+		"tick_interval": 1.0,
+		"reinforce_threshold": 6,
+		"reinforce_batch": 4
+	},
+	"battles": {
+		"the_second_cooperation": {
+			"name": "The Second Cooperation",
+			"zone": "gravemark_field",
+			"intro_cinematic": "great_battle_opener",
+			"victory_cinematic": "great_battle_victory",
+			"start_morale": 100.0,
+			"start_allies": 14,
+			"reinforcements": 40,
+			"waves": [
+				{
+					"id": "wave_march",
+					"objective": "survive",
+					"seconds": 20,
+					"enemy_type": "skeleton",
+					"enemy_name": "Thread-Slipped Dead",
+					"enemy_count": 12,
+					"enemy_hp": 120,
+					"enemy_level": 55,
+					"spawn_interval": 2.0,
+					"objective_text": "Hold the first contact line -- survive the march",
+					"ally_dps": 6.0,
+					"enemy_dps": 3.0
+				},
+				{
+					"id": "wave_field",
+					"objective": "defend_npc",
+					"npc": "maren",
+					"npc_name": "Maren",
+					"npc_hp": 260,
+					"enemy_type": "skeleton_mage",
+					"enemy_name": "The Gaunt Choir",
+					"enemy_count": 16,
+					"enemy_hp": 150,
+					"enemy_level": 57,
+					"spawn_interval": 1.6,
+					"objective_text": "Defend Maren's stretcher-team through the field",
+					"ally_dps": 7.0,
+					"enemy_dps": 4.0
+				},
+				{
+					"id": "wave_rim",
+					"objective": "push_line",
+					"distance": 100,
+					"enemy_type": "skeleton_warrior",
+					"enemy_name": "The Convergence",
+					"enemy_count": 20,
+					"enemy_hp": 180,
+					"enemy_level": 58,
+					"spawn_interval": 1.4,
+					"objective_text": "Push the line to the Grave's outer door",
+					"ally_dps": 8.0,
+					"enemy_dps": 5.0
+				}
+			],
+			"boss": {
+				"type": "skeleton_warrior",
+				"name": "The Sergeant of the Rows",
+				"hp": 900,
+				"level": 58,
+				"rank": "elite",
+				"objective_text": "Break the Sergeant of the Rows",
+				"player_dps": 45.0,
+				"ally_dps": 10.0
+			},
+			"rewards": {
+				"xp": 12000,
+				"gold": 3000,
+				"loot_table": "elite",
+				"items": ["banner_of_the_four"],
+				"title": "of the Four Banners"
+			}
+		}
+	}
+}

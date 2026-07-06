@@ -1,0 +1,83 @@
+{
+	"config": {
+		"letterbox_fraction": 0.13,
+		"crossfade": 0.4,
+		"default_text_dur": 3.2
+	},
+	"cinematics": {
+		"intro": {
+			"name": "The Road to Raven Hollow",
+			"letterbox": true,
+			"skippable": true,
+			"steps": [
+				{"op": "fade_to_black", "duration": 0.01},
+				{"op": "letterbox_in", "duration": 0.6},
+				{"op": "fade_from_black", "duration": 1.4},
+				{"op": "show_text", "speaker": "The Chronicler", "line": "There was a war. There is always a war, in the old stories.", "duration": 3.4},
+				{"op": "camera_pan", "to": [0, -160], "duration": 3.0},
+				{"op": "show_text", "speaker": "The Chronicler", "line": "Four crowns came out of it. None of them came out alive -- not in the way that matters.", "duration": 3.8},
+				{"op": "camera_zoom", "zoom": 1.35, "duration": 2.4},
+				{"op": "show_text", "speaker": "The Chronicler", "line": "The marks on the boundary-stones of the Iron Vein are getting shorter.", "duration": 3.6},
+				{"op": "flash", "duration": 0.5, "color": "#e6c86e"},
+				{"op": "show_text", "speaker": "The Chronicler", "line": "And in a village called Raven Hollow, the ground is warm where it should not be.", "duration": 3.8},
+				{"op": "camera_zoom", "zoom": 1.0, "duration": 2.0},
+				{"op": "show_text", "speaker": "The Chronicler", "line": "That is where you come in. It is where everyone comes in, sooner or later.", "duration": 3.6},
+				{"op": "wait", "duration": 0.6},
+				{"op": "letterbox_out", "duration": 0.6}
+			]
+		},
+		"boss_warden": {
+			"name": "The Warden of the Wells",
+			"letterbox": true,
+			"skippable": true,
+			"steps": [
+				{"op": "letterbox_in", "duration": 0.5},
+				{"op": "shake", "amp": 6.0, "duration": 0.7},
+				{"op": "spawn_actor", "id": "warden", "pos": [0, -40], "color": "#8a2f2f"},
+				{"op": "camera_pan", "to": [0, -60], "duration": 1.6},
+				{"op": "camera_zoom", "zoom": 1.5, "duration": 1.4},
+				{"op": "show_text", "speaker": "The Warden of the Wells", "line": "You come to the Copper Wells with clean hands. It will not last.", "duration": 3.8},
+				{"op": "flash", "duration": 0.35, "color": "#c85a2a"},
+				{"op": "shake", "amp": 9.0, "duration": 0.9},
+				{"op": "move_actor", "id": "warden", "to": [0, 10], "duration": 0.8},
+				{"op": "show_text", "speaker": "The Warden of the Wells", "line": "The inscription is live now. Every stone here is listening.", "duration": 3.4},
+				{"op": "camera_zoom", "zoom": 1.0, "duration": 1.0},
+				{"op": "letterbox_out", "duration": 0.5}
+			]
+		},
+		"great_battle_opener": {
+			"name": "The Second Cooperation",
+			"letterbox": true,
+			"skippable": true,
+			"steps": [
+				{"op": "fade_to_black", "duration": 0.01},
+				{"op": "letterbox_in", "duration": 0.6},
+				{"op": "sfx", "path": "res://assets/audio/sfx/horn.ogg"},
+				{"op": "fade_from_black", "duration": 1.6},
+				{"op": "show_text", "speaker": "Pit-Caller Drego", "line": "Gravemark Tundra. Ten thousand torches, and above us -- nothing at all.", "duration": 3.8},
+				{"op": "camera_pan", "to": [220, 0], "duration": 3.4},
+				{"op": "show_text", "speaker": "Pit-Caller Drego", "line": "Vampire, werewolf, the dead, and the last human throne. Four banners, one night.", "duration": 4.0},
+				{"op": "camera_pan", "to": [-440, 0], "duration": 3.4},
+				{"op": "show_text", "speaker": "Pit-Caller Drego", "line": "The old name is cursed. So the soldiers call it the Second Cooperation, and nobody says it twice.", "duration": 4.2},
+				{"op": "flash", "duration": 0.5, "color": "#5a6a8a"},
+				{"op": "camera_pan", "to": [220, 0], "duration": 2.0},
+				{"op": "show_text", "speaker": "Pit-Caller Drego", "line": "The Convergence walks north to the Grave. We are the wall. Hold the line.", "duration": 4.0},
+				{"op": "wait", "duration": 0.5},
+				{"op": "letterbox_out", "duration": 0.6}
+			]
+		},
+		"great_battle_victory": {
+			"name": "Hold It Open Behind Me",
+			"letterbox": true,
+			"skippable": true,
+			"steps": [
+				{"op": "letterbox_in", "duration": 0.5},
+				{"op": "show_text", "speaker": "Pit-Caller Drego", "line": "The door stands open. Not breached -- open. She spent them all at once.", "duration": 4.0},
+				{"op": "camera_zoom", "zoom": 1.25, "duration": 2.2},
+				{"op": "show_text", "speaker": "Pit-Caller Drego", "line": "We hold it open behind you. That was the whole point of tonight. Go down.", "duration": 4.0},
+				{"op": "camera_zoom", "zoom": 1.0, "duration": 1.2},
+				{"op": "letterbox_out", "duration": 0.5}
+			]
+		}
+	}
+}
