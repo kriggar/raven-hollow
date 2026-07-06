@@ -126,7 +126,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 94. ⬜ PROMPT-TO-GAME engine ("make me a 2D RPG about autumn" → builds on our engine)
 95. 🔧 LOCAL STUDIO v1 SHIPPED (tools/studio/): Ollama+Qwen2.5-Coder-14B worker w/ 5 roles (quest/bark/def/item/qa-triage), style-bible priming + validators + retry; finetune/ QLoRA recipe on the project corpus (honest scope: specialist, not Fable-clone; no Claude-output training per ToS). ART (ComfyUI) + VOICE (Maya1) already local = full free studio. Remaining: owner installs Ollama, first batch run, adopt-if-better eval
 96. ⬜ Corporation-of-bots departments; godot-optimization horde; 2D-pixel-design + Blizzard-audio/cinematics study hordes; playtest agents start-to-finish; bots w/ perfect navmesh + class rotations; race-vs-bots world-firsts; everyone starts from 0 on New World
-97. ⬜ Disk-space watcher (safe pruning) + BE-CHEAP operations law (standing)
+97. ✅ Disk-space watcher (tools/ops/disk_watch.py: drive report + safe-category prune, dry-run default) - BUILT
 98. ✅ SEAMLESS WORLD edge-streaming (full crossing, gated+change_map fallback) — BUILT (BLUEPRINT_98) 22cf6a1
 
 99. ✅ COLLISION AUDIT: footprint colliders per prop class + pushable props — BUILT (BLUEPRINT_99, 60 types mapped) e58f0cf
