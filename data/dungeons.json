@@ -1,0 +1,627 @@
+{
+  "_comment": "Raven Hollow dungeons & raids (BACKLOG #74, BLUEPRINT_74). Each dungeon is a themed instance keyed to a real zone id from scripts/zone_defs.gd. Bosses run a phase state machine (enter_at = hp fraction that opens the phase) with an enrage timer; mechanics carry a telegraph string the DungeonSystem broadcasts as a signal. loot_table / trash_loot reference tables in data/loot_tables.json (reused by LootSystem).",
+  "settings": {
+    "default_lockout_hours": 0,
+    "raid_lockout_hours": 168,
+    "telegraph_interval_s": 4.0,
+    "blessing_hours": 1.0
+  },
+  "dungeons": {
+    "rat_cellars": {
+      "name": "The Rat Cellars",
+      "kind": "dungeon",
+      "tier": "normal",
+      "level": 5,
+      "zone_theme": "vetka",
+      "biome": "cave",
+      "flavor": "A trapdoor behind the Bent Oar tavern drops into flooded storerooms gone to vermin. The tutorial crawl.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b1",
+      "loot_table": "elite_b3",
+      "xp_reward": 420,
+      "gold_reward": 30,
+      "trash_waves": [
+        {"name": "Cellar Swarm", "pack": "swarm_rat", "count": 6},
+        {"name": "Barrel Nest", "pack": "swarm_rat", "count": 8}
+      ],
+      "bosses": [
+        {
+          "name": "The Tavern King",
+          "archetype": "bruiser",
+          "hp": 1200,
+          "enrage_s": 120,
+          "phases": [
+            {"name": "Last Call", "enter_at": 1.0, "mechanics": [
+              {"id": "tankard_slam", "name": "Tankard Slam", "type": "cone", "telegraph": "amber frontal cone flashes", "cast_s": 2.0},
+              {"id": "rat_call", "name": "Rat Call", "type": "summon", "telegraph": "floor cracks, squeaking", "cast_s": 2.5}
+            ]},
+            {"name": "Closing Time", "enter_at": 0.5, "mechanics": [
+              {"id": "barrel_roll", "name": "Barrel Roll", "type": "line", "telegraph": "rolling-barrel lane lights up", "cast_s": 1.5},
+              {"id": "rat_call", "name": "Rat Call", "type": "summon", "telegraph": "floor cracks, squeaking", "cast_s": 2.5}
+            ]}
+          ]
+        }
+      ]
+    },
+    "flooded_vein": {
+      "name": "The Flooded Vein",
+      "kind": "dungeon",
+      "tier": "normal",
+      "level": 12,
+      "zone_theme": "iron_vein",
+      "biome": "cave",
+      "flavor": "A drowned mine shaft. Water channels split the route into plank walks where lurkers wait under the surface.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "elite_b3",
+      "xp_reward": 900,
+      "gold_reward": 60,
+      "trash_waves": [
+        {"name": "Plank Walk", "pack": "lurker", "count": 4},
+        {"name": "Sluice Ambush", "pack": "lurker", "count": 5},
+        {"name": "Pump Room", "pack": "skeleton_warrior", "count": 4}
+      ],
+      "bosses": [
+        {
+          "name": "Foreman Radu, Unpaid",
+          "archetype": "bruiser",
+          "hp": 3400,
+          "enrage_s": 180,
+          "phases": [
+            {"name": "The Shift", "enter_at": 1.0, "mechanics": [
+              {"id": "pick_swing", "name": "Pick Swing", "type": "cone", "telegraph": "wide rusted-arc sweep", "cast_s": 2.0},
+              {"id": "flood_channel", "name": "Flood the Channel", "type": "zone", "telegraph": "water rises in the side channels", "cast_s": 3.0}
+            ]},
+            {"name": "Back Wages", "enter_at": 0.4, "mechanics": [
+              {"id": "cave_in", "name": "Cave-In", "type": "zone", "telegraph": "ceiling dust falls in marked squares", "cast_s": 2.5},
+              {"id": "flood_channel", "name": "Flood the Channel", "type": "zone", "telegraph": "water rises in the side channels", "cast_s": 3.0}
+            ]}
+          ]
+        }
+      ]
+    },
+    "transmission_floor": {
+      "name": "Chamber Transmission Floor",
+      "kind": "dungeon",
+      "tier": "heroic",
+      "level": 18,
+      "zone_theme": "chamber_depths",
+      "biome": "cave",
+      "flavor": "The live stones pulse on a six-second cycle. Stand in the stone-light during a pulse and the transmission stacks on you.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "elite_b3",
+      "xp_reward": 1500,
+      "gold_reward": 90,
+      "trash_waves": [
+        {"name": "Relay Wardens", "pack": "skeleton_mage", "count": 4},
+        {"name": "The Antechamber", "pack": "skeleton_warrior", "count": 5}
+      ],
+      "bosses": [
+        {
+          "name": "The Second Courier",
+          "archetype": "caster",
+          "hp": 5200,
+          "enrage_s": 210,
+          "phases": [
+            {"name": "Broadcast", "enter_at": 1.0, "mechanics": [
+              {"id": "pulse_wave", "name": "Stone Pulse", "type": "zone", "telegraph": "the floor stones brighten to white", "cast_s": 3.0},
+              {"id": "long_send", "name": "The Long Send", "type": "interrupt", "telegraph": "casting bar with a red interrupt window", "cast_s": 4.0}
+            ]},
+            {"name": "Static", "enter_at": 0.35, "mechanics": [
+              {"id": "scramble", "name": "Scramble", "type": "debuff", "telegraph": "sigils orbit the courier", "cast_s": 2.5},
+              {"id": "long_send", "name": "The Long Send", "type": "interrupt", "telegraph": "casting bar with a red interrupt window", "cast_s": 4.0}
+            ]}
+          ]
+        }
+      ]
+    },
+    "wolf_warrens": {
+      "name": "The Wolf Warrens",
+      "kind": "dungeon",
+      "tier": "heroic",
+      "level": 24,
+      "zone_theme": "whisper_passes",
+      "biome": "cave",
+      "flavor": "A den mouth into total dark. Grab a torch off the wall or the swarm finds you first.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "elite_b3",
+      "xp_reward": 2200,
+      "gold_reward": 120,
+      "trash_waves": [
+        {"name": "Den Pack", "pack": "wolf", "count": 6},
+        {"name": "The Whelping Pit", "pack": "wolf", "count": 8}
+      ],
+      "bosses": [
+        {
+          "name": "Mother of the Pass",
+          "archetype": "swarm_alpha",
+          "hp": 7600,
+          "enrage_s": 200,
+          "phases": [
+            {"name": "The Hunt", "enter_at": 1.0, "mechanics": [
+              {"id": "howl", "name": "Rallying Howl", "type": "buff", "telegraph": "she throws her head back to howl", "cast_s": 2.5},
+              {"id": "pounce", "name": "Pounce", "type": "line", "telegraph": "she crouches, a leap line marks the floor", "cast_s": 1.5}
+            ]},
+            {"name": "Blooded (75%)", "enter_at": 0.75, "mechanics": [
+              {"id": "summon_pups", "name": "Call the Litter", "type": "summon", "telegraph": "pups spill from the side dens", "cast_s": 2.0},
+              {"id": "pounce", "name": "Pounce", "type": "line", "telegraph": "she crouches, a leap line marks the floor", "cast_s": 1.5}
+            ]},
+            {"name": "Cornered (50%)", "enter_at": 0.5, "mechanics": [
+              {"id": "summon_pups", "name": "Call the Litter", "type": "summon", "telegraph": "pups spill from the side dens", "cast_s": 2.0},
+              {"id": "frenzy", "name": "Frenzy", "type": "buff", "telegraph": "her eyes go white, attacks speed up", "cast_s": 2.0}
+            ]},
+            {"name": "Last Stand (25%)", "enter_at": 0.25, "mechanics": [
+              {"id": "summon_pups", "name": "Call the Litter", "type": "summon", "telegraph": "pups spill from the side dens", "cast_s": 2.0},
+              {"id": "frenzy", "name": "Frenzy", "type": "buff", "telegraph": "her eyes go white, attacks speed up", "cast_s": 2.0}
+            ]}
+          ]
+        }
+      ]
+    },
+    "blestem_undermaze": {
+      "name": "Blestem Undermaze",
+      "kind": "dungeon",
+      "tier": "heroic",
+      "level": 30,
+      "zone_theme": "blestem",
+      "biome": "dark_keep",
+      "flavor": "Corridors of dark-keep stone. Boot-prints in the dust are the only trail. Something reads them better than you do.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "elite_b3",
+      "xp_reward": 3100,
+      "gold_reward": 160,
+      "trash_waves": [
+        {"name": "The Wrong Turn", "pack": "skeleton_warrior", "count": 5},
+        {"name": "Dead-End Watch", "pack": "orc_rogue", "count": 4}
+      ],
+      "bosses": [
+        {
+          "name": "The Listener Prime",
+          "archetype": "lurker",
+          "hp": 9800,
+          "enrage_s": 190,
+          "phases": [
+            {"name": "Stalk", "enter_at": 1.0, "mechanics": [
+              {"id": "stealth_open", "name": "From the Dark", "type": "ambush", "telegraph": "the torches gutter, a shape crosses the wall", "cast_s": 2.0},
+              {"id": "trail_read", "name": "Read the Trail", "type": "debuff", "telegraph": "your boot-prints glow where you stood", "cast_s": 3.0}
+            ]},
+            {"name": "Unmasked", "enter_at": 0.4, "mechanics": [
+              {"id": "shadow_step", "name": "Shadow Step", "type": "line", "telegraph": "afterimages dash between pillars", "cast_s": 1.5},
+              {"id": "trail_read", "name": "Read the Trail", "type": "debuff", "telegraph": "your boot-prints glow where you stood", "cast_s": 3.0}
+            ]}
+          ]
+        }
+      ]
+    },
+    "drowned_crypt": {
+      "name": "The Drowned Crypt",
+      "kind": "dungeon",
+      "tier": "heroic",
+      "level": 36,
+      "zone_theme": "transcub_vale",
+      "biome": "cave",
+      "flavor": "An altar stair below the waterline. The room floods and drains on a cycle; the boss changes with the tide.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 4200,
+      "gold_reward": 210,
+      "trash_waves": [
+        {"name": "Tidewalkers", "pack": "skeleton_warrior", "count": 5},
+        {"name": "The Sunken Nave", "pack": "skeleton_mage", "count": 5}
+      ],
+      "bosses": [
+        {
+          "name": "The Penitent",
+          "archetype": "caster_bruiser",
+          "hp": 13400,
+          "enrage_s": 220,
+          "phases": [
+            {"name": "High Water (Caster)", "enter_at": 1.0, "mechanics": [
+              {"id": "drown_orb", "name": "Drowning Orb", "type": "zone", "telegraph": "a green orb marks a spreading pool", "cast_s": 3.0},
+              {"id": "penance", "name": "Penance", "type": "interrupt", "telegraph": "long chant, interrupt window opens", "cast_s": 4.0}
+            ]},
+            {"name": "Low Water (Bruiser)", "enter_at": 0.5, "mechanics": [
+              {"id": "flail", "name": "Chained Flail", "type": "cone", "telegraph": "he drags the flail in a sweeping arc", "cast_s": 2.0},
+              {"id": "riptide", "name": "Riptide", "type": "line", "telegraph": "the drain pulls in a marked lane", "cast_s": 2.0}
+            ]}
+          ]
+        }
+      ]
+    },
+    "forge_belly": {
+      "name": "Forge Belly",
+      "kind": "dungeon",
+      "tier": "mythic",
+      "level": 42,
+      "zone_theme": "sangeroasa",
+      "biome": "volcanic",
+      "flavor": "Gauntlet lanes through the forge district. The lava vents pulse on the ember-light cycle - read it or burn.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 5600,
+      "gold_reward": 280,
+      "trash_waves": [
+        {"name": "Vent Lane One", "pack": "orc_warrior", "count": 5},
+        {"name": "The Bellows", "pack": "orc_shaman", "count": 4}
+      ],
+      "bosses": [
+        {
+          "name": "The Unpaid Debt",
+          "archetype": "bruiser",
+          "hp": 17800,
+          "enrage_s": 240,
+          "phases": [
+            {"name": "Stoke", "enter_at": 1.0, "mechanics": [
+              {"id": "vent_pulse", "name": "Vent Pulse", "type": "zone", "telegraph": "ember-light brightens on the vent grid", "cast_s": 2.5},
+              {"id": "hurl_slag", "name": "Hurl Slag", "type": "zone", "telegraph": "a molten lob arcs to a marked ring", "cast_s": 2.0}
+            ]},
+            {"name": "White Heat", "enter_at": 0.5, "mechanics": [
+              {"id": "pit_summon", "name": "Summon from the Pit", "type": "summon", "telegraph": "the mini-pit at center glows and belches", "cast_s": 3.0},
+              {"id": "vent_pulse", "name": "Vent Pulse", "type": "zone", "telegraph": "ember-light brightens on the vent grid", "cast_s": 2.5}
+            ]}
+          ]
+        }
+      ]
+    },
+    "salt_cellars": {
+      "name": "The Salt Cellars",
+      "kind": "dungeon",
+      "tier": "mythic",
+      "level": 48,
+      "zone_theme": "salt_fens",
+      "biome": "bog",
+      "flavor": "A salt-pan sinkhole. Brine pools slow anything that wades them, and the preserved do not stay lying down.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 7000,
+      "gold_reward": 340,
+      "trash_waves": [
+        {"name": "The Drying Racks", "pack": "skeleton", "count": 6},
+        {"name": "Brine Pool", "pack": "skeleton_mage", "count": 5}
+      ],
+      "bosses": [
+        {
+          "name": "The Preserved",
+          "archetype": "caster",
+          "hp": 22400,
+          "enrage_s": 240,
+          "phases": [
+            {"name": "Cured", "enter_at": 1.0, "mechanics": [
+              {"id": "salt_nova", "name": "Salt Nova", "type": "zone", "telegraph": "crystals bloom outward in rings", "cast_s": 3.0},
+              {"id": "raise_preserved", "name": "Raise the Preserved", "type": "summon", "telegraph": "brine bubbles over the racks", "cast_s": 2.5}
+            ]},
+            {"name": "Brittle", "enter_at": 0.4, "mechanics": [
+              {"id": "desiccate", "name": "Desiccate", "type": "debuff", "telegraph": "a drying beam tracks a target", "cast_s": 2.5},
+              {"id": "raise_preserved", "name": "Raise the Preserved", "type": "summon", "telegraph": "brine bubbles over the racks", "cast_s": 2.5}
+            ]}
+          ]
+        }
+      ]
+    },
+    "ledger_stacks": {
+      "name": "The Ledger Stacks",
+      "kind": "dungeon",
+      "tier": "mythic",
+      "level": 54,
+      "zone_theme": "the_archive",
+      "biome": "keep",
+      "flavor": "The Archive's west wing: filing halls of stone rows. Ledger-tablets buff whatever stands beside them.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 8600,
+      "gold_reward": 410,
+      "trash_waves": [
+        {"name": "Clerk Detail", "pack": "skeleton_mage", "count": 5},
+        {"name": "The Stacks", "pack": "skeleton_warrior", "count": 6}
+      ],
+      "bosses": [
+        {
+          "name": "Chief Archivist Sabin",
+          "archetype": "caster",
+          "hp": 27600,
+          "enrage_s": 260,
+          "phases": [
+            {"name": "Cataloguing", "enter_at": 1.0, "mechanics": [
+              {"id": "file_buff", "name": "File a Buff", "type": "steal", "telegraph": "he stamps a page - one of your buffs is filed away", "cast_s": 3.0},
+              {"id": "paper_cut", "name": "Paper Storm", "type": "zone", "telegraph": "loose pages whirl into marked squares", "cast_s": 2.5}
+            ]},
+            {"name": "Overdue", "enter_at": 0.35, "mechanics": [
+              {"id": "recall_all", "name": "Recall the Stacks", "type": "summon", "telegraph": "every shelf rattles at once", "cast_s": 3.0},
+              {"id": "paper_cut", "name": "Paper Storm", "type": "zone", "telegraph": "loose pages whirl into marked squares", "cast_s": 2.5}
+            ]}
+          ]
+        }
+      ]
+    },
+    "black_dock": {
+      "name": "Coldharbor Black Dock",
+      "kind": "dungeon",
+      "tier": "mythic",
+      "level": 58,
+      "zone_theme": "coldharbor_deep",
+      "biome": "port",
+      "flavor": "The lower gate of Coldharbor. The pre-raid crawl - and the Harbormaster still runs the crane.",
+      "lockout_hours": 0,
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 10200,
+      "gold_reward": 480,
+      "trash_waves": [
+        {"name": "Dock Gang", "pack": "orc_warrior", "count": 6},
+        {"name": "The Lower Gate", "pack": "orc_rogue", "count": 5}
+      ],
+      "bosses": [
+        {
+          "name": "The Harbormaster",
+          "archetype": "bruiser",
+          "hp": 33000,
+          "enrage_s": 260,
+          "phases": [
+            {"name": "Unloading", "enter_at": 1.0, "mechanics": [
+              {"id": "crane_drop", "name": "Crane Drop", "type": "zone", "telegraph": "a wedge shadow falls where the crate will land", "cast_s": 3.0},
+              {"id": "hook_pull", "name": "Cargo Hook", "type": "line", "telegraph": "the hook lines up a pull lane", "cast_s": 2.0}
+            ]},
+            {"name": "Manifest Overboard", "enter_at": 0.4, "mechanics": [
+              {"id": "crane_sweep", "name": "Crane Sweep", "type": "cone", "telegraph": "the crane arm swings a wide arc", "cast_s": 2.5},
+              {"id": "crane_drop", "name": "Crane Drop", "type": "zone", "telegraph": "a wedge shadow falls where the crate will land", "cast_s": 3.0}
+            ]}
+          ]
+        }
+      ]
+    }
+  },
+  "raids": {
+    "great_battle_staging": {
+      "name": "The Great Battle Staging",
+      "kind": "raid",
+      "tier": "raid",
+      "level": 60,
+      "zone_theme": "famine_fields",
+      "biome": "farmland",
+      "flavor": "The set-piece as a replayable ten-man: a wave defense with NPC allies, three commanders to break.",
+      "lockout_hours": 168,
+      "min_players": 5,
+      "max_players": 10,
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 16000,
+      "gold_reward": 700,
+      "trash_waves": [
+        {"name": "First Assault", "pack": "orc_warrior", "count": 8},
+        {"name": "Second Assault", "pack": "orc_rogue", "count": 8},
+        {"name": "The Breakthrough", "pack": "orc_shaman", "count": 6}
+      ],
+      "bosses": [
+        {
+          "name": "Siege-Captain Otho",
+          "archetype": "bruiser",
+          "hp": 44000,
+          "enrage_s": 300,
+          "phases": [
+            {"name": "The Line Holds", "enter_at": 1.0, "mechanics": [
+              {"id": "ram_charge", "name": "Ram Charge", "type": "line", "telegraph": "he sights a lane and lowers the ram", "cast_s": 2.5},
+              {"id": "boiling_oil", "name": "Boiling Oil", "type": "zone", "telegraph": "pots tip over marked ground", "cast_s": 3.0}
+            ]},
+            {"name": "Breach", "enter_at": 0.4, "mechanics": [
+              {"id": "call_reserves", "name": "Call the Reserves", "type": "summon", "telegraph": "horns sound from the treeline", "cast_s": 3.0},
+              {"id": "ram_charge", "name": "Ram Charge", "type": "line", "telegraph": "he sights a lane and lowers the ram", "cast_s": 2.5}
+            ]}
+          ]
+        },
+        {
+          "name": "The Twin Shamans",
+          "archetype": "caster",
+          "hp": 52000,
+          "enrage_s": 300,
+          "phases": [
+            {"name": "Two as One", "enter_at": 1.0, "mechanics": [
+              {"id": "link_totem", "name": "Bond Totem", "type": "objective", "telegraph": "a totem tethers the twins - destroy it", "cast_s": 3.0},
+              {"id": "chain_bolt", "name": "Chain Bolt", "type": "line", "telegraph": "lightning arcs between marked players", "cast_s": 2.0}
+            ]},
+            {"name": "Sundered", "enter_at": 0.5, "mechanics": [
+              {"id": "storm_field", "name": "Storm Field", "type": "zone", "telegraph": "rings of static crawl outward", "cast_s": 3.0},
+              {"id": "chain_bolt", "name": "Chain Bolt", "type": "line", "telegraph": "lightning arcs between marked players", "cast_s": 2.0}
+            ]}
+          ]
+        },
+        {
+          "name": "Warlord Grisha",
+          "archetype": "bruiser",
+          "hp": 68000,
+          "enrage_s": 360,
+          "phases": [
+            {"name": "The Warlord", "enter_at": 1.0, "mechanics": [
+              {"id": "cleave", "name": "Warlord's Cleave", "type": "cone", "telegraph": "he winds up a two-handed arc", "cast_s": 2.0},
+              {"id": "warcry", "name": "Warcry", "type": "buff", "telegraph": "the field shakes with his shout", "cast_s": 2.5}
+            ]},
+            {"name": "Cornered Beast", "enter_at": 0.5, "mechanics": [
+              {"id": "whirlwind", "name": "Whirlwind", "type": "zone", "telegraph": "he spins - the whole inner ring lights up", "cast_s": 3.0},
+              {"id": "execute", "name": "Execute", "type": "debuff", "telegraph": "he marks the lowest ally", "cast_s": 2.0}
+            ]},
+            {"name": "Enraged (20%)", "enter_at": 0.2, "mechanics": [
+              {"id": "whirlwind", "name": "Whirlwind", "type": "zone", "telegraph": "he spins - the whole inner ring lights up", "cast_s": 3.0},
+              {"id": "warcry", "name": "Warcry", "type": "buff", "telegraph": "the field shakes with his shout", "cast_s": 2.5}
+            ]}
+          ]
+        }
+      ]
+    },
+    "archive_finalization": {
+      "name": "The Archive Finalization Floor",
+      "kind": "raid",
+      "tier": "raid",
+      "level": 60,
+      "zone_theme": "the_archive",
+      "biome": "keep",
+      "flavor": "The vault beneath the Archive. Four wardens guard the Finalization - wipe here and the raid is 'finalized' into the record. Unlock via the attunement chain.",
+      "lockout_hours": 168,
+      "min_players": 10,
+      "max_players": 20,
+      "attunement": "archive_attunement_chain",
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 20000,
+      "gold_reward": 900,
+      "trash_waves": [
+        {"name": "The Vault Doors", "pack": "skeleton_warrior", "count": 8},
+        {"name": "Filing Wardens", "pack": "skeleton_mage", "count": 8}
+      ],
+      "bosses": [
+        {
+          "name": "Warden of the First Seal",
+          "archetype": "bruiser",
+          "hp": 60000,
+          "enrage_s": 300,
+          "phases": [
+            {"name": "Sealed", "enter_at": 1.0, "mechanics": [
+              {"id": "seal_slam", "name": "Seal Slam", "type": "zone", "telegraph": "a wax sigil drops over marked ground", "cast_s": 2.5}
+            ]},
+            {"name": "Broken Seal", "enter_at": 0.4, "mechanics": [
+              {"id": "ink_flood", "name": "Ink Flood", "type": "zone", "telegraph": "black ink spreads from the walls", "cast_s": 3.0}
+            ]}
+          ]
+        },
+        {
+          "name": "The Redactor",
+          "archetype": "caster",
+          "hp": 66000,
+          "enrage_s": 320,
+          "phases": [
+            {"name": "Struck Through", "enter_at": 1.0, "mechanics": [
+              {"id": "redact", "name": "Redact", "type": "debuff", "telegraph": "a black bar tracks a player - silenced if it lands", "cast_s": 3.0},
+              {"id": "margin_note", "name": "Margin Note", "type": "zone", "telegraph": "annotations bloom along the edges", "cast_s": 2.5}
+            ]}
+          ]
+        },
+        {
+          "name": "Keeper of Errata",
+          "archetype": "caster",
+          "hp": 72000,
+          "enrage_s": 320,
+          "phases": [
+            {"name": "Corrections", "enter_at": 1.0, "mechanics": [
+              {"id": "errata_swap", "name": "Errata Swap", "type": "debuff", "telegraph": "two players are marked to swap places", "cast_s": 3.0},
+              {"id": "cite", "name": "Cite the Source", "type": "summon", "telegraph": "referenced adds are pulled from the stacks", "cast_s": 2.5}
+            ]}
+          ]
+        },
+        {
+          "name": "The Collector's Ledger",
+          "archetype": "object",
+          "hp": 90000,
+          "enrage_s": 420,
+          "phases": [
+            {"name": "Open Ledger", "enter_at": 1.0, "mechanics": [
+              {"id": "file_the_raid", "name": "File the Raid", "type": "objective", "telegraph": "clerks carry raiders' names toward the Ledger - stop them", "cast_s": 4.0},
+              {"id": "destroy_tablet", "name": "Vulnerable Tablet", "type": "objective", "telegraph": "a tablet surfaces and can be destroyed", "cast_s": 3.0}
+            ]},
+            {"name": "Final Draft", "enter_at": 0.5, "mechanics": [
+              {"id": "file_the_raid", "name": "File the Raid", "type": "objective", "telegraph": "clerks carry raiders' names toward the Ledger - stop them", "cast_s": 4.0},
+              {"id": "finalize", "name": "Finalize", "type": "wipe", "telegraph": "the Ledger snaps shut - a hard cast to interrupt", "cast_s": 5.0}
+            ]}
+          ]
+        }
+      ]
+    },
+    "bloodstone_pit": {
+      "name": "The Bloodstone Pit",
+      "kind": "raid",
+      "tier": "raid",
+      "level": 60,
+      "zone_theme": "bloodstone_pit",
+      "biome": "volcanic",
+      "flavor": "Five descending rings to the finale. At the bottom: Lilith's Vessel, and under the gaze of the rows-of-twelve, the burn.",
+      "lockout_hours": 168,
+      "min_players": 10,
+      "max_players": 20,
+      "trash_loot": "trash_b3",
+      "loot_table": "boss_digging_creature",
+      "xp_reward": 26000,
+      "gold_reward": 1200,
+      "trash_waves": [
+        {"name": "The First Ring", "pack": "orc_warrior", "count": 8},
+        {"name": "The Descent", "pack": "orc_shaman", "count": 8},
+        {"name": "Thread-Walkers", "pack": "skeleton_mage", "count": 6}
+      ],
+      "bosses": [
+        {
+          "name": "The Ring-Warden",
+          "archetype": "bruiser",
+          "hp": 64000,
+          "enrage_s": 300,
+          "phases": [
+            {"name": "First Ring", "enter_at": 1.0, "mechanics": [
+              {"id": "ring_quake", "name": "Ring Quake", "type": "zone", "telegraph": "the outer ring cracks and drops", "cast_s": 2.5}
+            ]}
+          ]
+        },
+        {
+          "name": "The Bleeding Idol",
+          "archetype": "caster",
+          "hp": 70000,
+          "enrage_s": 320,
+          "phases": [
+            {"name": "Weeping Stone", "enter_at": 1.0, "mechanics": [
+              {"id": "blood_pool", "name": "Blood Pool", "type": "zone", "telegraph": "the idol weeps into spreading pools", "cast_s": 3.0}
+            ]}
+          ]
+        },
+        {
+          "name": "Choir of the Third Ring",
+          "archetype": "caster",
+          "hp": 78000,
+          "enrage_s": 320,
+          "phases": [
+            {"name": "In Unison", "enter_at": 1.0, "mechanics": [
+              {"id": "dissonance", "name": "Dissonance", "type": "debuff", "telegraph": "a discordant note marks scattered players", "cast_s": 3.0},
+              {"id": "crescendo", "name": "Crescendo", "type": "zone", "telegraph": "the whole ring swells to a raid-wide hit", "cast_s": 4.0}
+            ]}
+          ]
+        },
+        {
+          "name": "The Threadcutter",
+          "archetype": "lurker",
+          "hp": 86000,
+          "enrage_s": 340,
+          "phases": [
+            {"name": "Severance", "enter_at": 1.0, "mechanics": [
+              {"id": "cut_thread", "name": "Cut the Thread", "type": "line", "telegraph": "a silver line draws between two raiders", "cast_s": 2.5}
+            ]},
+            {"name": "Unraveling", "enter_at": 0.4, "mechanics": [
+              {"id": "cut_thread", "name": "Cut the Thread", "type": "line", "telegraph": "a silver line draws between two raiders", "cast_s": 2.5},
+              {"id": "unspool", "name": "Unspool", "type": "summon", "telegraph": "loose threads knot into thread-walkers", "cast_s": 3.0}
+            ]}
+          ]
+        },
+        {
+          "name": "Lilith's Vessel",
+          "archetype": "finale",
+          "hp": 140000,
+          "enrage_s": 600,
+          "phases": [
+            {"name": "P1 - The Converging", "enter_at": 1.0, "mechanics": [
+              {"id": "thread_converge", "name": "Thread-Walkers Converge", "type": "summon", "telegraph": "thread-walker adds stream toward the pit center", "cast_s": 3.0},
+              {"id": "vessel_lash", "name": "Vessel Lash", "type": "cone", "telegraph": "she sweeps a barbed arc", "cast_s": 2.0}
+            ]},
+            {"name": "P2 - Transmit or Receive", "enter_at": 0.66, "mechanics": [
+              {"id": "the_choice", "name": "Transmit vs Receive", "type": "objective", "telegraph": "two stones light at the pit edge - the raid must choose one to touch", "cast_s": 5.0},
+              {"id": "backlash", "name": "Backlash", "type": "zone", "telegraph": "the unchosen stone punishes the ring it faces", "cast_s": 3.0}
+            ]},
+            {"name": "P3 - Under the Twelve", "enter_at": 0.33, "mechanics": [
+              {"id": "the_gaze", "name": "The Gaze of the Twelve", "type": "debuff", "telegraph": "the rows-of-twelve open their eyes on the raid", "cast_s": 4.0},
+              {"id": "burn", "name": "The Burn", "type": "zone", "telegraph": "the pit floor ignites ring by ring - a DPS race", "cast_s": 3.0},
+              {"id": "the_twelve_wake", "name": "The Twelve Wake (10%)", "type": "summon", "telegraph": "at ten percent the twelve descend from their rows", "cast_s": 4.0}
+            ]}
+          ]
+        }
+      ]
+    }
+  }
+}
