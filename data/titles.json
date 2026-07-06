@@ -1,0 +1,76 @@
+{
+  "_doc": "Raven Hollow titles registry. Consumed by TitleSystem (scripts/systems/title_system.gd). A title is the second name you earned (design/PVP_RANKS_TITLES.md 10). pos = 'prefix' ('Fog-Sergeant Kriggar') or 'suffix' ('Kriggar, the Untithed'). cat groups them in the picker. hidden = not shown in the sheet until earned (survivor/conduct surprises). Titles are permanent once earned. The rank_NN titles are granted by PvPSystem.rank_changed; achievement-reward titles resolve by display name from data/achievements.json reward.title; faction_exalted maps a faction id to the suffix title granted at Exalted.",
+  "faction_exalted": {
+    "angelwings": "exalted_angelwings",
+    "accord": "exalted_accord",
+    "strigoi": "exalted_strigoi",
+    "varcolaci": "exalted_varcolaci",
+    "iele": "exalted_iele",
+    "morven": "exalted_morven"
+  },
+  "titles": {
+    "rank_01": {"name": "Lamplighter",                    "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 1. Keeps one lamp lit on one road."},
+    "rank_02": {"name": "Well-Warden",                    "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 2. Checks the wells for copper, and tastes them."},
+    "rank_03": {"name": "Fog-Sergeant",                   "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 3. Leads a file of lamps through the interior seams."},
+    "rank_04": {"name": "Stone-Sergeant",                 "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 4. Patrols the standing stones and has never read one."},
+    "rank_05": {"name": "Vigil-Blade",                    "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 5. First rank permitted to draw on Accord business."},
+    "rank_06": {"name": "Blade-Lieutenant",               "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 6. Commands a crossing two banners pretend not to watch."},
+    "rank_07": {"name": "Blade-Captain",                  "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 7. Holds a border fort's roll and its tempers."},
+    "rank_08": {"name": "Veil-Champion",                  "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 8. Duels for the Vigil's honor when a grievance is filed."},
+    "rank_09": {"name": "Lieutenant of the Accord",       "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 9. Carries sealed words between capitals; reads none of them."},
+    "rank_10": {"name": "Commander of the Accord",        "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 10. Commands all the lamps of one kingdom's roads."},
+    "rank_11": {"name": "Marshal of the Four Roads",      "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 11. The four capital roads answer to one rider."},
+    "rank_12": {"name": "Field Marshal of the Veil",      "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 12. Holds the fog-line itself in the Long Vigil's name."},
+    "rank_13": {"name": "High Marshal of the Long Vigil", "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 13. Second lamp of the continent. Signs the Roll."},
+    "rank_14": {"name": "Warden of the Pause",            "pos": "prefix", "cat": "pvp_rank", "hidden": false, "desc": "Accord Roll rank 14. Keeps the lamp no one may see out. One per season."},
+
+    "the_untithed":    {"name": "the Untithed",   "pos": "suffix", "cat": "pvp_feat", "hidden": false, "desc": "Finished a season in the top 0.5% of the Accord Roll. The Floor never took a drop."},
+    "of_the_red_sand": {"name": "of the Red Sand", "pos": "suffix", "cat": "pvp_feat", "hidden": false, "desc": "Finished a season in the top 3%."},
+    "pit_proven":      {"name": "Pit-Proven",     "pos": "suffix", "cat": "pvp_feat", "hidden": false, "desc": "Finished a season in the top 10%."},
+    "bloodletter":     {"name": "Bloodletter",    "pos": "suffix", "cat": "pvp_feat", "hidden": false, "desc": "Won 100 rated duels on the Reckoning Floor."},
+    "ledger_long":     {"name": "Ledger-Long",    "pos": "suffix", "cat": "pvp_feat", "hidden": false, "desc": "Fought 1,000 duels, win or lose. The Clerk respects attendance."},
+    "flawless":        {"name": "the Flawless",   "pos": "suffix", "cat": "pvp_feat", "hidden": false, "desc": "Won a match two rounds to none without dropping below 90% health."},
+
+    "pit_breaker":       {"name": "Pit-Breaker",      "pos": "suffix", "cat": "raid", "hidden": false, "desc": "Cleared The Killing Floors. Valrom is down."},
+    "spirewalker":       {"name": "Spirewalker",      "pos": "suffix", "cat": "raid", "hidden": false, "desc": "Cleared The Black Spire. Cazimir found."},
+    "the_bookmark":      {"name": "the Bookmark",     "pos": "suffix", "cat": "raid", "hidden": false, "desc": "Finished The Grave and the Bloodstone Pit. You held the Pause."},
+    "of_the_long_vigil": {"name": "of the Long Vigil", "pos": "suffix", "cat": "raid", "hidden": false, "desc": "Cleared all three raids on one character."},
+    "first_lamp":        {"name": "First Lamp",       "pos": "prefix", "cat": "raid", "hidden": false, "desc": "First clear of a raid within its content season. The one-hearth server-first."},
+
+    "keeper_of_kept_names": {"name": "Keeper of Kept Names", "pos": "prefix", "cat": "event", "hidden": false, "desc": "Finished the capstone of The Kept Names."},
+    "the_ward":             {"name": "the Ward",            "pos": "suffix", "cat": "event", "hidden": false, "desc": "Finished the capstone of Ward's Week."},
+    "emberkept":            {"name": "Emberkept",           "pos": "suffix", "cat": "event", "hidden": false, "desc": "Finished the capstone of The Emberfall Vigil."},
+    "the_proofed":          {"name": "the Proofed",         "pos": "suffix", "cat": "event", "hidden": false, "desc": "Finished the capstone of The Proofing."},
+    "of_the_gift":          {"name": "of the Gift",         "pos": "suffix", "cat": "event", "hidden": false, "desc": "Finished The Gift-Tide. Wear it knowing what the Gift is made of."},
+    "thin_walker":          {"name": "Thin-Walker",         "pos": "suffix", "cat": "event", "hidden": false, "desc": "Finished the capstone of The Thinning."},
+    "stranger_fed":         {"name": "Stranger-Fed",        "pos": "suffix", "cat": "event", "hidden": false, "desc": "Sat at The Table of Strangers."},
+    "count_keeper":         {"name": "Count-Keeper",        "pos": "suffix", "cat": "event", "hidden": false, "desc": "Present at the Turning of the Count bell."},
+
+    "still_walking":  {"name": "Still Walking",  "pos": "suffix", "cat": "survivor", "hidden": true, "desc": "Survived a Hungering pull of 4+ stacks at 5% health. Already collected. Why is it still walking."},
+    "copper_blooded": {"name": "Copper-Blooded", "pos": "suffix", "cat": "survivor", "hidden": true, "desc": "Let Copper-Sickness expire naturally three times. Never bought the cure."},
+    "the_untreated":  {"name": "the Untreated",  "pos": "suffix", "cat": "survivor", "hidden": true, "desc": "Let Infected run its full course five times."},
+    "mange_proof":    {"name": "Mange-Proof",    "pos": "suffix", "cat": "survivor", "hidden": true, "desc": "Killed a dog-swarm pull while at five stacks of Mange."},
+
+    "of_the_four_roads": {"name": "of the Four Roads", "pos": "suffix", "cat": "conduct", "hidden": false, "desc": "Discovered all four capital waystations."},
+    "the_incurious":     {"name": "the Incurious",     "pos": "suffix", "cat": "conduct", "hidden": true,  "desc": "Finished Act I without reading a single inscription stone. Old Marta's own discipline."},
+
+    "the_well_stabled": {"name": "the Well-Stabled", "pos": "suffix", "cat": "conduct", "hidden": false, "desc": "Added 15 mounts to your stable."},
+    "the_chronicler":   {"name": "the Chronicler",   "pos": "prefix", "cat": "conduct", "hidden": false, "desc": "Earned every zone's every-errand deed."},
+    "the_far_walked":   {"name": "the Far-Walked",   "pos": "suffix", "cat": "conduct", "hidden": false, "desc": "Discovered all forty zones."},
+
+    "exalted_angelwings": {"name": "of the Angel Wings", "pos": "suffix", "cat": "faction", "hidden": false, "desc": "Stand Exalted with the Angel Wings."},
+    "exalted_accord":     {"name": "of the Accord",      "pos": "suffix", "cat": "faction", "hidden": false, "desc": "Stand Exalted with the Accord."},
+    "exalted_strigoi":    {"name": "of Blestem",         "pos": "suffix", "cat": "faction", "hidden": false, "desc": "Stand Exalted with the Strigoi of Blestem."},
+    "exalted_varcolaci":  {"name": "of Sangeroasa",      "pos": "suffix", "cat": "faction", "hidden": false, "desc": "Stand Exalted with the Varcolaci of Sangeroasa."},
+    "exalted_iele":       {"name": "of the Black Night", "pos": "suffix", "cat": "faction", "hidden": false, "desc": "Stand Exalted with the Iele of the Black Night."},
+    "exalted_morven":     {"name": "of the Morven",      "pos": "suffix", "cat": "faction", "hidden": false, "desc": "Stand Exalted with the Morven."},
+
+    "legend_warrior":     {"name": "Forgebreaker",   "pos": "suffix", "cat": "legendary", "hidden": true, "desc": "Completed the warrior legendary questline."},
+    "legend_rogue":       {"name": "the Unledgered", "pos": "suffix", "cat": "legendary", "hidden": true, "desc": "Completed the rogue legendary questline."},
+    "legend_mage":        {"name": "the Kindler",    "pos": "suffix", "cat": "legendary", "hidden": true, "desc": "Completed the mage legendary questline."},
+    "legend_paladin":     {"name": "the Dawnkept",   "pos": "suffix", "cat": "legendary", "hidden": true, "desc": "Completed the paladin legendary questline."},
+    "legend_necromancer": {"name": "Threadwright",   "pos": "suffix", "cat": "legendary", "hidden": true, "desc": "Completed the necromancer legendary questline."},
+    "legend_rookwarden":  {"name": "the Rook-Sworn", "pos": "suffix", "cat": "legendary", "hidden": true, "desc": "Completed the rookwarden legendary questline."},
+    "legend_druid":       {"name": "the Fog-Green",  "pos": "suffix", "cat": "legendary", "hidden": true, "desc": "Completed the druid legendary questline."}
+  }
+}
