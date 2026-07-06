@@ -1,0 +1,80 @@
+{
+  "_doc": "Raven Hollow loot tables. Consumed by LootSystem.roll_loot(table_id, luck). Each table: optional gold {chance,min,max}; picks {min,max} = how many weighted draws; drops[] entries {item_id, weight, rarity, quantity}. rarity values: 'roll' (roll a tier from this table's rarity_weights then budget-roll the base item), a fixed tier ('common'..'epic'), 'named' (item_id is a named_rare, fixed stats), or 'material'/'junk' (simple stackable). '__gear__' item_id picks a random base from gear_pool.",
+  "tables": {
+    "trash_b1": {
+      "name": "Border Wilds",
+      "gold": {"chance": 0.45, "min": 1, "max": 3},
+      "picks": {"min": 1, "max": 2},
+      "rarity_weights": {"common": 80, "uncommon": 17.5, "rare": 2.3, "epic": 0.2},
+      "gear_pool": ["leather_cap", "hide_hood", "worn_jerkin", "cloth_breeches", "traveler_shoes", "bent_dagger", "iron_shortsword", "cracked_buckler", "copper_band", "luck_coin"],
+      "drops": [
+        {"item_id": "wolf_pelt_mat", "weight": 34, "rarity": "material", "quantity": [1, 1]},
+        {"item_id": "raw_meat_mat", "weight": 22, "rarity": "material", "quantity": [1, 1]},
+        {"item_id": "__gear__", "weight": 14, "rarity": "roll", "quantity": [1, 1]},
+        {"item_id": "whitepelt_cloak", "weight": 1, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "mourncoat_ruff", "weight": 1, "rarity": "named", "quantity": [1, 1]}
+      ]
+    },
+    "trash_b3": {
+      "name": "Lowland Raiders",
+      "gold": {"chance": 0.9, "min": 4, "max": 10},
+      "picks": {"min": 1, "max": 3},
+      "rarity_weights": {"common": 74, "uncommon": 21, "rare": 4.4, "epic": 0.6},
+      "gear_pool": ["padded_coif", "boiled_leather", "ringmail_vest", "studded_greaves", "scout_boots", "notched_axe", "hunting_spear", "warhammer", "bog_targe", "iron_signet", "bone_ring", "raven_charm"],
+      "drops": [
+        {"item_id": "iron_scrap_mat", "weight": 30, "rarity": "material", "quantity": [1, 2]},
+        {"item_id": "linen_scrap_mat", "weight": 24, "rarity": "material", "quantity": [1, 2]},
+        {"item_id": "__gear__", "weight": 20, "rarity": "roll", "quantity": [1, 1]},
+        {"item_id": "vascas_second_knife", "weight": 2, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "guildless_gloves", "weight": 2, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "dragans_toll_hammer", "weight": 1, "rarity": "named", "quantity": [1, 1]}
+      ]
+    },
+    "elite_b3": {
+      "name": "Rare Spawn",
+      "gold": {"chance": 1.0, "min": 8, "max": 18},
+      "picks": {"min": 2, "max": 3},
+      "rarity_weights": {"common": 30, "uncommon": 52, "rare": 16, "epic": 2},
+      "gear_pool": ["ringmail_vest", "plated_legguards", "hunting_spear", "warhammer", "iron_ward", "bog_targe", "bone_ring", "bone_totem"],
+      "drops": [
+        {"item_id": "__gear__", "weight": 40, "rarity": "roll", "quantity": [1, 1]},
+        {"item_id": "iron_scrap_mat", "weight": 20, "rarity": "material", "quantity": [1, 3]},
+        {"item_id": "whitepelt_cloak", "weight": 8, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "coppertongue_mantle", "weight": 8, "rarity": "named", "quantity": [1, 1]},
+        {"item_id": "ribcage_collar", "weight": 6, "rarity": "named", "quantity": [1, 1]}
+      ]
+    },
+    "boss_digging_creature": {
+      "name": "The Digging Creature",
+      "gold": {"chance": 1.0, "min": 25, "max": 40},
+      "picks": {"min": 3, "max": 4},
+      "rarity_weights": {"common": 0, "uncommon": 74, "rare": 24, "epic": 2},
+      "gear_pool": ["chainmail_hauberk", "plated_legguards", "iron_ward", "warhammer", "bone_totem"],
+      "guaranteed_named": ["tunnelers_claws", "wells_warning_band", "carapace_kite_shield"],
+      "drops": [
+        {"item_id": "chitin_plate_mat", "weight": 100, "rarity": "material", "quantity": [2, 3]},
+        {"item_id": "__gear__", "weight": 50, "rarity": "roll", "quantity": [1, 1]},
+        {"item_id": "kerbstone_greatblade", "weight": 6, "rarity": "named", "quantity": [1, 1]}
+      ]
+    }
+  },
+  "enemy_tables": {
+    "wolf": "trash_b1",
+    "boar": "trash_b1",
+    "bear": "elite_b3",
+    "skeleton": "trash_b1",
+    "skeleton_warrior": "trash_b3",
+    "skeleton_mage": "trash_b3",
+    "orc": "trash_b3",
+    "orc_warrior": "trash_b3",
+    "orc_rogue": "trash_b3",
+    "orc_shaman": "trash_b3"
+  },
+  "materials": {
+    "wolf_pelt_mat":   {"name": "Wolf Pelt",   "icon_hint": "wolf_pelt",  "flavor": "Grey and thick at the ruff."},
+    "raw_meat_mat":    {"name": "Lean Haunch", "icon_hint": "hunters_stew","flavor": "Stringy, but it cooks down."},
+    "iron_scrap_mat":  {"name": "Iron Scrap",  "icon_hint": "iron_scrap", "flavor": "Reforgeable, with patience."},
+    "linen_scrap_mat": {"name": "Linen Scrap", "icon_hint": "iron_scrap", "flavor": "Torn from a raider's undershirt."},
+    "chitin_plate_mat":{"name": "Burrower Chitin Plate", "icon_hint": "iron_scrap", "flavor": "Still faintly warm. Do not think about it."}
+  }
+}
