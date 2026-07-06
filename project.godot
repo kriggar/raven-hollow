@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+AchievementSystem="*res://scripts/systems/achievement_system.gd"
+RunewordSystem="*res://scripts/systems/runeword_system.gd"
+FactionSystem="*res://scripts/systems/faction_system.gd"
+
 InventorySystem="*res://scripts/systems/inventory_system.gd"
 SmartNPCSystem="*res://scripts/systems/smart_npc_system.gd"
 TalentSystem="*res://scripts/systems/talent_system.gd"
@@ -26,7 +30,6 @@ QuestSystem="*res://scripts/systems/quest_system.gd"
 CraftingSystem="*res://scripts/systems/crafting_system.gd"
 MountSystem="*res://scripts/systems/mount_system.gd"
 LootSystem="*res://scripts/systems/loot_system.gd"
-
 VoiceRegistry="*res://scripts/voice_registry.gd"
 Voice="*res://scripts/voice_client.gd"
 TravelSystem="*res://scripts/travel_system.gd"
