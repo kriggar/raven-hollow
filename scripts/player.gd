@@ -1112,6 +1112,31 @@ func take_damage(amount: float, _source: Node) -> void:
 		_die()
 
 
+func take_tick_damage(amount: float, _school: String = "none") -> void:
+	## DoT / status-effect tick (StatusSystem): bypasses the i-frame gate,
+	## armor soak, red flash and camera shake, but absorb pools still soak it.
+	## Additive + guarded: nothing else in the game calls this, so it is inert
+	## until a status effect drives it.
+	if _dead or amount <= 0.0:
+		return
+	var amt: float = amount
+	if _absorb > 0.0:
+		var soaked: float = minf(_absorb, amt)
+		_absorb -= soaked
+		amt -= soaked
+		if _absorb <= 0.0:
+			_clear_buff_fx()
+	if amt <= 0.0:
+		return
+	hp -= amt
+	var parent := get_parent()
+	if parent != null:
+		VFX.damage_number(parent, global_position + Vector2(0.0, -26.0), int(round(amt)), Color(0.62, 0.52, 0.22))
+	if hp <= 0.0:
+		hp = 0.0
+		_die()
+
+
 func _flash_red() -> void:
 	if _flash_tween != null and _flash_tween.is_valid():
 		_flash_tween.kill()
@@ -1182,12 +1207,19 @@ func _apply_equipment() -> void:
 	## hp/mana add to the class maxima, speed_pct multiplies move speed,
 	## damage/armor/crit_pct are read from _totals at hit time.
 	_totals = inventory.stat_totals() if inventory != null else {}
-	max_hp = _base_max_hp + float(_totals.get("hp", 0.0))
+	# StatsSystem (autoload, design/CHARACTER_STATS.md): sync this actor's
+	# class + level, then fold in ONLY the modifier delta (buffs / status
+	# effects such as Infected) additively over the class-def base.
+	# modifier_bonus() reads 0 when nothing is registered -> unchanged behavior.
+	StatsSystem.register(self, str(class_def.get("id", "warrior")), level)
+	max_hp = _base_max_hp + float(_totals.get("hp", 0.0)) + StatsSystem.modifier_bonus(self, "max_health")
+	max_hp = maxf(1.0, max_hp)
 	hp = minf(hp, max_hp)
-	max_mana = _base_max_mana + float(_totals.get("mana", 0.0))
+	max_mana = _base_max_mana + float(_totals.get("mana", 0.0)) + StatsSystem.modifier_bonus(self, "max_mana")
+	max_mana = maxf(0.0, max_mana)
 	mana = minf(mana, max_mana)
 	speed = _base_speed * (1.0 + float(_totals.get("speed_pct", 0.0)) / 100.0)
-	_mana_regen = _base_mana_regen + float(_totals.get("mana_regen", 0.0))
+	_mana_regen = _base_mana_regen + float(_totals.get("mana_regen", 0.0)) + StatsSystem.modifier_bonus(self, "mana_regen")
 	_refresh_weapon()
 	_refresh_shield()
 	_refresh_chest_tint()

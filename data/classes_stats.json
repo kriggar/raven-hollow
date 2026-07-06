@@ -1,0 +1,66 @@
+{
+	"_doc": "Raven Hollow character stats — WoW-Classic primaries (design/CHARACTER_STATS.md, BACKLOG #34). base = [stamina, strength, agility, intellect, spirit] at level 1; grown multiplicatively by `growth` per level. Class hp/mana/mana_regen in class_defs.gd decompose EXACTLY: max_hp = hp_floor + hp_per_stamina*STA; max_mana = mana_floor + mana_per_intellect*INT; mana_regen = mana_regen_per_spirit*SPI. Consumed by scripts/systems/stats_system.gd.",
+	"primaries": ["stamina", "strength", "agility", "intellect", "spirit"],
+	"growth": {
+		"stamina": 1.052,
+		"strength": 1.046,
+		"agility": 1.046,
+		"intellect": 1.040,
+		"spirit": 1.025
+	},
+	"constants": {
+		"hp_floor": 30.0,
+		"mana_floor": 20.0,
+		"hp_per_stamina": 10.0,
+		"mana_per_intellect": 10.0,
+		"ap_per_flat_damage": 2.0,
+		"crit_divisor": 20.0,
+		"armor_per_agility": 20.0,
+		"mana_regen_per_spirit": 0.5,
+		"max_level": 60
+	},
+	"classes": {
+		"warrior": {
+			"base": [11.0, 12.0, 6.0, 3.5, 8.0],
+			"ap_weights": {"strength": 1.0},
+			"crit_primary": "agility",
+			"hp_regen": 1.5
+		},
+		"rogue": {
+			"base": [6.0, 7.0, 12.0, 3.0, 10.0],
+			"ap_weights": {"strength": 0.4, "agility": 0.8},
+			"crit_primary": "agility",
+			"hp_regen": 1.0
+		},
+		"mage": {
+			"base": [5.0, 4.0, 6.0, 10.0, 16.0],
+			"ap_weights": {"intellect": 1.0},
+			"crit_primary": "intellect",
+			"hp_regen": 0.6
+		},
+		"paladin": {
+			"base": [9.0, 10.0, 6.0, 5.0, 10.0],
+			"ap_weights": {"strength": 1.0},
+			"crit_primary": "agility",
+			"hp_regen": 1.2
+		},
+		"necromancer": {
+			"base": [5.5, 4.0, 6.0, 9.0, 14.0],
+			"ap_weights": {"intellect": 1.0},
+			"crit_primary": "intellect",
+			"hp_regen": 0.7
+		},
+		"rookwarden": {
+			"base": [6.5, 6.0, 11.0, 6.0, 12.0],
+			"ap_weights": {"strength": 0.25, "agility": 0.8},
+			"crit_primary": "agility",
+			"hp_regen": 0.9
+		},
+		"druid": {
+			"base": [7.0, 8.0, 7.0, 9.0, 13.0],
+			"ap_weights": {"strength": 0.7, "intellect": 0.7},
+			"crit_primary": "agility",
+			"hp_regen": 1.4
+		}
+	}
+}

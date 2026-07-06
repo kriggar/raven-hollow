@@ -22,6 +22,7 @@ LootSystem="*res://scripts/systems/loot_system.gd"
 VoiceRegistry="*res://scripts/voice_registry.gd"
 Voice="*res://scripts/voice_client.gd"
 TravelSystem="*res://scripts/travel_system.gd"
+StatsSystem="*res://scripts/systems/stats_system.gd"
 
 [debug]
 
