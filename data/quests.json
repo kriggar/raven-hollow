@@ -1,0 +1,242 @@
+{
+  "_doc": "Raven Hollow data-driven quests (BLUEPRINT_27). Givers match NPCData cast ids; targets match live enemy type_names; collect items match LootSystem material ids (drop from trash_b1). Positions are [x,y] in the named map. Two chains: rh_fountain_rumor->rh_fountain_watch and rh_wolves_gate->rh_wolves_proof.",
+  "quests": {
+    "rh_petra_walk": {
+      "title": "Old Petra's Errand",
+      "giver": "wanderer1",
+      "giver_name": "Old Petra",
+      "zone": "town",
+      "level": 1,
+      "type": "side",
+      "tone": "cheerful",
+      "summary": "Old Petra's knees have disagreed with her since the old king. Carry her worry to Gatewarden Iosif and see the east gate for yourself.",
+      "offer": "My knees won't walk me to the gate, dear, but my worry gets there fine. Ask Iosif if he's shutting it early again. And look at the arch while you're there -- tell me it still stands.",
+      "progress": "Iosif keeps the east gate. You'll find him where the wall meets the Emberfall Road.",
+      "complete": "Still standing, is it. Good. Places like this remember when a thing falls down. Here -- for the walk.",
+      "objectives": [
+        {"kind": "talk", "npc": "gatewarden", "text": "Speak with Gatewarden Iosif"},
+        {"kind": "reach", "map": "town", "pos": [2144, 866], "radius": 90, "label": "the east gate", "text": "See the east gate stands"}
+      ],
+      "rewards": {"xp": 55, "gold": 20, "items": ["cracked_buckler"], "rep": {"border_hearths": 75}},
+      "note": "Old Petra nodded, satisfied. The arch still stands. She did not say what she expected instead."
+    },
+
+    "rh_maid_stair": {
+      "title": "The Third Stair",
+      "giver": "maid",
+      "giver_name": "Maid Elsbeth",
+      "zone": "town",
+      "level": 1,
+      "type": "side",
+      "tone": "creepy",
+      "summary": "Elsbeth swears the third stair of the inn creaks now like it's telling secrets -- and always at the same hour. Ask the ones who'd know if a house can go wrong.",
+      "offer": "The third stair creaks at the same hour every night now, and it never used to. Marta says settling. Old Vasile would know if a house can turn strange -- ask them both, and tell me I'm being silly.",
+      "progress": "Marta keeps the inn; Gravekeeper Vasile keeps the older things. Ask them both about the stair.",
+      "complete": "Settling, they both say. Same hour every night is just settling. ...You'd tell me, wouldn't you, if it were something else.",
+      "objectives": [
+        {"kind": "talk", "npc": "innkeeper", "text": "Ask Innkeeper Marta about the stair"},
+        {"kind": "talk", "npc": "gravekeeper", "text": "Ask Gravekeeper Vasile about the stair"}
+      ],
+      "rewards": {"xp": 55, "gold": 25, "items": ["iron_signet"], "rep": {"border_hearths": 75}},
+      "note": "Everyone said the same word -- settling -- at the same hour. Elsbeth stopped using that stair."
+    },
+
+    "rh_fountain_rumor": {
+      "title": "A Wish Gone Missing",
+      "giver": "merchant",
+      "giver_name": "Merchant Tibalt",
+      "zone": "town",
+      "level": 1,
+      "type": "zone",
+      "tone": "intrigue",
+      "summary": "Coins have gone missing from the wishing fountain -- fished out in the night, folk say. Terrible luck, stealing a wish. Gather what the village knows before someone decides who to blame.",
+      "offer": "Someone's been fishing coins from the fountain after dark. Bad luck to steal a wish, worse luck to be accused of it. Before names start flying, hear what Elsbeth and Marta have caught wind of.",
+      "progress": "Maid Elsbeth misses nothing in the taproom; Innkeeper Marta hears every rumor twice. Ask them both.",
+      "complete": "So. Lights on the old road, coins gone by morning, and nobody's foot in the mud. That's not a thief with a purse. Keep this between us -- and keep watching.",
+      "objectives": [
+        {"kind": "talk", "npc": "maid", "text": "Ask Maid Elsbeth about the fountain"},
+        {"kind": "talk", "npc": "innkeeper", "text": "Ask Innkeeper Marta about the fountain"}
+      ],
+      "rewards": {"xp": 50, "gold": 20, "rep": {"border_hearths": 100}},
+      "follow_up": ["rh_fountain_watch"],
+      "note": "Coins gone, no footprints in the mud. Tibalt wanted a thief. He got something worse: a pattern."
+    },
+
+    "rh_fountain_watch": {
+      "title": "Watch by the Old Fountain",
+      "giver": "merchant",
+      "giver_name": "Merchant Tibalt",
+      "zone": "town",
+      "level": 2,
+      "type": "zone",
+      "tone": "creepy",
+      "prereq": ["rh_fountain_rumor"],
+      "summary": "No thief leaves no footprints. Stand watch at the fountain -- and deal with whatever comes up the graveyard path for the coins that were promised to a wish.",
+      "offer": "You watch tonight. Stand by the fountain and see who -- or what -- comes for the coins. Vasile's hill has been restless. Whatever you find down that path... don't let it reach the water.",
+      "progress": "Take up the watch at the fountain in the square, then put down whatever walks the graveyard path.",
+      "complete": "Bone-dry hands and old grave-dirt, and every coin it took laid out in a straight, even line on the rim. Nobody wished for this. Somebody arranged it. Take the charm -- and take care.",
+      "objectives": [
+        {"kind": "reach", "map": "town", "pos": [1120, 790], "radius": 80, "label": "the wishing fountain", "text": "Keep watch at the fountain"},
+        {"kind": "kill", "target": "skeleton", "count": 3, "text": "Put down what walks the graveyard path"}
+      ],
+      "rewards": {"xp": 110, "gold": 40, "items": ["raven_charm"], "rep": {"border_hearths": 150}},
+      "note": "The stolen coins were laid out on the rim in one straight line. A wish is a small thing to steal. Unless you are counting."
+    },
+
+    "rh_boar_cull": {
+      "title": "Roots and Ruin",
+      "giver": "farmer",
+      "giver_name": "Farmer Ansel",
+      "zone": "wilderness",
+      "level": 2,
+      "type": "side",
+      "tone": "cheerful",
+      "summary": "The boars are up out of the Emberfall thickets and into Ansel's field, rooting the harvest to ruin before the fair. Thin them out.",
+      "offer": "Good soil this year, and the boars agree -- they've torn my south field to furrows chasing grubs. Fair's coming and I'll have nothing to show. Thin the brutes on the road and I'll thank you proper.",
+      "progress": "The boars root along the Emberfall Road, out past the east gate. Cull them before the fair.",
+      "complete": "That'll teach them to respect a man's furrows. The wheat won't cut itself, but at least there's wheat to cut now. Take the shield -- old, but it's turned a tusk or two.",
+      "objectives": [
+        {"kind": "kill", "target": "boar", "count": 5, "text": "Cull boars on the Emberfall Road"}
+      ],
+      "rewards": {"xp": 80, "gold": 25, "items": ["round_shield"], "rep": {"border_hearths": 100}},
+      "note": "Ansel got his harvest. The pear tree by the fountain, his grandfather's, kept its fruit another year."
+    },
+
+    "rh_fair_meat": {
+      "title": "Meat for the Harvest Fair",
+      "giver": "innkeeper",
+      "giver_name": "Innkeeper Marta",
+      "zone": "wilderness",
+      "level": 2,
+      "type": "side",
+      "tone": "cheerful",
+      "summary": "The whole village turns out for the harvest fair, and Marta's stew needs actual meat in it this year. Bring back good boar haunch from the road.",
+      "offer": "Harvest's been kind, thank the saints, and the fair means my stew needs meat that was recently walking. Bring me good haunch off the road -- boar, not stringy old wolf -- and there's a warm bowl and a coin in it for you.",
+      "progress": "Boar haunch, mind -- from the beasts along the Emberfall Road. Four good cuts should fill the pot.",
+      "complete": "Now that is meat. The taproom will be full and loud and warm tonight, the way a harvest ought to be. Bless you -- and here, a coin off the fountain that actually brought luck.",
+      "objectives": [
+        {"kind": "collect", "item": "raw_meat_mat", "count": 4, "text": "Gather boar haunch"}
+      ],
+      "rewards": {"xp": 70, "gold": 35, "items": ["luck_coin"], "rep": {"border_hearths": 100}},
+      "note": "The fair was warm and loud and full. For one night Raven Hollow forgot to listen for anything on the road."
+    },
+
+    "rh_old_road": {
+      "title": "As Far as the Old Road Goes",
+      "giver": "wanderer2",
+      "giver_name": "Young Emeric",
+      "zone": "wilderness",
+      "level": 2,
+      "type": "side",
+      "tone": "cheerful",
+      "summary": "Young Emeric dreams of taking the Emberfall Road past the graveyard, past everything. His da says the harvest needs him. Scout the far overlook and bring word of what lies beyond.",
+      "offer": "One day I'm taking the old road as far as it goes -- Vetka, the stone cities, all of it. Da won't hear it till the harvest's in. Walk out to the eastern overlook for me, will you? Tell me it goes somewhere.",
+      "progress": "The overlook sits at the far southeast of the Emberfall Road, where the land drops away toward Vetka.",
+      "complete": "It DOES go somewhere. Vetka, and past it the whole spine of the world. I'll take that road yet -- after the harvest. Thanks for the eyes. Keep the band; a wanderer travels light.",
+      "objectives": [
+        {"kind": "reach", "map": "wilderness", "pos": [1740, 1300], "radius": 120, "label": "the eastern overlook", "text": "Scout the eastern overlook"}
+      ],
+      "rewards": {"xp": 60, "gold": 15, "items": ["copper_band"], "rep": {"border_hearths": 75}},
+      "breadcrumb_to": "vetka",
+      "note": "The road goes to Vetka, and past it everything. Emeric will take it one day. The road keeps what it catches."
+    },
+
+    "rh_wolves_gate": {
+      "title": "The Road Keeps What It Catches",
+      "giver": "gatewarden",
+      "giver_name": "Gatewarden Iosif",
+      "zone": "wilderness",
+      "level": 3,
+      "type": "main",
+      "tone": "creepy",
+      "summary": "The wolves come down off the ridges after dark, and Iosif swears they no longer hunt like wolves -- they spread out even and quiet, pacing off the ground for someone. Break the pack before it finishes measuring.",
+      "offer": "Beyond the arch, the wolves don't hunt like wolves anymore. They spread out even and quiet, like they're pacing off the ground for something to be built on. Break the pack for me -- before it finishes its counting.",
+      "progress": "The pack works the Emberfall Road after dusk. Cut it down -- six should scatter the rest.",
+      "complete": "Six, and the road's quieter for it. But you saw it too, didn't you. They weren't circling like beasts. They were surveying. Take the blade. Come back if your stomach's still with you -- I've a harder ask.",
+      "objectives": [
+        {"kind": "kill", "target": "wolf", "count": 6, "text": "Break the pack on the Emberfall Road"}
+      ],
+      "rewards": {"xp": 120, "gold": 30, "items": ["bent_dagger"], "rep": {"border_hearths": 150}},
+      "follow_up": ["rh_wolves_proof"],
+      "note": "They spread out even and quiet, pacing off the ground. Not hunting. Measuring. For what, Iosif would not say."
+    },
+
+    "rh_wolves_proof": {
+      "title": "Proof for the Warden",
+      "giver": "gatewarden",
+      "giver_name": "Gatewarden Iosif",
+      "zone": "wilderness",
+      "level": 3,
+      "type": "main",
+      "tone": "heavy",
+      "prereq": ["rh_wolves_gate"],
+      "summary": "Iosif wants pelts to send up the road with his warning -- proof that Raven Hollow's wolves have changed. Skin four from the pack, and try not to notice how the fur lies flat in one direction.",
+      "offer": "Nobody up the road believes a gatekeeper. So bring me proof -- four pelts, clean. When they see how the fur's gone strange, maybe they'll shut their own gates before it reaches them.",
+      "progress": "Four wolf pelts from the pack on the Emberfall Road. Take them clean.",
+      "complete": "Look at that. The nap lies all one way, every pelt, like something combed them while they lived. I'll send these up the road. It won't stop what's coming. But someone, somewhere, ought to be warned.",
+      "objectives": [
+        {"kind": "collect", "item": "wolf_pelt_mat", "count": 4, "text": "Gather changed wolf pelts"}
+      ],
+      "rewards": {"xp": 100, "gold": 45, "items": ["whitepelt_cloak"], "rep": {"border_hearths": 175}},
+      "note": "Every pelt's nap lay one way, as if combed while the beast still breathed. Iosif sent them up a road that has never handed anything back."
+    },
+
+    "rh_graveyard_bones": {
+      "title": "The Restless Yard",
+      "giver": "gravekeeper",
+      "giver_name": "Gravekeeper Vasile",
+      "zone": "town",
+      "level": 3,
+      "type": "zone",
+      "tone": "creepy",
+      "summary": "The graveyard is older than the village, and lately its dead don't keep. Vasile is too old to swing a spade at what climbs out. Put the restless bones back down.",
+      "offer": "Everyone ends up on my hill eventually -- the lucky ones slowly. Lately some are in a hurry to leave it. My spade's honest but my back is not. Put the walking ones down for good, and let the yard be old and quiet again.",
+      "progress": "The restless dead rise on the graveyard hill above the village. Lay them back down.",
+      "complete": "Quiet again. For now. Funny -- they always rose facing the fountain, every one. The dead don't have wishes. So who's it they were listening to? Take the ring. It kept its last owner calm enough.",
+      "objectives": [
+        {"kind": "kill", "target": "skeleton", "count": 4, "text": "Lay the restless dead back down"}
+      ],
+      "rewards": {"xp": 100, "gold": 35, "items": ["bone_ring"], "rep": {"border_hearths": 125}},
+      "note": "They rose facing the fountain, every one. The dead keep no wishes. They were listening to something else."
+    },
+
+    "rh_smith_tusks": {
+      "title": "Tusks for the Tempering",
+      "giver": "blacksmith",
+      "giver_name": "Blacksmith Goran",
+      "zone": "wilderness",
+      "level": 3,
+      "type": "side",
+      "tone": "heavy",
+      "summary": "Goran's ore comes up the old road when the old road feels like being a road -- which is seldom, now. Until it does, he'll harden what he has with boar tusk. Bring him a good pile.",
+      "offer": "Ore comes up the old road when the road feels like cooperating, and it hasn't in weeks. A well-hammered nail beats a wish-coin, but I need boar tusk to temper the steel I've got left. Fetch me six beasts' worth off the road.",
+      "progress": "Boar, on the Emberfall Road -- six of them will give tusk enough to temper a season of blades.",
+      "complete": "Good tusk, that. Enough to keep the forge honest till the road remembers itself. Take this shortsword -- I tempered it the old way, before the ore stopped coming. It'll outlast the both of us.",
+      "objectives": [
+        {"kind": "kill", "target": "boar", "count": 6, "text": "Hunt boar on the Emberfall Road"}
+      ],
+      "rewards": {"xp": 105, "gold": 40, "items": ["iron_shortsword"], "rep": {"border_hearths": 100}},
+      "note": "The ore stopped coming up the old road. Goran did not ask why. In Raven Hollow, not asking is its own kind of wisdom."
+    },
+
+    "rh_bear_hollow": {
+      "title": "The Thing in the Hollow",
+      "giver": "gatewarden",
+      "giver_name": "Gatewarden Iosif",
+      "zone": "wilderness",
+      "level": 5,
+      "type": "main",
+      "tone": "heavy",
+      "min_level": 3,
+      "summary": "Something big has denned in the hollow off the road, and it drove even the changed wolves out. Iosif won't send another warden after it. He'll send you -- once.",
+      "offer": "There's a hollow off the road where even the wolves won't go now, and the wolves stopped being sensible weeks ago. A bear, the trappers say -- a big one, gone wrong in the head like the rest of it. I've buried two wardens this season. I won't bury a third. But you... you keep walking back. End it.",
+      "progress": "The beast dens in the hollow off the Emberfall Road. Go carefully -- and come back.",
+      "complete": "You walked back. Again. I'm starting to think the road can't keep you, and saints know it's tried. This was my grandfather's -- the Bent Oar's own luck, they called it. It's yours. You've earned the right to press it back.",
+      "objectives": [
+        {"kind": "kill", "target": "bear", "count": 1, "text": "End the beast in the hollow"}
+      ],
+      "rewards": {"xp": 200, "gold": 80, "items": ["the_bent_oars_luck"], "rep": {"border_hearths": 250}},
+      "note": "The road has tried to keep you and failed. Iosif noticed. So, perhaps, did something older than Iosif."
+    }
+  }
+}
