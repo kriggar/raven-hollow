@@ -1,0 +1,106 @@
+{
+	"_doc": "Raven Hollow factions + reputation (BACKLOG #71). Consumed by scripts/systems/faction_system.gd. Six standings the player builds with the powers of Draconia: the four cold-war races (Strigoi, Varcolaci, Iele, Angel Wings) plus the two cross-faction institutions (the Accord, the Morven). WoW-Classic reputation tiers (Hated -> Exalted), rep stored as a signed int where 0 = the Neutral/Unfriendly boundary the player starts on. Each faction carries an EMBLEM (a placeholder colored badge + a glyph now; a Fable 2D pixel emblem at emblem.path later). Rep gates: per-tier vendor discounts and access unlocks. enemy_bounties map a slain enemy type to the rep it earns (guarded kill hook). Canon: ../_lore_extract.txt (The Four Factions; V. Cross-Faction Institutions).",
+	"tiers": [
+		{"id": "hated",      "name": "Hated",      "floor": -42000, "color": [0.72, 0.16, 0.16]},
+		{"id": "hostile",    "name": "Hostile",    "floor": -6000,  "color": [0.82, 0.34, 0.16]},
+		{"id": "unfriendly", "name": "Unfriendly", "floor": -3000,  "color": [0.85, 0.55, 0.22]},
+		{"id": "neutral",    "name": "Neutral",    "floor": 0,      "color": [0.85, 0.80, 0.35]},
+		{"id": "friendly",   "name": "Friendly",   "floor": 3000,   "color": [0.40, 0.72, 0.32]},
+		{"id": "honored",    "name": "Honored",    "floor": 9000,   "color": [0.30, 0.75, 0.58]},
+		{"id": "revered",    "name": "Revered",    "floor": 21000,  "color": [0.35, 0.60, 0.90]},
+		{"id": "exalted",    "name": "Exalted",    "floor": 42000,  "color": [0.72, 0.48, 0.92]}
+	],
+	"exalted_span": 1000,
+	"factions": {
+		"strigoi": {
+			"id": "strigoi",
+			"name": "The Strigoi",
+			"full_name": "The Strigoi of Blestem",
+			"race": "Vampires",
+			"capital": "Blestem",
+			"cardinal": "East",
+			"desc": "The listening city. Rule by intelligence and fear; they would rather own your secrets than your throat.",
+			"start_rep": 0,
+			"emblem": {"glyph": "V", "path": "res://assets/art/factions/emblem_strigoi.png", "bg": [0.14, 0.09, 0.19], "fg": [0.74, 0.58, 0.92]},
+			"discounts": {"honored": 0.05, "revered": 0.10, "exalted": 0.15},
+			"unlocks": {"friendly": "Lower Market rumor stalls", "honored": "Riddler's Quarter passage", "exalted": "Cazimir's dossiers"}
+		},
+		"varcolaci": {
+			"id": "varcolaci",
+			"name": "The Varcolaci",
+			"full_name": "The Varcolaci of Sangeroasa",
+			"race": "Werewolves",
+			"capital": "Sangeroasa",
+			"cardinal": "South",
+			"desc": "The forge that eats. Valrom's war-clans; industry as violence, violence as worship. The continent's arsenal.",
+			"start_rep": 0,
+			"emblem": {"glyph": "W", "path": "res://assets/art/factions/emblem_varcolaci.png", "bg": [0.22, 0.07, 0.06], "fg": [0.92, 0.44, 0.20]},
+			"discounts": {"honored": 0.05, "revered": 0.10, "exalted": 0.15},
+			"unlocks": {"friendly": "Forge-steel commissions", "honored": "Killing Floors bounties", "exalted": "Gorescream-grade weapons"}
+		},
+		"iele": {
+			"id": "iele",
+			"name": "The Iele",
+			"full_name": "The Iele of Black Night",
+			"race": "Undead",
+			"capital": "Black Night",
+			"cardinal": "North",
+			"desc": "The city over the grave. Will-driven shells on Lilith's Thread; the Council of Six presides over a pit.",
+			"start_rep": 0,
+			"emblem": {"glyph": "I", "path": "res://assets/art/factions/emblem_iele.png", "bg": [0.07, 0.10, 0.20], "fg": [0.42, 0.66, 0.95]},
+			"discounts": {"honored": 0.05, "revered": 0.10, "exalted": 0.15},
+			"unlocks": {"friendly": "Thread-sight charms", "honored": "Grave-descent wards", "exalted": "Council audience"}
+		},
+		"angelwings": {
+			"id": "angelwings",
+			"name": "Angel Wings",
+			"full_name": "The Human Realm of Angel Wings",
+			"race": "Humans",
+			"capital": "Angel Wings",
+			"cardinal": "West",
+			"desc": "The underestimated West. Fielderine's poor, crowded, stubborn realm; the only crown with the instinct to resist the stone.",
+			"start_rep": 0,
+			"emblem": {"glyph": "A", "path": "res://assets/art/factions/emblem_angelwings.png", "bg": [0.10, 0.16, 0.11], "fg": [0.88, 0.82, 0.52]},
+			"discounts": {"honored": 0.05, "revered": 0.10, "exalted": 0.20},
+			"unlocks": {"friendly": "Orphanage safe-house", "honored": "Militia quartermaster", "exalted": "The Lead Vault trust"}
+		},
+		"accord": {
+			"id": "accord",
+			"name": "The Accord",
+			"full_name": "The Accord of Draconia",
+			"race": "Cross-faction treaty",
+			"capital": "Neutral ground",
+			"cardinal": "-",
+			"desc": "The containment treaty that bought the pause. Four powers agreeing to watch the stone forever. Not peace, a leash.",
+			"start_rep": 0,
+			"emblem": {"glyph": "T", "path": "res://assets/art/factions/emblem_accord.png", "bg": [0.15, 0.14, 0.12], "fg": [0.86, 0.80, 0.66]},
+			"discounts": {"honored": 0.05, "revered": 0.10, "exalted": 0.15},
+			"unlocks": {"friendly": "Cross-border writs", "honored": "Accord courier network", "exalted": "Point-Four privileges"}
+		},
+		"morven": {
+			"id": "morven",
+			"name": "The Morven",
+			"full_name": "The Morven (Archive Intelligence)",
+			"race": "Intelligence order",
+			"capital": "The Archive",
+			"cardinal": "-",
+			"desc": "Sabira's order of watchers. The intelligence network that becomes the Archive; they trade in the one thing every faction needs -- to know.",
+			"start_rep": 0,
+			"emblem": {"glyph": "M", "path": "res://assets/art/factions/emblem_morven.png", "bg": [0.09, 0.09, 0.15], "fg": [0.66, 0.62, 0.90]},
+			"discounts": {"honored": 0.05, "revered": 0.12, "exalted": 0.18},
+			"unlocks": {"friendly": "Dead-drop rumors", "honored": "Cipher lessons", "exalted": "The Archivist's ear"}
+		}
+	},
+	"enemy_bounties": {
+		"wolf":        {"angelwings": 60},
+		"dire_wolf":   {"angelwings": 90},
+		"bandit":      {"angelwings": 75, "accord": 40},
+		"orc_warrior": {"accord": 100},
+		"orc":         {"accord": 80},
+		"skeleton":    {"accord": 70, "angelwings": 30},
+		"slag_walker": {"iele": -60, "accord": 90}
+	},
+	"quest_rep": {
+		"the_well_went_copper": {"angelwings": 250}
+	}
+}
