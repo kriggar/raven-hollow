@@ -61,8 +61,8 @@ class_name XPSystem
 ##    maxima WITHOUT the full heal / banner.
 ## =======================================================================
 
-## Demo level cap (post-demo: 60).
-const MAX_LEVEL: int = 10
+## Level cap (WoW-Classic pacing; COMBAT_PACING.md s8).
+const MAX_LEVEL: int = 60
 ## XP cost of reaching level 2 (the curve's anchor).
 const BASE_LEVEL_COST: int = 100
 ## Each later level costs this multiple of the previous one.
@@ -90,13 +90,17 @@ const QUEST_XP_MIN: int = 50
 const QUEST_XP_MAX: int = 150
 
 
-## XP required to advance FROM (level - 1) TO `level`.
-## xp_for_level(2) == 100, xp_for_level(3) == 160, ... Returns 0 for
-## level < 2 and for levels past the cap (nothing left to buy).
+## XP required to advance FROM (level - 1) TO `level`. Quadratic-ish, cap 60
+## (WoW-Classic pacing, COMBAT_PACING.md s8): grind-only kills-to-level ~= 8+1.1*L,
+## quests designed to cover roughly half. Sample outputs:
+##   L2:164  L10:895  L20:2601  L40:8653  L60:18225.
+## (BASE_LEVEL_COST / LEVEL_COST_GROWTH are retained for the pre-cap demo curve
+##  callers but are no longer used by the shipped cap-60 curve.)
 static func xp_for_level(level: int) -> int:
 	if level < 2 or level > MAX_LEVEL:
 		return 0
-	return roundi(float(BASE_LEVEL_COST) * pow(LEVEL_COST_GROWTH, float(level - 2)))
+	var l := float(level - 1)
+	return roundi((8.0 + 1.1 * l) * (14.0 + 4.0 * l))
 
 
 ## Cumulative XP spent to stand at `level` (from a fresh level-1 start).
@@ -117,6 +121,22 @@ static func xp_for_kill(enemy_type: String) -> int:
 		if t == family or t.begins_with(family):
 			return int(KILL_XP[family])
 	return 0
+
+
+## Rank -> kill-XP multiplier (COMBAT_PACING.md s4 RANK_MULT xp component / s8).
+const RANK_XP: Dictionary = {"normal": 1.0, "elite": 5.0, "rare": 12.0}
+
+
+## Kill XP scaled by MOB level + rank with WoW-Classic level-difference falloff
+## (grey mobs): a mob 3+ levels below the player pays 15% less per level down to a
+## 10% floor. Cap-60 replacement for the flat-family xp_for_kill; enemy.gd passes
+## the Enemy's level/rank (defaults 1/normal keep un-tagged mobs sane).
+static func xp_for_kill_scaled(mob_level: int, rank: String, player_level: int) -> int:
+	var base: float = 14.0 + 4.0 * float(maxi(1, mob_level))
+	var rank_mult: float = float(RANK_XP.get(rank, 1.0))
+	var diff: int = player_level - mob_level
+	var falloff: float = clampf(1.0 - 0.15 * float(maxi(0, diff - 2)), 0.10, 1.0)
+	return roundi(base * rank_mult * falloff)
 
 
 ## Grants `amount` xp to the player, resolving any level-ups (each applies

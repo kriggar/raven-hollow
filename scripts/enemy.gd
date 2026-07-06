@@ -636,7 +636,11 @@ func _die() -> void:
 func _grant_kill_rewards() -> void:
 	var killer := get_tree().get_first_node_in_group("player")
 	if killer != null:
-		XPSystem.grant_xp(killer, XPSystem.xp_for_kill(type_name))
+		# BLUEPRINT_33 s8: kill XP scales with the mob's level + rank and greys
+		# out vs an over-levelled player (replaces the flat family table).
+		var plvl_v: Variant = killer.get("level")
+		var plvl: int = int(plvl_v) if (plvl_v is int or plvl_v is float) else 1
+		XPSystem.grant_xp(killer, XPSystem.xp_for_kill_scaled(level, rank, plvl))
 		var inv_v: Variant = killer.get("inventory")
 		if inv_v is Inventory:
 			var got: Array[Dictionary] = Crafting.drop_for_kill(inv_v, type_name)
