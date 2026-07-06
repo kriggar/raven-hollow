@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "purpose": "Calibrated VFX-mode gauntlet bar (design/VFX_PIPELINE.md sections 1+4, First Build Step 1). Bands calibrated OFF the reference packs (Foozle CC0 is THE control), NOT the SPEC guesses.",
+    "generated": "2026-07-06",
+    "generator": "tools/assets (driver, Opus 4.8) calibration harness over the on-disk reference packs",
+    "control_reference": "Foozle CC0 Fire_Ball (10x 64x64) at _downloads/vfx_packs/foozle_pixel_magic/extracted/Foozle_2DE0001_Pixel_Magic_Effects/Fire_Ball",
+    "extra_references": "CodeManu free pixel effects fire sheets (11_fire, 9_brightfire, 6_flamelash) at _downloads/vfx_packs/codemanu_pixel_effects/extracted (8x8 or 7x7 grids of 100x100 cells)",
+    "gate_input_contract": "The gate scores FINISHED frames (post tools/assets/anim_finish.py: shared-palette lock -> box downscale -> hard-edge alpha -> anchor-align). Foozle is already finish-quality; CodeManu RAW sheets are bulk-base that MUST pass anim_finish first (their raw AA edges + high colour counts legitimately fail the finished-frame gate until finished).",
+    "honest_finding": "flat-run ratio does NOT cleanly separate detailed finished fire (codemanu downscaled ~0.53) from soft mush (raw apple 0.76) - resolution/detail density dominates it. The RELIABLE mush discriminators are n_colours (quantized <=110 vs raw 45000+) and whole-region Hasler-Susstrunk colourfulness (real fire spans a red->orange->yellow->white emissive ramp = high colourfulness; a mono-tint AI blob does not). A post-finished blob that survived anim_finish (hard-edged, 24-colour) is structurally indistinguishable from good fire by heuristics; its apple-vs-fireball SHAPE flaw is a job for the ADVISORY VLM identity lens, not a heuristic - forcing a heuristic to reject it would be overfitting."
+  },
+  "thresholds": {
+    "flat_run_floor": 0.50,
+    "n_colors_ceil": 110,
+    "partial_alpha_ceil": 0.005,
+    "offramp_de2000_gt": 10.0,
+    "offramp_ceil": 0.03,
+    "core_colourf_floor": 45.0,
+    "whole_colourf_floor": 80.0,
+    "dominant_frac_floor": 0.45,
+    "orphan_speckle_advisory_max": 9,
+    "drift_ceil": 5.0,
+    "jaccard_floor": 0.80,
+    "palette_quantize_colors": 24,
+    "bright_percentile": 80,
+    "periphery_percentile": 25
+  },
+  "lens_roles": {
+    "hard_block_on_false": ["pixel_art", "partial_alpha", "offramp", "emissive_vivid"],
+    "soft_sanity_generous": ["silhouette", "drift", "jaccard"],
+    "advisory_never_block": ["periphery_desat", "sparkle", "vlm_identity"],
+    "note": "Soft/sanity lenses are calibrated to the Foozle CONTROL (which legitimately travels up to 4.5px/frame and throws spark speckle) so the control passes; they gate only content WORSE than the reference. Advisory lenses log but never block (honest-degrade). Any hard lens returning explicit False blocks; an abstain (None) never blocks."
+  },
+  "calibration_rationale": {
+    "flat_run_floor": "0.50 -- Foozle min-frame 0.889, finished apple 0.928, but legit finished/downscaled CodeManu fire bottoms at 0.527; raw purple mush 0.363 fails. Set below finished-fire floor, above gradient mush.",
+    "n_colors_ceil": "110 (LAW, existing lens_pixel_art) -- Foozle 3-7, finished 24, CodeManu 8-85; raw AI 2982-106300 fails massively. THE primary mush gate.",
+    "partial_alpha_ceil": "0.005 (LAW, hard-edge backed) -- Foozle 0, finished 0. CodeManu RAW carries 2.8-5.3% AA halo (why raw sheets must be finished first). The single cheapest AI-soft-matte discriminator.",
+    "offramp_ceil": "0.03 -- set-mean fraction of opaque px with dE2000>10 to own 24-colour palette. Foozle 0, CodeManu 0-1.1% mean; raw purple 3.9% mean fails.",
+    "core_colourf_floor": "45.0 -- design SPEC; Hasler-Susstrunk of the brightest connected region must be vivid. All fire peaks >=45 (Foozle up to 139); this is the positive emissive requirement, not a mush rejector.",
+    "whole_colourf_floor": "80.0 -- set-mean Hasler-Susstrunk over the whole opaque region. Clean refs 99.6-164 (Foozle 106), finished apple 96; raw mono AI blobs 73-75 fail. The colourfulness-STRUCTURE lens (real fire spans a full emissive ramp; mono-tint mush does not).",
+    "dominant_frac_floor": "0.45 -- set-MEDIAN of the largest connected component's share. Foozle median 0.887 but individual spark frames drop to 0.173, so this is a loose set-level sanity floor, not a per-frame law (the SPEC 'one dominant blob, orphan=0' would wrongly reject the Foozle control's spark frames).",
+    "drift_ceil": "5.0 -- set-MAX centroid displacement. The Foozle control is a TRAVELLING projectile (up to 4.5px/frame on RAW un-anchored frames); ceiling set above it so the control passes. Finished/anchor-aligned candidates sit ~0. Gates only pathological jumps; the real <=1px LAW is enforced upstream by anim_finish anchor_align.",
+    "jaccard_floor": "0.80 -- set-MEAN frame-to-frame palette Jaccard (colours within dE2000<=10 shared). Foozle mean 0.886 (dips to 0.556 across a phase transition), so use the set-mean; catches inter-frame palette flicker worse than the control."
+  },
+  "foozle_control_actuals": {
+    "frames": 10,
+    "flat_run": [0.889, 0.934, 0.953],
+    "n_colors": [3, 5, 7],
+    "partial_alpha": [0.0, 0.0, 0.0],
+    "offramp_de2000_gt10": [0.0, 0.0, 0.0],
+    "n_components": [1, 3.6, 12],
+    "dominant_frac": [0.173, 0.785, 1.0],
+    "orphan_speckle": [0, 0.3, 2],
+    "hotcore_colourf": [0.0, 57.7, 139.4],
+    "core_size_frac": [0.103, 0.190, 0.369],
+    "whole_colourf": [57.3, 106.3, 131.9],
+    "periph_meansat": [17.0, 98.1, 137.0],
+    "drift_px": [1.209, 2.456, 4.520],
+    "palette_jaccard": [0.556, 0.886, 1.000],
+    "format": "[min, mean, max]"
+  },
+  "codemanu_actuals_raw": {
+    "note": "RAW sheet cells (pre-finish); inform band widening. whole_colourf/hotcore are the load-bearing calibration inputs (invariant to the AA-edge/colour-count that finishing removes).",
+    "11_fire":      {"flat_run": [0.828, 0.874, 0.910], "n_colors": [8, 8.6, 12],   "partial_alpha": [0.007, 0.027, 0.053], "whole_colourf": [110.3, 113.1, 115.3], "hotcore_colourf": [78.7, 81.5, 97.4], "periph_meansat": [23.0, 31.7, 38.8]},
+    "9_brightfire": {"flat_run": [0.623, 0.722, 0.785], "n_colors": [65, 76, 85],    "whole_colourf": [155.9, 163.7, 170.0], "hotcore_colourf": [124.7, 137.5, 146.1], "periph_meansat": [187.9, 248.7, 252.3]},
+    "6_flamelash":  {"flat_run": [0.767, 0.902, 1.0],   "n_colors": [2, 42, 79],      "offramp_de2000_gt10": [0.0, 0.011, 0.059], "whole_colourf": [79.0, 99.6, 123.4], "hotcore_colourf": [27.3, 62.0, 87.4], "orphan_speckle": [0, 3.3, 9], "drift_px": [0.131, 1.349, 4.201], "palette_jaccard": [0.714, 0.953, 1.0]}
+  },
+  "mush_actuals": {
+    "note": "Known AI-mush clips used to validate the REJECT half of the gate.",
+    "rh_fb_clean_raw_apple": {"source": "ComfyUI output rh_fb_clean_*.png (512x512 RGB soft Wan apple)", "n_colors": [43783, 45170, 46692], "flat_run": [0.623, 0.746, 0.779], "whole_colourf": [73.1, 75.3, 76.2], "offramp": [0.007, 0.010, 0.024], "gate": "REJECT (pixel_art n_colors + emissive_vivid whole_colourf)"},
+    "rh_vid_fireball_raw_purple": {"source": "ComfyUI output rh_vid_fireball_*.png (480x480 RGB soft purple blob)", "n_colors": [2982, 44627, 106300], "flat_run": [0.296, 0.543, 0.834], "whole_colourf": [36.9, 69.3, 114.5], "offramp": [0.0, 0.038, 0.122], "gate": "REJECT (pixel_art + offramp + emissive_vivid)"},
+    "finished_apple": {"source": "_screens/fireball_final/finished/frames/fireball_*.png (76x67 RGBA, post anim_finish)", "n_colors": [24, 24, 24], "flat_run": [0.902, 0.927, 0.943], "whole_colourf": [95.1, 95.8, 97.1], "gate": "PASS heuristics (legit crisp small-palette sprite); reads as apple not directional fireball -> caught only by the ADVISORY VLM identity lens. Not heuristically rejectable without overfitting."}
+  }
+}
