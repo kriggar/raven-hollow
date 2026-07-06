@@ -636,6 +636,60 @@ func _execute(ability: Dictionary, aim: Vector2) -> void:
 		"volley":
 			_cast_feedback(-aim * 3.0)
 			_do_volley(ability, aim, world)
+	# Build #82/#83 ClassKitSystem wiring (guarded + additive): route the rogue
+	# kit abilities and druid form shifts into the class-kit mechanics. Runs
+	# AFTER the normal dispatch so all existing FX/mechanics are untouched; when
+	# the autoload or a method is absent the game behaves exactly as before.
+	_classkit_route(ability, aim)
+
+
+func _classkit_route(ability: Dictionary, _aim: Vector2) -> void:
+	## Guarded, degrade-safe hand-off to /root/ClassKitSystem (build #82 druid
+	## CAT/BEAR forms, #83 rogue stealth/poison/vanish/assassinate). Matched by
+	## ability id. Purely ADDITIVE: the existing cast behavior in _execute has
+	## already run; this only layers the class-kit mechanic on top. Absent system
+	## or a missing method -> silent no-op (exact prior behavior). MECHANIC ONLY:
+	## touches no _sprite scale/modulate here (the system owns its own tint).
+	var ck: Node = get_node_or_null("/root/ClassKitSystem")
+	if ck == null:
+		return
+	var aid: String = str(ability.get("id", ""))
+	match aid:
+		# --- Rogue kit (#83) ---
+		"shroud":
+			# Shroud of Ash -> enter stealth (speed / stealth-rating swing).
+			if ck.has_method("enter_stealth"):
+				ck.call("enter_stealth", self)
+		"noxious_vial":
+			# Dagger/vial poison -> DoT (or stat-mod fallback) on the target.
+			if ck.has_method("apply_poison"):
+				var pt: Node2D = _classkit_target()
+				if pt != null:
+					ck.call("apply_poison", self, pt)
+		"shadowstep":
+			# Shadowstep -> vanish (break combat + brief invis + restealth).
+			if ck.has_method("vanish"):
+				ck.call("vanish", self)
+		"backstab":
+			# Backstab -> assassinate (from-stealth opener multiplier).
+			if ck.has_method("assassinate"):
+				ck.call("assassinate", self, _classkit_target())
+		# --- Druid forms (#82): shift ALONGSIDE the existing _do_buff buff ---
+		"bear_form":
+			if ck.has_method("shift_form"):
+				ck.call("shift_form", self, "bear")
+		"cat_form":
+			if ck.has_method("shift_form"):
+				ck.call("shift_form", self, "cat")
+
+
+func _classkit_target() -> Node2D:
+	## Best-effort enemy for kit abilities that need one (poison/assassinate):
+	## the current clicked target if still alive, else the nearest enemy. Works
+	## in headless RH_CAST runs (no mouse) since it falls back to proximity.
+	if target != null and is_instance_valid(target) and target.get("is_dead") != true:
+		return target
+	return Combat.find_nearest_enemy(global_position, 200.0)
 
 
 func _cast_feedback(sprite_nudge: Vector2) -> void:

@@ -409,6 +409,28 @@ func _ready() -> void:
 	if _wander_radius > 0.0:
 		# Stagger first departures so villagers do not move in lockstep.
 		_idle_time_left = _rng.randf_range(0.5, IDLE_MAX)
+	_register_life()
+
+
+## NPC life layer (BACKLOG #88): register this villager with NPCLifeSystem so it
+## gets ambient bark bubbles / chatter / job routes / inn-rest. The system polls
+## ONLY registered NPCs, so this hook is what turns the town-life layer on for
+## real world actors. Fully guarded and degrade-safe: if the autoload is absent
+## the NPC behaves exactly as before. Role is left blank so NPCLifeSystem infers
+## it from the id (it lowercases + matches its own KNOWN_ROLES); zone is the live
+## map id when the scene exposes one (blank otherwise). Visuals/placement are
+## never touched here -- registration only.
+func _register_life() -> void:
+	var life: Node = get_node_or_null("/root/NPCLifeSystem")
+	if life == null or not life.has_method("register_npc"):
+		return
+	var zone: String = ""
+	var scene: Node = get_tree().current_scene
+	if scene != null:
+		var z: Variant = scene.get("current_map_id")
+		if z is String:
+			zone = str(z)
+	life.call("register_npc", self, "", zone)
 
 
 func _physics_process(delta: float) -> void:

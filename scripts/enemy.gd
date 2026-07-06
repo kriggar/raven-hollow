@@ -47,6 +47,19 @@ const DEATH_LAYOUTS: Dictionary = {
 	"skeleton_warrior": [8, 48, 48],
 }
 
+## BACKLOG #76 Bestiary: map this mob's type/name to a data/bestiary.json creature
+## id so a landed hit can route that creature's UNIQUE signature debuff through
+## StatusSystem and record it in the codex. Exact species (wolf/boar) win; every
+## other type falls back to its family prefix (skeleton_* / orc_*). Anything with
+## no reasonable match (e.g. bear) resolves to "" and is skipped silently. Best-
+## effort only: undead skeletons -> a signature undead, orc raiders -> a cultist.
+const BESTIARY_MAP: Dictionary = {
+	"wolf": "stonepath_wolf",   # exact species; its signature IS wolf_bite
+	"boar": "thicket_boar",     # exact species; charger beast
+	"skeleton": "bark_revenant",  # family fallback: undead
+	"orc": "ember_cultist",       # family fallback: cultist (humanoid raiders)
+}
+
 var is_dead: bool = false
 var hp: float = 40.0
 var max_hp: float = 40.0
@@ -510,6 +523,10 @@ func _tick_windup(delta: float, player: Node2D) -> void:
 			# and additive -- other enemy types are unaffected.
 			if type_name == "wolf":
 				StatusSystem.apply(player, "wolf_bite", self)
+			# BestiarySystem (#76): on a landed melee hit, apply this creature id's
+			# UNIQUE on-hit signature debuff (via StatusSystem) and record it in
+			# the codex. Fully guarded + additive; unmapped types do nothing.
+			_apply_bestiary_signature(player)
 	_heavy_pending = false
 
 
@@ -723,6 +740,39 @@ func _strike_damage() -> float:
 	return d
 
 
+# --- BACKLOG #76 Bestiary: on-hit signature debuff + codex discovery ---------
+
+
+func _bestiary_id() -> String:
+	## Resolve this enemy to a data/bestiary.json creature id. Exact species
+	## (wolf/boar) first, else the mob family prefix (skeleton_* -> "skeleton",
+	## orc_* -> "orc"). Returns "" for anything unmatched (e.g. bear) so the
+	## caller skips silently. Pure lookup -- no side effects.
+	if BESTIARY_MAP.has(type_name):
+		return str(BESTIARY_MAP[type_name])
+	var fam: String = type_name.split("_")[0] if type_name != "" else ""
+	return str(BESTIARY_MAP.get(fam, ""))
+
+
+func _apply_bestiary_signature(target: Node) -> void:
+	## Guarded + additive bridge to /root/BestiarySystem. On a landed hit it marks
+	## this creature discovered (codex) and routes its UNIQUE signature debuff
+	## through StatusSystem. Absent system, unmapped type, or missing methods all
+	## degrade to a no-op -- base enemy damage/AI is never changed.
+	if target == null or not is_instance_valid(target):
+		return
+	var bid: String = _bestiary_id()
+	if bid == "":
+		return
+	var bs: Node = get_node_or_null("/root/BestiarySystem")
+	if bs == null:
+		return
+	if bs.has_method("discover"):
+		bs.call("discover", bid)
+	if bs.has_method("apply_signature"):
+		bs.call("apply_signature", bid, target)
+
+
 # --- caster (kite + interruptible cast bar) ---------------------------------
 
 
@@ -856,6 +906,8 @@ func _tick_charge(delta: float, player: Node2D) -> void:
 				if _enraged:
 					d *= 1.0 + float(MobScaling.enrage_cfg().get("dmg_bonus", 0.40))
 				Combat.deal_damage(player, d, self)
+				# BestiarySystem (#76): a landed charge counts as an on-hit too.
+				_apply_bestiary_signature(player)
 				if player.has_method("apply_slow"):
 					player.call("apply_slow", _tf("charge_slow_mult", 0.5), _tf("charge_slow_dur", 1.0))
 				_end_charge(false)

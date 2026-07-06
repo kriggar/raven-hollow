@@ -109,7 +109,11 @@ func _run_menu() -> void:
 	var action: String = await _prompt_main_menu()
 	match action:
 		"new_game":
-			var cls: String = await _prompt_class_select()
+			var cls: String = await _begin_new_game()
+			if cls.is_empty():
+				# Player backed out of the select screen -> back to the title.
+				await _run_menu()
+				return
 			SaveSystem.delete_save()
 			_bootstrap_world(cls)
 		"continue":
@@ -170,6 +174,48 @@ func _screenshot_select_screen() -> void:
 		_save_screenshot(shot_path)
 		get_tree().quit(0)
 	capture.call()
+
+
+## New Game entry (#84 -> #43): prefer the Diablo-2 SELECT SCREEN driven by
+## NewGameSystem (it opens SelectScreenSystem and emits new_game_ready(class_id)).
+## Returns the chosen class id, or "" if the player backed out (caller returns to
+## the title). Falls back to the legacy ClassSelect exactly as before when the
+## new autoloads are absent. This path is ONLY reached in an interactive run --
+## RH_CLASS / RH_SMOKE / RH_SHOT boot straight into gameplay before any menu --
+## so awaiting the pick here can never hang a headless boot.
+func _begin_new_game() -> String:
+	var ngs: Node = get_node_or_null("/root/NewGameSystem")
+	if ngs != null and ngs.has_method("start_new_game") and ngs.has_signal("new_game_ready"):
+		# Bind BEFORE starting: when no select screen is present NewGameSystem
+		# emits new_game_ready synchronously INSIDE start_new_game(), so a plain
+		# `await ngs.new_game_ready` afterwards could miss it and stall.
+		var box: Array = [""]
+		var got: Array = [false]
+		var cb := func(cid: Variant) -> void:
+			box[0] = str(cid)
+			got[0] = true
+		ngs.connect("new_game_ready", cb, CONNECT_ONE_SHOT)
+		ngs.call("start_new_game")
+		while not got[0]:
+			await get_tree().process_frame
+			if got[0]:
+				break
+			# Esc closed the select screen without a pick -> treat as cancel so we
+			# never poll forever on a dismissed screen.
+			var ss: Node = get_node_or_null("/root/SelectScreenSystem")
+			if ss != null and ss.has_method("is_select_open") and not bool(ss.call("is_select_open")):
+				if ngs.is_connected("new_game_ready", cb):
+					ngs.disconnect("new_game_ready", cb)
+				if ngs.has_method("cancel"):
+					ngs.call("cancel")
+				return ""
+		var picked: String = str(box[0])
+		if not picked.is_empty():
+			return picked
+		# Empty pick (unexpected) -> safe fallback so a class always spawns.
+		return FALLBACK_CLASS
+	# No new-game autoloads in this build: legacy class-select, unchanged.
+	return await _prompt_class_select()
 
 
 func _prompt_class_select() -> String:
@@ -246,12 +292,38 @@ func _bootstrap_world(class_id: String) -> void:
 	await get_tree().process_frame
 	_camera.make_current()
 
+	# Intro cinematic (#51): play once over the freshly-built New-Game world.
+	# Guarded + skipped entirely under any screenshot/smoke/class-skip automation
+	# so captures and headless tests are unaffected.
+	_maybe_play_intro()
+
 	# Headless automation hooks (no-ops in a normal run).
 	_run_env_hooks()
 
 	# RH_SYS_TEST: prove the StatsSystem + StatusSystem math on boot (#34/#35).
 	if not OS.get_environment("RH_SYS_TEST").is_empty():
 		_run_sys_test(player)
+
+
+## Intro cinematic hook (#51). Fire-and-forget: CinematicSystem commandeers the
+## camera and blocks player input for the duration, then restores both. Fully
+## guarded and degrade-safe -- absent system, missing 'intro', or any automation
+## env leaves the New-Game boot behaving exactly as before.
+func _maybe_play_intro() -> void:
+	# Any screenshot / smoke / class-skip / select automation must NOT see the
+	# cinematic -- it changes framing and can gate on input.
+	for env: String in ["RH_CLASS", "RH_SHOT", "RH_SMOKE", "RH_SELECT"]:
+		if not OS.get_environment(env).is_empty():
+			return
+	var cine: Node = get_node_or_null("/root/CinematicSystem")
+	if cine == null or not cine.has_method("play") or not cine.has_method("has_cinematic"):
+		return
+	if not bool(cine.call("has_cinematic", "intro")):
+		return
+	# Play once per session: was_seen guards replays across quit-to-menu new games.
+	if cine.has_method("was_seen") and bool(cine.call("was_seen", "intro")):
+		return
+	cine.call("play", "intro")
 
 
 func _run_sys_test(player: Node) -> void:
