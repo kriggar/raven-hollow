@@ -1,0 +1,31 @@
+{
+  "_comment": "Backlog #86 -- Menu/UI SFX layer. Logical cue -> .ogg stem + mixer volume. The real files are authored later (TTS/foley pipeline, AAA pass); until they exist on disk every cue resolves silently. Paths live under res://audio/ui/ by convention.",
+  "bus": "Master",
+  "pool_size": 6,
+  "default_volume_db": -10.0,
+  "throttle_ms": 40,
+  "cues": {
+    "hover":          { "stream": "res://audio/ui/hover.ogg",          "volume_db": -18.0, "throttle_ms": 55 },
+    "click":          { "stream": "res://audio/ui/click.ogg",          "volume_db": -11.0 },
+    "confirm":        { "stream": "res://audio/ui/confirm.ogg",        "volume_db": -9.0 },
+    "cancel":         { "stream": "res://audio/ui/cancel.ogg",         "volume_db": -10.0 },
+    "error":          { "stream": "res://audio/ui/error.ogg",          "volume_db": -8.0 },
+    "open_panel":     { "stream": "res://audio/ui/open_panel.ogg",     "volume_db": -10.0 },
+    "close_panel":    { "stream": "res://audio/ui/close_panel.ogg",    "volume_db": -11.0 },
+    "purchase":       { "stream": "res://audio/ui/purchase.ogg",       "volume_db": -8.0 },
+    "equip":          { "stream": "res://audio/ui/equip.ogg",          "volume_db": -9.0 },
+    "level_up_chime": { "stream": "res://audio/ui/level_up_chime.ogg", "volume_db": -6.0 },
+    "quest_accept":   { "stream": "res://audio/ui/quest_accept.ogg",   "volume_db": -8.0 },
+    "page_turn":      { "stream": "res://audio/ui/page_turn.ogg",      "volume_db": -13.0 }
+  },
+  "aliases": {
+    "accept": "confirm",
+    "back": "cancel",
+    "select": "click",
+    "buy": "purchase",
+    "sell": "purchase",
+    "levelup": "level_up_chime",
+    "open": "open_panel",
+    "close": "close_panel"
+  }
+}

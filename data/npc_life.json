@@ -1,0 +1,140 @@
+{
+  "_doc": "Raven Hollow NPC life layer (BACKLOG #88). Consumed by NPCLifeSystem (scripts/systems/npc_life_system.gd). Purely additive ambient life: per-role/per-region/per-zone bark pools spoken as floating speech bubbles, NPC-to-NPC chatter exchanges between friends, seeded friendship/rivalry role-pairs, daily job routes (home-relative waypoint offsets) and an inn-rest window at night. Registered NPCs are re-homed toward route waypoints / the inn by the DayNight clock; unregistered NPCs and a headless boot with no world are untouched. Roles match npc ids/roles from scripts/npc_data.gd + data/npc_schedules.json; region/zone keys match scripts/zone_defs.gd.",
+
+  "bark_cooldown": [11.0, 24.0],
+  "chatter_range": 96.0,
+  "chatter_cooldown": [20.0, 44.0],
+  "rest_from": 22.0,
+  "rest_to": 6.0,
+  "inn_offset": {"x": -60, "y": -20, "radius": 8},
+  "narrative_bark_chance": 0.22,
+
+  "barks": {
+    "role": {
+      "blacksmith": ["Fresh from the forge!", "Mind the sparks.", "Steel wants tempering.", "Bring me your dull blades.", "Hammer sings all day."],
+      "merchant": ["Wares! Fine wares!", "Best prices this side of the river.", "A copper buys a smile.", "Fresh in from the docks.", "Coin talks, friend."],
+      "innkeeper": ["Ale's fresh, bed's warm.", "Rest your boots a while.", "Mind the ravens on the road.", "Room for one more by the fire.", "Stew's on the boil."],
+      "baker": ["Fresh bread!", "Hot loaves, still steaming!", "Best crust in the village.", "Buy two, get the crumbs.", "Bread before the frost sets in."],
+      "farmer": ["Long day in the fields.", "Rain'd do the barley good.", "Backs aching, sun's high.", "Harvest won't wait.", "Fences down again."],
+      "fisher": ["Fresh catch, still flapping!", "River's cold today.", "Nets full this morning.", "Trout for a copper.", "The current's turned mean."],
+      "herbalist": ["Cures and simples!", "Fever-root, three for a coin.", "Nettle for the blood.", "Mind what you pick out there.", "The moor gives, if you know it."],
+      "gravekeeper": ["Mind the ravens.", "The rows are quiet today.", "Keep off the fresh-turned earth.", "The dead keep their own counsel.", "Another for the hill by dusk."],
+      "priest": ["Saints keep you.", "Light a candle for the lost.", "The stone hears, so speak soft.", "Kneel a moment, traveler.", "Grace on your road."],
+      "guard": ["Move along, now.", "Gate's watched, don't fret.", "Trouble on the east road, they say.", "State your business.", "Eyes open after dark."],
+      "gatewarden": ["Gate holds till I say.", "Papers, or turn back.", "Nothing gets past me.", "Storm's coming off the ridge.", "Stay on the road."],
+      "maid": ["Never a floor stays clean.", "Fresh linen for the loft.", "Spilled ale again, I see.", "Dust settles the moment I turn.", "Mind your muddy boots!"],
+      "hunter": ["Wolves are bold this season.", "Tracked something big past the tree line.", "Fresh pelts, cheap.", "Keep your blade close out there.", "The wilds are hungry."],
+      "wanderer": ["Long roads, longer nights.", "Seen the whole border, me.", "The steppe listens, you know.", "A song for a supper?", "Follow the ravens, they eat well."],
+      "child": ["Tag! You're it!", "Ma says stay off the wall!", "Did you see the big dog?", "Bet I can run faster!", "The old stone talks at night!"],
+      "drunk": ["One more, innkeep!", "The... the ravens moved it, I swear.", "Whossat? Oh. Evening.", "Best ale in... in the whole... place.", "Mind the... the step there."]
+    },
+    "region": {
+      "border": ["Copper in the wells again.", "Quiet since the last burial.", "Stay clear of the live stones.", "The rot's arriving in real time."],
+      "west": ["Full granary, empty bellies. Queer times.", "Angel Wings takes the grain, leaves the mud.", "Bandits on the lowland road.", "Pray to the Queen's saints, if you must."],
+      "north": ["Wind off the steppe cuts to the bone.", "The threadlands hum after dark.", "Cold makes the dead restless.", "Gravemark's no place for the living."],
+      "east": ["Ridge passes are choked with snow.", "Whispers in the high stone.", "Blestem's maze eats travelers.", "Keep your lantern lit up there."],
+      "south": ["Ash on the wind from the vents.", "The gift country asks a price.", "Sangeroasa's gate stands closed.", "Smoke tastes of old fire."],
+      "coast": ["Fog rolls thick off the piers.", "Ferry's late, as ever.", "Salt in everything, even the bread.", "The canal barges run at dawn."]
+    },
+    "zone": {
+      "iron_vein": ["The river runs the color of old blood.", "Bog-iron's cursed, my gran said.", "Something's been digging near the dolmen."],
+      "vetka": ["Old Marta's herbs keep the fever off.", "Don't look toward the Chamber.", "The first monster's just a symptom."],
+      "copper_wells": ["Only one clean well left.", "The handprints came back on the wall.", "Wardens guard the live stone."],
+      "angel_wings": ["Poor city, proud city.", "Woodsmoke over every roofline.", "Maren's orphanage is full again."]
+    },
+    "generic": ["Good day to you.", "Mind how you go.", "Well met, traveler.", "Cold enough for you?", "The road's long, rest a while."]
+  },
+
+  "chatter": [
+    {"topic": "weather", "lines": ["Colder than last week, aye?", "Frost'll take the last of the barley.", "Best get the beasts in early, then.", "Aye. Long winter coming."]},
+    {"topic": "ravens", "lines": ["More ravens on the hill today.", "They gather where the dead do.", "Ill omen, that.", "Or just hungry. Same thing, lately."]},
+    {"topic": "trade", "lines": ["Prices are up at the market.", "Merchant's a thief in a good coat.", "Ha! Aren't they all.", "Still, coin's coin. Buy me an ale?"]},
+    {"topic": "news", "lines": ["Heard trouble on the east road.", "Bandits, or worse?", "Worse, they say. Best not travel alone.", "Then I'll walk with you a while."]},
+    {"topic": "gossip", "lines": ["The smith's sweet on the innkeeper, you know.", "Everyone knows but the smith.", "Ha! Poor fool.", "Say nothing. Let him find his own way."]},
+    {"topic": "stone", "lines": ["The old stone hummed again at dusk.", "You heard it too?", "The gravekeeper says don't listen.", "Wise man. I'll keep to my hearth."]},
+    {"topic": "harvest", "lines": ["Fields are near cleared.", "A good year, for once.", "Don't tempt fate saying so.", "Fair. I'll knock on wood."]}
+  ],
+
+  "friend_pairs": [
+    ["blacksmith", "innkeeper"],
+    ["farmer", "farmer"],
+    ["baker", "herbalist"],
+    ["innkeeper", "maid"],
+    ["priest", "gravekeeper"],
+    ["hunter", "fisher"],
+    ["guard", "gatewarden"],
+    ["merchant", "innkeeper"],
+    ["child", "child"],
+    ["wanderer", "drunk"]
+  ],
+  "rival_pairs": [
+    ["merchant", "gravekeeper"],
+    ["blacksmith", "hunter"],
+    ["priest", "drunk"],
+    ["guard", "wanderer"]
+  ],
+
+  "routes": {
+    "role": {
+      "blacksmith": [
+        {"dx": 0, "dy": 0, "label": "the forge"},
+        {"dx": 24, "dy": 8, "label": "the coal store"},
+        {"dx": -12, "dy": 20, "label": "the water trough"}
+      ],
+      "merchant": [
+        {"dx": 0, "dy": 0, "label": "the stall"},
+        {"dx": 40, "dy": 30, "label": "the square"},
+        {"dx": -30, "dy": 12, "label": "the warehouse"}
+      ],
+      "farmer": [
+        {"dx": 30, "dy": 40, "label": "the fields"},
+        {"dx": 60, "dy": 20, "label": "the far furrow"},
+        {"dx": -20, "dy": 10, "label": "the square"}
+      ],
+      "baker": [
+        {"dx": 0, "dy": 0, "label": "the oven"},
+        {"dx": 18, "dy": 24, "label": "the flour store"},
+        {"dx": 30, "dy": -10, "label": "the market"}
+      ],
+      "fisher": [
+        {"dx": 20, "dy": 60, "label": "the river"},
+        {"dx": -40, "dy": 40, "label": "the nets"},
+        {"dx": 0, "dy": 0, "label": "the fish stall"}
+      ],
+      "herbalist": [
+        {"dx": 0, "dy": 0, "label": "the cottage"},
+        {"dx": -50, "dy": 30, "label": "the moor edge"},
+        {"dx": 20, "dy": -20, "label": "the drying shed"}
+      ],
+      "gravekeeper": [
+        {"dx": 0, "dy": 0, "label": "the graveyard"},
+        {"dx": 20, "dy": 24, "label": "the fresh rows"},
+        {"dx": -16, "dy": 12, "label": "the lich-gate"}
+      ],
+      "guard": [
+        {"dx": 0, "dy": 0, "label": "the gate"},
+        {"dx": 50, "dy": 0, "label": "the east wall"},
+        {"dx": -50, "dy": 0, "label": "the west wall"}
+      ],
+      "gatewarden": [
+        {"dx": 0, "dy": 0, "label": "the gate"},
+        {"dx": 18, "dy": -8, "label": "the watch-post"}
+      ],
+      "hunter": [
+        {"dx": 60, "dy": -30, "label": "the tree line"},
+        {"dx": 30, "dy": 40, "label": "the snares"},
+        {"dx": 0, "dy": 0, "label": "the skinning yard"}
+      ],
+      "wanderer": [
+        {"dx": 40, "dy": 40, "label": "the lanes"},
+        {"dx": -40, "dy": -30, "label": "the crossroads"},
+        {"dx": 0, "dy": 50, "label": "the well"}
+      ]
+    },
+    "default": [
+      {"dx": 0, "dy": 0, "label": "home"},
+      {"dx": 20, "dy": 16, "label": "about the lane"},
+      {"dx": -18, "dy": 10, "label": "the well"}
+    ]
+  }
+}

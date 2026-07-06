@@ -1,0 +1,4630 @@
+{
+	"_doc": "Raven Hollow NPC cast roster (BACKLOG #29 ~243 NPCs / #107 the 14 Collector's-Coast zones). DATA only -- names, roles, factions, home zones, personality + signature lines. Deterministic, index-varied generation (tools scratchpad gen_cast.py); no art, no sprites. Consumed by scripts/systems/npc_cast_system.gd; faction ids match data/factions.json; zone ids match scripts/zone_defs.gd.",
+	"version": 1,
+	"coast_zones": [
+		"greyhollow",
+		"drowned_quarter",
+		"canal_maze",
+		"grey_piers",
+		"salt_fens",
+		"dead_timber",
+		"ledger_roads",
+		"morven_reach",
+		"the_archive",
+		"anchorfall",
+		"finalized_fields",
+		"coldharbor_deep",
+		"orange_fog",
+		"last_hearth"
+	],
+	"npcs": [
+		{
+			"id": "iron_vein_innkeeper",
+			"name": "Dragan Corbeanu",
+			"zone": "iron_vein",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Iron Vein, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the black bog. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "iron_vein_blacksmith",
+			"name": "Mircea Corbeanu",
+			"zone": "iron_vein",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Iron Vein.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "iron_vein_merchant",
+			"name": "Vasile Corbeanu",
+			"zone": "iron_vein",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Iron Vein and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "iron_vein_guard_1",
+			"name": "Bogdan Corbeanu",
+			"zone": "iron_vein",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Iron Vein is quiet and I mean to keep it that way.",
+				"You see anything on the black bog, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "iron_vein_guard_2",
+			"name": "Stelian Corbeanu",
+			"zone": "iron_vein",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the black bog. I say I've seen it."
+			]
+		},
+		{
+			"id": "iron_vein_chronicler",
+			"name": "Grigore Corbeanu",
+			"zone": "iron_vein",
+			"role": "Chronicler",
+			"faction": "accord",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the black bog and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "iron_vein_commoner_1",
+			"name": "Lupu Corbeanu",
+			"zone": "iron_vein",
+			"role": "Peat-Cutter",
+			"faction": "",
+			"personality": "Works the black bog from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the black bog, ser. I don't want any trouble.",
+				"Somethin's wrong with The Iron Vein. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "iron_vein_commoner_2",
+			"name": "Sorin Corbeanu",
+			"zone": "iron_vein",
+			"role": "Peat-Cutter",
+			"faction": "",
+			"personality": "Has seen enough of The Iron Vein to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Iron Vein changed."
+			]
+		},
+		{
+			"id": "vetka_innkeeper",
+			"name": "Petru Corbeanu",
+			"zone": "vetka",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Vetka can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Vetka last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "vetka_blacksmith",
+			"name": "Iancu Corbeanu",
+			"zone": "vetka",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "vetka_merchant",
+			"name": "Nedelcu Corbeanu",
+			"zone": "vetka",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Vetka. Especially here.",
+				"Buy low, sell in Vetka -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "vetka_guard_1",
+			"name": "Vlaicu Corbeanu",
+			"zone": "vetka",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the open moor. I say I've seen it."
+			]
+		},
+		{
+			"id": "vetka_guard_2",
+			"name": "Serban Corbeanu",
+			"zone": "vetka",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Watches the open moor more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "vetka_chronicler",
+			"name": "Toma Corbeanu",
+			"zone": "vetka",
+			"role": "Chronicler",
+			"faction": "accord",
+			"personality": "Reads the stones of Vetka and writes down what the town would rather forget.",
+			"lines": [
+				"Vetka has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "vetka_commoner_1",
+			"name": "Ilie Corbeanu",
+			"zone": "vetka",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Has seen enough of Vetka to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Vetka changed."
+			]
+		},
+		{
+			"id": "vetka_commoner_2",
+			"name": "Marcu Corbeanu",
+			"zone": "vetka",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Vetka cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the open moor and came back... not himself."
+			]
+		},
+		{
+			"id": "copper_wells_innkeeper",
+			"name": "Barbu Corbeanu",
+			"zone": "copper_wells",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "copper_wells_blacksmith",
+			"name": "Dorin Corbeanu",
+			"zone": "copper_wells",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "copper_wells_merchant",
+			"name": "Florea Corbeanu",
+			"zone": "copper_wells",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "copper_wells_guard_1",
+			"name": "Gavril Corbeanu",
+			"zone": "copper_wells",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Watches the open moor more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "copper_wells_guard_2",
+			"name": "Horia Corbeanu",
+			"zone": "copper_wells",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Copper Wells is quiet and I mean to keep it that way.",
+				"You see anything on the open moor, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "copper_wells_chronicler",
+			"name": "Lazar Corbeanu",
+			"zone": "copper_wells",
+			"role": "Chronicler",
+			"faction": "accord",
+			"personality": "Believes every death in The Copper Wells is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "copper_wells_commoner_1",
+			"name": "Matei Corbeanu",
+			"zone": "copper_wells",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Copper Wells cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the open moor and came back... not himself."
+			]
+		},
+		{
+			"id": "copper_wells_commoner_2",
+			"name": "Oprea Corbeanu",
+			"zone": "copper_wells",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Works the open moor from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the open moor, ser. I don't want any trouble.",
+				"Somethin's wrong with The Copper Wells. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "stonepath_innkeeper",
+			"name": "Pavel Corbeanu",
+			"zone": "stonepath",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Stonepath, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the wild wood. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "stonepath_blacksmith",
+			"name": "Radomir Corbeanu",
+			"zone": "stonepath",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Stonepath.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "stonepath_merchant",
+			"name": "Sava Corbeanu",
+			"zone": "stonepath",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Stonepath and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "stonepath_guard_1",
+			"name": "Tudor Corbeanu",
+			"zone": "stonepath",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Stonepath is quiet and I mean to keep it that way.",
+				"You see anything on the wild wood, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "stonepath_guard_2",
+			"name": "Ursu Corbeanu",
+			"zone": "stonepath",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the wild wood. I say I've seen it."
+			]
+		},
+		{
+			"id": "stonepath_chronicler",
+			"name": "Vintila Corbeanu",
+			"zone": "stonepath",
+			"role": "Chronicler",
+			"faction": "accord",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the wild wood and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "stonepath_commoner_1",
+			"name": "Zaharia Corbeanu",
+			"zone": "stonepath",
+			"role": "Forager",
+			"faction": "",
+			"personality": "Works the wild wood from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the wild wood, ser. I don't want any trouble.",
+				"Somethin's wrong with The Stonepath. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "stonepath_commoner_2",
+			"name": "Aurel Corbeanu",
+			"zone": "stonepath",
+			"role": "Forager",
+			"faction": "",
+			"personality": "Has seen enough of The Stonepath to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Stonepath changed."
+			]
+		},
+		{
+			"id": "chamber_depths_innkeeper",
+			"name": "Cornel Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter The Chamber Depths can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through The Chamber Depths last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "chamber_depths_blacksmith",
+			"name": "Danciu Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "chamber_depths_merchant",
+			"name": "Emilian Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in The Chamber Depths. Especially here.",
+				"Buy low, sell in The Chamber Depths -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "chamber_depths_guard_1",
+			"name": "Fane Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the under-dark. I say I've seen it."
+			]
+		},
+		{
+			"id": "chamber_depths_guard_2",
+			"name": "Gherghe Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Warden of the Gate",
+			"faction": "accord",
+			"personality": "Watches the under-dark more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "chamber_depths_chronicler",
+			"name": "Iosif Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Chronicler",
+			"faction": "accord",
+			"personality": "Reads the stones of The Chamber Depths and writes down what the town would rather forget.",
+			"lines": [
+				"The Chamber Depths has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "chamber_depths_commoner_1",
+			"name": "Manea Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Has seen enough of The Chamber Depths to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Chamber Depths changed."
+			]
+		},
+		{
+			"id": "chamber_depths_commoner_2",
+			"name": "Nica Corbeanu",
+			"zone": "chamber_depths",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Chamber Depths cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the under-dark and came back... not himself."
+			]
+		},
+		{
+			"id": "grey_marches_innkeeper",
+			"name": "Ozun Corbeanu",
+			"zone": "grey_marches",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "grey_marches_blacksmith",
+			"name": "Radu Corbeanu",
+			"zone": "grey_marches",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "grey_marches_merchant",
+			"name": "Anton Corbeanu",
+			"zone": "grey_marches",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "grey_marches_guard_1",
+			"name": "Costel Corbeanu",
+			"zone": "grey_marches",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Watches the dead wood more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "grey_marches_guard_2",
+			"name": "Ana Corbeanu",
+			"zone": "grey_marches",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Grey Marches is quiet and I mean to keep it that way.",
+				"You see anything on the dead wood, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "grey_marches_chronicler",
+			"name": "Ileana Corbeanu",
+			"zone": "grey_marches",
+			"role": "Chronicler",
+			"faction": "angelwings",
+			"personality": "Believes every death in The Grey Marches is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "grey_marches_commoner_1",
+			"name": "Marta Corbeanu",
+			"zone": "grey_marches",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Grey Marches cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the dead wood and came back... not himself."
+			]
+		},
+		{
+			"id": "grey_marches_commoner_2",
+			"name": "Dorica Corbeanu",
+			"zone": "grey_marches",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Works the dead wood from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the dead wood, ser. I don't want any trouble.",
+				"Somethin's wrong with The Grey Marches. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "western_lowlands_innkeeper",
+			"name": "Sanda Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Western Lowlands, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the tired fields. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "western_lowlands_blacksmith",
+			"name": "Voica Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Western Lowlands.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "western_lowlands_merchant",
+			"name": "Rada Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Western Lowlands and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "western_lowlands_guard_1",
+			"name": "Stanca Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Western Lowlands is quiet and I mean to keep it that way.",
+				"You see anything on the tired fields, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "western_lowlands_guard_2",
+			"name": "Ruxandra Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the tired fields. I say I've seen it."
+			]
+		},
+		{
+			"id": "western_lowlands_chronicler",
+			"name": "Ecaterina Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Chronicler",
+			"faction": "angelwings",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the tired fields and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "western_lowlands_commoner_1",
+			"name": "Mira Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Works the tired fields from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the tired fields, ser. I don't want any trouble.",
+				"Somethin's wrong with The Western Lowlands. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "western_lowlands_commoner_2",
+			"name": "Lenuta Corbeanu",
+			"zone": "western_lowlands",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Has seen enough of The Western Lowlands to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Western Lowlands changed."
+			]
+		},
+		{
+			"id": "angel_wings_innkeeper",
+			"name": "Otilia Corbeanu",
+			"zone": "angel_wings",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Angel Wings can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Angel Wings last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "angel_wings_blacksmith",
+			"name": "Zamfira Corbeanu",
+			"zone": "angel_wings",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "angel_wings_merchant",
+			"name": "Anca Corbeanu",
+			"zone": "angel_wings",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Angel Wings. Especially here.",
+				"Buy low, sell in Angel Wings -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "angel_wings_guard_1",
+			"name": "Draga Corbeanu",
+			"zone": "angel_wings",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the tired fields. I say I've seen it."
+			]
+		},
+		{
+			"id": "angel_wings_guard_2",
+			"name": "Floarea Corbeanu",
+			"zone": "angel_wings",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Watches the tired fields more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "angel_wings_chronicler",
+			"name": "Ioana Corbeanu",
+			"zone": "angel_wings",
+			"role": "Chronicler",
+			"faction": "angelwings",
+			"personality": "Reads the stones of Angel Wings and writes down what the town would rather forget.",
+			"lines": [
+				"Angel Wings has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "angel_wings_commoner_1",
+			"name": "Maricica Corbeanu",
+			"zone": "angel_wings",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Has seen enough of Angel Wings to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Angel Wings changed."
+			]
+		},
+		{
+			"id": "angel_wings_commoner_2",
+			"name": "Neaga Corbeanu",
+			"zone": "angel_wings",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Angel Wings cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the tired fields and came back... not himself."
+			]
+		},
+		{
+			"id": "angel_wings_captain",
+			"name": "Paraschiva Corbeanu",
+			"zone": "angel_wings",
+			"role": "Captain of the Guard",
+			"faction": "angelwings",
+			"personality": "Commands what watch Angel Wings can still muster, and it is never enough.",
+			"lines": [
+				"I answer for every blade on this wall. Give me no reason to draw mine.",
+				"Angel Wings stands because we make it stand. Remember that inside these gates."
+			]
+		},
+		{
+			"id": "angel_wings_apothecary",
+			"name": "Safta Corbeanu",
+			"zone": "angel_wings",
+			"role": "Apothecary",
+			"faction": "angelwings",
+			"personality": "Smells of tallow and wormwood and knows too much about the dead.",
+			"lines": [
+				"Poultice, purge, or poison -- all the same trade to me.",
+				"Bring me nightshade from Angel Wings and I'll owe you a favor."
+			]
+		},
+		{
+			"id": "angel_wings_dignitary",
+			"name": "Tinca Corbeanu",
+			"zone": "angel_wings",
+			"role": "Queen's Reeve",
+			"faction": "angelwings",
+			"personality": "Wields more paper than sword and finds it cuts deeper.",
+			"lines": [
+				"I do not threaten. I merely... note. And the note remembers.",
+				"Angel Wings does not forgive debts. It records them, and it waits."
+			]
+		},
+		{
+			"id": "angel_wings_commoner_3",
+			"name": "Zoe Corbeanu",
+			"zone": "angel_wings",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Works the tired fields from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the tired fields, ser. I don't want any trouble.",
+				"Somethin's wrong with Angel Wings. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "angel_wings_guard_3",
+			"name": "Aglaia Corbeanu",
+			"zone": "angel_wings",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the tired fields. I say I've seen it."
+			]
+		},
+		{
+			"id": "famine_fields_innkeeper",
+			"name": "Casandra Corbeanu",
+			"zone": "famine_fields",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Famine Fields, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the tired fields. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "famine_fields_blacksmith",
+			"name": "Despina Corbeanu",
+			"zone": "famine_fields",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Famine Fields.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "famine_fields_merchant",
+			"name": "Ilinca Corbeanu",
+			"zone": "famine_fields",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Famine Fields and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "famine_fields_guard_1",
+			"name": "Smaranda Corbeanu",
+			"zone": "famine_fields",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Famine Fields is quiet and I mean to keep it that way.",
+				"You see anything on the tired fields, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "famine_fields_guard_2",
+			"name": "Varvara Corbeanu",
+			"zone": "famine_fields",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the tired fields. I say I've seen it."
+			]
+		},
+		{
+			"id": "famine_fields_chronicler",
+			"name": "Zenobia Corbeanu",
+			"zone": "famine_fields",
+			"role": "Chronicler",
+			"faction": "angelwings",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the tired fields and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "famine_fields_commoner_1",
+			"name": "Catrina Corbeanu",
+			"zone": "famine_fields",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Works the tired fields from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the tired fields, ser. I don't want any trouble.",
+				"Somethin's wrong with The Famine Fields. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "famine_fields_commoner_2",
+			"name": "Marioara Corbeanu",
+			"zone": "famine_fields",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Has seen enough of The Famine Fields to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Famine Fields changed."
+			]
+		},
+		{
+			"id": "riverfork_innkeeper",
+			"name": "Profira Corbeanu",
+			"zone": "riverfork",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Riverfork can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Riverfork last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "riverfork_blacksmith",
+			"name": "Dragan Vulpescu",
+			"zone": "riverfork",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "riverfork_merchant",
+			"name": "Mircea Vulpescu",
+			"zone": "riverfork",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Riverfork. Especially here.",
+				"Buy low, sell in Riverfork -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "riverfork_guard_1",
+			"name": "Vasile Vulpescu",
+			"zone": "riverfork",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the tired fields. I say I've seen it."
+			]
+		},
+		{
+			"id": "riverfork_guard_2",
+			"name": "Bogdan Vulpescu",
+			"zone": "riverfork",
+			"role": "Warden of the Gate",
+			"faction": "angelwings",
+			"personality": "Watches the tired fields more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "riverfork_chronicler",
+			"name": "Stelian Vulpescu",
+			"zone": "riverfork",
+			"role": "Chronicler",
+			"faction": "angelwings",
+			"personality": "Reads the stones of Riverfork and writes down what the town would rather forget.",
+			"lines": [
+				"Riverfork has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "riverfork_commoner_1",
+			"name": "Grigore Vulpescu",
+			"zone": "riverfork",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Has seen enough of Riverfork to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Riverfork changed."
+			]
+		},
+		{
+			"id": "riverfork_commoner_2",
+			"name": "Lupu Vulpescu",
+			"zone": "riverfork",
+			"role": "Farmhand",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Riverfork cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the tired fields and came back... not himself."
+			]
+		},
+		{
+			"id": "listening_steppe_innkeeper",
+			"name": "Sorin Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "listening_steppe_blacksmith",
+			"name": "Petru Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "listening_steppe_merchant",
+			"name": "Iancu Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "listening_steppe_guard_1",
+			"name": "Nedelcu Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Watches the long grass more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "listening_steppe_guard_2",
+			"name": "Vlaicu Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Listening Steppe is quiet and I mean to keep it that way.",
+				"You see anything on the long grass, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "listening_steppe_chronicler",
+			"name": "Serban Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Chronicler",
+			"faction": "iele",
+			"personality": "Believes every death in The Listening Steppe is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "listening_steppe_commoner_1",
+			"name": "Toma Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Herd-Drover",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Listening Steppe cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the long grass and came back... not himself."
+			]
+		},
+		{
+			"id": "listening_steppe_commoner_2",
+			"name": "Ilie Vulpescu",
+			"zone": "listening_steppe",
+			"role": "Herd-Drover",
+			"faction": "",
+			"personality": "Works the long grass from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the long grass, ser. I don't want any trouble.",
+				"Somethin's wrong with The Listening Steppe. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "threadlands_innkeeper",
+			"name": "Marcu Vulpescu",
+			"zone": "threadlands",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Threadlands, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the frozen flats. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "threadlands_blacksmith",
+			"name": "Barbu Vulpescu",
+			"zone": "threadlands",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Threadlands.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "threadlands_merchant",
+			"name": "Dorin Vulpescu",
+			"zone": "threadlands",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Threadlands and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "threadlands_guard_1",
+			"name": "Florea Vulpescu",
+			"zone": "threadlands",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Threadlands is quiet and I mean to keep it that way.",
+				"You see anything on the frozen flats, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "threadlands_guard_2",
+			"name": "Gavril Vulpescu",
+			"zone": "threadlands",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the frozen flats. I say I've seen it."
+			]
+		},
+		{
+			"id": "threadlands_chronicler",
+			"name": "Horia Vulpescu",
+			"zone": "threadlands",
+			"role": "Chronicler",
+			"faction": "iele",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the frozen flats and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "threadlands_commoner_1",
+			"name": "Lazar Vulpescu",
+			"zone": "threadlands",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Works the frozen flats from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the frozen flats, ser. I don't want any trouble.",
+				"Somethin's wrong with The Threadlands. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "threadlands_commoner_2",
+			"name": "Matei Vulpescu",
+			"zone": "threadlands",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Has seen enough of The Threadlands to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Threadlands changed."
+			]
+		},
+		{
+			"id": "black_night_innkeeper",
+			"name": "Oprea Vulpescu",
+			"zone": "black_night",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Black Night can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Black Night last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "black_night_blacksmith",
+			"name": "Pavel Vulpescu",
+			"zone": "black_night",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "black_night_merchant",
+			"name": "Radomir Vulpescu",
+			"zone": "black_night",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Black Night. Especially here.",
+				"Buy low, sell in Black Night -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "black_night_guard_1",
+			"name": "Sava Vulpescu",
+			"zone": "black_night",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the frozen flats. I say I've seen it."
+			]
+		},
+		{
+			"id": "black_night_guard_2",
+			"name": "Tudor Vulpescu",
+			"zone": "black_night",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Watches the frozen flats more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "black_night_chronicler",
+			"name": "Ursu Vulpescu",
+			"zone": "black_night",
+			"role": "Chronicler",
+			"faction": "iele",
+			"personality": "Reads the stones of Black Night and writes down what the town would rather forget.",
+			"lines": [
+				"Black Night has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "black_night_commoner_1",
+			"name": "Vintila Vulpescu",
+			"zone": "black_night",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Has seen enough of Black Night to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Black Night changed."
+			]
+		},
+		{
+			"id": "black_night_commoner_2",
+			"name": "Zaharia Vulpescu",
+			"zone": "black_night",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Black Night cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the frozen flats and came back... not himself."
+			]
+		},
+		{
+			"id": "black_night_captain",
+			"name": "Aurel Vulpescu",
+			"zone": "black_night",
+			"role": "Captain of the Guard",
+			"faction": "iele",
+			"personality": "Commands what watch Black Night can still muster, and it is never enough.",
+			"lines": [
+				"I answer for every blade on this wall. Give me no reason to draw mine.",
+				"Black Night stands because we make it stand. Remember that inside these gates."
+			]
+		},
+		{
+			"id": "black_night_apothecary",
+			"name": "Cornel Vulpescu",
+			"zone": "black_night",
+			"role": "Apothecary",
+			"faction": "iele",
+			"personality": "Smells of tallow and wormwood and knows too much about the dead.",
+			"lines": [
+				"Poultice, purge, or poison -- all the same trade to me.",
+				"Bring me nightshade from Black Night and I'll owe you a favor."
+			]
+		},
+		{
+			"id": "black_night_dignitary",
+			"name": "Danciu Vulpescu",
+			"zone": "black_night",
+			"role": "Voice of the Council",
+			"faction": "iele",
+			"personality": "Wields more paper than sword and finds it cuts deeper.",
+			"lines": [
+				"I do not threaten. I merely... note. And the note remembers.",
+				"Black Night does not forgive debts. It records them, and it waits."
+			]
+		},
+		{
+			"id": "black_night_commoner_3",
+			"name": "Emilian Vulpescu",
+			"zone": "black_night",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Works the frozen flats from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the frozen flats, ser. I don't want any trouble.",
+				"Somethin's wrong with Black Night. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "black_night_guard_3",
+			"name": "Fane Vulpescu",
+			"zone": "black_night",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the frozen flats. I say I've seen it."
+			]
+		},
+		{
+			"id": "gravemark_tundra_innkeeper",
+			"name": "Gherghe Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in Gravemark Tundra, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the frozen flats. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "gravemark_tundra_blacksmith",
+			"name": "Iosif Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in Gravemark Tundra.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "gravemark_tundra_merchant",
+			"name": "Manea Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of Gravemark Tundra and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "gravemark_tundra_guard_1",
+			"name": "Nica Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. Gravemark Tundra is quiet and I mean to keep it that way.",
+				"You see anything on the frozen flats, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "gravemark_tundra_guard_2",
+			"name": "Ozun Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the frozen flats. I say I've seen it."
+			]
+		},
+		{
+			"id": "gravemark_tundra_chronicler",
+			"name": "Radu Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Chronicler",
+			"faction": "iele",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the frozen flats and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "gravemark_tundra_commoner_1",
+			"name": "Anton Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Works the frozen flats from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the frozen flats, ser. I don't want any trouble.",
+				"Somethin's wrong with Gravemark Tundra. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "gravemark_tundra_commoner_2",
+			"name": "Costel Vulpescu",
+			"zone": "gravemark_tundra",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Has seen enough of Gravemark Tundra to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Gravemark Tundra changed."
+			]
+		},
+		{
+			"id": "bloodstone_pit_innkeeper",
+			"name": "Ana Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter The Grave & Bloodstone Pit can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through The Grave & Bloodstone Pit last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "bloodstone_pit_blacksmith",
+			"name": "Ileana Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "bloodstone_pit_merchant",
+			"name": "Marta Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in The Grave & Bloodstone Pit. Especially here.",
+				"Buy low, sell in The Grave & Bloodstone Pit -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "bloodstone_pit_guard_1",
+			"name": "Dorica Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the under-dark. I say I've seen it."
+			]
+		},
+		{
+			"id": "bloodstone_pit_guard_2",
+			"name": "Sanda Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Warden of the Gate",
+			"faction": "iele",
+			"personality": "Watches the under-dark more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "bloodstone_pit_chronicler",
+			"name": "Voica Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Chronicler",
+			"faction": "iele",
+			"personality": "Reads the stones of The Grave & Bloodstone Pit and writes down what the town would rather forget.",
+			"lines": [
+				"The Grave & Bloodstone Pit has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "bloodstone_pit_commoner_1",
+			"name": "Rada Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Has seen enough of The Grave & Bloodstone Pit to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Grave & Bloodstone Pit changed."
+			]
+		},
+		{
+			"id": "bloodstone_pit_commoner_2",
+			"name": "Stanca Vulpescu",
+			"zone": "bloodstone_pit",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Grave & Bloodstone Pit cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the under-dark and came back... not himself."
+			]
+		},
+		{
+			"id": "whisper_passes_innkeeper",
+			"name": "Ruxandra Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "whisper_passes_blacksmith",
+			"name": "Ecaterina Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "whisper_passes_merchant",
+			"name": "Mira Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "whisper_passes_guard_1",
+			"name": "Lenuta Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Watches the high passes more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "whisper_passes_guard_2",
+			"name": "Otilia Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Whisper Passes is quiet and I mean to keep it that way.",
+				"You see anything on the high passes, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "whisper_passes_chronicler",
+			"name": "Zamfira Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Chronicler",
+			"faction": "strigoi",
+			"personality": "Believes every death in The Whisper Passes is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "whisper_passes_commoner_1",
+			"name": "Anca Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Whisper Passes cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the high passes and came back... not himself."
+			]
+		},
+		{
+			"id": "whisper_passes_commoner_2",
+			"name": "Draga Vulpescu",
+			"zone": "whisper_passes",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Works the high passes from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the high passes, ser. I don't want any trouble.",
+				"Somethin's wrong with The Whisper Passes. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "eastern_ridges_innkeeper",
+			"name": "Floarea Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Eastern Ridges, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the high passes. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "eastern_ridges_blacksmith",
+			"name": "Ioana Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Eastern Ridges.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "eastern_ridges_merchant",
+			"name": "Maricica Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Eastern Ridges and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "eastern_ridges_guard_1",
+			"name": "Neaga Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Eastern Ridges is quiet and I mean to keep it that way.",
+				"You see anything on the high passes, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "eastern_ridges_guard_2",
+			"name": "Paraschiva Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the high passes. I say I've seen it."
+			]
+		},
+		{
+			"id": "eastern_ridges_chronicler",
+			"name": "Safta Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Chronicler",
+			"faction": "strigoi",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the high passes and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "eastern_ridges_commoner_1",
+			"name": "Tinca Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Works the high passes from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the high passes, ser. I don't want any trouble.",
+				"Somethin's wrong with The Eastern Ridges. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "eastern_ridges_commoner_2",
+			"name": "Zoe Vulpescu",
+			"zone": "eastern_ridges",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Has seen enough of The Eastern Ridges to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Eastern Ridges changed."
+			]
+		},
+		{
+			"id": "blestem_innkeeper",
+			"name": "Aglaia Vulpescu",
+			"zone": "blestem",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Blestem can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Blestem last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "blestem_blacksmith",
+			"name": "Casandra Vulpescu",
+			"zone": "blestem",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "blestem_merchant",
+			"name": "Despina Vulpescu",
+			"zone": "blestem",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Blestem. Especially here.",
+				"Buy low, sell in Blestem -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "blestem_guard_1",
+			"name": "Ilinca Vulpescu",
+			"zone": "blestem",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the high passes. I say I've seen it."
+			]
+		},
+		{
+			"id": "blestem_guard_2",
+			"name": "Smaranda Vulpescu",
+			"zone": "blestem",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Watches the high passes more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "blestem_chronicler",
+			"name": "Varvara Vulpescu",
+			"zone": "blestem",
+			"role": "Chronicler",
+			"faction": "strigoi",
+			"personality": "Reads the stones of Blestem and writes down what the town would rather forget.",
+			"lines": [
+				"Blestem has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "blestem_commoner_1",
+			"name": "Zenobia Vulpescu",
+			"zone": "blestem",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Has seen enough of Blestem to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Blestem changed."
+			]
+		},
+		{
+			"id": "blestem_commoner_2",
+			"name": "Catrina Vulpescu",
+			"zone": "blestem",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Blestem cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the high passes and came back... not himself."
+			]
+		},
+		{
+			"id": "blestem_captain",
+			"name": "Marioara Vulpescu",
+			"zone": "blestem",
+			"role": "Captain of the Guard",
+			"faction": "strigoi",
+			"personality": "Commands what watch Blestem can still muster, and it is never enough.",
+			"lines": [
+				"I answer for every blade on this wall. Give me no reason to draw mine.",
+				"Blestem stands because we make it stand. Remember that inside these gates."
+			]
+		},
+		{
+			"id": "blestem_apothecary",
+			"name": "Profira Vulpescu",
+			"zone": "blestem",
+			"role": "Apothecary",
+			"faction": "strigoi",
+			"personality": "Smells of tallow and wormwood and knows too much about the dead.",
+			"lines": [
+				"Poultice, purge, or poison -- all the same trade to me.",
+				"Bring me nightshade from Blestem and I'll owe you a favor."
+			]
+		},
+		{
+			"id": "blestem_dignitary",
+			"name": "Dragan Lupei",
+			"zone": "blestem",
+			"role": "Riddler of the Court",
+			"faction": "strigoi",
+			"personality": "Wields more paper than sword and finds it cuts deeper.",
+			"lines": [
+				"I do not threaten. I merely... note. And the note remembers.",
+				"Blestem does not forgive debts. It records them, and it waits."
+			]
+		},
+		{
+			"id": "blestem_commoner_3",
+			"name": "Mircea Lupei",
+			"zone": "blestem",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Works the high passes from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the high passes, ser. I don't want any trouble.",
+				"Somethin's wrong with Blestem. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "blestem_guard_3",
+			"name": "Vasile Lupei",
+			"zone": "blestem",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the high passes. I say I've seen it."
+			]
+		},
+		{
+			"id": "lichenreach_innkeeper",
+			"name": "Bogdan Lupei",
+			"zone": "lichenreach",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in Lichenreach, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the under-dark. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "lichenreach_blacksmith",
+			"name": "Stelian Lupei",
+			"zone": "lichenreach",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in Lichenreach.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "lichenreach_merchant",
+			"name": "Grigore Lupei",
+			"zone": "lichenreach",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of Lichenreach and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "lichenreach_guard_1",
+			"name": "Lupu Lupei",
+			"zone": "lichenreach",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. Lichenreach is quiet and I mean to keep it that way.",
+				"You see anything on the under-dark, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "lichenreach_guard_2",
+			"name": "Sorin Lupei",
+			"zone": "lichenreach",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the under-dark. I say I've seen it."
+			]
+		},
+		{
+			"id": "lichenreach_chronicler",
+			"name": "Petru Lupei",
+			"zone": "lichenreach",
+			"role": "Chronicler",
+			"faction": "strigoi",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the under-dark and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "lichenreach_commoner_1",
+			"name": "Iancu Lupei",
+			"zone": "lichenreach",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Works the under-dark from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the under-dark, ser. I don't want any trouble.",
+				"Somethin's wrong with Lichenreach. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "lichenreach_commoner_2",
+			"name": "Nedelcu Lupei",
+			"zone": "lichenreach",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Has seen enough of Lichenreach to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Lichenreach changed."
+			]
+		},
+		{
+			"id": "transcub_vale_innkeeper",
+			"name": "Vlaicu Lupei",
+			"zone": "transcub_vale",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter The Transcub Vale can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through The Transcub Vale last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "transcub_vale_blacksmith",
+			"name": "Serban Lupei",
+			"zone": "transcub_vale",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "transcub_vale_merchant",
+			"name": "Toma Lupei",
+			"zone": "transcub_vale",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in The Transcub Vale. Especially here.",
+				"Buy low, sell in The Transcub Vale -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "transcub_vale_guard_1",
+			"name": "Ilie Lupei",
+			"zone": "transcub_vale",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the high passes. I say I've seen it."
+			]
+		},
+		{
+			"id": "transcub_vale_guard_2",
+			"name": "Marcu Lupei",
+			"zone": "transcub_vale",
+			"role": "Warden of the Gate",
+			"faction": "strigoi",
+			"personality": "Watches the high passes more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "transcub_vale_chronicler",
+			"name": "Barbu Lupei",
+			"zone": "transcub_vale",
+			"role": "Chronicler",
+			"faction": "strigoi",
+			"personality": "Reads the stones of The Transcub Vale and writes down what the town would rather forget.",
+			"lines": [
+				"The Transcub Vale has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "transcub_vale_commoner_1",
+			"name": "Dorin Lupei",
+			"zone": "transcub_vale",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Has seen enough of The Transcub Vale to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Transcub Vale changed."
+			]
+		},
+		{
+			"id": "transcub_vale_commoner_2",
+			"name": "Florea Lupei",
+			"zone": "transcub_vale",
+			"role": "Goat-Herd",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Transcub Vale cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the high passes and came back... not himself."
+			]
+		},
+		{
+			"id": "bloodroad_innkeeper",
+			"name": "Gavril Lupei",
+			"zone": "bloodroad",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "bloodroad_blacksmith",
+			"name": "Horia Lupei",
+			"zone": "bloodroad",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "bloodroad_merchant",
+			"name": "Lazar Lupei",
+			"zone": "bloodroad",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "bloodroad_guard_1",
+			"name": "Matei Lupei",
+			"zone": "bloodroad",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Watches the cinder slopes more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "bloodroad_guard_2",
+			"name": "Oprea Lupei",
+			"zone": "bloodroad",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Bloodroad is quiet and I mean to keep it that way.",
+				"You see anything on the cinder slopes, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "bloodroad_chronicler",
+			"name": "Pavel Lupei",
+			"zone": "bloodroad",
+			"role": "Chronicler",
+			"faction": "varcolaci",
+			"personality": "Believes every death in The Bloodroad is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "bloodroad_commoner_1",
+			"name": "Radomir Lupei",
+			"zone": "bloodroad",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Bloodroad cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the cinder slopes and came back... not himself."
+			]
+		},
+		{
+			"id": "bloodroad_commoner_2",
+			"name": "Sava Lupei",
+			"zone": "bloodroad",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Works the cinder slopes from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the cinder slopes, ser. I don't want any trouble.",
+				"Somethin's wrong with The Bloodroad. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "basaltfang_innkeeper",
+			"name": "Tudor Lupei",
+			"zone": "basaltfang",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in Basaltfang Range, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the cinder slopes. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "basaltfang_blacksmith",
+			"name": "Ursu Lupei",
+			"zone": "basaltfang",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in Basaltfang Range.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "basaltfang_merchant",
+			"name": "Vintila Lupei",
+			"zone": "basaltfang",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of Basaltfang Range and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "basaltfang_guard_1",
+			"name": "Zaharia Lupei",
+			"zone": "basaltfang",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. Basaltfang Range is quiet and I mean to keep it that way.",
+				"You see anything on the cinder slopes, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "basaltfang_guard_2",
+			"name": "Aurel Lupei",
+			"zone": "basaltfang",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the cinder slopes. I say I've seen it."
+			]
+		},
+		{
+			"id": "basaltfang_chronicler",
+			"name": "Cornel Lupei",
+			"zone": "basaltfang",
+			"role": "Chronicler",
+			"faction": "varcolaci",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the cinder slopes and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "basaltfang_commoner_1",
+			"name": "Danciu Lupei",
+			"zone": "basaltfang",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Works the cinder slopes from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the cinder slopes, ser. I don't want any trouble.",
+				"Somethin's wrong with Basaltfang Range. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "basaltfang_commoner_2",
+			"name": "Emilian Lupei",
+			"zone": "basaltfang",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Has seen enough of Basaltfang Range to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Basaltfang Range changed."
+			]
+		},
+		{
+			"id": "sangeroasa_innkeeper",
+			"name": "Fane Lupei",
+			"zone": "sangeroasa",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Sangeroasa can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Sangeroasa last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "sangeroasa_blacksmith",
+			"name": "Gherghe Lupei",
+			"zone": "sangeroasa",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "sangeroasa_merchant",
+			"name": "Iosif Lupei",
+			"zone": "sangeroasa",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Sangeroasa. Especially here.",
+				"Buy low, sell in Sangeroasa -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "sangeroasa_guard_1",
+			"name": "Manea Lupei",
+			"zone": "sangeroasa",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the cinder slopes. I say I've seen it."
+			]
+		},
+		{
+			"id": "sangeroasa_guard_2",
+			"name": "Nica Lupei",
+			"zone": "sangeroasa",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Watches the cinder slopes more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "sangeroasa_chronicler",
+			"name": "Ozun Lupei",
+			"zone": "sangeroasa",
+			"role": "Chronicler",
+			"faction": "varcolaci",
+			"personality": "Reads the stones of Sangeroasa and writes down what the town would rather forget.",
+			"lines": [
+				"Sangeroasa has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "sangeroasa_commoner_1",
+			"name": "Radu Lupei",
+			"zone": "sangeroasa",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Has seen enough of Sangeroasa to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Sangeroasa changed."
+			]
+		},
+		{
+			"id": "sangeroasa_commoner_2",
+			"name": "Anton Lupei",
+			"zone": "sangeroasa",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Sangeroasa cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the cinder slopes and came back... not himself."
+			]
+		},
+		{
+			"id": "sangeroasa_captain",
+			"name": "Costel Lupei",
+			"zone": "sangeroasa",
+			"role": "Captain of the Guard",
+			"faction": "varcolaci",
+			"personality": "Commands what watch Sangeroasa can still muster, and it is never enough.",
+			"lines": [
+				"I answer for every blade on this wall. Give me no reason to draw mine.",
+				"Sangeroasa stands because we make it stand. Remember that inside these gates."
+			]
+		},
+		{
+			"id": "sangeroasa_apothecary",
+			"name": "Ana Lupei",
+			"zone": "sangeroasa",
+			"role": "Apothecary",
+			"faction": "varcolaci",
+			"personality": "Smells of tallow and wormwood and knows too much about the dead.",
+			"lines": [
+				"Poultice, purge, or poison -- all the same trade to me.",
+				"Bring me nightshade from Sangeroasa and I'll owe you a favor."
+			]
+		},
+		{
+			"id": "sangeroasa_dignitary",
+			"name": "Ileana Lupei",
+			"zone": "sangeroasa",
+			"role": "Forge-Master's Envoy",
+			"faction": "varcolaci",
+			"personality": "Wields more paper than sword and finds it cuts deeper.",
+			"lines": [
+				"I do not threaten. I merely... note. And the note remembers.",
+				"Sangeroasa does not forgive debts. It records them, and it waits."
+			]
+		},
+		{
+			"id": "sangeroasa_commoner_3",
+			"name": "Marta Lupei",
+			"zone": "sangeroasa",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Works the cinder slopes from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the cinder slopes, ser. I don't want any trouble.",
+				"Somethin's wrong with Sangeroasa. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "sangeroasa_guard_3",
+			"name": "Dorica Lupei",
+			"zone": "sangeroasa",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the cinder slopes. I say I've seen it."
+			]
+		},
+		{
+			"id": "the_gift_innkeeper",
+			"name": "Sanda Lupei",
+			"zone": "the_gift",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Gift, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the cinder slopes. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "the_gift_blacksmith",
+			"name": "Voica Lupei",
+			"zone": "the_gift",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Gift.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "the_gift_merchant",
+			"name": "Rada Lupei",
+			"zone": "the_gift",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Gift and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "the_gift_guard_1",
+			"name": "Stanca Lupei",
+			"zone": "the_gift",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Gift is quiet and I mean to keep it that way.",
+				"You see anything on the cinder slopes, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "the_gift_guard_2",
+			"name": "Ruxandra Lupei",
+			"zone": "the_gift",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the cinder slopes. I say I've seen it."
+			]
+		},
+		{
+			"id": "the_gift_chronicler",
+			"name": "Ecaterina Lupei",
+			"zone": "the_gift",
+			"role": "Chronicler",
+			"faction": "varcolaci",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the cinder slopes and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "the_gift_commoner_1",
+			"name": "Mira Lupei",
+			"zone": "the_gift",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Works the cinder slopes from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the cinder slopes, ser. I don't want any trouble.",
+				"Somethin's wrong with The Gift. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "the_gift_commoner_2",
+			"name": "Lenuta Lupei",
+			"zone": "the_gift",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Has seen enough of The Gift to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Gift changed."
+			]
+		},
+		{
+			"id": "ashvents_innkeeper",
+			"name": "Otilia Lupei",
+			"zone": "ashvents",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter The Ashvents can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through The Ashvents last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "ashvents_blacksmith",
+			"name": "Zamfira Lupei",
+			"zone": "ashvents",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "ashvents_merchant",
+			"name": "Anca Lupei",
+			"zone": "ashvents",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in The Ashvents. Especially here.",
+				"Buy low, sell in The Ashvents -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "ashvents_guard_1",
+			"name": "Draga Lupei",
+			"zone": "ashvents",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the cinder slopes. I say I've seen it."
+			]
+		},
+		{
+			"id": "ashvents_guard_2",
+			"name": "Floarea Lupei",
+			"zone": "ashvents",
+			"role": "Warden of the Gate",
+			"faction": "varcolaci",
+			"personality": "Watches the cinder slopes more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "ashvents_chronicler",
+			"name": "Ioana Lupei",
+			"zone": "ashvents",
+			"role": "Chronicler",
+			"faction": "varcolaci",
+			"personality": "Reads the stones of The Ashvents and writes down what the town would rather forget.",
+			"lines": [
+				"The Ashvents has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "ashvents_commoner_1",
+			"name": "Maricica Lupei",
+			"zone": "ashvents",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Has seen enough of The Ashvents to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Ashvents changed."
+			]
+		},
+		{
+			"id": "ashvents_commoner_2",
+			"name": "Neaga Lupei",
+			"zone": "ashvents",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Ashvents cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the cinder slopes and came back... not himself."
+			]
+		},
+		{
+			"id": "greyhollow_innkeeper",
+			"name": "Paraschiva Lupei",
+			"zone": "greyhollow",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "greyhollow_blacksmith",
+			"name": "Safta Lupei",
+			"zone": "greyhollow",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "greyhollow_merchant",
+			"name": "Tinca Lupei",
+			"zone": "greyhollow",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "greyhollow_guard_1",
+			"name": "Zoe Lupei",
+			"zone": "greyhollow",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the grey wharves more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "greyhollow_guard_2",
+			"name": "Aglaia Lupei",
+			"zone": "greyhollow",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. Greyhollow is quiet and I mean to keep it that way.",
+				"You see anything on the grey wharves, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "greyhollow_chronicler",
+			"name": "Casandra Lupei",
+			"zone": "greyhollow",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Believes every death in Greyhollow is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "greyhollow_commoner_1",
+			"name": "Despina Lupei",
+			"zone": "greyhollow",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Greyhollow cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the grey wharves and came back... not himself."
+			]
+		},
+		{
+			"id": "greyhollow_commoner_2",
+			"name": "Ilinca Lupei",
+			"zone": "greyhollow",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Works the grey wharves from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the grey wharves, ser. I don't want any trouble.",
+				"Somethin's wrong with Greyhollow. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "greyhollow_dockmaster",
+			"name": "Smaranda Lupei",
+			"zone": "greyhollow",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Has stamped more foreclosures than manifests this season.",
+			"lines": [
+				"I don't move cargo. I move ledgers. The cargo follows.",
+				"Owe the Coast long enough and the Coast comes to collect."
+			]
+		},
+		{
+			"id": "greyhollow_clerk",
+			"name": "Varvara Lupei",
+			"zone": "greyhollow",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Counts souls in Greyhollow the way others count coin -- carefully, coldly.",
+			"lines": [
+				"The Archive wants it written. What I want stopped mattering years ago.",
+				"Nothing is lost on the Coast. It is only... filed."
+			]
+		},
+		{
+			"id": "greyhollow_watcher",
+			"name": "Zenobia Lupei",
+			"zone": "greyhollow",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Sabira's eye on Greyhollow; hears everything, is seen by almost no one.",
+			"lines": [
+				"I watch. That is the whole of the trade, and the whole of the price.",
+				"The Archive knows your face already. I'm only confirming it."
+			]
+		},
+		{
+			"id": "greyhollow_captain",
+			"name": "Catrina Lupei",
+			"zone": "greyhollow",
+			"role": "Captain of the Guard",
+			"faction": "morven",
+			"personality": "Holds the wall of Greyhollow out of spite more than hope.",
+			"lines": [
+				"I've buried more of my watch than I command. Don't add to it.",
+				"The Accord bought us a pause, not a peace. Stay sharp."
+			]
+		},
+		{
+			"id": "greyhollow_apothecary",
+			"name": "Marioara Lupei",
+			"zone": "greyhollow",
+			"role": "Apothecary",
+			"faction": "morven",
+			"personality": "Knows which herb of Greyhollow heals and which one settles a grudge.",
+			"lines": [
+				"Green bottle mends, black bottle ends. Don't mix them up.",
+				"The dead don't buy medicine. The frightened buy the most."
+			]
+		},
+		{
+			"id": "greyhollow_dignitary",
+			"name": "Profira Lupei",
+			"zone": "greyhollow",
+			"role": "Archivist's Deputy",
+			"faction": "morven",
+			"personality": "A cold official who files the Coast on Sabira's authority.",
+			"lines": [
+				"You stand in Greyhollow now. Conduct yourself accordingly.",
+				"Power is patience, traveler. We have outlasted every road that led here."
+			]
+		},
+		{
+			"id": "greyhollow_commoner_3",
+			"name": "Dragan Ursaru",
+			"zone": "greyhollow",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Has seen enough of Greyhollow to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Greyhollow changed."
+			]
+		},
+		{
+			"id": "greyhollow_guard_3",
+			"name": "Mircea Ursaru",
+			"zone": "greyhollow",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the grey wharves more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "drowned_quarter_innkeeper",
+			"name": "Vasile Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter The Drowned Quarter can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through The Drowned Quarter last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "drowned_quarter_blacksmith",
+			"name": "Bogdan Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "drowned_quarter_merchant",
+			"name": "Stelian Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in The Drowned Quarter. Especially here.",
+				"Buy low, sell in The Drowned Quarter -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "drowned_quarter_guard_1",
+			"name": "Grigore Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the grey wharves. I say I've seen it."
+			]
+		},
+		{
+			"id": "drowned_quarter_guard_2",
+			"name": "Lupu Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the grey wharves more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "drowned_quarter_chronicler",
+			"name": "Sorin Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Reads the stones of The Drowned Quarter and writes down what the town would rather forget.",
+			"lines": [
+				"The Drowned Quarter has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "drowned_quarter_commoner_1",
+			"name": "Petru Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Has seen enough of The Drowned Quarter to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Drowned Quarter changed."
+			]
+		},
+		{
+			"id": "drowned_quarter_commoner_2",
+			"name": "Iancu Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Drowned Quarter cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the grey wharves and came back... not himself."
+			]
+		},
+		{
+			"id": "drowned_quarter_dockmaster",
+			"name": "Nedelcu Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Logs every hull into The Drowned Quarter and every debt that sails with it.",
+			"lines": [
+				"Every keel that touches The Drowned Quarter gets counted. Yours included.",
+				"The Collector takes his share off the top. Always has."
+			]
+		},
+		{
+			"id": "drowned_quarter_clerk",
+			"name": "Vlaicu Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Trusts the ledger over the living; the ledger never lies to her.",
+			"lines": [
+				"Sign here. The ink's cheaper than what it costs to refuse.",
+				"I record who was taken. I do not record where they went."
+			]
+		},
+		{
+			"id": "drowned_quarter_watcher",
+			"name": "Serban Ursaru",
+			"zone": "drowned_quarter",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "A Morven watcher who trades the one coin that never devalues -- knowing.",
+			"lines": [
+				"Speak softly on the Coast. Someone is always taking notes.",
+				"A rumor's worth more than gold here. I deal in both."
+			]
+		},
+		{
+			"id": "canal_maze_innkeeper",
+			"name": "Toma Ursaru",
+			"zone": "canal_maze",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "canal_maze_blacksmith",
+			"name": "Ilie Ursaru",
+			"zone": "canal_maze",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "canal_maze_merchant",
+			"name": "Marcu Ursaru",
+			"zone": "canal_maze",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "canal_maze_guard_1",
+			"name": "Barbu Ursaru",
+			"zone": "canal_maze",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the grey wharves more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "canal_maze_guard_2",
+			"name": "Dorin Ursaru",
+			"zone": "canal_maze",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Canal Maze is quiet and I mean to keep it that way.",
+				"You see anything on the grey wharves, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "canal_maze_chronicler",
+			"name": "Florea Ursaru",
+			"zone": "canal_maze",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Believes every death in The Canal Maze is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "canal_maze_commoner_1",
+			"name": "Gavril Ursaru",
+			"zone": "canal_maze",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Canal Maze cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the grey wharves and came back... not himself."
+			]
+		},
+		{
+			"id": "canal_maze_commoner_2",
+			"name": "Horia Ursaru",
+			"zone": "canal_maze",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Works the grey wharves from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the grey wharves, ser. I don't want any trouble.",
+				"Somethin's wrong with The Canal Maze. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "canal_maze_dockmaster",
+			"name": "Lazar Ursaru",
+			"zone": "canal_maze",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Has stamped more foreclosures than manifests this season.",
+			"lines": [
+				"I don't move cargo. I move ledgers. The cargo follows.",
+				"Owe the Coast long enough and the Coast comes to collect."
+			]
+		},
+		{
+			"id": "canal_maze_clerk",
+			"name": "Matei Ursaru",
+			"zone": "canal_maze",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Counts souls in The Canal Maze the way others count coin -- carefully, coldly.",
+			"lines": [
+				"The Archive wants it written. What I want stopped mattering years ago.",
+				"Nothing is lost on the Coast. It is only... filed."
+			]
+		},
+		{
+			"id": "canal_maze_watcher",
+			"name": "Oprea Ursaru",
+			"zone": "canal_maze",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Sabira's eye on The Canal Maze; hears everything, is seen by almost no one.",
+			"lines": [
+				"I watch. That is the whole of the trade, and the whole of the price.",
+				"The Archive knows your face already. I'm only confirming it."
+			]
+		},
+		{
+			"id": "grey_piers_innkeeper",
+			"name": "Pavel Ursaru",
+			"zone": "grey_piers",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Grey Piers, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the grey wharves. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "grey_piers_blacksmith",
+			"name": "Radomir Ursaru",
+			"zone": "grey_piers",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Grey Piers.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "grey_piers_merchant",
+			"name": "Sava Ursaru",
+			"zone": "grey_piers",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Grey Piers and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "grey_piers_guard_1",
+			"name": "Tudor Ursaru",
+			"zone": "grey_piers",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Grey Piers is quiet and I mean to keep it that way.",
+				"You see anything on the grey wharves, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "grey_piers_guard_2",
+			"name": "Ursu Ursaru",
+			"zone": "grey_piers",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the grey wharves. I say I've seen it."
+			]
+		},
+		{
+			"id": "grey_piers_chronicler",
+			"name": "Vintila Ursaru",
+			"zone": "grey_piers",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the grey wharves and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "grey_piers_commoner_1",
+			"name": "Zaharia Ursaru",
+			"zone": "grey_piers",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Works the grey wharves from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the grey wharves, ser. I don't want any trouble.",
+				"Somethin's wrong with The Grey Piers. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "grey_piers_commoner_2",
+			"name": "Aurel Ursaru",
+			"zone": "grey_piers",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Has seen enough of The Grey Piers to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Grey Piers changed."
+			]
+		},
+		{
+			"id": "grey_piers_dockmaster",
+			"name": "Cornel Ursaru",
+			"zone": "grey_piers",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Runs the wharf by the tide-bell and the Collector's tally alike.",
+			"lines": [
+				"No berth without a chit. No chit without a debt cleared.",
+				"Tide's turning. So's your luck, if you're new to the Coast."
+			]
+		},
+		{
+			"id": "grey_piers_clerk",
+			"name": "Danciu Ursaru",
+			"zone": "grey_piers",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "A Morven hand who files the drowned before they're cold.",
+			"lines": [
+				"Name, debt, and date of collection. In that order.",
+				"Everyone on this Coast is an entry, friend. Even you now."
+			]
+		},
+		{
+			"id": "grey_piers_watcher",
+			"name": "Emilian Ursaru",
+			"zone": "grey_piers",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Keeps three secrets for every word she lets slip.",
+			"lines": [
+				"You want to know something? So does everyone. What's it worth to you?",
+				"Sabira sees the whole board. I only move the pieces near The Grey Piers."
+			]
+		},
+		{
+			"id": "salt_fens_innkeeper",
+			"name": "Fane Ursaru",
+			"zone": "salt_fens",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter The Salt Fens can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through The Salt Fens last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "salt_fens_blacksmith",
+			"name": "Gherghe Ursaru",
+			"zone": "salt_fens",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "salt_fens_merchant",
+			"name": "Iosif Ursaru",
+			"zone": "salt_fens",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in The Salt Fens. Especially here.",
+				"Buy low, sell in The Salt Fens -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "salt_fens_guard_1",
+			"name": "Manea Ursaru",
+			"zone": "salt_fens",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the black bog. I say I've seen it."
+			]
+		},
+		{
+			"id": "salt_fens_guard_2",
+			"name": "Nica Ursaru",
+			"zone": "salt_fens",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the black bog more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "salt_fens_chronicler",
+			"name": "Ozun Ursaru",
+			"zone": "salt_fens",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Reads the stones of The Salt Fens and writes down what the town would rather forget.",
+			"lines": [
+				"The Salt Fens has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "salt_fens_commoner_1",
+			"name": "Radu Ursaru",
+			"zone": "salt_fens",
+			"role": "Peat-Cutter",
+			"faction": "",
+			"personality": "Has seen enough of The Salt Fens to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Salt Fens changed."
+			]
+		},
+		{
+			"id": "salt_fens_commoner_2",
+			"name": "Anton Ursaru",
+			"zone": "salt_fens",
+			"role": "Peat-Cutter",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Salt Fens cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the black bog and came back... not himself."
+			]
+		},
+		{
+			"id": "salt_fens_dockmaster",
+			"name": "Costel Ursaru",
+			"zone": "salt_fens",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Logs every hull into The Salt Fens and every debt that sails with it.",
+			"lines": [
+				"Every keel that touches The Salt Fens gets counted. Yours included.",
+				"The Collector takes his share off the top. Always has."
+			]
+		},
+		{
+			"id": "salt_fens_clerk",
+			"name": "Ana Ursaru",
+			"zone": "salt_fens",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Trusts the ledger over the living; the ledger never lies to her.",
+			"lines": [
+				"Sign here. The ink's cheaper than what it costs to refuse.",
+				"I record who was taken. I do not record where they went."
+			]
+		},
+		{
+			"id": "salt_fens_watcher",
+			"name": "Ileana Ursaru",
+			"zone": "salt_fens",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "A Morven watcher who trades the one coin that never devalues -- knowing.",
+			"lines": [
+				"Speak softly on the Coast. Someone is always taking notes.",
+				"A rumor's worth more than gold here. I deal in both."
+			]
+		},
+		{
+			"id": "dead_timber_innkeeper",
+			"name": "Marta Ursaru",
+			"zone": "dead_timber",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "dead_timber_blacksmith",
+			"name": "Dorica Ursaru",
+			"zone": "dead_timber",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "dead_timber_merchant",
+			"name": "Sanda Ursaru",
+			"zone": "dead_timber",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "dead_timber_guard_1",
+			"name": "Voica Ursaru",
+			"zone": "dead_timber",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the dead wood more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "dead_timber_guard_2",
+			"name": "Rada Ursaru",
+			"zone": "dead_timber",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Dead Timber is quiet and I mean to keep it that way.",
+				"You see anything on the dead wood, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "dead_timber_chronicler",
+			"name": "Stanca Ursaru",
+			"zone": "dead_timber",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Believes every death in The Dead Timber is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "dead_timber_commoner_1",
+			"name": "Ruxandra Ursaru",
+			"zone": "dead_timber",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Dead Timber cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the dead wood and came back... not himself."
+			]
+		},
+		{
+			"id": "dead_timber_commoner_2",
+			"name": "Ecaterina Ursaru",
+			"zone": "dead_timber",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Works the dead wood from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the dead wood, ser. I don't want any trouble.",
+				"Somethin's wrong with The Dead Timber. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "dead_timber_dockmaster",
+			"name": "Mira Ursaru",
+			"zone": "dead_timber",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Has stamped more foreclosures than manifests this season.",
+			"lines": [
+				"I don't move cargo. I move ledgers. The cargo follows.",
+				"Owe the Coast long enough and the Coast comes to collect."
+			]
+		},
+		{
+			"id": "dead_timber_clerk",
+			"name": "Lenuta Ursaru",
+			"zone": "dead_timber",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Counts souls in The Dead Timber the way others count coin -- carefully, coldly.",
+			"lines": [
+				"The Archive wants it written. What I want stopped mattering years ago.",
+				"Nothing is lost on the Coast. It is only... filed."
+			]
+		},
+		{
+			"id": "dead_timber_watcher",
+			"name": "Otilia Ursaru",
+			"zone": "dead_timber",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Sabira's eye on The Dead Timber; hears everything, is seen by almost no one.",
+			"lines": [
+				"I watch. That is the whole of the trade, and the whole of the price.",
+				"The Archive knows your face already. I'm only confirming it."
+			]
+		},
+		{
+			"id": "ledger_roads_innkeeper",
+			"name": "Zamfira Ursaru",
+			"zone": "ledger_roads",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in The Ledger Roads, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the dead wood. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "ledger_roads_blacksmith",
+			"name": "Anca Ursaru",
+			"zone": "ledger_roads",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in The Ledger Roads.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "ledger_roads_merchant",
+			"name": "Draga Ursaru",
+			"zone": "ledger_roads",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of The Ledger Roads and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "ledger_roads_guard_1",
+			"name": "Floarea Ursaru",
+			"zone": "ledger_roads",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Ledger Roads is quiet and I mean to keep it that way.",
+				"You see anything on the dead wood, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "ledger_roads_guard_2",
+			"name": "Ioana Ursaru",
+			"zone": "ledger_roads",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the dead wood. I say I've seen it."
+			]
+		},
+		{
+			"id": "ledger_roads_chronicler",
+			"name": "Maricica Ursaru",
+			"zone": "ledger_roads",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the dead wood and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "ledger_roads_commoner_1",
+			"name": "Neaga Ursaru",
+			"zone": "ledger_roads",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Works the dead wood from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the dead wood, ser. I don't want any trouble.",
+				"Somethin's wrong with The Ledger Roads. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "ledger_roads_commoner_2",
+			"name": "Paraschiva Ursaru",
+			"zone": "ledger_roads",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Has seen enough of The Ledger Roads to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Ledger Roads changed."
+			]
+		},
+		{
+			"id": "ledger_roads_dockmaster",
+			"name": "Safta Ursaru",
+			"zone": "ledger_roads",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Runs the wharf by the tide-bell and the Collector's tally alike.",
+			"lines": [
+				"No berth without a chit. No chit without a debt cleared.",
+				"Tide's turning. So's your luck, if you're new to the Coast."
+			]
+		},
+		{
+			"id": "ledger_roads_clerk",
+			"name": "Tinca Ursaru",
+			"zone": "ledger_roads",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "A Morven hand who files the drowned before they're cold.",
+			"lines": [
+				"Name, debt, and date of collection. In that order.",
+				"Everyone on this Coast is an entry, friend. Even you now."
+			]
+		},
+		{
+			"id": "ledger_roads_watcher",
+			"name": "Zoe Ursaru",
+			"zone": "ledger_roads",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Keeps three secrets for every word she lets slip.",
+			"lines": [
+				"You want to know something? So does everyone. What's it worth to you?",
+				"Sabira sees the whole board. I only move the pieces near The Ledger Roads."
+			]
+		},
+		{
+			"id": "morven_reach_innkeeper",
+			"name": "Aglaia Ursaru",
+			"zone": "morven_reach",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Morven Reach can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Morven Reach last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "morven_reach_blacksmith",
+			"name": "Casandra Ursaru",
+			"zone": "morven_reach",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "morven_reach_merchant",
+			"name": "Despina Ursaru",
+			"zone": "morven_reach",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Morven Reach. Especially here.",
+				"Buy low, sell in Morven Reach -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "morven_reach_guard_1",
+			"name": "Ilinca Ursaru",
+			"zone": "morven_reach",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the grey wharves. I say I've seen it."
+			]
+		},
+		{
+			"id": "morven_reach_guard_2",
+			"name": "Smaranda Ursaru",
+			"zone": "morven_reach",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the grey wharves more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "morven_reach_chronicler",
+			"name": "Varvara Ursaru",
+			"zone": "morven_reach",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Reads the stones of Morven Reach and writes down what the town would rather forget.",
+			"lines": [
+				"Morven Reach has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "morven_reach_commoner_1",
+			"name": "Zenobia Ursaru",
+			"zone": "morven_reach",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Has seen enough of Morven Reach to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Morven Reach changed."
+			]
+		},
+		{
+			"id": "morven_reach_commoner_2",
+			"name": "Catrina Ursaru",
+			"zone": "morven_reach",
+			"role": "Dockhand",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Morven Reach cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the grey wharves and came back... not himself."
+			]
+		},
+		{
+			"id": "morven_reach_dockmaster",
+			"name": "Marioara Ursaru",
+			"zone": "morven_reach",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Logs every hull into Morven Reach and every debt that sails with it.",
+			"lines": [
+				"Every keel that touches Morven Reach gets counted. Yours included.",
+				"The Collector takes his share off the top. Always has."
+			]
+		},
+		{
+			"id": "morven_reach_clerk",
+			"name": "Profira Ursaru",
+			"zone": "morven_reach",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Trusts the ledger over the living; the ledger never lies to her.",
+			"lines": [
+				"Sign here. The ink's cheaper than what it costs to refuse.",
+				"I record who was taken. I do not record where they went."
+			]
+		},
+		{
+			"id": "morven_reach_watcher",
+			"name": "Dragan Cenusa",
+			"zone": "morven_reach",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "A Morven watcher who trades the one coin that never devalues -- knowing.",
+			"lines": [
+				"Speak softly on the Coast. Someone is always taking notes.",
+				"A rumor's worth more than gold here. I deal in both."
+			]
+		},
+		{
+			"id": "the_archive_innkeeper",
+			"name": "Mircea Cenusa",
+			"zone": "the_archive",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "the_archive_blacksmith",
+			"name": "Vasile Cenusa",
+			"zone": "the_archive",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "the_archive_merchant",
+			"name": "Bogdan Cenusa",
+			"zone": "the_archive",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "the_archive_guard_1",
+			"name": "Stelian Cenusa",
+			"zone": "the_archive",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the frozen flats more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "the_archive_guard_2",
+			"name": "Grigore Cenusa",
+			"zone": "the_archive",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Archive is quiet and I mean to keep it that way.",
+				"You see anything on the frozen flats, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "the_archive_chronicler",
+			"name": "Lupu Cenusa",
+			"zone": "the_archive",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Believes every death in The Archive is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "the_archive_commoner_1",
+			"name": "Sorin Cenusa",
+			"zone": "the_archive",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Archive cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the frozen flats and came back... not himself."
+			]
+		},
+		{
+			"id": "the_archive_commoner_2",
+			"name": "Petru Cenusa",
+			"zone": "the_archive",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Works the frozen flats from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the frozen flats, ser. I don't want any trouble.",
+				"Somethin's wrong with The Archive. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "the_archive_dockmaster",
+			"name": "Iancu Cenusa",
+			"zone": "the_archive",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Has stamped more foreclosures than manifests this season.",
+			"lines": [
+				"I don't move cargo. I move ledgers. The cargo follows.",
+				"Owe the Coast long enough and the Coast comes to collect."
+			]
+		},
+		{
+			"id": "the_archive_clerk",
+			"name": "Nedelcu Cenusa",
+			"zone": "the_archive",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Counts souls in The Archive the way others count coin -- carefully, coldly.",
+			"lines": [
+				"The Archive wants it written. What I want stopped mattering years ago.",
+				"Nothing is lost on the Coast. It is only... filed."
+			]
+		},
+		{
+			"id": "the_archive_watcher",
+			"name": "Vlaicu Cenusa",
+			"zone": "the_archive",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Sabira's eye on The Archive; hears everything, is seen by almost no one.",
+			"lines": [
+				"I watch. That is the whole of the trade, and the whole of the price.",
+				"The Archive knows your face already. I'm only confirming it."
+			]
+		},
+		{
+			"id": "the_archive_captain",
+			"name": "Serban Cenusa",
+			"zone": "the_archive",
+			"role": "Captain of the Guard",
+			"faction": "morven",
+			"personality": "Holds the wall of The Archive out of spite more than hope.",
+			"lines": [
+				"I've buried more of my watch than I command. Don't add to it.",
+				"The Accord bought us a pause, not a peace. Stay sharp."
+			]
+		},
+		{
+			"id": "the_archive_apothecary",
+			"name": "Toma Cenusa",
+			"zone": "the_archive",
+			"role": "Apothecary",
+			"faction": "morven",
+			"personality": "Knows which herb of The Archive heals and which one settles a grudge.",
+			"lines": [
+				"Green bottle mends, black bottle ends. Don't mix them up.",
+				"The dead don't buy medicine. The frightened buy the most."
+			]
+		},
+		{
+			"id": "the_archive_dignitary",
+			"name": "Ilie Cenusa",
+			"zone": "the_archive",
+			"role": "Archivist's Deputy",
+			"faction": "morven",
+			"personality": "A cold official who files the Coast on Sabira's authority.",
+			"lines": [
+				"You stand in The Archive now. Conduct yourself accordingly.",
+				"Power is patience, traveler. We have outlasted every road that led here."
+			]
+		},
+		{
+			"id": "the_archive_commoner_3",
+			"name": "Marcu Cenusa",
+			"zone": "the_archive",
+			"role": "Ice-Fisher",
+			"faction": "",
+			"personality": "Has seen enough of The Archive to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Archive changed."
+			]
+		},
+		{
+			"id": "the_archive_guard_3",
+			"name": "Barbu Cenusa",
+			"zone": "the_archive",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the frozen flats more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "anchorfall_innkeeper",
+			"name": "Dorin Cenusa",
+			"zone": "anchorfall",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter Anchorfall can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through Anchorfall last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "anchorfall_blacksmith",
+			"name": "Florea Cenusa",
+			"zone": "anchorfall",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "anchorfall_merchant",
+			"name": "Gavril Cenusa",
+			"zone": "anchorfall",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in Anchorfall. Especially here.",
+				"Buy low, sell in Anchorfall -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "anchorfall_guard_1",
+			"name": "Horia Cenusa",
+			"zone": "anchorfall",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the cinder slopes. I say I've seen it."
+			]
+		},
+		{
+			"id": "anchorfall_guard_2",
+			"name": "Lazar Cenusa",
+			"zone": "anchorfall",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the cinder slopes more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "anchorfall_chronicler",
+			"name": "Matei Cenusa",
+			"zone": "anchorfall",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Reads the stones of Anchorfall and writes down what the town would rather forget.",
+			"lines": [
+				"Anchorfall has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "anchorfall_commoner_1",
+			"name": "Oprea Cenusa",
+			"zone": "anchorfall",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Has seen enough of Anchorfall to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Anchorfall changed."
+			]
+		},
+		{
+			"id": "anchorfall_commoner_2",
+			"name": "Pavel Cenusa",
+			"zone": "anchorfall",
+			"role": "Ash-Raker",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things Anchorfall cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the cinder slopes and came back... not himself."
+			]
+		},
+		{
+			"id": "anchorfall_dockmaster",
+			"name": "Radomir Cenusa",
+			"zone": "anchorfall",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Logs every hull into Anchorfall and every debt that sails with it.",
+			"lines": [
+				"Every keel that touches Anchorfall gets counted. Yours included.",
+				"The Collector takes his share off the top. Always has."
+			]
+		},
+		{
+			"id": "anchorfall_clerk",
+			"name": "Sava Cenusa",
+			"zone": "anchorfall",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Trusts the ledger over the living; the ledger never lies to her.",
+			"lines": [
+				"Sign here. The ink's cheaper than what it costs to refuse.",
+				"I record who was taken. I do not record where they went."
+			]
+		},
+		{
+			"id": "anchorfall_watcher",
+			"name": "Tudor Cenusa",
+			"zone": "anchorfall",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "A Morven watcher who trades the one coin that never devalues -- knowing.",
+			"lines": [
+				"Speak softly on the Coast. Someone is always taking notes.",
+				"A rumor's worth more than gold here. I deal in both."
+			]
+		},
+		{
+			"id": "finalized_fields_innkeeper",
+			"name": "Ursu Cenusa",
+			"zone": "finalized_fields",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "finalized_fields_blacksmith",
+			"name": "Vintila Cenusa",
+			"zone": "finalized_fields",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "finalized_fields_merchant",
+			"name": "Zaharia Cenusa",
+			"zone": "finalized_fields",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "finalized_fields_guard_1",
+			"name": "Aurel Cenusa",
+			"zone": "finalized_fields",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the open moor more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "finalized_fields_guard_2",
+			"name": "Cornel Cenusa",
+			"zone": "finalized_fields",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Finalized Fields is quiet and I mean to keep it that way.",
+				"You see anything on the open moor, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "finalized_fields_chronicler",
+			"name": "Danciu Cenusa",
+			"zone": "finalized_fields",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Believes every death in The Finalized Fields is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "finalized_fields_commoner_1",
+			"name": "Emilian Cenusa",
+			"zone": "finalized_fields",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Finalized Fields cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the open moor and came back... not himself."
+			]
+		},
+		{
+			"id": "finalized_fields_commoner_2",
+			"name": "Fane Cenusa",
+			"zone": "finalized_fields",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Works the open moor from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the open moor, ser. I don't want any trouble.",
+				"Somethin's wrong with The Finalized Fields. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "finalized_fields_dockmaster",
+			"name": "Gherghe Cenusa",
+			"zone": "finalized_fields",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Has stamped more foreclosures than manifests this season.",
+			"lines": [
+				"I don't move cargo. I move ledgers. The cargo follows.",
+				"Owe the Coast long enough and the Coast comes to collect."
+			]
+		},
+		{
+			"id": "finalized_fields_clerk",
+			"name": "Iosif Cenusa",
+			"zone": "finalized_fields",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Counts souls in The Finalized Fields the way others count coin -- carefully, coldly.",
+			"lines": [
+				"The Archive wants it written. What I want stopped mattering years ago.",
+				"Nothing is lost on the Coast. It is only... filed."
+			]
+		},
+		{
+			"id": "finalized_fields_watcher",
+			"name": "Manea Cenusa",
+			"zone": "finalized_fields",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Sabira's eye on The Finalized Fields; hears everything, is seen by almost no one.",
+			"lines": [
+				"I watch. That is the whole of the trade, and the whole of the price.",
+				"The Archive knows your face already. I'm only confirming it."
+			]
+		},
+		{
+			"id": "coldharbor_deep_innkeeper",
+			"name": "Nica Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Keeps the only warm door in Coldharbor Deep, and keeps her mouth as busy as her hands.",
+			"lines": [
+				"A bed's a copper, silence is free. Which are you buying?",
+				"Folk go quiet out past the under-dark. You didn't hear that from me."
+			]
+		},
+		{
+			"id": "coldharbor_deep_blacksmith",
+			"name": "Ozun Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Believes a good edge is the only honest thing left in Coldharbor Deep.",
+			"lines": [
+				"Anvil's hot, purse open -- let's trade.",
+				"Armor turns a blow. Won't turn what's coming, but it'll do."
+			]
+		},
+		{
+			"id": "coldharbor_deep_merchant",
+			"name": "Radu Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Works the back-roads of Coldharbor Deep and prices rumor by the ounce.",
+			"lines": [
+				"Wares from four roads and none of them safe. Prices to match.",
+				"Coin talks, traveler. Everything else just whispers."
+			]
+		},
+		{
+			"id": "coldharbor_deep_guard_1",
+			"name": "Anton Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. Coldharbor Deep is quiet and I mean to keep it that way.",
+				"You see anything on the under-dark, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "coldharbor_deep_guard_2",
+			"name": "Costel Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the under-dark. I say I've seen it."
+			]
+		},
+		{
+			"id": "coldharbor_deep_chronicler",
+			"name": "Ana Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Keeps the chronicle because someone has to remember it right.",
+			"lines": [
+				"I keep the ledger of the dead. It never balances.",
+				"Listen past the under-dark and you'll hear the old grammar of this place."
+			]
+		},
+		{
+			"id": "coldharbor_deep_commoner_1",
+			"name": "Ileana Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Works the under-dark from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the under-dark, ser. I don't want any trouble.",
+				"Somethin's wrong with Coldharbor Deep. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "coldharbor_deep_commoner_2",
+			"name": "Marta Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Deep-Digger",
+			"faction": "",
+			"personality": "Has seen enough of Coldharbor Deep to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before Coldharbor Deep changed."
+			]
+		},
+		{
+			"id": "coldharbor_deep_dockmaster",
+			"name": "Dorica Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Runs the wharf by the tide-bell and the Collector's tally alike.",
+			"lines": [
+				"No berth without a chit. No chit without a debt cleared.",
+				"Tide's turning. So's your luck, if you're new to the Coast."
+			]
+		},
+		{
+			"id": "coldharbor_deep_clerk",
+			"name": "Sanda Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "A Morven hand who files the drowned before they're cold.",
+			"lines": [
+				"Name, debt, and date of collection. In that order.",
+				"Everyone on this Coast is an entry, friend. Even you now."
+			]
+		},
+		{
+			"id": "coldharbor_deep_watcher",
+			"name": "Voica Cenusa",
+			"zone": "coldharbor_deep",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Keeps three secrets for every word she lets slip.",
+			"lines": [
+				"You want to know something? So does everyone. What's it worth to you?",
+				"Sabira sees the whole board. I only move the pieces near Coldharbor Deep."
+			]
+		},
+		{
+			"id": "orange_fog_innkeeper",
+			"name": "Rada Cenusa",
+			"zone": "orange_fog",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Has buried three husbands and outlasts every winter The Orange Fog can throw.",
+			"lines": [
+				"Sit by the fire, traveler. The cold gets into the bones out there.",
+				"Whatever walked through The Orange Fog last week, it didn't pay its bill either."
+			]
+		},
+		{
+			"id": "orange_fog_blacksmith",
+			"name": "Stanca Cenusa",
+			"zone": "orange_fog",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Lost two fingers to the trade and every ounce of patience with it.",
+			"lines": [
+				"Everything rusts here. Buy twice, cry once.",
+				"I don't ask what you kill with it. I just make it sharp."
+			]
+		},
+		{
+			"id": "orange_fog_merchant",
+			"name": "Ruxandra Cenusa",
+			"zone": "orange_fog",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Would sell you the road you're standing on and charge for the dust.",
+			"lines": [
+				"Everything has a price, friend. Even in The Orange Fog. Especially here.",
+				"Buy low, sell in The Orange Fog -- that's the whole of my faith."
+			]
+		},
+		{
+			"id": "orange_fog_guard_1",
+			"name": "Ecaterina Cenusa",
+			"zone": "orange_fog",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Sworn, underpaid, and too stubborn to run when the others did.",
+			"lines": [
+				"Keep your blade sheathed in my sight, stranger.",
+				"They say the dead walk past the dead wood. I say I've seen it."
+			]
+		},
+		{
+			"id": "orange_fog_guard_2",
+			"name": "Mira Cenusa",
+			"zone": "orange_fog",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the dead wood more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "orange_fog_chronicler",
+			"name": "Lenuta Cenusa",
+			"zone": "orange_fog",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Reads the stones of The Orange Fog and writes down what the town would rather forget.",
+			"lines": [
+				"The Orange Fog has a memory, traveler, and it is not a kind one.",
+				"The names on the stones grow shorter each year. Ask yourself why."
+			]
+		},
+		{
+			"id": "orange_fog_commoner_1",
+			"name": "Otilia Cenusa",
+			"zone": "orange_fog",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Has seen enough of The Orange Fog to trust nothing that smiles first.",
+			"lines": [
+				"Don't go past the marker after dark. That's all I'll say.",
+				"We were a real town, once. Before The Orange Fog changed."
+			]
+		},
+		{
+			"id": "orange_fog_commoner_2",
+			"name": "Zamfira Cenusa",
+			"zone": "orange_fog",
+			"role": "Charcoal-Burner",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Orange Fog cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the dead wood and came back... not himself."
+			]
+		},
+		{
+			"id": "orange_fog_dockmaster",
+			"name": "Anca Cenusa",
+			"zone": "orange_fog",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Logs every hull into The Orange Fog and every debt that sails with it.",
+			"lines": [
+				"Every keel that touches The Orange Fog gets counted. Yours included.",
+				"The Collector takes his share off the top. Always has."
+			]
+		},
+		{
+			"id": "orange_fog_clerk",
+			"name": "Draga Cenusa",
+			"zone": "orange_fog",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Trusts the ledger over the living; the ledger never lies to her.",
+			"lines": [
+				"Sign here. The ink's cheaper than what it costs to refuse.",
+				"I record who was taken. I do not record where they went."
+			]
+		},
+		{
+			"id": "orange_fog_watcher",
+			"name": "Floarea Cenusa",
+			"zone": "orange_fog",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "A Morven watcher who trades the one coin that never devalues -- knowing.",
+			"lines": [
+				"Speak softly on the Coast. Someone is always taking notes.",
+				"A rumor's worth more than gold here. I deal in both."
+			]
+		},
+		{
+			"id": "last_hearth_innkeeper",
+			"name": "Ioana Cenusa",
+			"zone": "last_hearth",
+			"role": "Innkeeper",
+			"faction": "",
+			"personality": "Waters the ale and remembers every face that owes him coin.",
+			"lines": [
+				"Room and a bowl, coin first. We don't run tabs since the troubles.",
+				"Drink up. The night's longer than the candle, always."
+			]
+		},
+		{
+			"id": "last_hearth_blacksmith",
+			"name": "Maricica Cenusa",
+			"zone": "last_hearth",
+			"role": "Blacksmith",
+			"faction": "",
+			"personality": "Beats iron like it owes him money; says little, means all of it.",
+			"lines": [
+				"Steel's steel. Bring me coin and I'll bring you an edge.",
+				"Blade's dull? So's your luck out there. I can fix the one."
+			]
+		},
+		{
+			"id": "last_hearth_merchant",
+			"name": "Neaga Cenusa",
+			"zone": "last_hearth",
+			"role": "Merchant",
+			"faction": "",
+			"personality": "Smiles wide, weighs light, and never forgets a debt.",
+			"lines": [
+				"Look, don't finger. Break it, you bought it.",
+				"I hear things on the road. Some of it's even for sale."
+			]
+		},
+		{
+			"id": "last_hearth_guard_1",
+			"name": "Paraschiva Cenusa",
+			"zone": "last_hearth",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Watches the open moor more than the gate; that's where it comes from.",
+			"lines": [
+				"Papers or a reason. This gate stays watched.",
+				"Half the watch didn't come back last season. I did. Draw your own lesson."
+			]
+		},
+		{
+			"id": "last_hearth_guard_2",
+			"name": "Safta Cenusa",
+			"zone": "last_hearth",
+			"role": "Warden of the Gate",
+			"faction": "morven",
+			"personality": "Stands a post nobody thanks him for, in a town nobody defends.",
+			"lines": [
+				"Move along. The Last Hearth is quiet and I mean to keep it that way.",
+				"You see anything on the open moor, you come tell me. Anything."
+			]
+		},
+		{
+			"id": "last_hearth_chronicler",
+			"name": "Tinca Cenusa",
+			"zone": "last_hearth",
+			"role": "Chronicler",
+			"faction": "morven",
+			"personality": "Believes every death in The Last Hearth is a sentence in a longer book.",
+			"lines": [
+				"Every ruin here was once a promise. I record the breaking.",
+				"The stone remembers what we choose to forget. Come, I'll show you."
+			]
+		},
+		{
+			"id": "last_hearth_commoner_1",
+			"name": "Zoe Cenusa",
+			"zone": "last_hearth",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Poor, tired, and honest -- the three things The Last Hearth cannot afford.",
+			"lines": [
+				"Good harvest or bad, the tithe's the same. Funny that.",
+				"My neighbor went out to the open moor and came back... not himself."
+			]
+		},
+		{
+			"id": "last_hearth_commoner_2",
+			"name": "Aglaia Cenusa",
+			"zone": "last_hearth",
+			"role": "Heath-Herder",
+			"faction": "",
+			"personality": "Works the open moor from dark to dark and asks nothing but to be left be.",
+			"lines": [
+				"I just work the open moor, ser. I don't want any trouble.",
+				"Somethin's wrong with The Last Hearth. You can smell it before you see it."
+			]
+		},
+		{
+			"id": "last_hearth_dockmaster",
+			"name": "Casandra Cenusa",
+			"zone": "last_hearth",
+			"role": "Dockmaster",
+			"faction": "morven",
+			"personality": "Has stamped more foreclosures than manifests this season.",
+			"lines": [
+				"I don't move cargo. I move ledgers. The cargo follows.",
+				"Owe the Coast long enough and the Coast comes to collect."
+			]
+		},
+		{
+			"id": "last_hearth_clerk",
+			"name": "Despina Cenusa",
+			"zone": "last_hearth",
+			"role": "Ledger-Clerk",
+			"faction": "morven",
+			"personality": "Counts souls in The Last Hearth the way others count coin -- carefully, coldly.",
+			"lines": [
+				"The Archive wants it written. What I want stopped mattering years ago.",
+				"Nothing is lost on the Coast. It is only... filed."
+			]
+		},
+		{
+			"id": "last_hearth_watcher",
+			"name": "Ilinca Cenusa",
+			"zone": "last_hearth",
+			"role": "Morven Watcher",
+			"faction": "morven",
+			"personality": "Sabira's eye on The Last Hearth; hears everything, is seen by almost no one.",
+			"lines": [
+				"I watch. That is the whole of the trade, and the whole of the price.",
+				"The Archive knows your face already. I'm only confirming it."
+			]
+		}
+	]
+}

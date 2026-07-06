@@ -1,0 +1,5 @@
+{
+	"_note": "Optional config for AdminSystem (F2 admin panel). Absent = fine; the panel degrades to hard-coded defaults.",
+	"default_item": "iron_shortsword",
+	"default_enemy": "skeleton"
+}

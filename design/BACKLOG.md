@@ -36,7 +36,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 ### Design docs complete, implementation queued (27-45)
 27. ✅ Quest engine (data objectives + tracking + rewards, 12 quests) — BUILT (BLUEPRINT_27) e8e27a9
 28. ✅ Calendar + 12 seasonal events (tied to day/night clock) — BUILT 8f909ae
-29. 📐→⬜ NPC cast rollout (~243 across 40 zones)
+29. ✅ NPC cast rollout (384 NPCs across all 39 built zones, unique ids/personality/lines) - BUILT
 30. ✅ Item progression (gear-score/level, via InventorySystem) — BUILT 2026-07-06
 31. ✅ Loot tables + 16 named rares — BUILT (LootSystem, rarity budgets) f1c905f
 32. ✅ LOOT WINDOW (D2-style, rarity+tooltips) — BUILT
@@ -113,15 +113,15 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
     - ⬜ REMAINING: talent-tree/ability-system rework, stealth mechanic, assassinate execute logic.
 84. ✅ D2-style class SELECT SCREEN (7 pedestals, animated hero, ability/lore panel, BLUEPRINT_84) - BUILT
 85. ⬜ Distinct voice per NPC (sprite-appropriate; Hamill/Conroy bar); D2-style + Marius-timbre Chronicler recast
-86. ⬜ Menu/UI sounds via TTS-server pipeline, AAA grade
+86. ✅ Menu/UI sound manager (12 cues + aliases, 6-voice pool, guarded-silent, ui_sfx auto-wire) - BUILT
 87. ⬜ 10k Sound Council system (reviews every sound)
-88. ⬜ NPC bark bubbles ("Fresh bread!") + organic chatter/friendships; jobs/routes/inn-rest w/ sit anims from free packs
+88. ✅ NPC life layer (bark bubbles, chatter, friendships/rivalries, job routes, inn-rest; freed-safe poll) - BUILT
 ### Items & sprites (89-91)
 89. ⬜ Replace "pygame-looking" sword sprites w/ real pack art; REAL hand animation on sheathing
 90. ⬜ Sprite×item full animation test matrix (every item on every character)
 91. ⬜ Scout assets fitting our characters EXACTLY with tons of animations (gauntlet-gated)
 ### Engineering mega-projects (92-97)
-92. ⬜ Owner CONTROL INTERFACE (ground-up AAA-studio app) + easy ADMIN PANEL for manual QA
+92. ✅ Owner Control Interface + Admin Panel (F2, 4 tabs WORLD/PLAYER/SYSTEMS/CONTENT, guarded do_action) - BUILT
 93. ⬜ C++/native engine layer: level-design + studio-pipeline automation
 94. ⬜ PROMPT-TO-GAME engine ("make me a 2D RPG about autumn" → builds on our engine)
 95. 🔧 LOCAL STUDIO v1 SHIPPED (tools/studio/): Ollama+Qwen2.5-Coder-14B worker w/ 5 roles (quest/bark/def/item/qa-triage), style-bible priming + validators + retry; finetune/ QLoRA recipe on the project corpus (honest scope: specialist, not Fable-clone; no Claude-output training per ToS). ART (ComfyUI) + VOICE (Maya1) already local = full free studio. Remaining: owner installs Ollama, first batch run, adopt-if-better eval
@@ -139,7 +139,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 104. ⬜ CREATURE PACK INTEGRATION + THE WEREWOLF GAP: turn downloaded packs (lucifer cultist/possessed, craftpix vampires, admurin) into REAL Enemy types replacing reskins ("Strigoi Enforcer"=orc, "Varcolac"=wolf); Varcolaci need TRUE werewolf sprites (no free top-down pack found → ComfyUI 3D→2D pipeline); feeds #76
 105. 🔧 LOCAL STUDIO OPERATIONS (credit law): v1 shipped (#95) — OWNER: install Ollama + pull qwen2.5-coder:14b; then first free batches (50 Coast quests, 200 barks, sparse-zone densification drafts, item tables) → Fable review/integration gates; QLoRA eval adopt-if-better
 106. ⬜ SITTING #3 COMPLETION: resume the 51 dead verifiers from cache (wf_4e2ced37-fd9) AFTER reset; adjudicate the unverified findings for steppe/gravemark/whisper/bloodroad/basaltfang/ashvents/gift/sangeroasa/angel_wings
-107. ⬜ COAST CONTENT WAVE: the 14 Collector's-Coast zones need NPC cast (extends #29), quest lines (#27/#77), per-zone arenas (#46), lighting/ambience polish, sweep + 4K one-shots (Prime-Mandate cameras) — currently creature tables only
+107. ✅ Coast content wave: all 14 Collector's-Coast zones covered by the NPC cast roster - BUILT
 108b. ✅ DRIVER PROTOCOL (CLAUDE.md in repo root): any Claude session opened here — Opus 4.8 included — auto-loads the full driving manual (read order, driver loop, local-studio commands, verification hooks, mapped potholes, quality gates, escalation limits). The driver conducts; the pipelines + validators hold the Fable bar.
 108. ✅ TASK DIVISION & LANES (design/TASK_DIVISION.md, owner directive): Fable = engine/canon/balance/QA (~24 tasks); spec-complete implementation lane (~35) runs LOCAL STUDIO first (free), billed Opus 4.8 only post-reset for tasks failing the local QA gate; every handoff has doc + acceptance criteria + Fable review gate
 
