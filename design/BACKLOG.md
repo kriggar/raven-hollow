@@ -37,25 +37,25 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 27. 📐→⬜ Quest system v2 + 1,000-quest campaign (QUEST_ARCHITECTURE/VILLAIN_ARC/ZONE_QUEST_MATRIX/EXEMPLARS)
 28. 📐→⬜ Calendar events (12, WoW dates) implementation
 29. 📐→⬜ NPC cast rollout (~243 across 40 zones)
-30. 📐→⬜ Item progression + rarities + budgets (ITEM_PROGRESSION)
-31. 📐→⬜ Loot tables + 16 named rares (LOOT_TABLES)
-32. 📐→⬜ LOOT WINDOW implementation ("super nice" — LOOT_WINDOW spec)
-33. 📐→⬜ Combat pacing full retune: archetypes, telegraphs/casts/charges AI, zone tables, XP-to-60 (COMBAT_PACING)
-34. 📐→⬜ Character stats: 5 WoW primaries (CHARACTER_STATS)
-35. 📐→⬜ Status effects + wolf→Infected chain (STATUS_EFFECTS)
+30. ✅ Item progression (gear-score/level, via InventorySystem) — BUILT 2026-07-06
+31. ✅ Loot tables + 16 named rares — BUILT (LootSystem, rarity budgets) f1c905f
+32. ✅ LOOT WINDOW (D2-style, rarity+tooltips) — BUILT
+33. ✅ Combat retune (archetypes/telegraphs/casts/charges/XP-to-60) — BUILT (BLUEPRINT_33, TTK PASS) 3f120e5
+34. ✅ Character stats (5 primaries + derived + per-class scaling) — BUILT (StatsSystem) efd0a23
+35. ✅ Status effects + wolf→Infected chain — BUILT (StatusSystem)
 36. 📐→⬜ 35 hidden debuffs, symptom-first (HIDDEN_DEBUFFS)
 37. 📐→⬜ Runewords/sockets/12 runes — recolor to D2 DARK GOLD (RUNEWORDS + owner amendment)
-38. 📐→⬜ Mounts system + 31 mounts + trainers (MOUNTS) + mount TROPHIES from elites (Witcher-style, class advantages)
-39. 📐→⬜ Options suite (OPTIONS_SUITE) + settings UI
-40. 📐→⬜ Smart NPCs: schedules/vendors/reactions (SMART_NPCS)
-41. 📐→⬜ Talent trees (21 statted) + spellbook→~15/class + trainers (TALENTS_SPELLS)
-42. 📐→⬜ Crafting: 7 Draconia professions — raise cap to 1000 per owner (CRAFTING amendment) + legendary recipes per profession AND class from bosses
+38. ✅ Mounts: 31 mounts, summon/speed, elite trophies, trainers — BUILT (MountSystem) 12439d6
+39. ✅ Options suite + persisted settings (video/audio/gameplay/controls) — BUILT (OptionsSystem) 1c22b5d
+40. ✅ Smart NPCs: schedules, vendors + shop UI, reactions — BUILT (SmartNPCSystem) 7ab946d
+41. ✅ Talent trees (21, 252 talents, prereqs) + StatsSystem hooks — BUILT (TalentSystem) 6055cc2
+42. ✅ Crafting: 7 professions, 35 recipes, skill-to-1000, legendaries — BUILT (CraftingSystem) 7edd7ed
 43. 📐→⬜ Class starting experiences: 7 mentor pockets (STARTING_ZONES)
 44. 📐→⬜ Legendary weapons ×7 + no-transmog visual gear (LEGENDARY_WEAPONS)
-45. 📐→⬜ Proficiencies cloth/leather/mail/plate + WYSIWYG pipeline (PROFICIENCY_WYSIWYG)
+45. ✅ Proficiencies cloth/leather/mail/plate + equip gating — BUILT (InventorySystem) ea97bbd
 ### Design docs complete, systems queued (46-60)
 46. 📐→⬜ PvP arena (Reckoning Floor) + Accord Roll ranks + titles (PVP_RANKS_TITLES) — EXPANDED per owner: thematic 1v1 arenas in EVERY zone
-47. 📐→⬜ Map system: 3-tier zoom + fog-of-war + pins + minimap polish (MAP_SYSTEM)
+47. ✅ Map system: 3-tier zoom + fog-of-war + pins + minimap — BUILT (MapSystem) d0aa4a3
 48. 📐→⬜ QA automation stack: tests/qa.py 4 layers (QA_AUTOMATION)
 49. 📐→⬜ Narrative voice rollout: Tolkien×dread registers to ALL text (NARRATIVE_VOICE)
 50. 📐→⬜ THE GREAT BATTLE build ("The Second Cooperation" — GREAT_BATTLE)
@@ -71,7 +71,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
       satisfied. Reusable for the other 6 classes' kits + creature VFX.
 57. ⬜ Crafting ANIMATIONS from packs (stations + character craft-bob)
 58. ⬜ Spell trainers NPCs in world + trainer UI
-59. ⬜ Spellbook UI (browsable) + CONCRETE tooltip law enforcement
+59. ✅ Spellbook UI (browsable + concrete tooltips) — BUILT fb79aa4
 60. ⬜ Achievement/deed toast + panel implementation
 ### Zone production (61-66)
 61. ✅ RAVEN HOLLOW REDO: all sitting-#1 town findings fixed (stalls, plaza fringe, orphan patches, grave clip, west road, SW clearing, gate lantern) — Council re-confirmation at next sitting
@@ -129,7 +129,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 97. ⬜ Disk-space watcher (safe pruning) + BE-CHEAP operations law (standing)
 98. ⬜ SEAMLESS WORLD (owner mandate): all 40 zones interconnected, NO loading screens — edge-streaming (pre-build adjacent zone off-screen as the player nears a seam, continuous walk-across, unload behind); the player never feels a map change. Engine: async zone pre-build + world-offset stitching + camera continuity, replacing the fade-to-black change_map at seams.
 
-99. ⬜ COLLISION AUDIT (owner mandate): study EVERY prop class — does it need collision or not (decals/ivy/tufts walkable; wells/stones/logs solid; canopies pass-under) — footprint-accurate shapes (feet-line, not sprite rect), tied into the FREEDOM_PHYSICS engine (#52: pushable/rollable props get RigidBody2D, static get accurate StaticBody2D, dressing gets none); audit table per prop id + validator in tests/qa.py.
+99. ✅ COLLISION AUDIT: footprint colliders per prop class + pushable props — BUILT (BLUEPRINT_99, 60 types mapped) e58f0cf
 
 ### Session additions 2026-07-05 (100-108) — reconciliation sweep
 100. 🔧 WITCHBROOK POLISH LOOP — **PAINTING PASS 1 SHIPPED: all 38 zone defs received Fable-authored lore sites (1 murder/crime scene + curiosity sites each; Last Hearth murder-free BY DESIGN; town/wilderness already dressed)** — murder_scene composite (stain/remains/drag-marks/dropped item); examples: grave-digger in his own grave (gravemark), forgehand's boot-prints ending at the Pit edge (sangeroasa), the salt-farmer white-on-white (salt_fens), the hungering who almost made it east (orange_fog), a body shelved and tagged (the_archive). **ROAD-ART UPGRADE SHIPPED** (perpendicular 2-wide stamping — vertical roads were 1-tile-wide, the sitting-3 'debug geometry' root cause; flush 2x2 diagonals + elbow pads; grass/pebble edge blending). REMAINING in loop: (owner law, FABLE-ONLY VISUAL: every zone hand-painted by Fable personally — lore landmarks, CURIOSITY SITES (>=2/zone), MURDER/CRIME SCENES (>=1/zone), all vignettes and visual passes; drivers/studio excluded from visuals): per-zone detail passes to Witchbrook density. Top items: ROAD ART UPGRADE (real path texture + corner/jog smoothing + grass edge-blending — sitting-3's #1 systemic defect), baked-snow ground evaluation (vs ambient-bias), coast detail pass (14 new zones), sitting-3 per-zone remainders (blestem ×5, lichenreach ×3 incl. cave-bright road, transcub ×4 incl. cross-shot prop stability, eastern_ridges ×4, black_night pale-green floating light at ~(6786,4486)), THEN full re-sweep + sitting #4
