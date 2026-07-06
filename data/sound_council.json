@@ -1,0 +1,35 @@
+{
+  "_doc": "Sound Council / audio-coverage registry (BACKLOG #87 -- 'reviews every sound'). This is the review RUBRIC + the council MEMBER lenses used by SoundCouncilSystem to audit every DECLARED audio cue in the game (MusicSystem states/stingers/zone-region-biome beds, UISoundSystem cues, and the VoiceRegistry speaker roster) and report which ones are authored vs still SILENT. The tone/loudness/clipping criteria are ADVISORY -- most stems are not on disk yet, so the council cannot meter a file that does not exist; the one hard, observable criterion is 'exists'. The value here is AUDIO-QA visibility: it tracks exactly what is still silent and needs authoring.",
+
+  "rubric": {
+    "criteria": [
+      { "id": "exists",      "name": "Exists",     "weight": 0.40, "advisory": false, "desc": "the stem is actually on disk and imports; a missing file is silence, plain and simple" },
+      { "id": "loudness_ok", "name": "Loudness",   "weight": 0.20, "advisory": true,  "desc": "integrated loudness sits inside the mix window (advisory until the authored file is metered)" },
+      { "id": "tone_fit",    "name": "Tone fit",   "weight": 0.20, "advisory": true,  "desc": "timbre suits the gothic-medieval canon and the scene it plays in (advisory -- needs an ear)" },
+      { "id": "no_clipping", "name": "No clipping","weight": 0.20, "advisory": true,  "desc": "no digital clipping or true-peak overs (advisory until the authored file is metered)" }
+    ]
+  },
+
+  "members": [
+    { "id": "clarity", "name": "The Clarion", "focus": "clarity",   "stance": "A cue must read in a single hearing. If the player cannot tell what it means without looking, it has failed." },
+    { "id": "mood",    "name": "The Mourner", "focus": "mood",      "stance": "Sound carries the world's grief and its small warmths. The wrong feeling is worse than silence." },
+    { "id": "mix",     "name": "The Leveler", "focus": "mix",       "stance": "Nothing shouts over the moment, nothing hides beneath it. Headroom is respect for the ear." },
+    { "id": "keeper",  "name": "The Keeper",  "focus": "canon-fit", "stance": "Every timbre answers to the canon. No modern gloss, no sound that could not exist in this age of the world." }
+  ],
+
+  "voice_lines": {
+    "_doc": "The NPC voice speakers the council expects covered. A speaker is PRESENT when at least one baked line exists under res://assets/vo/<speaker>/. Keyed to the VoiceRegistry roster.",
+    "vo_dir": "res://assets/vo/",
+    "speakers": [
+      { "id": "marta",      "label": "Marta (innkeeper)" },
+      { "id": "goran",      "label": "Goran (blacksmith)" },
+      { "id": "vasile",     "label": "Vasile (gravekeeper)" },
+      { "id": "ansel",      "label": "Ansel (farmer)" },
+      { "id": "petra",      "label": "Old Petra" },
+      { "id": "gatewarden", "label": "Iosif (gatewarden)" },
+      { "id": "mira",       "label": "Mira" },
+      { "id": "narrator",   "label": "Narrator / Tibalt" },
+      { "id": "default",    "label": "Townsfolk (default bank)" }
+    ]
+  }
+}

@@ -96,7 +96,12 @@ class_name SaveSystem
 ## the editor's global-class cache has scanned the new Phase C scripts.
 const XP := preload("res://scripts/xp_system.gd")
 
-const SAVE_VERSION: int = 1
+## Version 2 adds the additive top-level "systems" key (see PERSISTENT_SYSTEMS
+## below): { "<AutoloadName>": <that autoload's serialize()>, ... }. Version 1
+## saves have no "systems" key and still load unchanged (backward compatible);
+## load accepts any version in MIN_SAVE_VERSION..SAVE_VERSION.
+const SAVE_VERSION: int = 2
+const MIN_SAVE_VERSION: int = 1
 const SAVE_DIR: String = "user://"
 const SAVE_FILE_FMT: String = "save%d.json"
 const DEFAULT_MAP: String = "town"
@@ -105,6 +110,18 @@ const DEFAULT_TIME_HOURS: float = 17.0  # spec: the demo clock starts at dusk
 const QUESTS_SCRIPT: String = "res://scripts/quests.gd"
 const CRAFTING_SCRIPT: String = "res://scripts/crafting.gd"
 const WEATHER_SCRIPT: String = "res://scripts/weather.gd"
+
+## Autoload singletons persisted under the "systems" key. Each is looked up at
+## /root/<name> and included ONLY when it is present AND exposes the matching
+## method (has_method guard) -- names lacking serialize()/deserialize() are
+## silently skipped, so this list is safe to keep exhaustive/forward-looking.
+const PERSISTENT_SYSTEMS: Array[String] = [
+	"MountSystem", "TalentSystem", "FactionSystem", "RunewordSystem",
+	"LegendarySystem", "PvPSystem", "TitleSystem", "CalendarSystem",
+	"AuctionSystem", "DungeonSystem", "TrainerSystem", "NarrativeSystem",
+	"SecretSystem", "FerrySystem", "AchievementSystem", "MapSystem",
+	"SmartNPCSystem", "QuestSystem",
+]
 
 
 static func save_path(slot: int = 1) -> String:
@@ -166,8 +183,8 @@ static func load_game(slot: int = 1) -> Dictionary:
 		return {}
 	var raw: Dictionary = parsed
 	var version: int = int(_num(raw.get("v"), 0.0))
-	if version != SAVE_VERSION:
-		push_warning("SaveSystem.load_game: unsupported save version %d in %s (want %d)." % [version, path, SAVE_VERSION])
+	if version < MIN_SAVE_VERSION or version > SAVE_VERSION:
+		push_warning("SaveSystem.load_game: unsupported save version %d in %s (supported %d..%d)." % [version, path, MIN_SAVE_VERSION, SAVE_VERSION])
 		return {}
 	return _normalize(raw)
 
@@ -203,6 +220,7 @@ static func collect_state() -> Dictionary:
 		"quests": _system_snapshot("quests", QUESTS_SCRIPT),
 		"recipes": _system_snapshot("crafting", CRAFTING_SCRIPT),
 		"weather": _system_snapshot("weather", WEATHER_SCRIPT),
+		"systems": gather_systems(),
 	}
 
 
@@ -267,7 +285,90 @@ static func apply_systems_state(data: Dictionary) -> void:
 	_apply_system_state("quests", QUESTS_SCRIPT, data.get("quests"))
 	_apply_system_state("crafting", CRAFTING_SCRIPT, data.get("recipes"))
 	_apply_system_state("weather", WEATHER_SCRIPT, data.get("weather"))
+	restore_systems(data.get("systems"))
 	_apply_time_hours(_num(data.get("time_hours"), DEFAULT_TIME_HOURS))
+
+
+# ---------------------------------------------------------------------------
+# System autoload coverage ("systems" key, v2+)
+# ---------------------------------------------------------------------------
+
+## Snapshots every live PERSISTENT_SYSTEMS autoload that exposes serialize().
+## Each entry is that autoload's serialize() Dictionary; missing autoloads and
+## ones without the method are skipped. Result is JSON-safe by the systems'
+## own serialize() contract. {} when there is no SceneTree (e.g. bare tooling).
+static func gather_systems() -> Dictionary:
+	var out: Dictionary = {}
+	var tree: SceneTree = _tree()
+	if tree == null or tree.root == null:
+		return out
+	for sys_name: String in PERSISTENT_SYSTEMS:
+		var node: Node = tree.root.get_node_or_null(NodePath(sys_name))
+		if node == null or not node.has_method("serialize"):
+			continue
+		var v: Variant = node.call("serialize")
+		if v is Dictionary:
+			out[sys_name] = v
+	return out
+
+
+## Restores each saved system state into its live autoload (guarded by presence
+## + has_method("deserialize")). Tolerant of a null/non-dict arg, unknown keys,
+## and non-dict values -- every one is simply skipped, never fatal.
+static func restore_systems(systems: Variant) -> void:
+	if not (systems is Dictionary):
+		return
+	var d: Dictionary = systems
+	if d.is_empty():
+		return
+	var tree: SceneTree = _tree()
+	if tree == null or tree.root == null:
+		return
+	for sys_name: String in PERSISTENT_SYSTEMS:
+		if not d.has(sys_name):
+			continue
+		var state_v: Variant = d[sys_name]
+		if not (state_v is Dictionary):
+			continue
+		var node: Node = tree.root.get_node_or_null(NodePath(sys_name))
+		if node != null and node.has_method("deserialize"):
+			node.call("deserialize", state_v)
+
+
+## Self-contained coverage self-test. Gathers whatever PERSISTENT_SYSTEMS
+## autoloads are live, adds a synthetic probe entry, round-trips the whole
+## systems block through JSON (gather -> stringify -> parse), asserts every key
+## survived as a Dictionary, then feeds it back through restore_systems() to
+## prove that path cannot crash. Prints exactly one
+##   "SAVECOV SELFTEST PASS keys=<n>"  (or FAIL) line, where <n> is the count of
+## live real systems captured, and returns the pass/fail bool. Orchestrator
+## invokes this directly (see report); nothing here runs on its own.
+static func selftest() -> bool:
+	var ok: bool = true
+	var live: Dictionary = gather_systems()
+	# Synthetic probe so key-survival is asserted even with zero live autoloads
+	# (a bare `-s` harness does not boot the project's autoloads).
+	var probe: Dictionary = live.duplicate(true)
+	probe["_selftest_probe"] = {"a": 1, "b": [1, 2, 3], "c": "ok"}
+	# JSON round-trip proves the gathered shape is JSON-safe (no object/Vector2).
+	var text: String = JSON.stringify({"systems": probe})
+	var parsed: Variant = JSON.parse_string(text)
+	var round_trip: Dictionary = {}
+	if parsed is Dictionary and (parsed as Dictionary).get("systems") is Dictionary:
+		round_trip = (parsed as Dictionary)["systems"]
+	else:
+		ok = false
+	# Every key must survive with a Dictionary value.
+	for k: Variant in probe.keys():
+		if not round_trip.has(k) or not (round_trip[k] is Dictionary):
+			ok = false
+	if not round_trip.has("_selftest_probe"):
+		ok = false
+	# restore_systems() must tolerate the round-tripped dict without crashing.
+	restore_systems(round_trip)
+	var n: int = live.size()
+	print("SAVECOV SELFTEST %s keys=%d" % ["PASS" if ok else "FAIL", n])
+	return ok
 
 
 # ---------------------------------------------------------------------------
@@ -477,6 +578,12 @@ static func _normalize(raw: Dictionary) -> Dictionary:
 	var r_v: Variant = raw.get("recipes")
 	if r_v is Dictionary:
 		recipes = r_v
+	# Additive "systems" block (v2+). Kept opaque and passed through verbatim to
+	# restore_systems(); absent in v1 saves -> {} -> restore is a no-op.
+	var systems: Dictionary = {}
+	var sys_v: Variant = raw.get("systems")
+	if sys_v is Dictionary:
+		systems = sys_v
 	return {
 		"v": SAVE_VERSION,
 		"map": map_id,
@@ -495,6 +602,7 @@ static func _normalize(raw: Dictionary) -> Dictionary:
 		"equipped": equipped,
 		"quests": quests,
 		"recipes": recipes,
+		"systems": systems,
 	}
 
 

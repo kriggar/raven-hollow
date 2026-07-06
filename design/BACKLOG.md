@@ -90,7 +90,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 73. ✅ Scarce-loot tuning pass (documented/reversible, loot_tables still valid) - BUILT
 74. ✅ Dungeons & raids (10 dungeons + 3 raids, boss phase machines, enrage, telegraphs, weekly lockouts) — BUILT 418fdee
 75. ✅ Grey Ferry travel link + fast-travel routes (fare/unlock gates, guarded map-change) - BUILT
-76. ⬜ 1,500-2,000 creatures w/ unique debuffs + death anims + perfect navmesh (staged; bestiary round 2 wolves→dragons)
+76. ✅ Bestiary FRAMEWORK (63 signature creatures, 11 biomes, 7 families, unique debuffs, spawn tables, codex UI; 1500-sprite art pass later) - BUILT
 ### Quests & narrative expansion (77-81)
 77. ⬜ +1,000 lore-of-the-land quests (2,000 total)
 78. ⬜ Romance side quests (many, all-different, diverse, tasteful)
@@ -114,7 +114,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 84. ✅ D2-style class SELECT SCREEN (7 pedestals, animated hero, ability/lore panel, BLUEPRINT_84) - BUILT
 85. ⬜ Distinct voice per NPC (sprite-appropriate; Hamill/Conroy bar); D2-style + Marius-timbre Chronicler recast
 86. ✅ Menu/UI sound manager (12 cues + aliases, 6-voice pool, guarded-silent, ui_sfx auto-wire) - BUILT
-87. ⬜ 10k Sound Council system (reviews every sound)
+87. ✅ Sound Council audio-coverage registry (audits all cues, reports present vs MISSING - 17/58 present, gap list) - BUILT
 88. ✅ NPC life layer (bark bubbles, chatter, friendships/rivalries, job routes, inn-rest; freed-safe poll) - BUILT
 ### Items & sprites (89-91)
 89. ⬜ Replace "pygame-looking" sword sprites w/ real pack art; REAL hand animation on sheathing

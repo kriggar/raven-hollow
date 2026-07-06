@@ -1,0 +1,14 @@
+{
+	"_doc": "Raven Hollow NEW-GAME flow orchestrator config (BACKLOG #84 -> #43). Optional/degradable: NewGameSystem runs fine if this file is missing. Ties the D2 class SELECT SCREEN (SelectScreenSystem) to the starting-zone onboarding checklist (TrainerSystem #43) and the first spawn. 'default_class' is used when no class is chosen (e.g. select screen absent). 'start_zone_by_class' maps a chosen class to the zone it wakes up in; every class starts in Raven Hollow per STARTING_ZONES sec 0/1, so this mirrors data/starting_flow.json. 'fallback_zone' is the last resort.",
+	"default_class": "warrior",
+	"fallback_zone": "raven_hollow",
+	"start_zone_by_class": {
+		"warrior": "raven_hollow",
+		"rogue": "raven_hollow",
+		"mage": "raven_hollow",
+		"paladin": "raven_hollow",
+		"necromancer": "raven_hollow",
+		"rookwarden": "raven_hollow",
+		"druid": "raven_hollow"
+	}
+}
