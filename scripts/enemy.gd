@@ -79,6 +79,28 @@ var _slow_mult: float = 1.0   # crowd control: speed multiplier while slowed
 var _slow_left: float = 0.0
 var _root_left: float = 0.0   # crowd control: frozen in place while > 0
 var _aggro_left: float = 0.0  # hold aggro window after taking a hit
+# --- BLUEPRINT_33 archetype layer (additive: empty archetype -> legacy AI) ---
+var level: int = 1
+var archetype: String = ""
+var rank: String = "normal"
+var _arch: Dictionary = {}          # MobScaling.archetype(archetype), {} if none
+var _swing_count: int = 0           # heavy swing lands every Nth melee swing
+var _heavy_pending: bool = false    # the current windup is the heavy one
+var _cast_total: float = 0.0        # caster channel length
+var _cast_left: float = 0.0
+var _cast_cd: float = 0.0
+var _stagger_left: float = 0.0      # interrupted-cast / stun recovery (no action)
+var _charge_state: String = ""      # "", "tell", "dash", "recover"
+var _charge_left: float = 0.0
+var _charge_dir: Vector2 = Vector2.RIGHT
+var _charge_dest: Vector2 = Vector2.ZERO
+var _charge_cd: float = 0.0
+var _vuln_left: float = 0.0         # charge-whiff window: takes bonus damage
+var _enraged: bool = false
+var _pack_called: bool = false      # social aggro fires once per engagement
+var _tele_node: Node2D = null       # ground wedge / charge-line telegraph decal
+var _demo: bool = false             # RH_ENEMY_DEMO QA hook
+var _demo_phase: float = 0.0
 
 
 static func create(cfg: Dictionary) -> Enemy:
@@ -94,6 +116,14 @@ static func create(cfg: Dictionary) -> Enemy:
 	e.hp = e.max_hp
 	e.damage = float(cfg.get("damage", 8.0))
 	e.speed = float(cfg.get("speed", 60.0))
+	# BLUEPRINT_33: archetype/level/rank feed the additive AI layer + kill XP.
+	# A blank/unknown archetype leaves _arch empty -> legacy behavior (no regress).
+	e.level = int(cfg.get("level", 1))
+	e.archetype = str(cfg.get("archetype", ""))
+	e.rank = str(cfg.get("rank", "normal"))
+	if e.archetype != "" and MobScaling.has_archetype(e.archetype):
+		e._arch = MobScaling.archetype(e.archetype)
+	e._demo = not OS.get_environment("RH_ENEMY_DEMO").is_empty()
 	# Convention: physics layer NUMBERS — walls=1, player=2, npcs=3, enemies=4.
 	e.collision_layer = 1 << 3
 	e.collision_mask = 1
@@ -251,23 +281,46 @@ func _physics_process(delta: float) -> void:
 	_attack_cd = maxf(0.0, _attack_cd - delta)
 	_slow_left = maxf(0.0, _slow_left - delta)
 	_aggro_left = maxf(0.0, _aggro_left - delta)
+	_cast_cd = maxf(0.0, _cast_cd - delta)
+	_charge_cd = maxf(0.0, _charge_cd - delta)
+	_vuln_left = maxf(0.0, _vuln_left - delta)
+	if _demo:
+		_tick_demo(delta)
+		return
 	var player: Node2D = _alive_player()
+	# Interrupted-cast / charge-whiff recovery: frozen, taking no action.
+	if _stagger_left > 0.0:
+		_stagger_left = maxf(0.0, _stagger_left - delta)
+		velocity = Vector2.ZERO
+		if player != null:
+			_face_point(player.global_position)
+		_play("idle")
+		return
 	if _root_left > 0.0:
-		# Rooted: frozen in place (state machine paused, resumes after).
+		# Rooted: frozen in place (state machine paused, resumes after). A root
+		# also interrupts an in-progress cast or charge (CC teaching, s5.2/s5.3).
 		_root_left = maxf(0.0, _root_left - delta)
+		_cancel_cast(true)
+		_cancel_charge()
 		velocity = Vector2.ZERO
 		if player != null:
 			_face_point(player.global_position)
 		if _state != "windup":
 			_play("idle")
 		return
+	# A charge in progress overrides the normal state machine.
+	if _charge_state != "":
+		_tick_charge(delta, player)
+		return
 	match _state:
 		"patrol":
 			_tick_patrol(delta, player)
 		"chase":
-			_tick_chase(player)
+			_tick_chase(delta, player)
 		"windup":
 			_tick_windup(delta, player)
+		"cast":
+			_tick_cast(delta, player)
 		"return":
 			_tick_return()
 
@@ -304,11 +357,40 @@ func _tick_patrol(delta: float, player: Node2D) -> void:
 ## non-wolves and daytime keep the base radius, and the group lookup only runs
 ## for wolves so skeletons/orcs pay nothing.
 func _aggro_range() -> float:
-	if type_name == "wolf":
+	var base: float = AGGRO_RANGE
+	if _has_archetype():
+		base = float(_arch.get("aggro_px", AGGRO_RANGE))
+	# Wolves hunt in the dark: aggro doubles at night (SPEC s6 / stalker
+	# night_aggro behavior). The group lookup only runs for night-hunters.
+	if type_name == "wolf" or _behavior("night_aggro"):
 		var dn := get_tree().get_first_node_in_group("day_night")
 		if dn != null and dn.get("is_night") == true:
-			return AGGRO_RANGE * 2.0
-	return AGGRO_RANGE
+			return base * 2.0
+	return base
+
+
+func _leash_range() -> float:
+	return float(_arch.get("leash_px", LEASH_RANGE)) if _has_archetype() else LEASH_RANGE
+
+
+func _has_archetype() -> bool:
+	return not _arch.is_empty()
+
+
+func _behavior(b: String) -> bool:
+	return (_arch.get("behaviors", []) as Array).has(b)
+
+
+func _tf(key: String, dflt: float) -> float:
+	return float(MobScaling.tele().get(key, dflt))
+
+
+func _cf(key: String, dflt: float) -> float:
+	return float(MobScaling.cast_cfg().get(key, dflt))
+
+
+func _pf(key: String, dflt: float) -> float:
+	return float(MobScaling.pack_cfg().get(key, dflt))
 
 
 func _pick_patrol_target() -> void:
@@ -318,9 +400,19 @@ func _pick_patrol_target() -> void:
 	_leg_time = 4.0
 
 
-func _tick_chase(player: Node2D) -> void:
-	if player == null or global_position.distance_to(home) > LEASH_RANGE:
+func _tick_chase(delta: float, player: Node2D) -> void:
+	if player == null or global_position.distance_to(home) > _leash_range():
 		_state = "return"
+		velocity = Vector2.ZERO
+		_pack_called = false
+		return
+	# Hard leash safety (s4.AI): dragged far past the soft leash -> snap home +
+	# full heal so mobs cannot be kited into town.
+	if global_position.distance_to(home) > MobScaling.hard_reset_px():
+		global_position = home
+		hp = max_hp
+		_reset_combat_state()
+		_state = "patrol"
 		velocity = Vector2.ZERO
 		return
 	var to_p: Vector2 = player.global_position - global_position
@@ -330,6 +422,20 @@ func _tick_chase(player: Node2D) -> void:
 	if dist > DEAGGRO_RANGE and _aggro_left <= 0.0:
 		_state = "return"
 		velocity = Vector2.ZERO
+		_pack_called = false
+		return
+	# Social aggro: first chase frame pulls nearby packmates in (careful pulls).
+	if not _pack_called and _behavior("social_aggro"):
+		_call_pack()
+		_pack_called = true
+	# Caster: kite to a preferred band and open fire (does not melee-chase).
+	if _behavior("cast"):
+		_tick_caster(delta, player, to_p, dist)
+		return
+	# Charger: telegraphed locked line charge from mid-range, off cooldown.
+	if _behavior("charge") and _charge_cd <= 0.0 \
+			and dist >= _tf("charge_trigger_min", 90.0) and dist <= _tf("charge_trigger_max", 170.0):
+		_start_charge(player)
 		return
 	if dist <= ATTACK_RANGE:
 		velocity = Vector2.ZERO
@@ -339,7 +445,11 @@ func _tick_chase(player: Node2D) -> void:
 		else:
 			_play("idle")
 		return
-	velocity = to_p.normalized() * _speed_now()
+	# Flanking packs surround the player instead of conga-lining.
+	var aim: Vector2 = _flank_offset(player.global_position) if _behavior("flank") else player.global_position
+	var step_dir: Vector2 = aim - global_position
+	var mv: Vector2 = step_dir.normalized() if step_dir.length_squared() > 1.0 else to_p.normalized()
+	velocity = mv * _speed_now()
 	move_and_slide()
 	_face_move()
 	_play("run")
@@ -347,17 +457,34 @@ func _tick_chase(player: Node2D) -> void:
 
 func _start_windup(dir: Vector2) -> void:
 	_state = "windup"
-	_windup_left = WINDUP_TIME
 	_windup_dir = dir
 	velocity = Vector2.ZERO
 	_play("idle")
-	# Attack tell: warm tint + a slow lean into the strike.
-	_sprite.modulate = WINDUP_TINT
+	# Heavy swing every Nth swing for archetypes that telegraph big hits: longer,
+	# more legible windup + a ground wedge showing the hit arc (step out of it --
+	# the strike-time HIT_RANGE re-check whiffs it). Fast duelists swing quicker.
+	_swing_count += 1
+	var heavy_every: int = int(_tf("heavy_every", 3.0))
+	_heavy_pending = _behavior("heavy_swing") and heavy_every > 0 and (_swing_count % heavy_every == 0)
+	if _behavior("fast_swing"):
+		_windup_left = _tf("fast_windup", 0.3)
+	elif _heavy_pending:
+		_windup_left = _tf("heavy_windup", 0.8)
+	else:
+		_windup_left = WINDUP_TIME
+	# Attack tell: warm tint (hotter on a heavy) + a slow lean into the strike.
+	_sprite.modulate = Color(1.6, 0.6, 0.5) if _heavy_pending else WINDUP_TINT
 	if _lean_tween != null and _lean_tween.is_valid():
 		_lean_tween.kill()
 	_sprite.position = Vector2.ZERO
+	var lean: float = 7.0 if _heavy_pending else 4.0
 	_lean_tween = create_tween()
-	_lean_tween.tween_property(_sprite, "position", dir * 4.0, WINDUP_TIME)
+	_lean_tween.tween_property(_sprite, "position", dir * lean, _windup_left)
+	if _heavy_pending:
+		_spawn_wedge(dir, HIT_RANGE + 14.0)
+		var parent := get_parent()
+		if parent != null:
+			VFX.slash_arc(parent, global_position + dir * (HIT_RANGE * 0.6), dir, SLASH_COLOR, 20.0)
 
 
 func _tick_windup(delta: float, player: Node2D) -> void:
@@ -368,25 +495,31 @@ func _tick_windup(delta: float, player: Node2D) -> void:
 	if _windup_left > 0.0:
 		return
 	_end_windup_tell()
-	_attack_cd = ATTACK_COOLDOWN
+	_attack_cd = _tf("fast_cooldown", 0.9) if _behavior("fast_swing") else ATTACK_COOLDOWN
 	_state = "chase"
-	if player == null:
-		return
-	var to_p: Vector2 = player.global_position - global_position
-	if to_p.length() <= HIT_RANGE:
-		var dir: Vector2 = to_p.normalized() if to_p.length_squared() > 0.01 else _windup_dir
-		var parent := get_parent()
-		if parent != null:
-			VFX.slash_arc(parent, global_position + dir * 10.0, dir, SLASH_COLOR, 16.0)
-		Combat.deal_damage(player, damage, self)
+	if player != null:
+		var to_p: Vector2 = player.global_position - global_position
+		if to_p.length() <= HIT_RANGE:
+			var dir: Vector2 = to_p.normalized() if to_p.length_squared() > 0.01 else _windup_dir
+			var parent := get_parent()
+			if parent != null:
+				VFX.slash_arc(parent, global_position + dir * 10.0, dir, SLASH_COLOR, 16.0)
+			Combat.deal_damage(player, _strike_damage(), self)
+			# StatusSystem (design/STATUS_EFFECTS.md, #35): a wolf's landed bite
+			# stacks wolf_bite; 3 stacks trip its threshold into Infected. Guarded
+			# and additive -- other enemy types are unaffected.
+			if type_name == "wolf":
+				StatusSystem.apply(player, "wolf_bite", self)
+	_heavy_pending = false
 
 
 func _end_windup_tell() -> void:
+	_clear_wedge()
 	if _lean_tween != null and _lean_tween.is_valid():
 		_lean_tween.kill()
 	_lean_tween = create_tween()
 	_lean_tween.tween_property(_sprite, "position", Vector2.ZERO, 0.1)
-	_sprite.modulate = Color.WHITE
+	_sprite.modulate = _enrage_tint() if _enraged else Color.WHITE
 
 
 func _tick_return() -> void:
@@ -394,6 +527,7 @@ func _tick_return() -> void:
 	if to_home.length() < 6.0:
 		if _aggro_left <= 0.0:
 			hp = max_hp  # only heal once the fight has actually broken off
+			_reset_combat_state()
 		_state = "patrol"
 		_idle_wait = _rng.randf_range(0.5, 1.5)
 		velocity = Vector2.ZERO
@@ -409,7 +543,10 @@ func _tick_return() -> void:
 
 
 func _speed_now() -> float:
-	return speed * (_slow_mult if _slow_left > 0.0 else 1.0)
+	var s: float = speed
+	if _enraged:
+		s *= 1.0 + float(MobScaling.enrage_cfg().get("speed_bonus", 0.35))
+	return s * (_slow_mult if _slow_left > 0.0 else 1.0)
 
 
 func apply_slow(mult: float, duration: float) -> void:
@@ -432,7 +569,16 @@ func apply_root(duration: float) -> void:
 func take_damage(amount: float, source: Node) -> void:
 	if is_dead:
 		return
-	hp -= amount
+	var amt: float = amount
+	# A charger caught mid-recovery after a whiffed charge takes bonus damage --
+	# dodging the charge is rewarded, not merely survived (s5.3).
+	if _vuln_left > 0.0:
+		amt *= _tf("charge_vuln_mult", 1.25)
+	# Any solid hit interrupts an in-progress cast -> stagger. The teaching hook:
+	# melee / dash / root a caster to stop its bolt (kill the healer first).
+	if _state == "cast" and amount > 0.0:
+		_cancel_cast(true)
+	hp -= amt
 	_aggro_left = AGGRO_HOLD_TIME
 	_flash_red()
 	var src := source as Node2D
@@ -444,6 +590,11 @@ func take_damage(amount: float, source: Node) -> void:
 		hp = 0.0
 		_die()
 		return
+	# Enrage: below the hp threshold, charger/brute-family enemies speed up, hit
+	# harder, and pulse red until death (finish it or kite the last sliver, s5.6).
+	if not _enraged and _behavior("enrage") \
+			and hp <= max_hp * float(MobScaling.enrage_cfg().get("hp_frac", 0.30)):
+		_enrage()
 	if _state == "patrol" or _state == "return":
 		_state = "chase"
 
@@ -453,7 +604,7 @@ func _flash_red() -> void:
 		_flash_tween.kill()
 	_sprite.modulate = Color(1.0, 0.3, 0.3)
 	_flash_tween = create_tween()
-	_flash_tween.tween_property(_sprite, "modulate", Color.WHITE, 0.1)
+	_flash_tween.tween_property(_sprite, "modulate", _enrage_tint() if _enraged else Color.WHITE, 0.1)
 
 
 func _die() -> void:
@@ -467,6 +618,9 @@ func _die() -> void:
 		_lean_tween.kill()
 	_sprite.modulate = Color.WHITE
 	_sprite.position = Vector2.ZERO
+	_clear_wedge()
+	if _plate != null:
+		_plate.clear_cast()
 	set_deferred("collision_layer", 0)
 	_col.set_deferred("disabled", true)
 	_grant_kill_rewards()
@@ -495,6 +649,12 @@ func _grant_kill_rewards() -> void:
 	var q := get_tree().get_first_node_in_group("quests")
 	if q != null:
 		q.call("report_kill", type_name)
+	# Additive loot roll: LootSystem maps this enemy type to a loot table and
+	# emits loot_generated (the D2-style loot window listens). Guarded and
+	# non-destructive -- the crafting drop above is unchanged; an unmapped type
+	# rolls nothing and shows nothing.
+	if LootSystem != null and LootSystem.has_method("roll_for_enemy"):
+		LootSystem.roll_for_enemy(type_name)
 
 
 func _on_anim_finished() -> void:
@@ -543,6 +703,361 @@ func _alive_player() -> Node2D:
 	return p
 
 
+# --- BLUEPRINT_33 archetype behaviors ---------------------------------------
+
+
+func _strike_damage() -> float:
+	## Melee/cast damage for one landed hit: heavy-swing multiplier (this swing
+	## only), enrage bonus, and pack bonus fold in on top of the base `damage`.
+	var d: float = damage
+	if _heavy_pending:
+		d *= _tf("heavy_mult", 1.6)
+	if _enraged:
+		d *= 1.0 + float(MobScaling.enrage_cfg().get("dmg_bonus", 0.40))
+	if _behavior("pack_bonus"):
+		d *= _pack_damage_mult()
+	return d
+
+
+# --- caster (kite + interruptible cast bar) ---------------------------------
+
+
+func _tick_caster(delta: float, player: Node2D, to_p: Vector2, dist: float) -> void:
+	var pref: float = _cf("range_pref", 240.0)
+	var flee: float = _cf("range_flee", 70.0)
+	if dist < flee:
+		# Too close: back away (kite) at reduced speed to reopen the gap.
+		velocity = -to_p.normalized() * _speed_now() * _cf("kite_speed_mult", 0.8)
+		move_and_slide()
+		_face_point(player.global_position)
+		_play("run")
+		return
+	if dist <= pref and _cast_cd <= 0.0:
+		_start_cast(player)
+		return
+	if dist > pref:
+		# Close the gap to preferred range, then cast.
+		velocity = to_p.normalized() * _speed_now() * _cf("kite_speed_mult", 0.8)
+		move_and_slide()
+		_face_move()
+		_play("run")
+		return
+	velocity = Vector2.ZERO
+	_face_point(player.global_position)
+	_play("idle")
+
+
+func _start_cast(player: Node2D) -> void:
+	_state = "cast"
+	_cast_total = _cf("channel", 1.6)
+	_cast_left = _cast_total
+	velocity = Vector2.ZERO
+	_face_point(player.global_position)
+	_play("idle")
+	_sprite.modulate = Color(0.8, 0.85, 1.4)  # cool cast-channel glow tell
+	if _plate != null:
+		_plate.set_cast(0.0)
+
+
+func _tick_cast(delta: float, player: Node2D) -> void:
+	velocity = Vector2.ZERO
+	if player != null:
+		_face_point(player.global_position)
+	_cast_left -= delta
+	if _plate != null and _cast_total > 0.0:
+		_plate.set_cast(clampf(1.0 - _cast_left / _cast_total, 0.0, 1.0))
+	if _cast_left > 0.0:
+		return
+	# Channel complete: launch the bolt, enter cooldown.
+	_sprite.modulate = _enrage_tint() if _enraged else Color.WHITE
+	if _plate != null:
+		_plate.clear_cast()
+	_cast_cd = _cf("cooldown", 2.2)
+	_state = "chase"
+	if player != null:
+		_fire_bolt(player)
+
+
+func _fire_bolt(player: Node2D) -> void:
+	var world := get_parent() as Node2D
+	if world == null:
+		return
+	var aim: Vector2 = player.global_position - global_position
+	if aim.length_squared() < 0.01:
+		aim = _windup_dir
+	# Per-creature bolt look (mandate #56): pale soul-bolt for the skeletal
+	# casters, a sickly green for the orc-shaman cults.
+	var col: Color = Color(0.55, 0.9, 0.5) if type_name.begins_with("orc") else Color(0.75, 0.85, 1.0)
+	Combat.spawn_projectile(world, {
+		"pos": global_position,
+		"dir": aim.normalized(),
+		"speed": _cf("projectile_speed", 180.0),
+		"range": _cf("projectile_range", 560.0),
+		"damage": _strike_damage(),
+		"faction": "enemy",
+		"kind": "bolt",
+		"color": col,
+	})
+
+
+func _cancel_cast(stagger: bool) -> void:
+	if _state != "cast" and _cast_left <= 0.0:
+		return
+	_cast_left = 0.0
+	if _plate != null:
+		_plate.interrupt_cast()
+	_sprite.modulate = _enrage_tint() if _enraged else Color.WHITE
+	if _state == "cast":
+		_state = "chase"
+	if stagger:
+		_stagger_left = _cf("stagger", 1.5)
+		_cast_cd = _cf("recovery", 2.5)
+
+
+# --- charger (telegraphed locked line charge) -------------------------------
+
+
+func _start_charge(player: Node2D) -> void:
+	_charge_state = "tell"
+	_charge_left = _tf("charge_windup", 0.7)
+	_charge_dir = (player.global_position - global_position).normalized()
+	if _charge_dir.length_squared() < 0.01:
+		_charge_dir = _windup_dir
+	_charge_dest = player.global_position  # locked: no homing -- a sidestep beats it
+	velocity = Vector2.ZERO
+	_face_point(player.global_position)
+	_play("idle")
+	_sprite.modulate = Color(1.6, 0.6, 0.5)
+	_spawn_charge_line(_charge_dir, global_position.distance_to(_charge_dest))
+
+
+func _tick_charge(delta: float, player: Node2D) -> void:
+	match _charge_state:
+		"tell":
+			velocity = Vector2.ZERO
+			if player != null:
+				_face_point(player.global_position)
+			_charge_left -= delta
+			if _charge_left <= 0.0:
+				_clear_wedge()
+				_charge_state = "dash"
+				_charge_left = _tf("charge_dash_time", 0.42)
+		"dash":
+			velocity = _charge_dir * speed * _tf("charge_speed_mult", 3.2)
+			move_and_slide()
+			_face_move()
+			_play("run")
+			if player != null and global_position.distance_to(player.global_position) <= HIT_RANGE:
+				var d: float = damage * _tf("charge_dmg_mult", 1.5)
+				if _enraged:
+					d *= 1.0 + float(MobScaling.enrage_cfg().get("dmg_bonus", 0.40))
+				Combat.deal_damage(player, d, self)
+				if player.has_method("apply_slow"):
+					player.call("apply_slow", _tf("charge_slow_mult", 0.5), _tf("charge_slow_dur", 1.0))
+				_end_charge(false)
+				return
+			_charge_left -= delta
+			if _charge_left <= 0.0 or get_slide_collision_count() > 0:
+				_end_charge(true)
+		"recover":
+			velocity = Vector2.ZERO
+			if player != null:
+				_face_point(player.global_position)
+			_play("idle")
+			_charge_left -= delta
+			if _charge_left <= 0.0:
+				_charge_state = ""
+				_state = "chase"
+
+
+func _end_charge(missed: bool) -> void:
+	_clear_wedge()
+	_charge_state = "recover"
+	_charge_left = _tf("charge_miss_recovery", 1.2) if missed else 0.4
+	_charge_cd = _tf("charge_cooldown", 6.0)
+	if missed:
+		_vuln_left = _charge_left  # +damage window while recovering from a whiff
+	_sprite.modulate = _enrage_tint() if _enraged else Color.WHITE
+
+
+func _cancel_charge() -> void:
+	if _charge_state == "":
+		return
+	_clear_wedge()
+	_charge_state = ""
+	_charge_left = 0.0
+	_state = "chase"
+	_sprite.modulate = _enrage_tint() if _enraged else Color.WHITE
+
+
+# --- pack tactics (social aggro / flanking / pack bonus) --------------------
+
+
+func _call_pack() -> void:
+	var social: float = _pf("social_px", 140.0)
+	for node: Node in get_tree().get_nodes_in_group("enemies"):
+		var e := node as Enemy
+		if e == null or e == self or not is_instance_valid(e) or e.is_dead:
+			continue
+		if e.type_name != type_name:
+			continue
+		if e.global_position.distance_to(global_position) <= social:
+			e._aggro_left = maxf(e._aggro_left, AGGRO_HOLD_TIME)
+			if e._state == "patrol" or e._state == "return":
+				e._state = "chase"
+
+
+func _flank_offset(player_pos: Vector2) -> Vector2:
+	# Stand at an angle around the player (side by instance id) so packmates
+	# surround instead of stacking on one approach line.
+	var from_player: Vector2 = global_position - player_pos
+	var ang: float = from_player.angle()
+	var side: float = 1.0 if (get_instance_id() % 2 == 0) else -1.0
+	ang += deg_to_rad(_pf("flank_deg", 55.0)) * side
+	return player_pos + Vector2.from_angle(ang) * (ATTACK_RANGE + 6.0)
+
+
+func _pack_damage_mult() -> float:
+	var per: float = _pf("bonus_per_ally", 0.10)
+	var cap: float = _pf("bonus_cap", 0.30)
+	var radius: float = _pf("bonus_px", 120.0)
+	var allies: int = 0
+	for node: Node in get_tree().get_nodes_in_group("enemies"):
+		var e := node as Enemy
+		if e == null or e == self or not is_instance_valid(e) or e.is_dead:
+			continue
+		if e.type_name != type_name:
+			continue
+		if e._state == "patrol" or e._state == "return":
+			continue
+		if e.global_position.distance_to(global_position) <= radius:
+			allies += 1
+	return 1.0 + minf(cap, per * float(allies))
+
+
+# --- enrage / telegraph decals / state reset --------------------------------
+
+
+func _enrage() -> void:
+	_enraged = true
+	_sprite.modulate = _enrage_tint()
+
+
+func _enrage_tint() -> Color:
+	return Color(1.55, 0.5, 0.42)
+
+
+func _reset_combat_state() -> void:
+	_enraged = false
+	_pack_called = false
+	_swing_count = 0
+	_heavy_pending = false
+	_cast_cd = 0.0
+	_cast_left = 0.0
+	_charge_cd = 0.0
+	_charge_state = ""
+	_charge_left = 0.0
+	_vuln_left = 0.0
+	_stagger_left = 0.0
+	_clear_wedge()
+	if _plate != null:
+		_plate.clear_cast()
+	_sprite.modulate = Color.WHITE
+
+
+func _spawn_wedge(dir: Vector2, radius: float) -> void:
+	## 90-degree ground wedge showing where a heavy swing will land (dodge = walk
+	## out). Child of self at the feet, drawn under the sprite (z -3).
+	_clear_wedge()
+	var poly := Polygon2D.new()
+	poly.name = "Telegraph"
+	poly.z_index = -3
+	var pts := PackedVector2Array()
+	pts.append(Vector2.ZERO)
+	var base: float = dir.angle()
+	var steps: int = 8
+	for i in range(steps + 1):
+		var a: float = base + lerpf(-PI * 0.25, PI * 0.25, float(i) / float(steps))
+		pts.append(Vector2.from_angle(a) * radius)
+	poly.polygon = pts
+	poly.color = Color(0.95, 0.25, 0.2, 0.30)
+	add_child(poly)
+	_tele_node = poly
+	var tw := create_tween()
+	tw.tween_property(poly, "color:a", 0.5, 0.25)
+
+
+func _spawn_charge_line(dir: Vector2, dist: float) -> void:
+	## Locked charge lane the boar will dash down (pulsing red quad on the ground).
+	_clear_wedge()
+	var line := Polygon2D.new()
+	line.name = "ChargeTell"
+	line.z_index = -3
+	var w: float = 9.0
+	var perp: Vector2 = Vector2(-dir.y, dir.x) * w
+	var far: Vector2 = dir * clampf(dist, 40.0, 260.0)
+	line.polygon = PackedVector2Array([-perp, perp, far + perp, far - perp])
+	line.color = Color(1.0, 0.35, 0.2, 0.30)
+	add_child(line)
+	_tele_node = line
+	var tw := create_tween()
+	tw.tween_property(line, "color:a", 0.5, 0.2)
+
+
+func _clear_wedge() -> void:
+	if _tele_node != null and is_instance_valid(_tele_node):
+		_tele_node.queue_free()
+	_tele_node = null
+
+
+# --- RH_ENEMY_DEMO: QA-only telegraph/cast/charge showcase in place ----------
+
+
+func _tick_demo(delta: float) -> void:
+	## RH_ENEMY_DEMO forces this archetype to cycle its telegraph/cast/charge tell
+	## in place (facing +X) so a windowed screenshot reliably catches the feel
+	## without the player pathing into every pack. QA-only, harmless (0 dmg).
+	velocity = Vector2.ZERO
+	var dir := Vector2.RIGHT
+	_demo_phase += delta
+	if _behavior("cast"):
+		if _state != "cast_demo" and _cast_cd <= 0.0:
+			_cast_total = _cf("channel", 1.6)
+			_cast_left = _cast_total
+			_state = "cast_demo"
+			_sprite.modulate = Color(0.8, 0.85, 1.4)
+		if _state == "cast_demo":
+			_cast_left -= delta
+			if _plate != null and _cast_total > 0.0:
+				_plate.set_cast(clampf(1.0 - _cast_left / _cast_total, 0.0, 1.0))
+			if _cast_left <= 0.0:
+				_state = "patrol"
+				_cast_cd = 0.0  # demo: recast immediately so the bar is always visible
+				if _plate != null:
+					_plate.clear_cast()
+				var world := get_parent() as Node2D
+				if world != null:
+					var col: Color = Color(0.55, 0.9, 0.5) if type_name.begins_with("orc") else Color(0.75, 0.85, 1.0)
+					Combat.spawn_projectile(world, {"pos": global_position, "dir": dir,
+						"speed": _cf("projectile_speed", 180.0), "range": 220.0,
+						"damage": 0.0, "faction": "enemy", "kind": "bolt", "color": col})
+		_play("idle")
+		return
+	if _behavior("charge"):
+		if _tele_node == null:
+			_spawn_charge_line(dir, 120.0)
+			_sprite.modulate = Color(1.6, 0.6, 0.5)
+		_play("idle")
+		return
+	if _behavior("heavy_swing"):
+		if _tele_node == null:
+			_spawn_wedge(dir, HIT_RANGE + 14.0)
+			_sprite.modulate = Color(1.6, 0.6, 0.5)
+		_play("idle")
+		return
+	_play("idle")
+
+
 class Nameplate extends Node2D:
 	## WoW-style nameplate: centered name label (Alagard 8, hostile red, dark
 	## outline) over a 26x3 px HP bar. Fully self-managing — each physics tick
@@ -559,10 +1074,13 @@ class Nameplate extends Node2D:
 	const BAR_FILL := Color(0.72, 0.16, 0.14)
 	const TICK_GOLD := Color(0.85, 0.68, 0.35, 0.9)
 	const BAR_W: float = 26.0
+	const CAST_GOLD := Color(0.95, 0.8, 0.3)
 
 	var frac: float = 1.0
 	var targeted: bool = false
 	var show_hp_bar: bool = true
+	var cast_frac: float = -1.0       # >= 0 while the owner is casting; -1 hidden
+	var _cast_flash: float = 0.0      # white interrupt flash timer
 	var _label: Label
 	var _settings: LabelSettings  # per-plate instance, safe to recolor
 
@@ -604,7 +1122,10 @@ class Nameplate extends Node2D:
 		var near: bool = has_player and \
 				player.global_position.distance_to(holder.global_position) <= SHOW_RANGE
 		var hurt: bool = show_hp_bar and hp_now < hp_max - 0.01
-		visible = hurt or is_target or near
+		if _cast_flash > 0.0:
+			_cast_flash = maxf(0.0, _cast_flash - _delta)
+		var casting: bool = cast_frac >= 0.0 or _cast_flash > 0.0
+		visible = hurt or is_target or near or casting
 		if not visible:
 			return
 		if is_target != targeted:
@@ -617,6 +1138,21 @@ class Nameplate extends Node2D:
 				frac = f
 				queue_redraw()
 
+	func set_cast(f: float) -> void:
+		cast_frac = clampf(f, 0.0, 1.0)
+		queue_redraw()
+
+	func clear_cast() -> void:
+		if cast_frac < 0.0 and _cast_flash <= 0.0:
+			return
+		cast_frac = -1.0
+		queue_redraw()
+
+	func interrupt_cast() -> void:
+		cast_frac = -1.0
+		_cast_flash = 0.45
+		queue_redraw()
+
 	func _draw() -> void:
 		if not show_hp_bar:
 			return
@@ -627,6 +1163,16 @@ class Nameplate extends Node2D:
 		var w: float = (BAR_W - 2.0) * clampf(frac, 0.0, 1.0)
 		if w > 0.0:
 			draw_rect(Rect2(bx0 + 1.0, 1.0, w, h - 2.0), BAR_FILL)
+		# Cast bar: gold 2 px bar under the HP bar; flashes white on interrupt.
+		if cast_frac >= 0.0 or _cast_flash > 0.0:
+			var cy: float = h + 2.0
+			draw_rect(Rect2(bx0, cy, BAR_W, 2.0), BAR_BG)
+			if _cast_flash > 0.0:
+				draw_rect(Rect2(bx0, cy, BAR_W, 2.0), Color(1.0, 1.0, 1.0, 0.9))
+			elif cast_frac >= 0.0:
+				var cw: float = BAR_W * clampf(cast_frac, 0.0, 1.0)
+				if cw > 0.0:
+					draw_rect(Rect2(bx0, cy, cw, 2.0), CAST_GOLD)
 		if not targeted:
 			return
 		# Subtle gold L-shaped ticks framing the targeted bar's corners.
