@@ -17,6 +17,8 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+InventorySystem="*res://scripts/systems/inventory_system.gd"
+SmartNPCSystem="*res://scripts/systems/smart_npc_system.gd"
 TalentSystem="*res://scripts/systems/talent_system.gd"
 OptionsSystem="*res://scripts/systems/options_system.gd"
 MapSystem="*res://scripts/systems/map_system.gd"
