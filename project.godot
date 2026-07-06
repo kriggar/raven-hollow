@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+DungeonSystem="*res://scripts/systems/dungeon_system.gd"
+BattleSystem="*res://scripts/systems/battle_system.gd"
+CinematicSystem="*res://scripts/systems/cinematic_system.gd"
+TrainerSystem="*res://scripts/systems/trainer_system.gd"
 WorldStreamSystem="*res://scripts/systems/world_stream_system.gd"
 LegendarySystem="*res://scripts/systems/legendary_system.gd"
 PvPSystem="*res://scripts/systems/pvp_system.gd"

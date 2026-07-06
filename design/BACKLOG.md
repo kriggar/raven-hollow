@@ -35,7 +35,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 26. ✅ Anti-hallucination triple storage (this file + GitHub + memory)
 ### Design docs complete, implementation queued (27-45)
 27. ✅ Quest engine (data objectives + tracking + rewards, 12 quests) — BUILT (BLUEPRINT_27) e8e27a9
-28. 📐→⬜ Calendar events (12, WoW dates) implementation
+28. ✅ Calendar + 12 seasonal events (tied to day/night clock) — BUILT 8f909ae
 29. 📐→⬜ NPC cast rollout (~243 across 40 zones)
 30. ✅ Item progression (gear-score/level, via InventorySystem) — BUILT 2026-07-06
 31. ✅ Loot tables + 16 named rares — BUILT (LootSystem, rarity budgets) f1c905f
@@ -51,10 +51,10 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 41. ✅ Talent trees (21, 252 talents, prereqs) + StatsSystem hooks — BUILT (TalentSystem) 6055cc2
 42. ✅ Crafting: 7 professions, 35 recipes, skill-to-1000, legendaries — BUILT (CraftingSystem) 7edd7ed
 43. 📐→⬜ Class starting experiences: 7 mentor pockets (STARTING_ZONES)
-44. 📐→⬜ Legendary weapons ×7 + no-transmog visual gear (LEGENDARY_WEAPONS)
+44. ✅ 7 legendary weapons + unique signature effects + acquisition + WYSIWYG — BUILT 5b29780
 45. ✅ Proficiencies cloth/leather/mail/plate + equip gating — BUILT (InventorySystem) ea97bbd
 ### Design docs complete, systems queued (46-60)
-46. 📐→⬜ PvP arena (Reckoning Floor) + Accord Roll ranks + titles (PVP_RANKS_TITLES) — EXPANDED per owner: thematic 1v1 arenas in EVERY zone
+46. ✅ PvP arena (Reckoning Floor) + 14-rank Accord Roll + 55 titles — BUILT 54f492e
 47. ✅ Map system: 3-tier zoom + fog-of-war + pins + minimap — BUILT (MapSystem) d0aa4a3
 48. 📐→⬜ QA automation stack: tests/qa.py 4 layers (QA_AUTOMATION)
 49. 📐→⬜ Narrative voice rollout: Tolkien×dread registers to ALL text (NARRATIVE_VOICE)
@@ -86,7 +86,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 69. ⬜ Cow-level-style secret (lore-accurate)
 70. ✅ Resting (inn/hearth, well-rested XP buff via StatusSystem) — BUILT 9da4dc6
 71. ✅ Factions + reputation (6 factions, 8 WoW tiers, emblems, rep gates) — BUILT 61ea165
-72. ⬜ Auction house (mats) + banker in capitals
+72. ✅ Auction house + bank (listings, gold+item storage) — BUILT 7debfc4
 73. ⬜ Scarce-loot tuning pass
 74. ⬜ Dungeons (10) + Raids (3, finale Bloodstone Pit)
 75. 🔧 Grey Ferry: travel link + fast-travel ROUTES ✅ (riverfork.ferry_dock ↔ grey_piers.ferry_landing) — the VOYAGE INTERLUDE presentation is #102
@@ -127,7 +127,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 95. 🔧 LOCAL STUDIO v1 SHIPPED (tools/studio/): Ollama+Qwen2.5-Coder-14B worker w/ 5 roles (quest/bark/def/item/qa-triage), style-bible priming + validators + retry; finetune/ QLoRA recipe on the project corpus (honest scope: specialist, not Fable-clone; no Claude-output training per ToS). ART (ComfyUI) + VOICE (Maya1) already local = full free studio. Remaining: owner installs Ollama, first batch run, adopt-if-better eval
 96. ⬜ Corporation-of-bots departments; godot-optimization horde; 2D-pixel-design + Blizzard-audio/cinematics study hordes; playtest agents start-to-finish; bots w/ perfect navmesh + class rotations; race-vs-bots world-firsts; everyone starts from 0 on New World
 97. ⬜ Disk-space watcher (safe pruning) + BE-CHEAP operations law (standing)
-98. ⬜ SEAMLESS WORLD (owner mandate): all 40 zones interconnected, NO loading screens — edge-streaming (pre-build adjacent zone off-screen as the player nears a seam, continuous walk-across, unload behind); the player never feels a map change. Engine: async zone pre-build + world-offset stitching + camera continuity, replacing the fade-to-black change_map at seams.
+98. ✅ SEAMLESS WORLD edge-streaming (full crossing, gated+change_map fallback) — BUILT (BLUEPRINT_98) 22cf6a1
 
 99. ✅ COLLISION AUDIT: footprint colliders per prop class + pushable props — BUILT (BLUEPRINT_99, 60 types mapped) e58f0cf
 
