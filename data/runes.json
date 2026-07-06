@@ -1,0 +1,20 @@
+{
+  "_doc": "Raven Hollow RUNES (design/RUNEWORDS.md 3). 12 carved Underlanguage syllables. Consumed by RunewordSystem (scripts/systems/runeword_system.gd). Owner amendment: ALL rune glyphs + rims recolor to D2 DARK GOLD (dark_gold below) regardless of tier -- the tier field is kept for drop/acquisition logic only. socket_bonus keys map 1:1 onto StatsSystem stat modifiers (hp/mana/armor/damage/speed_pct/crit_pct/mana_regen). The syllable is never translated in-UI; the flavor's last line is always a warning.",
+  "dark_gold": [0.80, 0.62, 0.26],
+  "dark_gold_rim": [0.54, 0.39, 0.15],
+  "dark_gold_bright": [1.0, 0.85, 0.45],
+  "runes": {
+    "veth": {"id": "veth", "name": "VETH", "tier": "lesser", "syllable_of": "the ground warming", "color": [0.78, 0.60, 0.25], "socket_bonus": {"hp": 30.0}, "flavor": "Snow refuses to lie on it. It is warm the way a held breath is warm. Do not read it."},
+    "sul":  {"id": "sul",  "name": "SUL",  "tier": "lesser", "syllable_of": "the wells coppering", "color": [0.78, 0.60, 0.25], "socket_bonus": {"mana": 25.0}, "flavor": "Your waterskin tastes of coins for a day after you carry it. Do not read it."},
+    "nul":  {"id": "nul",  "name": "NUL",  "tier": "lesser", "syllable_of": "the yeast dying", "color": [0.78, 0.60, 0.25], "socket_bonus": {"crit_pct": 5.0}, "flavor": "Small, domestic, catastrophic. Bread will not rise in the same bag. Do not read it."},
+    "isk":  {"id": "isk",  "name": "ISK",  "tier": "lesser", "syllable_of": "the dust aligning", "color": [0.78, 0.60, 0.25], "socket_bonus": {"speed_pct": 4.0, "hp": 5.0}, "flavor": "Motes hang around it in faint parallel lines, pointing somewhere. Do not follow them. Do not read it."},
+    "om":   {"id": "om",   "name": "OM",   "tier": "lesser", "syllable_of": "the stone stilling", "color": [0.78, 0.60, 0.25], "socket_bonus": {"armor": 5.0}, "flavor": "It is heavier every time you decide to throw it away. Do not read it."},
+    "kar":  {"id": "kar",  "name": "KAR",  "tier": "lesser", "syllable_of": "the flesh correcting", "color": [0.78, 0.60, 0.25], "socket_bonus": {"damage": 5.0}, "flavor": "The edge of the carving is sharper than the stone it is cut into. Do not read it."},
+    "thar": {"id": "thar", "name": "THAR", "tier": "greater", "syllable_of": "the listening", "color": [0.84, 0.66, 0.30], "socket_bonus": {"mana_regen": 2.0}, "flavor": "You catch yourself tilting toward your own bag. Stop finishing the sentence. Do not read it."},
+    "mor":  {"id": "mor",  "name": "MOR",  "tier": "greater", "syllable_of": "the grave holding", "color": [0.84, 0.66, 0.30], "socket_bonus": {"hp": 45.0}, "flavor": "The dead handle it best. You are not dead. Do not read it."},
+    "dra":  {"id": "dra",  "name": "DRA",  "tier": "greater", "syllable_of": "the thirst", "color": [0.84, 0.66, 0.30], "socket_bonus": {"damage": 8.0, "hp": 5.0}, "flavor": "A gnawing lack no meal fixes. The stone was named for this syllable. Do not read it."},
+    "zev":  {"id": "zev",  "name": "ZEV",  "tier": "greater", "syllable_of": "the thread animating", "color": [0.84, 0.66, 0.30], "socket_bonus": {"mana": 30.0, "crit_pct": 3.0}, "flavor": "Blue filament in the grooves. It is still faintly warm. Do not read it."},
+    "azh":  {"id": "azh",  "name": "AZH",  "tier": "apex", "syllable_of": "the erasing", "color": [0.92, 0.74, 0.36], "socket_bonus": {"damage": 7.0, "crit_pct": 7.0}, "flavor": "Not a wound. A correction. He just finished the thought, and then there was less of him. DO NOT READ IT."},
+    "ur":   {"id": "ur",   "name": "UR",   "tier": "apex", "syllable_of": "the first entry", "color": [0.92, 0.74, 0.36], "socket_bonus": {"armor": 10.0, "hp": 30.0}, "flavor": "Every stone in its place, every silence, and no one in it. The record prefers it that way. DO NOT READ IT."}
+  }
+}
