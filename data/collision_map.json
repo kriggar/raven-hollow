@@ -1,0 +1,86 @@
+{
+  "_doc": "BLUEPRINT_99 + FREEDOM_PHYSICS #52 footprint-collision map. Per prop/landmark/vignette class -> collision_kind + footprint params (a shape at the sprite's FEET, never the full sprite rect). Consumed by scripts/zone_builder.gd (_foot_type / _sprite building auto-collider). kinds: none|building|circle|ellipse|ring|strip|pushable. w/h are RADII for circle/ellipse (w=rx,h=ry) or SIZE for strip/pushable; off_y nudges the collider down to the feet-line. Additive + guarded: any type absent here (or kind==none) gets NO collision = current walkable behavior.",
+  "layer": 1,
+  "push_layer": 16,
+
+  "buildings": {
+    "kind": "building",
+    "width_frac": 0.55,
+    "height": 30.0,
+    "feet_off": 8.0,
+    "_doc": "Auto-applied by _sprite() to any sorted sprite whose path contains /buildings/ or log_cabin. Strip = width_frac*tex_width x height, sat on the base feet-line (sprite bottom = pos.y + feet_off)."
+  },
+
+  "landmarks": {
+    "cottage":           {"kind": "building"},
+    "tavern":            {"kind": "building"},
+    "barn":              {"kind": "building"},
+    "shed":              {"kind": "building"},
+    "warehouse":         {"kind": "building"},
+    "forge":             {"kind": "building"},
+    "manor":             {"kind": "building"},
+    "shop":              {"kind": "building"},
+    "workshop":          {"kind": "building"},
+    "hamlet":            {"kind": "building"},
+    "dark_keep":         {"kind": "building"},
+    "spire":             {"kind": "building"},
+    "cabin":             {"kind": "building"},
+
+    "well":              {"kind": "circle",  "w": 16.0, "off_y": 2.0},
+    "copper_well":       {"kind": "circle",  "w": 16.0, "off_y": 2.0},
+    "fountain":          {"kind": "circle",  "w": 18.0, "off_y": 2.0},
+    "statue":            {"kind": "ellipse", "w": 12.0, "h": 8.0,  "off_y": 2.0},
+    "inscription_stone": {"kind": "ellipse", "w": 16.0, "h": 9.0,  "off_y": 2.0},
+    "dolmen":            {"kind": "ellipse", "w": 16.0, "h": 9.0,  "off_y": 2.0},
+    "stone_row":         {"kind": "circle",  "w": 7.0,  "off_y": 2.0},
+    "graves":            {"kind": "strip",   "w": 22.0, "h": 12.0, "off_y": 0.0},
+    "cairn":             {"kind": "ellipse", "w": 16.0, "h": 12.0, "off_y": 2.0},
+    "rocks":             {"kind": "ellipse", "w": 16.0, "h": 11.0, "off_y": 3.0},
+    "ore_rocks":         {"kind": "ellipse", "w": 16.0, "h": 11.0, "off_y": 3.0},
+    "lone_tree":         {"kind": "circle",  "w": 7.0,  "off_y": 4.0},
+    "signboard":         {"kind": "circle",  "w": 4.0,  "off_y": 2.0},
+    "lamp":              {"kind": "circle",  "w": 4.0,  "off_y": 0.0},
+    "crane":             {"kind": "circle",  "w": 5.0,  "off_y": 0.0},
+    "lava_vent":         {"kind": "ellipse", "w": 22.0, "h": 12.0, "off_y": 2.0},
+    "brazier":           {"kind": "circle",  "w": 10.0, "off_y": 2.0},
+    "camp":              {"kind": "circle",  "w": 10.0, "off_y": 0.0},
+    "stall":             {"kind": "strip",   "w": 64.0, "h": 12.0, "off_y": 2.0},
+    "stump":             {"kind": "ellipse", "w": 14.0, "h": 9.0,  "off_y": 2.0},
+    "trunk_hollow":      {"kind": "ellipse", "w": 16.0, "h": 10.0, "off_y": 2.0},
+    "boat":              {"kind": "ellipse", "w": 28.0, "h": 14.0, "off_y": 2.0},
+    "wreck":             {"kind": "ellipse", "w": 30.0, "h": 16.0, "off_y": 2.0},
+    "pit":               {"kind": "ring",    "w": 96.0, "h": 60.0, "off_y": 0.0},
+    "cargo":             {"kind": "pushable","w": 20.0, "h": 18.0, "mass": 10.0, "off_y": 0.0},
+    "plaza":             {"kind": "none", "_note": "szadi_prop_01 planter/fixture; left walkable pending art confirm (unsure)"},
+
+    "bones":             {"kind": "none"},
+    "ledger_tablet":     {"kind": "none"},
+    "chimney_smoke":     {"kind": "none"},
+    "salt_pan":          {"kind": "none"},
+    "gift_field":        {"kind": "none"},
+    "lichen_glow":       {"kind": "none"},
+    "thread_lines":      {"kind": "none"},
+    "pond":              {"kind": "none"},
+    "pier":              {"kind": "none"},
+    "drowned_fence":     {"kind": "none"}
+  },
+
+  "vignettes": {
+    "murder_scene":     {"kind": "none"},
+    "courier_seal":     {"kind": "none"},
+    "childs_shoe":      {"kind": "none"},
+    "standing_farmer":  {"kind": "none"},
+    "cold_camp":        {"kind": "none"},
+    "boot_prints":      {"kind": "none"},
+    "empty_stall":      {"kind": "none"},
+    "rows_of_twelve":   {"kind": "none"},
+    "chalk_handprints": {"kind": "none"},
+    "burned_farmstead": {"kind": "building"},
+    "full_granary":     {"kind": "building"}
+  },
+
+  "scatter": {
+    "tree":    {"kind": "circle",  "w": 7.0,  "off_y": 4.0, "_doc": "scattered tree = trunk circle; canopy passes over (no collider)"},
+    "boulder": {"kind": "ellipse", "w": 16.0, "h": 11.0, "off_y": 3.0}
+  }
+}

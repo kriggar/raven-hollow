@@ -366,6 +366,7 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 			else:
 				spr.texture = load(str(rocks[rng.randi_range(0, rocks.size() - 1)]))
 			spr.scale = Vector2.ONE * rng.randf_range(0.9, 1.6)
+			_foot_scatter(parent, "boulder", pos)
 			spr.position = pos
 			spr.y_sort_enabled = true
 			parent.add_child(spr)
@@ -378,6 +379,7 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 		spr.position = pos
 		spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
 		spr.modulate = tree_tint
+		_foot_scatter(parent, "tree", pos)
 		spr.y_sort_enabled = true
 		parent.add_child(spr)
 	var n_bush: int = n_trees * 2
@@ -422,16 +424,20 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				_sprite(parent, "res://assets/art/buildings/house_07.png", pos, true)
 			"well":
 				_sprite(parent, PROPS + "szadi_prop_11.png", pos, true)
+				_foot_type(parent, "well", pos)
 			"copper_well":
 				_sprite(parent, PROPS + "szadi_prop_11.png", pos, true, Color(0.95, 0.72, 0.52))
+				_foot_type(parent, "copper_well", pos)
 				_warm_light(parent, pos, 0.3)
 			"inscription_stone":
 				_atlas(parent, R_MONOLITH, pos, Color(0.82, 0.84, 0.88), true)
 				var live: bool = bool(lm.get("live", false))
 				_stone_light(parent, pos, live)
+				_foot_type(parent, "inscription_stone", pos)
 			"stone_row":
 				for i in range(int(lm.get("count", 4))):
 					_atlas(parent, R_STONE_TALL, pos + Vector2(i * 44, rng.randf_range(-6, 6)), Color(0.86, 0.88, 0.9), true)
+					_foot_type(parent, "stone_row", pos + Vector2(i * 44, 0.0))
 			"camp":
 				# char circle + stone ring ground the fire; bedrolls fan
 				# around it (a straight pale row read as grave plots).
@@ -451,6 +457,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					ring.z_index = -5
 					parent.add_child(ring)
 				_fire(parent, pos)
+				_foot_type(parent, "camp", pos)
 				for i in range(3):
 					var ba: float = -PI * 0.15 + PI * 0.55 * float(i)
 					var bed := Sprite2D.new()
@@ -467,10 +474,14 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for i in range(int(lm.get("count", 6))):
 					var gp: Vector2 = pos + Vector2((i % 3) * 48, int(float(i) / 3.0) * 58)
 					_atlas(parent, R_STONE_LOW if i % 2 == 0 else R_STONE_TALL, gp, Color(0.85, 0.87, 0.9), true)
+					_foot_type(parent, "graves", gp)
 			"dolmen":
 				_atlas(parent, R_MONOLITH, pos, Color(0.8, 0.82, 0.86), true)
 				_atlas(parent, R_STONE_LOW, pos + Vector2(-52, 30), Color(0.8, 0.82, 0.86), true)
 				_atlas(parent, R_STONE_LOW, pos + Vector2(52, 30), Color(0.8, 0.82, 0.86), true)
+				_foot_type(parent, "dolmen", pos)
+				_foot_type(parent, "graves", pos + Vector2(-52, 30))
+				_foot_type(parent, "graves", pos + Vector2(52, 30))
 			"bones":
 				for i in range(4):
 					_atlas(parent, R_BONE_A, pos + Vector2(rng.randf_range(-40, 40), rng.randf_range(-30, 30)), Color(0.95, 0.95, 0.9))
@@ -478,12 +489,14 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				# Rust-tinted rock cluster + glint — the zone fantasy made visible.
 				for oi in range(int(lm.get("count", 5))):
 					var op: Vector2 = pos + Vector2(rng.randf_range(-70, 70), rng.randf_range(-50, 50))
+					_foot_type(parent, "ore_rocks", op)
 					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true,
 							Color(0.85, 0.62, 0.48))
 				_warm_light(parent, pos, 0.22)
 			"rocks":
 				for oi in range(int(lm.get("count", 4))):
 					var op: Vector2 = pos + Vector2(rng.randf_range(-60, 60), rng.randf_range(-45, 45))
+					_foot_type(parent, "rocks", op)
 					_sprite(parent, PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42), op, true)
 			"pier":
 				# grey-wood pier: plank deck marching into the water
@@ -512,6 +525,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				var btw := parent.create_tween().set_loops()
 				btw.tween_property(bspr, "position:y", pos.y - 2.0, 1.6)
 				btw.tween_property(bspr, "position:y", pos.y + 2.0, 1.6)
+				_foot_type(parent, "boat", pos)
 			"wreck":
 				var wspr := Sprite2D.new()
 				wspr.texture = load("res://assets/art/world/coast/sailboat.png")
@@ -525,6 +539,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				wl.position = pos + Vector2(-40, 12)
 				wl.color = Color(0.15, 0.19, 0.25, 0.85)
 				wl.z_index = 1
+				_foot_type(parent, "wreck", pos)
 				parent.add_child(wl)
 			"warehouse":
 				_sprite(parent, "res://assets/art/buildings/house_03.png", pos, true, Color(0.60, 0.62, 0.66))
@@ -533,6 +548,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				mast.size = Vector2(7, 74)
 				mast.position = pos + Vector2(-3.5, -74)
 				mast.color = Color(0.32, 0.25, 0.17)
+				_foot_type(parent, "crane", pos)
 				parent.add_child(mast)
 				var arm := ColorRect.new()
 				arm.size = Vector2(56, 6)
@@ -555,6 +571,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					var crate := ColorRect.new()
 					crate.size = Vector2(20, 18)
 					crate.position = pos + Vector2(float(ci % 2) * 24.0 - 12.0, float(int(float(ci) / 2.0)) * 20.0 - 10.0)
+					_foot_type(parent, "cargo", crate.position + Vector2(10.0, 9.0))
 					crate.color = Color(0.50, 0.38, 0.24) if ci % 2 == 0 else Color(0.44, 0.33, 0.21)
 					parent.add_child(crate)
 					var slat := ColorRect.new()
@@ -620,6 +637,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				lt.offset = Vector2(0, -lt.texture.get_height() * 0.5 + 10)
 				lt.y_sort_enabled = true
 				lt.material = _tree_sway_material()
+				_foot_type(parent, "lone_tree", pos)
 				parent.add_child(lt)
 			"chimney_smoke":
 				# def pos = the HOUSE anchor; the emitter climbs to the
@@ -643,12 +661,15 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				parent.add_child(smoke)
 			"cairn":
 				_sprite(parent, "res://assets/art/world/volcanic/cairn.png", pos, true)
+				_foot_type(parent, "cairn", pos)
 			"signboard":
 				_sprite(parent, "res://assets/art/world/volcanic/signboard.png", pos, true)
+				_foot_type(parent, "signboard", pos)
 			"lava_vent":
 				# Active vent: erupting basalt mound, ember light breathing.
 				var vt := ["vent_big1", "vent_big2", "vent_ring1", "vent_ring2", "vent_small"]
 				_sprite(parent, "res://assets/art/world/volcanic/%s.png" % vt[rng.randi_range(0, vt.size() - 1)], pos, true)
+				_foot_type(parent, "lava_vent", pos)
 				var vl := PointLight2D.new()
 				vl.position = pos + Vector2(0, -6)
 				vl.texture = _radial_tex()
@@ -661,6 +682,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				vtw.tween_property(vl, "energy", 0.85, rng.randf_range(0.7, 1.2))
 			"brazier":
 				_fire(parent, pos, true)
+				_foot_type(parent, "brazier", pos)
 			"forge":
 				# Sangeroasa forge-hall: soot-dark workshop, furnace maw burning.
 				_sprite(parent, "res://assets/art/buildings/house_00.png", pos, true, Color(0.55, 0.48, 0.46))
@@ -685,6 +707,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					ppts.append(pos + Vector2(cos(pa) * 150.0, sin(pa) * 95.0))
 				pit.polygon = ppts
 				pit.color = Color(0.05, 0.03, 0.05)
+				_foot_type(parent, "pit", pos)
 				pit.z_index = -5
 				parent.add_child(pit)
 				var inner := Polygon2D.new()
@@ -698,6 +721,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				parent.add_child(inner)
 				for pi in range(12):
 					var pa3: float = TAU * float(pi) / 12.0 + rng.randf_range(-0.1, 0.1)
+					_foot_type(parent, "rocks", pos + Vector2(cos(pa3) * 165.0, sin(pa3) * 108.0))
 					_sprite(parent, "res://assets/art/world/volcanic/rock_%s.png" % ["a", "b", "c", "d"][rng.randi_range(0, 3)],
 							pos + Vector2(cos(pa3) * 165.0, sin(pa3) * 108.0), true)
 				var el := PointLight2D.new()
@@ -761,6 +785,7 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				_atlas(parent, Rect2(354, 198, 24, 79), pos, Color(0.75, 0.72, 0.80), true)
 				_atlas(parent, R_LANTERN_LIT, pos + Vector2(0, -58), Color(1, 0.9, 0.6))
 				_fire_light(parent, pos + Vector2(0, -58), 0.55)
+				_foot_type(parent, "lamp", pos)
 			"lichen_glow":
 				# Bioluminescent lichen: the Strigoi export (canon) — teal glow.
 				for li in range(int(lm.get("count", 4))):
@@ -820,8 +845,10 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				_bubbles(parent, pos + Vector2(rng.randf_range(-30, 30), rng.randf_range(-20, 20)), rng)
 			"stump":
 				_swamp_atlas(parent, Rect2(0, 256, 128, 128), pos, true)
+				_foot_type(parent, "stump", pos)
 			"trunk_hollow":
 				_swamp_atlas(parent, Rect2(128, 128, 128, 160), pos, true)
+				_foot_type(parent, "trunk_hollow", pos)
 			"manor":
 				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true,
 						lm.get("tint", Color.WHITE))
@@ -848,14 +875,17 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					spole.z_index = 1
 					parent.add_child(spole)
 				_atlas(parent, Rect2(272, 800, 48, 64), pos + Vector2(0, -20), Color.WHITE, true)
+				_foot_type(parent, "stall", pos)
 			"plaza":
 				for pi in range(int(lm.get("count", 4))):
 					_sprite(parent, PROPS + "szadi_prop_01.png",
 							pos + Vector2(float(pi % 2) * 150.0 - 75.0, float(int(float(pi) / 2.0)) * 120.0 - 60.0))
 			"statue":
 				_sprite(parent, PROPS + "cainos_prop_06.png", pos, true)
+				_foot_type(parent, "statue", pos)
 			"fountain":
 				_sprite(parent, PROPS + "cainos_prop_30.png", pos, true)
+				_foot_type(parent, "fountain", pos)
 
 
 ## Lore vignettes: authored environmental-storytelling set-pieces (bible-sourced,
@@ -1208,6 +1238,12 @@ static func _sprite(parent: Node2D, path: String, pos: Vector2, sorted: bool = f
 		spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 8)
 		spr.y_sort_enabled = true
 	parent.add_child(spr)
+	if sorted and (path.contains("/buildings/") or path.contains("log_cabin")):
+		var _bm: Dictionary = _collision_map().get("buildings", {})
+		var _bw: float = float(spr.texture.get_width()) * float(_bm.get("width_frac", 0.55))
+		var _bh: float = float(_bm.get("height", 30.0))
+		var _bfeet: float = float(_bm.get("feet_off", 8.0))
+		_foot(parent, pos, "strip", _bw, _bh, _bfeet - _bh * 0.5)
 	# Buildings occlude light: waystation lanterns / camp fires throw real
 	# shadows off structures ("ray-traced" feel, 2D-style).
 	if sorted and path.contains("/buildings/"):
@@ -1517,3 +1553,143 @@ static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, 
 			parent.add_child(tf)
 	return occupied
 
+
+# --- BLUEPRINT_99 footprint collision (additive + guarded) ------------------
+## Footprint colliders sized to a prop's FEET (never the full sprite rect),
+## driven by data/collision_map.json. Walkable dressing (decals, bones, tufts,
+## ivy, smoke, soil, thread, ponds) is simply never passed here, so it keeps
+## its current no-collision behavior. Solid props -> StaticBody2D on the world
+## layer the player masks (player.collision_mask = 1). Pushable props (#52:
+## crates/cargo) -> RigidBody2D (Zelda-feel). This ONLY adds collision bodies;
+## visuals/placement are untouched (Fable visual law). RH_COLLDEBUG=1 draws a
+## translucent overlay of every footprint for screenshot verification.
+const _COLL_LAYER := 1              # world layer; player.collision_mask = 1 collides
+const _COLL_PUSH_LAYER := 1 << 4    # FREEDOM_PHYSICS #8 prop layer (5)
+
+static var _coll_map: Dictionary = {}
+static var _coll_map_loaded := false
+static var _coll_debug := -1
+
+
+static func _collision_map() -> Dictionary:
+	if not _coll_map_loaded:
+		_coll_map_loaded = true
+		var f := FileAccess.open("res://data/collision_map.json", FileAccess.READ)
+		if f != null:
+			var parsed: Variant = JSON.parse_string(f.get_as_text())
+			if parsed is Dictionary:
+				_coll_map = parsed
+	return _coll_map
+
+
+static func _coll_debug_on() -> bool:
+	if _coll_debug < 0:
+		_coll_debug = 1 if not OS.get_environment("RH_COLLDEBUG").is_empty() else 0
+	return _coll_debug == 1
+
+
+## Place ONE footprint collider at pos (nudged to the feet by off_y). kind:
+## circle (w=radius) / ellipse|ring (w=rx,h=ry) / strip (w x h) / pushable
+## (RigidBody2D rect w x h). Static bodies sit on _COLL_LAYER so the player
+## (and enemies) collide; pushables also join the prop layer for #52.
+static func _foot(parent: Node2D, pos: Vector2, kind: String, w: float, h: float,
+		off_y: float = 0.0, mass: float = 10.0) -> void:
+	var body: PhysicsBody2D = null
+	var shape: Shape2D = null
+	var dbg := PackedVector2Array()
+	match kind:
+		"circle":
+			body = StaticBody2D.new()
+			var c := CircleShape2D.new()
+			c.radius = w
+			shape = c
+			for i in range(16):
+				var a := TAU * float(i) / 16.0
+				dbg.append(Vector2(cos(a), sin(a)) * w)
+		"ellipse", "ring":
+			body = StaticBody2D.new()
+			shape = _ellipse_shape(w, h)
+			for i in range(16):
+				var a := TAU * float(i) / 16.0
+				dbg.append(Vector2(cos(a) * w, sin(a) * h))
+		"strip":
+			body = StaticBody2D.new()
+			var r := RectangleShape2D.new()
+			r.size = Vector2(w, h)
+			shape = r
+			dbg = _rect_pts(w, h)
+		"pushable":
+			var rb := RigidBody2D.new()
+			rb.gravity_scale = 0.0
+			rb.lock_rotation = true
+			rb.linear_damp = 6.0
+			rb.angular_damp = 3.0
+			rb.mass = mass
+			rb.can_sleep = true
+			rb.collision_layer = _COLL_LAYER | _COLL_PUSH_LAYER
+			rb.collision_mask = _COLL_LAYER | _COLL_PUSH_LAYER
+			body = rb
+			var r2 := RectangleShape2D.new()
+			r2.size = Vector2(w, h)
+			shape = r2
+			dbg = _rect_pts(w, h)
+		_:
+			return
+	if body == null or shape == null:
+		return
+	body.position = pos + Vector2(0.0, off_y)
+	if body is StaticBody2D:
+		body.collision_layer = _COLL_LAYER
+		body.collision_mask = 0
+	var cs := CollisionShape2D.new()
+	cs.shape = shape
+	body.add_child(cs)
+	parent.add_child(body)
+	if _coll_debug_on() and dbg.size() >= 3:
+		var poly := Polygon2D.new()
+		poly.polygon = dbg
+		poly.position = body.position
+		poly.color = Color(0.2, 0.8, 1.0, 0.42) if kind == "pushable" else Color(1.0, 0.15, 0.9, 0.4)
+		poly.z_index = 60
+		parent.add_child(poly)
+
+
+## Footprint for a named landmark type (params from collision_map.json).
+static func _foot_type(parent: Node2D, type: String, pos: Vector2) -> void:
+	var m: Dictionary = (_collision_map().get("landmarks", {}) as Dictionary).get(type, {})
+	if m.is_empty():
+		return
+	var kind: String = str(m.get("kind", "none"))
+	if kind == "none" or kind == "building":
+		return  # dressing = walkable; buildings collide via _sprite()
+	_foot(parent, pos, kind, float(m.get("w", 12.0)), float(m.get("h", 12.0)),
+			float(m.get("off_y", 0.0)), float(m.get("mass", 10.0)))
+
+
+## Footprint for a scattered element (scatter section of collision_map.json).
+static func _foot_scatter(parent: Node2D, key: String, pos: Vector2) -> void:
+	var m: Dictionary = (_collision_map().get("scatter", {}) as Dictionary).get(key, {})
+	if m.is_empty():
+		return
+	var kind: String = str(m.get("kind", "none"))
+	if kind == "none":
+		return
+	_foot(parent, pos, kind, float(m.get("w", 10.0)), float(m.get("h", 10.0)), float(m.get("off_y", 0.0)))
+
+
+static func _ellipse_shape(rx: float, ry: float) -> ConvexPolygonShape2D:
+	var pts := PackedVector2Array()
+	for i in range(12):
+		var a := TAU * float(i) / 12.0
+		pts.append(Vector2(cos(a) * rx, sin(a) * ry))
+	var shp := ConvexPolygonShape2D.new()
+	shp.points = pts
+	return shp
+
+
+static func _rect_pts(w: float, h: float) -> PackedVector2Array:
+	var hw := w * 0.5
+	var hh := h * 0.5
+	return PackedVector2Array([
+		Vector2(-hw, -hh), Vector2(hw, -hh), Vector2(hw, hh), Vector2(-hw, hh),
+	])
