@@ -1,0 +1,60 @@
+{
+  "_doc": "Raven Hollow PvP ladder data. Consumed by PvPSystem (scripts/systems/pvp_system.gd). The Accord Roll -- 14 military ranks (design/PVP_RANKS_TITLES.md 7.1) earned by cumulative Rank Points (RP). Arena rating is Elo (one pool, player + roster). rp_required is cumulative RP to hold the rank; rating_gate (season-high) is an extra requirement on the top ranks. Each rank grants a prefix title rank_NN and a rewards row (8.2). Ranks 1-10 never decay; 11+ shed decay_rp per fully idle week. See design doc 7.3/8.2.",
+  "elo": {
+    "start": 1200.0,
+    "k_early": 32.0,
+    "k_late": 16.0,
+    "early_matches": 20,
+    "denominator": 400.0,
+    "floor": 800.0
+  },
+  "rp": {
+    "per_win_base": 15.0,
+    "diff_clamp": 0.5,
+    "diff_denominator": 400.0,
+    "first_win_day_bonus": 30.0,
+    "weekly_quota_matches": 10,
+    "weekly_quota_bonus": 150.0,
+    "decay_rp_per_idle_week": 300.0,
+    "decay_floor_rank": 11
+  },
+  "match": {
+    "rounds_to_win": 2,
+    "matchmaking_band": 150.0,
+    "crit_ceiling_vs_duelist": 1.5,
+    "flawless_hp_floor": 0.9
+  },
+  "roster": {
+    "count": 100,
+    "rating_mean": 1350.0,
+    "rating_sd": 250.0,
+    "rating_min": 900.0,
+    "rating_max": 2300.0
+  },
+  "stakes": [
+    {"id": "free",   "name": "For the Sand", "cost": 0,   "gate_rank": 1, "payout": 0},
+    {"id": "sand",   "name": "Sand",         "cost": 2,   "gate_rank": 1, "payout": 3.6},
+    {"id": "iron",   "name": "Iron",         "cost": 10,  "gate_rank": 2, "payout": 18},
+    {"id": "blood",  "name": "Blood",        "cost": 50,  "gate_rank": 4, "payout": 90},
+    {"id": "ledger", "name": "Ledger",       "cost": 200, "gate_rank": 7, "payout": 360}
+  ],
+  "tithe_pct": 0.10,
+  "win_stake_mult": 1.8,
+  "daily_profit_cap": 500,
+  "ranks": [
+    {"n": 1,  "id": "rank_01", "name": "Lamplighter",                    "wow": "Private",             "rp_required": 0,     "rating_gate": 0,    "duty": "Keeps one lamp lit on one road.",                                          "reward": "The Roll UI; Sand stakes"},
+    {"n": 2,  "id": "rank_02", "name": "Well-Warden",                    "wow": "Corporal",           "rp_required": 150,   "rating_gate": 0,    "duty": "Checks the wells for copper. Tastes them personally.",                     "reward": "Iron stakes; Osana's consumables page"},
+    {"n": 3,  "id": "rank_03", "name": "Fog-Sergeant",                   "wow": "Sergeant",           "rp_required": 400,   "rating_gate": 0,    "duty": "Leads a file of lamps through the interior seams.",                        "reward": "Vigil Cloak, Brass Trim (i24 rare)"},
+    {"n": 4,  "id": "rank_04", "name": "Stone-Sergeant",                 "wow": "Master Sergeant",    "rp_required": 800,   "rating_gate": 0,    "duty": "Patrols the standing stones. Has never read one. That is the qualification.", "reward": "Blood stakes"},
+    {"n": 5,  "id": "rank_05", "name": "Vigil-Blade",                    "wow": "Sergeant Major",     "rp_required": 1400,  "rating_gate": 0,    "duty": "First rank permitted to draw on Accord business.",                         "reward": "Vigilant's bracers + boots (i30 rare)"},
+    {"n": 6,  "id": "rank_06", "name": "Blade-Lieutenant",               "wow": "Knight",             "rp_required": 2200,  "rating_gate": 0,    "duty": "Commands a crossing where two banners' patrols pretend not to see each other.", "reward": "Vigil Cloak, Forge-Red Trim (i38); legs + chest"},
+    {"n": 7,  "id": "rank_07", "name": "Blade-Captain",                  "wow": "Knight-Lieutenant",  "rp_required": 3200,  "rating_gate": 0,    "duty": "Holds a border fort's roll and its tempers.",                              "reward": "Ledger stakes; Vigilant's Battledress (6-piece set)"},
+    {"n": 8,  "id": "rank_08", "name": "Veil-Champion",                  "wow": "Knight-Captain",     "rp_required": 4500,  "rating_gate": 1500, "duty": "Duels for the Vigil's honor when a banner's grievance is filed.",          "reward": "Vigilant's weapons (i44 rare)"},
+    {"n": 9,  "id": "rank_09", "name": "Lieutenant of the Accord",       "wow": "Knight-Champion",    "rp_required": 6200,  "rating_gate": 1600, "duty": "Carries sealed words between capitals. Does not read those either.",       "reward": "Vigil Cloak, Veil-Grey Trim (i50 epic)"},
+    {"n": 10, "id": "rank_10", "name": "Commander of the Accord",        "wow": "Lieutenant Commander", "rp_required": 8400, "rating_gate": 1700, "duty": "Commands all lamps of one kingdom's roads.",                             "reward": "Commander's Accord set (i52-56 epic)"},
+    {"n": 11, "id": "rank_11", "name": "Marshal of the Four Roads",      "wow": "Commander",          "rp_required": 11000, "rating_gate": 1800, "duty": "The four capital roads answer to one rider.",                              "reward": "Kingdom war-mount (tier-II ground, epic)"},
+    {"n": 12, "id": "rank_12", "name": "Field Marshal of the Veil",      "wow": "Marshal",            "rp_required": 14000, "rating_gate": 1950, "duty": "Holds the fog-line itself in the Long Vigil's name.",                     "reward": "Vigil Cloak, Lamp-Gold Trim (i58 epic)"},
+    {"n": 13, "id": "rank_13", "name": "High Marshal of the Long Vigil", "wow": "Field Marshal",      "rp_required": 17500, "rating_gate": 2100, "duty": "Second lamp of the continent. Signs the Roll.",                            "reward": "High Marshal's weapons (i60 epic)"},
+    {"n": 14, "id": "rank_14", "name": "Warden of the Pause",            "wow": "Grand Marshal",      "rp_required": 21500, "rating_gate": 2250, "duty": "Keeps the lamp no one may see out. There is one per season, and the rank is a weight.", "reward": "Wardenweave (i60 unique) + the Warden's Lamp"}
+  ]
+}
