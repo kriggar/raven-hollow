@@ -249,6 +249,64 @@ func _bootstrap_world(class_id: String) -> void:
 	# Headless automation hooks (no-ops in a normal run).
 	_run_env_hooks()
 
+	# RH_SYS_TEST: prove the StatsSystem + StatusSystem math on boot (#34/#35).
+	if not OS.get_environment("RH_SYS_TEST").is_empty():
+		_run_sys_test(player)
+
+
+func _run_sys_test(player: Node) -> void:
+	## Boot-time self-test for the two foundational systems (BACKLOG #34/#35):
+	## prints class derivations, level scaling, a poison DoT, and the
+	## wolf_bite -> Infected chain so the math is verifiable. ASCII only.
+	if player == null:
+		return
+	print("[SYS_TEST] ===== Raven Hollow systems self-test =====")
+	var cd: Dictionary = player.get("class_def")
+	var cid: String = str(cd.get("id", "warrior"))
+	var lv: int = int(player.get("level"))
+	StatsSystem.register(player, cid, lv)
+	var line: String = "[SYS_TEST] class=%s level=%d primaries:" % [cid, lv]
+	for s: String in ["stamina", "strength", "agility", "intellect", "spirit"]:
+		line += " %s=%.1f" % [s, StatsSystem.get_stat(player, s)]
+	print(line)
+	print("[SYS_TEST] derived L%d: max_health=%.1f max_mana=%.1f attack_power=%.1f spell_power=%.1f crit=%.2f%% armor=%.1f hp_regen=%.2f mana_regen=%.2f" % [
+		lv,
+		StatsSystem.get_derived(player, "max_health"), StatsSystem.get_derived(player, "max_mana"),
+		StatsSystem.get_derived(player, "attack_power"), StatsSystem.get_derived(player, "spell_power"),
+		StatsSystem.get_derived(player, "crit_chance"), StatsSystem.get_derived(player, "armor"),
+		StatsSystem.get_derived(player, "hp_regen"), StatsSystem.get_derived(player, "mana_regen")])
+	StatsSystem.apply_level(player, 60)
+	print("[SYS_TEST] scaled to L60: max_health=%.1f max_mana=%.1f attack_power=%.1f flat_damage=%.1f" % [
+		StatsSystem.get_derived(player, "max_health"), StatsSystem.get_derived(player, "max_mana"),
+		StatsSystem.get_derived(player, "attack_power"), StatsSystem.get_derived(player, "flat_damage")])
+	StatsSystem.apply_level(player, lv)
+	var hp_start: float = float(player.get("hp"))
+	StatusSystem.apply(player, "poison", null, 1)
+	print("[SYS_TEST] poison applied: has=%s hp=%.1f speed_pct_mod=%.0f" % [
+		str(StatusSystem.has(player, "poison")), float(player.get("hp")),
+		StatsSystem.get_derived(player, "speed_pct")])
+	for i in range(3):
+		StatusSystem.tick(2.0)
+		print("[SYS_TEST]   poison tick %d -> hp=%.1f" % [i + 1, float(player.get("hp"))])
+	StatusSystem.remove(player, "poison")
+	print("[SYS_TEST] poison cleared (hp fell %.1f over 3 ticks)" % [hp_start - float(player.get("hp"))])
+	var maxhp_before: float = float(player.get("max_hp"))
+	var derived_before: float = StatsSystem.get_derived(player, "max_health")
+	for i in range(3):
+		StatusSystem.apply(player, "wolf_bite", null, 1)
+	print("[SYS_TEST] wolf_bite x3: has_wolf_bite=%s has_infected=%s infected_kind=%s" % [
+		str(StatusSystem.has(player, "wolf_bite")), str(StatusSystem.has(player, "infected")),
+		str(StatusSystem.get_def("infected").get("kind", "?"))])
+	print("[SYS_TEST] Infected -1 Stamina: derived max_health %.1f -> %.1f ; player.max_hp %.1f -> %.1f" % [
+		derived_before, StatsSystem.get_derived(player, "max_health"),
+		maxhp_before, float(player.get("max_hp"))])
+	StatusSystem.purge(player, "disease")
+	print("[SYS_TEST] purge(disease): has_infected=%s max_hp restored to %.1f" % [
+		str(StatusSystem.has(player, "infected")), float(player.get("max_hp"))])
+	print("[SYS_TEST] ===== self-test complete =====")
+	if OS.get_environment("RH_SHOT").is_empty():
+		get_tree().create_timer(0.8).timeout.connect(func() -> void: get_tree().quit(0))
+
 
 func _bootstrap_world_from_save(data: Dictionary) -> void:
 	set_physics_process(true)
@@ -337,6 +395,7 @@ func _spawn_ui() -> void:
 	add_child(Minimap.new())
 	add_child(BagUI.new())
 	add_child(CharacterSheetUI.new())
+	add_child(SpellbookUI.new())
 	add_child(CraftingUI.new())
 
 	var ui := DialogueUI.new()
@@ -1066,6 +1125,13 @@ func _run_env_hooks() -> void:
 		for _i in range(30):
 			await get_tree().process_frame
 		_force_open_ui()
+	# RH_SPELLBOOK=<talents|spells>: grant the player talent points, fill a couple
+	# tiers, then open the spellbook/talent window (BACKLOG #59) for the shot.
+	var sb_env: String = OS.get_environment("RH_SPELLBOOK")
+	if not sb_env.is_empty():
+		for _i in range(30):
+			await get_tree().process_frame
+		_open_spellbook(sb_env)
 	# RH_EQUIP: comma list of bag indices to auto-equip (QA: visible weapon,
 	# rarity borders on the paper-doll, live stat strip).
 	var equip_env: String = OS.get_environment("RH_EQUIP")
@@ -1279,6 +1345,34 @@ func _force_open_ui() -> void:
 			if node.has_method(method):
 				node.call(method)
 				break
+
+
+func _open_spellbook(mode: String) -> void:
+	## RH_SPELLBOOK hook (#59): give the player some talent points, spend a few so
+	## the tree shows filled nodes, then open the window on the requested tab.
+	var ts: Node = get_node_or_null("/root/TalentSystem")
+	if ts != null and _player != null:
+		ts.call("notify_level_up", _player, 10)
+		ts.call("grant_point", _player, 14)
+		var cd_v: Variant = _player.get("class_def")
+		var cid: String = str((cd_v as Dictionary).get("id", "warrior")) if cd_v is Dictionary else "warrior"
+		var trees: Array = ts.call("trees_for", cid)
+		if trees.size() > 0:
+			for tt: Variant in (trees[0] as Dictionary).get("talents", []):
+				var tid: String = str((tt as Dictionary).get("id", ""))
+				# spend up to full ranks where the gates allow it
+				for _r in range(5):
+					if not bool(ts.call("learn", _player, tid)):
+						break
+	var sbui: Node = get_tree().get_first_node_in_group("spellbook_ui")
+	if sbui == null:
+		push_warning("main.gd: RH_SPELLBOOK — no spellbook_ui node.")
+		return
+	var tab: String = "spellbook" if mode.to_lower().begins_with("spell") else "talents"
+	if sbui.has_method("debug_present"):
+		sbui.call("debug_present", tab, 0, "")
+	elif sbui.has_method("open"):
+		sbui.call("open", tab)
 
 
 func _nearest_npc() -> Node:
