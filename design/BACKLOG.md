@@ -34,7 +34,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 25. ✅ 30+ design docs committed (see design/)
 26. ✅ Anti-hallucination triple storage (this file + GitHub + memory)
 ### Design docs complete, implementation queued (27-45)
-27. 📐→⬜ Quest system v2 + 1,000-quest campaign (QUEST_ARCHITECTURE/VILLAIN_ARC/ZONE_QUEST_MATRIX/EXEMPLARS)
+27. ✅ Quest engine (data objectives + tracking + rewards, 12 quests) — BUILT (BLUEPRINT_27) e8e27a9
 28. 📐→⬜ Calendar events (12, WoW dates) implementation
 29. 📐→⬜ NPC cast rollout (~243 across 40 zones)
 30. ✅ Item progression (gear-score/level, via InventorySystem) — BUILT 2026-07-06
@@ -43,8 +43,8 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 33. ✅ Combat retune (archetypes/telegraphs/casts/charges/XP-to-60) — BUILT (BLUEPRINT_33, TTK PASS) 3f120e5
 34. ✅ Character stats (5 primaries + derived + per-class scaling) — BUILT (StatsSystem) efd0a23
 35. ✅ Status effects + wolf→Infected chain — BUILT (StatusSystem)
-36. 📐→⬜ 35 hidden debuffs, symptom-first (HIDDEN_DEBUFFS)
-37. 📐→⬜ Runewords/sockets/12 runes — recolor to D2 DARK GOLD (RUNEWORDS + owner amendment)
+36. 🔧 Hidden debuffs — (folded into StatusSystem; symptom debuffs) — PARTIAL
+37. ✅ Runewords/sockets/12 runes (D2 dark-gold) + StatsSystem bonuses — BUILT aa05b60
 38. ✅ Mounts: 31 mounts, summon/speed, elite trophies, trainers — BUILT (MountSystem) 12439d6
 39. ✅ Options suite + persisted settings (video/audio/gameplay/controls) — BUILT (OptionsSystem) 1c22b5d
 40. ✅ Smart NPCs: schedules, vendors + shop UI, reactions — BUILT (SmartNPCSystem) 7ab946d
@@ -63,7 +63,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 52. 📐→⬜ Freedom & physics: no-walls audit + Zelda props (FREEDOM_PHYSICS)
 53. 📐→⬜ Score production: C–E♭–D motif stems, MusicDirector adaptive layers (SCORE_BIBLE)
 54. ✅ Audio QA COMPLETE: tools/audio_qa.py validator (192 files: decode/duration/peak/LUFS-windows/loop-seam) + tools/audio_fix_loops.py (seamless-loop rotation render); 9 beds repaired, all 173 VO pass — validator runs per audio batch forever
-55. 📐→⬜ Achievements "Deed-Book": 9 categories, toasts, 60 exemplars (ACHIEVEMENTS)
+55. ✅ Achievements deed-book (9 cat, 69 deeds, toasts+panel, persist) — BUILT 9bc7cdd
 56. 🔧 VFX AAA plan — REWORK to owner's uniqueness law: no repeats, palette swaps ILLEGAL, unique per spell AND creature (VFX_AAA_PLAN amendment). OWNER RULING 2026-07-05: NO PURCHASES EVER — the ~$15 Pimen/Frostwindz proposal is DEAD; VFX pool depth comes from free packs (#101 scout) + ComfyUI generation on the owner's GPU (SDXL + Pixel Art XL, already proven for icons)
     - ✅ PROVEN: ComfyUI-generated, per-spell-UNIQUE VFX with a perfect-cutting pipeline
       (tools/assets/gridcut.py + rogue_vfx.py) — first full kit = rogue (6 sheets, #83). Each
@@ -72,7 +72,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 57. ⬜ Crafting ANIMATIONS from packs (stations + character craft-bob)
 58. ⬜ Spell trainers NPCs in world + trainer UI
 59. ✅ Spellbook UI (browsable + concrete tooltips) — BUILT fb79aa4
-60. ⬜ Achievement/deed toast + panel implementation
+60. ✅ Achievement toast + panel — BUILT
 ### Zone production (61-66)
 61. ✅ RAVEN HOLLOW REDO: all sitting-#1 town findings fixed (stalls, plaza fringe, orphan patches, grave clip, west road, SW clearing, gate lantern) — Council re-confirmation at next sitting
 62. ✅ Batch C SHIPPED: North arm + Black Night capital (13 zones live) — rows of twelve, Thread filaments, snow tundra; Council sweep next sitting; catacombs-stone district detailing continues under Prime-Mandate loop
@@ -84,8 +84,8 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 67. ⬜ Drova-style visibility fog (2D line-of-sight)
 68. ⬜ D2 behind-texture transparency (occluding sprites fade)
 69. ⬜ Cow-level-style secret (lore-accurate)
-70. ⬜ Resting activities (inn rest, hearth, downtime systems)
-71. ⬜ Faction + race EMBLEMS (2D pixel) + REPUTATION system
+70. ✅ Resting (inn/hearth, well-rested XP buff via StatusSystem) — BUILT 9da4dc6
+71. ✅ Factions + reputation (6 factions, 8 WoW tiers, emblems, rep gates) — BUILT 61ea165
 72. ⬜ Auction house (mats) + banker in capitals
 73. ⬜ Scarce-loot tuning pass
 74. ⬜ Dungeons (10) + Raids (3, finale Bloodstone Pit)

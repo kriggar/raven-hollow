@@ -17,6 +17,12 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+WorldStreamSystem="*res://scripts/systems/world_stream_system.gd"
+LegendarySystem="*res://scripts/systems/legendary_system.gd"
+PvPSystem="*res://scripts/systems/pvp_system.gd"
+CalendarSystem="*res://scripts/systems/calendar_system.gd"
+AuctionSystem="*res://scripts/systems/auction_system.gd"
+TitleSystem="*res://scripts/systems/title_system.gd"
 AchievementSystem="*res://scripts/systems/achievement_system.gd"
 RunewordSystem="*res://scripts/systems/runeword_system.gd"
 FactionSystem="*res://scripts/systems/faction_system.gd"
