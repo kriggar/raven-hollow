@@ -36,6 +36,17 @@ REFERENCE_DIRS = [r"D:\raven hollow\reference", os.path.join(_REPO, "_downloads"
 _anchor_state = {"loaded": False, "palette": None}
 
 
+def set_style_anchor(dirs):
+    """Point the style-anchor lens at a SPECIFIC reference folder (owner biome-anchoring, 2026-07-06).
+    Pass a dir path or list of dirs (e.g. the one biome's reference/<biome>/ folder) and the anchor
+    palette is rebuilt from ONLY those images on the next lens call. Resets the cache so a prior
+    (whole-reference-tree) palette does not leak. Call with the default REFERENCE_DIRS to restore."""
+    global REFERENCE_DIRS
+    REFERENCE_DIRS = [dirs] if isinstance(dirs, str) else list(dirs)
+    _anchor_state["loaded"] = False
+    _anchor_state["palette"] = None
+
+
 def _load_reference_palette():
     if _anchor_state["loaded"]:
         return _anchor_state["palette"]

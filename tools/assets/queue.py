@@ -108,6 +108,86 @@ CAT_TARGET_PX = {"buildings": 118, "harbor": 96, "monuments": 84, "ruins": 88, "
                  "furniture": 64, "wagons": 76, "tavern": 72, "religious": 68}
 LACY = {"fences_walls", "nature"}   # bias these to single (no split) sometimes
 
+# ---------------------------------------------------------------------------- BIOME ANCHORING (owner, 2026-07-06)
+# --biome <name> makes every asset ZONE-MATCHED (owner law #1): the prompt carries a per-biome
+# palette DESCRIPTOR, each cut sprite is PALETTE-LOCKED to that biome's reference palette (extracted
+# from D:\raven hollow\reference\<biome>\*.png) BEFORE the gauntlet, and the gauntlet's style_anchor
+# is pointed at the same biome folder. Category selection is narrowed to biome-legal categories so a
+# bog run yields stumps/logs/stones/reeds/mushrooms/cairns — not tavern kegs tinted brown.
+BIOME_REF_ROOT = os.environ.get("RH_BIOME_REF_ROOT", r"D:\raven hollow\reference")
+BIOME_DESC = {
+    "bog":        "muddy brown grey-green desaturated swamp, peat and stagnant water, wet rot",
+    "cave":       "wet black stone, dripstone grey, pale fungal glow, lightless damp",
+    "deadforest": "grey bark bone-pale leafless, ashen dead wood, colourless gloom",
+    "farmland":   "tilled brown earth, straw gold, muted green crop, worn timber",
+    "moor":       "heather purple-grey, wet peat brown, wind-bent olive grass, low fog",
+    "port":       "weathered grey driftwood, tarred rope, brine-bleached salt, sea-slick stone",
+    "ridge":      "cold slate-grey stone, pale lichen, thin alpine, wind-scoured rock",
+    "steppe":     "dry tan grass, dust ochre, pale sun-bleached bone, sparse scrub",
+    "tundra":     "pale snow frost, ice blue-grey, rimed stone, colourless cold",
+    "volcanic":   "ash black char, scorched rock, ember-orange glow, cinder grey",
+    "wilds":      "deep moss green overgrowth, tangled dark brush, damp bark, wet loam",
+}
+# biome-legal category whitelist (which props read as that biome). None = all categories.
+BIOME_CATS = {
+    "bog":        ["nature", "monuments"],
+    "cave":       ["nature", "monuments", "ruins", "misc_gothic"],
+    "deadforest": ["nature", "graveyard", "monuments", "ruins"],
+    "farmland":   ["farm", "nature", "fences_walls", "tools", "containers"],
+    "moor":       ["nature", "monuments", "graveyard", "ruins"],
+    "port":       ["harbor", "nature", "containers", "fences_walls"],
+    "ridge":      ["monuments", "ruins", "nature", "religious"],
+    "steppe":     ["nature", "monuments", "fences_walls", "wagons"],
+    "tundra":     ["nature", "monuments", "ruins", "graveyard"],
+    "volcanic":   ["ruins", "monuments", "nature", "misc_gothic"],
+    "wilds":      ["nature", "monuments", "ruins", "graveyard"],
+}
+
+_biome_pal_cache = {}
+
+
+def biome_palette(biome, n=24):
+    """Extract ~n dominant colours from a biome's reference art (owner law #1: zone-matched palette).
+    Near-white extremes (rain streaks / alignment markers) are dropped so a lock never reintroduces a
+    pale background block. Cached per biome. Returns a colour list or None (no reference art present)."""
+    if biome in _biome_pal_cache:
+        return _biome_pal_cache[biome]
+    import glob as _glob
+    d = os.path.join(BIOME_REF_ROOT, biome)
+    files = sorted(_glob.glob(os.path.join(d, "*.png")) + _glob.glob(os.path.join(d, "*.jpg")))
+    cols = []
+    for f in files:
+        try:
+            q = Image.open(f).convert("RGB").quantize(colors=n, method=Image.MEDIANCUT)
+            p = q.getpalette()[: n * 3]
+            cols += [(p[i], p[i + 1], p[i + 2]) for i in range(0, len(p), 3)]
+        except Exception:
+            pass
+    cols = [c for c in cols if min(c) < 232]      # drop rain-white / marker-white
+    _biome_pal_cache[biome] = cols or None
+    return _biome_pal_cache[biome]
+
+
+def palette_lock(im, palette):
+    """Nearest-colour map every OPAQUE pixel onto the biome reference palette (binary alpha preserved).
+    Runs on each cut sprite BEFORE the gauntlet so the asset physically sits in the zone's colours."""
+    im = im.convert("RGBA")
+    px = im.load()
+    w, h = im.size
+    cache = {}
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a < 128:
+                continue
+            key = (r, g, b)
+            nc = cache.get(key)
+            if nc is None:
+                nc = min(palette, key=lambda c: (c[0] - r) ** 2 + (c[1] - g) ** 2 + (c[2] - b) ** 2)
+                cache[key] = nc
+            px[x, y] = (nc[0], nc[1], nc[2], a)
+    return im
+
 
 def _log(msg):
     line = f"{time.strftime('%H:%M:%S')} {msg}"
@@ -178,14 +258,16 @@ def disk_free_gb(path):
 
 
 # ---------------------------------------------------------------------------- prompt + prune
-def compose(cat):
+def compose(cat, biome=None):
     subs, tpx = BANK[cat]
     base = random.choice(subs)
     mat = random.choice(MATERIAL)
     st = random.choice(STATE)
     subject = " ".join(x for x in [mat, base, st] if x).strip()
     bg = "magenta" if cat == "nature" and random.random() < 0.5 else "green"
-    pos = f"{subject}, " + G.STYLE.format(bg=G.BGWORDS[bg])
+    desc = BIOME_DESC.get(biome) if biome else None
+    prefix = f"{subject}, {desc}, " if desc else f"{subject}, "
+    pos = prefix + G.STYLE.format(bg=G.BGWORDS[bg])
     return subject, pos, CAT_TARGET_PX.get(cat, tpx if isinstance(tpx, int) else 60)
 
 
@@ -201,8 +283,8 @@ def prune_raw(info):
 
 
 # ---------------------------------------------------------------------------- one job
-def run_one(cat, man, ph, lib):
-    subject, pos, tpx = compose(cat)
+def run_one(cat, man, ph, lib, biome=None, palette=None, saved=None):
+    subject, pos, tpx = compose(cat, biome)
     seed = random.randint(1, 2_000_000_000)
     wf = G.sdxl_workflow(pos, G.NEG, seed, w=1024, h=1024)
     wf["5"]["inputs"]["batch_size"] = BATCH
@@ -216,9 +298,13 @@ def run_one(cat, man, ph, lib):
         finally:
             prune_raw(info)                       # DELETE RAW IMMEDIATELY
         man["generated"] += 1
-        single = cat in LACY and random.random() < 0.5
+        # Biome runs ALWAYS split (one-sprite-per-cell) so a grid/contact-sheet render is cut into
+        # individual props instead of stored as an uncut card — the LACY single-mode shortcut is off.
+        single = False if biome else (cat in LACY and random.random() < 0.5)
         objs = I.process_render(full, target_px=tpx, split=not single)
         for obj in objs:
+            if palette:
+                obj = palette_lock(obj, palette)          # BIOME PALETTE-LOCK — before the gauntlet
             ok, sc = I.cleanliness_report(obj, require_single_subject=not single)
             if not ok:
                 man["rejected"] += 1
@@ -238,12 +324,18 @@ def run_one(cat, man, ph, lib):
             aid = f"{cat}_{n:06d}"
             cdir = os.path.join(LIB_ROOT, cat)
             os.makedirs(cdir, exist_ok=True)
-            obj.save(os.path.join(cdir, aid + ".png"))
-            lib["assets"].append({
+            outp = os.path.join(cdir, aid + ".png")
+            obj.save(outp)
+            entry = {
                 "id": aid, "category": cat, "path": f"{cat}/{aid}.png", "size": sc["size"],
                 "animated": False, "subject": subject, "source": "comfyui:sdxl+pixelartxl",
                 "license": "generated-original (CC0, owner-owned)", "dhash": str(h), "verdict": "PASS",
-            })
+            }
+            if biome:
+                entry["biome"] = biome
+            lib["assets"].append(entry)
+            if saved is not None:
+                saved.append({"id": aid, "category": cat, "path": outp, "subject": subject})
             man["counts"][cat] += 1
             man["total"] += 1
             accepted += 1
@@ -255,11 +347,30 @@ def main():
     ap.add_argument("--target", type=int, default=TARGET_DEFAULT)
     ap.add_argument("--burst", type=int, default=0, help="stop after N accepted (stress test)")
     ap.add_argument("--report", action="store_true", help="print manifest + throughput and exit")
+    ap.add_argument("--biome", default=None, help="zone-match assets to a biome (bog, volcanic, port, "
+                    "tundra, deadforest, ...): biome prompt descriptor + reference palette-lock + "
+                    "biome-anchored gauntlet style-anchor + biome-legal categories only")
     args = ap.parse_args()
 
     man, ph = load_state()
     lib = load_lib()
     lib["target"] = args.target
+
+    # ---- biome anchoring setup (owner law #1, 2026-07-06) -------------------------------------
+    biome = args.biome
+    palette = None
+    biome_saved = None
+    allowed_cats = None
+    if biome:
+        if biome not in BIOME_DESC:
+            _log(f"!! unknown biome '{biome}'. Known: {', '.join(sorted(BIOME_DESC))}"); return
+        palette = biome_palette(biome)
+        refdir = os.path.join(BIOME_REF_ROOT, biome)
+        GAUNTLET.set_style_anchor([refdir])               # point the style-anchor at THIS biome only
+        allowed_cats = BIOME_CATS.get(biome)
+        biome_saved = []
+        _log(f"BIOME={biome} | palette={len(palette) if palette else 0} colours from {refdir} | "
+             f"cats={allowed_cats or 'ALL'} | {'palette-lock ON' if palette else 'NO REF PALETTE (lock off)'}")
 
     if args.report:
         el = max(1e-9, time.time() - man["started"])
@@ -277,13 +388,15 @@ def main():
         if free < DISK_MIN_GB:
             _log(f"!! DISK GUARD: {free:.1f}GB free < {DISK_MIN_GB}GB — STOPPING. (#97 disk-watcher)")
             break
-        # pick the category furthest from its quota (fill evenly), skip full ones
-        rem = [(c, QUOTAS[c] - man["counts"][c]) for c in QUOTAS if man["counts"][c] < QUOTAS[c]]
+        # pick the category furthest from its quota (fill evenly), skip full ones; a biome run is
+        # narrowed to that biome's legal categories so props read as the zone.
+        rem = [(c, QUOTAS[c] - man["counts"][c]) for c in QUOTAS
+               if man["counts"][c] < QUOTAS[c] and (allowed_cats is None or c in allowed_cats)]
         if not rem:
             _log("TARGET QUOTAS ALL MET."); break
         cat = random.choices([c for c, _ in rem], weights=[max(1, r) for _, r in rem])[0]
         try:
-            acc = run_one(cat, man, ph, lib)
+            acc = run_one(cat, man, ph, lib, biome=biome, palette=palette, saved=biome_saved)
         except Exception as e:
             _log(f"job error ({cat}): {e}"); time.sleep(3); continue
         save_every += 1
@@ -298,6 +411,11 @@ def main():
 
     save_state(man, ph)
     json.dump(lib, open(LIB_JSON, "w", encoding="utf-8"))
+    if biome and biome_saved is not None:
+        sidecar = os.path.join(LIB_ROOT, f"_biome_last_{biome}.json")
+        json.dump({"biome": biome, "count": len(biome_saved), "assets": biome_saved},
+                  open(sidecar, "w", encoding="utf-8"), indent=2)
+        _log(f"BIOME {biome}: {len(biome_saved)} accepted this run -> sidecar {sidecar}")
     made = man["total"] - start_total
     el = time.time() - t0
     rate = made / el * 3600 if el > 0 else 0

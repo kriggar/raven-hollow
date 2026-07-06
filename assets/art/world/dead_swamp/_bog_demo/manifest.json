@@ -1,0 +1,97 @@
+[
+  {
+    "file": "nature_000004.png",
+    "subject": "rotting fallen log empty",
+    "kind": "stump"
+  },
+  {
+    "file": "nature_000029.png",
+    "subject": "ancient fallen log old and worn",
+    "kind": "stump"
+  },
+  {
+    "file": "nature_000030.png",
+    "subject": "ancient fallen log old and worn",
+    "kind": "stump"
+  },
+  {
+    "file": "nature_000031.png",
+    "subject": "ancient fallen log old and worn",
+    "kind": "stump"
+  },
+  {
+    "file": "nature_000005.png",
+    "subject": "rotting fallen log empty",
+    "kind": "log"
+  },
+  {
+    "file": "nature_000007.png",
+    "subject": "rotting fallen log empty",
+    "kind": "log"
+  },
+  {
+    "file": "nature_000038.png",
+    "subject": "ancient fallen log old and worn",
+    "kind": "log"
+  },
+  {
+    "file": "nature_000039.png",
+    "subject": "ancient fallen log old and worn",
+    "kind": "log"
+  },
+  {
+    "file": "nature_000041.png",
+    "subject": "ancient fallen log old and worn",
+    "kind": "log"
+  },
+  {
+    "file": "monuments_000023.png",
+    "subject": "mossy stone well",
+    "kind": "stone"
+  },
+  {
+    "file": "monuments_000036.png",
+    "subject": "oak rune stone chipped",
+    "kind": "stone"
+  },
+  {
+    "file": "monuments_000022.png",
+    "subject": "gilded boundary marker overgrown with weeds",
+    "kind": "cairn"
+  },
+  {
+    "file": "monuments_000031.png",
+    "subject": "oak rune stone chipped",
+    "kind": "reed"
+  },
+  {
+    "file": "monuments_000033.png",
+    "subject": "oak rune stone chipped",
+    "kind": "reed"
+  },
+  {
+    "file": "nature_000016.png",
+    "subject": "mossy toadstool cluster empty",
+    "kind": "mushroom"
+  },
+  {
+    "file": "nature_000017.png",
+    "subject": "mossy toadstool cluster empty",
+    "kind": "mushroom"
+  },
+  {
+    "file": "nature_000020.png",
+    "subject": "mossy toadstool cluster empty",
+    "kind": "mushroom"
+  },
+  {
+    "file": "nature_000023.png",
+    "subject": "oak mushroom ring chipped",
+    "kind": "mushroom"
+  },
+  {
+    "file": "nature_000024.png",
+    "subject": "oak mushroom ring chipped",
+    "kind": "mushroom"
+  }
+]
