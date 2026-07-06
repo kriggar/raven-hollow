@@ -1,0 +1,279 @@
+{
+  "_doc": "Raven Hollow legendary weapons (Build #44, design/LEGENDARY_WEAPONS.md). Seven class legendaries, one per class, endgame line (ilvl 58, BP ~76). Consumed by LegendarySystem (scripts/systems/legendary_system.gd). Each carries a UNIQUE signature_effect (a proc/ability beyond its stat line), an acquisition chain (starter drop -> 5-step questline -> canon ritual site), lore, and a WYSIWYG no-transmog 'visual' block (art path emitted for Fable later; Color/Rect2 stored as arrays). Stats fold into StatsSystem via InventorySystem on equip (the exact main_hand item shape); the signature passive + procs fire through LegendarySystem guarded hooks. Colors are [r,g,b] or [r,g,b,a]; region is [x,y,w,h]; at is [x,y].",
+  "accent_orange": [1.0, 0.55, 0.1],
+  "legendaries": {
+    "cindervow": {
+      "id": "cindervow",
+      "class": "warrior",
+      "name": "Cindervow",
+      "epithet": "the blade that refused the scream",
+      "slot": "main_hand",
+      "rarity": "legendary",
+      "ilvl": 58, "req_level": 58, "value": 41,
+      "icon": "pixel:cindervow",
+      "weapon_class": "sword",
+      "stats": {"damage": 55.0, "armor": 8.0, "hp": 40.0, "mana": 0.0, "speed_pct": 0.0, "crit_pct": 5.0},
+      "flavor": "Forged on the Anvil of Hatred. Quenched somewhere kinder.",
+      "signature_effect": {
+        "id": "cindervow",
+        "name": "The Quench Holds",
+        "trigger": "melee_hit",
+        "desc": "15% chance on a melee hit to burst a 24-px ember nova: 20% of the hit dealt as AoE plus a 20% slow for 1.5s. Procs while Iron Bulwark is up refund 5 absorb.",
+        "params": {"chance": 0.15, "aoe_pct": 0.20, "slow_pct": 0.20, "slow_dur": 1.5, "absorb_refund": 5.0, "status": "chilled"},
+        "passive": {"damage": 4.0},
+        "passive_note": "The quench never fully cooled; the edge runs 4 warmer forever."
+      },
+      "acquisition": {
+        "starter": {"item": "scream_notched_billet", "name": "Scream-Notched Billet", "chance": 0.03,
+          "sources": ["Debt Pit end boss", "Basaltfang forge-thrall rare", "Vosk-tier South rares (40+)"]},
+        "chain": "leg_warrior", "arc": "Sangeroasa 40 -> 58", "min_level": 58,
+        "site": "Mount Tilamar, the Anvil of Hatred",
+        "steps": ["The Billet", "What the Forge Eats", "The Count of Three", "The Quench", "A Blade With a No In It"],
+        "villain_beat": "arrangement",
+        "hint": "A forge-rejected GORESCREAM-lineage blank drops from Sangeroasa's mighty. Fidra alone will work it. Quench it in carried hearth-water, not vent-blood."
+      },
+      "lore": "The last of Fidor's lesser blades, forged on the Anvil of Hatred by the player's own arm and quenched wrong on purpose -- no blood, no salts, no scream. A Sangeroasan masterwork that refuses the sermon. Hearth-quenched, it keeps a visible notch; that notch is the whole point.",
+      "visual": {
+        "sheet": "res://assets/art/weapons/legendary_arms.png",
+        "region": [2, 4, 11, 40], "grip": 5.0, "scale": 0.33, "carry": "sword", "sheath_shift": 0.0,
+        "material": "emberforged",
+        "glow": {"color": [1.8, 1.2, 0.6], "size": 5, "at": [0, -14]},
+        "fx": "ember_seam"
+      }
+    },
+    "good_knife": {
+      "id": "good_knife",
+      "class": "rogue",
+      "name": "The Good Knife",
+      "epithet": "not magic; not named by anyone who owned it; just good",
+      "slot": "main_hand",
+      "rarity": "legendary",
+      "ilvl": 58, "req_level": 58, "value": 41,
+      "icon": "pixel:good_knife",
+      "weapon_class": "dagger",
+      "stats": {"damage": 48.0, "armor": 0.0, "hp": 50.0, "mana": 0.0, "speed_pct": 8.0, "crit_pct": 10.0},
+      "flavor": "Correctly steeled, correctly ground, correctly cared for. It never turns on you.",
+      "signature_effect": {
+        "id": "good_knife",
+        "name": "It Never Turns On You",
+        "trigger": "hit_caster",
+        "desc": "The wielder is immune to compulsion / entrancement-class status and to legendary-curse hooks. +20% damage to any enemy currently casting or entranced -- the clean cut through the borrowed voice.",
+        "params": {"dmg_vs_caster_pct": 0.20, "curse_immune": true, "immune_family": ["compulsion", "listening", "entranced", "charm"]},
+        "passive": {"crit_pct": 3.0},
+        "passive_note": "The true angle: 3 crit that costs nothing and never wanders."
+      },
+      "acquisition": {
+        "starter": {"item": "whetstone_worn_true", "name": "A Whetstone, Worn True", "chance": 0.03,
+          "sources": ["Blestem act boss", "Riddler's Quarter dungeon boss", "Lichenreach cave-strigoi lord rare (36+)"]},
+        "chain": "leg_rogue", "arc": "Blestem -> Collector's Coast 40 -> 58", "min_level": 58,
+        "site": "The Last Hearth (the knife-grinder's wheel)",
+        "steps": ["Provenance", "The Blank File", "Steel That Owes Nothing", "The Grind", "Just Good"],
+        "villain_beat": "whisper",
+        "hint": "A dead grinder's whetstone appraises at nothing -- which terrifies Blestem. Burn the informant file; win the only unstamped ingot; refuse the engraving."
+      },
+      "lore": "The anti-artifact. Kriggar's kit, verbatim: no curse, no scream, no sermon -- its whole character is that it is not GORESCREAM. In Blestem, where everything is priced, an object with no price is the rarest thing on the continent. The night it is finished, the stone speaks to it and, for the first time, finds no handle to grab.",
+      "visual": {
+        "sheet": "res://assets/art/weapons/legendary_arms.png",
+        "region": [20, 14, 9, 30], "grip": 4.0, "scale": 0.30, "carry": "dagger", "sheath_shift": 0.0,
+        "material": "bog_iron",
+        "glow": {"color": [1.3, 1.3, 1.3], "size": 1, "at": [0, -10]},
+        "fx": "honest_gleam"
+      }
+    },
+    "leadlight": {
+      "id": "leadlight",
+      "class": "mage",
+      "name": "Leadlight",
+      "epithet": "the answered candle, caged",
+      "slot": "main_hand",
+      "rarity": "legendary",
+      "ilvl": 58, "req_level": 58, "value": 41,
+      "icon": "pixel:leadlight",
+      "weapon_class": "staff",
+      "stats": {"damage": 30.0, "armor": 0.0, "hp": 0.0, "mana": 150.0, "speed_pct": 0.0, "crit_pct": 8.0, "mana_regen": 2.0},
+      "flavor": "The first flame the Underlanguage ever spoke through. Now it burns without being read.",
+      "signature_effect": {
+        "id": "leadlight",
+        "name": "Restraint Is a Mechanic",
+        "trigger": "cast_after_hold",
+        "desc": "After 3s of casting nothing, your next spell costs 0 mana and its projectile blooms (hdr flare). The weapon literally pays you to hold your fire.",
+        "params": {"hold_time": 3.0, "free_next": true, "bloom": true, "bloom_dmg_pct": 0.25},
+        "passive": {"mana_regen": 1.0},
+        "passive_note": "The caged flame breathes even idle: +1 mana regen, always."
+      },
+      "acquisition": {
+        "starter": {"item": "warded_casing_cracked", "name": "A Warded Casing, Cracked", "chance": 0.03,
+          "sources": ["The Archive dungeon boss", "Coldharbor Deep boss", "Famine Prophet-line elite (West, 40+)"]},
+        "chain": "leg_mage", "arc": "Angel Wings -> Blestem -> C2, 40 -> 58", "min_level": 58,
+        "site": "The Lead Vault (Fielderine's craft)",
+        "steps": ["What Cracked It", "Vault-Grade", "The Flame Itself", "The Caging", "Licensed to Burn"],
+        "villain_beat": "address",
+        "hint": "The Queen licenses a mage to CARRY caged signal-fire because the alternative is mages who read. The caging forfeits every lore page the chain taught you -- the journal redacts them as you watch."
+      },
+      "lore": "She copied forbidden ember-script by candlelight until the candle answered back. Leadlight is that candle, caged in Lead Vault lead so it can burn without being read. Power worn openly, refused constantly -- Angel Wings' lead-lined discipline turned into a weapon.",
+      "visual": {
+        "sheet": "res://assets/art/weapons/legendary_arms.png",
+        "region": [36, 2, 12, 42], "grip": 6.0, "scale": 0.34, "carry": "staff", "sheath_shift": 3.0,
+        "material": "lead_lined",
+        "glow": {"color": [1.4, 0.9, 1.8], "size": 5, "at": [0, -18]},
+        "fx": "caged_flame"
+      }
+    },
+    "greenmercy": {
+      "id": "greenmercy",
+      "class": "paladin",
+      "name": "Greenmercy",
+      "epithet": "the reconsecrated hammer",
+      "slot": "main_hand",
+      "rarity": "legendary",
+      "ilvl": 58, "req_level": 58, "value": 41,
+      "icon": "pixel:greenmercy",
+      "weapon_class": "mace",
+      "stats": {"damage": 38.0, "armor": 12.0, "hp": 90.0, "mana": 40.0, "speed_pct": 0.0, "crit_pct": 0.0},
+      "flavor": "The Hollow's last consecration, renewed altar by altar by the East's dead god.",
+      "signature_effect": {
+        "id": "greenmercy",
+        "name": "Mercy Compounds",
+        "trigger": "hit_rooted",
+        "desc": "Hits on enemies under your root or Consecration heal you 2% max hp (cap 6%/s). Lay on Hands overheal becomes an absorb shell.",
+        "params": {"heal_pct": 0.02, "heal_cap_pct": 0.06, "overheal_to_absorb": true},
+        "passive": {"armor": 4.0},
+        "passive_note": "The living ivy guards the haft: +4 armor while carried."
+      },
+      "acquisition": {
+        "starter": {"item": "ivy_grown_altar_nail", "name": "An Ivy-Grown Altar-Nail", "chance": 0.03,
+          "sources": ["Transcub Vale chain rare", "Blestem act boss", "Whisper Passes listener-post elites (32+)"]},
+        "chain": "leg_paladin", "arc": "Transcub Vale -> the four arms, 40 -> 58", "min_level": 58,
+        "site": "The Confession Altar, Transcub Vale",
+        "steps": ["The Nail", "Four Altars", "The Confession Altar", "The Reconsecration", "Lantern, Lit"],
+        "villain_beat": "symptom",
+        "hint": "Reconsecrate your tired hammer at four ivy-altars, one mercy performed per kingdom. At the confession altar, carve the campaign choice you regret -- permanently, readable on every visit."
+      },
+      "lore": "He carries the last consecrated hammer in the Hollow. Transcub -- the ivy-eaten old god who punished cruelty turned inward -- owns the only faith whose churches stayed quiet. The hammer is re-consecrated until the ivy takes the haft. Transcub's blessing is backhanded: it will not glow for its wielder, only for others.",
+      "visual": {
+        "sheet": "res://assets/art/weapons/legendary_arms.png",
+        "region": [52, 4, 13, 40], "grip": 5.0, "scale": 0.35, "carry": "hammer", "sheath_shift": 3.0,
+        "material": "lichen_steel",
+        "glow": {"color": [0.9, 1.5, 0.8], "size": 6, "at": [0, -16]},
+        "fx": "ivy_breath"
+      }
+    },
+    "severed_strand": {
+      "id": "severed_strand",
+      "class": "necromancer",
+      "name": "The Severed Strand",
+      "epithet": "one thread, held with a living hand",
+      "slot": "main_hand",
+      "rarity": "legendary",
+      "ilvl": 58, "req_level": 58, "value": 41,
+      "icon": "pixel:severed_strand",
+      "weapon_class": "staff",
+      "stats": {"damage": 34.0, "armor": 0.0, "hp": 60.0, "mana": 110.0, "speed_pct": 0.0, "crit_pct": 0.0, "mana_regen": 2.0},
+      "flavor": "One percent of a god's leash, held gently, in a living hand so it never becomes an antenna.",
+      "signature_effect": {
+        "id": "severed_strand",
+        "name": "The Strand Tugs",
+        "trigger": "minion_death",
+        "desc": "Raise Dead minions gain +50% hp and step to the strand (obey a re-position click). A minion's death returns 15 mana up the thread.",
+        "params": {"minion_hp_pct": 0.50, "mana_on_death": 15.0, "obey_reposition": true},
+        "passive": {"mana": 20.0},
+        "passive_note": "The thread carries a reserve: +20 max mana while held."
+      },
+      "acquisition": {
+        "starter": {"item": "thread_still_humming", "name": "A Thread, Still Humming", "chance": 0.03,
+          "sources": ["Gravemark warband rares", "Black Night dungeon boss", "Thread-shell elite packs, Listening Steppe (42+)"]},
+        "chain": "leg_necromancer", "arc": "Black Night arc, 42 -> 58", "min_level": 58,
+        "site": "A kerb-stone row under the Pit's skyline",
+        "steps": ["What You're Holding", "The Council Divides", "Grave-Iron", "The Binding", "One Thread, Held"],
+        "villain_beat": "courier",
+        "hint": "A blue-silver filament of Lilith's Thread, thinned and cut loose by the Queen. Ride it bare-handed until bound. The binding costs 0.2 hp_regen forever -- the hand that holds it is always a little cold."
+      },
+      "lore": "The Thread is Lilith's will and the stone's cage at once. Canon gives the counter: a living touch receives, a dead touch transmits. The necromancer's legendary is a single strand, bound into grave-iron, held in a living hand so it can never become an antenna. The jailer notices you hold a piece of the cage now.",
+      "visual": {
+        "sheet": "res://assets/art/weapons/legendary_arms.png",
+        "region": [68, 2, 12, 42], "grip": 6.0, "scale": 0.34, "carry": "staff", "sheath_shift": 3.0,
+        "material": "thread_silver",
+        "glow": {"color": [0.8, 1.1, 1.7], "size": 4, "at": [0, -18]},
+        "fx": "thread_pull"
+      }
+    },
+    "gallowsbough": {
+      "id": "gallowsbough",
+      "class": "rookwarden",
+      "name": "Gallowsbough",
+      "epithet": "the limb the rooks chose",
+      "slot": "main_hand",
+      "rarity": "legendary",
+      "ilvl": 58, "req_level": 58, "value": 41,
+      "icon": "pixel:gallowsbough",
+      "weapon_class": "bow",
+      "stats": {"damage": 50.0, "armor": 0.0, "hp": 50.0, "mana": 0.0, "speed_pct": 8.0, "crit_pct": 8.0},
+      "flavor": "Cut from the gallows-tree -- but the tree is not yours to cut. It is the rooks'.",
+      "signature_effect": {
+        "id": "gallowsbough",
+        "name": "The Rooks Are Never Wrong",
+        "trigger": "arrow_fired",
+        "desc": "Every 5th arrow, a rook dives the target: +30% of the hit and a 30% slow for 1s. Hunter's Mark gains +10% damage -- they point, you loose.",
+        "params": {"every": 5, "dive_pct": 0.30, "slow_pct": 0.30, "slow_dur": 1.0, "mark_bonus_pct": 0.10, "status": "chilled"},
+        "passive": {"crit_pct": 4.0},
+        "passive_note": "The rooks aim for you: +4 crit while the bow is strung."
+      },
+      "acquisition": {
+        "starter": {"item": "pinion_black_bright", "name": "A Pinion, Black-Bright", "chance": 0.03,
+          "sources": ["Any North-arc zone rare", "Basaltfang Range rare", "The Marches Alpha reprise (40+)"]},
+        "chain": "leg_rookwarden", "arc": "follow-the-rook world tour, 40 -> 58", "min_level": 58,
+        "site": "The gallows-tree at Raven Hollow",
+        "steps": ["Ask Petra", "Where They Look", "The Debt", "The Cutting", "Never Wrong"],
+        "villain_beat": "arrangement",
+        "hint": "The rooks leave the pinion ON the corpse -- the only starter you do not loot from the enemy. Follow the rook across four zones; free every netted bird without keeping one. The tree gives a limb; nobody cuts it. Price: your name, until level 60."
+      },
+      "lore": "The rooks chose one warden a generation, and they chose him at the gallows-tree. The bow is cut from that tree -- but it is granted, never taken. The rooks are never wrong, the rooks are never owned. Keep one bird and they simply stop appearing. Ownership is the one wrong answer.",
+      "visual": {
+        "sheet": "res://assets/art/weapons/legendary_arms.png",
+        "region": [84, 2, 11, 42], "grip": 6.0, "scale": 0.34, "carry": "bow", "sheath_shift": 2.0,
+        "material": "grave_silver",
+        "glow": {"color": [0.7, 1.2, 1.3], "size": 4, "at": [0, -18]},
+        "fx": "rook_pinion"
+      }
+    },
+    "ungiven": {
+      "id": "ungiven",
+      "class": "druid",
+      "name": "The Ungiven",
+      "epithet": "grown in bought ground, never entered in any ledger",
+      "slot": "main_hand",
+      "rarity": "legendary",
+      "ilvl": 58, "req_level": 58, "value": 41,
+      "icon": "pixel:ungiven",
+      "weapon_class": "staff",
+      "stats": {"damage": 40.0, "armor": 8.0, "hp": 80.0, "mana": 60.0, "speed_pct": 0.0, "crit_pct": 0.0},
+      "flavor": "Everything else in the world got taken or paid for. Not this.",
+      "signature_effect": {
+        "id": "ungiven",
+        "name": "The Soil Answers",
+        "trigger": "kill",
+        "desc": "Kills sprout a flower at the corpse for 10s; walking over it heals 3% max hp (once each, max 3 live flowers). The only proc that helps you by asking you to move somewhere.",
+        "params": {"flower_dur": 10.0, "heal_pct": 0.03, "max_flowers": 3},
+        "passive": {"hp": 20.0},
+        "passive_note": "Living wood, not steel: +20 max hp while carried."
+      },
+      "acquisition": {
+        "starter": {"item": "seed_red_shelled", "name": "A Seed, Red-Shelled", "chance": 0.03,
+          "sources": ["The Gift field-warden rare", "Ashvents elite circuit", "Sangeroasa act boss (40+)"]},
+        "chain": "leg_druid", "arc": "the Gift -> Vetka -> seasons, 40 -> 58", "min_level": 58,
+        "site": "Old Marta's garden plot, Vetka",
+        "steps": ["What Grows From This", "Unowed Ground", "The Planting", "The Cutting That Isn't", "The Ungiven"],
+        "villain_beat": "false_victory",
+        "hint": "Find ground that owes nothing, in a world where every acre is filed. The answer is Marta's plot, kept unpriced by kindness. Wait for the tree to drop a branch on its own -- crooked, imperfect, alive -- rather than cut a perfect staff and kill it."
+      },
+      "lore": "The Gift is the South's horror: a good harvest growing out of a child's shoe. The druid's legendary begins as one red seed from that soil, and the chain is the search for unowed ground. The answer is the thesis of the whole game: the small warm imperfect thing, kept free by kindness. Given, not cut, the crook is visibly bent -- and alive.",
+      "visual": {
+        "sheet": "res://assets/art/weapons/legendary_arms.png",
+        "region": [100, 2, 12, 42], "grip": 6.0, "scale": 0.34, "carry": "staff", "sheath_shift": 3.0,
+        "material": "lichen_steel",
+        "glow": {"color": [0.9, 1.4, 0.9], "size": 5, "at": [0, -18]},
+        "fx": "blossom_clock"
+      }
+    }
+  }
+}
