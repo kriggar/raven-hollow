@@ -196,8 +196,8 @@ const _ALIASES: Dictionary = {
 	"thornroot": {"id": "roots", "opts": {"scale": 2.4, "tint": Color(0.42, 0.52, 0.28)}},
 	"stormbolt": {"id": "spark_hit", "opts": {"tint": Color(0.70, 0.80, 0.92)}},
 	"heal_bloom": {"id": "heal_bloom_base", "opts": {"scale": 0.62, "offset": Vector2(0.0, -12.0), "tint": Color(0.50, 0.80, 0.45)}},  # green heal bloom (priest VFX1)
-	"spirit_beast": {"id": "dark_rise", "opts": {"scale": 1.15, "offset": Vector2(0.0, -30.0), "tint": Color(0.55, 0.70, 0.50)}},
-	"spirit_beast_loop": {"id": "summon_circle", "opts": {"scale": 0.55, "tint": Color(0.55, 0.70, 0.50, 0.85)}},
+	"spirit_beast": {"id": "dark_rise", "opts": {"scale": 1.0, "offset": Vector2(0.0, -30.0), "tint": Color(0.5, 0.62, 0.46)}},
+	"spirit_beast_loop": {"id": "summon_circle", "opts": {"scale": 0.42, "tint": Color(0.55, 0.70, 0.50, 0.30)}},
 	"bear_form": {"id": "air_burst", "opts": {"scale": 1.6, "tint": Color(0.55, 0.42, 0.28)}},
 	"tempest": {"id": "spark_hit", "opts": {"tint": Color(0.62, 0.72, 0.86)}},
 }
