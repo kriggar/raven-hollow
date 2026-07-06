@@ -1180,6 +1180,12 @@ static func _enemy_spawns(rng: RandomNumberGenerator, def: Dictionary) -> Array:
 					"damage": float(row.get("damage", 6.0)),
 					"speed": float(row.get("speed", 62.0)),
 					"patrol_radius": float(row.get("patrol", 70.0)),
+					# BLUEPRINT_33: archetype/level/rank drive enemy AI (telegraphs,
+					# casts, packs) + kill XP. Absent -> Enemy.create keeps the
+					# pre-retune default behavior (no regression for un-tagged rows).
+					"level": int(row.get("level", 1)),
+					"archetype": str(row.get("archetype", "")),
+					"rank": str(row.get("rank", "normal")),
 					# Wilderness fauna (wolf/boar/bear) use their own sheet flow.
 					"fauna": etype in ["wolf", "boar", "bear"],
 				})

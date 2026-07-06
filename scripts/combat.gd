@@ -23,11 +23,16 @@ const SCARECROW_POS := Vector2(1650.0, 950.0)
 ## so wilderness_builder now owns those 6 orcs + the orc_shaman via its
 ## build()["enemy_spawns"], instantiated by spawn_map_enemies() below.
 const ENEMY_SPAWNS: Array[Dictionary] = [
-	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(140.0, 300.0), "hp": 32.0, "damage": 6.0, "speed": 62.0, "patrol_radius": 55.0},
-	{"type": "skeleton_rogue", "display_name": "Skeleton Rogue", "pos": Vector2(125.0, 435.0), "hp": 30.0, "damage": 7.0, "speed": 70.0, "patrol_radius": 65.0},
-	{"type": "skeleton_warrior", "display_name": "Skeleton Warrior", "pos": Vector2(185.0, 495.0), "hp": 48.0, "damage": 9.0, "speed": 55.0, "patrol_radius": 45.0},
-	{"type": "skeleton_mage", "display_name": "Skeleton Mage", "pos": Vector2(330.0, 165.0), "hp": 34.0, "damage": 8.0, "speed": 58.0, "patrol_radius": 60.0},
-	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(520.0, 155.0), "hp": 32.0, "damage": 6.0, "speed": 64.0, "patrol_radius": 80.0},
+	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(140.0, 300.0),
+		"level": 1, "archetype": "brute", "hp": 180.0, "damage": 11.0, "speed": 56.0, "patrol_radius": 55.0},
+	{"type": "skeleton_rogue", "display_name": "Skeleton Rogue", "pos": Vector2(125.0, 435.0),
+		"level": 1, "archetype": "duelist", "hp": 162.0, "damage": 9.0, "speed": 74.0, "patrol_radius": 65.0},
+	{"type": "skeleton_warrior", "display_name": "Skeleton Warrior", "pos": Vector2(185.0, 495.0),
+		"level": 2, "archetype": "guarded", "hp": 270.0, "damage": 14.0, "speed": 52.0, "patrol_radius": 45.0},
+	{"type": "skeleton_mage", "display_name": "Skeleton Mage", "pos": Vector2(330.0, 165.0),
+		"level": 2, "archetype": "caster", "hp": 145.0, "damage": 15.0, "speed": 48.0, "patrol_radius": 60.0},
+	{"type": "skeleton", "display_name": "Graveyard Skeleton", "pos": Vector2(520.0, 155.0),
+		"level": 1, "archetype": "brute", "hp": 180.0, "damage": 11.0, "speed": 58.0, "patrol_radius": 80.0},
 ]
 
 
