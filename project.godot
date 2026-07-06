@@ -17,12 +17,19 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+TalentSystem="*res://scripts/systems/talent_system.gd"
+OptionsSystem="*res://scripts/systems/options_system.gd"
+MapSystem="*res://scripts/systems/map_system.gd"
+QuestSystem="*res://scripts/systems/quest_system.gd"
+CraftingSystem="*res://scripts/systems/crafting_system.gd"
+MountSystem="*res://scripts/systems/mount_system.gd"
 LootSystem="*res://scripts/systems/loot_system.gd"
 
 VoiceRegistry="*res://scripts/voice_registry.gd"
 Voice="*res://scripts/voice_client.gd"
 TravelSystem="*res://scripts/travel_system.gd"
 StatsSystem="*res://scripts/systems/stats_system.gd"
+StatusSystem="*res://scripts/systems/status_system.gd"
 
 [debug]
 
