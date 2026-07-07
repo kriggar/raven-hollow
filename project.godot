@@ -17,10 +17,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+
 BestiarySystem="*res://scripts/systems/bestiary_system.gd"
 NewGameSystem="*res://scripts/systems/new_game_system.gd"
 SoundCouncilSystem="*res://scripts/systems/sound_council_system.gd"
-
 NPCLifeSystem="*res://scripts/systems/npc_life_system.gd"
 AdminSystem="*res://scripts/systems/admin_system.gd"
 UISoundSystem="*res://scripts/systems/ui_sound_system.gd"
