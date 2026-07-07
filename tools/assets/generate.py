@@ -454,7 +454,34 @@ def main():
     ap.add_argument("--preset", default=None, choices=list(PRESETS.keys()),
                     help="frame-budget preset for the animated lane (idle|walk4|walk8|attack|vfx)")
     ap.add_argument("--seed", type=int, default=None, help="override the Wan/base seed (reproducible)")
+    ap.add_argument("--factory-spec", default=None, help="JSON asset spec from the autonomous factory (factory.py)")
     args = ap.parse_args()
+
+    # --- FACTORY BRIDGE: one Qwen-planned asset, end-to-end, prints PATH=/PASS for the daemon ---
+    if getattr(args, "factory_spec", None):
+        import glob as _glob
+        spec = json.loads(args.factory_spec)
+        spec.setdefault("subject", spec.get("prompt", spec.get("id", "object").replace("_", " ")))
+        spec.setdefault("category", spec.get("category", "creature"))
+        spec.setdefault("count", 1)
+        spec.setdefault("target_px", 64)
+        if spec.get("animated"):
+            d = gen_creature(spec, preset="walk4", seed=args.seed)
+            if d:
+                print("GAUNTLET PASS", flush=True)
+                print("PATH=" + str(d.get("strip", d.get("path", "")) if isinstance(d, dict) else d), flush=True)
+            else:
+                print("FAIL animated gen returned nothing", flush=True)
+        else:
+            run_inanimate([spec], "factory")
+            hits = sorted(_glob.glob(os.path.join(VERIFIED, "gen_factory", spec["id"] + "*.png")))
+            if hits:
+                print("GAUNTLET PASS", flush=True)
+                for h in hits:
+                    print("PATH=" + h, flush=True)
+            else:
+                print("FAIL no verified sprite survived the gauntlet", flush=True)
+        return
 
     if args.batch == "animated":
         done = []
