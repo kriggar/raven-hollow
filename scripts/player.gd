@@ -1414,6 +1414,7 @@ func _deal_player_damage(foe: Node2D, dmg: float) -> void:
 		_crit_number(foe, final)
 	else:
 		Combat.deal_damage(foe, final, self)
+	_proc_legendary("melee_hit", {"hit": final, "target": foe, "crit": crit})
 	_check_kill_effects(foe)
 
 
@@ -1427,6 +1428,7 @@ func _arm_ranged(cfg: Dictionary, dmg: float) -> void:
 	cfg["damage"] = dmg * (CRIT_MULT if crit else 1.0)
 	cfg["crit"] = crit
 	cfg["on_hit"] = _on_projectile_hit
+	_proc_legendary("arrow_fired", {"damage": cfg["damage"]})  # gallowsbough rook-dive etc.
 
 
 func _on_projectile_hit(foe: Node2D, amount: float, crit_styled: bool) -> void:
@@ -1446,6 +1448,39 @@ func _check_kill_effects(victim: Node2D) -> void:
 		return
 	if victim.get("is_dead") == true and _slot_effect(["ring1", "ring2"], "gravekeeper"):
 		_soul_wisp(victim.global_position)
+	# Legendary "kill" signature procs (cindervow-lineage etc.).
+	if victim.get("is_dead") == true:
+		_proc_legendary("kill", {"victim": victim})
+
+
+## The equipped main-hand legendary's id, or "" if the main hand is not a
+## legendary. Matches the item id against LegendarySystem.all_ids().
+func _equipped_legendary_id() -> String:
+	if inventory == null:
+		return ""
+	var it: Variant = inventory.equipped.get("main_hand")
+	if not (it is Dictionary):
+		return ""
+	var iid: String = str((it as Dictionary).get("id", "")).to_lower()
+	var sys: Node = get_node_or_null("/root/LegendarySystem")
+	if sys == null or not sys.has_method("all_ids"):
+		return ""
+	for lid: Variant in sys.call("all_ids"):
+		if iid == str(lid).to_lower():
+			return str(lid)
+	return ""
+
+
+## Fire the equipped legendary's signature for `event` (melee_hit / kill /
+## arrow_fired / cast_after_hold...). Guarded no-op when no legendary is equipped
+## or the event does not match its trigger.
+func _proc_legendary(event: String, ctx: Dictionary = {}) -> void:
+	var lid: String = _equipped_legendary_id()
+	if lid.is_empty():
+		return
+	var sys: Node = get_node_or_null("/root/LegendarySystem")
+	if sys != null and sys.has_method("proc"):
+		sys.call("proc", self, lid, event, ctx)
 
 
 func _crit_number(foe: Node2D, amount: float) -> void:

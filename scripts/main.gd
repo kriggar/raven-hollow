@@ -746,6 +746,10 @@ func change_map(map_id: String, entry_point_id: String) -> void:
 	_refresh_minimap(map_id, built, def)
 	if _dialogue != null:
 		_dialogue.show_banner(str(def.get("display_name", "")), "")
+	# The world's voice speaks on arrival (NarrativeSystem enter_zone beat -> toast).
+	var _ns: Node = get_node_or_null("/root/NarrativeSystem")
+	if _ns != null and _ns.has_method("narrate"):
+		_ns.call("narrate", "enter_zone", map_id)
 
 	# 11. Fade in, then autosave. 12. Repaint tracker.
 	await get_tree().process_frame
@@ -1187,6 +1191,10 @@ func _on_quest_completed(qid: String) -> void:
 	var d: Dictionary = QuestDefs.all().get(qid, {})
 	if d.has("finale_pages") and _dialogue != null:
 		_dialogue.show_dialogue(str(d.get("finale_speaker", "")), d["finale_pages"])
+	# Narrator marks the turn-in (NarrativeSystem quest_turnin beat -> toast).
+	var ns: Node = get_node_or_null("/root/NarrativeSystem")
+	if ns != null and ns.has_method("narrate"):
+		ns.call("narrate", "quest_turnin", qid)
 
 
 ## Quest 4's camp-overlook choice has no NPC (npc == "") — main.gd surfaces it

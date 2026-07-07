@@ -238,6 +238,7 @@ var _name_label: Label
 ## a one-time lazy connect to the Quests / DayNight singletons, which are added
 ## to the tree AFTER the NPC cast on first boot (so _ready() is too early).
 var _id: String = "npc"
+var _last_interactor: Node2D = null  # who last greeted us (for vendor shop-open)
 const BARK_RANGE := 78.0
 var _bark_cd: float = 3.0   # per-npc ambient-bark cooldown
 var _bark_salt: int = 0
@@ -522,6 +523,7 @@ func interact(by: Node2D) -> void:
 			_begin_quest_dialogue(ui, q, r)
 			return
 
+	_last_interactor = by
 	if dialogue.is_empty():
 		_on_dialogue_finished()
 		return
@@ -535,6 +537,12 @@ func _on_dialogue_finished() -> void:
 	_talking = false
 	_walking = false
 	_idle_time_left = RESUME_DELAY
+	# If this NPC is a vendor, greeting them opens their shop (the discoverable
+	# path — the B-near-vendor hotkey still works too). Guarded no-op otherwise.
+	var sns: Node = get_node_or_null("/root/SmartNPCSystem")
+	if sns != null and sns.has_method("is_vendor") and bool(sns.call("is_vendor", _id)):
+		if sns.has_method("open_shop"):
+			sns.call("open_shop", _id, _last_interactor)
 
 
 # ----------------------------------------------------------------------

@@ -752,10 +752,20 @@ func _refresh_markers() -> void:
 			continue
 		var glyph: String = marker_for(str(n.name))
 		var lbl: Label = (n as Node2D).get_node_or_null("QuestMarkerV2") as Label
+		# De-dup with the legacy Phase-C engine: this data-driven system is the
+		# canonical one (1,100+ quests vs the 5 hand-scripted). Where it has a
+		# marker for an NPC, suppress the old "QuestMarker" so a shared giver
+		# (innkeeper/blacksmith/farmer/wanderer1) shows ONE glyph, not two. Where
+		# this system is silent, the legacy marker is left to show through.
+		var legacy: Node = (n as Node2D).get_node_or_null("QuestMarker")
 		if glyph == "":
 			if lbl != null:
 				lbl.visible = false
+			if legacy is CanvasItem:
+				(legacy as CanvasItem).visible = true
 			continue
+		if legacy is CanvasItem:
+			(legacy as CanvasItem).visible = false
 		if lbl == null:
 			lbl = _make_marker_label()
 			(n as Node2D).add_child(lbl)
