@@ -57,6 +57,9 @@ func _ready() -> void:
 	_build_pool()
 	# Optional, fully guarded: hook any pre-tagged UI buttons. Never required.
 	call_deferred("wire_group")
+	# Global auto-wire: every BaseButton in the game gets hover/click cues for free,
+	# now and as new ones enter the tree. Fully guarded + degrade-safe.
+	call_deferred("_wire_global")
 	if not OS.get_environment("RH_UISOUND_TEST").is_empty():
 		call_deferred("_run_selftest")
 
@@ -198,6 +201,53 @@ func _on_button_hover() -> void:
 
 func _on_button_pressed() -> void:
 	click()
+
+
+# --- Global auto-wire (EVERY BaseButton, no per-scene edits) -----------------
+
+## Make the whole UI audio-reactive without touching any other file. We connect
+## once to the tree's node_added signal (so every button spawned later is wired
+## the moment it enters), then do a single sweep over the current tree. Buttons
+## are deduped -- each hover/click is bound at most once -- and every step is
+## guarded so odd nodes, freed nodes, or a missing tree can never crash this.
+func _wire_global() -> void:
+	if not is_inside_tree():
+		return
+	var tree: SceneTree = get_tree()
+	if tree == null:
+		return
+	if not tree.is_connected("node_added", _on_node_added):
+		tree.connect("node_added", _on_node_added)
+	# Initial pass over everything already in the tree.
+	var root: Node = tree.root
+	if root != null:
+		_wire_subtree(root)
+
+
+func _wire_subtree(n: Node) -> void:
+	if not is_instance_valid(n):
+		return
+	_try_wire_button(n)
+	for child: Node in n.get_children():
+		_wire_subtree(child)
+
+
+func _on_node_added(n: Node) -> void:
+	_try_wire_button(n)
+
+
+## Auto-connect a single node's button signals to the UI cues, if it is a button.
+## Idempotent (is_connected dedupe) and fully guarded.
+func _try_wire_button(n: Node) -> void:
+	if not is_instance_valid(n):
+		return
+	if not (n is BaseButton):
+		return
+	var b := n as BaseButton
+	if not b.is_connected("mouse_entered", _on_button_hover):
+		b.connect("mouse_entered", _on_button_hover)
+	if not b.is_connected("pressed", _on_button_pressed):
+		b.connect("pressed", _on_button_pressed)
 
 
 # --- internals --------------------------------------------------------------

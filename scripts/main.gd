@@ -79,6 +79,9 @@ var _mira: NPC
 var _q5_done: bool = false
 var _changing_map: bool = false
 var _pending_world_choice: bool = false
+## BattleSystem (#50): fire the Great Battle once, the first time the player
+## enters its designated zone this session. Guarded + skipped under automation.
+var _great_battle_started: bool = false
 
 
 func _ready() -> void:
@@ -681,6 +684,8 @@ func change_map(map_id: String, entry_point_id: String) -> void:
 	SaveSystem.save_game()
 	_push_tracker()
 	_changing_map = false
+	# BattleSystem (#50): first entry into the Great Battle zone starts it once.
+	_maybe_start_great_battle(map_id)
 
 
 ## Waystation fast travel (TravelSystem): change map, then land at an exact
@@ -691,6 +696,26 @@ func change_map_to_pos(map_id: String, pos: Vector2) -> void:
 	await change_map(map_id, "")
 	if _player != null and is_instance_valid(_player):
 		_player.global_position = pos + Vector2(0.0, 28.0)
+
+
+## BattleSystem (#50) — trigger the Great Battle naturally the first time the
+## player enters its designated zone ("gravemark_field", the great_battle.json
+## zone). Fires ONCE per session (bool guard), and is SKIPPED entirely under any
+## headless automation (RH_CLASS/RH_SHOT/RH_SMOKE/RH_SELECT) so screenshots/tests
+## never auto-start a battle. Fully guarded + degrade-safe: if BattleSystem is
+## absent (or lacks start_battle) this is a no-op and map behavior is unchanged.
+## Fire-and-forget (deferred) so it never blocks/awaits the world build.
+func _maybe_start_great_battle(map_id: String) -> void:
+	if _great_battle_started or map_id != "gravemark_field":
+		return
+	for env: String in ["RH_CLASS", "RH_SHOT", "RH_SMOKE", "RH_SELECT"]:
+		if not OS.get_environment(env).is_empty():
+			return
+	var bs: Node = get_node_or_null("/root/BattleSystem")
+	if bs == null or not bs.has_method("start_battle"):
+		return
+	_great_battle_started = true
+	bs.call_deferred("start_battle")
 
 
 # =============================================================================
@@ -796,6 +821,8 @@ func stream_commit_flip(new_id: String, new_root: Node2D, new_built: Dictionary,
 	if _quests != null and _day_night != null:
 		_quests.set_night(_day_night.is_night)
 	_push_tracker()
+	# BattleSystem (#50): crossing a seam into the Great Battle zone starts it once.
+	_maybe_start_great_battle(new_id)
 	return old_world
 
 

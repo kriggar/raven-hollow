@@ -266,6 +266,13 @@ static func create(def: Dictionary) -> NPC:
 	npc.name = id
 	npc._id = id
 	npc.display_name = String(def.get("display_name", "Villager"))
+	# NPCCastSystem (#29): give world NPCs a real name/role from the 384-entry
+	# roster instead of the generic "Villager" default. Only when the def carries
+	# no meaningful name; fully guarded + degrade-safe (absent system => unchanged).
+	if _is_generic_name(npc.display_name):
+		var cast_name: String = _cast_name_for(id)
+		if cast_name != "":
+			npc.display_name = cast_name
 	npc.dialogue = def.get("dialogue", [])
 	npc._home = def.get("pos", Vector2.ZERO)
 	npc._wander_radius = float(def.get("wander_radius", 0.0))
@@ -400,6 +407,38 @@ static func _lightest_v(steps: Array) -> float:
 ## Exact 8-bit hex (0xRRGGBB) -> Color, matching texel values bit-perfectly.
 static func _c8(rgb: int) -> Color:
 	return Color8((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF)
+
+
+## True when the def gave no meaningful identity, so a roster name should fill in.
+static func _is_generic_name(n: String) -> bool:
+	return n == "" or n == "Villager" or n == "NPC"
+
+
+## Resolve a real name from the NPCCastSystem roster (#29) for the current zone.
+## Static + tree-less context: reach the autoload + current scene through the main
+## loop. Fully guarded and degrade-safe -- returns "" (keep the generic default)
+## when the system is absent, has no roster for the zone, or the loop is headless.
+## A stable hash of the (unique) npc id picks a deterministic entry -- NO random.
+static func _cast_name_for(id: String) -> String:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return ""
+	var cast_sys: Node = tree.root.get_node_or_null("NPCCastSystem")
+	if cast_sys == null or not cast_sys.has_method("cast_for_zone"):
+		return ""
+	var zone: String = ""
+	var scene: Node = tree.current_scene
+	if scene != null:
+		var z: Variant = scene.get("current_map_id")
+		if z is String:
+			zone = str(z)
+	var roster: Variant = cast_sys.call("cast_for_zone", zone)
+	if not (roster is Array) or (roster as Array).is_empty():
+		return ""
+	var arr: Array = roster
+	var idx: int = absi(hash(id)) % arr.size()
+	var entry: Dictionary = arr[idx] if arr[idx] is Dictionary else {}
+	return str(entry.get("name", ""))
 
 
 func _ready() -> void:

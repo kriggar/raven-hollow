@@ -109,6 +109,12 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 
 	_validate_forty_second_rule(def, tiles_w, tiles_h)
 
+	# FREEDOM_PHYSICS (#52): the zone art is now fully built -- add a few
+	# interactable push/break props in open ground so every zone has real
+	# physics objects to test. Guarded + additive (see _spawn_physics_props).
+	var _phys_spawn: Vector2 = def.get("player_spawn", Vector2(tiles_w * TILE * 0.5, tiles_h * TILE * 0.5))
+	_spawn_physics_props(parent, def, _phys_spawn, tiles_w, tiles_h, keep_clear)
+
 	var bounds := Rect2(0, 0, tiles_w * TILE, tiles_h * TILE)
 	return {
 		"player_spawn": def.get("player_spawn", Vector2(tiles_w * TILE * 0.5, tiles_h * TILE * 0.5)),
@@ -198,6 +204,59 @@ static func build_zone_staged(parent: Node2D, def: Dictionary) -> Dictionary:
 ## (player retreated / streaming reset) so we never touch a dangling node.
 static func _staged_ok(parent: Node2D) -> bool:
 	return parent != null and is_instance_valid(parent) and parent.is_inside_tree()
+
+
+## FREEDOM_PHYSICS (#52): wire the PhysicsPropSystem autoload into every built
+## zone. After the normal build finishes, spawn a SMALL set (3-6) of existing-
+## style interactable props -- a breakable clay pot, a pushable crate, a
+## throwable stone -- in OPEN ground a few tiles out from the player spawn, so
+## there are always real push/break objects to test. Fully guarded + degrade-
+## safe: no autoload (or no method, or no open spot) => the zone is exactly what
+## it was, never a crash. Reuses keep_clear + _in_any so props never land on
+## buildings / roads / river / landmarks -- zone composition is untouched.
+static func _spawn_physics_props(parent: Node2D, def: Dictionary,
+		player_spawn: Vector2, w: int, h: int, keep_clear: Array[Rect2]) -> void:
+	if parent == null or not is_instance_valid(parent):
+		return
+	var loop := Engine.get_main_loop()
+	if loop == null or not (loop is SceneTree):
+		return
+	var root: Node = (loop as SceneTree).root
+	if root == null:
+		return
+	# Autoload path is absolute-from-root; resolving via the tree root (not the
+	# builder's parent) works even before `parent` is inside the scene tree.
+	var sys: Node = root.get_node_or_null("PhysicsPropSystem")
+	if sys == null or not sys.has_method("spawn_prop"):
+		return
+	# Own independent RNG (seeded per zone, builder idiom) so we NEVER perturb the
+	# shared build rng -- enemy/ambient spawns stay byte-identical to prior behavior
+	# and to the staged builder twin. Deterministic per zone.
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(str(def.get("id", "zone")) + "physprops")
+	# ids verified present in data/physics_props.json (breakable/pushable/throwable).
+	var ids: Array[String] = ["clay_pot", "wood_crate", "round_stone"]
+	var world_w: float = float(w * TILE)
+	var world_h: float = float(h * TILE)
+	var margin: float = 96.0
+	var want: int = rng.randi_range(3, 6)
+	var placed: int = 0
+	var guard: int = 0
+	while placed < want and guard < 100:
+		guard += 1
+		# ring-scatter a few tiles out from the spawn, into open ground only
+		var ang: float = rng.randf_range(0.0, TAU)
+		var dist: float = rng.randf_range(float(TILE) * 3.0, float(TILE) * 7.0)
+		var p := player_spawn + Vector2(cos(ang), sin(ang)) * dist
+		p.x = clampf(p.x, margin, world_w - margin)
+		p.y = clampf(p.y, margin, world_h - margin)
+		if _in_any(p, keep_clear):
+			continue
+		sys.call("spawn_prop", ids[placed % ids.size()], p, parent)
+		print("[PROP-SPAWN] placed")
+		# reserve this footprint so the next prop does not stack on this one
+		keep_clear.append(Rect2(p - Vector2(28, 28), Vector2(56, 56)))
+		placed += 1
 
 
 # --- ground -----------------------------------------------------------------
