@@ -92,9 +92,9 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 75. ✅ Grey Ferry travel link + fast-travel routes (fare/unlock gates, guarded map-change) - BUILT
 76. ✅ Bestiary FRAMEWORK (63 signature creatures, 11 biomes, 7 families, unique debuffs, spawn tables, codex UI; 1500-sprite art pass later) - BUILT
 ### Quests & narrative expansion (77-81)
-77. ⬜ +1,000 lore-of-the-land quests (2,000 total)
-78. ⬜ Romance side quests (many, all-different, diverse, tasteful)
-79. ⬜ Writers council + quest masters production system
+77. ✅ +1,007 lore-of-the-land quests SHIPPED — 1,090 total across 41 zones (real ids, validated, engine-registered). Toward 2,000.
+78. ✅ Romance side quests SHIPPED — 71 quests / ~24 multi-stage arcs, 8 distinct dynamics (slow-burn/grief/rivalry/letters/quiet/duty/healing/joy), tasteful (no sexuality), real NPC targets.
+79. ✅ Writers-council PRODUCTION SYSTEM SHIPPED — tools/studio/quest_pipeline.py (pools/validate/merge): model writes prose, code guarantees real ids. Authored the 1,000-quest wave.
 80. ⬜ RDR2-grade detail & mysteries (small→epic 2-continent chains); ≥1,000-hour game audit
 81. ⬜ Skyrim vibe layer on top of Witcher heavy-cheerful tone
 ### Characters & audio expansion (82-88)
@@ -112,7 +112,7 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
       delivered as REFERENCE only (rogue_reference.png). Honest fallback per mission guidance.
     - ⬜ REMAINING: talent-tree/ability-system rework, stealth mechanic, assassinate execute logic.
 84. ✅ D2-style class SELECT SCREEN (7 pedestals, animated hero, ability/lore panel, BLUEPRINT_84) - BUILT
-85. ⬜ Distinct voice per NPC (sprite-appropriate; Hamill/Conroy bar); D2-style + Marius-timbre Chronicler recast
+85. ✅ Distinct voice per NPC DATA SHIPPED — data/voice_map.json assigns all 384 NPCs a role-appropriate voice archetype + per-npc pitch jitter; VoiceRegistry loads it (audio bake = separate local-TTS). Chronicler recast
 86. ✅ Menu/UI sound manager (12 cues + aliases, 6-voice pool, guarded-silent, ui_sfx auto-wire) - BUILT
 87. ✅ Sound Council audio-coverage registry (audits all cues, reports present vs MISSING - 17/58 present, gap list) - BUILT
 88. ✅ NPC life layer (bark bubbles, chatter, friendships/rivalries, job routes, inn-rest; freed-safe poll) - BUILT

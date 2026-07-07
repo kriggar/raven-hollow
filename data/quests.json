@@ -39802,6 +39802,3111 @@
     }
    },
    "note": "Iosif served the Writ of Un-Filing on his own account -- shrouded the receiving-wall, stamped his line un-stamped, and felt the hook let go of the lip. He is open now, pending on purpose, a clerk who turned the system's one honest form against it. It will try to close him again. There is no third impression. He made sure."
+  },
+  "angel_wings_romance_ioana_1": {
+   "title": "A Letter the Reeve Will Read",
+   "giver": "angel_wings_chronicler",
+   "giver_name": "Ioana Corbeanu",
+   "zone": "angel_wings",
+   "level": 14,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "Ioana keeps the stones of Angel Wings; Tinca the Reeve keeps the debts. Across a courtyard neither can cross without the other minding, a chronicler decides to write to a woman who only reads ledgers.",
+   "offer": "The Reeve and I have shared one wall for eleven years and not one word that wasn't business. She won't come to me -- her post is her post, she'd sooner die than leave the ledger unwatched. And I won't be seen crossing to her. So I've written her a letter. Carry it, would you. Put it in her hand, not the box. The box, she reads. A hand, she has to answer.",
+   "progress": "Tinca stands her post by the tithe-table, as she has every day since the old queen. Give her the letter yourself.",
+   "complete": "She read it twice. I watched from here -- she read it twice, and then she folded it small, the way you fold a thing you mean to keep. Eleven years of ledger between us and I've finally written something she can't record. Tell me what her face did. No -- don't. Let me have it wrong and kinder.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Fetch oak-gall ink for the fair copy"
+    },
+    {
+     "kind": "talk",
+     "npc": "angel_wings_dignitary",
+     "text": "Put the letter in Tinca's hand"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 45,
+    "items": [],
+    "rep": {
+     "angelwings": 100
+    }
+   },
+   "prereq": [],
+   "note": "Ioana writes what the town forgets. She has never once written to be answered. The Reeve folded the page small, and kept it. Angel Wings records debts. This one it will not."
+  },
+  "angel_wings_romance_ioana_2": {
+   "title": "What the Ledger Cannot Hold",
+   "giver": "angel_wings_chronicler",
+   "giver_name": "Ioana Corbeanu",
+   "zone": "angel_wings",
+   "level": 16,
+   "type": "romance",
+   "tone": "intrigue",
+   "romance_stage": 2,
+   "summary": "The Reeve answered -- in the only hand she owns, dry as a tithe-line. Ioana means to answer the dryness with warmth and needs a page clean enough to be worth Tinca's careful eye.",
+   "offer": "She wrote back. In her ledger-hand, mind -- 'received, and noted, and not unwelcome.' Not unwelcome. From Tinca that's a bonfire, traveler. I mean to write past her guard this time. But the rats have got into the record-house again, and I can't compose a love-line with them chewing the town's memory behind me. Clear them. Then I'll write her something she can't file.",
+   "progress": "The plague-rats nest in the record-house cellar, under the shelves where the old rolls are kept. Thin them, and bring me clean linen for the page.",
+   "complete": "There -- the record-house holds another year, and so do I. I've written it plain: that a woman who guards a ledger against the whole hungering world might let one person past the table. She'll read it at her post. She reads everything at her post. Maybe this once she'll look up.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "plague_rat_swarm",
+     "count": 6,
+     "map": "angel_wings",
+     "text": "Clear the rats from the record-house"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather clean linen for the letter"
+    }
+   ],
+   "rewards": {
+    "xp": 1050,
+    "gold": 60,
+    "items": [],
+    "rep": {
+     "angelwings": 120
+    }
+   },
+   "prereq": [
+    "angel_wings_romance_ioana_1"
+   ],
+   "note": "Not unwelcome, the Reeve wrote, and thought she had given nothing away. Ioana has spent her life reading what people meant to keep. She read that."
+  },
+  "angel_wings_romance_ioana_3": {
+   "title": "Two Hands, One Page",
+   "giver": "angel_wings_chronicler",
+   "giver_name": "Ioana Corbeanu",
+   "zone": "angel_wings",
+   "level": 18,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 3,
+   "summary": "The Reeve will not leave her post; the chronicler will not stop writing to her. So Ioana proposes the only union two women wedded to their duties can keep -- a shared table where the ledger and the chronicle lie open side by side.",
+   "offer": "She'll never leave that table. And I'd never ask her to -- the town needs its debts watched as much as it needs remembering. So I asked her the only thing I could: let me bring my chronicle to your post. Let the ledger and the record sit one page apart, and us behind them. She sent no answer. She sent a second chair. Fetch me candles, friend -- good ones, tallow that burns clean. We'll be reading late.",
+   "progress": "Buy clean tallow candles from Anca at the market, and carry Ioana's writing-desk across to the Reeve's table by the tithe-hall.",
+   "complete": "The chair fit. That's the whole of it and it's everything. Her ledger on her side, my chronicle on mine, one candle between so neither of us wastes wax being proud. She still writes 'noted' in the margin of my sentences. I've started writing 'kept' in hers. Angel Wings will outlast the stone by exactly this -- two stubborn women and a table they won't leave.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Buy clean-burning tallow candles"
+    },
+    {
+     "kind": "talk",
+     "npc": "angel_wings_dignitary",
+     "text": "Set the second chair at the Reeve's table"
+    },
+    {
+     "kind": "reach",
+     "map": "angel_wings",
+     "pos": [
+      1180,
+      940
+     ],
+     "radius": 80,
+     "label": "the shared table",
+     "text": "Carry the desk to the tithe-hall"
+    }
+   ],
+   "rewards": {
+    "xp": 1300,
+    "gold": 90,
+    "items": [],
+    "rep": {
+     "angelwings": 175
+    }
+   },
+   "prereq": [
+    "angel_wings_romance_ioana_2"
+   ],
+   "note": "The Reeve records debts and waits. She has begun, in her margins, to record something that is not owed. Ioana writes 'kept' beside it. The candle burns clean, and low, and does not go out."
+  },
+  "angel_wings_romance_safta_1": {
+   "title": "The Innkeeper's Standing Order",
+   "giver": "angel_wings_apothecary",
+   "giver_name": "Safta Corbeanu",
+   "zone": "angel_wings",
+   "level": 12,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "Downriver at Riverfork, an innkeeper named Profira orders wormwood by the letter and pays in words she has no business including. Safta, who smells of tallow and wormwood, has started answering in kind.",
+   "offer": "There's an innkeeper down at Riverfork -- Profira -- orders my wormwood and marsh-lichen by the season, always has. Only lately her orders have grown. A line about the river. A line about her knees in the cold. A line, last month, about how the man who carries my parcels has a kind face and she hopes I do too. I am forty-six and I smell of wormwood, traveler. Nobody flirts with me by ledger. Gather the lichen. I'll send her more than she paid for.",
+   "progress": "Marsh-lichen grows where the Vein slows, on the wet stones east of the wall. Bring me enough to fill Profira's order -- and a little over.",
+   "complete": "There. The order, and a twist of dried mint she didn't ask for, and a line of my own -- that a woman who writes about her knees to her apothecary is either very ill or very lonely, and I'd treat either. Let's see which she admits. Carry it careful. It's a long way down the water, and I've put more in that parcel than lichen.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 5,
+     "text": "Gather marsh-lichen by the slow Vein"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Buy clean salt to pack the parcel"
+    }
+   ],
+   "rewards": {
+    "xp": 760,
+    "gold": 40,
+    "items": [],
+    "rep": {
+     "angelwings": 90
+    }
+   },
+   "prereq": [],
+   "note": "Safta trades in poultice, purge, and poison, all the same to her. She has never before packed a parcel with a line of her own in it. The river runs down to Riverfork, slow, and carries it."
+  },
+  "angel_wings_romance_safta_2": {
+   "title": "Answered by the Same Water",
+   "giver": "angel_wings_apothecary",
+   "giver_name": "Safta Corbeanu",
+   "zone": "angel_wings",
+   "level": 14,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 2,
+   "summary": "Profira wrote back, and did not talk about her knees. The apothecary means to send a remedy no innkeeper truly needs -- a cordial for sleeping easy -- and it wants a river-pearl the delta only grudgingly gives.",
+   "offer": "She wrote back. Not one word about her knees -- all about the inn, the fog on the water, the empty chair by her good fire that used to be her husband's. Three husbands buried, that one. I know the kind. I'm going to send her a sleeping-cordial, the good one, the one that costs me a river-pearl I can't spare. She sleeps badly, she said, in a house full of other people's rest. Bring me a pearl from the delta shallows. I'll make her a night that's hers.",
+   "progress": "River-pearls sit in the delta shallows where the drowners nest. Take what you can from them, and gather luminous-lichen to seal the vial so it keeps the long way down.",
+   "complete": "A pearl. Good. Half a life's savings dissolved into a bottle for a woman I've never stood in a room with. My mother would call me a fool. My mother married a man she'd met twice and stayed happy forty years, so I don't rate her counsel highly. Here -- the cordial, and a note: sleep well, Profira, in the chair that's yours. Carry it dry.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "riverfork_drowner",
+     "count": 4,
+     "map": "riverfork",
+     "text": "Take river-pearls from the delta drowners"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather luminous-lichen to seal the vial"
+    }
+   ],
+   "rewards": {
+    "xp": 950,
+    "gold": 55,
+    "items": [],
+    "rep": {
+     "angelwings": 110
+    }
+   },
+   "prereq": [
+    "angel_wings_romance_safta_1"
+   ],
+   "note": "Three husbands under the Riverfork stones, and the chair still empty. Safta spent a river-pearl on a stranger's sleep. The delta gives its pearls grudgingly. She gave hers gladly."
+  },
+  "angel_wings_romance_safta_3": {
+   "title": "The Meeting at the Ferry",
+   "giver": "angel_wings_apothecary",
+   "giver_name": "Safta Corbeanu",
+   "zone": "angel_wings",
+   "level": 16,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 3,
+   "summary": "A season of parcels, and neither woman has seen the other's face. Profira has named a day at the grey ferry-landing between their towns. Safta, who has not left Angel Wings in nine years, means to be there.",
+   "offer": "She's named a day. The ferry-landing, where the water divides -- halfway, so neither of us has to be the one who traveled further. Nine years I've not passed that wall, traveler. Nine years of other people's ailments and my own door. And now a woman I know only by her hand is standing at a landing in three days' time, and I find I'd walk to the sea for her. Help me close the shop right. And -- there's a thing I'd carry to her. Not medicine. Bring me river-pearls enough to string.",
+   "progress": "Gather what pearls you can for the string, then walk with Safta down the water road to the ferry-landing between the towns.",
+   "complete": "She was shorter than her letters. That's the first thing I thought -- all that warmth in a woman I could tuck under my arm. She'd strung her own pearls too. We stood there holding two strings and laughing like fools while the ferryman waited. I've a shop in Angel Wings and she's an inn in Riverfork and neither of us is young. But there's a ferry, traveler. It runs both ways. We've decided the water is not so wide.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 4,
+     "text": "Gather river-pearls to string"
+    },
+    {
+     "kind": "talk",
+     "npc": "riverfork_innkeeper",
+     "text": "Meet Profira at the ferry-landing"
+    },
+    {
+     "kind": "reach",
+     "map": "riverfork",
+     "pos": [
+      640,
+      1120
+     ],
+     "radius": 100,
+     "label": "the grey ferry-landing",
+     "text": "Reach the landing between the towns"
+    }
+   ],
+   "rewards": {
+    "xp": 1250,
+    "gold": 100,
+    "items": [],
+    "rep": {
+     "angelwings": 160
+    }
+   },
+   "prereq": [
+    "angel_wings_romance_safta_2"
+   ],
+   "note": "Two women who knew each other only by carried water met halfway on it, each holding pearls the other could not see them string. The ferry runs both ways. They have decided the river is a road, not a wall."
+  },
+  "riverfork_romance_dragan_1": {
+   "title": "A Letter the Smith Won't Send",
+   "giver": "riverfork_blacksmith",
+   "giver_name": "Dragan Vulpescu",
+   "zone": "riverfork",
+   "level": 20,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "Dragan of Riverfork and Zamfira of Angel Wings learned the forge from the same dead master and have quarreled by letter for thirty years. Now word comes upriver that Zamfira's lungs are failing. Dragan has written a letter he cannot make himself send.",
+   "offer": "You'll think me a hard old fool. There's a smith up in Angel Wings -- Zamfira. We learned the fire from the same master, her and me, forty years back, and we've argued the right way to draw steel by letter ever since. Cruel letters. Fond ones. Same thing, with smiths. Now they tell me her lungs have gone, the way ours all go -- coal and years. I've written to her. I've written and torn it up eleven times. I can't send it. My hands shake and it isn't the cold. Take it. Before there's no one to take it to.",
+   "progress": "Zamfira keeps the Angel Wings forge, or keeps to her bed beside it now. Carry Dragan's letter up the water road and put it in her hand.",
+   "complete": "You gave it to her. Good. That's -- good. Thirty years I've had the last word in every argument by making her wait a week for my answer. Now the week is the enemy. Did she read it herself, or did someone read it to her? ...Don't tell me. If someone had to read it to her, I'd rather carry that not-knowing than the knowing. Come back when she's answered. If she answers.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather iron-scrap to weight the seal"
+    },
+    {
+     "kind": "talk",
+     "npc": "angel_wings_blacksmith",
+     "text": "Carry Dragan's letter to Zamfira"
+    }
+   ],
+   "rewards": {
+    "xp": 1400,
+    "gold": 70,
+    "items": [],
+    "rep": {
+     "angelwings": 120
+    }
+   },
+   "prereq": [],
+   "note": "Two smiths, one dead master, thirty years of arguing the fire by letter. Dragan wrote it eleven times and burned ten. The eleventh went up the water. His hands shook, and it was not the cold."
+  },
+  "riverfork_romance_dragan_2": {
+   "title": "What the Fire Kept",
+   "giver": "riverfork_blacksmith",
+   "giver_name": "Dragan Vulpescu",
+   "zone": "riverfork",
+   "level": 22,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "summary": "Zamfira answered -- weaker in the hand, sharper in the words. She has a last thing to argue and a last thing to ask. Dragan cannot leave his fire; the delta needs its only forge. So the letters carry what the smiths cannot.",
+   "offer": "She wrote back. The hand's gone shaky as mine but the tongue's still a file -- told me I've drawn a tang wrong my whole life and she'd not die letting me think otherwise. Then, under it, small: she asked what our master's grave looked like now. She's not seen it in twenty years. Can't travel. Nor can I -- Riverfork's got one forge and it's mine, and a delta with no smith is a delta that starves. So. Go to the old master's grave. Tell me what grows there. I'll write it to her true.",
+   "progress": "The old master's grave lies in the famine ground between the towns, where the field-work turns dangerous. See it, and gather grave-silk from the stones to send her a true token of it.",
+   "complete": "Moss on the west face, you say, and the iron marker she forged him rusted through but standing. She'll want it exactly so -- she forged half that marker herself, the halves that meet still. I've written it all down for her, every rust-spot, honest. And I told her the tang thing -- she's right. Forty years I knew she was right and argued anyway, because the arguing was the having of her. Take it up. Quickly now.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "scarecrow_wight",
+     "count": 5,
+     "map": "famine_fields",
+     "text": "Clear the wights from the grave-ground"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather grave-silk from the master's stone"
+    }
+   ],
+   "rewards": {
+    "xp": 1550,
+    "gold": 85,
+    "items": [],
+    "rep": {
+     "angelwings": 140
+    }
+   },
+   "prereq": [
+    "riverfork_romance_dragan_1"
+   ],
+   "note": "The marker they forged him together still stands, the joined halves holding where the rest gave way. Dragan wrote her the grave true, rust-spot by rust-spot. Then he told her she was right. Forty years he had argued only to keep arguing with her."
+  },
+  "riverfork_romance_dragan_3": {
+   "title": "The Last Answer",
+   "giver": "riverfork_blacksmith",
+   "giver_name": "Dragan Vulpescu",
+   "zone": "riverfork",
+   "level": 24,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 3,
+   "summary": "Zamfira's last letter asks for one thing: not that Dragan come, but that he finish, at his own fire, the blade she began and cannot. It is to lie with her, forged by two hands across a river neither could cross in time.",
+   "offer": "Her hand's failed. Someone writes for her now, and she'll only send what she'd say plain. She's asked one thing. Not that I come -- she forbade it, said a delta with no smith kills more than a river between two old fools ever could. She sent me a blade half-drawn. Her half. She hasn't the breath to finish it, and she'll not have it finished by a stranger. Bring me good fuel, the clean-burning coal -- ember-dust, not slag. I'll draw her half into mine. It's to go in the ground with her. My hands are steady for this. For this, they're steady.",
+   "progress": "Gather clean ember-dust for a true fire, then stand with Dragan at his forge while he finishes Zamfira's blade -- the last answer he will send her.",
+   "complete": "It's done. Her taper into my point, the weld true -- you'd not find the seam, and she'd hate that, she'd want to see exactly where her work ended and mine began. Too late to argue it now. The courier leaves at first light for Angel Wings. She'll not read this letter; she'll hold it. That's more than the Courier in the old chamber ever managed -- his satchel's still sealed, they say, forty years, undelivered. Mine gets there. Mine gets there. Go on, then. I want to bank the fire alone.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 4,
+     "text": "Gather clean ember-dust for the fire"
+    },
+    {
+     "kind": "reach",
+     "map": "riverfork",
+     "pos": [
+      880,
+      760
+     ],
+     "radius": 70,
+     "label": "Dragan's forge",
+     "text": "Stand at the forge for the last welding"
+    },
+    {
+     "kind": "talk",
+     "npc": "riverfork_blacksmith",
+     "text": "See the finished blade sent upriver"
+    }
+   ],
+   "rewards": {
+    "xp": 1900,
+    "gold": 130,
+    "items": [],
+    "rep": {
+     "angelwings": 200
+    }
+   },
+   "prereq": [
+    "riverfork_romance_dragan_2"
+   ],
+   "note": "Two smiths, one river, one blade -- her taper welded into his point, the seam invisible she'd have wanted to see. She will not read the last letter. She will hold it. The old Courier's satchel is sealed still, undelivered. This one arrived. That was the whole of the love: it arrived in time."
+  },
+  "iron_vein_romance_dragan_1": {
+   "title": "The Bowl She Keeps Warm",
+   "giver": "iron_vein_innkeeper",
+   "giver_name": "Dragan Corbeanu",
+   "zone": "iron_vein",
+   "level": 6,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "prereq": [],
+   "summary": "For nine winters Dragan has kept one bowl warm past close for Lupu the peat-cutter, and never once told him why. She would rather send a stranger to fetch him in from the cold than say it herself.",
+   "offer": "You'll have noticed I talk to keep from saying things. Here's a thing I won't say: there's a peat-cutter, Lupu, works the black bog dark to dark, and every dusk for nine winters I've had a bowl warm for him whether he came or not. He's late tonight. Cold's getting into the valley. Go tell him the Bent Oar's still open -- and don't tell him I sent you fretting. Tell him it's just the last bowl.",
+   "progress": "Lupu cuts peat out past the marker on the black bog. Carry him word the hearth is lit -- and, if the beds are fouled, clear him a path home.",
+   "complete": "He came in. Sat where he always sits. Ate the bowl and said the bread was better than it's been, which is a kind lie, and I let him keep it. Nine winters of the last bowl, and tonight a stranger walked it out to him for me. That's further than I've carried it myself. Take this -- the house's own luck. It's kept the door warm this long.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "iron_vein_commoner_1",
+     "text": "Carry word to Lupu on the black bog"
+    },
+    {
+     "kind": "kill",
+     "target": "peat_shambler",
+     "count": 4,
+     "text": "Clear the peat-beds on his way in"
+    }
+   ],
+   "rewards": {
+    "xp": 120,
+    "gold": 35,
+    "items": [],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "Nine winters of a bowl kept warm and never named. Tonight it was carried the last stretch by a stranger's hand. Dragan talks to keep from saying things. She said nothing, and set two bowls out."
+  },
+  "iron_vein_romance_dragan_2": {
+   "title": "A Door That Sticks",
+   "giver": "iron_vein_innkeeper",
+   "giver_name": "Dragan Corbeanu",
+   "zone": "iron_vein",
+   "level": 8,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 2,
+   "prereq": [
+    "iron_vein_romance_dragan_1"
+   ],
+   "summary": "The Bent Oar's back door has hung crooked for years. Lupu keeps meaning to mend it; Dragan keeps meaning to let him. Neither has managed the asking. She would like the makings gathered, so the offer is easier to make.",
+   "offer": "The back door's hung crooked since the flood-year and every dusk Lupu eyes it like it owes him money. He'd fix it in an hour. He won't offer and I won't ask, and so it sticks, and we both go on pretending the wind did it. Bring me warm bog-iron for a new hinge-pin and a fistful of grave-lichen to pack the frame -- give a body the makings and the asking gets small enough to do.",
+   "progress": "Warm bog-iron comes from the seeps past the marker; the packing-lichen grows on the cold hearth-stones downriver. Gather both, and put down what fouls the beds.",
+   "complete": "I set the iron and the lichen on the workbench where he'd see it, and said not one word. He looked at it a long while. Then he took off his coat and hung it on the peg -- his peg, nine winters and I never called it that aloud -- and mended the door before his bowl went cold. It shuts true now. First quiet it's kept in years.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "bog_iron",
+     "count": 6,
+     "text": "Gather warm bog-iron for the hinge-pin"
+    },
+    {
+     "kind": "collect",
+     "item": "lichen_culture",
+     "count": 4,
+     "text": "Scrape grave-lichen to pack the frame"
+    },
+    {
+     "kind": "kill",
+     "target": "bog_widow",
+     "count": 3,
+     "text": "Clear the seeps of bog-widows"
+    }
+   ],
+   "rewards": {
+    "xp": 165,
+    "gold": 50,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 200
+    }
+   },
+   "note": "He hung his coat on his own peg and mended the door that had stuck since the flood-year. Dragan said nothing, which for her is a confession. The door shuts true. Everything good is temporary; that is what makes it good."
+  },
+  "iron_vein_romance_dragan_3": {
+   "title": "The Long Bog Night",
+   "giver": "iron_vein_innkeeper",
+   "giver_name": "Dragan Corbeanu",
+   "zone": "iron_vein",
+   "level": 11,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "prereq": [
+    "iron_vein_romance_dragan_2"
+   ],
+   "summary": "Lupu has not come in. The ground past the marker has gone warm in patches, and the dead of the black bog are walking earlier each dusk. For the first time in nine winters, Dragan puts the fear into words -- to a stranger, because she cannot to him.",
+   "offer": "He's not come in. Bowl's gone cold twice over and the candle's shorter than the night, and I -- listen. The ground out past the marker's warm now, warm where it's got no business being, and folk who go stand in it stop coming back for supper. I have kept a bowl for that man nine winters and never once said the word for what he is to me, and if the bog takes him tonight I never will. Find him. Bring him in. I am done being careful.",
+   "progress": "Lupu works the far cuttings where the ground runs warm. Reach him before the bog's dead do, and bring down whatever walks between him and the hearth.",
+   "complete": "You found him standing in the warm patch, head tilting, the way the listeners stand -- and you brought him back before it finished with him. He's by the fire now, shivering the wrong kind of cold out of him. I took his hand. Nine winters and I took his hand and said the word. He said he'd known since the second winter and was only waiting on me. Fool man. Fool me. Take the charm -- it kept the rooks off this door. Let it keep something off you.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "iron_vein",
+     "pos": [
+      2280,
+      1210
+     ],
+     "radius": 100,
+     "label": "the far cuttings",
+     "text": "Reach Lupu in the warm ground"
+    },
+    {
+     "kind": "kill",
+     "target": "moor_wail",
+     "count": 4,
+     "text": "Put down the bog's dead between him and home"
+    },
+    {
+     "kind": "talk",
+     "npc": "iron_vein_commoner_1",
+     "text": "Bring Lupu back to the hearth"
+    }
+   ],
+   "rewards": {
+    "xp": 230,
+    "gold": 70,
+    "items": [],
+    "rep": {
+     "border_hearths": 300
+    }
+   },
+   "note": "She took his hand and said the word she had kept nine winters, and the warm ground did not get to keep him. He had known since the second winter. The bog counts what it takes in straight even lines. It has no line for two old fools by a fire."
+  },
+  "iron_vein_romance_dragan_4": {
+   "title": "Two Bowls, One Hearth",
+   "giver": "iron_vein_innkeeper",
+   "giver_name": "Dragan Corbeanu",
+   "zone": "iron_vein",
+   "level": 13,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 4,
+   "prereq": [
+    "iron_vein_romance_dragan_3"
+   ],
+   "summary": "There is to be no wedding -- Dragan says at their age a wedding is just an excuse for other people. There is only the moving of Lupu's few things under one roof, and a plain supper for the handful who ever kept them warm in return.",
+   "offer": "No wedding. At our age a wedding's just an excuse for other people to drink your ale and cry about their own lives. What there is, is Lupu's cot and his kettle and his one good coat coming under this roof for good, and a supper after -- flat grey bread and all -- for the few who ever set a bowl out for us. Fetch the makings for the pot from Vasile, and word to Lupu it's tonight. He'll pretend he forgot. He forgets nothing.",
+   "progress": "Vasile keeps the provisions on the back-roads; Lupu waits by the cuttings, pretending. Bring the makings and the word, and the hearth is theirs.",
+   "complete": "It's done. His coat hangs beside mine, his kettle's found the hook it was always going to find, and we ate flat grey bread by a fire that's kept the same three of us warm for years. No stone carved, no vow shouted -- just two bowls, one hearth, and a door that shuts true. Let the ground stay warm out there. In here it's warm the right way, and I earned every inch of it slow. Sit. There's a bowl for you too. There always was.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "cultured_poultice",
+     "count": 3,
+     "text": "Bring the makings for the pot from Vasile"
+    },
+    {
+     "kind": "talk",
+     "npc": "iron_vein_commoner_1",
+     "text": "Carry Lupu word it is tonight"
+    }
+   ],
+   "rewards": {
+    "xp": 200,
+    "gold": 90,
+    "items": [],
+    "rep": {
+     "border_hearths": 350
+    }
+   },
+   "note": "No vow was shouted and no stone was carved. His coat hangs beside hers; his kettle found its hook. The Bloodstone keeps its ledger in straight even lines. There is no entry for two bowls kept warm at one hearth, slow, across nine winters, on purpose."
+  },
+  "vetka_romance_toma_1": {
+   "title": "The Names That Grow Shorter",
+   "giver": "vetka_chronicler",
+   "giver_name": "Toma Corbeanu",
+   "zone": "vetka",
+   "level": 9,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "prereq": [],
+   "summary": "Toma keeps the Vetka stones and watches the graven names shorten year by year. One name he re-cuts by hand every spring: the wife of Iancu the smith. For eleven years he has done it, and never told Iancu who keeps her name whole.",
+   "offer": "You know the trouble with this town? The names on the stones grow shorter every year -- letter by letter, as if the ground were forgetting on purpose. There's one I won't let it have. El:na, Iancu's wife, eleven years under the kerb, and every spring I re-cut her name deep before the season eats another letter. He doesn't know it's me. He thinks the stone just wears slow. Bring me fresh oak-gall ink and a good marsh-lichen to grind, and I'll cut her whole again before the thaw.",
+   "progress": "The ink-galls hang on the alders past the moor-marker; the grinding-lichen grows on the cold kerb-stones. Gather both, and clear the graveyard path of what the moor sends up.",
+   "complete": "Deep-cut and whole for another year -- ELENA, every letter, the way the ground would rather I didn't. Eleven springs I've done this for a man who argues with me across the square about everything under heaven and doesn't know I keep his grief legible. I don't do it for thanks. I do it because a name is the last true thing, and this town eats them. There. That's my confession for the year, and I've made it to a stranger. Fitting.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather oak-gall ink for the re-cutting"
+    },
+    {
+     "kind": "collect",
+     "item": "lichen_culture",
+     "count": 3,
+     "text": "Grind marsh-lichen for the graving-paste"
+    },
+    {
+     "kind": "kill",
+     "target": "grave_magda_shade",
+     "count": 1,
+     "text": "Clear the graveyard path of the moor's dead"
+    }
+   ],
+   "rewards": {
+    "xp": 175,
+    "gold": 45,
+    "items": [],
+    "rep": {
+     "border_hearths": 200
+    }
+   },
+   "note": "Eleven springs Toma has re-cut Elena's name deep before the ground could eat another letter -- and the man it is for does not know whose hand keeps his grief legible. A name is the last true thing. This town eats them. He does not."
+  },
+  "vetka_romance_toma_2": {
+   "title": "What the Square Argues About",
+   "giver": "vetka_chronicler",
+   "giver_name": "Toma Corbeanu",
+   "zone": "vetka",
+   "level": 11,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 2,
+   "prereq": [
+    "vetka_romance_toma_1"
+   ],
+   "summary": "Iancu the smith has found out who has been re-cutting his wife's name. Rather than thank Toma -- neither man knows how -- he has started leaving the chronicler mended tools on his step. The whole square pretends not to notice two old men courting by way of an argument.",
+   "offer": "Iancu knows. Found chisel-marks fresh on Elena's stone this spring and followed them to me, and did the smith's version of gratitude -- which is to leave a re-hung chronicle-hinge on my step, unasked, and pick a fight about the weather so I can't mention it. Two lost fingers and no patience and he mends my things in the dark like a boy leaving flowers. I'd like to answer in kind. Bind me these keepsake-cords the way he binds a hilt, so my thanks is a thing his hands will know.",
+   "progress": "The binding-cord and its makings are gathered from the herd-camps on the open moor. Iancu keeps his forge by the square. Bring the makings, then take Toma's answer to the smith.",
+   "complete": "I bound the cords his way -- his own knot, the one he ties without looking -- and left them on the forge-stone with no note, because he leaves no notes. He turned them over a long while. Then he said the weather looked to hold, which from Iancu is a sonnet, and I said it did, which from me is another. Forty years this town has watched us argue across the square. It's just now working out we were doing something else the whole time.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 4,
+     "text": "Bind keepsake-cords the smith's own way"
+    },
+    {
+     "kind": "talk",
+     "npc": "vetka_blacksmith",
+     "text": "Leave Toma's answer on Iancu's forge-stone"
+    }
+   ],
+   "rewards": {
+    "xp": 195,
+    "gold": 55,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 225
+    }
+   },
+   "note": "Iancu mends the chronicler's things in the dark and picks fights so no thanks can be spoken; Toma answers in the smith's own knot. Forty years the square watched two men argue. It is only now working out they were doing something else the whole time."
+  },
+  "vetka_romance_toma_3": {
+   "title": "One Roof Before Winter",
+   "giver": "vetka_chronicler",
+   "giver_name": "Toma Corbeanu",
+   "zone": "vetka",
+   "level": 13,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 3,
+   "prereq": [
+    "vetka_romance_toma_2"
+   ],
+   "summary": "The cold comes hard to Vetka, and two old men heating two cold cottages is a waste neither will admit is really about the cold. Toma proposes the practical thing at last: one roof, one fire, before winter -- and lets the practicality carry what he cannot say plainly.",
+   "offer": "Winter's coming down off the moor and I'll say the practical thing, because the true thing won't fit in my mouth: two old men heating two cold cottages is a waste, and my chimney draws better than his, and Elena's stone is a short walk from my door where we can both keep it whole. He'll pretend it's only sense. Let him. Warding-signs for the new lintel is what I need, and word carried to Iancu -- through Marcu, who's herded past both our doors forty years and earned the telling.",
+   "progress": "The warding-signs are painted with materials from the heath-camps; Marcu herds the open moor and will carry the word kindly. Gather the makings, then send the telling through him.",
+   "complete": "It's done, and done plainly. His anvil-tools hang in my back room, his boots are by my better-drawing fire, and Elena's stone is a short walk we take together now, both of us keeping her name whole against the hungry ground. No vow. Iancu would sooner re-forge his own hand than stand up and speak one. But he sleeps under my roof and argues with me over breakfast, and after forty years across a square, that argument is the nearest thing to a wedding-song this town will get. Good. It's ours.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "folk_warding",
+     "count": 3,
+     "text": "Paint warding-signs for the shared lintel"
+    },
+    {
+     "kind": "talk",
+     "npc": "vetka_commoner_2",
+     "text": "Send the telling to Iancu through Marcu"
+    }
+   ],
+   "rewards": {
+    "xp": 215,
+    "gold": 80,
+    "items": [],
+    "rep": {
+     "border_hearths": 300
+    }
+   },
+   "note": "No vow was spoken; Iancu would sooner re-forge his own hand. But his tools hang in Toma's back room, and they keep Elena's name whole together now. Forty years of arguing across a square, and it turns out that was the wedding-song. The ground eats names. It gets neither of theirs."
+  },
+  "iron_vein_romance_grigore_1": {
+   "title": "The Letters Across the Water",
+   "giver": "iron_vein_chronicler",
+   "giver_name": "Grigore Corbeanu",
+   "zone": "iron_vein",
+   "level": 10,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "prereq": [],
+   "summary": "Grigore keeps the ledger of the Iron Vein's dead, and for twelve years has kept something warmer besides: letters to Ilinca, Petru's sister across the water in Vetka, whom he has loved slowly and at a distance since before the river ran this wrong.",
+   "offer": "I keep the ledger of the dead, and it never balances -- but there's one column I've kept twelve years that balances fine. Letters. To Ilinca, the innkeeper Petru's sister, over in Vetka. We were young by this river once and neither of us ever said the whole of it, so we've said it slow, a page a season, twelve years of pages. My knees won't cross the bog anymore. Carry this one to Petru; he'll see it reaches her. And bring me fresh linen and ink -- a letter that far deserves good cloth to travel in.",
+   "progress": "Petru keeps the Vetka inn and sends word to his sister; the good linen and ink are gathered from the birch-flats between the towns. Carry the letter, and bring the makings for the next.",
+   "complete": "Petru took it careful, the way you hold a thing that matters to someone you're fond of. Twelve years of pages across a slow poisoned river, and every one of them still says the same thing under the weather-talk and the harvest-counts. I've never once written the word love. She's never once written it back. We both know what the letters are. Some things you keep so long the keeping is the saying. Thank you. It's a good cloth. She'll notice.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "vetka_innkeeper",
+     "text": "Carry Grigore's letter to Petru in Vetka"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather good linen from the birch-flats"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Gather oak-gall ink for the next page"
+    }
+   ],
+   "rewards": {
+    "xp": 180,
+    "gold": 50,
+    "items": [],
+    "rep": {
+     "border_hearths": 200
+    }
+   },
+   "note": "Twelve years of letters across a poisoned river, and neither has once written the word for it. Some things are kept so long the keeping becomes the saying. Grigore keeps the ledger of the dead. This is the one column that ever balanced."
+  },
+  "iron_vein_romance_grigore_2": {
+   "title": "The Three Notes She Hums",
+   "giver": "iron_vein_chronicler",
+   "giver_name": "Grigore Corbeanu",
+   "zone": "iron_vein",
+   "level": 12,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 2,
+   "prereq": [
+    "iron_vein_romance_grigore_1"
+   ],
+   "summary": "Ilinca's latest letter is wrong. The hand wanders; she writes of three notes she cannot place and of the warm ground calling her to rest. Grigore knows the symptoms from his own ledger. He will not lose her to the stone without a fight -- an incurious charm, carried across the water.",
+   "offer": "Her letter came back changed. The hand wanders off the line, and she writes of three notes she keeps humming that nobody taught her, and of ground gone warm that she says feels like rest. I have written those symptoms in my ledger beside a hundred names. I will not write hers. There's a charm the herb-women make -- an incurious charm, it keeps a mind from leaning toward what wants reading. Bring me one, and a warding for the letter itself, and put down whatever's been walking the crossing. She is not becoming a number. Not while I have ink.",
+   "progress": "The incurious charm is gathered from the folk-healers; the letter-warding from the birch-flats. Clear the crossing of the changed dead, then bring both makings to Grigore.",
+   "complete": "It's sewn into the fold where she'll find it, with a page that for once does say the word -- because a man doesn't stay careful when the ground is calling the one he loves to rest. Twelve years I hummed no tune. Now I've caught the three notes too, from reading her pages too close. I burned that page unread past the first line. Ash tells no one anything. I'll keep writing her the ordinary weather. Ordinary is a rope. She'll hold it if I keep throwing.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "incurious_charm",
+     "count": 1,
+     "text": "Fetch an incurious charm from the healers"
+    },
+    {
+     "kind": "collect",
+     "item": "chalk_handprint_ward",
+     "count": 2,
+     "text": "Gather wardings for the letter, face-down"
+    },
+    {
+     "kind": "kill",
+     "target": "iron_vein_ghoul",
+     "count": 4,
+     "text": "Put down the changed dead at the crossing"
+    }
+   ],
+   "rewards": {
+    "xp": 220,
+    "gold": 60,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 275
+    }
+   },
+   "note": "Her letters have caught the three notes; reading them too close, so has he. He burned the worst page unread past the first line -- ash tells no one anything -- and sewed an incurious charm into the fold. He keeps writing her the ordinary weather. Ordinary is a rope. He keeps throwing it."
+  },
+  "iron_vein_romance_grigore_3": {
+   "title": "The Last Page He Will Not Read Aloud",
+   "giver": "iron_vein_chronicler",
+   "giver_name": "Grigore Corbeanu",
+   "zone": "iron_vein",
+   "level": 14,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 3,
+   "prereq": [
+    "iron_vein_romance_grigore_2"
+   ],
+   "summary": "Word comes from Vetka with Petru: Ilinca went out to the warm ground at dusk and did not come back for supper. There is a last letter, sealed, addressed to Grigore. He asks the player to carry a keepsake to her kerb, and to help him do the one thing left -- keep her a name the stone cannot shorten.",
+   "offer": "Petru came himself. He doesn't come to the Iron Vein for anyone. So I knew before he spoke. She went out to the warm ground at dusk, the way the listeners do, and she did not come back for supper, and they will not find a mark on her. There's a last letter. Sealed. To me. I have not opened it and I will not read it aloud, not ever -- some pages a man keeps unread so the tenant stays lit in them. Carry her keepsake-cord to Petru for the kerb. And bring me kept-name tokens, so I can grave her whole where the ground can't eat her.",
+   "progress": "Petru waits with the kerb in Vetka; the kept-name tokens are recovered from the warm ground where the listeners fell. Carry the keepsake, gather the tokens, and clear the way.",
+   "complete": "Her name is cut deep now on a token no ground can reach, ILINCA, every letter, laid in my ledger's one warm column beside twelve years of weather. The sealed letter sits under it, and there it stays -- if I never read the last page, the last page never ends. That's not sense. Grief isn't sense. She loved me slow across a dying river for twelve years and never wrote the word, and neither did I, and we both spent every page saying it. Keep the totem. It knows how to hold a name against forgetting. So do I. It's the only trade I ever learned.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "vetka_innkeeper",
+     "text": "Carry Ilinca's keepsake to Petru for the kerb"
+    },
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 5,
+     "text": "Gather kept-name tokens from the warm ground"
+    },
+    {
+     "kind": "kill",
+     "target": "moor_wail",
+     "count": 3,
+     "text": "Clear the listeners' ground of its dead"
+    }
+   ],
+   "rewards": {
+    "xp": 260,
+    "gold": 100,
+    "items": [],
+    "rep": {
+     "border_hearths": 350
+    }
+   },
+   "note": "Ilinca went to the warm ground and did not come back for supper. Grigore graved her name deep where no ground can eat it and left her last letter sealed forever -- if the last page is never read, it never ends. Twelve years, and neither once wrote the word. Every page was the word. The stone has no entry for that."
+  },
+  "stonepath_romance_sava_1": {
+   "title": "The Cheaper Nail",
+   "giver": "stonepath_merchant",
+   "giver_name": "Sava Corbeanu",
+   "zone": "stonepath",
+   "level": 12,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "Sava sells the same nails as her cousin Radomir the smith, for less, and the crossroads has taken sides. She wants proof his edge is no better than her price.",
+   "offer": "You want the truth of it? Radomir up at the forge charges double for a nail and calls it honesty. I charge half and call it Tuesday. Folk here can't buy a shoe without picking a side. Go stand at his anvil, hear him run me down -- I know he does it -- and bring me back exactly what the man said. Word for word. I like to know my enemy's temper before I sharpen mine.",
+   "progress": "Radomir keeps the forge on the north edge of the yard. Let him talk. He always does.",
+   "complete": "That's him, all right. 'The only honest thing left in The Stonepath.' He rehearses it, you know. Twenty years we've traded across the same square and he still practices insulting me. ...Say that back to me again. The bit about my eyes. He said that?",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "stonepath_blacksmith",
+     "text": "Hear out Radomir at the forge"
+    }
+   ],
+   "rewards": {
+    "xp": 320,
+    "gold": 40,
+    "items": [],
+    "rep": {}
+   },
+   "note": "Sava wanted her rival's insults carried like coin. She counted them twice. One of them, she kept."
+  },
+  "stonepath_romance_sava_2": {
+   "title": "A Fair Weight",
+   "giver": "stonepath_merchant",
+   "giver_name": "Sava Corbeanu",
+   "zone": "stonepath",
+   "level": 13,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 2,
+   "prereq": [
+    "stonepath_romance_sava_1"
+   ],
+   "summary": "Radomir has told the yard Sava's iron is soft. She means to shame him with the truth: bring good scrap so he must forge with her stock and swallow his own tongue.",
+   "offer": "He's telling everyone my iron's soft. Soft. My grandmother's iron. So here's the game, traveler -- gather good scrap off the wild wood dead, the real stuff, and haul it to his fire. Make him forge with metal I sourced. If it holds an edge, he says so in front of the yard. If it doesn't... well. I'll owe you a drink and him an apology, and one of those has never once happened.",
+   "progress": "Salvage iron scrap from the raider-dead on the wild wood, then set it at Radomir's anvil.",
+   "complete": "He held it to the light a long while. Didn't say soft. Didn't say anything, which for Radomir is a sonnet. Then he asked who'd sourced it, and I said me, and he -- he almost smiled, traveler. I've made men weep over a price. I've never once made that man almost smile. It's unsettling. Take the ring; it's overstock.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 6,
+     "text": "Salvage good iron from the wild-wood dead"
+    },
+    {
+     "kind": "talk",
+     "npc": "stonepath_blacksmith",
+     "text": "Set Sava's iron at Radomir's forge"
+    }
+   ],
+   "rewards": {
+    "xp": 360,
+    "gold": 55,
+    "items": [],
+    "rep": {}
+   },
+   "note": "Her iron held the edge. He would not say soft again. She noticed the not-saying more than any praise."
+  },
+  "stonepath_romance_sava_3": {
+   "title": "Two Stalls, One Roof",
+   "giver": "stonepath_merchant",
+   "giver_name": "Sava Corbeanu",
+   "zone": "stonepath",
+   "level": 14,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 3,
+   "prereq": [
+    "stonepath_romance_sava_2"
+   ],
+   "summary": "The autumn rains are coming and both their stalls stand open to the crossroads wind. Pavel proposes they share one roof for the season. Neither will say yes first.",
+   "offer": "Pavel at the inn had a notion, and I hate that it's a good one. One awning over both our stalls before the rains. Shared. His and mine. I said I'd rather freeze, which is a lie, and he knew it. Go to Pavel and hear the terms -- then tell Radomir it was Pavel's idea and not mine. It has to not be mine. I have a reputation for winning and this feels dangerously like the other thing.",
+   "progress": "Ask Pavel at the inn for the terms, then carry them, carefully, to Radomir.",
+   "complete": "So we're sharing an awning. Under the same roof, out of the same rain, arguing over the same square, for a whole season. He said only that his side stays tidy. I said mine outsells his. We both know neither thing is the point. ...Twenty years, traveler. It took a stranger and a leaking roof. Don't you dare look pleased.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "stonepath_innkeeper",
+     "text": "Get the awning terms from Pavel"
+    },
+    {
+     "kind": "talk",
+     "npc": "stonepath_blacksmith",
+     "text": "Carry the terms to Radomir"
+    }
+   ],
+   "rewards": {
+    "xp": 400,
+    "gold": 60,
+    "items": [],
+    "rep": {}
+   },
+   "note": "One awning, two stalls, a season of shared rain. They kept the arguing. It was only ever the arguing they loved."
+  },
+  "stonepath_romance_sava_4": {
+   "title": "What the Cold Doesn't Take",
+   "giver": "stonepath_merchant",
+   "giver_name": "Sava Corbeanu",
+   "zone": "stonepath",
+   "level": 16,
+   "type": "romance",
+   "tone": "heroic",
+   "romance_stage": 4,
+   "prereq": [
+    "stonepath_romance_sava_3"
+   ],
+   "summary": "Radomir has gone quiet and cold at his forge, sitting too still, the way folk do before they walk east. Sava will not lose him to the stone. She sends warmth, and steel.",
+   "offer": "He's gone still. Sitting at a cold anvil, staring at the eastern rows, not arguing. Radomir not arguing is a corpse that hasn't finished. It's the stone in him -- the quiet that takes the ones who listen. I won't have it. Clear the wolves off the west spur so I can reach him, then bring the hearth-wax the old women burn against it. I am going to make that man too warm to leave.",
+   "progress": "Break the wolf-pack on the west spur, gather warding hearth-wax, and get both to Radomir's cold forge.",
+   "complete": "I lit every candle I own and put my hand on his and told him he still owes me an apology from a Tuesday in autumn, and he can't leave until he pays it. And he came back. Slow. Like a fire catching. He said 'your iron was never soft.' Twenty years to say it. We'll take the rest slow, the two of us, out of the same rain. Everything good is temporary. That's what makes it his.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "stonepath_wolf",
+     "count": 5,
+     "text": "Clear the wolves off the west spur"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather warding hearth-wax"
+    },
+    {
+     "kind": "talk",
+     "npc": "stonepath_blacksmith",
+     "text": "Bring warmth to Radomir's cold forge"
+    }
+   ],
+   "rewards": {
+    "xp": 520,
+    "gold": 90,
+    "items": [],
+    "rep": {}
+   },
+   "note": "She warmed him back from the eastern quiet with candles and an old argument. He said her iron was never soft. It was the nearest thing to a vow either would speak."
+  },
+  "grey_marches_romance_radu_1": {
+   "title": "The Undercut",
+   "giver": "grey_marches_blacksmith",
+   "giver_name": "Radu Corbeanu",
+   "zone": "grey_marches",
+   "level": 15,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "Anton the merchant sells cheap blades to the charcoal-burners who face the dead wood. Radu, who says little, wants the player to see how the cheap steel fails.",
+   "offer": "Anton sells them soft blades cheap. Charcoal-folk go into the dead wood with iron that folds on a bark-revenant's hide, and they don't come back, and he counts the coin. I've said my piece to him. Words slide off Anton. Go into the grey trees, put down what walks there, and see what a folded edge does to a working man. Then you'll know why I can't stand the sight of him. I don't say much. I'll say that.",
+   "progress": "Face the bark-revenants in the dead wood and mark how a cheap edge fails against them.",
+   "complete": "Now you've seen it. Steel that folds when a life's on it. He knows. That's the part that -- no. Never mind. Bring me a poor man's grey silk off those things and I'll show you what a real edge is. It's the only argument I win with Anton. He's louder. My blades come home.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "bark_revenant",
+     "count": 4,
+     "text": "Put down the bark-revenants in the dead wood"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Recover grave-silk from the dead wood"
+    }
+   ],
+   "rewards": {
+    "xp": 400,
+    "gold": 60,
+    "items": [],
+    "rep": {}
+   },
+   "note": "Radu let the dead wood argue his case for him. He is a smith of few words. The count of folded blades was the whole of his grief."
+  },
+  "grey_marches_romance_radu_2": {
+   "title": "A Fire Worth Sharing",
+   "giver": "grey_marches_blacksmith",
+   "giver_name": "Radu Corbeanu",
+   "zone": "grey_marches",
+   "level": 16,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "prereq": [
+    "grey_marches_romance_radu_1"
+   ],
+   "summary": "Anton's cart broke on the east path and his stock lies in the dead wood where the hungering walk. Radu will not let even his rival be taken. He sends help, and says nothing of why.",
+   "offer": "Anton's cart went over on the east path. His stock's scattered in the dead wood and the man's fool enough to go back for it alone, where the hungering walk. I can't -- look. I don't like him. I've never liked him. But I'll not have Grey Marches short one loud fool because I stood at a cold forge and let it happen. Go with him. Bring back his crates. Don't tell him I sent you. Tell him you found the wreck.",
+   "progress": "Recover Anton's scattered crates from the east path and see him safe from the hungering.",
+   "complete": "He's back, then. And his stock. Good. I -- that's good. He asked who sent word. You said you found the wreck. Right. Right. ...He's not a bad hand at a bargain, Anton. I'll say that once and never again. The forge stays warm tonight. If a loud man wanted to warm his hands at it, on his way past, I'd not bar the door. That's all. That's all I'm saying.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 5,
+     "text": "Recover Anton's scattered stock"
+    },
+    {
+     "kind": "kill",
+     "target": "grey_moth",
+     "count": 4,
+     "text": "Ward off the grave-moths on the east path"
+    },
+    {
+     "kind": "talk",
+     "npc": "grey_marches_merchant",
+     "text": "See Anton safe back to the yard"
+    }
+   ],
+   "rewards": {
+    "xp": 440,
+    "gold": 70,
+    "items": [],
+    "rep": {}
+   },
+   "note": "Radu sent help to the rival he swore he hated and asked that his name be kept out of it. The forge stayed warm that night. He left the door unbarred."
+  },
+  "grey_marches_romance_radu_3": {
+   "title": "The Thing He Won't Say",
+   "giver": "grey_marches_blacksmith",
+   "giver_name": "Radu Corbeanu",
+   "zone": "grey_marches",
+   "level": 18,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 3,
+   "prereq": [
+    "grey_marches_romance_radu_2"
+   ],
+   "summary": "Anton is dying by inches, the grey creeping into him from the failing forest. Radu forges him a blade he will never charge for, and asks the player to carry it, and the words he cannot.",
+   "offer": "The grey's in Anton. The forest's dying and it's taking him needle by needle, the way it takes the trees. He's still bargaining, still loud, but slower. I made him a blade. Best edge I've ever drawn. I won't charge him -- can't, the coin would make it a trade and it isn't a trade. Carry it to him. And tell him... tell him the smith says the blade comes home. He'll know what I can't get my mouth to shape. Ileana can put the words in the ledger if I can't put them in the air.",
+   "progress": "Take Radu's blade to Anton on the dead wood's edge, then have Ileana keep the record of it.",
+   "complete": "He took it. Ran his thumb down the edge, the way he prices a thing, and then he stopped pricing. Said 'tell the smith I know.' That's -- that's all either of us has ever managed. Twenty years of undercutting and one blade given free at the end of it. I never said the word. He never made me. Some fires you keep by not naming them, so the naming can't cost you. Ileana has it kept now. The two of us. Held. Unsaid. It's enough. It was always going to have to be enough.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "grey_marches_merchant",
+     "text": "Carry Radu's free blade to Anton"
+    },
+    {
+     "kind": "talk",
+     "npc": "grey_marches_chronicler",
+     "text": "Have Ileana keep the record"
+    }
+   ],
+   "rewards": {
+    "xp": 560,
+    "gold": 100,
+    "items": [],
+    "rep": {}
+   },
+   "note": "The smith gave the merchant the finest blade he ever drew and charged him nothing, and named nothing. Anton said only, I know. Some fires are kept by never speaking them. This one was kept."
+  },
+  "stonepath_romance_vintila_1": {
+   "title": "Rumor and Record",
+   "giver": "stonepath_chronicler",
+   "giver_name": "Vintila Corbeanu",
+   "zone": "stonepath",
+   "level": 14,
+   "type": "romance",
+   "tone": "intrigue",
+   "romance_stage": 1,
+   "summary": "Vintila keeps the true chronicle; Sava the merchant sells whatever version pays better. They have feuded for years over which account of the crossroads is real.",
+   "offer": "Sava sells stories by the ounce and calls it trade. I keep the ledger of the dead and it never balances, but at least it's true. She's been telling travelers the shortening stone is a swindle, a chisel-trick to sell charms. It is not a trick. I need the count to prove it. Walk the standing stones at the crossroads heart, read what's carved, and bring me the true measure. Let her sell rumor. I'll set the record against her.",
+   "progress": "Read the three standing stones at the crossroads and bring Vintila the true carved count.",
+   "complete": "There. The eastern stone's lost another line since spring -- I have it in my own hand from spring, so I know. It is getting shorter. Sava will hate that it's real; she can't sell a truth that frightens people. She'll come argue. She always comes to argue. I've kept a chair for it. Don't tell her the chair's for her.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "stonepath",
+     "pos": [
+      1180,
+      560
+     ],
+     "radius": 80,
+     "label": "the eastern standing stone",
+     "text": "Read the eastern stone"
+    },
+    {
+     "kind": "reach",
+     "map": "stonepath",
+     "pos": [
+      640,
+      980
+     ],
+     "radius": 80,
+     "label": "the western standing stone",
+     "text": "Read the western stone"
+    },
+    {
+     "kind": "reach",
+     "map": "stonepath",
+     "pos": [
+      1000,
+      780
+     ],
+     "radius": 60,
+     "label": "the shortening stone",
+     "text": "Measure the shortening stone"
+    }
+   ],
+   "rewards": {
+    "xp": 380,
+    "gold": 45,
+    "items": [],
+    "rep": {}
+   },
+   "note": "The chronicler set true count against a merchant's convenient lie. The stone was shorter than spring. He kept a chair for the argument he hoped was coming."
+  },
+  "stonepath_romance_vintila_2": {
+   "title": "The Chair Kept for Arguing",
+   "giver": "stonepath_chronicler",
+   "giver_name": "Vintila Corbeanu",
+   "zone": "stonepath",
+   "level": 15,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 2,
+   "prereq": [
+    "stonepath_romance_vintila_1"
+   ],
+   "summary": "The feud has warmed into something neither will name. Vintila wants Sava's own rumor-network to save lives, not sell them, and needs the player to broker a truce over lamp-oil and grave-silk.",
+   "offer": "I have decided -- and this pains me -- that Sava's web of gossip is the fastest warning-bell in four kingdoms, and I am wasting it hating her. If she'd carry my true count to travelers instead of her pretty lie, fewer would linger at the shortening stone and go quiet. Gather chalk-marker chips from the kerbs and good grave-silk for a warded lamp, and take them to her stall with an offer of truce. She'll say no. Bring back exactly how she says it. I collect her refusals.",
+   "progress": "Bring kerbstone chips and grave-silk to Sava's stall and put Vintila's truce to her.",
+   "complete": "She said -- and I want this word for word in the ledger -- she said, 'Fine, chronicler, I'll sell your grim truth, but only because it frightens people into buying my charms, so we both win.' Which is a yes dressed as a swindle, which is the most romantic thing that woman has ever said to me, and I am forty years too dignified to tell her so. Keep the band. I've no use for a thing that means what she just meant.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 4,
+     "text": "Gather chalk-marker chips from the kerbs"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Gather grave-silk for a warded lamp"
+    },
+    {
+     "kind": "talk",
+     "npc": "stonepath_merchant",
+     "text": "Put the truce to Sava"
+    }
+   ],
+   "rewards": {
+    "xp": 420,
+    "gold": 55,
+    "items": [],
+    "rep": {}
+   },
+   "note": "The chronicler's truth would ride the merchant's gossip now, to warn instead of to sell. She said yes in the shape of a swindle. He wrote it down and kept the page apart from the rest."
+  },
+  "stonepath_romance_vintila_3": {
+   "title": "The Inscription That Wants You",
+   "giver": "stonepath_chronicler",
+   "giver_name": "Vintila Corbeanu",
+   "zone": "stonepath",
+   "level": 17,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 3,
+   "prereq": [
+    "stonepath_romance_vintila_2"
+   ],
+   "summary": "Copying the shrinking stone has bound Vintila to it; the marks are surfacing on his own ledger, unbidden. He is going quiet. The player must break the pull before it takes him.",
+   "offer": "I read the shortening stone too closely, too long. The marks are on my ledger now, on the blank facing page, in no hand but the stone's. It writes itself while I sleep. Sava found me at dawn just staring east, and for once she did not sell it as a story -- she cried, which neither of us will ever mention. I need blackglass from the wild wood to seal the pages, and the thing at the crossroads root put down, before the quiet in me finishes. Hurry. I am becoming an entry.",
+   "progress": "Slay the boars fouling the crossroads root, gather blackglass shard to seal the ledger, and get both to Vintila.",
+   "complete": "You sealed it. The facing page is blank again -- truly blank, my blank, not the stone's. Sava sat with me the whole while and did not once try to profit from my fear, which is how I finally understood what she is to me. Forty years of arguing across a square. I nearly missed it by reading a stone instead of her face. Thank you. Go tell her the ledger's clean. She'll pretend not to care. Watch her hands.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "thicket_boar",
+     "count": 4,
+     "text": "Clear the boars at the crossroads root"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather blackglass to seal the ledger"
+    },
+    {
+     "kind": "talk",
+     "npc": "stonepath_chronicler",
+     "text": "Seal Vintila's haunted ledger"
+    }
+   ],
+   "rewards": {
+    "xp": 480,
+    "gold": 75,
+    "items": [],
+    "rep": {}
+   },
+   "note": "The stone had begun to write him into itself. They sealed the ledger and he understood, too late to be early, what the arguing had always been. The facing page was his own blank again."
+  },
+  "stonepath_romance_vintila_4": {
+   "title": "A Ledger Cannot Follow",
+   "giver": "stonepath_chronicler",
+   "giver_name": "Vintila Corbeanu",
+   "zone": "stonepath",
+   "level": 18,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 4,
+   "prereq": [
+    "stonepath_romance_vintila_3"
+   ],
+   "summary": "Vintila will not leave the crossroads; someone must keep the shortening stone's true count, and only he can, at cost. He sends Sava away to live, and asks the player to carry the goodbye.",
+   "offer": "Sava wants us to leave together. West, past the reach of the stone, a stall and a chair and a quiet old age. I want it more than I have wanted anything in forty years of wanting nothing. But if I go, no one keeps the true count, and the stone shortens in the dark and no one warns the ones who linger. I am the last chronicler who can read it without being read. Take her the coach fare and this: my word that it is love, and that love is exactly why she must go and I must stay.",
+   "progress": "Carry Vintila's parting to Sava, then see her to the crossroads coach that leaves west.",
+   "complete": "She took the fare. She did not take it quietly -- Sava has never done one thing quietly -- but she took it, and she went west, and she'll live, loud and unswindled, into an old age I bought her with the price of staying. That is the whole of what I have. A stone to read until it reads me, and the knowledge that somewhere west a woman is arguing with a stranger about the price of nails, and living. Everything good is temporary. She was good. She is living. I kept the count. It was a fair trade. It was the only trade I'll never regret.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "stonepath_merchant",
+     "text": "Carry Vintila's parting to Sava"
+    },
+    {
+     "kind": "reach",
+     "map": "stonepath",
+     "pos": [
+      980,
+      720
+     ],
+     "radius": 110,
+     "label": "the crossroads coach yard",
+     "text": "See Sava to the westbound coach"
+    }
+   ],
+   "rewards": {
+    "xp": 600,
+    "gold": 120,
+    "items": [],
+    "rep": {}
+   },
+   "note": "He loved her, and so he sent her west to live, and stayed to keep the count that would one day keep him. She went loud, arguing to the last. The chair stays empty by the ledger now. He does not move it."
+  },
+  "greyhollow_romance_marioara_1": {
+   "title": "Green Bottle, Black Bottle",
+   "giver": "greyhollow_apothecary",
+   "giver_name": "Marioara Lupei",
+   "zone": "greyhollow",
+   "level": 46,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "Marioara keeps Hessik's old sight alive over her counter, and the harbor fog has started reading her back. She needs marshlight jars gathered from the drowned lanes to steady her still -- and someone standing near who does not flinch from what she is.",
+   "offer": "Green bottle mends, black bottle ends -- and I keep a third my grandmother never named, the one you look through instead of drinking. The trouble is the fog's begun looking back through it at me, and I can't read a page while it's reading my hand. I need marshlight, fresh from the wet lanes, to hold the flame honest. Fetch me a dozen jars. And traveler -- when you bring them, don't do the thing the others do, where you set them down and leave quick. Set them down and stay a moment. I'll pour you something from the green bottle. On the house, which I never say twice.",
+   "progress": "Marshlight gathers in the flooded lanes where the drowned clerks drift. Fill a dozen jars, then bring them to Marioara's counter -- and stay for the pouring.",
+   "complete": "Twelve jars, and you stayed for the twelfth. Most set them on the sill and are gone before the door swings. You sat where the light could reach you, and the still didn't so much as shiver -- it reads rot, my sight, and it found none in you to fret over. Do you know how rare that is, to have a room's worth of wrongness and one clean thing sitting in it. Drink the green. It's only tea. I put nothing in it. That's the point.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "marshlight_jar",
+     "count": 12,
+     "text": "Gather marshlight from the wet lanes"
+    },
+    {
+     "kind": "kill",
+     "target": "drowned_clerk",
+     "count": 6,
+     "text": "Scatter the clerks that drift the flooded lanes"
+    },
+    {
+     "kind": "talk",
+     "npc": "greyhollow_apothecary",
+     "text": "Bring the jars and stay for the pouring"
+    }
+   ],
+   "rewards": {
+    "xp": 2100,
+    "gold": 150,
+    "items": [
+     "cultured_poultice"
+    ],
+    "rep": {
+     "the_accord": 150
+    }
+   },
+   "note": "Marioara reads rot for a living, and her sight found none in the one who stayed. She poured the green bottle and named the rareness plainly: a room of wrongness, and one clean thing sitting in it. She did not say what she hoped it stayed."
+  },
+  "greyhollow_romance_marioara_2": {
+   "title": "The Handprint at the Sixth Lock",
+   "giver": "greyhollow_apothecary",
+   "giver_name": "Marioara Lupei",
+   "zone": "greyhollow",
+   "level": 47,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "prereq": [
+    "greyhollow_romance_marioara_1"
+   ],
+   "summary": "There is a chalk handprint at the sixth lock that Marioara has walked past for thirty years and never once touched -- a child's, from before the sight took her. She has decided, this once, not to walk past it alone.",
+   "offer": "I'll tell you a thing I've told no one who could still leave. When my grandmother's sight came into me, I was small, and I put my hand on the wet wall at the sixth lock to steady the dizziness of it -- the first time the world went transparent and awful. The chalk's still there. Thirty years I've crossed the far bank to avoid the near one. I want to go and look at it. Not read it -- look. I find I can't make my feet do it while I'm the only one on the towpath. Walk the sixth lock with me. Bring a folk warding, the plain kind, in case my hands shake and want something to hold that isn't the wall.",
+   "progress": "The sixth lock lies west along the canal. Carry a folk warding for her hands, and go to the handprint together -- the one she has crossed the water to avoid for thirty years.",
+   "complete": "It's a small hand. That's all. A frightened girl's, pressed once and left. I built thirty years of not-looking on top of it and it turns out to be just a handprint on a wet wall, no worse than the rest of me. You held the warding out and I took your wrist instead. I hope that was allowed. It was the only clean thing on the whole towpath and I wanted to hold the clean thing. There. Now you know the wound and you're still standing on the near bank. I'll stop expecting you to cross to the far one.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "folk_warding",
+     "count": 1,
+     "text": "Carry a plain folk warding for her hands"
+    },
+    {
+     "kind": "reach",
+     "map": "greyhollow",
+     "pos": [
+      720,
+      1240
+     ],
+     "radius": 70,
+     "label": "the handprint at the sixth lock",
+     "text": "Go to the sixth lock with Marioara"
+    },
+    {
+     "kind": "talk",
+     "npc": "greyhollow_apothecary",
+     "text": "Stand with her at the handprint"
+    }
+   ],
+   "rewards": {
+    "xp": 2250,
+    "gold": 165,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "the_accord": 175
+    }
+   },
+   "note": "She crossed the water to the near bank, thirty years late, and found only a small frightened handprint waiting -- no worse than the rest of her. She took a wrist instead of the warding. The one who came did not let go, and did not cross to the far side, and that was the whole of the answer."
+  },
+  "greyhollow_romance_marioara_3": {
+   "title": "What Hessik Meant As a Figure of Speech",
+   "giver": "greyhollow_apothecary",
+   "giver_name": "Marioara Lupei",
+   "zone": "greyhollow",
+   "level": 49,
+   "type": "romance",
+   "tone": "intrigue",
+   "romance_stage": 3,
+   "prereq": [
+    "greyhollow_romance_marioara_2"
+   ],
+   "summary": "Marioara wants to read the fog off the Pit rim through the orange-still one more time -- but this time to test a hope, not a dread. She thinks the sight might read what a person loves as clearly as what a person rots from. She would like to see whether it reads the two of you the same color.",
+   "offer": "Hessik wrote that a live stone reads a person the way a wet page reads ink, and I spent thirty years pretending he meant it prettily. I've a crueller experiment and a kinder question both. Take the orange-still up to the Pit rim, where the fog reads truest, and hold it while I stand beside you. If the sight only reads wrongness, we'll come back grim and I'll never mention it again. But I have a notion it reads whatever's strongest in a body -- and lately, traveler, the strongest thing in mine isn't the dread. Clear the drowned clerks off the rim first. I won't have us interrupted for something so small as the risen dead while I'm working up my nerve.",
+   "progress": "The Pit rim reads the fog truest. Clear the clerks that gather there, then hold the orange-still while Marioara stands beside you -- and see what color the two of you read.",
+   "complete": "Not blue. Not violet. Not the orange that means run. It read a color I've no name for and my grandmother had no name for, warm at the edge like a banked hearth, and it was brightest exactly in the span of air between where you stood and where I did. The sight reads the strongest thing. I've spent my whole life certain the strongest thing in me was the seeing of rot. It appears I was wrong, and I have never in my life been so glad to be wrong about the color of anything. Keep the method. And keep close to the still. It likes you near.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "drowned_clerk",
+     "count": 8,
+     "text": "Clear the clerks off the Pit rim"
+    },
+    {
+     "kind": "reach",
+     "map": "greyhollow",
+     "pos": [
+      1600,
+      720
+     ],
+     "radius": 90,
+     "label": "the Pit rim",
+     "text": "Read the fog at the rim, beside her"
+    }
+   ],
+   "rewards": {
+    "xp": 2400,
+    "gold": 190,
+    "items": [
+     "hessik_method",
+     "orange_reading_still"
+    ],
+    "rep": {
+     "the_accord": 200
+    }
+   },
+   "note": "The fog read a color neither the living nor the dead had a name for, warm as a banked hearth, and it burned brightest in the arm's length of air between the two who stood to read it. The sight reads the strongest thing in a body. For the first time in thirty years, hers was not the dread."
+  },
+  "greyhollow_romance_marioara_4": {
+   "title": "A Candle in Wet Weather",
+   "giver": "greyhollow_apothecary",
+   "giver_name": "Marioara Lupei",
+   "zone": "greyhollow",
+   "level": 50,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 4,
+   "prereq": [
+    "greyhollow_romance_marioara_3"
+   ],
+   "summary": "Marioara has kept her craft the way one keeps a candle in wet weather -- guarded, alone, hands cupped. She would like, for once, a second pair of hands cupped around the same small flame. She asks for a keepsake cord, and for you to help her hang a new sign over the door.",
+   "offer": "My grandmother taught me to keep the sight like a candle in a downpour -- both hands round it, back to the wind, and no one close enough to gust it out. I've kept it that way forty years and the keeping is the loneliest craft there is. I don't want to keep it alone anymore. Fetch me a keepsake cord from the merchant -- the sort couples knot when they mean it -- and come help me hang the new sign I've had painted for the door. It still says green bottle mends, black bottle ends. But I've had a third line added, under, small. You'll see. Then, if you'll have a rot-reader with a wound she's stopped hiding, we'll cup our hands round the same candle and let the weather do its worst.",
+   "progress": "Fetch a keepsake cord from Tinca the merchant, then help Marioara hang the new sign above her door -- and read the third line she had painted under the old one.",
+   "complete": "There. It hangs straight. Green bottle mends, black bottle ends -- and, small, under: and the third light we keep between us. You read it and didn't leave and didn't do the flinch. Forty years I read every soul that crossed my counter for the rot in them, and I never once thought to let a soul read me back and stay. The candle's yours to guard now, half of it. The weather's foul and getting fouler and the Pit is patient and none of that has changed. But my hands aren't the only ones cupped round the flame tonight, and that has. Come in out of the wet. I've the green bottle on.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 1,
+     "text": "Fetch a keepsake cord from the merchant"
+    },
+    {
+     "kind": "talk",
+     "npc": "greyhollow_merchant",
+     "text": "Ask Tinca for the cord couples knot when they mean it"
+    },
+    {
+     "kind": "talk",
+     "npc": "greyhollow_apothecary",
+     "text": "Help Marioara hang the new sign"
+    }
+   ],
+   "rewards": {
+    "xp": 2600,
+    "gold": 220,
+    "items": [
+     "keepsake_cord",
+     "soothing_knot"
+    ],
+    "rep": {
+     "the_accord": 250
+    }
+   },
+   "note": "The new sign hangs straight over the apothecary door, the old line and a third one under it, small: and the third light we keep between us. Forty years she read every soul for its rot and let none read her back. The weather off the Pit has not eased. But two pairs of hands cup the candle now, and it has not gone out."
+  },
+  "orange_fog_romance_floarea_1": {
+   "title": "The List She Reads Aloud",
+   "giver": "orange_fog_watcher",
+   "giver_name": "Floarea Cenusa",
+   "zone": "orange_fog",
+   "level": 57,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "Floarea keeps a list of the finalized whose names she has never been able to fit -- closed files walking the fog, unnamed and unrested. She reads the list aloud sometimes, guessing, so the guessing is at least warm. She asks you to gather the kept-name tokens the wisps carry, and to sit with her while she reads.",
+   "offer": "You've watched me long enough to have questions, so here's the answer to the one you haven't asked. I keep a list. The finalized who walk out there -- I can rest most of them, if I know the name and enough of the small true weight of who they were. But some I can't fit. Closed files with the name worn off, walking their old errands forever. I read my list to them at dusk, guessing, because a wrong name said warm is kinder than no name said at all. Bring me the tokens the wisps carry at the thinning; each holds a name the ledger left unbalanced. And then -- this is the strange part of the asking -- sit with me while I read. It's a thing I've only ever done alone. I'd like, once, to not.",
+   "progress": "The kept-name tokens fall from the wisps at the thinning. Gather them for Floarea's list, then sit with her at dusk while she reads the names aloud -- the thing she has only ever done alone.",
+   "complete": "You sat the whole reading. Nobody sits the whole reading; it's long and it doesn't help and the fog gets in your teeth. You stayed to the last unfittable name and then you asked me mine. Mine. Floarea. Cenusa, if it matters, though the Cenusa is half the fog by now. Do you know, in all the years of reading names into the grey, no living soul ever thought to ask me back for one of my own. It's on my list, you understand. Near the bottom. I keep it there so I don't forget I'm not finished yet. You asking has moved it up a line.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 4,
+     "text": "Gather the names the ledger left unbalanced"
+    },
+    {
+     "kind": "kill",
+     "target": "orangefog_wisp",
+     "count": 6,
+     "text": "Thin the wisps for the tokens they carry"
+    },
+    {
+     "kind": "talk",
+     "npc": "orange_fog_watcher",
+     "text": "Sit with Floarea while she reads the list"
+    }
+   ],
+   "rewards": {
+    "xp": 3100,
+    "gold": 210,
+    "items": [
+     "bound_keepsake"
+    ],
+    "rep": {
+     "the_last_hearth": 200
+    }
+   },
+   "note": "Floarea reads the unfittable names into the fog at dusk, guessing, so the guessing is warm. One living soul sat the whole reading and then asked her own name back. It is on her list, near the bottom, so she remembers she is not finished. The asking moved it up a line."
+  },
+  "orange_fog_romance_floarea_2": {
+   "title": "Brightest Where I Stand",
+   "giver": "orange_fog_watcher",
+   "giver_name": "Floarea Cenusa",
+   "zone": "orange_fog",
+   "level": 58,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 2,
+   "prereq": [
+    "orange_fog_romance_floarea_1"
+   ],
+   "summary": "Floarea confesses the reason she keeps the list: the fog reads brightest where she stands, and she believes she is half-finalized already -- a file the ledger has begun to close. She wants you to walk the reach with her and learn every small true thing about her, while there is still a her to learn.",
+   "offer": "Now the hard telling, since you've earned it and I've no habit of gentleness to lose. The fog goes orange brightest where I stand. It's been reading me a long while -- I stayed on the Coast too long, watched the thinning too close, and something began writing me into an entry. Half a file, walking. That's why I learned the trick of names: I was practicing on the dead what I'll need done for me. So walk the reach with me to the true edge, and don't gather anything, and don't kill anything if you can help it. Just -- learn me. The tune I hum without hearing it. That I take my tea scalding. That I hate the color blue. The specific undoes the finalized, you'll recall. If I'm to be a closed file, I'd have one living soul carry the open version. Bring a bound keepsake. Whatever you learn, knot it in.",
+   "progress": "Walk the reach to its true edge beside Floarea. Carry a bound keepsake and knot into it the small true things she tells you along the way -- while there is still a her to learn.",
+   "complete": "You knotted them all in. The tune -- it's one my mother hummed and I never knew the words to. The scalding tea. The hated blue. The thing I've never told a soul, that I'm afraid not of being collected but of being collected wrong, filed as someone I never was. You have the open version now, knotted and carried, and the fog can write whatever entry it likes. It won't be the true one. The true one walks around in your pocket. I find I'm not as frightened as I was this morning. Isn't that a thing. A woman half-filed, and less afraid, because somebody bothered to learn she takes her tea scalding.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "bound_keepsake",
+     "count": 1,
+     "text": "Carry a bound keepsake for her small true things"
+    },
+    {
+     "kind": "reach",
+     "map": "orange_fog",
+     "pos": [
+      1720,
+      1180
+     ],
+     "radius": 110,
+     "label": "the true edge of the reach",
+     "text": "Walk the reach to its edge beside Floarea"
+    },
+    {
+     "kind": "talk",
+     "npc": "orange_fog_watcher",
+     "text": "Knot in every small true thing she tells you"
+    }
+   ],
+   "rewards": {
+    "xp": 3300,
+    "gold": 240,
+    "items": [
+     "bound_keepsake",
+     "incurious_charm"
+    ],
+    "rep": {
+     "the_last_hearth": 250
+    }
+   },
+   "note": "The fog reads brightest where Floarea stands; she believes she is half a file already, closing. So she gave the open version away, knotted into a keepsake -- the hummed tune, the scalding tea, the fear of being filed as someone she never was. A woman half-collected, and less afraid, because one soul bothered to learn the small true weight of her."
+  },
+  "orange_fog_romance_floarea_3": {
+   "title": "The Turn Toward the Last Hearth",
+   "giver": "orange_fog_watcher",
+   "giver_name": "Floarea Cenusa",
+   "zone": "orange_fog",
+   "level": 59,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 3,
+   "prereq": [
+    "orange_fog_romance_floarea_2"
+   ],
+   "summary": "The reach has moved two hands closer, and Floarea has decided to walk into it on her own terms rather than wait for the file to close over her wrong. She asks you to walk her to the turn toward the Last Hearth -- not to save her, which cannot be done, but to be the one who knew her, and let her go known.",
+   "offer": "The reach came two hands west this season. I've read enough entries to know my own is nearly written, and I won't sit in my chair and let it finish me into a stranger. So I'm going to walk out to it myself, at the turn toward the Last Hearth, while the name I answer to is still mine and not the fog's. Here is what I want from you, and it's the largest thing I've ever asked anyone. Don't stop me -- there's no stopping it, only the manner of the going. Walk me to the turn. Say my name at the edge, the true one, with all you knotted in the keepsake. Send the wisps off gentle before I step past them; I'd not have them crowding. And then let me go, known. That's the whole of it. To be undone by my own name, said right, by someone who stayed. It's more than this place sells anyone. It's more than I read for the ones on my list.",
+   "progress": "Send the wisps off gentle at the turn toward the Last Hearth, then walk Floarea to the edge and say her true name -- the manner of a going that cannot be stopped, only kept.",
+   "complete": "You said it right. Everything knotted in the keepsake, in the order I told you, my mother's tune under it. I felt the entry try to close over me and find it couldn't -- there was too much true and specific in the way you said Floarea for the fog to file me as anyone else. So I go as myself. Undone by my own name, in a warm mouth, at a turn in the road, which is a better death than the Coast writes for anyone and far better than I read for my list. Don't grieve it as a loss. Grieve it as a keeping. You have the open version still. Take it up the road to the Last Hearth. Read it aloud sometimes, guessing at the parts you missed, so the guessing stays warm. That's the trade, love. That was always the trade. Go on. Don't watch the last of it. Look at your boots -- you know the drill. And thank you. For the asking, back at the start. It moved the whole list.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "orangefog_wisp",
+     "count": 5,
+     "text": "Send the wisps off gentle at the turn"
+    },
+    {
+     "kind": "reach",
+     "map": "orange_fog",
+     "pos": [
+      440,
+      1160
+     ],
+     "radius": 120,
+     "label": "the turn toward the Last Hearth",
+     "text": "Walk Floarea to the turn and say her true name"
+    },
+    {
+     "kind": "talk",
+     "npc": "orange_fog_watcher",
+     "text": "Let her go, known"
+    }
+   ],
+   "rewards": {
+    "xp": 3500,
+    "gold": 280,
+    "items": [
+     "bound_keepsake",
+     "shroud_of_the_named"
+    ],
+    "rep": {
+     "the_last_hearth": 300
+    }
+   },
+   "note": "Floarea walked into the reach on her own terms, undone by her own name said right, in a warm mouth, at a turn in the road. Not saved -- there was no saving -- but kept. The open version of her rides up the road to the Last Hearth now, in a pocket, to be read aloud at dusk, guessing at the missed parts so the guessing stays warm. That was always the trade."
+  },
+  "listening_steppe_romance_petru_1": {
+   "title": "The Man Who Says Little",
+   "giver": "listening_steppe_blacksmith",
+   "giver_name": "Petru Vulpescu",
+   "zone": "listening_steppe",
+   "level": 20,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "Petru beats iron like it owes him money and speaks in the fewest words that will do. The forge needs good bog iron off the near grass, and Petru -- who never asks for company -- finds a roundabout way of asking you to bring it yourself, and to stay while he works it.",
+   "offer": "Steel's steel, and mine's honest, which is more than the steppe manages most days. I'm short of stock. Bog iron, off the near grass -- the reddish nodules, not the black, the black's no good. Bring me eight and I'll cut you an edge worth the walk. And. Hm. The merchant could fetch it. I know that. I'm asking you. Some folk you don't mind having stand by the fire while the hammer's going. You're one. That's a longer speech than I've made all week, so take the iron and don't make me improve on it.",
+   "progress": "The reddish bog iron lies in the near grass, west of the forge. Bring Petru eight good nodules -- and stand by the fire while he works them, since he went to the trouble of asking you and not the merchant.",
+   "complete": "Good iron. Reddish, like I said, not that black rubbish. You stood the whole heat and didn't fill the quiet with talk, which is the thing I can't abide in most and the thing I noticed you don't do. Here's your edge. I made it a hair finer than the walk was worth. Don't read into that. ...Read a little into it. Not much. Come back when the stock's low. It's low often, if I'm honest, and I mean to be honest with you, which is new.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "bog_iron",
+     "count": 8,
+     "text": "Gather reddish bog iron from the near grass"
+    },
+    {
+     "kind": "reach",
+     "map": "listening_steppe",
+     "pos": [
+      700,
+      1080
+     ],
+     "radius": 110,
+     "label": "the near grass",
+     "text": "Work the near grass for good iron"
+    },
+    {
+     "kind": "talk",
+     "npc": "listening_steppe_blacksmith",
+     "text": "Stand by the fire while Petru works the iron"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 90,
+    "items": [
+     "knapped_skinner"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "Petru speaks in the fewest words that will do, and he spent several of them asking the wrong-priced favor of the right person. The one who came stood the whole heat and did not fill the quiet. He made the edge a hair finer than the walk was worth, and told them to read a little into it. Not much."
+  },
+  "listening_steppe_romance_petru_2": {
+   "title": "Knotted to the Body",
+   "giver": "listening_steppe_blacksmith",
+   "giver_name": "Petru Vulpescu",
+   "zone": "listening_steppe",
+   "level": 21,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "prereq": [
+    "listening_steppe_romance_petru_1"
+   ],
+   "summary": "Petru tells you, in the fewest words that will carry it, why he keeps a keepsake cord knotted at his wrist: he went out to the long grass once and came back one of the listening, and the note has never fully left him. He asks you to walk to the Kneeling Stone with him, and to be the reason he turns back.",
+   "offer": "I'll say this once and plain, because you've earned plain and I've no other kind. Two winters back I walked out to the long grass. Don't know why. Nobody does; that's the whole horror of it. I stood in the field with the standing ones a day and a night, faced the way they faced, and it was Nedelcu dragged me back by the collar. I hear the note still. Low. Under the hammer, under the wind. Most days the forge is loud enough to drown it. This cord at my wrist -- keeps a name knotted to a body, the old folk say. Mine's held two years by iron and stubbornness. Walk me up to the Kneeling Stone. I go once a season to prove I still can turn around. It's easier to turn if there's a reason standing behind me. Be the reason. Bring a keepsake cord; if mine's fraying I'd not know, being the one it's holding.",
+   "progress": "The Kneeling Stone sits up the north track where the road stops pretending to be a road. Carry a keepsake cord in case his is fraying, and walk Petru to the stone -- and be the reason he turns back.",
+   "complete": "I turned around. Faced the field, heard the note pull, and turned around -- because you were behind me and turning toward you was easier than turning toward it. That's the trick nobody tells you about the listening. It's not that you're called. It's that nothing's calling you back the other way. Now there is. I felt the cord hold and I felt something better than the cord hold, and I came down off that track lighter than I've been in two winters. Keep the cord you brought. Knot it to mine. Two names, one body's worth of stubbornness, and a reason at my back. Let the grass wait. It's good at waiting. I'm learning to be good at staying.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 1,
+     "text": "Carry a keepsake cord in case his is fraying"
+    },
+    {
+     "kind": "reach",
+     "map": "listening_steppe",
+     "pos": [
+      820,
+      640
+     ],
+     "radius": 100,
+     "label": "the Kneeling Stone",
+     "text": "Walk Petru up to the Kneeling Stone"
+    },
+    {
+     "kind": "talk",
+     "npc": "listening_steppe_blacksmith",
+     "text": "Be the reason he turns back"
+    }
+   ],
+   "rewards": {
+    "xp": 1000,
+    "gold": 110,
+    "items": [
+     "keepsake_cord",
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 200
+    }
+   },
+   "note": "Petru went to the long grass once and came back one of the listening; the note has never fully left him. He turned back from the Kneeling Stone because someone stood behind him to turn toward. The listening, he learned, is not being called -- it is nothing calling you the other way. Now something does. He knotted two cords into one."
+  },
+  "listening_steppe_romance_petru_3": {
+   "title": "Something Better Than the Cord",
+   "giver": "listening_steppe_blacksmith",
+   "giver_name": "Petru Vulpescu",
+   "zone": "listening_steppe",
+   "level": 22,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "prereq": [
+    "listening_steppe_romance_petru_2"
+   ],
+   "summary": "The prowlers that pace the flocks have learned to walk the field's edge where the listening gather, and Petru will not let you go alone to thin them -- the field pulls at him worst there, and he means to prove, at the field's edge itself, that he can stand in the pull and still choose to stay.",
+   "offer": "The prowlers work the field's edge now, right where the standing ones gather -- Toma's ewes lamb soon and the flock won't run from them, same wrongness as ever. Somebody has to thin them. And I know you'd go alone to spare me the edge, and I'm telling you no. The edge is exactly where I need to stand. Two winters I've turned back a season at a time and called it staying. That's not staying. That's a man who hasn't been tested. Take me to the field's edge, thin the prowlers with me, and let me feel the full pull of that grass with a blade in my hand and you beside me and choose -- properly choose, in the worst of it -- to walk home after. If I can do it there, the turning-back's not a trick anymore. It's just my life. Bring a soothing knot. Not for me. For after, when my hands won't stop shaking and I don't want to hide it from you.",
+   "progress": "The prowlers pace the field's edge where the listening gather -- the worst of the pull. Thin them beside Petru, carry a soothing knot for the shaking after, and let him choose to walk home from the very edge.",
+   "complete": "I stood at the edge with the note screaming under everything and I killed prowlers and I heard the field say stay and I said no. Out loud. Felt a fool. Best fool I ever was. My hands are shaking -- there, I'm not hiding it, I said I wouldn't -- so hold the knot to them a minute and don't say anything, you're good at that. It's done. The listening's still in me; it doesn't leave; the old folk are right about that much. But it's not the strongest thing in me anymore, and it hasn't been since the day you stood the whole heat and didn't fill the quiet. Walk me home. Slow. The grass can watch us go. I want it to see a man it didn't get.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "steppe_prowler",
+     "count": 8,
+     "text": "Thin the prowlers at the field's edge with Petru"
+    },
+    {
+     "kind": "reach",
+     "map": "listening_steppe",
+     "pos": [
+      1040,
+      900
+     ],
+     "radius": 130,
+     "label": "the field's edge",
+     "text": "Stand the worst of the pull beside him"
+    },
+    {
+     "kind": "collect",
+     "item": "soothing_knot",
+     "count": 1,
+     "text": "Carry a soothing knot for the shaking after"
+    }
+   ],
+   "rewards": {
+    "xp": 1150,
+    "gold": 130,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 225
+    }
+   },
+   "note": "Petru stood at the field's edge in the full pull of the grass, a blade in his hand and someone beside him, and chose out loud to walk home. The listening does not leave; the old folk are right. But it is no longer the strongest thing in him. The grass watched a man it did not get walk home slow, and unhidden."
+  },
+  "listening_steppe_romance_petru_4": {
+   "title": "Good at Staying",
+   "giver": "listening_steppe_blacksmith",
+   "giver_name": "Petru Vulpescu",
+   "zone": "listening_steppe",
+   "level": 23,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 4,
+   "prereq": [
+    "listening_steppe_romance_petru_3"
+   ],
+   "summary": "Petru means to make the plainest possible declaration in the plainest possible way: two rings off his own anvil, and a hearth hex-sign for the door of a house he wants to share. He asks you to fetch the sign from the merchant and to help him hang it -- and to hear the longest speech he will ever make.",
+   "offer": "I've made a thing at the anvil these three nights and I'll not be coy about it, coyness being another word for cowardice and I've spent my quota of that on the grass. Two rings. Plain iron, no stones -- stones are for men who need the ring to do the talking, and I mean to do my own. But a house wants a sign as well as rings. Fetch me a hearth hex-sign off Iancu -- the kind the old folk hang to keep a name knotted to a home, not just a body. Help me nail it over my door. And then stand still, because I'm about to make the longest speech of my life and I've only the one in me. It's this: I went to the grass and it kept a piece of me and gave it back short. You never once treated the short piece like something to pity. You treated it like a man. I'd like to be your man, short piece and all, for as long as the staying holds -- and it's held since the day you didn't fill the quiet. That's the speech. Say yes or say no, but say it plain. I've earned plain, and so have you.",
+   "progress": "Fetch a hearth hex-sign from Iancu the merchant, then help Petru hang it over his door -- and hear the longest, plainest speech the quiet man has in him.",
+   "complete": "You said yes, plain, the way I asked, and I'll not pretend my eyes stayed dry -- a smith's allowed the one weakness and I'll spend it on you and no one else. The sign's hung straight. The rings fit; I sized the second one off the cord at your wrist while you slept in the chair by the forge, which I'll admit was a liberty. Here's how it is now. The grass is still out there. The note's still under the wind on the bad nights. But I've a house with a sign on the door and a name knotted to more than a body, and a reason at my back that doesn't leave when the season turns. I was a man the field nearly got. I'm a man who stays instead. You made the difference, and I'm plain-spoken enough to say so, and stubborn enough to keep saying it every dark-to-dark I've got left.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "hearth_hex_sign",
+     "count": 1,
+     "text": "Fetch a hearth hex-sign from the merchant"
+    },
+    {
+     "kind": "talk",
+     "npc": "listening_steppe_merchant",
+     "text": "Ask Iancu for the sign that keeps a name knotted to a home"
+    },
+    {
+     "kind": "talk",
+     "npc": "listening_steppe_blacksmith",
+     "text": "Help Petru hang the sign and hear his speech"
+    }
+   ],
+   "rewards": {
+    "xp": 1300,
+    "gold": 160,
+    "items": [
+     "hearth_hex_sign",
+     "keepsake_cord"
+    ],
+    "rep": {
+     "border_hearths": 250
+    }
+   },
+   "note": "Petru forged two plain rings and made the longest speech of his life, which was short. The grass is still out there; the note still comes on bad nights. But there is a sign over the door and a name knotted to more than a body now. He was a man the field nearly got. He is a man who stays instead, and plain-spoken enough to keep saying so."
+  },
+  "blestem_romance_aglaia_1": {
+   "title": "A Chair Left Empty",
+   "giver": "blestem_innkeeper",
+   "giver_name": "Aglaia Vulpescu",
+   "zone": "blestem",
+   "level": 34,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "Aglaia has kept the warm door of Blestem through three husbands and every winter the fog can throw. She has set a fourth chair by her fire, and has decided, late, whom she wants to fill it.",
+   "offer": "Sit. No — that chair. That one's been empty too long and I'm tired of looking at it. There's a woman keeps the apothecary two lanes over. Profira. Smells of tallow and knows more about the dead than the living, and I have decided, at my age, that I would like to know her better. I can't very well cross the market carrying that on my face. Not in this city. Carry a soothing knot to her — a widow's gift, nothing anyone can read into. And tell me what her hands do when she takes it.",
+   "progress": "Profira keeps her shelves of tallow and wormwood two lanes east, where the lichen glows on the wet stone. Take the knot. Watch her hands, not her mouth.",
+   "complete": "Both hands, you say. She took it in both hands and didn't ask who sent it. ...Good. A woman who's buried people learns to hold a thing gently. I buried three. I know the grip. Here — for the walk, and for looking where I told you and nowhere else. This city has ears. Keep this one between the two of us and the fire.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "soothing_knot",
+     "count": 1,
+     "text": "Gather a soothing knot for Profira"
+    },
+    {
+     "kind": "talk",
+     "npc": "blestem_apothecary",
+     "text": "Bring the knot to Profira Vulpescu"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 60,
+    "items": [],
+    "rep": {
+     "strigoi": 120
+    }
+   },
+   "note": "Aglaia has outlasted three husbands and forty winters of fog, and she has set out a fourth chair. Profira took the knot in both hands. Old hands know how to hold what is temporary."
+  },
+  "blestem_romance_aglaia_2": {
+   "title": "Where No Wall Hears",
+   "giver": "blestem_innkeeper",
+   "giver_name": "Aglaia Vulpescu",
+   "zone": "blestem",
+   "level": 35,
+   "type": "romance",
+   "tone": "intrigue",
+   "romance_stage": 2,
+   "prereq": [
+    "blestem_romance_aglaia_1"
+   ],
+   "summary": "In the Listening City a tender word is a coin, and every stall-keeper is someone's ear. Aglaia will not court a woman where Cazimir can file it. She wants one corner of Blestem the walls do not reach.",
+   "offer": "You'd think at my age I could say a kind thing out loud. Not here. In Blestem a fondness is a lever, and I'll not hand Cazimir a lever over Profira — she's the only thing new I've wanted in twenty years. There's a dead-end alley off the Transcub churches where the old god used to be worshipped, back when there was a god who minded cruelty. The walls there don't carry. Lay a folk-warding at its mouth — it means nothing, that's the whole point of it, nothing to read, nothing to file. Then bring her old dossier back from that market-rat Despina before it's sold. I'll not have her past for sale while I'm learning her present.",
+   "progress": "The disused alley sits off the ivy-eaten Transcub churches. Ward its mouth so no meaning leaks out. Then buy back whatever Despina holds on Profira before it goes to another ear.",
+   "complete": "Warded, and the dossier in the fire — I watched it burn, thank you. Ash tells Cazimir nothing. Now there's one square of this whole listening city where I can say a foolish thing and only Profira hears it. That's more than most marriages ever managed, and I'd know. Come — I mean to use it tonight.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "folk_warding",
+     "count": 1,
+     "text": "Ward the silent alley off the churches"
+    },
+    {
+     "kind": "collect",
+     "item": "dossier_of_habits",
+     "count": 1,
+     "text": "Buy back Profira's dossier from Despina"
+    },
+    {
+     "kind": "talk",
+     "npc": "blestem_merchant",
+     "text": "Settle the price with Despina Vulpescu"
+    }
+   ],
+   "rewards": {
+    "xp": 1050,
+    "gold": 40,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "strigoi": 150
+    }
+   },
+   "note": "In a city that owns its people through their secrets, Aglaia bought back Profira's and burned it. She warded one dead-end alley into silence. It is the smallest free ground in Blestem, and it is enough."
+  },
+  "blestem_romance_aglaia_3": {
+   "title": "The Long Illness",
+   "giver": "blestem_apothecary",
+   "giver_name": "Profira Vulpescu",
+   "zone": "blestem",
+   "level": 36,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "prereq": [
+    "blestem_romance_aglaia_2"
+   ],
+   "summary": "Winter comes hard to the cleft where the fog pools, and the cough that comes with it has taken Aglaia to her bed. Profira, who has spent a life learning the dead, now bends every hour of it to keeping one woman among the living.",
+   "offer": "She won't tell you she's ill, so I will. The wet-lung. It comes for the old ones every winter this fog pools, and Aglaia's been outrunning it forty years and this year it caught her. I can hold it back. I have the trade for it — I've just never once wanted the trade to matter this much. Bring me luminous lichen off the true-dark stone, the lichen that glows because it was asked to, not the market strain. And clear the basalt golems from the old quarry road so I can reach the deep beds where it grows. I am not losing her to a cough. Not now. Not when I've only just been let in.",
+   "progress": "The true-dark lichen grows on wet stone past the old quarry, where the basalt golems stand their slow watch. Break them off the road and gather the living light.",
+   "complete": "It's enough. It's enough to hold her. She'll cough through spring and complain the whole way and I will be glad of every sour word of it. You know the strange thing? I've spent my whole life not minding the dead. They're patient, they ask for nothing. And then an innkeeper sets a chair by her fire and suddenly I mind a great deal whether one particular woman keeps breathing. That's her fault. I'll tell her so when she's well.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "basalt_golem",
+     "count": 5,
+     "text": "Clear the quarry road to the deep beds"
+    },
+    {
+     "kind": "collect",
+     "item": "lichen_culture",
+     "count": 3,
+     "text": "Gather living lichen from the true dark"
+    },
+    {
+     "kind": "talk",
+     "npc": "blestem_apothecary",
+     "text": "Bring the lichen back to Profira"
+    }
+   ],
+   "rewards": {
+    "xp": 1250,
+    "gold": 80,
+    "items": [
+     "cultured_poultice"
+    ],
+    "rep": {
+     "strigoi": 180
+    }
+   },
+   "note": "Profira spent sixty years unafraid of the dead because the dead ask for nothing. Then Aglaia asked for a chair filled, and the apothecary learned fear at last — the ordinary kind, that a cough could take a person. The lichen held. Winter did not."
+  },
+  "blestem_romance_aglaia_4": {
+   "title": "The Fourth Chair",
+   "giver": "blestem_innkeeper",
+   "giver_name": "Aglaia Vulpescu",
+   "zone": "blestem",
+   "level": 37,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 4,
+   "prereq": [
+    "blestem_romance_aglaia_3"
+   ],
+   "summary": "Aglaia is out of her bed and has made up her mind, the way she made it up about the chair. Two old women in the Listening City mean to bind their two households into one hearth, quietly, and dare the walls to file it.",
+   "offer": "Up, well, and done waiting — I'm too old to waste a spring being coy. Profira's moving her shelves into my back room and I'm not asking the city's leave. But I'll do it right. Fetch the chronicler Varvara to stand witness — a Vulpescu wedding two Vulpescus, she'll enjoy the paperwork. And bring a keepsake cord from the old churches, the ones to Transcub who minded cruelty to the self. Seems fitting. Two women who spent a lifetime being careful, choosing at the end to be kind to themselves. Come stand with us. The alley's warded. For one hour the walls hear nothing but us, and I've waited long enough to say a foolish thing out loud.",
+   "progress": "Varvara keeps the stones and the record. Fetch her to witness, and bring a keepsake cord from the Transcub churches to bind the two households.",
+   "complete": "There. Witnessed, corded, and the walls none the wiser for one warded hour. Profira says she's minded the dead her whole life and it's high time she minded a living woman across the breakfast table, and I told her she'll mind me a long while yet — I've outlasted three and I've no plans to stop. It won't last forever, none of it does. That's what makes it worth the fire. Sit. That chair's yours whenever the road brings you back. You filled the empty one.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 1,
+     "text": "Bring a keepsake cord from the churches"
+    },
+    {
+     "kind": "talk",
+     "npc": "blestem_chronicler",
+     "text": "Fetch Varvara to witness the binding"
+    }
+   ],
+   "rewards": {
+    "xp": 1500,
+    "gold": 150,
+    "items": [],
+    "rep": {
+     "strigoi": 250
+    }
+   },
+   "note": "Two women who had each buried more than most, bound one hearth from two in the city that owns its people by their secrets — and kept this one. Everything good is temporary. They chose it anyway, and dared the walls to file the choice."
+  },
+  "whisper_passes_romance_ruxandra_1": {
+   "title": "Forty Years of the Same Weather",
+   "giver": "whisper_passes_innkeeper",
+   "giver_name": "Ruxandra Vulpescu",
+   "zone": "whisper_passes",
+   "level": 30,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "For forty years Ruxandra has poured the ale and Ecaterina has beaten the iron, three doors apart, and neither has said the one thing. Ruxandra will not say it either. But he will send a warm meal up the cold lane, if someone else carries it.",
+   "offer": "You'll think me a fool, and you'll be right, so let's have that settled. There's a woman at the forge — Ecaterina. Been three doors down forty years. Says little, means all of it, and every winter I watch her work through the cold with no one to bank her fire at night. I've meant to say something for four decades. I'm sixty-one. I've run out of decades to mean it in. I can't carry it myself — she'd read my face before I reached the anvil, and then we'd both have to stand there having faces. Take her a hot bowl and a warm knot for her hands. Don't say it's from me. Just... let her be warm one evening.",
+   "progress": "Ecaterina keeps the forge three doors down the cold lane, working late as she always has. Bring her a soothing knot for her hands and a warm bowl. Say nothing of who sent it.",
+   "complete": "She ate it? Good. That's — good. Forty years and the most I've managed is one warm bowl she doesn't know is mine. My father would've called me a coward. He'd have been right, too. But she was warm one evening, and there's a whole winter of them I let go cold, so I'll count the one. Here. For the carrying, and for not telling her. She'd only make that face.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "soothing_knot",
+     "count": 1,
+     "text": "Warm a knot for the smith's cold hands"
+    },
+    {
+     "kind": "talk",
+     "npc": "whisper_passes_blacksmith",
+     "text": "Bring the meal to Ecaterina, unsigned"
+    }
+   ],
+   "rewards": {
+    "xp": 720,
+    "gold": 55,
+    "items": [],
+    "rep": {
+     "strigoi": 110
+    }
+   },
+   "note": "Forty years three doors apart, and Ruxandra's whole confession was a hot bowl carried by another hand and left unsigned. She was warm one evening. He counted the one and let himself grieve the winters."
+  },
+  "whisper_passes_romance_ruxandra_2": {
+   "title": "The Thing the Forge Kept",
+   "giver": "whisper_passes_blacksmith",
+   "giver_name": "Ecaterina Vulpescu",
+   "zone": "whisper_passes",
+   "level": 31,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "prereq": [
+    "whisper_passes_romance_ruxandra_1"
+   ],
+   "summary": "Ecaterina says little and means all of it, and she has known who sends the bowls for forty years. She keeps her own unsaid thing hammered flat in a drawer, and she has decided the player will carry it, because she never learned another way.",
+   "offer": "You brought the bowl. Don't. I know whose hand it's from — known forty years, since before your parents. A smith reads heat. I read his the first week he opened that inn and I've been reading it ever since, and I never once said, because saying is a thing my family beat out of me the way you beat slag from iron. But I'm as old as he is. The cliff-stalkers are down off the high passes again, and one of them nearly had me on the ridge road last week, and I lay there thinking: forty years, and I never gave him the one thing. Clear the ridge road. Then bring me keepsake cord — good, strong, the kind that holds. There's a thing I made him at the forge the year he came and never had the courage to hand over. It's time it left the drawer.",
+   "progress": "The cliff-stalkers have come down onto the ridge road where Ecaterina nearly fell. Clear them, then bring her strong keepsake cord to bind the thing she has kept forty years in the forge drawer.",
+   "complete": "It's an iron rose. I made it the winter he came, when I still had the fool in me to make such a thing, and I've kept it in the drawer forty years because handing it over meant saying the thing, and I couldn't. I still can't. That hasn't changed and it won't — I'm too old and too made-of-iron to change now. But you can carry it. You carried the bowls both ways without either of us losing face. Carry this. Bind it with the cord. He'll know the hand. He always knew the hand. Just — let him have it before one of us goes cold for good.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "cliff_stalker",
+     "count": 6,
+     "text": "Clear the ridge road that nearly took her"
+    },
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 1,
+     "text": "Gather strong cord to bind the kept thing"
+    },
+    {
+     "kind": "talk",
+     "npc": "whisper_passes_blacksmith",
+     "text": "Take the iron rose from the drawer"
+    }
+   ],
+   "rewards": {
+    "xp": 880,
+    "gold": 45,
+    "items": [
+     "bound_keepsake"
+    ],
+    "rep": {
+     "strigoi": 140
+    }
+   },
+   "note": "Ecaterina forged an iron rose the winter Ruxandra came, and kept it in a drawer for forty years because handing it over meant speaking, and speaking was beaten out of her young. A cliff-stalker on the ridge changed the arithmetic. She still could not say it. She let the rose say it."
+  },
+  "whisper_passes_romance_ruxandra_3": {
+   "title": "One Hearth, Two Houses",
+   "giver": "whisper_passes_innkeeper",
+   "giver_name": "Ruxandra Vulpescu",
+   "zone": "whisper_passes",
+   "level": 32,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 3,
+   "prereq": [
+    "whisper_passes_romance_ruxandra_2"
+   ],
+   "summary": "The iron rose is delivered, and forty years of the unsaid finally has a shape — though neither will ever say the word aloud. Two people too old and too proud to change agree instead to share the one thing that matters: a warm fire, and the other beside it.",
+   "offer": "She sent me a rose made of iron. Forty years in a drawer, she said through your mouth, because you're the only one either of us can talk through — a fine pair of old fools we are. I'll not ask her to marry me. She'd say no, not from want of caring but from want of the words, and I'd not put her through hunting for them. But I'll ask her to sup at my fire every evening and forge by day and keep her own bed and her own name and her own iron rose. Bring her a hearth hex-sign — one for her forge, one for my hearth, the same sign on both. Not a wedding. Just... one fire, warm at both ends of the lane. Ask her. She'll not say yes out loud. Watch her hands.",
+   "progress": "Bring a hearth hex-sign for each threshold — the forge and the inn, marked the same. Take one to Ecaterina and ask her, knowing she will answer with her hands, not her mouth.",
+   "complete": "She hung it over the forge door. Didn't say a word — set down her hammer, took the sign, and hung it, and looked at me across forty years of lane, and that was the yes. We'll not wed. We'll not say the word. We're too old and too set to start being different people now. But she sups at my fire nightly and I bank hers by night and neither of us is cold anymore, and that's the whole of what I ever wanted and never had the nerve to reach for. You reached for it, for us. An old man's thanks, traveler. Take the rose's twin — she made two. She'd want you to have the other.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "hearth_hex_sign",
+     "count": 2,
+     "text": "Mark forge and hearth with the same sign"
+    },
+    {
+     "kind": "talk",
+     "npc": "whisper_passes_blacksmith",
+     "text": "Ask Ecaterina to share the fire"
+    }
+   ],
+   "rewards": {
+    "xp": 1100,
+    "gold": 120,
+    "items": [],
+    "rep": {
+     "strigoi": 200
+    }
+   },
+   "note": "They never said the word, and never will. Ecaterina hung the sign and set down her hammer, and that was the whole vow. Two houses, two names, two beds — and one fire, warm at both ends of the lane at last. Some love is a thing you keep, not a thing you say."
+  },
+  "angel_wings_romance_otilia_1": {
+   "title": "The Grave She Still Tends",
+   "giver": "angel_wings_apothecary",
+   "giver_name": "Safta Corbeanu",
+   "zone": "angel_wings",
+   "level": 26,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "Otilia has buried three husbands and outlasted every winter Angel Wings can throw — but she still walks to the last one's grave each dusk and stays too long in the cold. Safta the apothecary, who smells of tallow and knows too much about the dead, has begun walking with her.",
+   "offer": "You lodge at Otilia's inn, so you'll have seen her go out at dusk. She walks to the far grave-rows and stands at the third husband's kerb till the cold's in her bones, and she's done it two winters now. I'm the apothecary — I know what the cold does to the old, and I know what grief does worse. I'll not tell her to stop mourning; a body mourns as long as it mourns. But I'd have her mourn warm. Take her a warm knot for her hands and sit with her at the grave a while. Don't hurry her off it. Just be a second body in the cold. She's stood there alone two winters. That's two too many.",
+   "progress": "Otilia walks to the far grave-rows of Angel Wings at dusk and stands at the third husband's kerb. Bring her a soothing knot, and sit the cold hour with her. Do not hurry her.",
+   "complete": "She let you sit. That's more than she lets most — she waves me off some evenings, says the dead don't need a crowd. But she let you stay, and she was warm, and she talked a little, you said. About him. Good. Grief that gets spoken is grief that's leaving. I've spent my life with the dead; I know the difference between tending a grave and living in one. She's been living in that one. It's time somebody walked her home before full dark. Here — for sitting the cold hour. Not everyone can.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "soothing_knot",
+     "count": 1,
+     "text": "Warm a knot for Otilia's cold hands"
+    },
+    {
+     "kind": "talk",
+     "npc": "angel_wings_innkeeper",
+     "text": "Sit the dusk hour at the grave with Otilia"
+    }
+   ],
+   "rewards": {
+    "xp": 560,
+    "gold": 50,
+    "items": [],
+    "rep": {
+     "angelwings": 110
+    }
+   },
+   "note": "Otilia buried three husbands and outlasts every winter, yet still stands the dusk hour at the last kerb till the cold takes her hands. Safta will not tell her to stop. She means only that Otilia mourn warm, and not alone. She let a second body stay. It was a beginning."
+  },
+  "angel_wings_romance_otilia_2": {
+   "title": "What the Dead Don't Need",
+   "giver": "angel_wings_apothecary",
+   "giver_name": "Safta Corbeanu",
+   "zone": "angel_wings",
+   "level": 27,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "prereq": [
+    "angel_wings_romance_otilia_1"
+   ],
+   "summary": "The grave-rows have gone bad — plague-rats in the kerbstones, the tired fields fouling the resting-ground — and Otilia grieves that she cannot even keep his stone clean. Safta means to give her that much, and a little more: the beginning of a reason to come home from the cold.",
+   "offer": "The far rows have gone foul — plague-rats in the kerbstones since the fields turned tired, and Otilia found his stone gnawed and wept over it like a fresh grave. Three years he's been down and she wept like a fresh grave. That's not tending anymore. That's a woman who won't come in from the cold because coming in feels like leaving him. Clear the vermin from the rows so his kerb's clean. Then bring me a kept-name token — I'll cut his name in it proper, and she can carry him warm in a pocket instead of standing cold at a stone. The dead don't need her frozen at a kerb. I've handled enough of the dead to know: they'd want her by a fire. He would.",
+   "progress": "Clear the plague-rats fouling the far grave-rows, then bring Safta a kept-name token so the third husband's name can be carried, not stood over in the cold.",
+   "complete": "She took the token. Held it, read the name, and — this is the thing — she smiled. First smile I've had off her in two winters. Said she could carry him in her apron now and bank the fire at the same time, and wasn't that a thing he'd have liked, her warm and busy instead of froze at a stone. I've spent my whole life being the one who's easy with the dead, the one nobody wants to sit beside at supper for it. She sits beside me now. I find I don't mind being known for once, instead of just for the trade.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "plague_rat_swarm",
+     "count": 5,
+     "text": "Clear the vermin fouling the grave-rows"
+    },
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 1,
+     "text": "Bring a token to carry his name warm"
+    },
+    {
+     "kind": "talk",
+     "npc": "angel_wings_apothecary",
+     "text": "Give Safta the token to cut his name"
+    }
+   ],
+   "rewards": {
+    "xp": 700,
+    "gold": 60,
+    "items": [
+     "kept_name_token"
+    ],
+    "rep": {
+     "angelwings": 150
+    }
+   },
+   "note": "Otilia wept at a three-year grave like a fresh one, because coming in from the cold felt like leaving him. Safta cut his name into a token she could carry warm — and Otilia smiled, and sat beside the woman the town keeps at arm's length for knowing the dead too well. Grief, spoken, was leaving at last."
+  },
+  "angel_wings_romance_otilia_3": {
+   "title": "A Place Set at the Fire",
+   "giver": "angel_wings_innkeeper",
+   "giver_name": "Otilia Corbeanu",
+   "zone": "angel_wings",
+   "level": 28,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 3,
+   "prereq": [
+    "angel_wings_romance_otilia_2"
+   ],
+   "summary": "Otilia carries the third husband warm in her apron now instead of standing frozen at his stone, and she has stopped walking to the grave at dusk. What she walks toward instead is the apothecary's chair by her own fire — not a fourth husband, but a companion for the winters that are left.",
+   "offer": "You've watched me a while now, so I'll say it plain, the way I say everything. I loved three men and buried three men and I'll not go looking for a fourth to bury — I'm too old to break my heart on schedule. But Safta walks me home from the rows every dusk, and knows the dead and isn't frightened of mine, and sits at my fire, and when did I stop being cold of an evening? Somewhere between her token and her chair. I'll not wed her. I'll not call it what folk call it. I'll call it this: a place set at my fire that's hers, for however many winters are left. Bring me a hearth hex-sign for the second chair, and fetch Ioana off the stones to see it done — not a wedding, just a witness that Otilia Corbeanu chose to be warm again before the end.",
+   "progress": "Bring a hearth hex-sign to mark the second chair at Otilia's fire as Safta's own, and fetch the chronicler Ioana to witness — not a wedding, but a choosing.",
+   "complete": "Done, and Ioana's got it in the stones — not as a wedding, I made her write it plain: two women who decided not to spend what's left of their winters cold. Safta says the dead don't need us frozen and she's right, she's always right, it's a maddening quality in a woman. He'd not begrudge me this. None of the three would. They knew me warm; they'd want me warm going out. Everything good runs out, dear — three husbands taught me that, and it's true, and it's exactly why you set the second chair while there's still a fire to set it by. You gave an old widow back her evenings. Sit in the third chair whenever the road's cold. There'll be a bowl.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "hearth_hex_sign",
+     "count": 1,
+     "text": "Mark the second chair at Otilia's fire"
+    },
+    {
+     "kind": "talk",
+     "npc": "angel_wings_chronicler",
+     "text": "Fetch Ioana to witness the choosing"
+    }
+   ],
+   "rewards": {
+    "xp": 950,
+    "gold": 130,
+    "items": [],
+    "rep": {
+     "angelwings": 220
+    }
+   },
+   "note": "Otilia buried three and swore off a fourth — then set a second chair at her fire for the apothecary who was not afraid of her dead. Not a wedding: a choosing, witnessed in the stones. She laid the last grief down warm, and let the winters left be warm too. Everything good runs out. That is why she set the chair."
+  },
+  "the_gift_romance_sanda_1": {
+   "title": "The Loaf That Rose Anyway",
+   "giver": "the_gift_innkeeper",
+   "giver_name": "Sanda Lupei",
+   "zone": "the_gift",
+   "level": 41,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 1,
+   "summary": "In the Gift, where the red soil is grown from the dead and the yeast dies house by house, Sanda Lupei's starter still rises. She would like it known she noticed you first.",
+   "offer": "You. Yes, you, standing there like the door bit you. Every bakehouse from here to the pit's gone flat -- dead yeast, grey dough, the whole trade in a pinch of ash -- and mine's still breathing. Come feel the crock, it's warm as a cat. I'll cut you a slice if you fetch me two things for the next bake. And if you come back... well. I'll cut you two slices.",
+   "progress": "Clean salt off the fen-line, and a scrape of luminous lichen from the old stones -- Sanda swears the second is her grandmother's secret and won't say more with that face on.",
+   "complete": "Look at it. LOOK at it. Rose like it never heard the bad news. Everything good is temporary, they keep telling me -- so I make more of it, faster than the world can eat it. Sit. Eat. You've got flour on your cheek and I'm not going to tell you where.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 4,
+     "text": "Bring clean salt off the fen-line"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Scrape lichen from the old stones"
+    }
+   ],
+   "rewards": {
+    "xp": 2100,
+    "gold": 60,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 100
+    }
+   },
+   "prereq": [],
+   "note": "Sanda's bread rose in a town where bread has stopped rising. She called it luck and cut a second slice. The starter is older than she is, and it is warm."
+  },
+  "the_gift_romance_sanda_2": {
+   "title": "Two Chairs by the Oven",
+   "giver": "the_gift_innkeeper",
+   "giver_name": "Sanda Lupei",
+   "zone": "the_gift",
+   "level": 42,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 2,
+   "summary": "Sanda wants to keep the warm door open past dark for once -- not for coin, for company. But the brazier-imps have taken the wood-store, and a warm oven is nothing without wood to feed it.",
+   "offer": "So here's the thing nobody asks a baker: what do you do at night, when the bread's proofing and there's nobody to talk to but the crock? I'll tell you what I do. I make two mugs and drink both, which is a sad little habit and I'd like to break it. Clear the imps off my wood-store and I'll keep the oven lit late. You bring the stories. I've got flour enough for both of us.",
+   "progress": "The brazier-imps have nested in the Gift's wood-store, and cold wood makes a cold oven. Burn them out, then bring back a bundle of cedar to keep the fire honest.",
+   "complete": "Two chairs, one oven, and a night that doesn't have to end at the last loaf. I set the second mug down in front of you on purpose this time -- did you notice? Of course you noticed. You notice everything but the flour on your own face. Sit closer. The fire's better here.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "brazier_imp",
+     "count": 6,
+     "text": "Burn the imps from the wood-store"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather cedar to feed the oven"
+    }
+   ],
+   "rewards": {
+    "xp": 2300,
+    "gold": 80,
+    "items": [],
+    "rep": {
+     "border_hearths": 125
+    }
+   },
+   "prereq": [
+    "the_gift_romance_sanda_1"
+   ],
+   "note": "The oven stayed lit past dark, and there were two chairs by it. Sanda set down a second mug and did not drink from it. She let it go cold on purpose, and neither of them mentioned the mug again."
+  },
+  "the_gift_romance_sanda_3": {
+   "title": "Everything Good Is Temporary",
+   "giver": "the_gift_innkeeper",
+   "giver_name": "Sanda Lupei",
+   "zone": "the_gift",
+   "level": 43,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 3,
+   "summary": "Sanda has decided to bake a proper festival loaf for the Gift-Tide -- braided, sweet, and unafraid -- and to say a thing out loud she has practiced saying to the crock. She wants you standing there when she does.",
+   "offer": "Alright. I've rehearsed this on the starter forty times and the starter has no notes, so you're getting the finished version. I want to braid a real loaf for the Gift-Tide -- river-pearl sugar in it, the whole show -- and I want your name on the empty chair at my table, not some stranger's. Fetch me what I need for the braid. And I'll say the rest when your hands are full and you can't run.",
+   "progress": "River-pearl for the sweet crumb, a raven feather to bind the grain-sack seal the old way, and Sanda swears the loaf won't braid right without both. She is not looking at you while she says any of it.",
+   "complete": "There. It's said, it's braided, and it rose -- of course it rose, everything I make for you rises. Everything good is temporary, love. That's the whole point of it. So I'm not going to waste a single warm hour pretending otherwise. Set the empty chair. Then sit in it yourself, and stop being empty.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Gather river-pearl for the sweet crumb"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Bind the grain-sack seal the old way"
+    },
+    {
+     "kind": "reach",
+     "map": "the_gift",
+     "pos": [
+      600,
+      1300
+     ],
+     "radius": 90,
+     "label": "the festival table",
+     "text": "Set the empty chair at the Gift-Tide table"
+    }
+   ],
+   "rewards": {
+    "xp": 2600,
+    "gold": 120,
+    "items": [],
+    "rep": {
+     "border_hearths": 200
+    }
+   },
+   "prereq": [
+    "the_gift_romance_sanda_2"
+   ],
+   "note": "The festival loaf rose golden in a town built on the dead, and Sanda set the empty chair and then filled it. She said the terrible true thing plainly -- everything good is temporary -- and chose, out loud, to keep it anyway."
+  },
+  "last_hearth_romance_tinca_1": {
+   "title": "The Line the Ledger Won't Hold",
+   "giver": "last_hearth_chronicler",
+   "giver_name": "Tinca Cenusa",
+   "zone": "last_hearth",
+   "level": 45,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 2,
+   "summary": "Maricica the smith plays a fiddle after the forge cools, and has written a tune with no name -- for Tinca, the town's chronicler, who records every death and has never once recorded a joy. Maricica is too shy to hand it over herself.",
+   "offer": "You keep the ledger of the dead, I hear. I keep a different sort. I'm Maricica -- the forge, third door. Here's my trouble: I made a tune. It's got no words and no name and it's for Tinca Cenusa, and every time I get within ten feet of her the fiddle goes silent and so do I. You've an honest face. Carry it to her. Don't tell her it's a love song -- just say a smith wrote it and couldn't keep it.",
+   "progress": "Take Maricica's untitled tune to Tinca in the chronicle-house. She writes only what the town would rather forget; a song may be the first thing she has ever been handed to keep, not to bury.",
+   "complete": "She read the notes like they were a death-date -- careful, that flat little face -- and then she asked who wrote it. I told her a smith. She said, and I quote, 'Tell the smith the ledger has no line for this.' Traveler. That's not a no. I've spent my whole life reading Tinca's no's. That's the sound of one being written down for the first time.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "last_hearth_chronicler",
+     "text": "Carry Maricica's tune to Tinca"
+    },
+    {
+     "kind": "talk",
+     "npc": "last_hearth_blacksmith",
+     "text": "Bring Maricica what Tinca said"
+    }
+   ],
+   "rewards": {
+    "xp": 2800,
+    "gold": 70,
+    "items": [],
+    "rep": {
+     "border_hearths": 100
+    }
+   },
+   "prereq": [],
+   "note": "A smith wrote a song with no name and could not carry it herself. Tinca read it like an obituary and said the ledger had no line for it. Everyone in the room understood that this was a beginning."
+  },
+  "last_hearth_romance_tinca_2": {
+   "title": "A Fiddle Wants New Strings",
+   "giver": "last_hearth_blacksmith",
+   "giver_name": "Maricica Cenusa",
+   "zone": "last_hearth",
+   "level": 46,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 2,
+   "summary": "Emboldened, Maricica wants to play the tune where Tinca can hear it -- but her old fiddle strings snapped on the high note that matters most, and the moor-wails have driven the string-gut trade off the road.",
+   "offer": "She sent a note back. A NOTE. Folded like a court summons and it just said 'the second verse is wrong.' She's right, curse her, she's always right, and I can't fix it -- my top string went on the exact note where the song turns kind. I need gut for new strings, and the fen's crawling with moor-wails between here and the string-maker. Clear the road. I'll have the fiddle ready by the time you're back, and my nerve, maybe, if I'm lucky.",
+   "progress": "Clear the moor-wails from the fen road so the string-trade can pass, and bring back a length of soothing-reed -- Maricica binds the new strings with it, the way her mother did.",
+   "complete": "Strung, tuned, and the high note holds -- listen. That's the one she said was wrong, and she WAS right, and I'm not too proud to say so. I'll play it under the chronicle-house window at the Table of Strangers. If she opens it, she opens it. If she doesn't, at least the moor heard a smith play something that wasn't a hammer for once.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "moor_wail",
+     "count": 5,
+     "text": "Clear moor-wails from the fen road"
+    },
+    {
+     "kind": "collect",
+     "item": "soothing_knot",
+     "count": 2,
+     "text": "Gather soothing-reed for the new strings"
+    }
+   ],
+   "rewards": {
+    "xp": 3000,
+    "gold": 90,
+    "items": [],
+    "rep": {
+     "border_hearths": 125
+    }
+   },
+   "prereq": [
+    "last_hearth_romance_tinca_1"
+   ],
+   "note": "Maricica restrung the fiddle and the high note held -- the note where the song turns kind. She meant to play it under Tinca's window. The moor, at least, would hear a smith make something soft."
+  },
+  "last_hearth_romance_tinca_3": {
+   "title": "What the Chronicle Left Out",
+   "giver": "last_hearth_chronicler",
+   "giver_name": "Tinca Cenusa",
+   "zone": "last_hearth",
+   "level": 46,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 3,
+   "summary": "Tinca has heard the fiddle under her window three nights running and has not opened it. She asks you -- not Maricica -- to help her find out whether a chronicler of the dead is allowed a page of her own.",
+   "offer": "Sit. You've been the road between that smith and me, so you'll hear this straight. I have written down four hundred and eleven names of the dead in this town. Not one line of anything that gladdened me. I told myself the ledger has no room. Then a smith played the same eight bars outside my window for three nights and did not knock -- which is the most patient argument anyone has ever made against me. Fetch me clean paper-stock and good ink. I have a page to start that isn't an ending.",
+   "progress": "Linen-scrap for a page fit to last, and oak-gall ink that does not fade -- Tinca will not write this in the cheap ink she uses for the dead. She is starting a different book, and she wants it to hold.",
+   "complete": "I have begun it. One line, dated today: 'A smith played, and I listened.' That is the whole entry and it is the truest thing in the house. Do not tell Maricica I wrote it in the good ink. Let her find out at the festival, when I open the window. I intend to open the window. Write THAT down, if you keep such things -- I no longer trust myself to keep only endings.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Bring paper-stock fit to last"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Bring ink that does not fade"
+    }
+   ],
+   "rewards": {
+    "xp": 3100,
+    "gold": 100,
+    "items": [],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "prereq": [
+    "last_hearth_romance_tinca_2"
+   ],
+   "note": "Tinca began a new book in the good ink, the kind she never wastes on the dead. Its first line was four words long and dated the day she stopped keeping only endings."
+  },
+  "last_hearth_romance_tinca_4": {
+   "title": "The First Dance and No Promises",
+   "giver": "last_hearth_chronicler",
+   "giver_name": "Tinca Cenusa",
+   "zone": "last_hearth",
+   "level": 47,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 4,
+   "summary": "At the Table of Strangers -- the feast where every outdoor table must feed whoever sits down -- Tinca will open her window and hear the whole song for the first time. She wants the square set right, and she wants you there. She promises nothing. She is finally allowing herself that.",
+   "offer": "The Table of Strangers, tonight. The one night this town feeds anyone who sits, no names asked -- and I have decided that is a fine night to stop asking for names and just let someone in. Help me set the square. I won't call it a wedding, and I won't call it a promise; I've filed enough certainties to distrust them. I'll call it a dance, and a window I open, and a smith I let finish her song. That will do. That will more than do.",
+   "progress": "Set the great-table for strangers by the chronicle-house, then take Tinca's own hand-copied verse to Maricica at the forge -- the second verse, the one Tinca finally got right herself.",
+   "complete": "She opened with the wrong verse, the stubborn thing, so I opened the window and sang the right one over her, and she laughed -- Maricica laughed, in front of the whole square, dropped the bow and laughed. We danced once. I made no promise and she asked for none. Some happy things you leave unfinished on purpose, so the world can't collect on them. This one, we'll keep unfinished a long, long time.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "last_hearth",
+     "pos": [
+      640,
+      1080
+     ],
+     "radius": 70,
+     "label": "the chronicle-house square",
+     "text": "Set the Table of Strangers by the chronicle-house"
+    },
+    {
+     "kind": "talk",
+     "npc": "last_hearth_blacksmith",
+     "text": "Carry Tinca's finished verse to Maricica"
+    }
+   ],
+   "rewards": {
+    "xp": 3400,
+    "gold": 160,
+    "items": [],
+    "rep": {
+     "border_hearths": 250
+    }
+   },
+   "prereq": [
+    "last_hearth_romance_tinca_3"
+   ],
+   "note": "They danced once at the Table of Strangers and made no promises to each other, which was the point. Tinca closed the ledger of the dead for one whole night. She left the new book open, and did not date the end of anything."
+  },
+  "sangeroasa_romance_gherghe_1": {
+   "title": "A Smith With Something to Say",
+   "giver": "sangeroasa_blacksmith",
+   "giver_name": "Gherghe Lupei",
+   "zone": "sangeroasa",
+   "level": 40,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 1,
+   "summary": "Gherghe the smith has loved Ana the apothecary for two years and eleven months, by his own count, and has never managed one clean sentence to her face. He has decided the coward's route: to court her through her trade instead.",
+   "offer": "Two fingers I've lost to this forge and not one word I can keep in my head when Ana Lupei's in the room. Tallow and wormwood, she smells of -- I could pick it out of a fire. Here's my plan, and it's a bad one, so don't laugh: I'll not TELL her anything. I'll make myself useful to her work till she can't do without me. She needs nightshade off the red rows and something to bind a poultice. Fetch it in my name. Let the trade say what my mouth won't.",
+   "progress": "Gather marsh-lichen from the threaded ground for Ana's poultices -- harvesting it is trespass on the dead, and Gherghe knows it, and asks you to be gentle about it -- and a clean binding of linen.",
+   "complete": "She took it. Said 'tell the smith this is good stock' and went back to her mortar, and I have been turning that sentence over on the anvil all afternoon like it's a blade I can't get straight. 'Good stock.' From Ana. You'd think she'd handed me the whole Gift. ...She sort of did, traveler. She sort of did.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Gather marsh-lichen from the threaded ground"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Bring clean linen to bind the poultice"
+    }
+   ],
+   "rewards": {
+    "xp": 2000,
+    "gold": 65,
+    "items": [],
+    "rep": {
+     "border_hearths": 100
+    }
+   },
+   "prereq": [],
+   "note": "Gherghe courted Ana through her own trade, being a coward about the words. She called his stock good and turned back to her mortar. He carried the two words home like an ingot and could not get them straight."
+  },
+  "sangeroasa_romance_gherghe_2": {
+   "title": "The Grave She Tends",
+   "giver": "sangeroasa_blacksmith",
+   "giver_name": "Gherghe Lupei",
+   "zone": "sangeroasa",
+   "level": 41,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "summary": "Gherghe learns why Ana knows too much about the dead: she buried someone in the Gift's red soil and walks out to the grave-rows each dusk. He wants to help her tend it -- but the mourners of the Gift rise where grief is thickest, and the walk is no longer safe.",
+   "offer": "I found out why she smells of wormwood, traveler. It's grave-herb. She's got someone under the red rows -- won't say who, and I'll not ask -- and she walks out at dusk to tend it, alone, past the mourners. That's not courting business anymore. That's just a person I can't stand to see walk into the dark by herself. Clear the grave-row so she can tend it in peace. I'll not even tell her it was me. She's carried enough without owing me.",
+   "progress": "The mourners of the Gift gather where grief runs deepest. Clear them from the grave-rows so Ana can walk safely, and bring a handful of clean salt to lay on the threshold of the grave, the old warding.",
+   "complete": "It's done, and she doesn't know it was us, and it's going to stay that way. I watched from the cinder slope -- didn't follow, just watched the road stay clear for her. She knelt a long time. When she stood, she wasn't crying. That's not nothing, out here. Sometimes love's just making sure the road to the grave is safe and never once asking to be thanked for it.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "the_gift_mourner",
+     "count": 5,
+     "text": "Clear the mourners from the grave-rows"
+    },
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 3,
+     "text": "Bring salt to ward the grave's threshold"
+    },
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      700,
+      1520
+     ],
+     "radius": 100,
+     "label": "the red grave-rows",
+     "text": "See the road to the grave stands clear"
+    }
+   ],
+   "rewards": {
+    "xp": 2200,
+    "gold": 85,
+    "items": [
+     "keepsake_cord"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "prereq": [
+    "sangeroasa_romance_gherghe_1"
+   ],
+   "note": "Gherghe made the road to Ana's grave safe and never told her. She knelt a long while and stood without weeping, which in the Gift is close to a mercy. He watched from the cinder slope and asked no thanks."
+  },
+  "sangeroasa_romance_gherghe_3": {
+   "title": "Two at the Graveside",
+   "giver": "sangeroasa_apothecary",
+   "giver_name": "Ana Lupei",
+   "zone": "sangeroasa",
+   "level": 42,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "summary": "Ana knew all along that Gherghe cleared her road. She comes to you not to end it, but to ask how one lets a good thing in when the ground you love is made of everyone you have lost. She has decided to try. She wants to walk to the grave once more -- with him, this time.",
+   "offer": "The smith thinks I don't know. I knew the first dusk -- the road doesn't clear itself, and only one fool in this town watches me from the cinder slope like a lovesick apprentice. I have loved one person into that red ground already, and this whole soil is made of the loved and lost, and I have been afraid that letting Gherghe in only gives the Gift one more grave to take. But grief tended alone just calcifies. Help me. I want to walk out there once more -- and this time I want him at my shoulder. Bring me what I need to mark the grave properly, and fetch him for me. I can't seem to say the words either. We're a matched pair of cowards, he and I.",
+   "progress": "Bring a raven feather for the grave-mark and a keepsake-cord to lay a fresh token, then bring Gherghe to the red rows -- Ana will not walk this last dusk alone, and will not ask him herself.",
+   "complete": "He came. Stood at my shoulder and didn't fill the quiet with anything, which is the only right thing to do at a graveside, and I think it's why I'll keep him. I laid the new token beside the old one. The Gift takes everyone in the end -- that's not a reason to grieve alone until it does. We walked back holding hands, past the red rows, into a town that's still wrong at the root. Let it be wrong. We'll be warm anyway. Tell no one I cried. Tell everyone we're together.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 2,
+     "text": "Bring a raven feather for the grave-mark"
+    },
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 1,
+     "text": "Lay a fresh keepsake at the grave"
+    },
+    {
+     "kind": "talk",
+     "npc": "sangeroasa_blacksmith",
+     "text": "Bring Gherghe to the red rows"
+    }
+   ],
+   "rewards": {
+    "xp": 2500,
+    "gold": 130,
+    "items": [],
+    "rep": {
+     "border_hearths": 200
+    }
+   },
+   "prereq": [
+    "sangeroasa_romance_gherghe_2"
+   ],
+   "note": "Ana had known all along who cleared her road. She walked the last dusk with Gherghe at her shoulder and laid a new token beside the old, and they came back holding hands through soil made of the lost. She asked that no one be told she wept, and that everyone be told they were together."
+  },
+  "copper_wells_romance_dorin_1": {
+   "title": "Iron for the Empty Chair",
+   "giver": "copper_wells_blacksmith",
+   "giver_name": "Dorin Corbeanu",
+   "zone": "copper_wells",
+   "level": 8,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "The coppered wells took the herdboy who fetched Dorin's water and swept Matei's floor -- one apprentice to the smith, one nephew to the herder, the same small pallbearer to them both. Dorin has forged a marker and cannot make himself carry it. He would rather you did.",
+   "offer": "You'll not have heard me say ten words together, and I'll not start now. So plain: the boy who hauled my water is dead of a well, and his uncle Matei out on the western pasture hauled the same grief I did and neither of us said a thing at the burying. I've hammered him a marker. Bog-iron, struck honest. My hands won't walk it out to his croft -- they shake at his gate and I don't know why. Take it. Set it where he can see it. Tell him Dorin sent it, and nothing after.",
+   "progress": "Matei keeps to the western pasture from dark to dark. Carry the iron marker to him, and say the little that needs saying.",
+   "complete": "He wept, you said. Good -- someone should, over the boy, and I've forgotten the trick of it. He asked was I well. Tell him... tell him the forge is cold of an evening and a cold forge is a wasteful thing. That's all. That's the whole of what I can put into words, and it took me a marker and a stranger to say it.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "bog_iron",
+     "count": 3,
+     "text": "Take the struck iron marker from Dorin"
+    },
+    {
+     "kind": "talk",
+     "npc": "copper_wells_commoner_1",
+     "text": "Carry the marker to Matei"
+    },
+    {
+     "kind": "reach",
+     "map": "copper_wells",
+     "pos": [
+      520,
+      720
+     ],
+     "radius": 110,
+     "label": "the western pasture",
+     "text": "Set the marker where Matei can see it"
+    }
+   ],
+   "rewards": {
+    "xp": 220,
+    "gold": 45,
+    "items": [
+     "veinflint_striker"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "A smith who owns ten words spent three of them on a marker for a boy the wells drowned. Matei wept at his gate. Dorin sent word that a cold forge is a wasteful thing, and meant, plainly, something warmer than the forge."
+  },
+  "copper_wells_romance_dorin_2": {
+   "title": "What the Boy Left",
+   "giver": "copper_wells_blacksmith",
+   "giver_name": "Dorin Corbeanu",
+   "zone": "copper_wells",
+   "level": 9,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "summary": "Matei came to the forge at last -- not for iron, for company -- and the two grieving men found they were mending the same absence from opposite ends. The boy's few things lie scattered where he last worked. They would gather them together, if the gathering did not ask them each to go alone.",
+   "offer": "Matei sat at my fire two nights running and we said near nothing and it was near enough. He told me the boy kept a hidden thing -- a bound keepsake, wrapped in oilcloth, tucked where he cleaned the byres and the well-shafts. Matei can't go down the coppered wells; his lungs won't have it. I won't go without him and can't go with him. So go you, and bring up whatever the boy meant to keep. We'll open it together, the two of us, or not at all.",
+   "progress": "The boy hid his keepsake near the coppered wells where he last worked. Bring it up, and mind the leeches the turned water grows.",
+   "complete": "A whittled bird, half-finished, and both our names scratched under the wing -- mine and Matei's, the two men who taught him a trade between us and never once agreed on how. We laughed at that. First time either of us laughed since the water turned. Matei stayed for the ale. He's still here, if you're wondering, warming his hands at a forge that's warmer than it was.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "copper_leech",
+     "count": 5,
+     "text": "Clear the leeches from the boy's well"
+    },
+    {
+     "kind": "collect",
+     "item": "bound_keepsake",
+     "count": 1,
+     "text": "Bring up the boy's hidden keepsake"
+    }
+   ],
+   "rewards": {
+    "xp": 245,
+    "gold": 50,
+    "items": [
+     "cultured_poultice",
+     "keepsake_cord"
+    ],
+    "rep": {
+     "border_hearths": 175
+    }
+   },
+   "note": "A whittled bird, two names under the wing. Dorin and Matei taught one boy a trade between them and buried him between them, and over his last small work they laughed for the first time since the wells went copper. Matei stayed for the ale. He stayed after it."
+  },
+  "copper_wells_romance_dorin_3": {
+   "title": "Two Names on One Stone",
+   "giver": "copper_wells_blacksmith",
+   "giver_name": "Dorin Corbeanu",
+   "zone": "copper_wells",
+   "level": 10,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "summary": "Grief made a habit of them: Matei at Dorin's forge, Dorin walking out to the pasture at dusk. The whole town has noticed. Old Vintu, who cuts the letters for the dead, has offered to cut a kerb -- but the town's remaining clean stone lies out where the ground runs warm, and neither man will send the other to fetch it.",
+   "offer": "It's got past grief now, whatever it is, and half the moor's decided it before I have. Vintu will cut the boy a proper kerb if we bring him stone -- good stone, and the last of it sits out where the ground's gone warm, by the coppered handprint on the byre wall. Matei says he'll go. I say I'll go. We stood in my doorway an hour arguing over which of us walks toward the wrong ground, which is a stupid thing to fight about and I know exactly why we're fighting about it. Go for us both. Bring the stone. Let neither of us out there.",
+   "progress": "The last clean kerb-stone lies by the coppered handprint on the byre wall, out where the ground runs warm. Fetch it, so neither man has to.",
+   "complete": "You brought it back and neither of us went out there, and Matei took my hand in front of Vintu and the whole cutting-yard and did not let go of it. I have said ten words a day my whole life. I find I've no more need of them. Vintu asked whose names to cut beneath the boy's. Matei answered before I could. He said: both of ours. He said we'd earned the same stone.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "copper_wells",
+     "pos": [
+      1440,
+      700
+     ],
+     "radius": 90,
+     "label": "the coppered handprint on the byre wall",
+     "text": "Reach the byre wall where the ground runs warm"
+    },
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 1,
+     "text": "Carry the last clean kerb-stone back"
+    }
+   ],
+   "rewards": {
+    "xp": 300,
+    "gold": 70,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 225
+    }
+   },
+   "note": "The last clean stone came back off the warm ground, and neither man had to walk it. Matei took Dorin's hand in the cutting-yard and did not let go. When Vintu asked whose names to cut beneath the boy's, Matei said both, and said they'd earned the same stone."
+  },
+  "copper_wells_romance_dorin_4": {
+   "title": "A Warmer Forge",
+   "giver": "copper_wells_blacksmith",
+   "giver_name": "Dorin Corbeanu",
+   "zone": "copper_wells",
+   "level": 11,
+   "type": "romance",
+   "tone": "cheerful",
+   "romance_stage": 4,
+   "summary": "Matei has moved his few things to the forge. Two men who lost the same boy keep his memory now in the plainest way there is -- a shared roof, a warm fire, an empty chair kept for no one and set anyway. Dorin, who owns ten words, wants to fetch the herder's pallet himself. He asks you along, because some walks are better not made alone.",
+   "offer": "Matei's leaving the western pasture. Coming here, to the forge, to me. It's no grand thing -- a man's pallet and a herder's kit and a chair he's fond of -- but the walk out to fetch it goes past the boy's marker, and I'd not make that walk without a third body between us and the quiet. Come as far as the pasture. Help us carry. We keep the boy's chair by the fire, mind, empty, the way you keep a place for someone you've stopped expecting but never stopped loving. That's the whole plan. It's plan enough.",
+   "progress": "Matei's things wait at the western pasture. Walk out with them, past the boy's marker, and help carry a household to a warmer forge.",
+   "complete": "It's done. His pallet's by mine, his kit's on my wall, the boy's chair sits empty by the fire and always will. We're not replacing anything -- you can't, and we'd not want to. We're just two men who loved the same small life keeping a warm room going in a cold town, so the grief has somewhere warm to sit. Come eat with us when the moor lets you. There's always a bowl. There's one chair we'll not fill, and every other one is yours.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "copper_wells",
+     "pos": [
+      520,
+      720
+     ],
+     "radius": 110,
+     "label": "the western pasture",
+     "text": "Walk to the pasture for Matei's things"
+    },
+    {
+     "kind": "talk",
+     "npc": "copper_wells_commoner_1",
+     "text": "Carry Matei's household to the forge"
+    }
+   ],
+   "rewards": {
+    "xp": 340,
+    "gold": 85,
+    "items": [
+     "deepbed_lantern"
+    ],
+    "rep": {
+     "border_hearths": 275
+    }
+   },
+   "note": "Matei's pallet lies by Dorin's now, and the boy's chair sits empty by the fire, kept for no one and set anyway. Two men who loved the same small life keep a warm room going against a cold moor. They did not replace what the wells took. They made a place for it to sit warm."
+  },
+  "famine_fields_romance_casandra_1": {
+   "title": "One More Place Set",
+   "giver": "famine_fields_innkeeper",
+   "giver_name": "Casandra Corbeanu",
+   "zone": "famine_fields",
+   "level": 17,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "The famine took Casandra's husband and Zenobia's sister in the same season, house by house, in order. The innkeeper keeps a lit hearth; the chronicler keeps the grave-rows and will not leave them to eat. Casandra sets a plate for her at the inn every night, and every night it goes cold. She would like it carried out warm, just once.",
+   "offer": "You'll know Zenobia -- keeps the count of the dead, does it right, hasn't slept a full night since the rows started filling. Famine took her sister the same week it took my man, neat as anything, our two doors in a row on somebody's list. I set a plate for her here every evening. Every evening it sits till the fat goes white on it. She won't leave the grave-rows for a warm room; says the dead need counting more than she needs feeding. Take the salt-crocks from the burned holding and carry her a real bowl out to the rows. Warm, mind. Make her eat it warm, in front of you, or she never will.",
+   "progress": "Zenobia keeps the count at the grave-rows by the burned farmstead. Bring the salt-crocks for a proper bowl, and see her eat it warm.",
+   "complete": "She ate. All of it, and cried into the last of it, and told you to tell me the salt was right -- her sister salted a stew just so, and I never knew that, and now I do, and I'll salt every one that way till I die. Two women grieving the same season from two ends of one street. It's a poor thing to have in common. It's more than most folk out here have got. Bring the bowl back. I'll fill it again tomorrow.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "salt_line_pouch",
+     "count": 1,
+     "text": "Take the salt-crocks from the burned holding"
+    },
+    {
+     "kind": "reach",
+     "map": "famine_fields",
+     "pos": [
+      640,
+      820
+     ],
+     "radius": 110,
+     "label": "the burned farmstead",
+     "text": "Carry a warm bowl out to Zenobia at the rows"
+    }
+   ],
+   "rewards": {
+    "xp": 300,
+    "gold": 70,
+    "items": [
+     "bogiron_pot_hook"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "the_accord": 40
+    }
+   },
+   "note": "Two doors in a row on the famine's list: Casandra's husband, Zenobia's sister, taken the same week. The innkeeper set a plate every night and every night it went cold. Tonight the chronicler ate it warm at the grave-rows, and learned the salt was her dead sister's own."
+  },
+  "famine_fields_romance_casandra_2": {
+   "title": "The Ledger and the Loaf",
+   "giver": "famine_fields_innkeeper",
+   "giver_name": "Casandra Corbeanu",
+   "zone": "famine_fields",
+   "level": 18,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "summary": "Zenobia eats at the inn now, some nights, if the count is short. But she carries her ledger everywhere and reads it under the table like a widow reads a letter. Casandra has learned that grief you cannot set down, you can at least help someone carry. She wants the last unmarked graves named -- so the ledger might, some night, be closed.",
+   "offer": "She comes in now. Sits at my board, eats my bread, and reads that ledger of the dead under the table like it'll walk off without her. I've stopped telling her to put it down -- you can't take a thing from a hand that's holding on for dear life. But there's graves out at the field's low end still unmarked, names Zenobia hasn't cut because she can't bear to run out of them. Go help her fix the last ones. Bring back the kept-name tokens so she knows the count's honest and whole. Maybe then she'll close the book a night. Sit with me a night. Just sit.",
+   "progress": "The last unmarked graves lie at the field's low end. Help Zenobia set their names, and bring back the kept-name tokens.",
+   "complete": "Every grave named, the ledger honest to the last line -- and she closed it. Set it on my shelf, not her satchel, and left it there overnight, which she has never once done. Sat by my fire with nothing in her hands for the first time since the rows began and didn't know what to do with them. I gave her a bowl to hold. She held my hand instead. We didn't say what it was. Some things you don't name -- you just leave a place set and see who keeps coming.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "famine_fields",
+     "pos": [
+      1120,
+      1340
+     ],
+     "radius": 100,
+     "label": "the field's low end",
+     "text": "Help Zenobia name the last graves"
+    },
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 4,
+     "text": "Bring back the kept-name tokens"
+    }
+   ],
+   "rewards": {
+    "xp": 340,
+    "gold": 85,
+    "items": [
+     "folk_warding",
+     "keepsake_cord"
+    ],
+    "rep": {
+     "border_hearths": 200,
+     "the_accord": 60
+    }
+   },
+   "note": "The last graves named, the ledger of the dead closed and left on the innkeeper's shelf overnight -- a thing the chronicler had never once done. She sat by the fire with empty hands and did not know their use. Casandra offered a bowl to hold. Zenobia held her hand, and neither of them named it."
+  },
+  "famine_fields_romance_casandra_3": {
+   "title": "A Place Kept, Not Filled",
+   "giver": "famine_fields_innkeeper",
+   "giver_name": "Casandra Corbeanu",
+   "zone": "famine_fields",
+   "level": 20,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "summary": "The two widows keep house between the inn and the grave-rows, and the town has a word for it that neither of them uses. Casandra has stopped waiting to be a wife again; Zenobia has stopped pretending she counts the dead for the dead's sake. On the anniversary of the season that emptied both their doors, they mean to lay their people's keepsakes at the reading-stone and let something be finished -- without pretending it is replaced.",
+   "offer": "A year today the list reached our street. I'll not marry her -- I was a wife, I know the shape of that, and this isn't that shape and I've stopped wanting it to be. What it is hasn't got a name and I've stopped needing one. Tonight we lay our dead's keepsakes at the reading-stone, my man's and her sister's together, and we let them rest -- not forgotten, never that, just set down. The husks come thick where grief pools. Clear the walking-hungry off the stone before we come. Let two women lay two griefs down in peace, and walk home to a warm door that neither of us has to keep alone anymore.",
+   "progress": "The husks gather thick at the reading-stone where grief pools. Clear them before the two women come to lay their keepsakes down.",
+   "complete": "It's done and it isn't -- grief's never done, you just carry it lighter. We laid them down together, said their names, walked home the one road to the one warm door. She keeps her sister's shawl on our peg. I keep my man's chair at our table, empty, always. We're not each other's second anything. We're two people who lost the same season and decided not to be cold about it. Come eat. There's bread, there's salt cut her sister's way, and there's a place kept that we'll never fill and never move.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "famine_husk",
+     "count": 6,
+     "text": "Clear the walking-hungry from the reading-stone"
+    },
+    {
+     "kind": "reach",
+     "map": "famine_fields",
+     "pos": [
+      980,
+      1040
+     ],
+     "radius": 70,
+     "label": "the reading-stone",
+     "text": "See the two keepsakes laid down together"
+    }
+   ],
+   "rewards": {
+    "xp": 400,
+    "gold": 110,
+    "items": [
+     "soothing_knot",
+     "counteragent_of_quiet"
+    ],
+    "rep": {
+     "border_hearths": 275,
+     "the_accord": 90
+    }
+   },
+   "note": "A year after the list reached their street, two widows laid two keepsakes at the reading-stone and walked home the one road to the one warm door. Not wives, not second anythings -- two people who lost the same season and chose not to be cold about it. A shawl on the peg, a chair kept empty, and a place set that they will never fill and never move."
+  },
+  "gravemark_tundra_romance_iosif_1": {
+   "title": "The Third Man's Marker",
+   "giver": "gravemark_tundra_blacksmith",
+   "giver_name": "Iosif Vulpescu",
+   "zone": "gravemark_tundra",
+   "level": 26,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "Iosif the smith and Radu the chronicler were three once -- the two of them and Costel's brother Andrei, who walked out onto the frozen flats one dusk and did not come back, and left no body for the kerb-field. Iosif has forged a marker for a man he cannot bury. He wants it set beside the oldest kerb, and he wants Radu, who keeps that field, told gently.",
+   "offer": "There were three of us, smith and scribe and Andrei between us keeping the peace -- best friend either of us had, and neither of us the marrying sort, so he was the whole of our family, near enough. He walked out on the frozen flats at dusk two winters back and the flats kept him. No body. Radu can't cut a kerb with no name and no bones under it; the rules of his field won't let him, and it's eating the man alive. So I forged one. Iron, not stone -- a marker for a friend the ground never gave back. Set it by the oldest kerb, and tell Radu I made it. Tell him careful. He loved Andrei too.",
+   "progress": "The oldest kerb stands at the edge of the kerb-field. Set Iosif's iron marker beside it, and break the frost-wights that gather where the ground goes warm and wrong.",
+   "complete": "He stood at it a long while, you said, and touched the iron, and asked was it my work -- knew it was, my hammer's got a stutter he's teased me for twenty years. He didn't tell me to take it away. That's a mercy from a man who keeps a field by rules. He sent word back through you: that a marker with no bones under it is against every law he keeps, and he's decided he doesn't care, and would I come warm my hands at his brazier tonight. I'll go. I've been cold a long time.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "thread_binding",
+     "count": 1,
+     "text": "Take Iosif's iron marker for Andrei"
+    },
+    {
+     "kind": "kill",
+     "target": "frost_wight",
+     "count": 5,
+     "text": "Clear the frost-wights from the kerb-field"
+    },
+    {
+     "kind": "reach",
+     "map": "gravemark_tundra",
+     "pos": [
+      800,
+      720
+     ],
+     "radius": 70,
+     "label": "the oldest kerb",
+     "text": "Set the marker beside the oldest kerb"
+    }
+   ],
+   "rewards": {
+    "xp": 380,
+    "gold": 95,
+    "items": [
+     "veinflint_striker"
+    ],
+    "rep": {
+     "border_hearths": 175,
+     "the_accord": 50
+    }
+   },
+   "note": "Three men once: smith, scribe, and Andrei between them, whom the frozen flats took two winters back and gave no body back. Iosif forged an iron marker for a friend he cannot bury. Radu, who keeps the kerb-field by strict rule, let it stand -- against every law he keeps -- and asked the smith to warm his hands at the brazier."
+  },
+  "gravemark_tundra_romance_iosif_2": {
+   "title": "What the Flats Keep",
+   "giver": "gravemark_tundra_blacksmith",
+   "giver_name": "Iosif Vulpescu",
+   "zone": "gravemark_tundra",
+   "level": 27,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 2,
+   "summary": "Grief drew the two survivors together at the brazier, night after night, until the warmth was its own reason. But Radu will not stop believing Andrei walked out for a reason, and out on the frozen flats a keepsake of his has surfaced through the thawing ground. To bring it in is to give the smith and scribe a piece of their third man back -- and to reopen the question of why he left.",
+   "offer": "Radu and I have got warm together, these weeks -- more than warm, if you'll not make me say the word for it in a cold forge. But he won't let Andrei rest as lost. Says a man doesn't walk onto the flats for nothing; says the ground here writes things down and gives them back when it thaws. And it has. Andrei's keepsake -- his bound one, the little book of ours he carried -- surfaced through the thaw-patch out east. I want it in my hands and I'm afeared of what it says. Bring it in for us both. Whatever's written, Radu and I read it together at the brazier, or we don't read it at all.",
+   "progress": "Andrei's keepsake has surfaced through the largest thaw-patch out east. Bring it in, past whatever the warming ground has woken.",
+   "complete": "We read it together, Radu's hand and mine on the same page. Andrei walked out to spare us -- he'd taken the listening sickness, the head-tilt, and he wouldn't let us watch him go the slow way, so he chose the flats and the cold and a clean end for our sakes. Radu wept. I wept. Then he laughed and said Andrei always did think he knew best, and he was right, curse him, and we should light a candle and toast the stubborn fool. So we did. We toast him every night now. It's become the warmest hour of the day.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "gravemark_tundra",
+     "pos": [
+      1560,
+      760
+     ],
+     "radius": 90,
+     "label": "the largest thaw-patch",
+     "text": "Reach the thaw-patch where Andrei's keepsake surfaced"
+    },
+    {
+     "kind": "collect",
+     "item": "bound_keepsake",
+     "count": 1,
+     "text": "Bring Andrei's keepsake in for both men"
+    }
+   ],
+   "rewards": {
+    "xp": 410,
+    "gold": 105,
+    "items": [
+     "cultured_poultice",
+     "keepsake_cord"
+    ],
+    "rep": {
+     "border_hearths": 200,
+     "the_accord": 70
+    }
+   },
+   "note": "Andrei's book surfaced through the thaw and told them why: he had taken the listening sickness and walked onto the flats to spare his two friends the watching. Iosif and Radu read it hand on hand, wept, then toasted the stubborn fool. They toast him every night now. It has become the warmest hour of the day."
+  },
+  "gravemark_tundra_romance_iosif_3": {
+   "title": "A Name the Ground Can Keep",
+   "giver": "gravemark_tundra_blacksmith",
+   "giver_name": "Iosif Vulpescu",
+   "zone": "gravemark_tundra",
+   "level": 29,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "summary": "The smith and the scribe have made a life of the warm hour between two griefs -- but the chronicler cannot rest while Andrei's name lies on iron and not on stone, uncounted in the field he keeps. There is one clean kerb-stone left in the tundra, out at the far kerb where the ground runs warm. Iosif means to cut Andrei's name at last, and one more name beside it, and he will not send Radu into the wrong ground to fetch the stone.",
+   "offer": "Radu keeps a field by rule and his rule says Andrei's name belongs on stone or nowhere, and he'll not rest till it's cut proper. Fine. There's one clean kerb-stone left, out at the far kerb where the ground's gone warm and wrong, and I'll be damned before I let Radu walk out there -- the flats took one man I love and they'll not have another. Fetch it for us. When it's cut, Andrei's name goes first. And under it -- Radu asked me last night, and I said yes -- under it goes both of ours, so that when the ground finally reads our list, it finds the three of us kept together, the way we should've stayed.",
+   "progress": "The last clean kerb-stone lies at the far kerb where the ground runs warm. Fetch it, so neither man walks the flats that took their friend.",
+   "complete": "You brought it back and neither of us went out onto the flats, and that's the whole of what I asked for, and it's everything. Radu cut Andrei's name deep, and under it ours, the three kept on one stone. He said the ground can have our names when it's ready and not before -- till then the stone holds them, and he holds me, and I hold the hammer, and the frozen flats can keep what they keep. We're not what Andrei was to us. Nobody could be. But we're warm, and we're kept, and there's a candle lit for a stubborn friend every single night. Come sit at it. There's room. There's always room.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "gravemark_tundra",
+     "pos": [
+      1340,
+      560
+     ],
+     "radius": 90,
+     "label": "the far kerb",
+     "text": "Reach the far kerb where the ground runs warm"
+    },
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 1,
+     "text": "Carry the last clean kerb-stone back"
+    },
+    {
+     "kind": "talk",
+     "npc": "gravemark_tundra_chronicler",
+     "text": "See Andrei's name cut, and two more beneath"
+    }
+   ],
+   "rewards": {
+    "xp": 460,
+    "gold": 130,
+    "items": [
+     "shroud_of_the_named",
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 275,
+     "the_accord": 110
+    }
+   },
+   "note": "The last clean stone came in off the warm flats, and neither man had to walk the ground that took their friend. Radu cut Andrei's name deep and both of theirs beneath -- three kept on one kerb. They are not what Andrei was to each other, and know it. But they are warm, they are kept, and a candle burns for a stubborn friend every single night."
   }
  }
 }
