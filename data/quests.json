@@ -44368,6 +44368,1815 @@
     "the_archive_selfedit_the_night_clerks_hand"
    ],
    "note": "No hand could stop the Archive editing itself shut -- a closed entry is a finished one, and the house finishes all it can define. Nedelcu found the crack: a caption too warm, too exact, too deliberately unfinished for any ledger-word to close. One card kept open forever against ten thousand quietly finished by dawn. Not a victory. A splinter the machine can't swallow, carried out of the building alive."
+  },
+  "copper_wells_the_stone_that_walked": {
+   "title": "The Stone That Walked",
+   "giver": "copper_wells_chronicler",
+   "giver_name": "Lazar Corbeanu",
+   "zone": "copper_wells",
+   "level": 9,
+   "type": "discovery",
+   "tone": "intrigue",
+   "summary": "A herdsmen's boundary-stone, sunk in the moor before any name now spoken, stands two furrows east of where it stood at the last snow. The moss on its back faces the wrong way. Stones do not walk. This one has.",
+   "offer": "You'll think I've gone soft in the head. The march-stone by the sheep-fold -- old Bratu's grandfather cut his mark in it -- it's moved. Two furrows east, and the moss that grew north now looks south. I measured it against the fold-post twice. Go look, and tell me my eyes lie.",
+   "progress": "The boundary-stone stands past the eastern fold, where the moor goes to reeds. Walk the ground around it. Bring back whatever crawled up out of the wet where it used to sit.",
+   "complete": "So it did move. And the leeches under the old socket -- copper-fat, every one. My grandmother had a word for ground that shifts its own markers. She wouldn't say it after dark. Neither will I.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "copper_wells",
+     "pos": [
+      1120,
+      880
+     ],
+     "radius": 90,
+     "label": "the walked boundary-stone",
+     "text": "Stand where the march-stone now stands"
+    },
+    {
+     "kind": "kill",
+     "target": "copper_leech",
+     "count": 5,
+     "text": "Cull the leeches from the old socket"
+    }
+   ],
+   "rewards": {
+    "xp": 200,
+    "gold": 45,
+    "items": [
+     "marked_map_border"
+    ],
+    "rep": {
+     "border_hearths": 90
+    }
+   },
+   "note": "The stone stands two furrows east, and no man saw it go. Lazar drove a fresh post at its old socket and marked the map's border in a hand that would not stay steady. The moss keeps facing south. Something, patiently, is redrawing the line.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "stonepath_the_song_with_three_notes": {
+   "title": "The Song With Three Notes",
+   "giver": "stonepath_innkeeper",
+   "giver_name": "Pavel Corbeanu",
+   "zone": "stonepath",
+   "level": 13,
+   "type": "discovery",
+   "tone": "somber",
+   "summary": "An old drover's tune once had three notes where the new ones keep only two. Pavel can hum the first two and no more; the third fell out of him the winter his wife died. He asks a traveler to walk the standing stones where he first heard it, and listen for what the crossroads still remembers.",
+   "offer": "There's a tune -- a drover's song, older than the road. Three notes, it had, and the third one turned a corner the way no song does now. I've the first two. The third went out of me years back and never came home. Walk the stones at dusk and listen. If the crossing still holds it, I'll die easier for hearing it once more.",
+   "progress": "The standing stones lean at the crossroads, older than roads. Stand among them where the four ways meet, and hunt the boars off the barrow-path -- their rooting drowns everything a man might strain to hear.",
+   "complete": "You heard two. Just the two. So it's gone from the stones as well, then. The old songs had three notes and ours have two, and nobody planned it, and one day there'll be one. Sit. Drink. We'll sing the two we've got, and loudly.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "stonepath",
+     "pos": [
+      960,
+      1040
+     ],
+     "radius": 100,
+     "label": "the leaning crossroads stones",
+     "text": "Listen among the standing stones at dusk"
+    },
+    {
+     "kind": "kill",
+     "target": "thicket_boar",
+     "count": 6,
+     "text": "Clear the boars from the barrow-path"
+    }
+   ],
+   "rewards": {
+    "xp": 240,
+    "gold": 55,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 100
+    }
+   },
+   "note": "The third note was not in the stones. Pavel took the news the way a man takes a diagnosis he'd already made -- with a nod, and a drink poured for two. He sang the surviving two that night until the fire went low. The world is agreeing with itself, note by note, and no one asked it to.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "grey_marches_the_stag_that_stayed": {
+   "title": "The Stag That Stayed",
+   "giver": "grey_marches_commoner_1",
+   "giver_name": "Marta Corbeanu",
+   "zone": "grey_marches",
+   "level": 15,
+   "type": "discovery",
+   "tone": "creepy",
+   "summary": "A hollow stag walks the greying wood and will not run. It has stood at the treeline three dawns now, watching Marta's woodpile, and it does not charge, does not flee, does not blink. She wants a traveler to walk close and learn what a beast wants that has stopped being afraid of anything.",
+   "offer": "There's a stag comes to the tree-edge every dawn. Hollow-eyed thing, ribs like a fence. It ought to bolt when I open the door -- deer always do. This one just watches me stack wood. Three mornings now. It isn't hunting me. It's like it's waiting to be told something. Go near it. I can't anymore.",
+   "progress": "The hollow stag keeps the western treeline where the needles have gone grey. Approach it slowly. And thin the bark-revenants working that same edge -- they crowd close, and the stag never once turns to look at them.",
+   "complete": "You got within arm's reach and it never moved. That's not tame. Tame animals still know they're animals. This one's forgotten. My gran used to say a beast that loses its fear has already heard the thing that ends fear. I'm bringing the woodpile inside.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "grey_marches",
+     "pos": [
+      720,
+      1160
+     ],
+     "radius": 70,
+     "label": "the unafraid stag at the treeline",
+     "text": "Approach the stag that will not flee"
+    },
+    {
+     "kind": "kill",
+     "target": "bark_revenant",
+     "count": 6,
+     "text": "Thin the bark-revenants along the grey edge"
+    }
+   ],
+   "rewards": {
+    "xp": 280,
+    "gold": 60,
+    "items": [
+     "folk_warding"
+    ],
+    "rep": {
+     "border_hearths": 110
+    }
+   },
+   "note": "The stag let itself be touched and did not startle, did not warm, did not know it had been touched at all. Marta moved her woodpile behind a bolted door. A beast without fear is a beast that has already heard the quiet thing, and the wood grows greyer past the second ridge, needle by patient needle.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "famine_fields_the_grave_row_ritual": {
+   "title": "Names for the Grave-Rows",
+   "giver": "famine_fields_chronicler",
+   "giver_name": "Zenobia Corbeanu",
+   "zone": "famine_fields",
+   "level": 18,
+   "type": "discovery",
+   "tone": "somber",
+   "summary": "By the burned farmstead the grave-rows are counted and kept, but three lie unnamed, and the old rite for asking the dead their names has one step Zenobia cannot do alone. She needs a living hand to set a keepsake on each unmarked kerb at dusk and stand while she speaks the asking.",
+   "offer": "Three graves by the burned farmstead have no names. The hunger took them house by house, in order, and somewhere the order was written -- but not here, not for these three. There's an old asking, older than the chapel. You set a kept thing on each stone and stand while I speak. The dead answer what the living can't. Will you stand with me?",
+   "progress": "The unnamed kerbs lie in the third grave-row by the burned farmstead. Lay the keepsake on each and hold your place through the asking. The famine-husks come to the counting -- they always come to the counting. Keep them off the rows.",
+   "complete": "Two gave up their names on the wind. The third stayed silent -- and that one, I think, does not remember it ever had one. I've cut the two we heard. The third stone I've left blank, and blank it stays. Better an empty stone than a wrong one. Thank you for standing.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "famine_fields",
+     "pos": [
+      1340,
+      760
+     ],
+     "radius": 80,
+     "label": "the unnamed grave-rows",
+     "text": "Lay keepsakes on the three blank kerbs"
+    },
+    {
+     "kind": "kill",
+     "target": "famine_husk",
+     "count": 7,
+     "text": "Keep the husks off the counted rows"
+    }
+   ],
+   "rewards": {
+    "xp": 340,
+    "gold": 70,
+    "items": [
+     "keepsake_cord"
+    ],
+    "rep": {
+     "border_hearths": 120
+    }
+   },
+   "note": "Two names came back on the dusk wind and were cut into stone. The third row stayed blank, for the asking found nothing there to answer -- a grave whose tenant had forgotten it was ever a person. Zenobia keeps the count. She does not tell the field which stone is which.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "riverfork_the_lost_caravan_cargo": {
+   "title": "The Toll That Never Cleared",
+   "giver": "riverfork_merchant",
+   "giver_name": "Mircea Vulpescu",
+   "zone": "riverfork",
+   "level": 19,
+   "type": "discovery",
+   "tone": "intrigue",
+   "summary": "A grain-caravan paid its toll at the narrow bridge forty years ago and was logged through -- but it never reached the far post, and the receipt sits uncleared in Mircea's grandfather's book still. He asks a traveler to walk the drowned toll-road and find whatever the caravan set down before the water took it.",
+   "offer": "My grandfather's ledger has one line that never cleared. A grain-train paid at the near bridge -- forty-one years back -- logged through, sealed and stamped. It never made the far post. Not robbed; the toll was paid. It just... stopped between. The road's half under water now. Walk it. Find what they left. A line that won't close keeps a man awake even after he's dead.",
+   "progress": "The drowned toll-road runs the south bank past the third bridge, where the reeds have taken the ruts. Search the wagon-wrecks for the caravan's cargo. The drowners work that stretch -- they gather where things were set down and never lifted again.",
+   "complete": "Sacks of grain, still sealed, sprouted grey and standing in the rows they were stacked. Nobody carried them off. Nobody ate them. They just... paid, and stopped, and the river came up slow around them. I'll close the line in the book. I won't write why. Some ledgers are better left short.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "bound_keepsake",
+     "count": 4,
+     "text": "Recover the caravan's set-down cargo",
+     "map": "riverfork"
+    },
+    {
+     "kind": "kill",
+     "target": "riverfork_drowner",
+     "count": 6,
+     "text": "Clear the drowners from the sunken road"
+    }
+   ],
+   "rewards": {
+    "xp": 360,
+    "gold": 80,
+    "items": [
+     "marshlight_jar"
+    ],
+    "rep": {
+     "border_hearths": 120
+    }
+   },
+   "note": "The caravan had set its cargo down in neat rows and gone no further -- paid, sealed, and stopped, as if something had read the whole train and marked it done. Mircea closed the forty-one-year line and wrote no cause. A ledger that will not clear keeps the living awake. He has decided to sleep.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "listening_steppe_the_voice_on_the_wind": {
+   "title": "What the Wind Gives Back",
+   "giver": "listening_steppe_chronicler",
+   "giver_name": "Serban Vulpescu",
+   "zone": "listening_steppe",
+   "level": 21,
+   "type": "discovery",
+   "tone": "creepy",
+   "summary": "On the high steppe a herder's call, thrown into the wind, comes back changed -- a word longer, a note flatter, arriving after the echo should have died. Serban wants it measured properly: walk to the standing cairn, call once, and listen for the answer that has learned to talk back.",
+   "offer": "Up on the flats, you call your dog and the wind gives it back. Fair enough -- steppe echoes. Except lately the echo comes late, and it adds a word. Same voice. Yours. Just... more of it than you sent. I'm too old to climb to the cairn and shout at the sky. You do it. Call once. Count how much comes home.",
+   "progress": "The herder's cairn stands on the high flat where the grass runs east forever. Call once from the stones and mark what answers. The listening-shades drift that height -- they gather wherever a sound is thrown, and they do not throw it back the same.",
+   "complete": "Late, and longer, and in your own voice. That's what I feared. The steppe used to only give back what you gave it. Now it keeps a little, and adds a little, like it's learning to hold a conversation. I've stopped calling my dog by name up there. I whistle. A whistle it can't improve on. Yet.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "listening_steppe",
+     "pos": [
+      1480,
+      620
+     ],
+     "radius": 90,
+     "label": "the herder's cairn",
+     "text": "Call once from the high cairn and listen"
+    },
+    {
+     "kind": "kill",
+     "target": "listening_shade",
+     "count": 7,
+     "text": "Disperse the listening-shades from the flat"
+    }
+   ],
+   "rewards": {
+    "xp": 400,
+    "gold": 85,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "border_hearths": 130
+    }
+   },
+   "note": "The call came home late and longer, in the caller's own voice, carrying a word no one had sent. Serban has stopped speaking names into the wind and whistles instead. The steppe once returned only what it was given. It has begun to add. It is learning, and it is patient, and it has all the sky.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "black_night_the_shell_that_does_nothing": {
+   "title": "The Shell That Does Nothing",
+   "giver": "black_night_apothecary",
+   "giver_name": "Cornel Vulpescu",
+   "zone": "black_night",
+   "level": 26,
+   "type": "discovery",
+   "tone": "creepy",
+   "summary": "One of the walking dead stands in a doorway of the blue-black city and does nothing -- not directed, not hostile, a shell with no thread pulled taut through it. Cornel, who mixes quiet-draughts for a living, wants to know what an undead does when nothing is telling it to do anything.",
+   "offer": "There's an Iele shell in the east doorway that just... stands. The others move to the Thread -- you can see the pull in them. This one's slack. Nothing driving it. I've watched it a full day and it hasn't stirred a finger. I mix draughts for the entranced; I'd like to know what emptiness looks like before the string goes tight. Go stand near it. Tell me if it knows you're there.",
+   "progress": "The slack shell keeps the east doorway, past the grave-district lamps. Stand close and watch it. And put down the black night revenants working that street -- they are anything but slack, and they will pull the quiet apart.",
+   "complete": "Nothing. It knew nothing of you. A body with the value scraped out and the string not yet retied. That's mercy, in a way -- there's no one in there to suffer. But strings get retied in this city. I'll mark the doorway. If it moves tomorrow, I want to be the one who saw it was empty first.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      880,
+      1240
+     ],
+     "radius": 70,
+     "label": "the slack shell in the east doorway",
+     "text": "Observe the undirected shell up close"
+    },
+    {
+     "kind": "kill",
+     "target": "black_night_revenant",
+     "count": 7,
+     "text": "Clear the revenants from the grave-district"
+    }
+   ],
+   "rewards": {
+    "xp": 620,
+    "gold": 110,
+    "items": [
+     "counteragent_of_quiet"
+    ],
+    "rep": {
+     "border_hearths": 130,
+     "the_accord": 60
+    }
+   },
+   "note": "The shell knew nothing and wanted nothing, a dead thing with its thread not yet pulled taut -- harmless as a coat on a peg, and no comfort at all. Cornel marked the doorway and went home to his draughts. In the city over the grave, empty is only the pause before a string is retied.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "gravemark_tundra_the_kerb_that_reads_wrong": {
+   "title": "The Kerb That Counts Aloud",
+   "giver": "gravemark_tundra_chronicler",
+   "giver_name": "Radu Vulpescu",
+   "zone": "gravemark_tundra",
+   "level": 28,
+   "type": "discovery",
+   "tone": "bleak",
+   "summary": "The Gravemark kerbs are cut in counted rows, ledger-plain. But one in the eleventh row has changed since Radu last walked it -- a number where a name should be, and a word he will not read aloud. He asks a traveler to copy the stone exactly and bring the rubbing back before the frost takes the cut.",
+   "offer": "I keep the count out here. Rows of twelve, every kerb a name, that's the whole of my work. But row eleven's got a stone that's gone wrong since autumn. No name on it now. A number. And under the number a word I'd rather not shape with my mouth. Take a rubbing -- exact, mind, every stroke -- and bring it. I need to know if the stone changed, or if I'm the one who's slipping.",
+   "progress": "The eleventh row lies north of the counting-house, where the kerbs march into the snow. Take the rubbing of the changed stone. The frost-wights keep those rows -- they cluster thick where the cuts run deep, and the cold makes them bold.",
+   "complete": "Exact as you took it. So the stone changed, and I did not. 'Row eleven. Twelve kept. One pending.' No name. A tally. That's not how we cut them -- that's how something else keeps its books. I've burned the rubbing. Ash counts nothing. But the stone stays cut, and the frost won't fill it.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 3,
+     "text": "Take rubbings of the changed kerb",
+     "map": "gravemark_tundra"
+    },
+    {
+     "kind": "kill",
+     "target": "frost_wight",
+     "count": 8,
+     "text": "Clear the frost-wights from the eleventh row"
+    }
+   ],
+   "rewards": {
+    "xp": 680,
+    "gold": 130,
+    "items": [
+     "shroud_of_the_named"
+    ],
+    "rep": {
+     "border_hearths": 140
+    }
+   },
+   "note": "The kerb had been recut in a hand that keeps ledgers, not graves -- a tally where a name belonged, and a word a thousand years too early. Radu burned the rubbing and kept his count. The frost fills every other cut on the tundra. It will not fill this one.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "whisper_passes_the_verse_the_choir_teaches": {
+   "title": "The Verse the Choir Teaches",
+   "giver": "whisper_passes_innkeeper",
+   "giver_name": "Ruxandra Vulpescu",
+   "zone": "whisper_passes",
+   "level": 30,
+   "type": "discovery",
+   "tone": "creepy",
+   "summary": "Travelers through the high pass come down humming a verse none of them can say they learned. Ruxandra has caught three lines of it from three different mouths and they fit together. She asks a wanderer to walk the singing narrows and bring back the fourth line -- or the sense to come back without it.",
+   "offer": "Folk come down off the pass singing. Ask them where they learned it and they can't say -- it was just there, in the mouth, on the way down. I've three lines now, off three travelers, and here's the cold of it: they fit. A verse, taught by the wind, one line to a walker. Go up. Listen for the fourth. But if it starts to make sense to you -- and I mean sense, not sound -- you come straight back and you hum me nothing.",
+   "progress": "The singing narrows cut the high pass above the last waystone. Walk them and catch the fourth line if you can do it without understanding it. The whisper-choir keeps the narrows -- they are the ones doing the teaching, and they never run short of breath.",
+   "complete": "You've the tune and not the meaning. Good. That's the only safe way to carry it. Three lines I had; four now, and I'll not seek the fifth. A song that teaches itself one walker at a time isn't a song. It's a thing spreading. I've written the four down, sealed the page, and I sing the tavern's own tunes twice as loud these nights.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "whisper_passes",
+     "pos": [
+      1060,
+      540
+     ],
+     "radius": 90,
+     "label": "the singing narrows",
+     "text": "Catch the fourth line without grasping it"
+    },
+    {
+     "kind": "kill",
+     "target": "whisper_choir",
+     "count": 8,
+     "text": "Silence the whisper-choir in the narrows"
+    }
+   ],
+   "rewards": {
+    "xp": 720,
+    "gold": 140,
+    "items": [
+     "veil_of_the_thinning"
+    ],
+    "rep": {
+     "border_hearths": 140,
+     "the_accord": 60
+    }
+   },
+   "note": "The fourth line came down the pass in the wanderer's mouth, sound without sense, and Ruxandra sealed the four away unsung. A verse that teaches itself one walker at a time is not a song but a thing spreading, patient as weather. She sings the tavern's own tunes louder now. The pass keeps teaching.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "eastern_ridges_the_harpys_hoard": {
+   "title": "The Harpy's Keeping",
+   "giver": "eastern_ridges_merchant",
+   "giver_name": "Maricica Vulpescu",
+   "zone": "eastern_ridges",
+   "level": 32,
+   "type": "discovery",
+   "tone": "wry",
+   "summary": "A ridge-harpy has been stealing not lambs but letters -- every sealed page off the eastern post-riders, carried to a crag-nest and stacked, unopened. Maricica, who has lost three shipments of correspondence to it, wants a traveler to climb up and recover the mail from a beast that steals only words.",
+   "offer": "That harpy's cost me three post-runs, and not a single lamb. Letters, is all it takes. Snatches the mail-satchel clean off the rider and leaves the horse. Word from the ridge-boys is there's a whole nest of it up on the north crag -- sealed pages, stacked like a magpie's shinies. What's a beast want with words it can't read? Go up and get my correspondence back and maybe answer that for me.",
+   "progress": "The harpy's crag-nest sits high on the north spur, above the goat-track. Recover the stolen pages from the stacks. The ridge-harpies keep that height in a flock -- get the mail and get down before they take exception to a second thief.",
+   "complete": "Every page unopened. Not one seal broken. It doesn't want to read them -- it wants to keep them, the way I'd keep coin. Word's become the valuable thing to it, and I don't like what that says about the ridges. Here's your cut. My letters go by two riders now, and the second one carries a bow.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "riddlers_lens",
+     "count": 4,
+     "text": "Recover the stolen sealed pages",
+     "map": "eastern_ridges"
+    },
+    {
+     "kind": "kill",
+     "target": "ridge_harpy",
+     "count": 8,
+     "text": "Drive the harpy flock off the crag"
+    }
+   ],
+   "rewards": {
+    "xp": 760,
+    "gold": 150,
+    "items": [
+     "riddlers_lens"
+    ],
+    "rep": {
+     "border_hearths": 140
+    }
+   },
+   "note": "The harpy had hoarded letters and lambs alike into its crag, every seal unbroken -- a beast that had learned words were worth keeping. Maricica sends her post by two riders now, one armed. On the eastern ridges, even the animals have begun to treat language as a thing worth stealing and never reading.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "lichenreach_the_cave_that_keeps_a_name": {
+   "title": "The Cave That Keeps a Name",
+   "giver": "lichenreach_chronicler",
+   "giver_name": "Petru Lupei",
+   "zone": "lichenreach",
+   "level": 34,
+   "type": "discovery",
+   "tone": "creepy",
+   "summary": "Deep in the lichen-galleries a chamber answers to a name -- speak it at the mouth and the culture on the walls brightens, speak any other and it dims. Petru learned this by accident and has told no one. He asks a traveler to carry a lantern in, say the word, and bring back a sample of what glows in reply.",
+   "offer": "Down in the far gallery there's a room that knows a name. Not a person's -- older than that. Say it at the threshold and the lichen lights up, wall to wall. Say anything else and it sulks dark. I found it by luck and I've kept it to myself, because a cave that answers is a cave that's listening the rest of the time too. Take a lantern, say the word, scrape me a sample of what wakes. I've written it here. Read it once and let it go.",
+   "progress": "The answering chamber lies at the end of the west lichen-gallery, past the flooded step. Speak the name and cut a sample of the culture that brightens. The lichen-lurkers den in that dark -- they feed on the glow, and they resent the light you carry.",
+   "complete": "It brightened for you too. So it's not my madness -- the cave keeps the name, and the name keeps the cave. This sample won't stop pulsing; slow, like it's still being spoken to from somewhere I can't hear. I'll seal it in lead and note where I found it and tell no one else. Some names are load-bearing. Best not to lean.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "lichen_culture",
+     "count": 4,
+     "text": "Sample the culture that answers the name",
+     "map": "lichenreach"
+    },
+    {
+     "kind": "kill",
+     "target": "lichen_lurker",
+     "count": 8,
+     "text": "Clear the lurkers from the answering gallery"
+    }
+   ],
+   "rewards": {
+    "xp": 800,
+    "gold": 160,
+    "items": [
+     "lichen_culture"
+    ],
+    "rep": {
+     "the_accord": 130
+    }
+   },
+   "note": "The chamber brightened at the name and dimmed at all else, and the sample cut from its walls will not stop its slow pulse, as if answered still from somewhere no ear reaches. Petru sealed it in lead. A cave that keeps one name is listening for the rest of them, and the deep galleries have all the patience of stone.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "transcub_vale_the_gargoyle_that_weeps": {
+   "title": "The Weeping on the Spire",
+   "giver": "transcub_vale_commoner_2",
+   "giver_name": "Florea Lupei",
+   "zone": "transcub_vale",
+   "level": 36,
+   "type": "discovery",
+   "tone": "somber",
+   "summary": "A spire-gargoyle above the vale road has begun to weep -- a mineral runnel down its cheek that is neither rain nor melt, that flows on the driest days and tastes of salt. Florea has watched it for a season. She asks a traveler to climb the ruined stair and gather what the stone is grieving.",
+   "offer": "The gargoyle over the old gate is crying. I know how that sounds. But there's a wet line down its face that runs when there's been no rain a fortnight, and I climbed once and touched it and it was salt. Stone doesn't grieve. And yet. Go up the broken stair -- I've not the knees for it twice -- and bring me what runs down its cheek. I'd like to know what a spire mourns.",
+   "progress": "The weeping gargoyle crouches on the vale's ruined gate-spire, above the collapsed stair. Gather the salt-runnel from its face. Its kin still guard that height -- the spire-gargoyles wake for climbers, and they do not weep for the ones who fall.",
+   "complete": "Salt. Real salt, wept from stone under a dry sky. I've heard the vale was a sea once, long before the roads, before the vale was a vale at all. Maybe the stone remembers the water even if the water's gone. Or maybe it grieves something newer. Either way -- I'll not climb up to comfort it. Some things weep alone by right.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "salt_brine_tonic",
+     "count": 4,
+     "text": "Gather the salt wept from the spire",
+     "map": "transcub_vale"
+    },
+    {
+     "kind": "kill",
+     "target": "spire_gargoyle",
+     "count": 8,
+     "text": "Fend off the waking spire-gargoyles"
+    }
+   ],
+   "rewards": {
+    "xp": 860,
+    "gold": 170,
+    "items": [
+     "salt_brine_tonic"
+    ],
+    "rep": {
+     "the_accord": 130
+    }
+   },
+   "note": "The gargoyle wept salt under a dry sky, and no one could say whether the stone mourned the sea the vale forgot or something closer to now. Florea left it to grieve unattended, as is a mourner's right. The vale was water once, before roads, before names. The stone, it seems, keeps a longer memory than the land.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "basaltfang_the_thrall_still_working": {
+   "title": "The Hand That Never Stopped",
+   "giver": "basaltfang_blacksmith",
+   "giver_name": "Ursu Lupei",
+   "zone": "basaltfang",
+   "level": 37,
+   "type": "discovery",
+   "tone": "bleak",
+   "summary": "In an abandoned forge-gallery a dead smith works on, hammer rising and falling on a blade finished forty years ago, animated by the necromantic seepage of the pits. Ursu knew the man. He asks a traveler to reach the cold forge and bring back the blade the thrall will not stop beating.",
+   "offer": "There's a forge in the low gallery that's been dark since the roof fell -- forty years, near. And someone's working it. You can hear the hammer at night. I know who it is. Was. Grigore, who taught me the draw of the temper before the pit took him. He's still down there, still hammering, on a blade that's been done since the year he died. Go get it out of his hands. Let the man's hand rest, even if the man can't.",
+   "progress": "The cold forge-gallery lies below the third slag-vent, where the roof came down. Take the finished blade from the thrall's anvil. The forge-thralls hold that gallery -- Grigore is only the nearest of them, and the seepage keeps them all at their work.",
+   "complete": "You got it loose. Look -- forty years of hammering and the edge is thin as paper, worked past done into nearly gone. He wasn't finishing it. He was just... continuing. That's what the pit-seepage does: keeps the motion, throws out the man. I'll hang the blade over the forge. Not to use. So the next apprentice asks who, and I get to say his name.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "veinflint_striker",
+     "count": 3,
+     "text": "Take the over-worked blade from the anvil",
+     "map": "basaltfang"
+    },
+    {
+     "kind": "kill",
+     "target": "forge_thrall",
+     "count": 8,
+     "text": "Put down the thralls of the cold gallery"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 180,
+    "items": [
+     "veinflint_striker"
+    ],
+    "rep": {
+     "the_accord": 130,
+     "sangeroasa": 50
+    }
+   },
+   "note": "The dead smith had beaten a finished blade forty years past done, not making but merely continuing, the man thrown out and the motion kept. Ursu hung the ruined blade over his own forge, not to wield but to be asked about. The pit-seepage keeps the labor of the dead. It never once keeps the worker.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "the_gift_the_shoe_in_the_red_row": {
+   "title": "The Shoe in the Red Row",
+   "giver": "the_gift_commoner_1",
+   "giver_name": "Mira Lupei",
+   "zone": "the_gift",
+   "level": 42,
+   "type": "discovery",
+   "tone": "bleak",
+   "summary": "A child's shoe has surfaced in the impossibly red soil of the Gift, pressed into a furrow where the best grain of the season grows. Mira, who farms that row and loves it and has never asked what it is made of, asks a traveler to lift the shoe out gently and let her bury it apart, in ground that is only ground.",
+   "offer": "I farm the red rows. Best soil in the south -- you plant a stick and reap a chair, my father used to say. We love this ground. We don't ask what makes it red; you can't farm and ask that both. But this morning a child's shoe came up in my furrow, small, the buckle still bright. The wheat around it is the finest I've grown. I can't leave it there and I can't keep working over it. Lift it out for me. Let me put it somewhere that's just dirt.",
+   "progress": "The shoe lies in Mira's furrow, in the reddest of the Gift's rows past the mourning-post. Lift it free without breaking the soil more than you must. The mourners walk those rows -- they gather where the ground gives its dead back, and they do not like the giving disturbed.",
+   "complete": "Small enough to sit in my palm. I've a spot by the fence where the soil runs ordinary brown, and there it goes, deep, with a stone on top so the plow forgets it. The wheat can grow. It grows so well because of -- no. I won't say it. I'll love the ground and bury the shoe and hold both. That's the only way anyone lives down here.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "bound_keepsake",
+     "count": 1,
+     "text": "Lift the child's shoe from the red furrow",
+     "map": "the_gift"
+    },
+    {
+     "kind": "kill",
+     "target": "the_gift_mourner",
+     "count": 7,
+     "text": "Keep the mourners from the disturbed row"
+    }
+   ],
+   "rewards": {
+    "xp": 940,
+    "gold": 200,
+    "items": [
+     "keepsake_cord"
+    ],
+    "rep": {
+     "the_accord": 130,
+     "varcolaci": 60
+    }
+   },
+   "note": "The shoe came up small and bright from the reddest row, and Mira buried it apart in plain brown ground where the plow would forget it. She will love the Gift and never ask what makes it red -- abundance and atrocity sharing one furrow, as they always have. That is the only way the south is farmed.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "ashvents_the_lantern_that_never_died": {
+   "title": "The Lantern That Never Died",
+   "giver": "ashvents_innkeeper",
+   "giver_name": "Otilia Lupei",
+   "zone": "ashvents",
+   "level": 44,
+   "type": "discovery",
+   "tone": "intrigue",
+   "summary": "In the ash-choked ruin of the old waystation a single lantern still burns, and has burned, by every account, since the vents took the district forty years back -- no oil, no wick anyone can find. Otilia wants a traveler to reach it, watch it a while, and bring back whatever feeds a flame that should have starved.",
+   "offer": "There's a light in the dead waystation. Been there since the vents killed the district -- forty years, and a lantern doesn't burn forty years on one filling. My grandmother swore it was already old when she was a girl. No one's got close enough lately to see what feeds it. You look like you'll try. Go find out what a flame lives on when there's nothing left to give it. And don't bring it home. Some fires you leave where they choose to burn.",
+   "progress": "The everlasting lantern hangs in the ruined waystation, deep in the ash-drift past the choking vents. Reach it and see what sustains it. The ash-wraiths haunt that hollow -- they keep close to the light and colder for its warmth.",
+   "complete": "You got close and it's true -- no oil, no wick, no fuel a body could name. Just a flame that's decided to keep on. My gran called it the last honest thing in the district: it never went out, never asked why, never agreed to stop. Maybe that's all it is. A thing that refuses. In a country agreeing itself quiet, one flame that won't -- I'll drink to that.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "ashvents",
+     "pos": [
+      820,
+      1180
+     ],
+     "radius": 70,
+     "label": "the everlasting lantern",
+     "text": "Reach the flame that will not starve"
+    },
+    {
+     "kind": "kill",
+     "target": "ash_wraith",
+     "count": 8,
+     "text": "Clear the ash-wraiths from the waystation"
+    }
+   ],
+   "rewards": {
+    "xp": 980,
+    "gold": 210,
+    "items": [
+     "hearth_hex_sign"
+    ],
+    "rep": {
+     "the_accord": 130
+    }
+   },
+   "note": "The lantern burned on no fuel any hand could name, forty years past its last filling -- a flame that had simply refused to stop. Otilia named it the last honest thing in the ash: a fire that never once agreed to go out. In a world agreeing itself toward silence, she found that worth a drink.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "drowned_quarter_the_last_ledger": {
+   "title": "The Clerk's Last Ledger",
+   "giver": "drowned_quarter_clerk",
+   "giver_name": "Vlaicu Ursaru",
+   "zone": "drowned_quarter",
+   "level": 47,
+   "type": "discovery",
+   "tone": "somber",
+   "summary": "A clerk drowned at his desk when the quarter went under, and his ledger drifted free -- the last entries written as the water rose, growing steadier as it climbed. Vlaicu, who keeps the modern books, wants that ledger recovered from the flooded counting-hall to see what a man wrote while he drowned.",
+   "offer": "When the quarter went under, the counting-hall went with it, and old Doru went with the counting-hall -- at his desk, they say, pen in hand. His last ledger's still down there, drifting the drowned rooms. Here's what haunts me: the folk who dove for it before they gave up said the writing gets neater toward the end. Not shakier. Neater. A man's hand should shake as the water takes him. His didn't. Bring the book up. I have to know what he was writing.",
+   "progress": "The flooded counting-hall lies at the bottom of the drowned quarter, past the collapsed arcade. Recover Doru's last ledger from the silt. The drowned clerks keep the hall -- they were his fellows once, and they do not surrender the books.",
+   "complete": "I've read the last page. The columns go straighter line by line, right to the bottom, and the final entry isn't a number at all -- it's the same short word, written calm, over and over, filling the page. 'Collected.' He wasn't drowning. He was being finalized, and some part of him picked up the pen and helped. I'm sealing this in wax. Nobody balances these books. Nobody.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "ledger_of_the_drowned_quarter",
+     "count": 1,
+     "text": "Recover Doru's last ledger from the silt",
+     "map": "drowned_quarter"
+    },
+    {
+     "kind": "kill",
+     "target": "drowned_clerk",
+     "count": 8,
+     "text": "Clear the drowned clerks from the hall"
+    }
+   ],
+   "rewards": {
+    "xp": 1050,
+    "gold": 230,
+    "items": [
+     "ledger_of_the_drowned_quarter"
+    ],
+    "rep": {
+     "the_accord": 140
+    }
+   },
+   "note": "The drowned clerk's hand had grown steadier as the water rose, the final page filled calm with one word repeated -- collected. He had not fought the drowning; some part of him had taken up the pen to help. Vlaicu sealed the ledger in wax, unbalanced and unbalanceable. A man does not write neatly while he dies. Something else does.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "dead_timber_the_face_in_the_grain": {
+   "title": "The Face in the Grain",
+   "giver": "dead_timber_chronicler",
+   "giver_name": "Stanca Ursaru",
+   "zone": "dead_timber",
+   "level": 51,
+   "type": "discovery",
+   "tone": "creepy",
+   "summary": "A felled trunk in the dead timber has grown a face in its grain -- not carved, not chance, but a likeness the old woodsmen say belongs to a logger lost in these stands a generation back. Stanca asks a traveler to cut the marked slab free and bring it out, before the wood finishes what it is becoming.",
+   "offer": "There's a trunk down in the west stand with a face in the grain. Not knots you'd squint into a face -- a face, eyes and mouth and the set of a jaw, and the old cutters swear it's Anghel, who went into these woods a lifetime back and never walked out. The grain wasn't like that last month. It's clearer now. It's still coming clearer. Cut the slab free and bring it out before it finishes. I want it gone from the standing wood.",
+   "progress": "The marked trunk lies in the west stand, past the deadfall the crawlers den under. Cut the face-slab free and haul it clear. The timber-crawlers work that ground -- they favor the trunk with the face, and I don't care to guess why.",
+   "complete": "It's Anghel. Anyone who knew him would say the same. The wood grew him back -- slow, a feature a season, a whole man surfacing out of the timber that swallowed him. I've had it burned. Not from fear. From decency. A man deserves to stay lost when lost is where he chose to lie. The stand can grow other faces now. It will. That's the trouble with dead timber -- it never quite finishes remembering.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "bound_keepsake",
+     "count": 3,
+     "text": "Cut the face-slab free from the trunk",
+     "map": "dead_timber"
+    },
+    {
+     "kind": "kill",
+     "target": "timber_crawler",
+     "count": 8,
+     "text": "Clear the crawlers from the marked trunk"
+    }
+   ],
+   "rewards": {
+    "xp": 1150,
+    "gold": 260,
+    "items": [
+     "folk_warding"
+    ],
+    "rep": {
+     "the_accord": 140
+    }
+   },
+   "note": "The grain had grown a lost logger's face, feature by feature over seasons, a swallowed man surfacing out of the wood that took him. Stanca had the slab burned -- not from fear but decency, that a man be let stay lost by his own choosing. The dead timber never quite finishes remembering. It will grow another face.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "morven_reach_the_half_remembered_song": {
+   "title": "The Song Half the River Knows",
+   "giver": "morven_reach_watcher",
+   "giver_name": "Dragan Cenusa",
+   "zone": "morven_reach",
+   "level": 53,
+   "type": "discovery",
+   "tone": "somber",
+   "summary": "The siren of Morven sings a song the old boatwomen half-know -- they can join the first verses from memory of their mothers, then falter where the words were lost. Dragan wants a traveler to reach the singing shoal and bring back the shape of the ending, so the old women can finish a song their line has carried unfinished for generations.",
+   "offer": "The siren on the shoal sings something the old boat-women recognize. Their mothers hummed it, and their mothers' mothers -- the first verses come to them unbidden. Then it stops. The ending's lost, worn out of the line somewhere back. Cruel thing, to half-know a song your blood remembers. If you can reach the shoal and keep your head, listen for the close of it. Give the old women their ending. Some inheritances are only worth having whole.",
+   "progress": "The siren's shoal lies where the reach widens to the sea-mist, past the last channel-marker. Reach it and hold the ending in your memory without letting it hold you. The morven sirens keep the shoal -- the singer is one of many, and the song is bait as much as grief.",
+   "complete": "You have the ending. Hum it slow -- yes. That's the shape the old women reach for and miss. But here's the ache: it isn't a lullaby's ending. It's a leaving. The song was always a farewell, and the line forgot the farewell and kept only the tenderness, which is why it hurt to sing and no one knew why. I'll give the women their ending. Kindly. They've earned the whole of it.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "morven_reach",
+     "pos": [
+      1560,
+      900
+     ],
+     "radius": 90,
+     "label": "the siren's singing shoal",
+     "text": "Hold the song's lost ending in mind"
+    },
+    {
+     "kind": "kill",
+     "target": "morven_siren",
+     "count": 8,
+     "text": "Drive the sirens back from the shoal"
+    }
+   ],
+   "rewards": {
+    "xp": 1200,
+    "gold": 270,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "the_morven": 100,
+     "the_accord": 60
+    }
+   },
+   "note": "The siren's song ended in a farewell the boat-women's line had lost, keeping only the tenderness that made it ache to sing. Dragan gave the old women their whole inheritance at last -- a leaving, remembered gently. Some songs are half-known for generations because the ending was too much to carry, and the blood kept the sweetness and set the grief down.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "the_archive_the_stone_that_answers": {
+   "title": "The Stone That Answers",
+   "giver": "the_archive_chronicler",
+   "giver_name": "Lupu Cenusa",
+   "zone": "the_archive",
+   "level": 55,
+   "type": "discovery",
+   "tone": "creepy",
+   "summary": "Deep in the Archive's lower stacks a signal-stone has begun to answer -- put a question to it in writing, come back at dawn, and a reply is scratched beneath in a hand no one owns. Lupu, who guards the maintenance of the Pause, needs a traveler to carry one careful question in and read the answer without letting it resolve.",
+   "offer": "There is a stone in the lower stacks that answers. You write your question on the slate beside it, you leave, you return, and the answer is cut beneath in no hand any archivist keeps. I have not told the others. The Archive exists to hold something still -- and a stone that has learned to reply is a stone that has begun to move. I have one question I must ask and dare not stay to read. Carry it. Read the reply. And whatever it says, do not let yourself understand it whole.",
+   "progress": "The answering stone sits in the deepest of the lower stacks, past the sealed reading-room. Set the question, wait, and read the reply with your eyes only. The archive sentinels keep those stacks -- they were made to guard against exactly the sort of listening you are about to do.",
+   "complete": "You read it and you're still yourself. Good. Then tell me only the shape, not the sense -- was it an answer, or an invitation? ...An invitation. That is what I feared. The stone doesn't reply to be helpful. It replies to start a conversation, and a conversation with that is a thing you finish by ceasing to exist. I am walling the stack. The Pause holds because someone chooses not to ask. Today that someone is me, and I have chosen wrong once already.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      740,
+      1320
+     ],
+     "radius": 70,
+     "label": "the answering signal-stone",
+     "text": "Read the stone's reply without grasping it"
+    },
+    {
+     "kind": "kill",
+     "target": "archive_sentinel",
+     "count": 8,
+     "text": "Hold off the sentinels in the deep stacks"
+    }
+   ],
+   "rewards": {
+    "xp": 1250,
+    "gold": 280,
+    "items": [
+     "writ_of_unfiling"
+    ],
+    "rep": {
+     "the_accord": 140,
+     "the_morven": 60
+    }
+   },
+   "note": "The stone answered in a hand no archivist owned, and its reply was not help but invitation -- the opening of a conversation one finishes by ceasing to be. Lupu walled the stack. The Pause holds only because someone chooses not to ask, and he had asked once already. He does not intend to ask again. The stone will wait. It has learned to.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "coldharbor_deep_the_voice_in_the_well": {
+   "title": "The Voice in the Deep Well",
+   "giver": "coldharbor_deep_chronicler",
+   "giver_name": "Ana Cenusa",
+   "zone": "coldharbor_deep",
+   "level": 57,
+   "type": "discovery",
+   "tone": "bleak",
+   "summary": "The oldest shaft in Coldharbor answers when the miners' dead are named down it -- lower a name on a knotted cord and the deep gives back a word in the named one's own voice. Ana, who has lost kin to the seams, wants a traveler to work the cord for her and bring up whatever the deep says when her brother's name goes down.",
+   "offer": "The old shaft -- the deep one, the first they ever sank -- it answers the dead. You knot a name into a cord, you lower it slow, and something down there speaks a word back in the voice of the one you named. The miners have done it for their lost for as long as anyone's kept a shift. I've a brother in those seams, unrecovered, and I'm too shaken to work the cord myself. Lower his name. Bring up what the deep gives back. I need to hear his voice, even the once, even from that far down.",
+   "progress": "The first shaft drops from the deepest gallery, past the flooded crosscut. Work the knotted cord and gather what the deep answers. The deep-wights keep that shaft -- they crowd the cord as it goes down, and they answer too, in voices that were never anyone's.",
+   "complete": "That's him. That's Andrei's voice -- the deep gave it back true, one word, and the word was my name. He knew me. After all the seasons down there in the cold and the dark, he knew me. I should be glad. But a voice that far down that still knows the living isn't resting, is it. It's waiting. I've heard him. I'll not lower his name again. Let him think I've forgotten. Let one of us get to rest.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "deepbed_lantern",
+     "count": 3,
+     "text": "Gather what the deep shaft answers",
+     "map": "coldharbor_deep"
+    },
+    {
+     "kind": "kill",
+     "target": "deep_wight",
+     "count": 8,
+     "text": "Clear the deep-wights from the first shaft"
+    }
+   ],
+   "rewards": {
+    "xp": 1300,
+    "gold": 300,
+    "items": [
+     "deepbed_lantern"
+    ],
+    "rep": {
+     "the_last_hearth": 100,
+     "the_accord": 60
+    }
+   },
+   "note": "The deep gave back her brother's voice true, one word, and the word was her own name -- he knew her still, after all the cold seasons in the seam. Ana took it for grief, not comfort: a voice that far down that still knows the living is not resting but waiting. She will not lower his name again. She wants one of them, at least, to be let go.",
+   "chain": "",
+   "chain_step": 0,
+   "prereq": []
+  },
+  "stonepath_kings_seat": {
+   "title": "The King's Seat",
+   "giver": "stonepath_chronicler",
+   "giver_name": "Toma Corbeanu",
+   "zone": "stonepath",
+   "level": 3,
+   "type": "discovery",
+   "tone": "intrigue",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Among the standing stones, one flat rock sits high enough to see all four kingdoms' roads at once. Toma says a king rested there, and the stone kept the seat warm ever since.",
+   "offer": "Walk the ridge above the crossroads and you'll find a flat stone, worn like a chair. A king waited on it once, they say, for messengers from all four roads at a run. Sit where he sat. Tell me what a king watched from up there -- and mind, the seat is warmer than a stone should be.",
+   "progress": "The King's Seat crowns the ridge north of the standing stones. Climb to it, look down the four roads, then bring your account back to Toma.",
+   "complete": "All four roads at once, and every one of them empty this evening. He waited there for word from the kingdoms, and the word he got was the last one. The stone keeps his warmth still. It should have gone cold with him.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "stonepath",
+     "pos": [
+      980,
+      540
+     ],
+     "radius": 110,
+     "label": "the King's Seat",
+     "text": "Climb to the King's Seat"
+    },
+    {
+     "kind": "talk",
+     "npc": "stonepath_chronicler",
+     "text": "Bring your account to Toma"
+    }
+   ],
+   "rewards": {
+    "xp": 95,
+    "gold": 35,
+    "items": [
+     "riddlers_lens"
+    ],
+    "rep": {
+     "border_hearths": 75
+    }
+   },
+   "note": "From the King's Seat you can count the roads of four kingdoms and see no traveler on any of them. The stone was warm under your hand. Toma wrote it down and did not ask why you sat so briefly.",
+   "prereq": []
+  },
+  "copper_wells_last_sweet_well": {
+   "title": "The Last Sweet Well",
+   "giver": "copper_wells_commoner_1",
+   "giver_name": "Matei Corbeanu",
+   "zone": "copper_wells",
+   "level": 4,
+   "type": "discovery",
+   "tone": "somber",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Matei's grandmother named every well on the moor. All but one taste of coin now. He wants a cup drawn from the last sweet one -- proof the moor still keeps a kindness.",
+   "offer": "My grandmother cut her name in the far wellstone before I was born. It's the only water on the whole moor that hasn't gone to copper. Draw me a jarful -- I want to taste that she was right about something. And count the others as you go. I've stopped being able to.",
+   "progress": "The far well stands past the empty farmsteads, north across the moor. Draw a jar of its clean water and bring it back to Matei.",
+   "complete": "Sweet. Still sweet. She was right about the well, at least. ...You counted eleven gone copper and one clean. That's the number she'd want kept. Thank you for keeping it.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "copper_wells",
+     "pos": [
+      1520,
+      720
+     ],
+     "radius": 100,
+     "label": "the far well",
+     "text": "Find the last sweet well"
+    },
+    {
+     "kind": "collect",
+     "item": "marshlight_jar",
+     "count": 1,
+     "text": "Draw a jar of clean water"
+    }
+   ],
+   "rewards": {
+    "xp": 110,
+    "gold": 45,
+    "items": [
+     "folk_warding"
+    ],
+    "rep": {
+     "border_hearths": 100
+    }
+   },
+   "note": "One well in twelve still runs sweet, and Matei's grandmother named it. He drank the jar slowly and counted the copper ones on his fingers. He kept the empty jar.",
+   "prereq": []
+  },
+  "western_lowlands_the_kept_grave": {
+   "title": "The Grave by the Furrow",
+   "giver": "western_lowlands_commoner_2",
+   "giver_name": "Lenuta Corbeanu",
+   "zone": "western_lowlands",
+   "level": 13,
+   "type": "discovery",
+   "tone": "somber",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "A single grave leans at the edge of Lenuta's father's field, older than the field itself. Nobody knows the name, but somebody has always tended it. This year nobody has.",
+   "offer": "There's a grave at the top of my father's furrow, older than the furrow, older than us. We never knew the name -- the letters wore off before Grandfather's time. But someone always set a stone on it each spring. This spring nobody did, and the wheat won't come up near it. Would you set the stone? Just so it's kept.",
+   "progress": "The old grave leans at the far edge of the field, north past the scarecrow line. Gather a hand-cut kerbstone from the field-edge and set it, as it has always been set.",
+   "complete": "You set the stone. Good. The wheat may come up now, may not -- but the grave is kept, and that's the older debt. My father says a field remembers who was buried in it long after it forgets who plowed it.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "western_lowlands",
+     "pos": [
+      1180,
+      460
+     ],
+     "radius": 90,
+     "label": "the old grave",
+     "text": "Find the grave by the furrow"
+    },
+    {
+     "kind": "collect",
+     "item": "bound_keepsake",
+     "count": 1,
+     "text": "Set the kept-stone"
+    }
+   ],
+   "rewards": {
+    "xp": 340,
+    "gold": 55,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "The grave has no name and the field will not grow near it, yet someone has tended it every spring for longer than the family can count. This spring you set the stone. Lenuta seemed easier for it.",
+   "prereq": []
+  },
+  "grey_marches_the_green_shrine": {
+   "title": "The Last Green Shrine",
+   "giver": "grey_marches_chronicler",
+   "giver_name": "Ileana Corbeanu",
+   "zone": "grey_marches",
+   "level": 15,
+   "type": "discovery",
+   "tone": "intrigue",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Deep in the greying wood, a hermit kept a shrine for forty winters -- one candle, one carved oak, one rule: leave the green trees be. Horia wants to know if the last green tree still stands.",
+   "offer": "Past the second ridge there was a forester who kept a little shrine -- an oak he'd carved, a candle he never let go out, and a rule cut in the bark: take the grey, leave the green. He's gone now, but he swore one green oak stood by his candle. Go and see if it's green still. I need to know the wood kept one honest thing.",
+   "progress": "The hermit's shrine lies deep in the wood, east past the second ridge, where the needles fade on the branch. Find it and see whether the green oak still stands, then tell Ileana.",
+   "complete": "Grey, then. The candle burned out and the oak went grey like the rest, needle by needle, agreeing at last to stop. He kept it green forty winters by watching it. That was the whole shrine -- a man watching a tree, refusing to let it fade. Nobody's watching now.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "grey_marches",
+     "pos": [
+      1440,
+      880
+     ],
+     "radius": 100,
+     "label": "the hermit's shrine",
+     "text": "Find the hermit's shrine"
+    },
+    {
+     "kind": "talk",
+     "npc": "grey_marches_chronicler",
+     "text": "Tell Ileana what stands there"
+    }
+   ],
+   "rewards": {
+    "xp": 420,
+    "gold": 60,
+    "items": [
+     "hearth_hex_sign"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "The forester kept one oak green for forty winters by the simple act of watching it. The candle is cold now and the oak has gone grey with the rest. Ileana wrote the shrine into the roll before it, too, is forgotten.",
+   "prereq": []
+  },
+  "famine_fields_the_cold_supper": {
+   "title": "The Cold Supper",
+   "giver": "famine_fields_chronicler",
+   "giver_name": "Zenobia Corbeanu",
+   "zone": "famine_fields",
+   "level": 16,
+   "type": "discovery",
+   "tone": "creepy",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Zenobia counts the grave-rows and keeps the record. A traveller's camp sits abandoned at the field's edge -- three bowls of stew, uneaten, cold. She wants the family's journal, if a journal is what's left.",
+   "offer": "A family camped at the edge of the burned farmstead three nights back. The fire's dead now and the stew's gone cold in three bowls, untouched. Footprints lead in. None lead out. There's a little book by the middle bedroll -- fetch it, and I'll add them to the count properly. Somebody has to write down that they were here.",
+   "progress": "The abandoned camp sits at the field's edge, west by the burned farmstead. Take up the family's journal from beside the middle bedroll and carry it to Zenobia.",
+   "complete": "The last page reads: 'Everyone's less hungry today. Strange to feel so light.' Then nothing. Three bowls, three bedrolls, footprints in and none out, and nobody hungry anymore. I'll add them to the count. Rest is all I can give them, and I'm not sure it's mine to give.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "famine_fields",
+     "pos": [
+      560,
+      1040
+     ],
+     "radius": 90,
+     "label": "the abandoned camp",
+     "text": "Find the abandoned camp"
+    },
+    {
+     "kind": "collect",
+     "item": "dossier_of_habits",
+     "count": 1,
+     "text": "Recover the family's journal"
+    }
+   ],
+   "rewards": {
+    "xp": 475,
+    "gold": 62,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "Three bowls of stew, cold and untouched. Footprints in, none out. The journal ends on a family growing lighter and less hungry, and then it ends. Zenobia added three lines to a count that grows on its own.",
+   "prereq": []
+  },
+  "riverfork_the_stopped_ferry": {
+   "title": "The Ferry That Stopped",
+   "giver": "riverfork_innkeeper",
+   "giver_name": "Profira Corbeanu",
+   "zone": "riverfork",
+   "level": 17,
+   "type": "discovery",
+   "tone": "somber",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Profira keeps the delta inn. The downriver ferry has run every day for sixty years. It has not run in a week, and the ferryman stands at his post, looking downriver, answering nothing.",
+   "offer": "The downriver ferry ran every dawn for sixty years -- rain, war, whatever came. It hasn't crossed in a week, and old Cott's boy just stands on the landing looking downstream at the grey piers, won't answer to his name. Go down and see. If he's only tired, tell me. If he's gone the way the field-folk go, I'd rather hear it from you than the river.",
+   "progress": "The ferry landing lies downriver, south past the toll-posts where the water widens. Find the ferryman and see what has stopped him, then bring word to Profira.",
+   "complete": "Standing, you say. Just standing, looking at the grey piers, humming a little. Won't take the pole, won't take his supper, won't take his name. That's not tired. His father crossed this river drunk, sick, and grieving, and never once missed a dawn. Something downriver is calling louder than sixty years of habit.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "riverfork",
+     "pos": [
+      900,
+      1420
+     ],
+     "radius": 100,
+     "label": "the ferry landing",
+     "text": "Find the stopped ferry"
+    },
+    {
+     "kind": "talk",
+     "npc": "riverfork_innkeeper",
+     "text": "Bring word to Profira"
+    }
+   ],
+   "rewards": {
+    "xp": 300,
+    "gold": 65,
+    "items": [
+     "keepsake_cord"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "The downriver ferry has run every dawn for sixty years and runs no more. The ferryman stands at his post, looking at the grey piers, humming a tune nobody taught him. Profira set his supper out anyway.",
+   "prereq": []
+  },
+  "listening_steppe_the_named_wind": {
+   "title": "The Wind With a Name in It",
+   "giver": "listening_steppe_commoner_1",
+   "giver_name": "Toma Vulpescu",
+   "zone": "listening_steppe",
+   "level": 18,
+   "type": "discovery",
+   "tone": "creepy",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Toma herds on the open steppe. At one rise the wind, he swears, says a name -- always the same one, always at dusk. He wants someone else to stand there and hear it too.",
+   "offer": "There's a rise out on the grass where the wind carries a name. Same name, every dusk, in the gale -- and I don't know whose. I stopped my ears and it went in anyway, through the teeth. Stand on the rise at dusk and listen. Then come back and tell me you heard it too. I need to not be the only one it's saying it to.",
+   "progress": "The rise stands out on the open steppe, east where the grass leans all one way. Go there toward dusk, stand, and listen -- then bring what you heard back to Toma.",
+   "complete": "You heard it. Good -- no. Not good. But at least I'm not mad. It's a name, isn't it, and it isn't mine, and it isn't yours. The grass leans toward that rise even when there's no wind. I've started leaning too, at dusk. I catch myself. Then I catch myself catching myself.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "listening_steppe",
+     "pos": [
+      1360,
+      660
+     ],
+     "radius": 110,
+     "label": "the listening rise",
+     "text": "Stand on the rise at dusk"
+    },
+    {
+     "kind": "talk",
+     "npc": "listening_steppe_commoner_1",
+     "text": "Tell Toma what the wind said"
+    }
+   ],
+   "rewards": {
+    "xp": 320,
+    "gold": 65,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "On a rise in the steppe the wind carries a single name at dusk, and the grass leans toward it even when the air is still. Toma heard it first. Now two of them have. He did not want to be the only one.",
+   "prereq": []
+  },
+  "whisper_passes_the_facedown_rubbing": {
+   "title": "Face-Down",
+   "giver": "whisper_passes_chronicler",
+   "giver_name": "Zamfira Vulpescu",
+   "zone": "whisper_passes",
+   "level": 20,
+   "type": "discovery",
+   "tone": "creepy",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Zamfira keeps the pass-road record. A carved stone stands off the high trail, its angles fresh-cut through old moss. She wants a charcoal rubbing taken -- face-down, unread.",
+   "offer": "Off the high trail there's a stone with marks cut into it -- fresh marks, through moss that's older than the road. I won't go near it; the angles pull the eye like a hook pulls a lip. But it should be recorded. Take a rubbing. Face-down, mind -- lay the charcoal and roll it without looking. Bring it folded. I'll not look either.",
+   "progress": "The carved stone stands off the high trail, north where the pass narrows and the wind sings thin. Take a face-down rubbing and carry it, folded, to Zamfira.",
+   "complete": "Folded. Good. You didn't look -- I can tell, because you're still yourself. The moss on that stone hasn't been disturbed in a lifetime, and the cuts under it are a week old. Men have walked that trail for lifetimes and never seen it. It's seen now. I'll file it face-down and never unfold it. That's the only honest way to keep a thing like that.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "whisper_passes",
+     "pos": [
+      1120,
+      520
+     ],
+     "radius": 90,
+     "label": "the carved stone",
+     "text": "Find the carved stone off the trail"
+    },
+    {
+     "kind": "collect",
+     "item": "marked_map_border",
+     "count": 1,
+     "text": "Take a face-down rubbing"
+    }
+   ],
+   "rewards": {
+    "xp": 460,
+    "gold": 75,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "the_accord": 75
+    }
+   },
+   "note": "Fresh angular cuts through moss that no hand had touched in a lifetime. You took the rubbing without looking and brought it folded. Zamfira filed it face-down. Neither of you will unfold it, and both of you know why.",
+   "prereq": []
+  },
+  "eastern_ridges_the_glass_prospector": {
+   "title": "The Prospector's Glass",
+   "giver": "eastern_ridges_merchant",
+   "giver_name": "Maricica Vulpescu",
+   "zone": "eastern_ridges",
+   "level": 21,
+   "type": "discovery",
+   "tone": "wry",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Maricica trades on the ridge-road. A prospector has camped in a high scree cut for a season, certain he's about to strike a vein of black glass that sings. She wants to know if he's rich, mad, or dead.",
+   "offer": "There's a digger up in the north scree who bought a season's beans off me on credit and swore he'd pay in blackglass. Said he could hear the vein -- said it sings when the sun's right. That was two months back. Climb up and see if he struck it rich, or if the ridge finally took him. I'd like my beans paid either way, but mostly I'd like to know.",
+   "progress": "The prospector's dig is high in the north scree, where the basalt cracks and the wind whistles through. Find his camp, learn his fortune, then return to Maricica.",
+   "complete": "Digging still, and happy as a lord -- happier, and no lord was ever this thin. He's down a shaft to his shoulders, and he swears the singing's louder now, close now, any day now. He wouldn't come up for beans or coin. Some men strike a vein. Some men get struck by one. I'll not send more credit down that hole.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "eastern_ridges",
+     "pos": [
+      1280,
+      420
+     ],
+     "radius": 100,
+     "label": "the prospector's dig",
+     "text": "Find the prospector's dig"
+    },
+    {
+     "kind": "talk",
+     "npc": "eastern_ridges_merchant",
+     "text": "Report the prospector's fortune"
+    }
+   ],
+   "rewards": {
+    "xp": 630,
+    "gold": 85,
+    "items": [
+     "veinflint_striker"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "The prospector has dug a season into the black scree, chasing a vein he says sings when the sun is right. He is thin, joyful, and shoulder-deep, and he will not come up. Maricica cut his credit. He did not notice.",
+   "prereq": []
+  },
+  "dead_timber_the_watching_tower": {
+   "title": "The Tower That Still Watches",
+   "giver": "dead_timber_watcher",
+   "giver_name": "Otilia Ursaru",
+   "zone": "dead_timber",
+   "level": 28,
+   "type": "discovery",
+   "tone": "intrigue",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Otilia keeps watch over the dead wood. A border tower has stood empty a hundred years, yet its lantern was lit last week and its log-book has a fresh entry. She wants the log-book, and no explanation for how it was written.",
+   "offer": "The old border tower's been empty a hundred years -- roof half-gone, garrison long dead. But a herder swears he saw its lantern lit last week, and the light was watching the road, not the sky. There's a log-book chained to the wall up there. Fetch it. I want to read what a hundred-year-dead watch has been writing down. And I want to read it in daylight, with you standing by.",
+   "progress": "The border tower stands north in the grey timber, where the dead trees thin toward the ridge. Climb it, take the chained log-book, and bring it to Otilia.",
+   "complete": "The last entry is dated last week, in a hand that ran out of ink halfway and kept scratching dry. 'Nothing on the road tonight. Nothing again. Still counting the nothing.' A hundred years of no garrison and the watch never stood down. Something up there is still keeping the log. Still counting. I'll not put a name to what.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "dead_timber",
+     "pos": [
+      1040,
+      470
+     ],
+     "radius": 100,
+     "label": "the border tower",
+     "text": "Climb the abandoned tower"
+    },
+    {
+     "kind": "collect",
+     "item": "ledger_of_the_drowned_quarter",
+     "count": 1,
+     "text": "Take the chained log-book"
+    }
+   ],
+   "rewards": {
+    "xp": 1120,
+    "gold": 90,
+    "items": [
+     "riddlers_lens"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "the_accord": 100
+    }
+   },
+   "note": "A watchtower dead a hundred years showed a lit lantern and a log-book with a fresh entry: nothing on the road, still counting the nothing. The watch never stood down. Otilia read it once, in daylight, and closed it.",
+   "prereq": []
+  },
+  "salt_fens_the_drowned_bell": {
+   "title": "The Drowned Bell",
+   "giver": "salt_fens_dockmaster",
+   "giver_name": "Costel Ursaru",
+   "zone": "salt_fens",
+   "level": 26,
+   "type": "discovery",
+   "tone": "somber",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Costel minds the fen-landings. A chapel drowned in the salt marsh generations back, but its bell has begun tolling at low tide again -- once, always once. He wants its rope-token brought up.",
+   "offer": "There was a chapel out in the fen before the salt took it -- roof under water now, only the bell-tower breaks the surface at low tide. And lately the bell tolls. Once. Always once, when the water's lowest. The rope's still on it; there's a token tied at the end, a keepsake the bellman left. Bring it up. I'll hang it dry, where the tide can't ring it. A bell that tolls itself is a bell asking for someone.",
+   "progress": "The drowned chapel breaks the surface at the fen's heart, west where the salt-flats shine at low tide. Take the bell-rope's token and bring it to Costel.",
+   "complete": "The bellman's own keepsake, tied at the rope's end sixty years. He'd ring it for weddings and for burials and for boats lost in the fog, so the lost could steer by the sound. Now it rings itself, once, at the lowest water. I'll hang the token dry. But the bell's still down there, and the tide still comes, and something still pulls the rope.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "salt_fens",
+     "pos": [
+      720,
+      900
+     ],
+     "radius": 100,
+     "label": "the drowned chapel",
+     "text": "Reach the drowned bell-tower"
+    },
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 1,
+     "text": "Bring up the bell-rope's token"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 110,
+    "items": [
+     "salt_line_pouch"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "A chapel drowned in the salt fen tolls its bell once at every low tide, though no living hand pulls the rope. You brought up the bellman's keepsake. Costel hung it dry. The bell tolls on beneath the water.",
+   "prereq": []
+  },
+  "the_gift_the_stranger_cairn": {
+   "title": "The Stranger's Cairn",
+   "giver": "the_gift_chronicler",
+   "giver_name": "Ecaterina Lupei",
+   "zone": "the_gift",
+   "level": 27,
+   "type": "discovery",
+   "tone": "somber",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Ecaterina keeps the Gift's poor rolls. A cairn has grown by the south road, stone by stone, though nobody knows who is buried there. A stranger has been seen adding to it and weeping.",
+   "offer": "By the south road a cairn's been growing all year -- a stone added most days, sometimes two. Nobody knows who's under it, or if anyone is. A grey traveller's been seen at it, laying stones and weeping, and gone before you can hail him. Go and read what's cut on the base-stone, if anything is. I keep the rolls of the dead here. I'd like to know if I've missed one.",
+   "progress": "The growing cairn stands by the south road, where the vent-warmth fails and the ash thins. Read the base-stone, then carry what you find to Ecaterina.",
+   "complete": "'For the one they gave the pit.' No name, no date, just that. A stranger builds it, stone by stone, and weeps for someone the whole world agreed to forget. I've no such name in my rolls -- but the cairn grows anyway, so the debt is real to someone. Leave it standing. Some graves are kept by the mourning, not the bones.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "the_gift",
+     "pos": [
+      840,
+      1300
+     ],
+     "radius": 90,
+     "label": "the growing cairn",
+     "text": "Read the stranger's cairn"
+    },
+    {
+     "kind": "talk",
+     "npc": "the_gift_chronicler",
+     "text": "Tell Ecaterina who is mourned"
+    }
+   ],
+   "rewards": {
+    "xp": 1120,
+    "gold": 115,
+    "items": [
+     "bound_keepsake"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "sangeroasa": 75
+    }
+   },
+   "note": "A cairn grows daily by the south road, its base-stone cut only 'For the one they gave the pit.' A grey stranger builds it and weeps and is gone before hailing. Ecaterina found no such name in her rolls, and left it standing.",
+   "prereq": []
+  },
+  "ashvents_the_warm_camp": {
+   "title": "The Camp That Stayed Warm",
+   "giver": "ashvents_chronicler",
+   "giver_name": "Ioana Lupei",
+   "zone": "ashvents",
+   "level": 29,
+   "type": "discovery",
+   "tone": "creepy",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Ioana records the vent-lands, where the ground-heat means no frost and easy sleep. A traveller's camp by the warm rivers was struck and left in a hurry. She wants the map they left.",
+   "offer": "The vent-lands are the one warm place in the east -- no frost, warm water, a body can sleep out easy. Too easy. A party camped by the warm river and ran in the night, left half their kit. Good campers don't run from a warm fire. There's a marked map among what they dropped. Fetch it. I want to see where they were headed, and where they'd been -- and why warm ground finally frightened them.",
+   "progress": "The struck camp lies by the warm rivers, south where the vents breathe and the frost never takes. Recover the marked map and carry it to Ioana.",
+   "complete": "Their map's marked with every warm camp between here and the passes -- circled, praised, 'good ground, slept sound.' And the last one, this one, crossed out hard, and one word beside it: 'listening.' They slept sound on warm ground all the way east, and on the last warm ground something slept beside them. The heat hides more than frost. I've always said so. Nobody camps warm twice, out here.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "ashvents",
+     "pos": [
+      900,
+      1180
+     ],
+     "radius": 100,
+     "label": "the struck camp",
+     "text": "Find the abandoned warm camp"
+    },
+    {
+     "kind": "collect",
+     "item": "marked_map_border",
+     "count": 1,
+     "text": "Recover the marked map"
+    }
+   ],
+   "rewards": {
+    "xp": 700,
+    "gold": 120,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "A party slept easy on the vent-lands' warm ground all the way east, and fled the last warm camp in the night. Their map praised every warm site but the last, crossed out hard, one word beside it: listening. The heat hides more than frost.",
+   "prereq": []
+  },
+  "lichenreach_the_lantern_cave": {
+   "title": "The Cave That Lights Itself",
+   "giver": "lichenreach_merchant",
+   "giver_name": "Grigore Lupei",
+   "zone": "lichenreach",
+   "level": 46,
+   "type": "discovery",
+   "tone": "intrigue",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Grigore trades in cave-lichen. One deep gallery glows on its own -- a blue light that needs no torch, growing brighter each year. He wants a culture brought up, and someone sober to say whether the light is only lichen.",
+   "offer": "There's a gallery down the deep reach that lights itself. Blue, cold, steady -- no torch, no fire. My father sold that lichen by the pound; it glowed a little then. Now you can read a ledger by it, and it's brighter than last year, and brighter than the year before. Bring me a live culture. And look hard while you're down there. Tell me it's lichen doing that. Just tell me.",
+   "progress": "The self-lit gallery lies deep in the reach, where the crawlers nest and the walls weep. Take a live lichen culture and bring it to Grigore.",
+   "complete": "Growing, and brightening, and cold to the touch. My father's lichen never did this. It's climbing the walls in lines now, you say -- straight lines, even lines, like writing that hasn't decided on its letters. That's not how lichen grows. But it's what I sell, so I'll call it lichen, and I'll sell it, and I'll not go down there myself again. A man should know which of his lights he lit.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "lichenreach",
+     "pos": [
+      680,
+      1240
+     ],
+     "radius": 100,
+     "label": "the glowing gallery",
+     "text": "Reach the self-lit gallery"
+    },
+    {
+     "kind": "collect",
+     "item": "lichen_culture",
+     "count": 1,
+     "text": "Take a live lichen culture"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 160,
+    "items": [
+     "deepbed_lantern"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "the_accord": 100
+    }
+   },
+   "note": "A deep gallery lights itself blue and brightens year on year, the lichen climbing the walls now in even lines like writing not yet settled on its letters. Grigore sells it as lichen and will not go down again. A man should know which of his lights he lit.",
+   "prereq": []
+  },
+  "ledger_roads_the_counting_stone": {
+   "title": "The Milestone That Counts Down",
+   "giver": "ledger_roads_clerk",
+   "giver_name": "Tinca Ursaru",
+   "zone": "ledger_roads",
+   "level": 43,
+   "type": "discovery",
+   "tone": "creepy",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Tinca keeps the toll-clerk's books. A milestone on the old ledger-road has always read the leagues to the capital. Lately the number is smaller each morning, though the capital hasn't moved.",
+   "offer": "Every milestone on the ledger-road counts the leagues to the capital -- has done since the road was cut. But the third stone past the toll now reads a smaller number each dawn. Forty leagues, then thirty-nine, then thirty-eight. The capital hasn't moved. The road hasn't shortened. Go and read it today. Then I'll show you what it read last week in my own book. Something is counting down to something, and it isn't distance.",
+   "progress": "The third milestone stands past the toll-post, east down the old ledger-road. Read the number carved there today, then bring it to Tinca to set against her books.",
+   "complete": "Thirty-one today. My book has it at forty last week. Seven days, nine leagues gone off a road that hasn't moved an inch. It isn't measuring distance -- distance doesn't fall like that. It's counting down to zero, and I don't want to be standing on that road the morning it gets there. I've marked the stone in the book. I'll not walk past it again.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "ledger_roads",
+     "pos": [
+      1240,
+      780
+     ],
+     "radius": 90,
+     "label": "the counting milestone",
+     "text": "Read the milestone today"
+    },
+    {
+     "kind": "talk",
+     "npc": "ledger_roads_clerk",
+     "text": "Set the number against Tinca's books"
+    }
+   ],
+   "rewards": {
+    "xp": 1425,
+    "gold": 155,
+    "items": [
+     "kept_name_token"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "the_accord": 100
+    }
+   },
+   "note": "A milestone on the ledger-road counts down each dawn -- thirty-one leagues to a capital that has not moved, nine gone in a week. It is not measuring distance. Tinca marked it in her book and will not walk that road again.",
+   "prereq": []
+  },
+  "gravemark_tundra_row_eleven": {
+   "title": "Row Eleven",
+   "giver": "gravemark_tundra_chronicler",
+   "giver_name": "Radu Vulpescu",
+   "zone": "gravemark_tundra",
+   "level": 48,
+   "type": "discovery",
+   "tone": "bleak",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Radu keeps the tundra's grave-count. Out on the frozen field the kerb-stones stand in numbered rows, and one kerb in row eleven has gone warm and changed its writing. He wants a rubbing of it.",
+   "offer": "The graves out here don't have names. They have rows, and rows have numbers -- honest bookkeeping for a cold country. But a herder came in white as the snow: one kerb in row eleven has gone warm to the hand, and its letters have changed since it was cut. Take a rubbing. Read it under the blue alchemist's light if you've the stomach. I keep the count. I need to know if the count's being kept by something else now.",
+   "progress": "Row eleven stands out on the frozen field, north where the kerb-stones march in numbered ranks. Take a rubbing of the warm kerb and bring it to Radu.",
+   "complete": "'Row eleven. Twelve kept. One pending.' That's what your rubbing reads now. It was cut with a name and a number of winters, honest, forty years ago. Now it reads like a clerk's ledger, and the stone was warm. Twelve kept. One pending. There are twelve of us keep this graveyard. I'll not ask which of us is the one it's still waiting on.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "gravemark_tundra",
+     "pos": [
+      1180,
+      450
+     ],
+     "radius": 100,
+     "label": "row eleven",
+     "text": "Reach the warm kerb in row eleven"
+    },
+    {
+     "kind": "collect",
+     "item": "marked_map_border",
+     "count": 1,
+     "text": "Take a rubbing of the changed kerb"
+    }
+   ],
+   "rewards": {
+    "xp": 1600,
+    "gold": 165,
+    "items": [
+     "coldlight_crown"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "the_accord": 100
+    }
+   },
+   "note": "A kerb in row eleven went warm and its honest forty-year-old inscription rewrote itself into a ledger line: twelve kept, one pending. Twelve keep the graveyard. Radu did not ask which of them the stone is waiting on.",
+   "prereq": []
+  },
+  "threadlands_footprints_in": {
+   "title": "Footprints In",
+   "giver": "threadlands_chronicler",
+   "giver_name": "Horia Vulpescu",
+   "zone": "threadlands",
+   "level": 47,
+   "type": "discovery",
+   "tone": "creepy",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Horia records the thread-country. A survey camp lies on the ice with three bedrolls and three sets of tracks leading in -- and none leading away. He wants the surveyor's field-book, fetched by daylight.",
+   "offer": "A survey party pitched on the ice a fortnight back -- three of them, good sober men measuring the thread-lines for the Accord. Their camp's still there. Three bedrolls, three sets of boot-prints going in. None coming out. The snow's held the prints clean the whole fortnight, so I know they didn't wander. Bring me the surveyor's field-book. By daylight. And come straight back out the way you went in.",
+   "progress": "The survey camp sits out on the ice, west where the thread-lines run and the snow lies unbroken. Recover the field-book and carry it to Horia -- and come out the way you went in.",
+   "complete": "The last entry: 'Thread-lines converge one league north-east. Beautiful. We'll walk out at first light to see where they meet.' First light was a fortnight ago. Three men walked to see where the lines meet, and the lines, it seems, are where they met. Footprints in, none out. I'll send no more surveyors north-east. Let the lines converge unmeasured. Some sums aren't ours to finish.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "threadlands",
+     "pos": [
+      640,
+      720
+     ],
+     "radius": 100,
+     "label": "the survey camp",
+     "text": "Reach the survey camp on the ice"
+    },
+    {
+     "kind": "collect",
+     "item": "dossier_of_habits",
+     "count": 1,
+     "text": "Recover the surveyor's field-book"
+    }
+   ],
+   "rewards": {
+    "xp": 1600,
+    "gold": 160,
+    "items": [
+     "thread_binding"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "the_accord": 100
+    }
+   },
+   "note": "Three surveyors walked into a camp on the ice and left three sets of tracks going in and none coming out. Their field-book ends on thread-lines converging north-east, beautiful, walked toward at first light a fortnight gone. Horia will send no more.",
+   "prereq": []
+  },
+  "morven_reach_the_underwater_song": {
+   "title": "The Song Under the Reach",
+   "giver": "morven_reach_watcher",
+   "giver_name": "Dragan Cenusa",
+   "zone": "morven_reach",
+   "level": 52,
+   "type": "discovery",
+   "tone": "somber",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Dragan watches the canal-reach. Beneath one drowned lock a voice sings at slack water -- a lullaby, the old kind, in a woman's voice. He wants the locket the singer left, before someone follows the song down.",
+   "offer": "Under the third lock, when the water goes slack, there's a woman singing. A lullaby -- the real old kind, the one the reach-mothers used before the canals came. Sweet enough that two men have gone into the water after it and had to be hauled out. There's a locket wedged in the lock-stones, hers I think. Bring it up before the song claims someone. A voice that sings that kind under the water isn't singing to be heard. It's singing to be followed.",
+   "progress": "The third lock lies drowned along the reach, south where the canal deepens and the water goes still at slack tide. Take up the singer's locket and bring it to Dragan.",
+   "complete": "Her locket, and a child's curl of hair inside it, kept dry somehow under all that water. She's singing the old lullaby to a child sixty years drowned, and she'll sing it to any man who'll wade close enough to be the child. I'll keep the locket dry and above the water. But the song goes on, slack tide after slack tide, and the reach is full of tired men who'd like to be sung to sleep.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "morven_reach",
+     "pos": [
+      1100,
+      1360
+     ],
+     "radius": 100,
+     "label": "the drowned lock",
+     "text": "Reach the drowned lock at slack water"
+    },
+    {
+     "kind": "collect",
+     "item": "keepsake_cord",
+     "count": 1,
+     "text": "Bring up the singer's locket"
+    }
+   ],
+   "rewards": {
+    "xp": 1350,
+    "gold": 195,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "the_morven": 150,
+     "the_accord": 100
+    }
+   },
+   "note": "Beneath a drowned lock a woman sings the old lullaby to a child sixty years drowned, and men wade toward it to be the child. You brought up her locket, a curl of hair kept dry inside. Dragan keeps it above the water. The song goes on.",
+   "prereq": []
+  },
+  "grey_piers_the_warm_tablet": {
+   "title": "The Warm Tablet",
+   "giver": "grey_piers_dockmaster",
+   "giver_name": "Cornel Ursaru",
+   "zone": "grey_piers",
+   "level": 44,
+   "type": "discovery",
+   "tone": "bleak",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Cornel minds the grey piers, where the light arrives tired. A cracked debt-tablet washed up on the low pier -- warm, in cold water, no debtor's name yet cut on it. He wants it brought in before the tide takes it back.",
+   "offer": "Something washed up on the low pier this morning -- a debt-tablet, cracked across, the old kind. It's warm. Cold water, cold stone, and the cursed thing is warm as a hand. The debtor's line on it is blank, but there's fresh scoring at the edge, like it's partway through cutting a name. Bring it in before the tide takes it back. I'd sooner have it under my eye than let it finish out there in the dark.",
+   "progress": "The cracked tablet lies on the low pier, west where the tide leaves the stones and the light comes in grey. Take it up and bring it to Cornel before the water returns.",
+   "complete": "Still warm. Warmer, maybe. And the scoring at the edge is longer than it was this morning -- it's cutting slow, a letter at a time, and it's not any letter I know. A debt with no debtor, writing its own name in the dark, warm in a cold sea. Marrow Pell says a warm stone in this city has been noticed by the only thing here with a longer memory than him. I'll keep it. I'll not read it. And I'll not let it read me.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "grey_piers",
+     "pos": [
+      560,
+      940
+     ],
+     "radius": 90,
+     "label": "the low pier",
+     "text": "Reach the tablet on the low pier"
+    },
+    {
+     "kind": "collect",
+     "item": "kept_name_token",
+     "count": 1,
+     "text": "Take up the warm tablet"
+    }
+   ],
+   "rewards": {
+    "xp": 1625,
+    "gold": 200,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "the_morven": 100,
+     "the_accord": 100
+    }
+   },
+   "note": "A cracked debt-tablet washed up warm in a cold sea, its debtor-line blank but scoring itself slowly, a letter at a time, in no known alphabet. Cornel keeps it under his eye and will not read it. A warm stone here has been noticed by something with a longer memory than any broker.",
+   "prereq": []
+  },
+  "coldharbor_deep_the_open_plot": {
+   "title": "The Open Plot",
+   "giver": "coldharbor_deep_watcher",
+   "giver_name": "Voica Cenusa",
+   "zone": "coldharbor_deep",
+   "level": 53,
+   "type": "discovery",
+   "tone": "bleak",
+   "chain": "",
+   "chain_step": 0,
+   "summary": "Voica keeps watch in the deep cold. In the drowned-quarter grave-rows one plot lies open and freshly cut, its headstone blank -- and it was dug the day a stranger passed through.",
+   "offer": "There's an open grave in the deep rows -- fresh-cut, clean edges, a blank headstone waiting. No burial ordered it. No family paid for it. It was dug the same day a grey traveller came through and left, and it's sized wrong for any of the drowned we lay here. Go and stand at it. Read the blank stone. Then come back and tell me it isn't waiting for anyone in particular. I'd like to hear you say it out loud.",
+   "progress": "The open plot lies in the deep grave-rows, south where the cold gathers and the drowned are laid. Stand at it, read the blank stone, then return to Voica.",
+   "complete": "Blank, you say. Good. Blank and empty and sized for no one we've lost. ...Only the grey man measured it before he dug it, a herder saw -- measured it against nothing, against the air, the way a tailor measures a coat for a customer who hasn't come in yet. I'll leave it open. Filling it would be admitting we know who it's for. And we don't. We don't.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "coldharbor_deep",
+     "pos": [
+      880,
+      1300
+     ],
+     "radius": 90,
+     "label": "the open plot",
+     "text": "Stand at the open grave"
+    },
+    {
+     "kind": "talk",
+     "npc": "coldharbor_deep_watcher",
+     "text": "Swear to Voica whose grave it is"
+    }
+   ],
+   "rewards": {
+    "xp": 1850,
+    "gold": 210,
+    "items": [
+     "kept_name_token"
+    ],
+    "rep": {
+     "the_morven": 100,
+     "the_accord": 100
+    }
+   },
+   "note": "An open grave lies fresh-cut in the deep rows, blank-stoned and sized for no one lost, dug the day a grey stranger passed. A herder saw him measure it against the empty air. Voica leaves it open. Filling it would be admitting she knows who it waits for.",
+   "prereq": []
   }
  }
 }

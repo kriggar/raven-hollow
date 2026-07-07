@@ -909,6 +909,20 @@ func _run_env_hooks() -> void:
 	if not OS.get_environment("RH_QUESTLOG").is_empty():
 		_seed_demo(pl)
 		open_log(pl)
+	# RH_QUESTOFFER=<npc_id>: teleport the player onto that giver and fire the
+	# greet, so a screenshot proves the offer panel pops for a real zone quest.
+	var off_env: String = OS.get_environment("RH_QUESTOFFER")
+	if not off_env.is_empty():
+		var giver: Node2D = null
+		for n: Node in get_tree().get_nodes_in_group("npcs"):
+			if n is Node2D and str(n.name) == off_env:
+				giver = n as Node2D
+				break
+		if giver != null and pl is Node2D:
+			(pl as Node2D).global_position = giver.global_position + Vector2(0.0, 24.0)
+			for _f in range(4):
+				await get_tree().process_frame
+			_greet_nearest(pl as Node2D)
 
 
 ## Seed a representative slice so the log + tracker read full in a screenshot:
