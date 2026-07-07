@@ -1,0 +1,75 @@
+{
+  "_meta": {
+    "doc": "design/STATUS_EFFECTS.md (BACKLOG #35). Loaded by scripts/systems/status_system.gd at _ready().",
+    "schema": {
+      "kind": "buff | debuff | disease",
+      "dispel_type": "bleed | poison | disease | curse | magic | none",
+      "duration": "seconds; 0 = permanent until removed",
+      "tick_interval": "seconds between on_tick applications; 0 = no tick",
+      "stack_rule": "refresh | add | add_time",
+      "stack_max": "max stacks",
+      "on_apply": { "stat_mods": "stat -> per-stack delta routed through StatsSystem.add_modifier" },
+      "on_tick": { "damage_flat": "flat/stack", "damage_coeff": "* source damage/stack", "heal_flat": 0, "heal_coeff": 0 },
+      "threshold": { "at": "stacks", "apply": "effect id to apply", "clear": "remove self on trip" },
+      "name": "display", "icon_hint": "HUD hint"
+    }
+  },
+  "effects": {
+    "poison": {
+      "name": "Poisoned", "kind": "debuff", "dispel_type": "poison",
+      "duration": 8.0, "tick_interval": 2.0, "stack_rule": "refresh", "stack_max": 1,
+      "on_tick": { "damage_flat": 3.0, "damage_coeff": 0.08 },
+      "icon_hint": "green_drip"
+    },
+    "bleed": {
+      "name": "Bleeding", "kind": "debuff", "dispel_type": "bleed",
+      "duration": 12.0, "tick_interval": 3.0, "stack_rule": "add", "stack_max": 3,
+      "on_tick": { "damage_flat": 2.0, "damage_coeff": 0.12 },
+      "icon_hint": "red_streak"
+    },
+    "wolf_bite": {
+      "name": "Bite", "kind": "debuff", "dispel_type": "bleed",
+      "duration": 12.0, "tick_interval": 3.0, "stack_rule": "add", "stack_max": 3,
+      "on_tick": { "damage_flat": 1.5, "damage_coeff": 0.12 },
+      "threshold": { "at": 3, "apply": "infected", "clear": true },
+      "icon_hint": "fang"
+    },
+    "infected": {
+      "name": "Infected", "kind": "debuff", "dispel_type": "disease",
+      "duration": 300.0, "tick_interval": 0.0, "stack_rule": "refresh", "stack_max": 1,
+      "on_apply": { "stat_mods": { "stamina": -1.0 } },
+      "icon_hint": "ochre_pox"
+    },
+    "smugglers_ash": {
+      "name": "Smuggler's Ash", "kind": "debuff", "dispel_type": "poison",
+      "duration": 10.0, "tick_interval": 2.0, "stack_rule": "refresh", "stack_max": 1,
+      "on_tick": { "damage_flat": 2.0, "damage_coeff": 0.10 },
+      "on_apply": { "stat_mods": { "speed_pct": -10.0 } },
+      "icon_hint": "grey_ash"
+    },
+    "curse": {
+      "name": "Cursed", "kind": "debuff", "dispel_type": "curse",
+      "duration": 20.0, "tick_interval": 0.0, "stack_rule": "refresh", "stack_max": 1,
+      "on_apply": { "stat_mods": { "spell_power": -5.0 } },
+      "icon_hint": "hex_ring"
+    },
+    "chilled": {
+      "name": "Chilled", "kind": "debuff", "dispel_type": "magic",
+      "duration": 6.0, "tick_interval": 0.0, "stack_rule": "refresh", "stack_max": 1,
+      "on_apply": { "stat_mods": { "speed_pct": -20.0 } },
+      "icon_hint": "frost"
+    },
+    "well_rested": {
+      "name": "Well Rested", "kind": "buff", "dispel_type": "none",
+      "duration": 600.0, "tick_interval": 0.0, "stack_rule": "refresh", "stack_max": 1,
+      "on_apply": { "stat_mods": { "spirit": 2.0 } },
+      "icon_hint": "hearth"
+    },
+    "regeneration": {
+      "name": "Regeneration", "kind": "buff", "dispel_type": "magic",
+      "duration": 12.0, "tick_interval": 2.0, "stack_rule": "refresh", "stack_max": 1,
+      "on_tick": { "heal_flat": 6.0, "heal_coeff": 0.0 },
+      "icon_hint": "green_cross"
+    }
+  }
+}

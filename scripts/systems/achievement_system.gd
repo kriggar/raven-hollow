@@ -182,7 +182,7 @@ func unlock(actor: Node, id: String) -> bool:
 	# Freeze the row's progress at its target so the panel bar reads full.
 	if str(_dict(def.get("criteria", {})).get("event", "")) != "meta":
 		_prog[id] = maxi(int(_prog.get(id, 0)), threshold(id))
-	_route_reward(_dict(def.get("reward", {})))
+	_route_reward(actor, _dict(def.get("reward", {})))
 	_save_ledger()
 	achievement_unlocked.emit(id)
 	if _panel != null and _panel.has_method("on_ledger_changed"):
@@ -225,13 +225,31 @@ func _check_metas(actor: Node) -> void:
 				changed = true
 
 
-func _route_reward(reward: Dictionary) -> void:
-	# Titles/mounts/items are honored by their own systems when they exist; the
-	# reward is recorded in the def either way. Guarded so a missing system is
-	# harmless. (No Titles autoload ships yet; the mount name is a display label.)
+func _route_reward(actor: Node, reward: Dictionary) -> void:
+	# Honor title / mount / item rewards through their real systems (all ship
+	# now). Guarded so a missing system or key is harmless — the reward stays
+	# recorded in the def ledger regardless.
 	if reward.is_empty():
 		return
-	# Future: Titles.grant(reward["title"]) / MountSystem.teach(reward["mount"]).
+	if actor == null:
+		actor = _player()
+	var title_id: String = str(reward.get("title", ""))
+	if not title_id.is_empty():
+		var ts: Node = get_node_or_null("/root/TitleSystem")
+		if ts != null and ts.has_method("grant_title"):
+			ts.call("grant_title", actor, title_id)
+	var mount_id: String = str(reward.get("mount", ""))
+	if not mount_id.is_empty():
+		var ms: Node = get_node_or_null("/root/MountSystem")
+		if ms != null and ms.has_method("unlock"):
+			ms.call("unlock", actor, mount_id)
+	var item_id: String = str(reward.get("item", ""))
+	if not item_id.is_empty() and actor != null:
+		var inv_v: Variant = actor.get("inventory")
+		if inv_v is Object and (inv_v as Object).has_method("add_item"):
+			var it: Dictionary = Items.get_item(item_id)
+			if not it.is_empty():
+				(inv_v as Object).call("add_item", it)
 
 
 # --- Wiring (guarded; connects to signals that already exist) ----------------

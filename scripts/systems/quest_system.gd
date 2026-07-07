@@ -752,10 +752,20 @@ func _refresh_markers() -> void:
 			continue
 		var glyph: String = marker_for(str(n.name))
 		var lbl: Label = (n as Node2D).get_node_or_null("QuestMarkerV2") as Label
+		# De-dup with the legacy Phase-C engine: this data-driven system is the
+		# canonical one (1,100+ quests vs the 5 hand-scripted). Where it has a
+		# marker for an NPC, suppress the old "QuestMarker" so a shared giver
+		# (innkeeper/blacksmith/farmer/wanderer1) shows ONE glyph, not two. Where
+		# this system is silent, the legacy marker is left to show through.
+		var legacy: Node = (n as Node2D).get_node_or_null("QuestMarker")
 		if glyph == "":
 			if lbl != null:
 				lbl.visible = false
+			if legacy is CanvasItem:
+				(legacy as CanvasItem).visible = true
 			continue
+		if legacy is CanvasItem:
+			(legacy as CanvasItem).visible = false
 		if lbl == null:
 			lbl = _make_marker_label()
 			(n as Node2D).add_child(lbl)
@@ -909,6 +919,20 @@ func _run_env_hooks() -> void:
 	if not OS.get_environment("RH_QUESTLOG").is_empty():
 		_seed_demo(pl)
 		open_log(pl)
+	# RH_QUESTOFFER=<npc_id>: teleport the player onto that giver and fire the
+	# greet, so a screenshot proves the offer panel pops for a real zone quest.
+	var off_env: String = OS.get_environment("RH_QUESTOFFER")
+	if not off_env.is_empty():
+		var giver: Node2D = null
+		for n: Node in get_tree().get_nodes_in_group("npcs"):
+			if n is Node2D and str(n.name) == off_env:
+				giver = n as Node2D
+				break
+		if giver != null and pl is Node2D:
+			(pl as Node2D).global_position = giver.global_position + Vector2(0.0, 24.0)
+			for _f in range(4):
+				await get_tree().process_frame
+			_greet_nearest(pl as Node2D)
 
 
 ## Seed a representative slice so the log + tracker read full in a screenshot:

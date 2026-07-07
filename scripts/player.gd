@@ -193,6 +193,12 @@ var _invuln: float = 0.0
 var _ooc_timer: float = 0.0  # seconds since last damage taken
 var _dead: bool = false
 var _speed_mult: float = 1.0
+# Enemy crowd-control (boar charge slow, caster roots): kept SEPARATE from the
+# player's own _speed_mult buffs so an enemy slow can't overwrite a speed buff
+# and vice-versa. Both multiply into movement; a root also gates input.
+var _cc_slow_mult: float = 1.0
+var _cc_slow_left: float = 0.0
+var _cc_root_left: float = 0.0
 var _damage_mult: float = 1.0
 var _absorb: float = 0.0
 var _buff_left: float = 0.0
@@ -322,6 +328,12 @@ static func create(spawn: Vector2, class_id: String) -> Player:
 
 	p.inventory = Inventory.new()
 	p.inventory.equipment_changed.connect(p._on_equipment_changed)
+	# Re-derive when any StatsSystem modifier for THIS actor changes (talents,
+	# stealth/druid-form speed swings, status slows) so those actually reach
+	# combat + movement. Guarded against the re-entrancy from _apply_equipment's
+	# own StatsSystem.register call (see _on_stat_changed).
+	if StatsSystem.has_signal("stat_changed"):
+		StatsSystem.stat_changed.connect(p._on_stat_changed)
 	for item: Dictionary in Items.starting_bag():
 		p.inventory.add_item(item)
 	p._apply_equipment()
@@ -357,13 +369,21 @@ func _physics_process(delta: float) -> void:
 		_set_prompt(ui, false)
 		return
 
+	# Rooted by an enemy: held in place (input ignored for movement) until it lapses.
+	if _cc_root_left > 0.0:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		_play_anim("idle")
+		_sprite.speed_scale = 1.0
+		return
+
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var moving: bool = input_dir.length_squared() > 0.0001
 	# Sprint: held + moving + outside the brief cast-lunge window. Speeds the
 	# run and fast-forwards the walk anim — no sprite frame changes.
 	var sprinting: bool = moving and _cast_anim_left <= 0.0 \
 			and Input.is_action_pressed("sprint")
-	velocity = input_dir * speed * _speed_mult * (SPRINT_SPEED_MULT if sprinting else 1.0)
+	velocity = input_dir * speed * _speed_mult * _cc_slow_mult * (SPRINT_SPEED_MULT if sprinting else 1.0)
 	move_and_slide()
 
 	if moving:
@@ -473,6 +493,12 @@ func _tick_timers(delta: float) -> void:
 			_cooldowns[i] = maxf(0.0, _cooldowns[i] - delta)
 	if _invuln > 0.0:
 		_invuln = maxf(0.0, _invuln - delta)
+	if _cc_slow_left > 0.0:
+		_cc_slow_left = maxf(0.0, _cc_slow_left - delta)
+		if _cc_slow_left <= 0.0:
+			_cc_slow_mult = 1.0
+	if _cc_root_left > 0.0:
+		_cc_root_left = maxf(0.0, _cc_root_left - delta)
 	_ooc_timer += delta
 	if _buff_left > 0.0:
 		_buff_left -= delta
@@ -1256,7 +1282,40 @@ func _on_equipment_changed() -> void:
 	_apply_equipment()
 
 
+## Enemy crowd-control on the player (mirrors Enemy.apply_slow/apply_root). Before
+## these existed the boar charge's slow config, and any enemy root, were silent
+## no-ops (enemy.gd guards them behind has_method("apply_slow")). Dead/invuln
+## players ignore CC.
+func apply_slow(mult: float, duration: float) -> void:
+	if _dead or _invuln > 0.0:
+		return
+	_cc_slow_mult = clampf(mult, 0.05, 1.0)
+	_cc_slow_left = maxf(_cc_slow_left, duration)
+
+
+func apply_root(duration: float) -> void:
+	if _dead or _invuln > 0.0:
+		return
+	_cc_root_left = maxf(_cc_root_left, duration)
+	velocity = Vector2.ZERO
+
+
+## StatsSystem.stat_changed(actor, stat) -> re-derive if it's us and the stat is
+## one we fold into combat/movement. The _in_apply guard blocks the re-entrant
+## emit from _apply_equipment's own StatsSystem.register call.
+var _in_apply: bool = false
+func _on_stat_changed(actor: Object, stat: String) -> void:
+	if _in_apply or actor != self:
+		return
+	if stat in ["damage", "armor", "crit_pct", "speed_pct",
+			"max_health", "max_mana", "mana_regen"]:
+		_apply_equipment()
+
+
 func _apply_equipment() -> void:
+	if _in_apply:
+		return
+	_in_apply = true
 	## Cache equipped stat totals and re-derive every gear-driven value:
 	## hp/mana add to the class maxima, speed_pct multiplies move speed,
 	## damage/armor/crit_pct are read from _totals at hit time.
@@ -1266,17 +1325,25 @@ func _apply_equipment() -> void:
 	# effects such as Infected) additively over the class-def base.
 	# modifier_bonus() reads 0 when nothing is registered -> unchanged behavior.
 	StatsSystem.register(self, str(class_def.get("id", "warrior")), level)
+	# Fold the StatsSystem combat-modifier pool (talents, stealth, druid forms,
+	# status slows like chilled/smugglers_ash) INTO _totals so every downstream
+	# read (crit/armor/flat damage/speed) picks it up. Before this, only
+	# hp/mana/mana_regen read the modifier bus, so talent crit, stealth's -30%
+	# speed, form speed, and status slows never reached actual combat/movement.
+	for _stat: String in ["damage", "armor", "crit_pct", "speed_pct"]:
+		_totals[_stat] = float(_totals.get(_stat, 0.0)) + StatsSystem.modifier_bonus(self, _stat)
 	max_hp = _base_max_hp + float(_totals.get("hp", 0.0)) + StatsSystem.modifier_bonus(self, "max_health")
 	max_hp = maxf(1.0, max_hp)
 	hp = minf(hp, max_hp)
 	max_mana = _base_max_mana + float(_totals.get("mana", 0.0)) + StatsSystem.modifier_bonus(self, "max_mana")
 	max_mana = maxf(0.0, max_mana)
 	mana = minf(mana, max_mana)
-	speed = _base_speed * (1.0 + float(_totals.get("speed_pct", 0.0)) / 100.0)
+	speed = _base_speed * maxf(0.05, 1.0 + float(_totals.get("speed_pct", 0.0)) / 100.0)
 	_mana_regen = _base_mana_regen + float(_totals.get("mana_regen", 0.0)) + StatsSystem.modifier_bonus(self, "mana_regen")
 	_refresh_weapon()
 	_refresh_shield()
 	_refresh_chest_tint()
+	_in_apply = false
 
 
 func _stat_damage() -> float:
@@ -1347,6 +1414,7 @@ func _deal_player_damage(foe: Node2D, dmg: float) -> void:
 		_crit_number(foe, final)
 	else:
 		Combat.deal_damage(foe, final, self)
+	_proc_legendary("melee_hit", {"hit": final, "target": foe, "crit": crit})
 	_check_kill_effects(foe)
 
 
@@ -1360,6 +1428,7 @@ func _arm_ranged(cfg: Dictionary, dmg: float) -> void:
 	cfg["damage"] = dmg * (CRIT_MULT if crit else 1.0)
 	cfg["crit"] = crit
 	cfg["on_hit"] = _on_projectile_hit
+	_proc_legendary("arrow_fired", {"damage": cfg["damage"]})  # gallowsbough rook-dive etc.
 
 
 func _on_projectile_hit(foe: Node2D, amount: float, crit_styled: bool) -> void:
@@ -1379,6 +1448,39 @@ func _check_kill_effects(victim: Node2D) -> void:
 		return
 	if victim.get("is_dead") == true and _slot_effect(["ring1", "ring2"], "gravekeeper"):
 		_soul_wisp(victim.global_position)
+	# Legendary "kill" signature procs (cindervow-lineage etc.).
+	if victim.get("is_dead") == true:
+		_proc_legendary("kill", {"victim": victim})
+
+
+## The equipped main-hand legendary's id, or "" if the main hand is not a
+## legendary. Matches the item id against LegendarySystem.all_ids().
+func _equipped_legendary_id() -> String:
+	if inventory == null:
+		return ""
+	var it: Variant = inventory.equipped.get("main_hand")
+	if not (it is Dictionary):
+		return ""
+	var iid: String = str((it as Dictionary).get("id", "")).to_lower()
+	var sys: Node = get_node_or_null("/root/LegendarySystem")
+	if sys == null or not sys.has_method("all_ids"):
+		return ""
+	for lid: Variant in sys.call("all_ids"):
+		if iid == str(lid).to_lower():
+			return str(lid)
+	return ""
+
+
+## Fire the equipped legendary's signature for `event` (melee_hit / kill /
+## arrow_fired / cast_after_hold...). Guarded no-op when no legendary is equipped
+## or the event does not match its trigger.
+func _proc_legendary(event: String, ctx: Dictionary = {}) -> void:
+	var lid: String = _equipped_legendary_id()
+	if lid.is_empty():
+		return
+	var sys: Node = get_node_or_null("/root/LegendarySystem")
+	if sys != null and sys.has_method("proc"):
+		sys.call("proc", self, lid, event, ctx)
 
 
 func _crit_number(foe: Node2D, amount: float) -> void:

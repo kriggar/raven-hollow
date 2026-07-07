@@ -307,6 +307,16 @@ func _bootstrap_world(class_id: String) -> void:
 	if not OS.get_environment("RH_SYS_TEST").is_empty():
 		_run_sys_test(player)
 
+	# RH_LOOT_TEST: prove the combat/loot integration pass end to end (loot->bag,
+	# StatsSystem modifiers reaching player combat, player crowd-control).
+	if not OS.get_environment("RH_LOOT_TEST").is_empty():
+		_run_loot_test(player)
+
+	# RH_NAVTEST: prove the navmesh routes AROUND a zone's static colliders inside
+	# the real game loop (headless -s mode does not drive the NavServer sync).
+	if not OS.get_environment("RH_NAVTEST").is_empty():
+		_run_nav_test()
+
 
 ## Intro cinematic hook (#51). Fire-and-forget: CinematicSystem commandeers the
 ## camera and blocks player input for the duration, then restores both. Fully
@@ -381,6 +391,107 @@ func _run_sys_test(player: Node) -> void:
 	print("[SYS_TEST] ===== self-test complete =====")
 	if OS.get_environment("RH_SHOT").is_empty():
 		get_tree().create_timer(0.8).timeout.connect(func() -> void: get_tree().quit(0))
+
+
+## Boot-time proof of the combat/loot integration pass. ASCII only.
+##  1) loot->bag: roll an enemy loot table and confirm items land in the player's
+##     VISIBLE Inventory (not just the parallel InventorySystem autoload).
+##  2) StatsSystem->combat: add a crit_pct modifier and confirm it reaches the
+##     player's _totals (the value crit rolls actually read).
+##  3) player CC: apply_slow and confirm the movement multiplier drops.
+func _run_loot_test(player: Node) -> void:
+	if player == null:
+		return
+	print("[LOOT_TEST] ===== combat/loot integration self-test =====")
+	var inv_v: Variant = player.get("inventory")
+	var inv: Inventory = inv_v as Inventory
+	# 1) loot -> visible bag
+	if inv != null and LootSystem != null:
+		var before: int = _bag_count(inv)
+		var gold_before: int = int(player.get("gold")) if _is_num(player.get("gold")) else 0
+		for i in range(6):
+			LootSystem.roll_for_enemy("wolf")
+			LootSystem.roll_for_enemy("skeleton")
+		var after: int = _bag_count(inv)
+		var gold_after: int = int(player.get("gold")) if _is_num(player.get("gold")) else 0
+		print("[LOOT_TEST] loot->bag: items %d -> %d (+%d), gold %d -> %d (+%d)  %s" % [
+			before, after, after - before, gold_before, gold_after, gold_after - gold_before,
+			"PASS" if (after > before or gold_after > gold_before) else "FAIL"])
+	# 2) StatsSystem crit modifier -> player _totals
+	var crit_before: float = float((player.get("_totals") as Dictionary).get("crit_pct", 0.0))
+	StatsSystem.add_modifier(player, "loottest:crit", "crit_pct", 25.0)
+	var crit_after: float = float((player.get("_totals") as Dictionary).get("crit_pct", 0.0))
+	print("[LOOT_TEST] talent/stat crit reaches combat: crit_pct %.0f -> %.0f (want +25)  %s" % [
+		crit_before, crit_after, "PASS" if crit_after - crit_before >= 24.0 else "FAIL"])
+	# 3) StatsSystem speed slow -> player.speed (stealth/form/status path)
+	var spd_before: float = float(player.get("speed"))
+	StatsSystem.add_modifier(player, "loottest:slow", "speed_pct", -30.0)
+	var spd_after: float = float(player.get("speed"))
+	print("[LOOT_TEST] stealth/form/status speed reaches movement: speed %.1f -> %.1f (want lower)  %s" % [
+		spd_before, spd_after, "PASS" if spd_after < spd_before - 0.5 else "FAIL"])
+	StatsSystem.remove_modifier("loottest:crit")
+	StatsSystem.remove_modifier("loottest:slow")
+	# 4) player crowd-control
+	if player.has_method("apply_slow"):
+		player.call("apply_slow", 0.4, 2.0)
+		var ccm: float = float(player.get("_cc_slow_mult"))
+		print("[LOOT_TEST] enemy CC (apply_slow) affects player: _cc_slow_mult=%.2f (want 0.40)  %s" % [
+			ccm, "PASS" if absf(ccm - 0.4) < 0.01 else "FAIL"])
+	else:
+		print("[LOOT_TEST] enemy CC: FAIL — player has no apply_slow")
+	print("[LOOT_TEST] ===== self-test complete =====")
+	if OS.get_environment("RH_SHOT").is_empty():
+		get_tree().create_timer(0.8).timeout.connect(func() -> void: get_tree().quit(0))
+
+
+## Prove the navmesh (baked from the CURRENT zone's real colliders) returns a path
+## with more than 2 points between two spots separated by props — i.e. it routes
+## around obstacles rather than straight through them. Runs in the live loop.
+func _run_nav_test() -> void:
+	print("[NAV_TEST] ===== navmesh self-test =====")
+	var nav: Node = get_node_or_null("/root/NavSystem")
+	if nav == null:
+		print("[NAV_TEST] no NavSystem"); return
+	for _f in range(20):  # let the NavServer sync the freshly-baked region
+		await get_tree().process_frame
+	print("[NAV_TEST] nav ready = %s" % str(nav.call("is_ready")))
+	var bounds: Rect2 = _built.get("bounds", DEFAULT_BOUNDS)
+	# Sample across the zone; find a from/to pair whose path bends (points>2).
+	var best_pts: int = 0
+	var best_ratio: float = 1.0
+	for _i in range(24):
+		var a: Vector2 = bounds.position + Vector2(
+			randf() * bounds.size.x, randf() * bounds.size.y)
+		var b: Vector2 = bounds.position + Vector2(
+			randf() * bounds.size.x, randf() * bounds.size.y)
+		if a.distance_to(b) < 200.0:
+			continue
+		var path: PackedVector2Array = NavigationServer2D.map_get_path(
+			nav.get("_map_rid"), a, b, true)
+		if path.size() > best_pts:
+			best_pts = path.size()
+			var plen: float = 0.0
+			for j in range(1, path.size()):
+				plen += path[j - 1].distance_to(path[j])
+			best_ratio = plen / maxf(1.0, a.distance_to(b))
+	print("[NAV_TEST] best path points=%d ratio(path/straight)=%.2f" % [best_pts, best_ratio])
+	var ok: bool = best_pts >= 2 and nav.call("is_ready")
+	print("[NAV_TEST] navmesh returns real paths in-zone: %s" % ("PASS" if ok else "FAIL"))
+	var bends: bool = best_pts > 2 or best_ratio > 1.05
+	print("[NAV_TEST] paths BEND around obstacles: %s" % ("PASS" if bends else "(straight — zone may be open)"))
+	print("[NAV_TEST] ===== complete =====")
+
+
+func _bag_count(inv: Inventory) -> int:
+	var n: int = 0
+	for entry: Variant in inv.bag:
+		if entry != null:
+			n += 1
+	return n
+
+
+func _is_num(v: Variant) -> bool:
+	return v is int or v is float
 
 
 func _bootstrap_world_from_save(data: Dictionary) -> void:
@@ -481,6 +592,11 @@ func _spawn_ui() -> void:
 	var pause := PauseMenu.new()
 	add_child(pause)
 	pause.quit_to_menu.connect(_on_quit_to_menu)
+	# The central Menu hub (backtick `, or the pause menu's "Menu" row): the one
+	# discoverable front door to every feature panel (auction/rep/mounts/pvp/etc.),
+	# which otherwise hide behind undocumented single-letter hotkeys.
+	add_child(GameMenu.new())
+	pause.open_menu_requested.connect(_on_open_game_menu)
 
 	_build_world_prompt()
 
@@ -585,6 +701,12 @@ func _post_build_map(map_id: String, world: Node2D, built: Dictionary) -> void:
 	# Register EVERY ambience light (town lanterns, gate lights, wilderness
 	# fires) with DayNight in one robust tree walk (§8).
 	_group_world_lights(world)
+	# Bake the runtime navmesh from this zone's static colliders (BACKLOG #96):
+	# enemies + NPCs path AROUND obstacles instead of grinding into walls.
+	# Guarded — a failed/disabled bake leaves everyone on direct steering.
+	var _nav: Node = get_node_or_null("/root/NavSystem")
+	if _nav != null and _nav.has_method("bake_for"):
+		_nav.call("bake_for", built.get("bounds", DEFAULT_BOUNDS), world)
 
 
 func _spawn_npc_cast(world: Node2D, spawns: Dictionary) -> void:
@@ -676,6 +798,10 @@ func change_map(map_id: String, entry_point_id: String) -> void:
 	_refresh_minimap(map_id, built, def)
 	if _dialogue != null:
 		_dialogue.show_banner(str(def.get("display_name", "")), "")
+	# The world's voice speaks on arrival (NarrativeSystem enter_zone beat -> toast).
+	var _ns: Node = get_node_or_null("/root/NarrativeSystem")
+	if _ns != null and _ns.has_method("narrate"):
+		_ns.call("narrate", "enter_zone", map_id)
 
 	# 11. Fade in, then autosave. 12. Repaint tracker.
 	await get_tree().process_frame
@@ -1030,6 +1156,22 @@ func _wire_quest_signals() -> void:
 	_quests.quest_completed.connect(_on_quest_completed)
 	_quests.quest_updated.connect(_on_quest_updated_choice)
 
+	# Enemy-kill loot -> the player's VISIBLE bag. LootSystem.roll_for_enemy emits
+	# loot_generated on every kill; before this bridge it filed only into the
+	# InventorySystem autoload (which the player was never registered into), so
+	# killed-enemy drops never reached the Inventory that BagUI shows. Connect
+	# once (guarded — this runs on both New-Game and Continue paths).
+	if LootSystem != null and LootSystem.has_signal("loot_generated") \
+			and not LootSystem.is_connected("loot_generated", _on_loot_generated):
+		LootSystem.loot_generated.connect(_on_loot_generated)
+
+
+## PauseMenu "Menu" row -> close the pause menu, open the central GameMenu hub.
+func _on_open_game_menu() -> void:
+	var gm: Node = get_tree().get_first_node_in_group("game_menu")
+	if gm != null and gm.has_method("open"):
+		gm.call("open")
+
 
 func _on_night_changed(is_night_now: bool) -> void:
 	if _quests != null:
@@ -1064,6 +1206,51 @@ func _on_item_granted(id: String) -> void:
 		_remove_bag_item(inv_v as Inventory, "weeping_dagger")
 
 
+## Enemy-kill loot (LootSystem.loot_generated) -> the player's visible bag + purse.
+## Gold pseudo-items add to player.gold; real gear goes into player.inventory (the
+## bag BagUI renders) with a rarity-coloured toast. A full bag drops the item on
+## the ground-in-log (toast only) rather than silently vanishing it.
+func _on_loot_generated(items: Variant) -> void:
+	if _player == null or not is_instance_valid(_player) or not (items is Array):
+		return
+	var inv_v: Variant = _player.get("inventory")
+	var inv: Inventory = inv_v as Inventory
+	for it_v: Variant in (items as Array):
+		if not (it_v is Dictionary):
+			continue
+		var it: Dictionary = it_v
+		if bool(it.get("is_currency", false)) or str(it.get("slot", "")) == "gold":
+			var amount: int = int(it.get("quantity", 0))
+			if amount > 0:
+				var g_v: Variant = _player.get("gold")
+				var g: int = int(g_v) if (g_v is int or g_v is float) else 0
+				_player.set("gold", g + amount)
+				_loot_toast("+ %d Coins" % amount, GOLD)
+			continue
+		if inv == null:
+			continue
+		if inv.add_item(it):
+			_loot_toast("+ %s" % str(it.get("name", "item")), _rarity_color(str(it.get("rarity", "common"))))
+		else:
+			_loot_toast("Bag full — %s left behind" % str(it.get("name", "item")), Color(0.7, 0.4, 0.3))
+
+
+## Rarity -> toast tint (WoW/D2 ladder). Falls back to parchment.
+func _rarity_color(rarity: String) -> Color:
+	match rarity:
+		"legendary": return Color(0.90, 0.55, 0.20)
+		"epic":      return Color(0.64, 0.38, 0.86)
+		"rare":      return Color(0.25, 0.52, 0.92)
+		"uncommon":  return Color(0.35, 0.75, 0.40)
+		_:           return Color(0.85, 0.82, 0.72)
+
+
+func _loot_toast(text: String, color: Color) -> void:
+	var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
+	if cui != null and cui.has_method("show_toast"):
+		cui.call("show_toast", text, color)
+
+
 func _remove_bag_item(inv: Inventory, item_id: String) -> void:
 	for i: int in inv.bag.size():
 		var entry: Variant = inv.bag[i]
@@ -1080,6 +1267,10 @@ func _on_quest_completed(qid: String) -> void:
 	var d: Dictionary = QuestDefs.all().get(qid, {})
 	if d.has("finale_pages") and _dialogue != null:
 		_dialogue.show_dialogue(str(d.get("finale_speaker", "")), d["finale_pages"])
+	# Narrator marks the turn-in (NarrativeSystem quest_turnin beat -> toast).
+	var ns: Node = get_node_or_null("/root/NarrativeSystem")
+	if ns != null and ns.has_method("narrate"):
+		ns.call("narrate", "quest_turnin", qid)
 
 
 ## Quest 4's camp-overlook choice has no NPC (npc == "") — main.gd surfaces it

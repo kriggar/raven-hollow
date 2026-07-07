@@ -25,3 +25,4 @@ Thumbs.db
 
 # Export builds (binaries, not source)
 build/
+_gh_auth_log.txt

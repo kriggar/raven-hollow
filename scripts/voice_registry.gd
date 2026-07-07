@@ -9,6 +9,24 @@ extends Node
 ## Autoload order (project.godot): VoiceRegistry BEFORE Voice.
 
 const DEFAULT := {"speaker": "default", "pitch": 1.0, "volume_db": 0.0}
+const VOICE_MAP_PATH := "res://data/voice_map.json"
+
+## Per-NPC voice assignment for the full 384-NPC cast (BACKLOG #85), loaded from
+## data/voice_map.json at boot. Each NPC gets a role-appropriate voice archetype
+## (gruff smith, warm innkeeper, dry chronicler, brisk merchant, on-duty guard...)
+## with a deterministic per-npc pitch jitter so no two share an identical voice.
+## The hand-designed hero voices in VOICES below OVERRIDE the map.
+var _voice_map: Dictionary = {}
+
+
+func _ready() -> void:
+	var f := FileAccess.open(VOICE_MAP_PATH, FileAccess.READ)
+	if f == null:
+		return
+	var parsed: Variant = JSON.parse_string(f.get_as_text())
+	f.close()
+	if parsed is Dictionary:
+		_voice_map = (parsed as Dictionary).get("voices", {})
 
 # npc_id -> voice. Quest-givers get their own designed voice; generic townsfolk
 # share "default"/"narrator" with a pitch nudge so they don't sound identical.
@@ -36,7 +54,12 @@ const GENERIC_BARKS := [
 
 
 func voice_for(npc_id: String) -> Dictionary:
-	return VOICES.get(npc_id, DEFAULT)
+	# Hand-designed hero voices win; then the per-NPC map (all 384); then default.
+	if VOICES.has(npc_id):
+		return VOICES[npc_id]
+	if _voice_map.has(npc_id):
+		return _voice_map[npc_id]
+	return DEFAULT
 
 
 func speaker_for(npc_id: String) -> String:

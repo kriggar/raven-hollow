@@ -207,12 +207,36 @@ func sell_price(item: Dictionary) -> int:
 
 
 ## Buy stock index `idx` from `vendor_id` for `actor`. Deducts gold, adds item.
+## The faction a vendor answers to (for reputation discounts). Reads the vendor
+## def's "faction", defaulting to the town hearth faction that quests build rep
+## with. "" disables discounts for that vendor.
+func vendor_faction(vendor_id: String) -> String:
+	var def: Dictionary = _dict(_vendors.get(vendor_id, {}))
+	return str(def.get("faction", "border_hearths"))
+
+
+## The price `actor` actually pays for stock row `idx`, after the vendor's
+## reputation discount (FactionSystem.vendor_discount). Shop UI calls this too so
+## the shown price matches what buy() charges.
+func price_for(vendor_id: String, idx: int, actor: Node) -> int:
+	var stock: Array = stock_for(vendor_id)
+	if idx < 0 or idx >= stock.size():
+		return 0
+	var base: int = int((stock[idx] as Dictionary).get("price", 0))
+	var fac: String = vendor_faction(vendor_id)
+	var fs: Node = get_node_or_null("/root/FactionSystem")
+	if fac.is_empty() or fs == null or not fs.has_method("vendor_discount"):
+		return base
+	var disc: float = clampf(float(fs.call("vendor_discount", fac, actor)), 0.0, 0.9)
+	return int(round(float(base) * (1.0 - disc)))
+
+
 func buy(vendor_id: String, idx: int, actor: Node) -> Dictionary:
 	var stock: Array = stock_for(vendor_id)
 	if idx < 0 or idx >= stock.size():
 		return {"ok": false, "reason": "no such item"}
 	var row: Dictionary = stock[idx]
-	var price: int = int(row["price"])
+	var price: int = price_for(vendor_id, idx, actor)
 	if _gold(actor) < price:
 		return {"ok": false, "reason": "not enough gold"}
 	var inv: Object = _inventory(actor)
