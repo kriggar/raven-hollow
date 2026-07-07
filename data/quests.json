@@ -42907,6 +42907,1467 @@
     }
    },
    "note": "The last clean stone came in off the warm flats, and neither man had to walk the ground that took their friend. Radu cut Andrei's name deep and both of theirs beneath -- three kept on one kerb. They are not what Andrei was to each other, and know it. But they are warm, they are kept, and a candle burns for a stubborn friend every single night."
+  },
+  "sangeroasa_romance_ana_1": {
+   "title": "The Green Bottle",
+   "giver": "sangeroasa_apothecary",
+   "giver_name": "Ana Lupei",
+   "zone": "sangeroasa",
+   "level": 40,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "Sangeroasa's soil was grown from the war-dead, and its healer was raised to keep the indebted alive only until the Pit is owed them. Ana Lupei needs nightshade, and asks no other questions.",
+   "offer": "You've a steady hand and you don't flinch. Good. I need nightshade from the deep red rows -- the ones grown out of the Gift. Poultice, purge, or poison, all the same trade to me. Bring it, and I'll owe you a favor. I keep my debts. It's the one thing this town taught me right.",
+   "progress": "The nightshade grows where the soil's reddest, out on the deep rows. Mind the forge-thralls. They were menders too, some of them, before the Pit had them.",
+   "complete": "Good. This much would settle a grudge, or settle a man for good -- I'll not say which I need it for. Sit a moment. The cold gets in even here, where nothing's ever cold. You listen better than the folk I'm sworn to. That's not a compliment they'd thank me for.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "lichen_culture",
+     "count": 6,
+     "text": "Gather nightshade from the deep red rows"
+    },
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      700,
+      1520
+     ],
+     "radius": 100,
+     "label": "the deep red rows",
+     "text": "Cut nightshade where the soil is reddest"
+    }
+   ],
+   "rewards": {
+    "xp": 4200,
+    "gold": 180,
+    "items": [
+     "cultured_poultice"
+    ],
+    "rep": {
+     "border_hearths": 150,
+     "varcolaci": 40
+    }
+   },
+   "note": "Ana Lupei owes a favor now, and she is a woman who keeps her ledger. In Sangeroasa a kept debt is how they own you. She poured the traveler a cup anyway, and did not charge for the sitting.",
+   "prereq": []
+  },
+  "sangeroasa_romance_ana_2": {
+   "title": "The Name Above the Line",
+   "giver": "sangeroasa_apothecary",
+   "giver_name": "Ana Lupei",
+   "zone": "sangeroasa",
+   "level": 41,
+   "type": "romance",
+   "tone": "intrigue",
+   "romance_stage": 2,
+   "prereq": [
+    "sangeroasa_romance_ana_1"
+   ],
+   "summary": "Ana signs the Pit ledger that names who the fire is owed, and the pack consents to every line of it. For once she wants a name read before the Envoy files it -- a small treason, done quietly.",
+   "offer": "I'll spend that favor now. There's a name gone onto the Debt Pit rolls that shouldn't be -- a raker, Marta, worked her days honest and someone smudged her tally. The Envoy signs the ledger at dusk. Go to the rim, read me what it truly says before the ink's dry. I can't be seen doing it. I'm the one they trust to consent.",
+   "progress": "The ledger's nailed at the Pit rim, where the pit road ends. Marta the ash-raker will tell you her true count -- if she'll trust your face. Most here won't.",
+   "complete": "Her count was right and the roll was wrong, just as I feared. I've re-inked it. One line. It'll cost me if it's found, and here they find everything. Why do it? Because you asked me what I wanted, back with the nightshade. Nobody's asked me that since I took the oath. I'd forgotten the question had an answer.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      1180,
+      760
+     ],
+     "radius": 90,
+     "label": "the Debt Pit rim",
+     "text": "Read the ledger at the Pit rim by dusk"
+    },
+    {
+     "kind": "talk",
+     "npc": "sangeroasa_commoner_3",
+     "text": "Learn Marta's true labor-count"
+    }
+   ],
+   "rewards": {
+    "xp": 4600,
+    "gold": 210,
+    "items": [
+     "first_edition_draught"
+    ],
+    "rep": {
+     "border_hearths": 200,
+     "varcolaci": 60
+    }
+   },
+   "note": "One line re-inked on a roll that has never once been wrong. Ana Lupei broke faith with the thing she was raised to consent to, and did it for a raker she'll never thank aloud. The ledger holds a thousand true names. It holds one lie now, and the lie is mercy."
+  },
+  "sangeroasa_romance_ana_3": {
+   "title": "What the Envoy Notes",
+   "giver": "sangeroasa_apothecary",
+   "giver_name": "Ana Lupei",
+   "zone": "sangeroasa",
+   "level": 42,
+   "type": "romance",
+   "tone": "intrigue",
+   "romance_stage": 3,
+   "prereq": [
+    "sangeroasa_romance_ana_2"
+   ],
+   "summary": "The Envoy does not threaten. She notes, and the note remembers. Ana's re-inked line has been noticed, and the woman who found her voice again must now cover the tracks of her first free act.",
+   "offer": "The Envoy came by. Said nothing. Asked after my stocks, smiled, left. That's how it starts here -- a smile, then a note, then a summons you don't come back from. She'll have sent word to the chronicler to check the old roll against the new. Get to Ozun first. He owes me a birth he'd rather forget. Have him lose the old count. Quietly, mind.",
+   "progress": "Ozun the chronicler keeps the town's true memory. He'll be at his stones. Tell him Ana asks for the winter of the twin births. He'll understand the debt.",
+   "complete": "He burned the old tally. Ash tells no one anything -- that's the only honest thing the fire in this town does. So. I'm safe, and a raker breathes, and I've spent a debt I've kept forty years to buy one lie. I don't regret it. I've stopped flinching, you notice? That's your doing. Stay for the stew. Don't make it mean more than that. Not yet.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "sangeroasa_chronicler",
+     "text": "Ask Ozun to lose the old count"
+    },
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      1040,
+      980
+     ],
+     "radius": 85,
+     "label": "the still shrine",
+     "text": "Meet the chronicler at his stones"
+    }
+   ],
+   "rewards": {
+    "xp": 5000,
+    "gold": 240,
+    "items": [
+     "cultured_poultice"
+    ],
+    "rep": {
+     "border_hearths": 225,
+     "varcolaci": 80
+    }
+   },
+   "note": "The old count is ash and the Envoy has no proof, only a smile she will keep. Ana Lupei stayed at her post, healer to a Pit she cannot close, and set one place at her table she means to keep setting. In Sangeroasa that is the whole of a rebellion. She has decided it is enough."
+  },
+  "sangeroasa_romance_ana_4": {
+   "title": "The Place She Keeps Set",
+   "giver": "sangeroasa_apothecary",
+   "giver_name": "Ana Lupei",
+   "zone": "sangeroasa",
+   "level": 43,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 4,
+   "prereq": [
+    "sangeroasa_romance_ana_3"
+   ],
+   "summary": "Ana will not run and will not be run from. She stays the pit's healer and asks only one thing back: that the hammers stopping for a count of three no longer mean she stands alone through it.",
+   "offer": "I've made a decision, and I make few. I'm not leaving. Someone has to keep the rakers on their feet, and I'll not hand them a healer who consents to the ledger without reading it. But I'm tired of the count of three by myself -- you know the one, when the hammers stop and nobody meets your eye. Fetch me one thing from the smith for the shelf by my bed, and the place at the table's yours. If you'll have a woman sworn to a furnace.",
+   "progress": "The blackglass I want is worked at the forge, or scattered where the imps hoard it near the blood channels. Bring it. Then come back and don't knock. I'll have left the latch.",
+   "complete": "You brought it. And you came back, which folk here mostly don't. Set it on the shelf. There. -- The hammers'll stop again tonight, for their count of three, and this time I'll not be counting alone. It's a poor gift, a warm town and a woman who can't leave it. But everything good is temporary. That's what makes it good. Now sit. The stew's on. You're home, or the nearest thing this soil grows.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "blackglass",
+     "count": 8,
+     "text": "Gather blackglass for Ana's shelf"
+    },
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      820,
+      1140
+     ],
+     "radius": 110,
+     "label": "the blood channels",
+     "text": "Gather blackglass near the blood channels"
+    }
+   ],
+   "rewards": {
+    "xp": 5400,
+    "gold": 300,
+    "items": [
+     "first_edition_draught"
+    ],
+    "rep": {
+     "border_hearths": 300,
+     "varcolaci": 120
+    }
+   },
+   "note": "Ana Lupei chose the harder love: not the road out, but the post kept and a hand held through the count of three. She is still sworn to the forge that eats. She sleeps, now, beside someone who reads the ledger before signing it. The hammers stopped tonight, and for once two people looked up together, and were not afraid."
+  },
+  "black_night_romance_ursu_1": {
+   "title": "The One Who Noticed",
+   "giver": "black_night_chronicler",
+   "giver_name": "Ursu Vulpescu",
+   "zone": "black_night",
+   "level": 24,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 1,
+   "summary": "In the quiet city over the grave, the citizens do not haggle or hate; they simply are. Ursu the chronicler still writes, still remembers, and is the only one who noticed a stranger passing through. That noticing costs him.",
+   "offer": "You breathe. I'd almost forgotten the sound of it. Sit -- no, closer, the still ones don't like the words I'm about to say and the words don't like being overheard. Black Night has a memory, traveler, and it is not a kind one. Mine is the last honest copy of it. But the writing takes something. Fetch me a salt-line pouch from the apothecary before I set down tonight's page. It keeps me... here. For a while.",
+   "progress": "The apothecary keeps salt-line pouches for those going quiet. Ask at the still market, near the shells that stand in their rows of twelve. Don't look at them too long. They notice being seen.",
+   "complete": "Salt at the threshold, salt on the tongue. It buys an hour of me. Thank you. You keep looking at me like I'm a man and not a record, and I can't tell you what that does. Most who come north stop looking at anyone. They start listening instead, out in the streets. You haven't started listening. Good. Stay that way. For me, stay that way.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "salt_line_pouch",
+     "count": 3,
+     "text": "Bring salt-line pouches to Ursu"
+    },
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      960,
+      1080
+     ],
+     "radius": 80,
+     "label": "the still market shells",
+     "text": "Cross the still market to the apothecary"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 90,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "the_accord": 150,
+     "border_hearths": 60
+    }
+   },
+   "note": "Ursu Vulpescu keeps the last true chronicle of a city that would rather forget itself, and the keeping is unmaking him line by line. A stranger looked at him and saw a man. The salt buys an hour. He spent it not on the page, but on the looking.",
+   "prereq": []
+  },
+  "black_night_romance_ursu_2": {
+   "title": "The Page He Will Not Write",
+   "giver": "black_night_chronicler",
+   "giver_name": "Ursu Vulpescu",
+   "zone": "black_night",
+   "level": 25,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 2,
+   "prereq": [
+    "black_night_romance_ursu_1"
+   ],
+   "summary": "The Thread that leashes the dead is also the cage of the stone, and Ursu's duty is to record each turn of it until comprehension takes him. He asks for one selfish night before it does -- and a family's empty camp is the warning of where it ends.",
+   "offer": "The Council wants the deep-quarter thread traced and set down. It's my office. It's also how the last three chroniclers went quiet -- you understand the thread by writing it, and understanding is the thing that erases you here. I'll do my duty. But first, go to the camp at the city edge. A living family stopped there. Look at what the north does to warmth, then come tell me I'm wrong to want one ordinary evening before I trace it.",
+   "progress": "The family's camp sits at the edge, past the pilgrim road. Three bedrolls, cold stew, footprints leading in. You'll see. Then the deep quarter, if your nerve holds -- that's where the thread runs thickest.",
+   "complete": "Three sets of prints in, none out, and the stew never eaten. Nothing there is hungry anymore. That's the north's mercy -- it takes the wanting first. I don't want to stop wanting. Not the stew, not the cold morning, not you sitting there breathing at me like an argument against this whole city. So. One ordinary evening. Then I write the cursed page. Grant me the first before I owe the second.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      1000,
+      480
+     ],
+     "radius": 110,
+     "label": "the family's camp",
+     "text": "See the family's abandoned camp"
+    },
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      1420,
+      1320
+     ],
+     "radius": 120,
+     "label": "the deep quarter",
+     "text": "Trace the thread's run in the deep quarter"
+    }
+   ],
+   "rewards": {
+    "xp": 1000,
+    "gold": 110,
+    "items": [
+     "soothing_knot"
+    ],
+    "rep": {
+     "the_accord": 200,
+     "border_hearths": 80
+    }
+   },
+   "note": "A family walked into Black Night and stopped wanting supper. Ursu Vulpescu, sworn to trace the same thread that erased them, asked for one ordinary evening first. The north takes the wanting before it takes the person. He is still wanting. That is the whole of his rebellion, and it will not save him."
+  },
+  "black_night_romance_ursu_3": {
+   "title": "An Ordinary Evening",
+   "giver": "black_night_chronicler",
+   "giver_name": "Ursu Vulpescu",
+   "zone": "black_night",
+   "level": 25,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "prereq": [
+    "black_night_romance_ursu_2"
+   ],
+   "summary": "One warm evening against the quiet: bread that is not a ration, a fire against the blue-black cold, a name said aloud twice so it is remembered. The small warm thing, made to matter because it will be lost.",
+   "offer": "Here is what I want, and it is nothing, and it is everything. Bread from the living quarter's wells, where a few folk still bake for the living. A hex-sign for the door so nothing files us tonight. And I want you to say my name twice, so it's said aloud in this city that says nothing -- once for now, once for the record I won't get to keep. Then we sit. Then we don't talk about the page. Can you give me that? An hour that is only warm?",
+   "progress": "The living quarter's wells are where the last bakers work, near the living quarter proper. Bring bread and a hearth-hex sign for the door. Say the name at the threshold. He will hear you.",
+   "complete": "You said it twice. Ursu, and Ursu. I have not heard my own name warm in six years; here they only file it. The bread's good. The fire holds. Sit closer -- the cold gets in even through the hex. This is the evening. I'll carry it into the quiet, when the quiet comes, and it'll be the last thing that goes. They erase you inward, you know. The kept things go last. You're a kept thing now. My kept thing.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "hearth_hex_sign",
+     "count": 1,
+     "text": "Bring bread and a hearth-hex sign"
+    },
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      900,
+      900
+     ],
+     "radius": 90,
+     "label": "the living quarter",
+     "text": "Share the evening in the living quarter"
+    }
+   ],
+   "rewards": {
+    "xp": 1100,
+    "gold": 130,
+    "items": [
+     "hearth_hex_sign"
+    ],
+    "rep": {
+     "the_accord": 200,
+     "border_hearths": 120
+    }
+   },
+   "note": "One warm hour in the city that does not breathe: bread, a fire, a name said twice. Ursu Vulpescu will carry it inward as the quiet takes him, because the kept things go last. He named the traveler his kept thing. Everything good in Black Night is temporary. He has always known that is what makes it good."
+  },
+  "black_night_romance_ursu_4": {
+   "title": "The Last True Page",
+   "giver": "black_night_chronicler",
+   "giver_name": "Ursu Vulpescu",
+   "zone": "black_night",
+   "level": 26,
+   "type": "romance",
+   "tone": "bleak",
+   "romance_stage": 4,
+   "prereq": [
+    "black_night_romance_ursu_3"
+   ],
+   "summary": "Ursu traced the thread as his office demanded, and the tracing took the rest of him. He is going quiet at last. He asks only that his last honest page leave the city in living hands -- a goodbye that is still, entirely, love.",
+   "offer": "I wrote it. The whole true turning of the deep-quarter thread, plain, no lie in it -- the last honest page Black Night will ever hold. And I felt the quiet close over the writing hand as I finished. I'm going, love. Slowly, the way they all go here. I'll not ask you to stay and watch a record learn to stand in the market in its rows. I ask one thing. Carry the page south, out past the gate, into a place that still argues about supper. Let it be read where reading doesn't erase.",
+   "progress": "The page is in your keeping now. The south gate is the way out, past the pit-approach where the quiet is thickest. Don't turn back at the gate. He asked you not to. He is already half a record, and the record does not want witnesses.",
+   "complete": "You're back. You shouldn't be -- I told you not to turn at the gate. But the page is out, you carried it clear, and that's the only immortality this city allows: to be read somewhere the reading doesn't kill. I'm mostly quiet now. I know your face still. That's the last kept thing, and it's going last, just as I said. Go. Live where they still haggle and hate and want their supper. Remember I noticed you. It was the best thing I ever wrote down.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      860,
+      1640
+     ],
+     "radius": 90,
+     "label": "the south gate",
+     "text": "Carry the last page out the south gate"
+    },
+    {
+     "kind": "talk",
+     "npc": "black_night_chronicler",
+     "text": "Return to Ursu one last time"
+    }
+   ],
+   "rewards": {
+    "xp": 1300,
+    "gold": 160,
+    "items": [
+     "kept_name_token"
+    ],
+    "rep": {
+     "the_accord": 300,
+     "border_hearths": 175
+    }
+   },
+   "note": "Ursu Vulpescu kept his post to the last line and traced the thread that unmade him, because it was his office and he was an honest man. His last true page went south in living hands. He was not saved. He was loved, and knew it going into the quiet, and named that the best thing he ever wrote."
+  },
+  "the_archive_romance_lupu_1": {
+   "title": "A Sentence in a Longer Book",
+   "giver": "the_archive_chronicler",
+   "giver_name": "Lupu Cenusa",
+   "zone": "the_archive",
+   "level": 53,
+   "type": "romance",
+   "tone": "wry",
+   "romance_stage": 1,
+   "summary": "The Archive files the dead of the Coast the way others file coin, and Lupu the chronicler believes every death is a sentence in a longer book. He wants a hand that records for the truth of it, not for Sabira's ledger.",
+   "offer": "Every ruin here was once a promise. I record the breaking -- it's the trade, and Sabira's Deputy signs my hours for it. But there's recording, and there's remembering, and lately I can't tell the Archive I know the difference. I've a foundation in the west annex, a whole household filed under one cold word. Go read the stones for me. Not for the ledger. For the book only I seem to be keeping. Bring me what the wall still says.",
+   "progress": "The west annex foundation is out past the deep stacks. The household's names are cut in the footing, if the frost's left them. Read them true. The Archive's copy reads only 'settled.'",
+   "complete": "Six names, and the Archive filed them as one word. Settled. As if a family were a debt that closed. You read them slow, I saw -- you let each one be a person before you let it be a line. Do you know how long since I stood with someone who did that? The Deputy files the Coast on Sabira's authority. I file it too. But you and I just remembered it. That's a different office. An unpaid one.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      420,
+      940
+     ],
+     "radius": 90,
+     "label": "the west annex foundation",
+     "text": "Read the household's names in the footing"
+    },
+    {
+     "kind": "collect",
+     "item": "shroud_of_the_named",
+     "count": 1,
+     "text": "Recover the shroud of the named from the annex"
+    }
+   ],
+   "rewards": {
+    "xp": 6400,
+    "gold": 420,
+    "items": [
+     "riddlers_lens"
+    ],
+    "rep": {
+     "the_archive": 150,
+     "morven": 60
+    }
+   },
+   "note": "A household of six the Archive closed under one word: settled. Lupu Cenusa read their true names aloud with a stranger who let each be a person first. The Archive records. Two people, that day, remembered instead. It is a different office, and it pays nothing, and neither of them has yet dared to name it.",
+   "prereq": []
+  },
+  "the_archive_romance_lupu_2": {
+   "title": "The Watcher's Trade",
+   "giver": "the_archive_chronicler",
+   "giver_name": "Lupu Cenusa",
+   "zone": "the_archive",
+   "level": 54,
+   "type": "romance",
+   "tone": "intrigue",
+   "romance_stage": 2,
+   "prereq": [
+    "the_archive_romance_lupu_1"
+   ],
+   "summary": "Sabira's Watcher is seen by almost no one and sees everything, and two chroniclers keeping an unfiled book have begun to be a thing worth noting. To keep the work, Lupu must first learn how closely they are already read.",
+   "offer": "We've been noticed. The Watcher -- Vlaicu, Sabira's eye -- confirmed my face at the reading-room yesterday, which is how he tells you he's watching without the discourtesy of saying so. I'll not stop the book. But I'll not be careless with you in it, either. Go to the clerk. Nedelcu owes the truth more than he lets on. Learn from him what the Watcher's already written down about the two of us. I'd know the shape of the risk before I ask you to keep sharing it.",
+   "progress": "Nedelcu the clerk counts souls at the sealed-intake, carefully and coldly, and hates every count of it. He'll tell you what's filed on us, if you tell him it's for the un-filing. That's a word that still moves him.",
+   "complete": "So. A line each, our names near the same margin, and a note that we 'read together.' The Watcher meant it as a leash. I find I don't mind the collar so much when I know who's beside me in it. Nedelcu said something -- 'nothing is lost on the Coast, it is only filed.' He meant it as despair. I've decided to hear it as a promise. Nothing lost. Only filed. Then we'll keep a file of our own, and file the truth in it.",
+   "objectives": [
+    {
+     "kind": "talk",
+     "npc": "the_archive_clerk",
+     "text": "Learn from Nedelcu what the Watcher filed"
+    },
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      800,
+      860
+     ],
+     "radius": 90,
+     "label": "the sealed-intake",
+     "text": "Meet the clerk at the sealed-intake"
+    }
+   ],
+   "rewards": {
+    "xp": 6800,
+    "gold": 460,
+    "items": [
+     "ledger_craft"
+    ],
+    "rep": {
+     "the_archive": 175,
+     "morven": 80
+    }
+   },
+   "note": "The Watcher filed them as a leash: two chroniclers who read together. Lupu Cenusa took the note for a vow instead. Nothing is lost on the Coast, the clerk said in despair; Lupu heard a promise in it. They will keep their own file now. Neither has said the word. Both have started to mean it."
+  },
+  "the_archive_romance_lupu_3": {
+   "title": "The Book Only We Keep",
+   "giver": "the_archive_chronicler",
+   "giver_name": "Lupu Cenusa",
+   "zone": "the_archive",
+   "level": 55,
+   "type": "romance",
+   "tone": "somber",
+   "romance_stage": 3,
+   "prereq": [
+    "the_archive_romance_lupu_2"
+   ],
+   "summary": "Not a flight and not a confession, but a shared vocation chosen over both: to co-keep the true book of the un-filed, and to let the work be the word neither of them will say aloud.",
+   "offer": "I'll not ask you to run with me -- there's nowhere on the Coast the Archive hasn't already filed. And I'll not say the word you're waiting for, because said aloud in this building it becomes a line, and a line becomes a leash. So here is what I offer instead, and I mean it as more than any word. Help me hide the true book in the oldest reading-room, behind the tablet that refuses the light. We keep it together. That's my vow. It's a chronicler's vow. It's the only kind I trust.",
+   "progress": "The oldest reading-room holds a tablet that reads wrong under alchemical sight -- it refuses to be filed, and so nothing files what's hidden behind it. Bring the folk-warding to blind the Watcher's eye while you seat the book. Work quiet. Work close.",
+   "complete": "There. Seated behind the refusing tablet, warded, ours. The Archive holds a thousand cold closings and now, in its oldest room, one warm true book that argues back. We keep it together, you and I -- and that's the word, isn't it, the one I said I wouldn't say. I didn't say it. I built it. Power is patience, the Deputy tells me. He's right, and he'll never guess what I'm patient for. This. A shared page. A hand that turns it beside mine. Enough.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "folk_warding",
+     "count": 2,
+     "text": "Gather folk-warding to blind the Watcher"
+    },
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      700,
+      700
+     ],
+     "radius": 90,
+     "label": "the oldest reading-room",
+     "text": "Seat the true book behind the refusing tablet"
+    }
+   ],
+   "rewards": {
+    "xp": 7200,
+    "gold": 520,
+    "items": [
+     "shroud_of_the_named"
+    ],
+    "rep": {
+     "the_archive": 250,
+     "morven": 120
+    }
+   },
+   "note": "Lupu Cenusa never said the word, in the building where words become leashes. He built it instead: a true book of the un-filed, behind the tablet that refuses the light, kept by two hands that turn its pages together. The Archive files a thousand cold closings. In its oldest room, one warm thing argues back, and calls itself the work."
+  },
+  "iron_vein_underlanguage_dust_lines": {
+   "title": "The Dust Lies Straight",
+   "giver": "iron_vein_chronicler",
+   "giver_name": "Grigore Corbeanu",
+   "zone": "iron_vein",
+   "level": 7,
+   "type": "mystery",
+   "tone": "creepy",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 1,
+   "summary": "The dust between the bank-stones has begun to lie in fine parallel lines, all pointing one way, and Grigore has kept the chronicle long enough to know that dust does not choose a direction. He wants it walked and read before the valley forgets to find it strange.",
+   "offer": "I keep the years so the valley remembers itself, and this year the valley's begun doing a thing I've no line for. Down by the fording-stones the dust lies in fine straight rows -- not blown, not raked, laid, all pointing upriver like a hundred little arrows agreeing on something. Dust doesn't agree, traveler. Reach the bank and stand where the lines point, and tell me the bearing. Don't dig. Don't dwell. A bearing's a fact, and facts I can write down. It's the dwelling that bills you.",
+   "progress": "The dust lines run along the fording-stones on the north bank. Reach them, read the bearing they point, and carry only that back to Grigore.",
+   "complete": "Upriver, you say. Every line of it, upriver, toward the moor and the wells beyond. I've written weather and war and forty years of ford-tolls in this book and never once a page for dust that points. So I'll write the bearing and nothing else, and I'll not read it back to myself at night. Here -- the striker. Light your own way in this valley. Borrowed light has a way of pointing somewhere you didn't mean to go.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "iron_vein",
+     "pos": [
+      720,
+      540
+     ],
+     "radius": 100,
+     "label": "the fording-stones on the north bank",
+     "text": "Read the bearing the dust lines point"
+    }
+   ],
+   "rewards": {
+    "xp": 130,
+    "gold": 30,
+    "items": [
+     "veinflint_striker"
+    ],
+    "rep": {
+     "border_hearths": 150
+    }
+   },
+   "note": "The dust by the fording-stones lay in straight rows, and every row pointed upriver, toward the moor. Grigore wrote down the bearing and nothing more. Dust does not agree on a direction. This dust had agreed.",
+   "villain_beat": {
+    "kind": "symptom",
+    "beat_id": "underlang_01_dust"
+   }
+  },
+  "iron_vein_underlanguage_warm_slab": {
+   "title": "A Watch on the Warm Slab",
+   "giver": "iron_vein_chronicler",
+   "giver_name": "Grigore Corbeanu",
+   "zone": "iron_vein",
+   "level": 8,
+   "type": "mystery",
+   "tone": "creepy",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 2,
+   "prereq": [
+    "iron_vein_underlanguage_dust_lines"
+   ],
+   "summary": "Where the dust pointed, a flat slab above the bank has gone warm as a loaf in the frost, and fresh angular marks have been cut through the moss that has hidden the old carving for lifetimes. Grigore wants it witnessed, not touched -- and the marks read only for their number.",
+   "offer": "You gave me a bearing, and the bearing had an end. Follow the dust upriver and you'll come to a grey slab that's gone warm in this cold -- warm, in the frost, like something under it is awake. Men have drawn water past that stone for six hundred years and never seen the carving on it. It's seen now. Fresh angular marks, cut this season, straight through moss older than the town. Reach it near dark. Count the marks. Don't sound them, don't copy them, don't lean close. Come tell me the count. Only the count.",
+   "progress": "The warm slab stands above the north bank where the dust bearing ends. Reach it, count the fresh marks cut through the moss, and step clear without sounding them.",
+   "complete": "Twelve marks, freshly cut. Not seven, not nine -- twelve, and I'll not pretend the number means nothing to a man who counts for a living. The slab warm, the moss cut, the dust pointing straight to it from a mile downriver. That's not weather. That's an address, cut into my valley by a hand I can't see. I'll seal the page. Take the charm -- it keeps a mind from wanting to understand. Down here that's not cowardice. It's the whole art.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "iron_vein",
+     "pos": [
+      820,
+      420
+     ],
+     "radius": 70,
+     "label": "the warm slab above the north bank",
+     "text": "Count the fresh marks, then step clear"
+    }
+   ],
+   "rewards": {
+    "xp": 155,
+    "gold": 35,
+    "items": [
+     "incurious_charm"
+    ],
+    "rep": {
+     "border_hearths": 175
+    }
+   },
+   "note": "The slab was warm in the frost, and twelve marks had been cut fresh through moss six centuries old. The dust pointed straight to it. Grigore sealed the page and did not sound the marks. An address, he called it, and left the word unexplained.",
+   "villain_beat": {
+    "kind": "symptom",
+    "beat_id": "underlang_02_warm_marks"
+   }
+  },
+  "copper_wells_underlanguage_new_taste": {
+   "title": "The Well That Learned",
+   "giver": "copper_wells_guard_2",
+   "giver_name": "Horia Corbeanu",
+   "zone": "copper_wells",
+   "level": 10,
+   "type": "mystery",
+   "tone": "creepy",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 3,
+   "prereq": [
+    "iron_vein_underlanguage_warm_slab"
+   ],
+   "summary": "The valley's marks pointed upriver to the moor, and the moor answers: another well has gone copper overnight, the ninth this season, each one nearer the old paths. Horia wants the coppered wells walked in order and their turning read, before the pattern climbs to the last clean water.",
+   "offer": "You came up from the Vein with talk of dust and warm stones. Save it -- I've my own count to keep. The wells here go copper one at a time, and not by chance. They turn in a line, well to well, marching toward the clean one like they're being read down a list. Ninth this month. My grandmother had a saying -- when the well goes copper, count your candles -- and she never laughed saying it. Walk the coppered wells in the order they turned. Read which turns next. Then leave the moor to me.",
+   "progress": "The coppered wells lie in a turning line across the moor. Reach the newest and read which well the line points toward next.",
+   "complete": "Toward the last clean water. Of course it is. Nine wells gone in the order a man reads a page, and the tenth in line is the one we drink from. It's not poison, traveler -- poison's a mercy next to this. It's the moor learning a new taste, well by well, and something patient teaching it. I'll rope the tenth and pray roping's enough. Take the pouch. Salt won't stop what's coming. It'll just mark where it's already been.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "copper_wells",
+     "pos": [
+      640,
+      380
+     ],
+     "radius": 110,
+     "label": "the newest coppered well",
+     "text": "Read which well the line turns toward next"
+    }
+   ],
+   "rewards": {
+    "xp": 210,
+    "gold": 45,
+    "items": [
+     "salt_line_pouch"
+    ],
+    "rep": {
+     "border_hearths": 200
+    }
+   },
+   "note": "Nine wells had gone copper, each in the order a hand reads a page, marching toward the last clean water. Horia roped the tenth. The moor was not poisoned. It was learning a new taste, and something patient was teaching it, well by well.",
+   "villain_beat": {
+    "kind": "symptom",
+    "beat_id": "underlang_03_wells_line"
+   }
+  },
+  "copper_wells_underlanguage_resting_herdsman": {
+   "title": "Resting Since Tuesday",
+   "giver": "copper_wells_innkeeper",
+   "giver_name": "Barbu Corbeanu",
+   "zone": "copper_wells",
+   "level": 11,
+   "type": "mystery",
+   "tone": "creepy",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 4,
+   "prereq": [
+    "copper_wells_underlanguage_new_taste"
+   ],
+   "summary": "A herdsman has stood at the edge of the open moor since Tuesday, facing the coppered wells, head tilted, not eating, not answering -- the same too-quiet posture folk have started calling 'resting.' Barbu wants him reached and spoken to before whatever he is listening to finishes its sentence.",
+   "offer": "I keep what medicine there is on this moor, and I've a case no salve touches. Old Nedelcu walked out past the last farmstead on Tuesday and he's standing there yet -- facing the wells, head cocked like a dog that's heard its name, not eating, not answering his own daughter. They're calling it resting now, gentle-like, so nobody has to say the truer word. Reach him. Speak to him. See if there's a man still behind the eyes. And traveler -- whatever he's leaned toward, don't you lean too.",
+   "progress": "Nedelcu stands at the moor's edge past the last farmstead, facing the coppered wells. Reach him and speak, and see if a man still answers.",
+   "complete": "Nothing behind the eyes but a great deal of listening. He turned to me, mind -- turned, and I thought, there he is -- and then he tilted back the way he'd been and said one word that wasn't a word, and I felt it in my teeth and not my ears. His satchel's still full. His boots point at the wells. The dust round them lies in straight lines. It's the ladder, traveler -- warm ground, copper wells, and now a man who's stopped finishing his sentences. I'll carry him home. He won't thank me. Take this, and don't come back to the moor's edge after dark.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "copper_wells",
+     "pos": [
+      980,
+      620
+     ],
+     "radius": 100,
+     "label": "the moor's edge past the last farmstead",
+     "text": "Reach the resting herdsman and speak to him"
+    },
+    {
+     "kind": "talk",
+     "npc": "copper_wells_innkeeper",
+     "text": "Tell Barbu what remained of Nedelcu"
+    }
+   ],
+   "rewards": {
+    "xp": 235,
+    "gold": 50,
+    "items": [
+     "counteragent_of_quiet"
+    ],
+    "rep": {
+     "border_hearths": 225
+    }
+   },
+   "note": "Nedelcu had stood since Tuesday, facing the wells, listening to something the living cannot hear. He said one word that landed in the teeth, not the ears. Warm ground, coppered wells, and now a man who had stopped finishing his sentences. Barbu carried him home. He did not thank her.",
+   "villain_beat": {
+    "kind": "symptom",
+    "beat_id": "underlang_04_listening"
+   }
+  },
+  "black_night_underlanguage_collected_dead": {
+   "title": "The Word in the Last Column",
+   "giver": "black_night_chronicler",
+   "giver_name": "Ursu Vulpescu",
+   "zone": "black_night",
+   "level": 26,
+   "type": "mystery",
+   "tone": "somber",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 5,
+   "prereq": [
+    "copper_wells_underlanguage_resting_herdsman"
+   ],
+   "summary": "Far north of the moor, the same pattern has matured into paperwork: a death-roll in the deep quarter marks the taken with a single word from a colder age -- collected. Ursu wants it read and its hand judged, for the word is written a thousand years too early, and in living ink.",
+   "offer": "You carry the smell of the moor and the look of a man collecting a pattern. Then collect this. In the deep quarter there's a roll of the dead, kept the northern way -- names, the years they held, and for the taken, one word in the last column. Collected. That word belongs to an age that hasn't come yet, a colder book than any we keep, and here it is already, in a working hand, in living ink. Reach the roll. Read the word. Judge the hand that wrote it. Then come back before the reading finishes with you. That last is not manners.",
+   "progress": "The death-roll hangs in the deep quarter of Black Night. Reach it, read the word marking the taken, and turn away before the columns hold your eye.",
+   "complete": "Collected. In a living hand, in our own century, in ink still black. It's the moor's copper wells grown up and gone to clerk-school, traveler -- the warm ground learned to keep books. A well takes a taste; a ledger takes a name and files it like grain in a barn, and calls it closed, and moves the pen down. Somewhere a colder record is learning our alphabet, one death at a time, and practicing on us. I'll copy nothing. Take the lens -- it reads what's already there and adds no line. In this city that's the only honest tool left.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      1420,
+      1320
+     ],
+     "radius": 120,
+     "label": "the death-roll in the deep quarter",
+     "text": "Read the word marking the taken, then turn away"
+    }
+   ],
+   "rewards": {
+    "xp": 820,
+    "gold": 145,
+    "items": [
+     "riddlers_lens"
+    ],
+    "rep": {
+     "the_accord": 200,
+     "border_hearths": 150
+    }
+   },
+   "note": "The dead of the deep quarter were marked collected -- a word from an age not yet come, written in a living hand, in ink still wet. The moor's copper wells had matured into bookkeeping. Ursu copied nothing. A colder record was learning the northern alphabet, one death at a time.",
+   "villain_beat": {
+    "kind": "symptom",
+    "beat_id": "underlang_05_collected"
+   }
+  },
+  "black_night_underlanguage_second_person": {
+   "title": "To the One Who Read the Wells",
+   "giver": "black_night_apothecary",
+   "giver_name": "Cornel Vulpescu",
+   "zone": "black_night",
+   "level": 28,
+   "type": "mystery",
+   "tone": "somber",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 6,
+   "prereq": [
+    "black_night_underlanguage_collected_dead"
+   ],
+   "summary": "A tomb-kerb near the pit-edge, cut in the Great-War years, has rearranged under the blue light into legible second person -- and the marks address not a name but a deed, one the player has been doing since the Vein. Cornel wants it seen and left, for a stone that speaks to you has begun to keep your account.",
+   "offer": "You've been reading things all up the road, they tell me -- dust, wells, a man who stopped talking, a ledger of the collected. Good. Then you'd best see what reads back. There's a kerb by the pit-edge, cut six hundred years gone, and under the blue light its carvings shift and settle into words a child could sound -- except they don't name the dead beneath. They name a deed. Yours, I think, by the shape of it. Reach the kerb. Read what it says to you. Then walk away and don't answer it. A stone that knows what you did has opened a page with your weight on it.",
+   "progress": "The rearranging kerb stands near the pit-edge in Black Night. Reach it, read what the blue light makes it say to you, and walk away without answering.",
+   "complete": "So it spoke to you and not to me. 'To the one who read the wells. You have read well. You may stop now.' No name -- it hasn't your name, not yet -- only the deed, quoted back like a clerk reading your own hand to your face. That's the turn, traveler. First the ground, then the water, then the people, then the books -- and now the book looks up and finds the reader. It offered you rest. It never threatens; rest is the cruelest thing it has. Take the counteragent. Keep answering none of them. The moment you answer, the account closes.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "black_night",
+     "pos": [
+      1180,
+      1500
+     ],
+     "radius": 90,
+     "label": "the rearranging kerb at the pit-edge",
+     "text": "Read what the kerb says to you, then walk away"
+    }
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 160,
+    "items": [
+     "counteragent_of_quiet"
+    ],
+    "rep": {
+     "the_accord": 250,
+     "border_hearths": 150
+    }
+   },
+   "note": "The kerb spoke in the second person, and it named not the dead beneath it but the reader's own deed, quoted back like a clerk reading your hand to your face. It has no name yet -- only what you did. It offered rest, which is the cruelest thing it keeps. The account had opened.",
+   "villain_beat": {
+    "kind": "arrangement",
+    "beat_id": "underlang_06_address"
+   }
+  },
+  "sangeroasa_underlanguage_debt_matured": {
+   "title": "The Same Word, In Iron",
+   "giver": "sangeroasa_chronicler",
+   "giver_name": "Ozun Lupei",
+   "zone": "sangeroasa",
+   "level": 43,
+   "type": "mystery",
+   "tone": "somber",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 7,
+   "prereq": [
+    "black_night_underlanguage_second_person"
+   ],
+   "summary": "In the forge-city the pattern has hardened into industry: the Debt Pit's ledger marks the dead collected in a smith's hand, and the same three-note thing that hummed over the Vein now beats in the hammers. Ozun wants the pit rim read, to prove the moor's small wrongness and the pit's great one are a single sentence.",
+   "offer": "You've walked the whole ladder, then -- dust to wells to the listening to a stone that speaks your deeds. Here's the last rung before the Pit itself. There's a ledger nailed to the Debt Pit rim: labor-days owed, and for the ones the Pit swallowed, one word in a smith's hand. Collected. The same word your northern kerb knew. The forge beats it out, three notes to the swing, the way a river hummed it up in the Vein a thousand miles north. Reach the rim. Read the ledger. Prove to me the small wrong thing and the great one are the same sentence, only louder. Then come back with your wits, which the last man I sent did not.",
+   "progress": "The ledger hangs on the north rim of the Debt Pit, where the vents breathe hottest. Read it, and prove the moor's pattern and the pit's are one sentence.",
+   "complete": "One sentence, louder. You read it true. Warm ground in a bog valley, coppered wells on a moor, a man who stopped talking, a roll of the collected in the North, a kerb that named your deed -- and here, the same word beaten into iron and paid in the dead. It was never many wrong things, traveler. It was one thing, arranging, patient as geology, from a river's rust to a forge's roar. And every rung of the ladder climbs toward one place. Take the reaver. Where you're going, small and true and stubborn will matter more than sharp -- but sharp will not hurt.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      1180,
+      760
+     ],
+     "radius": 90,
+     "label": "the Debt Pit rim",
+     "text": "Read the ledger and prove the pattern is one sentence"
+    }
+   ],
+   "rewards": {
+    "xp": 1450,
+    "gold": 270,
+    "items": [
+     "dragonbone_reaver"
+    ],
+    "rep": {
+     "the_accord": 300,
+     "border_hearths": 150
+    }
+   },
+   "note": "The forge-city marked its dead collected in iron, three notes to the hammer-swing -- the same the river hummed a thousand miles north. Ozun read it plain at last: never many wrong things, but one thing, arranging, from a river's rust to a forge's roar. Every rung climbed toward one place.",
+   "villain_beat": {
+    "kind": "arrangement",
+    "beat_id": "underlang_07_matured"
+   }
+  },
+  "bloodstone_pit_underlanguage_edge_of_the_pit": {
+   "title": "The Edge of the Pit",
+   "giver": "bloodstone_pit_chronicler",
+   "giver_name": "Voica Vulpescu",
+   "zone": "bloodstone_pit",
+   "level": 57,
+   "type": "main",
+   "tone": "bleak",
+   "chain": "bloodstone_underlanguage",
+   "chain_step": 8,
+   "prereq": [
+    "sangeroasa_underlanguage_debt_matured"
+   ],
+   "summary": "Every clue climbed to here: the rim of the pit where the ground is warmest, the wells copperest, the dead marked and the stones addressed. Voica has read the traveler's whole chronicle and wants it stood against the source -- reach the rim's warm face, read the second-person line cut over the deep, and step back alive with the pattern whole.",
+   "offer": "I've read your book, cover to warm cover. Dust that pointed. Wells that turned in a line. A man resting since Tuesday. The collected dead. A kerb that spoke your deed. A forge that beats three notes. You've carried a whole sentence a thousand miles, and it ends at my rim, where the ground's warmest and the last clean water's already gone. There's a line cut over the deep face, second person, addressed to whoever climbs this far. Reach it. Read it once. Then look at your boots and walk back up to me. Not because it'll hurt you -- because it's just legible enough that you'll want to stay. Bring me the pattern whole and yourself still in it.",
+   "progress": "The addressed line is cut over the deep face at the pit rim, where the ground runs warmest. Reach it, read it once, and climb back out with the pattern whole and your wits your own.",
+   "complete": "You read it and you climbed back. Not many do. It said what they all say at the end -- 'You are tired. The ground here is warm. It is the only place that will feel like rest.' No name, still. It doesn't need one now; it has your whole account, every rung you climbed to reach it, and it's been reading you since the dust pointed upriver. That's the shape of it, plain at last: not sixteen wrongnesses but one, arranging, from a river to this rim, and you're standing on the edge of where it keeps its books. The counter's six words, kept for the day you go all the way down. Small. Present. Ours. For now you've done the harder thing, traveler. You looked at the pit, and you did not lean.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "bloodstone_pit",
+     "pos": [
+      560,
+      640
+     ],
+     "radius": 100,
+     "label": "the addressed line over the deep face",
+     "text": "Read the addressed line once, then climb back out"
+    }
+   ],
+   "rewards": {
+    "xp": 2950,
+    "gold": 500,
+    "items": [
+     "veil_of_the_thinning",
+     "counteragent_of_quiet"
+    ],
+    "rep": {
+     "the_accord": 400,
+     "border_hearths": 250
+    }
+   },
+   "note": "The whole sentence ended at the rim, where the ground ran warmest and the line cut over the deep spoke in the second person: you are tired, the ground here is warm, it is the only place that will feel like rest. Never sixteen wrongnesses but one, arranging, from a river's rust to this edge. The traveler read it once and did not lean. That was the day's whole victory, and it was enough.",
+   "villain_beat": {
+    "kind": "arrangement",
+    "beat_id": "underlang_08_pit_edge"
+   }
+  },
+  "salt_fens_vanishings_empty_causeway": {
+   "title": "The Empty Causeway",
+   "giver": "salt_fens_dockmaster",
+   "giver_name": "Costel Ursaru",
+   "zone": "salt_fens",
+   "level": 30,
+   "type": "mystery",
+   "tone": "intrigue",
+   "chain": "salt_fens_saltmarsh_vanishings",
+   "chain_step": 1,
+   "summary": "Fen households have gone missing off the causeway one door at a time, in order, north to south -- coats still on their pegs, no boats put out. Costel wants the count taken before the fens name a witch and burn one.",
+   "offer": "Six houses dark on the north causeway, and not a boat missing from any of them. Coats on the pegs. Kettles cold on the hook. Folk here have already picked a word for it -- witch -- and once the word's out somebody burns for it, guilty or no. Before that, I want the true count. Walk the north causeway and see the dark houses yourself. Then ask my lamp-woman -- Ileana keeps the causeway lights, she'd have seen who walked out at night, if anyone did.",
+   "progress": "Walk the dark households along the north causeway, then ask Ileana the lamp-keeper who she saw walk out after dark.",
+   "complete": "Nobody walked out, she says. And you saw it too -- coats, kettles, the beds still made. Folk don't leave a made bed to drown. That's not a witch and it's not a tide. That's a pattern with a hand behind it, and patterns in this fog have always meant one thing. Keep the count between us. Six houses. North to south, in order, like a man reading down a list. I don't like lists.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "salt_fens",
+     "pos": [
+      640,
+      560
+     ],
+     "radius": 110,
+     "label": "the dark households",
+     "text": "Count the dark houses on the north causeway"
+    },
+    {
+     "kind": "talk",
+     "npc": "salt_fens_watcher",
+     "text": "Ask Ileana the lamp-keeper who walked out at night"
+    }
+   ],
+   "rewards": {
+    "xp": 1350,
+    "gold": 90,
+    "rep": {
+     "the_accord": 100
+    }
+   },
+   "prereq": [],
+   "note": "Six households gone off the north causeway, north to south, in order -- coats on the pegs, beds still made. Costel would rather it were a thief. A thief takes something. This took the takers and left the coats."
+  },
+  "salt_fens_vanishings_where_the_lamps_lead": {
+   "title": "Where the Lamps Lead",
+   "giver": "salt_fens_dockmaster",
+   "giver_name": "Costel Ursaru",
+   "zone": "salt_fens",
+   "level": 31,
+   "type": "mystery",
+   "tone": "creepy",
+   "chain": "salt_fens_saltmarsh_vanishings",
+   "chain_step": 2,
+   "summary": "The vanished all lived within sight of a causeway lamp -- and the lamps, folk swear, have been burning a wrong colour since autumn. Read the fog by the far lamps through the apothecary's still, and put down whatever the salt has been giving back.",
+   "offer": "You'll think me a fool. The apothecary doesn't. Ana keeps the old sight -- a reading-still, blue for the raised dead, orange for the worst thing -- and she says every dark house sat in throw of one lamp, and those lamps have burned wrong since the leaves turned. Go out to the far causeway lamps with her still. Read the fog around them. And mind yourself -- the salt's been handing things back lately, cold wet things that used to be neighbours, and they gather where the light's queerest.",
+   "progress": "Read the fog at the far causeway lamps through Ana's reading-still, and scatter the brine-drowned dead that gather there.",
+   "complete": "Orange. You're certain. Not blue, not the honest dead -- shifting orange, the colour Ana won't say aloud twice. That's a signal writing itself into the light, and every lamp on that stretch is throwing it. Somebody's lamps have gone from guiding folk home to calling the incurious out into the water. And the drowned you put down -- those were the six, weren't they. Or what the fens made of them. I need to know whose hand trims those wicks. God help me, I already know whose.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "salt_fens",
+     "pos": [
+      1180,
+      480
+     ],
+     "radius": 90,
+     "label": "the far causeway lamps",
+     "text": "Read the fog at the far lamps through the still"
+    },
+    {
+     "kind": "kill",
+     "target": "brine_shade",
+     "count": 8,
+     "text": "Scatter the brine-drowned that gather in the wrong light"
+    }
+   ],
+   "rewards": {
+    "xp": 1500,
+    "gold": 105,
+    "items": [
+     "marshlight_jar"
+    ],
+    "rep": {
+     "the_accord": 120
+    }
+   },
+   "prereq": [
+    "salt_fens_vanishings_empty_causeway"
+   ],
+   "note": "Every dark house sat within sight of one lamp, and those lamps read shifting orange through the still -- the signal, wearing the shape of a light that means home. The drowned gathered thickest where the wick burned wrongest. Costel stopped guessing whose hand kept them lit."
+  },
+  "salt_fens_vanishings_the_salvaged_lens": {
+   "title": "The Salvaged Lens",
+   "giver": "salt_fens_innkeeper",
+   "giver_name": "Fane Ursaru",
+   "zone": "salt_fens",
+   "level": 32,
+   "type": "mystery",
+   "tone": "bleak",
+   "chain": "salt_fens_saltmarsh_vanishings",
+   "chain_step": 3,
+   "summary": "Ana has traced the wrong colour to a lens set in each fouled lamp -- reading-stone, salvaged off a wreck and ground down for glass. Recover one lens from a lamp and let her name what it truly is, and who has been salvaging.",
+   "offer": "It's the glass. Every wrong lamp has a new eye set in it -- a lens ground from something that ought never to have been ground. I've seen the blanks come off the wreckers' beach: reading-stone, the black kind that the Accord burns on sight. Someone's been prising it out of a drowned hull and shaping it into lamp-lenses, thinking they've made honest glass. It isn't glass. It's a live stone with a wick behind it, and it reads whoever stands in its light. Bring me one lens, prised clean, and don't look through it walking back.",
+   "progress": "Prise a fouled lens from the far lamp-housing and carry it back to Ana without looking through it.",
+   "complete": "Reading-stone. No question -- see how it drinks the candle and gives orange back. Whoever set these wasn't burning folk on purpose. They were making brighter lamps. Salvaged the shiniest glass off the wreck-beach, ground it careful, set it to guide the fen home through a worse fog than we've ever had -- and turned every guided soul into something the water could read and keep. There's exactly one wrecker's cottage on that beach that still shows a light at night. You know the trade of the woman who lives in it. So do I. Take the pouch. Go gently. She may not know what she's done.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "salt_fens",
+     "pos": [
+      1440,
+      720
+     ],
+     "radius": 80,
+     "label": "the far lamp-housing",
+     "text": "Prise a reading-stone lens from the fouled lamp"
+    },
+    {
+     "kind": "talk",
+     "npc": "salt_fens_innkeeper",
+     "text": "Let Ana name what the lens truly is"
+    }
+   ],
+   "rewards": {
+    "xp": 1650,
+    "gold": 120,
+    "items": [
+     "salt_line_pouch"
+    ],
+    "rep": {
+     "the_accord": 140
+    }
+   },
+   "prereq": [
+    "salt_fens_vanishings_where_the_lamps_lead"
+   ],
+   "note": "The lamps' new eyes were reading-stone, salvaged off a wreck and ground for glass by a hand that meant only to light the way home. Ana held it to the candle and it gave orange back. Somebody had built a brighter lamp for a worse fog, and every soul it guided, the water learned to keep."
+  },
+  "salt_fens_vanishings_the_lamp_keepers_sister": {
+   "title": "The Lamp-Keeper's Sister",
+   "giver": "salt_fens_watcher",
+   "giver_name": "Ileana Ursaru",
+   "zone": "salt_fens",
+   "level": 33,
+   "type": "mystery",
+   "tone": "somber",
+   "chain": "salt_fens_saltmarsh_vanishings",
+   "chain_step": 4,
+   "summary": "Ileana lights the causeway lamps. Ileana ground the lenses. She will not lie about it -- she did it to bring one drowned sister home through the fog, and never asked why the light kept working. She hands you the map of every lamp she has fouled, and asks you to end her work.",
+   "offer": "You've come with the pouch, so you know. I'll not run and I'll not weep at you -- I'm past both. My sister Nica went off the causeway the night the great fog came, no boat, no body, just her coat on the peg. And after, on the worst nights, I'd see a lamp-glow out on the water shaped like a woman walking in. So I made the lamps brighter. Ground the shiniest glass I could pull off the wreck and set it in every housing, and told myself the light was reaching her, calling her back. It was calling. It was never her that came. Here -- every lamp I fouled, marked on the border of this map. Douse them. All of them. I can't unmake what I lit, but you can put it out.",
+   "progress": "Take Ileana's marked map and douse every fouled lamp along the causeway. End at the wreck-beach where the first lamp still burns.",
+   "complete": "All dark now. Good. The fens are safe from my lights -- and blind on the causeway of a night, which is its own drowning, and I'll wear that too. I called for my sister a whole autumn and the fog answered in her shape and I fed it six neighbours believing every one was her. Don't tell me it wasn't my hand. It was my hand on the lens and my want behind it, and the want is the part I can't douse. Take the ward. It won't read you, whatever you carry it past. It's the last honest thing I've got to give.",
+   "objectives": [
+    {
+     "kind": "collect",
+     "item": "marked_map_border",
+     "count": 1,
+     "text": "Take Ileana's map of every fouled lamp"
+    },
+    {
+     "kind": "reach",
+     "map": "salt_fens",
+     "pos": [
+      1560,
+      900
+     ],
+     "radius": 100,
+     "label": "the wreck-beach lamp",
+     "text": "Douse the last fouled lamp at the wreck-beach"
+    }
+   ],
+   "rewards": {
+    "xp": 1900,
+    "gold": 150,
+    "items": [
+     "folk_warding"
+    ],
+    "rep": {
+     "the_accord": 200,
+     "the_morven": 90
+    }
+   },
+   "prereq": [
+    "salt_fens_vanishings_the_salvaged_lens"
+   ],
+   "note": "Ileana lit the lamps to call one drowned sister home, and the fog came instead, in her sister's shape, and took six more. The lights are dark now and the causeway drowns its own again for want of them. She did not ask forgiveness. She asked only that it be put out. Grief built the trap. Grief is a poor thing to hang."
+  },
+  "sangeroasa_debt_murder_the_wound_that_isnt": {
+   "title": "The Wound That Isn't",
+   "giver": "sangeroasa_captain",
+   "giver_name": "Costel Lupei",
+   "zone": "sangeroasa",
+   "level": 26,
+   "type": "mystery",
+   "tone": "intrigue",
+   "chain": "sangeroasa_forge_debt_murder",
+   "chain_step": 1,
+   "summary": "A pit-foreman lies dead at the Debt Pit rim -- no wound, no burn, hands clean, eyes fixed on the tally-board. The captain wants it ruled a fainting-fit and buried. The way the man is looking at the ledger says otherwise.",
+   "offer": "Foreman Grosch, dead at the pit rim, and I'd like it to be his heart so I can bury him before the shift-bell. Only there's no mark on him. No burn, no blade, no soot in the lungs -- a man doesn't die clean at the mouth of a forge. And he's looking at the tally-board. Died looking at it, eyes open, like he read something that stopped him. Go up to the rim. Look at what a dead foreman looks at. Then find me Ozun -- the chronicler keeps the labor-tallies, he'll know if Grosch had reason to stare.",
+   "progress": "Examine Foreman Grosch's body at the Debt Pit rim, then find Ozun the chronicler who keeps the labor-tallies.",
+   "complete": "Nothing on him but the look. And you're right -- his eyes line up dead center on one row of the tally-board, not the whole thing, one row. A man doesn't die of arithmetic, traveler. But he died reading it, and in this city arithmetic is how we kill people slow. If it killed this one fast, I want to know what the row said before somebody sands it off the board. Ozun keeps the tallies. Start with him. And watch his hands when you ask.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      980,
+      640
+     ],
+     "radius": 90,
+     "label": "the Debt Pit rim",
+     "text": "Examine the foreman's body at the pit rim"
+    },
+    {
+     "kind": "talk",
+     "npc": "sangeroasa_chronicler",
+     "text": "Question Ozun about the foreman's tally-row"
+    }
+   ],
+   "rewards": {
+    "xp": 1100,
+    "gold": 80,
+    "rep": {
+     "the_gift": 100
+    }
+   },
+   "prereq": [],
+   "note": "Foreman Grosch died clean at the pit rim -- no wound, no burn, hands scrubbed -- staring at one row of the tally-board. In Sangeroasa arithmetic kills slow. This killed fast. The captain wanted a heart-fit. He got a man who read something that stopped his."
+  },
+  "sangeroasa_debt_murder_a_dead_mans_credit": {
+   "title": "A Dead Man's Credit",
+   "giver": "sangeroasa_chronicler",
+   "giver_name": "Ozun Lupei",
+   "zone": "sangeroasa",
+   "level": 27,
+   "type": "mystery",
+   "tone": "intrigue",
+   "chain": "sangeroasa_forge_debt_murder",
+   "chain_step": 2,
+   "summary": "The foreman's fatal row credits labor-days to a man three months in a pauper's furrow. Someone forged a dead man's tally to bleed the pit's books. Ozun wants the forged receipts pulled before the auditors come and hang the wrong clerk -- himself.",
+   "offer": "I'll show you the row, because if I hide it they'll say I wrote it. Grosch's death-row credits four hundred labor-days to one Tavian Brem. Tavian Brem went into the Gift's furrows in the spring -- dead of the pit, three months gone. A dead man can't be owed work. Someone's been forging tallies in a corpse's name and drawing real credit against them, and Grosch must have caught the seam. The forged receipts pass through the pit-collectors before they reach my board. Take them off a few collectors and bring them here, and we'll see whose hand shapes the fours. Quickly. The auditors ride in on the seventh day and they hang the last clerk who touched a bad book.",
+   "progress": "Pull forged toll-receipts from the pit's debt-collectors, then bring them to Ozun to match the forging hand.",
+   "complete": "The same hand, every one -- see the four, the way the tail curls back like a hook? That's a trained hand, a tally-clerk's hand, not some pit-thug's scrawl. And all of it credited against Tavian Brem, dead these three months, four hundred labor-days a corpse can never work. Somebody's skimming the pit through a dead man's name and Grosch found the seam and now Grosch is arithmetic himself. But here's the wrong of it -- a forger this careful doesn't leave a body staring at his own row. Whoever bled the books didn't kill the foreman. The row did. Take the dossier. There's a habit in these fours, and habits have owners.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "debt_collector",
+     "count": 6,
+     "text": "Pull forged receipts from the pit's debt-collectors"
+    },
+    {
+     "kind": "collect",
+     "item": "toll_receipt_forgery",
+     "count": 4,
+     "text": "Recover four forged tally-receipts"
+    }
+   ],
+   "rewards": {
+    "xp": 1250,
+    "gold": 95,
+    "items": [
+     "dossier_of_habits"
+    ],
+    "rep": {
+     "the_gift": 120
+    }
+   },
+   "prereq": [
+    "sangeroasa_debt_murder_the_wound_that_isnt"
+   ],
+   "note": "The fatal row credited four hundred labor-days to Tavian Brem, three months dead in the Gift. A careful hand had been skimming the pit through a corpse's name. But a forger that careful leaves no body staring at his own row. The foreman was not killed by the forger. He was killed by reading."
+  },
+  "sangeroasa_debt_murder_the_brother_in_the_pit": {
+   "title": "The Brother in the Pit",
+   "giver": "sangeroasa_apothecary",
+   "giver_name": "Ana Lupei",
+   "zone": "sangeroasa",
+   "level": 28,
+   "type": "mystery",
+   "tone": "bleak",
+   "chain": "sangeroasa_forge_debt_murder",
+   "chain_step": 3,
+   "summary": "The forging hand belongs to a tally-clerk skimming the books to buy his own brother out of the Debt Pit -- one labor-day at a time. Find the brother still working the pit, and learn why the clerk chose a dead man's name to steal.",
+   "offer": "The dossier came to me because I dress the pit's dying, and I know that curl in the four. It's young Petru's hand -- the tally-clerk, Ozun's own apprentice. And I know why he steals, because I've watched his brother cough black in the furrows since the frost. Petru's been forging credit against Tavian Brem -- who's dead, who can't complain, whose name the pit already stopped watching -- and pouring every stolen day onto his brother's debt to shorten it. He's buying a brother out of the pit one crooked receipt at a time. Go down to the killing floor. Find the brother. See what Petru is trying to save before you decide what Petru is. The slag-walkers are thick down there -- the pit doesn't stop for grief.",
+   "progress": "Descend to the killing floor, cut through the slag-walkers, and find the clerk's brother still owing labor to the pit.",
+   "complete": "You found him, then. Half a man and all debt, coughing the pit up a spoonful at a time, with four hundred stolen days already knocked off a sum that'll still outlive him. Petru did the arithmetic every honest clerk does and got an honest answer -- his brother dies owing -- and then he did a crime, because the honest answer was a death sentence. That's Sangeroasa. The books are the murder weapon and everyone's just choosing who to point it at. Grosch pointed it at a discrepancy and it went off in his own face. Take the tonic. You'll want your lungs clear for the last of this.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "slag_horror",
+     "count": 5,
+     "text": "Cut through the slag-walkers on the killing floor"
+    },
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      720,
+      1120
+     ],
+     "radius": 90,
+     "label": "the killing floor",
+     "text": "Find the clerk's brother in the furrows"
+    }
+   ],
+   "rewards": {
+    "xp": 1400,
+    "gold": 110,
+    "items": [
+     "salt_brine_tonic"
+    ],
+    "rep": {
+     "the_gift": 140
+    }
+   },
+   "prereq": [
+    "sangeroasa_debt_murder_a_dead_mans_credit"
+   ],
+   "note": "The forging hand was Petru's, Ozun's own apprentice, skimming a dead man's credit to buy his coughing brother out of the pit one stolen labor-day at a time. He did the honest arithmetic, got a death sentence, and committed a crime rather than accept it. In Sangeroasa the books are the weapon. Everyone only chooses who to point them at."
+  },
+  "sangeroasa_debt_murder_what_the_ledger_read": {
+   "title": "What the Ledger Read",
+   "giver": "sangeroasa_captain",
+   "giver_name": "Costel Lupei",
+   "zone": "sangeroasa",
+   "level": 30,
+   "type": "mystery",
+   "tone": "bleak",
+   "chain": "sangeroasa_forge_debt_murder",
+   "chain_step": 4,
+   "summary": "The forger did not kill the foreman -- the ledger did. Grosch read Tavian Brem's row past the word 'collected,' and comprehension of a collected line is death with no wound. Confront the clerk, and decide what a captain does when the murder weapon is arithmetic no man can arrest.",
+   "offer": "So it's the boy. And it isn't. I've stood at that pit rim thirty years and I finally see what killed Grosch, and I can't put irons on it. Petru forged the row, yes -- but the row killed the foreman on its own. That dead-man's tally ran one column too far, down to where the ledger stamps the war-dead collected, and Grosch read it. Read the whole line, the way an honest foreman checks a sum. And a line stamped collected, read all the way through, is the pit's oldest death -- no wound, clean hands, eyes on the board. The word's a thousand years too early on that ledger and it works anyway. Go find Petru at the rim before he reads his own forgery to the end. Then tell me what I arrest. The hand, or the arithmetic.",
+   "progress": "Confront Petru the tally-clerk at the Debt Pit rim before he reads the collected line, and settle the murder of Foreman Grosch.",
+   "complete": "You reached him in time. Barely -- he had the roll open to the collected column and his lips were moving. He'll live to be hanged for forgery, or live to dig his brother's grave, and I can't say which is the mercy. But Grosch's killer walks free, because Grosch's killer is a word older than the city, printed on a labor-ledger by no hand anyone can name, that finishes a man who reads it to the end. I'll write it a heart-fit. It's the only lie small enough to bury. Take the craft-ledger off Petru's desk -- it's clean now, every dead man's row struck out. Somebody should keep one honest book in this city. It won't be me.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "sangeroasa",
+     "pos": [
+      1040,
+      680
+     ],
+     "radius": 80,
+     "label": "the Debt Pit rim",
+     "text": "Reach Petru before he reads the collected line"
+    },
+    {
+     "kind": "talk",
+     "npc": "sangeroasa_chronicler",
+     "text": "Settle Grosch's death with Ozun and Petru"
+    }
+   ],
+   "rewards": {
+    "xp": 1700,
+    "gold": 145,
+    "items": [
+     "ledger_craft"
+    ],
+    "rep": {
+     "the_gift": 200,
+     "the_accord": 80
+    }
+   },
+   "prereq": [
+    "sangeroasa_debt_murder_the_brother_in_the_pit"
+   ],
+   "note": "Grosch was murdered by a word -- 'collected,' printed a thousand years too early on a labor-ledger, that finishes any honest man who reads a dead-man's row to its end. The forger who wrote the row will hang for forgery; the word that killed the foreman cannot be arrested. The captain wrote it a heart-fit. Some murder weapons you can only bury the victim under."
+  },
+  "the_archive_selfedit_the_changed_card": {
+   "title": "The Card That Changed",
+   "giver": "the_archive_chronicler",
+   "giver_name": "Lupu Cenusa",
+   "zone": "the_archive",
+   "level": 52,
+   "type": "mystery",
+   "tone": "creepy",
+   "chain": "the_archive_self_editing_records",
+   "chain_step": 1,
+   "summary": "A catalog card that read 'open, pending' at dusk reads 'collected, closed' by dawn -- in fresh violet ink, in no clerk's roster. Lupu wants a witness who will read the card twice and swear to the change before the Archive decides he imagined it.",
+   "offer": "I need you to read a card, and then read it again in the morning, and be a witness that isn't me -- because when it's only me, the Archive files my report under error and I start to doubt my own eyes. Shelf forty, the pending-accounts drawer. There's a card there that says open. It has said open for forty years. Last week it started saying closed by morning and open again by the time I've fetched my spectacles -- fresh violet ink each dawn, and not one clerk on the night-roster to have wet a pen. Read it at dusk. Note the words. We'll read it together at first light. And keep your voice down near the sentinels; they've grown particular about who reads what.",
+   "progress": "Read the pending card at shelf forty by dusk and note its words, then confirm the dawn change with Lupu.",
+   "complete": "You read 'open, pending' at dusk. I read 'collected, closed' beside you at dawn. Same card. Same drawer. Fresh violet, still tacky. And no hand on the roster to have written it. Forty years I've catalogued a house that keeps the world's memory, and this week the house started editing it -- quietly, at night, closing the open ones. I've stopped telling myself it's a clerk playing tricks. A clerk gets tired. Whatever wets this pen every dawn does not. Take the lens. We're going to find whose ink it is, and I'm afraid the answer is no one's.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      560,
+      780
+     ],
+     "radius": 70,
+     "label": "shelf forty, the pending drawer",
+     "text": "Read the changing card at dusk and note its words"
+    },
+    {
+     "kind": "talk",
+     "npc": "the_archive_chronicler",
+     "text": "Confirm the dawn change with Lupu"
+    }
+   ],
+   "rewards": {
+    "xp": 2400,
+    "gold": 180,
+    "items": [
+     "riddlers_lens"
+    ],
+    "rep": {
+     "the_accord": 160
+    }
+   },
+   "prereq": [],
+   "note": "A card that read 'open, pending' for forty years read 'collected, closed' by dawn -- fresh violet ink, no clerk on the roster to have written it. The house built to keep the world's memory has begun, at night, to edit it. Lupu stopped calling it a clerk's trick. A clerk gets tired."
+  },
+  "the_archive_selfedit_the_ink_of_no_one": {
+   "title": "The Ink of No One",
+   "giver": "the_archive_apothecary",
+   "giver_name": "Toma Cenusa",
+   "zone": "the_archive",
+   "level": 53,
+   "type": "mystery",
+   "tone": "creepy",
+   "chain": "the_archive_self_editing_records",
+   "chain_step": 2,
+   "summary": "The overnight ink matches no inkwell in the Archive -- it reads shifting orange under the still, the same colour as a live stone writing itself. Toma sends you into the deep stacks to find where the changed cards cluster, and what stands at their center.",
+   "offer": "Lupu brought me the card. I put my still to the ink and I have not slept since. Blue is the dead, violet the sub-earth, green a carving waking -- I read those the way you read a kettle. This ink reads shifting orange. Orange is the signal writing itself into a medium, and it is writing itself into our catalogue in the shape of the word 'collected.' The changed cards aren't scattered -- they cluster, drawer by drawer, closing outward from one point in the deep stacks like frost from a nail. Walk the stacks. Find the center. Read the depth of the colour where it's brightest -- and read none of the words, or you'll die the Courier's death, clean-nailed and satchel sealed, having understood exactly one thing too many.",
+   "progress": "Walk the deep stacks, find where the closed cards cluster tightest, and read the depth of the orange at their center. Clear the sentinels and tomb-golems that guard it.",
+   "complete": "Brightest at the foundation-stone under shelf nine, exactly where the oldest tablets are shelved -- the ones the histories call 'matured past legibility.' Matured. What a word for it. Those tablets didn't fade, traveler. They finished reading themselves. And now the reading's spread up into the paper catalogue, closing our open accounts in the world's own hand, because the Archive was built on a live piece of the very thing it was meant to file. The house is the disease wearing the cure's coat. Take the counteragent -- it quiets the pull of the words. There is nothing in my shop that quiets the fact of them.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "archive_sentinel",
+     "count": 5,
+     "text": "Clear the sentinels warding the deep stacks"
+    },
+    {
+     "kind": "kill",
+     "target": "tomb_golem",
+     "count": 3,
+     "text": "Break the tomb-golems at the cluster's center"
+    },
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      640,
+      1220
+     ],
+     "radius": 80,
+     "label": "the foundation-stone under shelf nine",
+     "text": "Read the orange at its brightest center"
+    }
+   ],
+   "rewards": {
+    "xp": 2600,
+    "gold": 200,
+    "items": [
+     "counteragent_of_quiet"
+    ],
+    "rep": {
+     "the_accord": 180
+    }
+   },
+   "prereq": [
+    "the_archive_selfedit_the_changed_card"
+   ],
+   "note": "The overnight ink read shifting orange -- the signal writing itself, in the shape of the word 'collected.' The changed cards closed outward from the foundation-stone under shelf nine, where the oldest tablets were shelved: not faded past legibility, but finished reading themselves. The Archive was built on a live stone. The house is the disease in the cure's coat."
+  },
+  "the_archive_selfedit_the_night_clerks_hand": {
+   "title": "The Night-Clerk's Hand",
+   "giver": "the_archive_captain",
+   "giver_name": "Serban Cenusa",
+   "zone": "the_archive",
+   "level": 54,
+   "type": "mystery",
+   "tone": "intrigue",
+   "chain": "the_archive_self_editing_records",
+   "chain_step": 3,
+   "summary": "The Watch has a suspect -- a night-clerk whose ink is on the changed cards and whose lamp burns in the deep stacks past every curfew. But the man is not closing the accounts. He is copying them the instant before they close, racing a hand that is not his.",
+   "offer": "Before you side with the chronicler and his ghost-ink, hear the Watch's version. There's a night-clerk, Nedelcu, whose lamp burns in the deep stacks every night the cards change, and whose ink -- his own, mixed at his own desk -- is on every altered drawer. That's a man at a scene with a pen in his hand, and I'm minded to close him the easy way. But I'm not a fool, and neither, I think, are you. Go into the stacks tonight. Find him at his lamp. Watch what his pen actually does before I put him in irons for a crime that might be the opposite of one.",
+   "progress": "Find Nedelcu the night-clerk at his lamp in the deep stacks and watch what his pen is truly doing to the cards.",
+   "complete": "You watched him, and you'll tell me what I half-hoped. He's not closing the cards. He's copying them -- open, pending, the true reading -- onto his own paper, faster than the house can close them, the instant before the orange takes the word. His ink's on the drawers because he's leaned over every one, transcribing the open version before it dies. He's not the hand editing the Archive. He's the one man keeping a record the Archive can't reach: a shadow-catalogue of every account the house has quietly finished. The Watch wanted a culprit. What we've got is a witness nobody licensed. Harder to hang. Take his dossier -- and don't let the sentinels learn what he keeps under the ninth shelf.",
+   "objectives": [
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      700,
+      1160
+     ],
+     "radius": 70,
+     "label": "the night-clerk's lamp",
+     "text": "Find Nedelcu copying cards in the deep stacks"
+    },
+    {
+     "kind": "talk",
+     "npc": "the_archive_clerk",
+     "text": "Learn what Nedelcu's pen is truly doing"
+    }
+   ],
+   "rewards": {
+    "xp": 2800,
+    "gold": 220,
+    "items": [
+     "dossier_of_habits"
+    ],
+    "rep": {
+     "the_accord": 200,
+     "the_morven": 110
+    }
+   },
+   "prereq": [
+    "the_archive_selfedit_the_ink_of_no_one"
+   ],
+   "note": "The night-clerk's ink was on every changed drawer -- because he leaned over each one to copy the true reading before the orange closed it. Nedelcu was not editing the Archive. He was racing it, keeping a shadow-catalogue of every account the house quietly finished. The Watch wanted a culprit. It got a witness no one had licensed."
+  },
+  "the_archive_selfedit_too_specific_to_file": {
+   "title": "Too Specific to File",
+   "giver": "the_archive_clerk",
+   "giver_name": "Nedelcu Cenusa",
+   "zone": "the_archive",
+   "level": 56,
+   "type": "mystery",
+   "tone": "somber",
+   "chain": "the_archive_self_editing_records",
+   "chain_step": 4,
+   "summary": "The Archive edits itself and no hand can stop it -- a closed entry is a finished one, and the house closes everything it can define. Nedelcu knows the one card it cannot touch: a caption too specific, too warm, too wrong to file. Help him write it, and keep one open thing open forever.",
+   "offer": "You know now that I can't stop it. Nobody can arrest a house for remembering the wrong way. The orange closes what it can define, and it can define almost everything -- a name, a date, a debt, all of it filing itself shut while we sleep. But it choked on one card. Forty years ago some clerk enshrined an herb-woman's walking stick and wrote the caption wrong -- 'she fed six winters of strangers and asked one question,' and never wrote the question down. The house can't close it. It has no word for an unanswered question. That's the crack, traveler. Not a weapon -- a splinter too specific to file. Come to the Founders' Hall. Help me write one caption so warm and so exact and so unfinished that the orange can't find a place to stamp it shut. We won't save the Archive. We'll keep one card open. It's the only kind of winning this house allows.",
+   "progress": "Go to the Founders' Hall, hold off the sentinels, and help Nedelcu inscribe a caption too specific for the house to close.",
+   "complete": "It's done. 'She asked one question, and it was never written down, and that is the point of her.' Read it and you can feel the house recoil -- there's no ledger-word for a deliberate blank, no way to stamp 'collected' on an ending someone chose to leave open. The orange washed up to the card and stopped, the way tide stops at a salt-line. One card. Open forever, because it's too warm and too exact and too unfinished to finish. The Archive will close ten thousand others by the next dawn and I'll copy what I can and lose most of it. But this one it can't have. Take the token -- a kept name, unclosed. Carry it out where the house's reach ends. Some memory has to leave the building alive.",
+   "objectives": [
+    {
+     "kind": "kill",
+     "target": "archive_sentinel",
+     "count": 4,
+     "text": "Hold off the sentinels at the Founders' Hall"
+    },
+    {
+     "kind": "reach",
+     "map": "the_archive",
+     "pos": [
+      960,
+      720
+     ],
+     "radius": 60,
+     "label": "the Founders' Hall",
+     "text": "Inscribe the caption too specific to file"
+    }
+   ],
+   "rewards": {
+    "xp": 3200,
+    "gold": 260,
+    "items": [
+     "kept_name_token"
+    ],
+    "rep": {
+     "the_accord": 220,
+     "the_morven": 150
+    }
+   },
+   "prereq": [
+    "the_archive_selfedit_the_night_clerks_hand"
+   ],
+   "note": "No hand could stop the Archive editing itself shut -- a closed entry is a finished one, and the house finishes all it can define. Nedelcu found the crack: a caption too warm, too exact, too deliberately unfinished for any ledger-word to close. One card kept open forever against ten thousand quietly finished by dawn. Not a victory. A splinter the machine can't swallow, carried out of the building alive."
   }
  }
 }

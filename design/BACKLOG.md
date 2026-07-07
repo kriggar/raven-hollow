@@ -95,8 +95,8 @@ Legend: ✅ done · 🔧 in progress · 📐 designed (doc committed) · ⬜ que
 77. ✅ +1,007 lore-of-the-land quests SHIPPED — 1,090 total across 41 zones (real ids, validated, engine-registered). Toward 2,000.
 78. ✅ Romance side quests SHIPPED — 71 quests / ~24 multi-stage arcs, 8 distinct dynamics (slow-burn/grief/rivalry/letters/quiet/duty/healing/joy), tasteful (no sexuality), real NPC targets.
 79. ✅ Writers-council PRODUCTION SYSTEM SHIPPED — tools/studio/quest_pipeline.py (pools/validate/merge): model writes prose, code guarantees real ids. Authored the 1,000-quest wave.
-80. ⬜ RDR2-grade detail & mysteries (small→epic 2-continent chains); ≥1,000-hour game audit
-81. ⬜ Skyrim vibe layer on top of Witcher heavy-cheerful tone
+80. 🔧 RDR2-grade mysteries — regional mystery chains + Bloodstone investigation IN PROGRESS (partial batch shipped; more queued in cache).
+81. 🔧 Skyrim-vibe discovery quests IN PROGRESS (wanderer-find discoveries shipping; more queued in cache).
 ### Characters & audio expansion (82-88)
 82. ✅ Druid CAT + BEAR + caster forms (reversible stat-profile swap + ability bar) - BUILT
 83. ✅ Rogue rework (stealth/dagger-poison/vanish/assassinate 2.5x opener) - BUILT
