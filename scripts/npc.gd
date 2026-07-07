@@ -461,7 +461,12 @@ func _physics_process(delta: float) -> void:
 		if to_target.length() <= ARRIVE_DIST or _walk_time_left <= 0.0:
 			_stop_walking()
 			return
-		var dir: Vector2 = to_target.normalized()
+		# Route wander around buildings/props via the navmesh (BACKLOG #96);
+		# falls back to a straight line when nav is off/unready.
+		var wp: Vector2 = _target
+		if NavSystem != null and NavSystem.has_method("next_point"):
+			wp = NavSystem.next_point(global_position, _target)
+		var dir: Vector2 = (wp - global_position).normalized()
 		velocity = dir * WALK_SPEED
 		_set_move_facing(dir)
 		_update_anim(true)

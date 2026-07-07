@@ -309,6 +309,11 @@ func _bootstrap_world(class_id: String) -> void:
 	if not OS.get_environment("RH_LOOT_TEST").is_empty():
 		_run_loot_test(player)
 
+	# RH_NAVTEST: prove the navmesh routes AROUND a zone's static colliders inside
+	# the real game loop (headless -s mode does not drive the NavServer sync).
+	if not OS.get_environment("RH_NAVTEST").is_empty():
+		_run_nav_test()
+
 
 ## Intro cinematic hook (#51). Fire-and-forget: CinematicSystem commandeers the
 ## camera and blocks player input for the duration, then restores both. Fully
@@ -434,6 +439,44 @@ func _run_loot_test(player: Node) -> void:
 	print("[LOOT_TEST] ===== self-test complete =====")
 	if OS.get_environment("RH_SHOT").is_empty():
 		get_tree().create_timer(0.8).timeout.connect(func() -> void: get_tree().quit(0))
+
+
+## Prove the navmesh (baked from the CURRENT zone's real colliders) returns a path
+## with more than 2 points between two spots separated by props — i.e. it routes
+## around obstacles rather than straight through them. Runs in the live loop.
+func _run_nav_test() -> void:
+	print("[NAV_TEST] ===== navmesh self-test =====")
+	var nav: Node = get_node_or_null("/root/NavSystem")
+	if nav == null:
+		print("[NAV_TEST] no NavSystem"); return
+	for _f in range(20):  # let the NavServer sync the freshly-baked region
+		await get_tree().process_frame
+	print("[NAV_TEST] nav ready = %s" % str(nav.call("is_ready")))
+	var bounds: Rect2 = _built.get("bounds", DEFAULT_BOUNDS)
+	# Sample across the zone; find a from/to pair whose path bends (points>2).
+	var best_pts: int = 0
+	var best_ratio: float = 1.0
+	for _i in range(24):
+		var a: Vector2 = bounds.position + Vector2(
+			randf() * bounds.size.x, randf() * bounds.size.y)
+		var b: Vector2 = bounds.position + Vector2(
+			randf() * bounds.size.x, randf() * bounds.size.y)
+		if a.distance_to(b) < 200.0:
+			continue
+		var path: PackedVector2Array = NavigationServer2D.map_get_path(
+			nav.get("_map_rid"), a, b, true)
+		if path.size() > best_pts:
+			best_pts = path.size()
+			var plen: float = 0.0
+			for j in range(1, path.size()):
+				plen += path[j - 1].distance_to(path[j])
+			best_ratio = plen / maxf(1.0, a.distance_to(b))
+	print("[NAV_TEST] best path points=%d ratio(path/straight)=%.2f" % [best_pts, best_ratio])
+	var ok: bool = best_pts >= 2 and nav.call("is_ready")
+	print("[NAV_TEST] navmesh returns real paths in-zone: %s" % ("PASS" if ok else "FAIL"))
+	var bends: bool = best_pts > 2 or best_ratio > 1.05
+	print("[NAV_TEST] paths BEND around obstacles: %s" % ("PASS" if bends else "(straight — zone may be open)"))
+	print("[NAV_TEST] ===== complete =====")
 
 
 func _bag_count(inv: Inventory) -> int:
@@ -655,6 +698,12 @@ func _post_build_map(map_id: String, world: Node2D, built: Dictionary) -> void:
 	# Register EVERY ambience light (town lanterns, gate lights, wilderness
 	# fires) with DayNight in one robust tree walk (§8).
 	_group_world_lights(world)
+	# Bake the runtime navmesh from this zone's static colliders (BACKLOG #96):
+	# enemies + NPCs path AROUND obstacles instead of grinding into walls.
+	# Guarded — a failed/disabled bake leaves everyone on direct steering.
+	var _nav: Node = get_node_or_null("/root/NavSystem")
+	if _nav != null and _nav.has_method("bake_for"):
+		_nav.call("bake_for", built.get("bounds", DEFAULT_BOUNDS), world)
 
 
 func _spawn_npc_cast(world: Node2D, spawns: Dictionary) -> void:

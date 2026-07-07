@@ -460,7 +460,13 @@ func _tick_chase(delta: float, player: Node2D) -> void:
 		return
 	# Flanking packs surround the player instead of conga-lining.
 	var aim: Vector2 = _flank_offset(player.global_position) if _behavior("flank") else player.global_position
-	var step_dir: Vector2 = aim - global_position
+	# Route AROUND obstacles via the runtime navmesh (BACKLOG #96). NavSystem
+	# returns the next waypoint toward `aim`; if nav is off/unready it returns
+	# `aim` unchanged, so this degrades to the original direct steering.
+	var waypoint: Vector2 = aim
+	if NavSystem != null and NavSystem.has_method("next_point"):
+		waypoint = NavSystem.next_point(global_position, aim)
+	var step_dir: Vector2 = waypoint - global_position
 	var mv: Vector2 = step_dir.normalized() if step_dir.length_squared() > 1.0 else to_p.normalized()
 	velocity = mv * _speed_now()
 	move_and_slide()
