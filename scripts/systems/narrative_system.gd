@@ -414,7 +414,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		close_journal()
 		return
-	if key.keycode != KEY_N:
+	# Was KEY_N, but N was a 3-way collision (Narrative/PvP/Calendar) that Calendar
+	# won, leaving the chronicle unreachable. Reassigned to the free semicolon key;
+	# the Menu panel is the discoverable path.
+	if key.keycode != KEY_SEMICOLON:
 		return
 	if not _journal_open and _panel_blocking():
 		return

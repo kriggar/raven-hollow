@@ -523,7 +523,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventKey):
 		return
 	var key := event as InputEventKey
-	if not key.pressed or key.echo or key.keycode != KEY_N:
+	# Was KEY_N, but three autoloads bound N (Narrative/PvP/Calendar) and the
+	# last-registered sibling (Calendar) consumed it first, leaving this dead.
+	# Reassigned to the free apostrophe key; the Menu panel is the discoverable path.
+	if not key.pressed or key.echo or key.keycode != KEY_APOSTROPHE:
 		return
 	if _player() == null or _panel_blocking():
 		return

@@ -67,6 +67,9 @@ signal opened
 signal closed
 signal save_requested
 signal quit_to_menu
+## Emitted when the player picks the "Menu" row — main.gd closes this and opens
+## the central GameMenu hub (the discoverable front door to every feature panel).
+signal open_menu_requested
 
 const GOLD := Color(0.85, 0.68, 0.35)
 const GOLD_BRIGHT := Color(0.96, 0.8, 0.45)
@@ -80,7 +83,7 @@ const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
 const DIM_COLOR := Color(0.0, 0.0, 0.0, 0.55)
 
 const VIEW := Vector2(640.0, 360.0)
-const PANEL_SIZE := Vector2(216.0, 186.0)
+const PANEL_SIZE := Vector2(216.0, 218.0)
 const ROW_SIZE := Vector2(176.0, 26.0)
 const ROWS_TOP := 40.0
 const ROW_STEP := 32.0
@@ -295,6 +298,7 @@ func _build_ui() -> void:
 	_panel.add_child(title)
 
 	_add_button_row("Resume", "resume")
+	_add_button_row("Menu", "menu")
 	_add_button_row("Save", "save")
 	_add_slider_row()
 	_add_button_row("Quit to Menu", "quit_menu")
@@ -458,6 +462,9 @@ func _activate(action: String) -> void:
 	match action:
 		"resume":
 			close()
+		"menu":
+			close()
+			open_menu_requested.emit()
 		"save":
 			_do_save()
 		"quit_menu":

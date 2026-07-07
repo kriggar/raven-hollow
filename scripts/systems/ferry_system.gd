@@ -439,7 +439,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventKey):
 		return
 	var key := event as InputEventKey
-	if not key.pressed or key.echo or key.keycode != KEY_Y:
+	# Was KEY_Y, but Achievements owns a global Y toggle that consumed it first,
+	# leaving the ferry menu unreachable. Reassigned to the free period key; the
+	# Menu panel is the discoverable path.
+	if not key.pressed or key.echo or key.keycode != KEY_PERIOD:
 		return
 	if _in_voyage:
 		return

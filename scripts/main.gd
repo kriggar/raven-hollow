@@ -478,6 +478,11 @@ func _spawn_ui() -> void:
 	var pause := PauseMenu.new()
 	add_child(pause)
 	pause.quit_to_menu.connect(_on_quit_to_menu)
+	# The central Menu hub (backtick `, or the pause menu's "Menu" row): the one
+	# discoverable front door to every feature panel (auction/rep/mounts/pvp/etc.),
+	# which otherwise hide behind undocumented single-letter hotkeys.
+	add_child(GameMenu.new())
+	pause.open_menu_requested.connect(_on_open_game_menu)
 
 	_build_world_prompt()
 
@@ -1002,6 +1007,13 @@ func _wire_quest_signals() -> void:
 			_dim_world_one_beat())
 	_quests.quest_completed.connect(_on_quest_completed)
 	_quests.quest_updated.connect(_on_quest_updated_choice)
+
+
+## PauseMenu "Menu" row -> close the pause menu, open the central GameMenu hub.
+func _on_open_game_menu() -> void:
+	var gm: Node = get_tree().get_first_node_in_group("game_menu")
+	if gm != null and gm.has_method("open"):
+		gm.call("open")
 
 
 func _on_night_changed(is_night_now: bool) -> void:
