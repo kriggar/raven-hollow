@@ -304,6 +304,11 @@ func _bootstrap_world(class_id: String) -> void:
 	if not OS.get_environment("RH_SYS_TEST").is_empty():
 		_run_sys_test(player)
 
+	# RH_LOOT_TEST: prove the combat/loot integration pass end to end (loot->bag,
+	# StatsSystem modifiers reaching player combat, player crowd-control).
+	if not OS.get_environment("RH_LOOT_TEST").is_empty():
+		_run_loot_test(player)
+
 
 ## Intro cinematic hook (#51). Fire-and-forget: CinematicSystem commandeers the
 ## camera and blocks player input for the duration, then restores both. Fully
@@ -378,6 +383,69 @@ func _run_sys_test(player: Node) -> void:
 	print("[SYS_TEST] ===== self-test complete =====")
 	if OS.get_environment("RH_SHOT").is_empty():
 		get_tree().create_timer(0.8).timeout.connect(func() -> void: get_tree().quit(0))
+
+
+## Boot-time proof of the combat/loot integration pass. ASCII only.
+##  1) loot->bag: roll an enemy loot table and confirm items land in the player's
+##     VISIBLE Inventory (not just the parallel InventorySystem autoload).
+##  2) StatsSystem->combat: add a crit_pct modifier and confirm it reaches the
+##     player's _totals (the value crit rolls actually read).
+##  3) player CC: apply_slow and confirm the movement multiplier drops.
+func _run_loot_test(player: Node) -> void:
+	if player == null:
+		return
+	print("[LOOT_TEST] ===== combat/loot integration self-test =====")
+	var inv_v: Variant = player.get("inventory")
+	var inv: Inventory = inv_v as Inventory
+	# 1) loot -> visible bag
+	if inv != null and LootSystem != null:
+		var before: int = _bag_count(inv)
+		var gold_before: int = int(player.get("gold")) if _is_num(player.get("gold")) else 0
+		for i in range(6):
+			LootSystem.roll_for_enemy("wolf")
+			LootSystem.roll_for_enemy("skeleton")
+		var after: int = _bag_count(inv)
+		var gold_after: int = int(player.get("gold")) if _is_num(player.get("gold")) else 0
+		print("[LOOT_TEST] loot->bag: items %d -> %d (+%d), gold %d -> %d (+%d)  %s" % [
+			before, after, after - before, gold_before, gold_after, gold_after - gold_before,
+			"PASS" if (after > before or gold_after > gold_before) else "FAIL"])
+	# 2) StatsSystem crit modifier -> player _totals
+	var crit_before: float = float((player.get("_totals") as Dictionary).get("crit_pct", 0.0))
+	StatsSystem.add_modifier(player, "loottest:crit", "crit_pct", 25.0)
+	var crit_after: float = float((player.get("_totals") as Dictionary).get("crit_pct", 0.0))
+	print("[LOOT_TEST] talent/stat crit reaches combat: crit_pct %.0f -> %.0f (want +25)  %s" % [
+		crit_before, crit_after, "PASS" if crit_after - crit_before >= 24.0 else "FAIL"])
+	# 3) StatsSystem speed slow -> player.speed (stealth/form/status path)
+	var spd_before: float = float(player.get("speed"))
+	StatsSystem.add_modifier(player, "loottest:slow", "speed_pct", -30.0)
+	var spd_after: float = float(player.get("speed"))
+	print("[LOOT_TEST] stealth/form/status speed reaches movement: speed %.1f -> %.1f (want lower)  %s" % [
+		spd_before, spd_after, "PASS" if spd_after < spd_before - 0.5 else "FAIL"])
+	StatsSystem.remove_modifier("loottest:crit")
+	StatsSystem.remove_modifier("loottest:slow")
+	# 4) player crowd-control
+	if player.has_method("apply_slow"):
+		player.call("apply_slow", 0.4, 2.0)
+		var ccm: float = float(player.get("_cc_slow_mult"))
+		print("[LOOT_TEST] enemy CC (apply_slow) affects player: _cc_slow_mult=%.2f (want 0.40)  %s" % [
+			ccm, "PASS" if absf(ccm - 0.4) < 0.01 else "FAIL"])
+	else:
+		print("[LOOT_TEST] enemy CC: FAIL — player has no apply_slow")
+	print("[LOOT_TEST] ===== self-test complete =====")
+	if OS.get_environment("RH_SHOT").is_empty():
+		get_tree().create_timer(0.8).timeout.connect(func() -> void: get_tree().quit(0))
+
+
+func _bag_count(inv: Inventory) -> int:
+	var n: int = 0
+	for entry: Variant in inv.bag:
+		if entry != null:
+			n += 1
+	return n
+
+
+func _is_num(v: Variant) -> bool:
+	return v is int or v is float
 
 
 func _bootstrap_world_from_save(data: Dictionary) -> void:
@@ -1008,6 +1076,15 @@ func _wire_quest_signals() -> void:
 	_quests.quest_completed.connect(_on_quest_completed)
 	_quests.quest_updated.connect(_on_quest_updated_choice)
 
+	# Enemy-kill loot -> the player's VISIBLE bag. LootSystem.roll_for_enemy emits
+	# loot_generated on every kill; before this bridge it filed only into the
+	# InventorySystem autoload (which the player was never registered into), so
+	# killed-enemy drops never reached the Inventory that BagUI shows. Connect
+	# once (guarded — this runs on both New-Game and Continue paths).
+	if LootSystem != null and LootSystem.has_signal("loot_generated") \
+			and not LootSystem.is_connected("loot_generated", _on_loot_generated):
+		LootSystem.loot_generated.connect(_on_loot_generated)
+
 
 ## PauseMenu "Menu" row -> close the pause menu, open the central GameMenu hub.
 func _on_open_game_menu() -> void:
@@ -1047,6 +1124,51 @@ func _on_item_granted(id: String) -> void:
 	# now that the legendary lands (branch A already used it via report_use_item).
 	if id == "bloody_dagger" and inv_v is Inventory:
 		_remove_bag_item(inv_v as Inventory, "weeping_dagger")
+
+
+## Enemy-kill loot (LootSystem.loot_generated) -> the player's visible bag + purse.
+## Gold pseudo-items add to player.gold; real gear goes into player.inventory (the
+## bag BagUI renders) with a rarity-coloured toast. A full bag drops the item on
+## the ground-in-log (toast only) rather than silently vanishing it.
+func _on_loot_generated(items: Variant) -> void:
+	if _player == null or not is_instance_valid(_player) or not (items is Array):
+		return
+	var inv_v: Variant = _player.get("inventory")
+	var inv: Inventory = inv_v as Inventory
+	for it_v: Variant in (items as Array):
+		if not (it_v is Dictionary):
+			continue
+		var it: Dictionary = it_v
+		if bool(it.get("is_currency", false)) or str(it.get("slot", "")) == "gold":
+			var amount: int = int(it.get("quantity", 0))
+			if amount > 0:
+				var g_v: Variant = _player.get("gold")
+				var g: int = int(g_v) if (g_v is int or g_v is float) else 0
+				_player.set("gold", g + amount)
+				_loot_toast("+ %d Coins" % amount, GOLD)
+			continue
+		if inv == null:
+			continue
+		if inv.add_item(it):
+			_loot_toast("+ %s" % str(it.get("name", "item")), _rarity_color(str(it.get("rarity", "common"))))
+		else:
+			_loot_toast("Bag full — %s left behind" % str(it.get("name", "item")), Color(0.7, 0.4, 0.3))
+
+
+## Rarity -> toast tint (WoW/D2 ladder). Falls back to parchment.
+func _rarity_color(rarity: String) -> Color:
+	match rarity:
+		"legendary": return Color(0.90, 0.55, 0.20)
+		"epic":      return Color(0.64, 0.38, 0.86)
+		"rare":      return Color(0.25, 0.52, 0.92)
+		"uncommon":  return Color(0.35, 0.75, 0.40)
+		_:           return Color(0.85, 0.82, 0.72)
+
+
+func _loot_toast(text: String, color: Color) -> void:
+	var cui: Node = get_tree().get_first_node_in_group("crafting_ui")
+	if cui != null and cui.has_method("show_toast"):
+		cui.call("show_toast", text, color)
 
 
 func _remove_bag_item(inv: Inventory, item_id: String) -> void:

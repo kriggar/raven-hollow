@@ -191,3 +191,18 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish
+- ⚠ **CANONICAL INVENTORY DECISION (architecture, TASK_DIVISION):** two bags exist —
+  `scripts/inventory.gd` (`Inventory`, on the player, size 20, what BagUI/shop/save
+  render) and `scripts/systems/inventory_system.gd` (`InventorySystem` autoload,
+  size 30, paperdoll UI). The combat/loot pass (2026-07-07, Opus) BRIDGED enemy loot
+  into the player's visible `Inventory` (kills now give usable loot — proven via
+  RH_LOOT_TEST) but did NOT delete either bag. Owner should pick ONE canonical bag
+  and retire/migrate the other (BagUI vs the systems paperdoll; legendary equip-procs
+  and runeword sockets want the unified bag to fully fire). Driver bridged, did not
+  decide — deleting an owner system is out of lane.
+- ⚠ **CANONICAL QUEST ENGINE DECISION (architecture, TASK_DIVISION):** two quest
+  engines run in parallel — the Phase-C `Quests` node (`scripts/quests.gd`, 5 quests,
+  key E/G) and the data-driven `QuestSystem` autoload (`data/quests.json`, ~13 quests,
+  keys L/J/G, its own "!"/"?" markers). Same NPCs are givers in BOTH, so a player sees
+  two markers + two keybinds on one NPC. Owner should choose which ships (or merge the
+  13 data quests into the Phase-C engine). Driver flagged, did not delete either.
