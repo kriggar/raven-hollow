@@ -1500,6 +1500,49 @@
       "verdict": "PASS"
     },
     {
+      "id": "grave_wight_test_1000",
+      "category": "creature",
+      "path": "verified\\gen_factory\\grave_wight_test_1000.png",
+      "size": [
+        37,
+        66
+      ],
+      "animated": false,
+      "states": [],
+      "frames_per_state": {},
+      "facing": "n/a",
+      "biome_fit": [],
+      "source": "comfyui:sdxl+pixelartxl",
+      "license": "generated-original (CC0, owner-owned)",
+      "replaces_composite": null,
+      "subject": "a gaunt grave wight, tattered burial shroud, hollow eyes, dark gothic muted pixel art, top-down",
+      "cleanliness": {
+        "opaque_fraction": 0.5639,
+        "semi_transparent_px": 0,
+        "n_colors": 23,
+        "border_opaque_px": 0,
+        "palette_compat_frac": 0.957,
+        "largest_blob_frac": 1.0,
+        "uncut_background": false,
+        "fringe_frac": 0.0,
+        "size": [
+          37,
+          66
+        ],
+        "checks": {
+          "edge_clean_no_halo": true,
+          "has_content": true,
+          "quantized": true,
+          "alpha_trimmed": true,
+          "palette_compatible": true,
+          "single_subject": true,
+          "no_uncut_background": true,
+          "razor_edge": true
+        }
+      },
+      "verdict": "PASS"
+    },
+    {
       "id": "plague_rat",
       "category": "creature",
       "path": "verified\\gen_creatures\\plague_rat",
@@ -6985,5 +7028,5 @@
       "verdict": "PASS"
     }
   ],
-  "count": 149
+  "count": 150
 }

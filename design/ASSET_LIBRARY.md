@@ -182,10 +182,47 @@ GIF + `frames_per_state` manifest → per-frame SPOTLESS verify.
 
 ---
 
-## 7. Files
+## 7. The RAZOR cut + Vision Gauntlet + Generation Council + Model Matrix (#115)
+
+**Razor cut (owner rejected the fringe/shadow/stray).** Adopted the sorceress.games technique
+(LEARNED_PRINCIPLES.md): green-screen prompt + **hard matte at alpha 230 (no half-tones)** kills the
+pale halo AND soft drop-shadows in one move; **despill** + a **conservative near-white de-halo**
+(preserves the object's own light/dark edges) + **keep-largest-component** (one object). A `razor_edge`
+check auto-rejects any residual-halo sprite. Evidence: `verified/_ZOOM_boats_before_after.png`
+(old fringe 0.17–0.34 → new **0.00**, hulls intact). The whole library was re-cut under this.
+
+**THE VISION GAUNTLET** (`tools/assets/gauntlet.py`) — the FINAL unanimous gate after the cut, wired
+into generate.py + queue.py. Lenses: heuristic `pixel_art` (flat-run ratio → rejects painterly/3D/mush),
+`palette` (gothic family), `ambience` (desaturated); local-VLM `vlm_style` + `vlm_perspective`
+(llava:7b via Ollama). ALL must pass; any fail = reject + reason logged. Heuristic ~6 ms/asset; full VLM
+~1.3 s/asset (toggle `RH_GAUNTLET_VLM=0`). Real catch: mushy `cattail_reeds` (flat-run 0.38) rejected.
+
+**THE GENERATION COUNCIL** (`tools/assets/council.py`) — routes each batch: static prop/tile/building →
+STILL lane; creature/vfx/motion → VIDEO lane; model from the measured scorecard. Decision logged.
+
+**THE MODEL MATRIX** (`verified/_MODEL_MATRIX.png`, scores in `model_matrix_scores.json`) — same subject
+(gothic market stall) through every installed model, all **gauntlet-pass**:
+
+| model | time | note |
+|---|---|---|
+| SDXL + Pixel-Art-XL | ~26 s | crispest pixel (flat 0.83), on-style — **still-lane winner** |
+| SDXL base (no LoRA) | ~26 s | more painterly, less pixel-crisp |
+| FLUX-dev + 2DHD-pixel LoRA | ~90 s | stylized; slower |
+| FLUX-dev + topdown-pixel LoRA | ~64 s | **respects green-screen (best keying)**; slower |
+| Wan 2.2 TI2V-5B (video) | ~min | torch flame ×5 — animates; the video lane |
+
+Honest skips (not installed / need multi-GB fetch + node install + restart): SD1.5, AnimateDiff,
+LTX-Video, CogVideoX-2B, Flux-schnell; hunyuan3d = image→3D (not a 2D-sprite gen). Those three video
+installs are the documented lowest-priority follow-on.
+
+## 8. Files
 
 - `tools/assets/generate.py` — ComfyUI generation driver (inanimate + animated lanes)
-- `tools/assets/interpret.py` — cleaner + splitter + SPOTLESS verifier + montage + library index
+- `tools/assets/interpret.py` — cleaner + splitter + RAZOR cut + SPOTLESS verifier + montage + library index
+- `tools/assets/gauntlet.py` — the Vision Gauntlet (multi-lens unanimous gate)
+- `tools/assets/council.py` — the Generation Council (still/video + model routing)
+- `tools/assets/model_matrix.py` — the model scorecard generator
+- `tools/assets/queue.py` — persistent 150k daemon (+ `run_queue_supervisor.bat`)
 - `tools/assets/asset_specs.py` — the spec catalog (categories, prompts, biome-fit, ColorRect targets)
 - `tools/assets/scout.py` — free-pack license scout (secondary)
 - `_downloads/_assetlib/library.json` — master index (id, category, path, size, animated, states,

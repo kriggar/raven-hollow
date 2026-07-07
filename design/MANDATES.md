@@ -113,3 +113,22 @@ Every rule the owner has issued. Nothing ships that violates one. Status: ✅ li
 
 ## Achievements
 - 🔄 MMORPG/WoW-style achievement system: categories (quests/exploration/dungeons/PvP/professions/feats), points, meta-achievements, title+mount rewards, toast UI, account ledger
+
+## MANDATE (owner, 2026-07-07): EXACT HERO-SHEET STANDARD — LOCAL, FREE, NO TIME LIMIT
+The local pixel-art model MUST become able to produce the EXACT quality of the reference
+hero sheets (the Necromancer "Master of the Dead" 8-direction idle/walk/attack/cast/hurt/death
+sheet + minions; the 7-class board; matching animated sprites). This is the STANDARD for all
+Raven Hollow character/creature art. Static AND animated. Free/local only (owner at zero budget).
+Time is NOT a constraint — do it right, not fast.
+
+HONEST ENGINEERING NOTE (recorded so no future session repeats the lie):
+A model can only learn quality that EXISTS in its training data. To output hero-tier sheets it
+must be fine-tuned on hero-tier frames. The factory generating its own "decent" output can NEVER
+reach hero tier by looping — it averages what it sees. The ONLY free path to the target is to
+COLLECT a large corpus of REAL human-made hero pixel sprite sheets (CC0/CC-BY where license
+permits), cut to frames, caption, and fine-tune on THAT. Blockers, tracked honestly:
+  1. LICENSE: most hero pixel art is NOT free-to-train-on. Must verify per source (CC0 safe;
+     CC-BY needs attribution; ripped game art / paid packs = NO). This gates dataset size.
+  2. VOLUME: need thousands of clean hero frames of consistent style. Free CC0 hero art is scarce.
+  3. ANIMATION+RIG: 8-dir consistency = ControlNet pose + Wan motion; still below hand-rig at hero tier.
+Status: v1 style-LoRA training stood up (171 frames). Hero-tier is GATED ON DATASET, not on effort.

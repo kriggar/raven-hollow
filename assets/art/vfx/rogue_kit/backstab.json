@@ -1,13 +1,19 @@
 {
   "cell": 96,
-  "cols": 8,
+  "cols": 12,
   "rows": 1,
-  "count": 8,
+  "count": 12,
   "fw": 96,
   "fh": 96,
   "margin": 6,
-  "anchor": "center",
-  "global_scale": 0.4693,
+  "anchor": "motion-union",
+  "global_scale": 0.183,
+  "union_bbox": [
+    22,
+    21,
+    438,
+    480
+  ],
   "frames": [
     {
       "index": 0,
@@ -16,12 +22,12 @@
         0
       ],
       "content_size": [
-        43,
-        40
+        76,
+        84
       ],
       "offset_in_cell": [
-        26,
-        28
+        10,
+        6
       ]
     },
     {
@@ -31,12 +37,12 @@
         0
       ],
       "content_size": [
-        42,
-        47
+        76,
+        84
       ],
       "offset_in_cell": [
-        27,
-        24
+        10,
+        6
       ]
     },
     {
@@ -46,12 +52,12 @@
         0
       ],
       "content_size": [
-        33,
-        62
+        76,
+        84
       ],
       "offset_in_cell": [
-        31,
-        17
+        10,
+        6
       ]
     },
     {
@@ -61,12 +67,12 @@
         0
       ],
       "content_size": [
-        46,
-        73
+        76,
+        84
       ],
       "offset_in_cell": [
-        25,
-        11
+        10,
+        6
       ]
     },
     {
@@ -76,12 +82,12 @@
         0
       ],
       "content_size": [
-        63,
-        73
+        76,
+        84
       ],
       "offset_in_cell": [
-        16,
-        11
+        10,
+        6
       ]
     },
     {
@@ -91,12 +97,12 @@
         0
       ],
       "content_size": [
-        75,
-        58
+        76,
+        84
       ],
       "offset_in_cell": [
         10,
-        19
+        6
       ]
     },
     {
@@ -106,12 +112,12 @@
         0
       ],
       "content_size": [
-        84,
-        43
+        76,
+        84
       ],
       "offset_in_cell": [
-        6,
-        26
+        10,
+        6
       ]
     },
     {
@@ -121,30 +127,81 @@
         0
       ],
       "content_size": [
-        84,
-        42
+        76,
+        84
       ],
       "offset_in_cell": [
-        6,
-        27
+        10,
+        6
+      ]
+    },
+    {
+      "index": 8,
+      "cell": [
+        8,
+        0
+      ],
+      "content_size": [
+        76,
+        84
+      ],
+      "offset_in_cell": [
+        10,
+        6
+      ]
+    },
+    {
+      "index": 9,
+      "cell": [
+        9,
+        0
+      ],
+      "content_size": [
+        76,
+        84
+      ],
+      "offset_in_cell": [
+        10,
+        6
+      ]
+    },
+    {
+      "index": 10,
+      "cell": [
+        10,
+        0
+      ],
+      "content_size": [
+        76,
+        84
+      ],
+      "offset_in_cell": [
+        10,
+        6
+      ]
+    },
+    {
+      "index": 11,
+      "cell": [
+        11,
+        0
+      ],
+      "content_size": [
+        76,
+        84
+      ],
+      "offset_in_cell": [
+        10,
+        6
       ]
     }
   ],
   "name": "backstab",
-  "fps": 20.0,
+  "fps": 18.0,
   "loop": false,
   "sheet": "backstab.png",
   "bleed_ok": true,
   "bleed_violations": [],
-  "fit_attempts": [
-    {
-      "margin": 6,
-      "ok": true,
-      "violations": 0
-    }
-  ],
-  "spell": "backstab",
-  "palette": "rogue venom/violet/steel",
-  "desc": "crit slash arc (steel + blood-red)",
-  "source": "comfyui:sdxl+pixelartxl+authored-motion"
+  "source": "wan2.2-ti2v-5B-i2v",
+  "method": "video-gen"
 }

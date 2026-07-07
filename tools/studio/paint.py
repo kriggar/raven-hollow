@@ -483,8 +483,26 @@ def synth_grave_small(biome, rng):
     return _pack(layout, biome, rng)
 
 
+def synth_grave_field(biome, rng):
+    """DREAD identity: a dense graveyard field — rows of graves, stone rows,
+    an inscription network, a dolmen (moor_graves exam wants a real field)."""
+    layout = [("graves", -150, -30, 8), ("graves", 160, 10, 7), ("graves", 0, 190, 6),
+              ("stone_row", -70, -190, 5), ("stone_row", 100, -170, 4),
+              ("inscription_stone", 240, -110), ("dolmen", -240, 120),
+              ("bones", -210, -130)]
+    return _pack(layout, biome, rng, jitter=14)
+
+
+def synth_shrine(biome, rng):
+    """DREAD/WILD ritual site: a statue among inscription stones, cairns, a dolmen."""
+    layout = [("statue", 0, 0), ("inscription_stone", -150, 70), ("cairn", -110, -130),
+              ("stone_row", 150, 80, 4), ("dolmen", 130, -120)]
+    return _pack(layout, biome, rng)
+
+
 SYNTH = {"dwelling": synth_dwelling, "social": synth_social,
-         "grave_small": synth_grave_small}
+         "grave_small": synth_grave_small, "grave_field": synth_grave_field,
+         "shrine": synth_shrine}
 
 
 def enforce_quotas(concept, mood, livelihood, biome, log):

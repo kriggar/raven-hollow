@@ -18,24 +18,22 @@ SCORECARD = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", 
 # category -> lane. Everything the still pipeline makes is static; motion goes to video.
 VIDEO_CATEGORIES = {"creature", "vfx", "spell", "animation", "torch", "fire", "water", "flag_anim"}
 
-# default model per lane (overridden by the scorecard when present)
-DEFAULT_STILL = "comfyui:sdxl+pixelartxl"      # matrix winner for gothic props (fast, clean, on-style)
-DEFAULT_VIDEO = "comfyui:wan2.2-ti2v-5b"       # only 16GB-fitting installed video model; consistent
+# OWNER MODEL LOCK (2026-07-05, from the model matrix): PixelArtXL is the HOUSE model.
+PRIMARY_STILL = "comfyui:sdxl+pixelartxl"       # LOCKED primary for all stills (crispest, on-style, fast)
+SECONDARY_STILL = "comfyui:sdxl-base"           # secondary: richer detail; use where it survives the razor cut
+DEFAULT_VIDEO = "comfyui:wan2.2-ti2v-5b"        # only 16GB-fitting installed video model; consistent
+
+# categories dense enough that SDXL-base's extra detail is worth trying (still verified by the razor cut
+# + Gauntlet; if it fails, the batch falls back to the locked primary).
+DENSE_DETAIL = {"buildings", "market_food", "ruins", "tavern", "monuments"}
 
 
-def _best_still_model():
-    """Pick the highest-scoring still model from the live scorecard (gauntlet-pass, then speed)."""
-    try:
-        sc = json.load(open(SCORECARD, encoding="utf-8"))["scores"]
-    except Exception:
-        return DEFAULT_STILL, "scorecard unavailable -> default"
-    cands = [(k, v) for k, v in sc.items()
-             if v.get("status") == "ok" and "video" not in k.lower()]
-    if not cands:
-        return DEFAULT_STILL, "no ok still models in scorecard -> default"
-    cands.sort(key=lambda kv: (not kv[1].get("gauntlet_pass", False), kv[1].get("seconds", 999)))
-    best = cands[0][0]
-    return best, f"scorecard winner (gauntlet_pass + fastest of {len(cands)})"
+def _still_model(category):
+    """Owner lock: PixelArtXL primary. SECONDARY (SDXL-base) is only *offered* for dense-detail
+    categories; it never overrides the lock — the razor cut + Gauntlet decide if its output survives."""
+    if category in DENSE_DETAIL:
+        return PRIMARY_STILL, f"LOCKED primary PixelArtXL (SDXL-base secondary may be tried for dense '{category}')"
+    return PRIMARY_STILL, "LOCKED primary: SDXL+PixelArtXL (house model)"
 
 
 def route(category, animated=False, motion_hint=None):
@@ -44,7 +42,7 @@ def route(category, animated=False, motion_hint=None):
     if lane == "video":
         model, why = DEFAULT_VIDEO, "motion/animation -> video lane (Wan 2.2, 16GB-fit, consistent)"
     else:
-        model, why = _best_still_model()
+        model, why = _still_model(category)
     decision = {"category": category, "lane": lane, "model": model, "rationale": why}
     return decision
 
