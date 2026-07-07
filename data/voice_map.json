@@ -1,0 +1,2309 @@
+{
+ "_doc": "Per-NPC voice assignment (BACKLOG #85). role->archetype speaker+pitch band, deterministic per-npc pitch jitter. VoiceRegistry loads this; const VOICES overrides win for the hand-designed hero voices.",
+ "voices": {
+  "iron_vein_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "iron_vein_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "iron_vein_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "iron_vein_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "iron_vein_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "iron_vein_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "iron_vein_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "iron_vein_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "vetka_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.04,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "vetka_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "vetka_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "vetka_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "vetka_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "vetka_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "vetka_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "vetka_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "copper_wells_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.03,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "copper_wells_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "copper_wells_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "copper_wells_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "copper_wells_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "copper_wells_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.89,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "copper_wells_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "copper_wells_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "stonepath_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "stonepath_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.92,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "stonepath_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "stonepath_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "stonepath_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "stonepath_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "stonepath_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "stonepath_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "chamber_depths_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "chamber_depths_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "chamber_depths_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "chamber_depths_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "chamber_depths_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "chamber_depths_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "chamber_depths_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "chamber_depths_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_marches_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "grey_marches_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "grey_marches_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_marches_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "grey_marches_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "grey_marches_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "grey_marches_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_marches_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "western_lowlands_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "western_lowlands_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "western_lowlands_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "western_lowlands_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "western_lowlands_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "western_lowlands_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "western_lowlands_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "western_lowlands_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "angel_wings_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "angel_wings_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "angel_wings_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "angel_wings_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "angel_wings_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_captain": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_apothecary": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_dignitary": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_commoner_3": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "angel_wings_guard_3": {
+   "speaker": "gatewarden",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "famine_fields_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "famine_fields_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "famine_fields_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "famine_fields_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "famine_fields_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "famine_fields_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "famine_fields_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "famine_fields_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "riverfork_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "riverfork_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "riverfork_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "riverfork_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "riverfork_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "riverfork_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "riverfork_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "riverfork_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "listening_steppe_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.03,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "listening_steppe_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.92,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "listening_steppe_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "listening_steppe_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "listening_steppe_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "listening_steppe_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "listening_steppe_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "listening_steppe_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "threadlands_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "threadlands_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "threadlands_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "threadlands_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "threadlands_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "threadlands_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "threadlands_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "threadlands_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "black_night_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "black_night_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "black_night_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "black_night_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "black_night_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_captain": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_apothecary": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_dignitary": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_commoner_3": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "black_night_guard_3": {
+   "speaker": "gatewarden",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "gravemark_tundra_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "gravemark_tundra_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "gravemark_tundra_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "gravemark_tundra_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "gravemark_tundra_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "gravemark_tundra_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.89,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "gravemark_tundra_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "gravemark_tundra_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "bloodstone_pit_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "bloodstone_pit_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "bloodstone_pit_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "bloodstone_pit_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "bloodstone_pit_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "bloodstone_pit_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "bloodstone_pit_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "bloodstone_pit_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "whisper_passes_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "whisper_passes_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "whisper_passes_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "whisper_passes_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "whisper_passes_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "whisper_passes_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "whisper_passes_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "whisper_passes_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "eastern_ridges_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "eastern_ridges_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "eastern_ridges_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "eastern_ridges_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "eastern_ridges_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "eastern_ridges_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "eastern_ridges_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "eastern_ridges_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "blestem_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "blestem_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "blestem_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "blestem_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "blestem_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_captain": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_apothecary": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_dignitary": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_commoner_3": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "blestem_guard_3": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "lichenreach_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "lichenreach_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "lichenreach_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "lichenreach_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "lichenreach_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "lichenreach_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "lichenreach_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "lichenreach_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "transcub_vale_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "transcub_vale_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "transcub_vale_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "transcub_vale_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "transcub_vale_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "transcub_vale_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "transcub_vale_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "transcub_vale_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "bloodroad_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.04,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "bloodroad_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "bloodroad_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "bloodroad_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "bloodroad_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "bloodroad_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.89,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "bloodroad_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "bloodroad_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "basaltfang_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.03,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "basaltfang_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "basaltfang_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "basaltfang_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "basaltfang_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "basaltfang_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "basaltfang_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "basaltfang_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.04,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "sangeroasa_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "sangeroasa_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "sangeroasa_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "sangeroasa_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "sangeroasa_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_captain": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_apothecary": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_dignitary": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_commoner_3": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "sangeroasa_guard_3": {
+   "speaker": "gatewarden",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "the_gift_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.03,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "the_gift_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "the_gift_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_gift_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "the_gift_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "the_gift_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "the_gift_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_gift_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ashvents_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "ashvents_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "ashvents_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ashvents_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "ashvents_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "ashvents_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.89,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "ashvents_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ashvents_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "greyhollow_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "greyhollow_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "greyhollow_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "greyhollow_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "greyhollow_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_clerk": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_captain": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_apothecary": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_dignitary": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_commoner_3": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "greyhollow_guard_3": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "drowned_quarter_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "drowned_quarter_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "drowned_quarter_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "drowned_quarter_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "drowned_quarter_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "drowned_quarter_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.89,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "drowned_quarter_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "drowned_quarter_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "drowned_quarter_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "drowned_quarter_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "drowned_quarter_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "canal_maze_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "canal_maze_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.92,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "canal_maze_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "canal_maze_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "canal_maze_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "canal_maze_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "canal_maze_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "canal_maze_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "canal_maze_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "canal_maze_clerk": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "canal_maze_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_piers_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "grey_piers_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "grey_piers_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_piers_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "grey_piers_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "grey_piers_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "grey_piers_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_piers_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_piers_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_piers_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "grey_piers_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "salt_fens_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "salt_fens_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "salt_fens_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "salt_fens_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "salt_fens_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "salt_fens_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "salt_fens_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "salt_fens_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "salt_fens_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "salt_fens_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "salt_fens_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "dead_timber_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "dead_timber_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "dead_timber_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "dead_timber_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "dead_timber_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "dead_timber_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "dead_timber_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "dead_timber_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "dead_timber_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "dead_timber_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "dead_timber_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ledger_roads_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.04,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "ledger_roads_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "ledger_roads_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ledger_roads_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "ledger_roads_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "ledger_roads_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "ledger_roads_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ledger_roads_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ledger_roads_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ledger_roads_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "ledger_roads_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "morven_reach_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "morven_reach_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "morven_reach_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "morven_reach_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "morven_reach_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "morven_reach_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "morven_reach_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "morven_reach_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.02,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "morven_reach_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "morven_reach_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "morven_reach_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.04,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "the_archive_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.92,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "the_archive_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "the_archive_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "the_archive_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.93,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "the_archive_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_captain": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_apothecary": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_dignitary": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_commoner_3": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "the_archive_guard_3": {
+   "speaker": "gatewarden",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "anchorfall_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "anchorfall_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "anchorfall_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "anchorfall_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "anchorfall_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "anchorfall_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.9,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "anchorfall_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "anchorfall_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "anchorfall_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "anchorfall_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "anchorfall_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "finalized_fields_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.03,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "finalized_fields_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "finalized_fields_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "finalized_fields_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "finalized_fields_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "finalized_fields_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.95,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "finalized_fields_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "finalized_fields_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "finalized_fields_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "finalized_fields_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "finalized_fields_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "coldharbor_deep_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "coldharbor_deep_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.91,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "coldharbor_deep_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "coldharbor_deep_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "coldharbor_deep_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "coldharbor_deep_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "coldharbor_deep_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "coldharbor_deep_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "coldharbor_deep_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "coldharbor_deep_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "coldharbor_deep_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "orange_fog_innkeeper": {
+   "speaker": "marta",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "orange_fog_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "orange_fog_merchant": {
+   "speaker": "narrator",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "orange_fog_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 0.94,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "orange_fog_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "orange_fog_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "orange_fog_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "orange_fog_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "orange_fog_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "orange_fog_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "orange_fog_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "last_hearth_innkeeper": {
+   "speaker": "marta",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "innkeeper"
+  },
+  "last_hearth_blacksmith": {
+   "speaker": "goran",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "blacksmith"
+  },
+  "last_hearth_merchant": {
+   "speaker": "narrator",
+   "pitch": 1.01,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "last_hearth_guard_1": {
+   "speaker": "gatewarden",
+   "pitch": 1.0,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "last_hearth_guard_2": {
+   "speaker": "gatewarden",
+   "pitch": 0.99,
+   "volume_db": 0.0,
+   "archetype": "guard"
+  },
+  "last_hearth_chronicler": {
+   "speaker": "vasile",
+   "pitch": 0.92,
+   "volume_db": 0.0,
+   "archetype": "chronicler"
+  },
+  "last_hearth_commoner_1": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "last_hearth_commoner_2": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "last_hearth_dockmaster": {
+   "speaker": "narrator",
+   "pitch": 0.96,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "last_hearth_clerk": {
+   "speaker": "narrator",
+   "pitch": 0.98,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  },
+  "last_hearth_watcher": {
+   "speaker": "narrator",
+   "pitch": 0.97,
+   "volume_db": 0.0,
+   "archetype": "merchant"
+  }
+ }
+}
