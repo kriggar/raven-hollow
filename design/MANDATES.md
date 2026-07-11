@@ -1,11 +1,13 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
-**THE PIPELINE ORDER LAW (2026-07-11, owner):** GENERATE FIRST, PAINT SECOND.
-The 30k library is produced to completion (tons of assets per category, all
-biomes) BEFORE the deep per-zone painting passes resume. Painting waves during
-generation are limited to wiring what the gate has already passed; the full
-Witchbrook density push happens on the complete library. Each level then gets
-TONS of assets, hand-placed.
+**THE PIPELINE ORDER LAW (2026-07-11, owner, refined same day):** three stages,
+in order: (1) GENERATE + SCOUT all assets to completion (30k library + verified
+-free packs); (2) THE FULL-LIBRARY DEFECT CHECK — every asset re-swept for
+defects (alpha halos, fragments, duplicates, off-style, broken geometry on
+animated sheets) via gauntlet re-run + per-category montage eyeballs; rejects
+purged or regenerated; (3) THEN paint — every level gets TONS of assets,
+hand-placed (visual law), Witchbrook density, anchor palette. Harness:
+tools/assets/library_audit.py (built ahead of need).
 
 **THE ASSET SOURCING LAW (2026-07-11, owner):** levels are CONSTRUCTED from
 the owner's GENERATED asset library (ComfyUI, 30k target) for all statics;

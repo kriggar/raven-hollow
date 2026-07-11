@@ -707,6 +707,10 @@ def cleanliness_report(im, require_single_subject=True):
         "single_subject": (blob_frac >= 0.40) or not require_single_subject,
         "no_uncut_background": not uncut_bg,                    # no leftover white/chroma bg block
         "razor_edge": fringe <= 0.06,                          # <=6% of edge is pale halo (owner: zero-fringe)
+        # Library-audit round 1 (2026-07-11): dominant defect = tiny fragment
+        # shards from the component split (52% of fences_walls, 55% of
+        # signage rejected). A real prop is never smaller than half a tile.
+        "not_fragment": w >= 16 and h >= 16 and (w * h) >= 400,
     }
     scores = {
         "opaque_fraction": round(frac, 4),
