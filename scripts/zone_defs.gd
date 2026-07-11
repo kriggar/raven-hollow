@@ -1564,6 +1564,13 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/civic/mc_urn.png", "pos": Vector2(5250, 5584)},
 			{"type": "deco", "tex": "res://assets/art/world/civic/mc_urn.png", "pos": Vector2(5267, 4902)},
 			{"type": "deco", "tex": "res://assets/art/world/civic/mc_dead_tree_ring.png", "pos": Vector2(4817, 4563)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_tomb_stairs.png", "pos": Vector2(5401, 6383)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_dark_arch.png", "pos": Vector2(4830, 4108)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_bar_gate.png", "pos": Vector2(4789, 5232)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(5245, 5413)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(5253, 5073)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(5005, 5407)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(5013, 5067)},
 		],
 		"warm_patches": [Vector2(5120, 5660)],
 		"vignettes": [
@@ -2083,6 +2090,10 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/civic/mc_urn.png", "pos": Vector2(2330, 4203)},
 			{"type": "deco", "tex": "res://assets/art/world/civic/mc_urn.png", "pos": Vector2(2923, 4218)},
 			{"type": "deco", "tex": "res://assets/art/world/civic/mc_dead_tree_ring.png", "pos": Vector2(3231, 3776)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_dark_arch.png", "pos": Vector2(2044, 3786)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_tomb_stairs.png", "pos": Vector2(3216, 4375)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(2380, 4185)},
+			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(2880, 3977)},
 		],
 		"warm_patches": [Vector2(5480, 3520)],   # the Spire's base... it is warm
 		"vignettes": [
