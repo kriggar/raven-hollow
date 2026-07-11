@@ -169,7 +169,9 @@ func narrate(beat: String, key: String = "") -> String:
 	var line: String = _narrator_line(beat, key)
 	if line == "":
 		return ""
-	_show_toast(line, false)
+	# QA harness: screenshot runs must not have the parchment strip in frame.
+	if OS.get_environment("RH_NOBANNER").is_empty():
+		_show_toast(line, false)
 	return line
 
 

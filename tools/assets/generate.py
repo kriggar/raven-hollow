@@ -49,9 +49,12 @@ def _prune_comfy(info):
     except Exception:
         pass
 
+# Palette per design/STYLE_ANCHOR.md (owner law 2026-07-11: the Necromancer sheet is the ruler)
 STYLE = ("pixel art, top-down three-quarter view video game asset, ONE single centered object only, "
-         "muted gothic dark-fantasy palette, mud brown moss green cold slate grey warm lantern gold, "
-         "desaturated weathered aged, clean flat shaded pixels, crisp dark outline, "
+         "near-black gothic dark-fantasy palette, deep umber brown, aged bone highlights, "
+         "dried blood red, rust leather, necrotic green accent, indigo shadow, candle amber, "
+         "darks dominate, detailed painterly pixel texture, desaturated weathered aged, "
+         "clean flat shaded pixels, crisp dark outline, "
          "isolated on a plain uniform solid flat {bg} screen background, "
          "no ground, no floor, no shadow, no drop shadow, no cast shadow, no scenery")
 NEG = ("blurry, jpeg artifacts, anti-aliasing, smooth gradient, 3d render, octane, photo, realistic, "

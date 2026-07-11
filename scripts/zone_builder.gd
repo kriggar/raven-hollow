@@ -119,6 +119,7 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	return {
 		"player_spawn": def.get("player_spawn", Vector2(tiles_w * TILE * 0.5, tiles_h * TILE * 0.5)),
 		"npc_spawns": def.get("npc_spawns", {}),
+		"cast_anchors": _cast_anchors(def),
 		"bounds": bounds,
 		"enemy_spawns": _enemy_spawns(rng, def),
 		"ambient_spawns": def.get("ambient_spawns", []),
@@ -194,6 +195,7 @@ static func build_zone_staged(parent: Node2D, def: Dictionary) -> Dictionary:
 	return {
 		"player_spawn": def.get("player_spawn", Vector2(tiles_w * TILE * 0.5, tiles_h * TILE * 0.5)),
 		"npc_spawns": def.get("npc_spawns", {}),
+		"cast_anchors": _cast_anchors(def),
 		"bounds": bounds,
 		"enemy_spawns": _enemy_spawns(rng, def),
 		"ambient_spawns": def.get("ambient_spawns", []),
@@ -297,6 +299,25 @@ static func _build_ground(parent: Node2D, rng: RandomNumberGenerator, w: int, h:
 				cell = Vector2i(rng.randi_range(1, 3), 0)
 			layer.set_cell(Vector2i(tx, ty), 0, cell)
 	parent.add_child(layer)
+	# WITCHBROOK PASS (Fable): block-tiled pack sheets repeat as a visible
+	# super-grid (mud circles read as wallpaper). A sparse second layer of the
+	# SAME material at random cells breaks the periodicity without seams.
+	if packed:
+		var layer2 := TileMapLayer.new()
+		layer2.name = "GroundBreak"
+		layer2.tile_set = ts
+		layer2.z_index = -10
+		layer2.modulate = pal["tint"]
+		var n_break: int = int((w / cols) * (h / rows) * 0.22)
+		for i in range(n_break):
+			var bx: int = rng.randi_range(0, w - cols)
+			var by: int = rng.randi_range(0, h - rows)
+			# stamp a full sheet block at an OFF-LATTICE origin: pattern cells
+			# overlap the regular grid like real trodden ground
+			for dx in range(cols):
+				for dy in range(rows):
+					layer2.set_cell(Vector2i(bx + dx, by + dy), 0, Vector2i(dx, dy))
+		parent.add_child(layer2)
 
 
 ## Slow shader-scrolled river along an authored polyline (the Iron Vein reads
@@ -406,6 +427,29 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 	for c_v: Variant in cells:
 		layer.set_cell(c_v as Vector2i, 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
 	parent.add_child(layer)
+	# WITCHBROOK PASS (Fable): the pale slab read as a debug strip (sitting-3
+	# top defect). Knock its value toward the biome's earth and lay wheel-wear
+	# stains down the lane so the road looks travelled.
+	var road_pal: String = str(def.get("palette", def.get("biome", "wilds")))
+	var road_tints := {
+		"tundra": Color(0.78, 0.80, 0.88), "volcanic": Color(0.60, 0.55, 0.52),
+		"cave": Color(0.55, 0.53, 0.58), "blestem": Color(0.58, 0.56, 0.62),
+		"bog": Color(0.70, 0.64, 0.54), "deadforest": Color(0.72, 0.69, 0.62),
+		"steppe": Color(0.86, 0.78, 0.60),
+	}
+	layer.modulate = def.get("road_tint", road_tints.get(road_pal, Color(0.80, 0.74, 0.63)))
+	var wear_tex: Texture2D = _radial_tex()
+	for c_v: Variant in cells:
+		if rng.randf() > 0.12:
+			continue
+		var wc: Vector2i = c_v
+		var stain := Sprite2D.new()
+		stain.texture = wear_tex
+		stain.position = Vector2(wc.x * TILE + TILE * 0.5 + rng.randf_range(-8, 8), wc.y * TILE + TILE * 0.5 + rng.randf_range(-8, 8))
+		stain.z_index = -8
+		stain.scale = Vector2(rng.randf_range(0.5, 1.1), rng.randf_range(0.3, 0.6))
+		stain.modulate = Color(0.12, 0.10, 0.08, rng.randf_range(0.10, 0.22))
+		parent.add_child(stain)
 	# Edge blending: tufts and pebbles straddle the razor edge so the slabs
 	# sit IN the ground instead of on top of it (sitting-#3 top defect).
 	var tuft_tex: Array = []
@@ -534,6 +578,33 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 		parent.add_child(spr)
 
 
+## #29 completion: anchor points where cast NPCs may stand — building
+## doorsteps, camps, wells, waystations, hand-placed deco structures.
+## NPCs are ANCHORED to life, never scattered in open ground (visual law).
+static func _cast_anchors(def: Dictionary) -> Array:
+	var out: Array = []
+	var building_types := ["tavern", "cottage", "barn", "shed", "well", "copper_well",
+		"forge", "stall", "warehouse", "pier", "camp", "brazier"]
+	var deco_keys := ["cottage", "house", "tavern", "stall", "chapel", "church",
+		"warehouse", "windmill", "well", "watchtower", "shrine", "market"]
+	for lm_v: Variant in def.get("landmarks", []):
+		var lm: Dictionary = lm_v
+		var t: String = str(lm.get("type", ""))
+		var p: Vector2 = lm.get("pos", Vector2.ZERO)
+		if t == "deco":
+			var tex: String = str(lm.get("tex", ""))
+			for k: String in deco_keys:
+				if tex.contains(k):
+					out.append(p + Vector2(0, 84))
+					break
+		elif building_types.has(t):
+			out.append(p + Vector2(0, 84))
+	for ws_v: Variant in def.get("waystations", []):
+		var ws: Dictionary = ws_v
+		out.append((ws.get("pos", Vector2.ZERO) as Vector2) + Vector2(40, 60))
+	return out
+
+
 static func _in_any(p: Vector2, rects: Array[Rect2]) -> bool:
 	for r in rects:
 		if r.has_point(p):
@@ -551,6 +622,24 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 		var lm: Dictionary = lm_v
 		var pos: Vector2 = lm["pos"]
 		match str(lm.get("type", "")):
+			"deco":
+				# Generic hand-placed set-dressing from the style-gated library
+				# (STYLE_ANCHOR law): {"type":"deco", "tex":path, "scale":f,
+				# "tint":Color, "sorted":bool, "light":energy, "flip":bool}
+				var dtex: String = str(lm.get("tex", ""))
+				if dtex != "" and ResourceLoader.exists(dtex):
+					var dspr := Sprite2D.new()
+					dspr.texture = load(dtex)
+					dspr.position = pos
+					dspr.modulate = lm.get("tint", Color.WHITE)
+					dspr.scale = Vector2.ONE * float(lm.get("scale", 1.0))
+					dspr.flip_h = bool(lm.get("flip", false))
+					if bool(lm.get("sorted", true)):
+						dspr.offset = Vector2(0, -dspr.texture.get_height() * 0.5 + 8)
+						dspr.y_sort_enabled = true
+					parent.add_child(dspr)
+					if lm.has("light"):
+						_warm_light(parent, pos, float(lm.get("light", 0.3)))
 			"cottage":
 				_sprite(parent, "res://assets/art/buildings/house_01.png", pos, true,
 						lm.get("tint", Color.WHITE))
@@ -1623,8 +1712,32 @@ static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, 
 		pal: Dictionary, keep_clear: Array[Rect2]) -> Array[Rect2]:
 	var world_w: float = w * TILE
 	var world_h: float = h * TILE
-	var n: int = int(world_w * world_h / 220000.0)
+	var n: int = int(world_w * world_h / 110000.0)
 	var cold: bool = bool(pal.get("cold", false))
+	# WITCHBROOK PASS (Fable): large soft tonal patches — the ground must never
+	# read as one flat color field at any zoom (sitting macro finding). Cold
+	# zones shade cool (never brown on snow); warm zones split worn-earth/moss.
+	var rtex: Texture2D = _radial_tex()
+	var base_tint: Color = pal.get("tint", Color.WHITE)
+	var macro_n: int = int(world_w * world_h / 480000.0)
+	for i in range(macro_n):
+		var mp := Vector2(rng.randf_range(120, world_w - 120), rng.randf_range(120, world_h - 120))
+		if _in_any(mp, keep_clear):
+			continue
+		var blob := Sprite2D.new()
+		blob.texture = rtex
+		blob.position = mp
+		blob.z_index = -9
+		var bs: float = rng.randf_range(2.2, 6.5)
+		blob.scale = Vector2(bs * rng.randf_range(1.0, 1.9), bs)
+		if cold:
+			blob.modulate = Color(0.60, 0.65, 0.83, rng.randf_range(0.06, 0.12))
+		elif rng.randf() < 0.55:
+			blob.modulate = Color(0.16, 0.13, 0.09, rng.randf_range(0.08, 0.16))
+		else:
+			var mossy := Color(0.42, 0.40, 0.18) if base_tint.r >= base_tint.b else Color(0.22, 0.30, 0.26)
+			blob.modulate = Color(mossy.r, mossy.g, mossy.b, rng.randf_range(0.06, 0.12))
+		parent.add_child(blob)
 	var occupied: Array[Rect2] = []
 	var ice_spots: Array[Vector2] = []
 	for i in range(n):

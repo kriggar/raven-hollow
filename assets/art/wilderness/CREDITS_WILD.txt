@@ -1,0 +1,37 @@
+WILDERNESS / FAUNA / GATE ASSET CREDITS (restored 2026-07-11; sources re-verified)
+
+wolfsheet1.png — "[LPC] Wolf Animation"
+  https://opengameart.org/content/lpc-wolf-animation
+  License: CC-BY 4.0 / CC-BY 3.0 / GPL 3.0 / GPL 2.0 / OGA-BY 3.0
+  Credit: Stephen "Redshrike" Challener (graphic artist), William.Thompsonj (contributor)
+
+boar/Wild Boar/* — "LPC Wild Boar"
+  https://opengameart.org/content/lpc-wild-boar
+  License: CC-BY-SA 3.0 / GPL 3.0 (share-alike applies)
+  Credit: Benjamin K. Smith (BenCreating), Daniel Eddeland (daneeklu),
+  Lanea Zimmerman (Sharm). Commissioned by Castelonia.
+
+lpc2022/lpc animals 2022 v1.1/* (bear grizzly, fox woods, deer light doe) —
+  "[LPC] bears, deer, lions and more" (LPC Animals 2022 v1.1)
+  https://opengameart.org/content/lpc-bears-deer-lions-and-more
+  License: CC-BY 4.0
+  Credit: tapatilorenzo, Sevarihk, FiveBrosStopMosYT; adapted from work by
+  Sevarihk under CC-BY 4.0
+
+bunnysheet5.png — "Bunny Rabbit LPC style for PixelFarm"
+  https://opengameart.org/content/bunny-rabbit-lpc-style-for-pixelfarm
+  License: CC-BY 3.0 / CC-BY-SA 3.0 / OGA-BY 3.0
+  Credit: Stephen Challener (Redshrike), commissioned by Tebruno99,
+  hosted by OpenGameArt.org
+
+bird_1_brown.png — "[LPC] Birds"
+  https://opengameart.org/content/lpc-birds
+  License: CC-BY 4.0/3.0 / CC-BY-SA 4.0/3.0 / GPL 3.0/2.0 / OGA-BY 3.0
+  Credit: bluecarrot16, commissioned by castelonia.
+  Link back: https://opengameart.org/content/lpc-birds
+
+gate/castle2.png (crops: gate_arch.png, gate_wall.png, gate_lantern.png) —
+  "Castle Tiles for RPG's"
+  https://opengameart.org/content/castle-tiles-for-rpgs
+  License: CC-BY 3.0
+  Credit: Zabin, Hyptosis, and Danial Cook

@@ -188,6 +188,20 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
 121. ⬜ **MODEL VERDICTS (extends #115c):** Pixel Art Sprite Diffusion (Onodofthenorth SD1.5, sprite-sheet-trained) DOWNLOADED + TESTED on rogue → **WORSE than SDXL+PixelArtXL** (tiny generic sprites txt2img; muddy img2img). AnimateDiff v3 (mm+adapter+sparsectrl) + Wan2.2-I2V-A14B-GGUF (Q4, both experts) downloaded to D: — for the parked animation problem. Fleet on D:\ComfyUI-models (extra_model_paths.yaml).
 122. 🔧 **C: DRIVE RELIEF (owner: C: at 94%):** models routed to D:\ComfyUI-models already; STILL TODO — migrate `_downloads` + stray AI models off C:, symlink, free the drive.
 
+### Session additions 2026-07-11 (123) — the Fable AAA world pass
+123. 🔧 **FABLE AAA WORLD PASS (owner sitting 2026-07-11, Fable 5 driving):**
+   - ✅ STYLE ANCHOR LAW: game style = Necromancer sheet (lab/input_necromancer_ref.png); design/STYLE_ANCHOR.md (sampled palette + rules); MANDATES entry; generate.py STYLE prompt retuned to anchor palette. Library target **30,000 assets total**.
+   - ✅ ENGINE PAINT PASS (zone_builder): macro tonal ground patches (cool on cold, earth/moss on warm) + micro decals 2x (110k px²/decal) + road biome tint & wheel-wear stains + packed-sheet super-grid breaker (off-lattice block stamps) + generic `deco` landmark type (any style-gated PNG hand-placeable).
+   - ✅ FABLE HAND PASS 2: 1,220 hand-authored deco placements across all 39 zones + iron_vein pilot (story clusters: tavern yards, work sites, fisher hamlets, shrine stops, watch points, curiosity rings, grave patches, harbor rows, chapel grounds; biome-legal pools; scratchpad/fable_pass2.py generator = Fable specs + code geometry). Seams re-validated PASS. Full 41-map 4K re-sweep shot + eyeballed (iron_vein, vetka, black_night, gravemark, angel_wings).
+   - ✅ **#29 TRULY COMPLETE — zone NPC spawner:** the 384-NPC cast was announced but never instanced in world zones. Now: `_cast_anchors()` (doorsteps/camps/wells/waystations/deco buildings) + `main._spawn_zone_cast()` — every zone physically populated, NPCs anchored to life, verified on-screen (vetka doorstep NPCs w/ markers).
+   - ✅ LOST ASSETS RESTORED: `_downloads/wilderness` fauna + gate sheets re-downloaded from originals (wolf/boar/bear/fox/deer/bunny/bird/castle2), PIL-verified vs hardcoded rects, gate crops pixel-proven identical; assets/art/wilderness/CREDITS_WILD.txt written (CC-BY/SA obligations).
+   - ✅ QA harness: RH_NOBANNER now gates the narrator parchment toast; tools/aaa_oneshots.sh = per-zone fit-zoom 4K one-shot sweep.
+   - ✅ ACADEMY: 7-topic design-study fleet distilled → design/LEARNED_PRINCIPLES_DRAFT_2026-07-11.md (review-gate pending before Bible merge).
+   - 🔧 30k GENERATION QUEUE running (run_queue_30k.bat detached, ComfyUI up). 
+   - 🔧 GRAND SCOUT round 2 DOWNLOADED (45 agents): Mage City Arcanos CC0, Castle Tiles CC-BY, Hyptosis batches, Szadi Rogue Fantasy Catacombs + Houses Pack + FL Houses Demo (free licenses verified, evidence quoted), LPC grave markers, church/cemetery/crypt sets + more → `_downloads/scout_2026_07/` w/ ATTRIBUTION files. Style-assess stage died at session limit — resume wf_6b752a35-f17 after reset; then Gauntlet + extraction + capital kit wiring (#103).
+   - ⬜ NEXT: swarm re-inspection of post-pass shots (resume wf_6ce1fc13-5b2 after reset); capital district buildouts from scout kits; per-zone one-image compositions; cave glow passes; road-art v2 from scout terrain; LEARNED_PRINCIPLES review-gate.
+   - SCRIPT ERROR noted during windowed boots: "Trying to assign invalid previously freed instance" ×2 (pre-existing?, non-fatal, zone still renders + screenshots) — triage queued.
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish

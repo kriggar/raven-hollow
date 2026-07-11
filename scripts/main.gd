@@ -697,6 +697,7 @@ func _post_build_map(map_id: String, world: Node2D, built: Dictionary) -> void:
 			# ZoneBuilder zones (WORLD_PLAN.md): native creature ecology ships
 			# in built.enemy_spawns; npc pockets in npc_spawns.
 			_spawn_npc_cast(world, built.get("npc_spawns", {}))
+			_spawn_zone_cast(world, map_id, built)
 			Combat.spawn_map_enemies(world, built)
 	# Register EVERY ambience light (town lanterns, gate lights, wilderness
 	# fires) with DayNight in one robust tree walk (§8).
@@ -707,6 +708,39 @@ func _post_build_map(map_id: String, world: Node2D, built: Dictionary) -> void:
 	var _nav: Node = get_node_or_null("/root/NavSystem")
 	if _nav != null and _nav.has_method("bake_for"):
 		_nav.call("bake_for", built.get("bounds", DEFAULT_BOUNDS), world)
+
+
+## #29 completion: physically spawn the zone's roster (data/npc_cast.json, 384
+## NPCs) at anchors derived from the zone's own buildings/camps/waystations —
+## before this, world-zone NPCs were announced but never instanced. Guarded:
+## missing system or zero anchors -> silent skip (no regression).
+func _spawn_zone_cast(world: Node2D, map_id: String, built: Dictionary) -> void:
+	var sysn: Node = get_node_or_null("/root/NPCCastSystem")
+	if sysn == null or not sysn.has_method("cast_for_zone"):
+		return
+	var roster: Array = sysn.call("cast_for_zone", map_id)
+	var anchors: Array = built.get("cast_anchors", [])
+	if roster.is_empty() or anchors.is_empty():
+		return
+	var sheets := ["npc_male1.png", "npc_male2.png", "npc_male3.png", "npc_male4.png",
+		"npc_female1.png", "npc_female2.png"]
+	var i := 0
+	for e_v: Variant in roster:
+		var e: Dictionary = e_v
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash(str(e.get("id", i)))
+		var a: Vector2 = anchors[i % anchors.size()]
+		world.add_child(NPC.create({
+			"id": str(e.get("id", "cast_%d" % i)),
+			"display_name": str(e.get("name", "Villager")),
+			"dialogue": e.get("lines", []),
+			"pos": a + Vector2(rng.randf_range(-46.0, 46.0), rng.randf_range(-8.0, 40.0)),
+			"wander_radius": rng.randf_range(60.0, 130.0),
+			"sheet": "res://assets/art/characters/" + sheets[rng.randi_range(0, sheets.size() - 1)],
+			"variant": rng.randi_range(0, 3),
+			"facing": "down",
+		}))
+		i += 1
 
 
 func _spawn_npc_cast(world: Node2D, spawns: Dictionary) -> void:

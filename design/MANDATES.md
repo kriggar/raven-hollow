@@ -1,5 +1,15 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**THE STYLE ANCHOR LAW (2026-07-11, owner — MANDATORY):** the game's art style
+AND level-of-detail bar = the Necromancer "Master of the Dead" reference sheet
+(`../lab/input_necromancer_ref.png`; palette + rules codified in
+design/STYLE_ANCHOR.md). Every asset (generated locally + downloaded) and every
+zone grade is judged against that sheet; its IN GAME PREVIEW panel is the level
+density/mood bar. Library target: **30,000 total assets** (owner, 2026-07-11),
+sourced from local generation + verified-free downloads, all style-gated to the
+anchor. Levels stay HAND-CRAFTED by Fable (visual law) at Witchbrook density —
+this sheet's palette.
+
 **THE ACADEMY LAW (2026-07-05, owner — THE MOST MANDATORY RULE): the local AI
 must reach and hold the Fable 5 standard.** It trains continuously: fine-tunes
 on the project's shipped work, STUDIES references (tutorial transcripts, design
