@@ -1,5 +1,12 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**THE ASSET SOURCING LAW (2026-07-11, owner):** levels are CONSTRUCTED from
+the owner's GENERATED asset library (ComfyUI, 30k target) for all statics;
+ANIMATED assets — mainly CHARACTERS, also creatures/VFX — come from
+verified-free net packs (the local-AI animation wall stands, #116). Generation
+is the default for everything that does not move; animation is downloaded,
+license-verified, geometry-PIL-verified.
+
 **THE STYLE ANCHOR LAW (2026-07-11, owner — MANDATORY):** the game's art style
 AND level-of-detail bar = the Necromancer "Master of the Dead" reference sheet
 (`../lab/input_necromancer_ref.png`; palette + rules codified in

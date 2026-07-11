@@ -1,0 +1,29 @@
+"LPC Wolfman" by Benjamin K. Smith (BenCreating), Johannes Sjölund (wulax), Matthew Krohn (makrohn), Stephen Challener (Redshrike) and William.Thompsonj. Commissioned by castelonia.
+
+CC-BY-SA 3.0 / GPL 3.0
+
+BASED ON:
+
+Liberated Pixel Cup (LPC) Base Assets (sprites)
+Stephen Challener (Redshrike)
+CC-BY-SA 3.0 / GPL 3.0
+https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+(male and female walk, cast, slash, and hurt animations)
+
+[LPC] Medieval fantasy character sprites
+Johannes Sjölund (wulax)
+CC-BY-SA 3.0 / GPL 3.0
+https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+(male bow and thrust animations)
+
+LPC Ladies
+CC-BY-SA 3.0 / GPL 3.0
+Matthew Krohn (makrohn)
+https://opengameart.org/content/lpc-ladies
+(female bow and thrust animations)
+
+[LPC] Wolf Animation
+Stephen Challener (Redshrike), contributed by William.Thompsonj
+CC-BY-SA 3.0 / CC-BY-SA 4.0 / GPL 3.0 / GPL 2.0 / OGA-BY 3.0
+https://opengameart.org/content/lpc-wolf-animation
+(wolf)

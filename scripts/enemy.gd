@@ -258,6 +258,23 @@ static func _build_fauna_frames(t: String) -> Dictionary:
 				Rect2(0, 640, 64, 64), Rect2(64, 640, 64, 64),
 				Rect2(128, 640, 64, 64), Rect2(192, 640, 64, 64)], 6.0, false)
 			off = {"idle": Vector2(0.0, -32.0), "run": Vector2(0.0, -32.0), "death": Vector2(0.0, -32.0)}
+		"werewolf":
+			# LPC Wolfman (#104 — TRUE Varcolac sprites; sourcing law: animated
+			# characters come from verified-free packs). Standard LPC 64x64 rows
+			# up/left/down/right; row3 (y=192) is RIGHT-facing. Walk 9 cols
+			# (col0 = stance), Slash 6 cols, Hurt single row 6 cols = collapse.
+			var ww: Texture2D = load("res://assets/art/creatures/wolfman/black_walk.png")
+			var wh: Texture2D = load("res://assets/art/creatures/wolfman/black_hurt.png")
+			_fauna_anim(sf, ww, "idle", [Rect2(0, 192, 64, 64)], 3.0, true)
+			_fauna_anim(sf, ww, "run", [
+				Rect2(64, 192, 64, 64), Rect2(128, 192, 64, 64),
+				Rect2(192, 192, 64, 64), Rect2(256, 192, 64, 64),
+				Rect2(320, 192, 64, 64), Rect2(384, 192, 64, 64),
+				Rect2(448, 192, 64, 64), Rect2(512, 192, 64, 64)], 10.0, true)
+			_fauna_anim(sf, wh, "death", [
+				Rect2(0, 0, 64, 64), Rect2(64, 0, 64, 64), Rect2(128, 0, 64, 64),
+				Rect2(192, 0, 64, 64), Rect2(256, 0, 64, 64), Rect2(320, 0, 64, 64)], 8.0, false)
+			off = {"idle": Vector2(0.0, -32.0), "run": Vector2(0.0, -32.0), "death": Vector2(0.0, -32.0)}
 		_:
 			# "wolf" (and any unknown fauna): wolfsheet1, 10x6 of 64x64. Cols 5-9
 			# are the RIGHT-facing side views. row2(y128) c5-8 = trot; row0/row3

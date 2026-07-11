@@ -2342,7 +2342,7 @@ const _ZONES := {
 				"to_map": "basaltfang", "to_point": "north_entry", "prompt": "[E] Basaltfang Range"},
 		],
 		"creature_table": [
-			{"type": "wolf", "name": "Varcolac Runner", "count": 9, "pack": 3, "hp": 38, "damage": 10, "speed": 96, "patrol": 140,
+			{"type": "werewolf", "name": "Varcolac Runner", "count": 9, "pack": 3, "hp": 38, "damage": 10, "speed": 96, "patrol": 140,
 				"area": Rect2(1400, 1400, 2600, 1800)},
 			{"type": "orc_rogue", "name": "Road Toll-Taker", "count": 6, "pack": 2, "hp": 40, "damage": 11, "speed": 84, "patrol": 100,
 				"area": Rect2(4200, 2800, 2200, 1600)},
@@ -2426,7 +2426,7 @@ const _ZONES := {
 		"creature_table": [
 			{"type": "orc_warrior", "name": "Basalt Claim-Guard", "count": 8, "pack": 2, "hp": 46, "damage": 12, "speed": 78, "patrol": 90,
 				"area": Rect2(2400, 2400, 3000, 1800)},
-			{"type": "wolf", "name": "Varcolac Runner", "count": 8, "pack": 3, "hp": 38, "damage": 10, "speed": 96, "patrol": 140,
+			{"type": "werewolf", "name": "Varcolac Runner", "count": 8, "pack": 3, "hp": 38, "damage": 10, "speed": 96, "patrol": 140,
 				"area": Rect2(1400, 3600, 2400, 1600)},
 			{"type": "skeleton_warrior", "name": "War-Dead Shell", "count": 6, "pack": 2, "hp": 44, "damage": 11, "speed": 60, "patrol": 70,
 				"area": Rect2(5000, 4000, 2000, 1400)},
@@ -2564,7 +2564,7 @@ const _ZONES := {
 		"creature_table": [
 			{"type": "orc_warrior", "name": "Forgehand", "count": 10, "pack": 2, "hp": 48, "damage": 12, "speed": 78, "patrol": 90,
 				"area": Rect2(6000, 2000, 2600, 1800)},
-			{"type": "wolf", "name": "Varcolac Pit-Guard", "count": 8, "pack": 2, "hp": 42, "damage": 11, "speed": 94, "patrol": 110,
+			{"type": "werewolf", "name": "Varcolac Pit-Guard", "count": 8, "pack": 2, "hp": 42, "damage": 11, "speed": 94, "patrol": 110,
 				"area": Rect2(4200, 2400, 2000, 1400)},
 			{"type": "skeleton_mage", "name": "Debt Clerk", "count": 6, "pack": 1, "hp": 34, "damage": 9, "speed": 24, "patrol": 16,
 				"area": Rect2(4600, 2800, 1200, 800)},

@@ -1446,7 +1446,7 @@ static func _enemy_spawns(rng: RandomNumberGenerator, def: Dictionary) -> Array:
 					"archetype": str(row.get("archetype", "")),
 					"rank": str(row.get("rank", "normal")),
 					# Wilderness fauna (wolf/boar/bear) use their own sheet flow.
-					"fauna": etype in ["wolf", "boar", "bear"],
+					"fauna": etype in ["wolf", "boar", "bear", "werewolf"],
 				})
 			i += pack
 	return out
