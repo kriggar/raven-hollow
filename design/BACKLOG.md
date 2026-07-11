@@ -202,6 +202,15 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    - ⬜ NEXT: swarm re-inspection of post-pass shots (resume wf_6ce1fc13-5b2 after reset); capital district buildouts from scout kits; per-zone one-image compositions; cave glow passes; road-art v2 from scout terrain; LEARNED_PRINCIPLES review-gate.
    - SCRIPT ERROR noted during windowed boots: "Trying to assign invalid previously freed instance" ×2 (pre-existing?, non-fatal, zone still renders + screenshots) — triage queued.
 
+### Session additions 2026-07-11 PM (124) — pipeline order
+124. 🔧 **GENERATE-FIRST LAW (owner):** the 30k library completes BEFORE the deep paint push.
+   Queue at 4,534 (~280/hr on the 5070 Ti) — honest ETA to 30k: ~4 days continuous GPU.
+   Supervisor: tools/assets/run_queue_30k.bat (detached, restarts on crash; ComfyUI must be up).
+   While it grinds: shopping fleet (wf_5a6b63c0-8aa) surveys all 41 zones -> design/PAINT_PROGRAM_SHOPPING.md
+   (per-category demand + lore-flavored generation descriptors + story-site list). Paint phase executes it
+   on the full library: TONS of assets per level, hand-placed (visual law), Witchbrook density, anchor palette.
+   Interim waves 3-4 (55 assets, 107 placements) stay; no further deep painting until library done.
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish

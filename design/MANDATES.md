@@ -1,5 +1,12 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**THE PIPELINE ORDER LAW (2026-07-11, owner):** GENERATE FIRST, PAINT SECOND.
+The 30k library is produced to completion (tons of assets per category, all
+biomes) BEFORE the deep per-zone painting passes resume. Painting waves during
+generation are limited to wiring what the gate has already passed; the full
+Witchbrook density push happens on the complete library. Each level then gets
+TONS of assets, hand-placed.
+
 **THE ASSET SOURCING LAW (2026-07-11, owner):** levels are CONSTRUCTED from
 the owner's GENERATED asset library (ComfyUI, 30k target) for all statics;
 ANIMATED assets — mainly CHARACTERS, also creatures/VFX — come from
