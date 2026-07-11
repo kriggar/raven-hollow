@@ -326,27 +326,42 @@ static func _build_river(parent: Node2D, def: Dictionary) -> void:
 	var pts: Array = def.get("river", [])
 	if pts.size() < 2:
 		return
+	# SITTING-4 FIX (Fable): round end caps at the map edge read as a vector
+	# "stadium" smear. Extend both endpoints past their nearest edge and cut
+	# the caps flat — the river now ENTERS and LEAVES the world.
+	var zw: float = float(def.get("tiles_w", 256)) * TILE
+	var zh: float = float(def.get("tiles_h", 192)) * TILE
+	var rw: float = float(def.get("river_width", 96.0))
+	var pts2: Array = pts.duplicate()
+	for idx: int in [0, pts2.size() - 1]:
+		var p: Vector2 = pts2[idx]
+		var near_edge: bool = p.x < 300.0 or p.y < 300.0 or p.x > zw - 300.0 or p.y > zh - 300.0
+		if not near_edge:
+			continue
+		var nb: Vector2 = pts2[1] if idx == 0 else pts2[pts2.size() - 2]
+		var dir: Vector2 = (p - nb).normalized()
+		pts2[idx] = p + dir * (rw * 2.5 + 300.0)
 	var line := Line2D.new()
 	line.name = "River"
 	line.z_index = -8
-	for p: Variant in pts:
+	for p: Variant in pts2:
 		line.add_point(p as Vector2)
-	line.width = float(def.get("river_width", 96.0))
+	line.width = rw
 	line.default_color = def.get("river_color", Color(0.30, 0.24, 0.20, 0.92))
 	line.joint_mode = Line2D.LINE_JOINT_ROUND
-	line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-	line.end_cap_mode = Line2D.LINE_CAP_ROUND
+	line.begin_cap_mode = Line2D.LINE_CAP_NONE
+	line.end_cap_mode = Line2D.LINE_CAP_NONE
 	# BANKS first (under the water): a wider dark mud edge so the river reads
 	# as a cut channel, not a painted smear (sitting-#1 finding).
 	var bank := Line2D.new()
 	bank.z_index = -9
-	for p: Variant in pts:
+	for p: Variant in pts2:
 		bank.add_point(p as Vector2)
 	bank.width = line.width * 1.35
 	bank.default_color = Color(0.20, 0.16, 0.13, 0.85)
 	bank.joint_mode = Line2D.LINE_JOINT_ROUND
-	bank.begin_cap_mode = Line2D.LINE_CAP_ROUND
-	bank.end_cap_mode = Line2D.LINE_CAP_ROUND
+	bank.begin_cap_mode = Line2D.LINE_CAP_NONE
+	bank.end_cap_mode = Line2D.LINE_CAP_NONE
 	parent.add_child(bank)
 	parent.add_child(line)
 	# water sheen: cool highlight + a second ripple strip, both animated slow
@@ -537,45 +552,100 @@ static func _scatter_vegetation(parent: Node2D, rng: RandomNumberGenerator, w: i
 		n_trees = 0
 	var rocky: bool = bool(pal.get("rocky", false))
 	var tree_set: Array = pal.get("tree_set", [])
-	for i in range(n_trees):
-		var pos := Vector2(rng.randf_range(60, world_w - 60), rng.randf_range(60, world_h - 60))
-		if _in_any(pos, keep_clear):
+	# SITTING-4 FIX (Fable): confetti kill. Vegetation now grows as COPSES
+	# (5-11 trees, tight gaussian mass, scale falloff + flips) with honest
+	# clearings between them; ~25% strays keep it organic (Bible rule 4 +
+	# gated Academy rule 31). Clearings are placed assets: 2-3 quiet rects
+	# where nothing woody spawns.
+	var margin := 130.0
+	var clearings: Array[Rect2] = []
+	for i in range(rng.randi_range(2, 3)):
+		var cw: float = rng.randf_range(600, 950)
+		clearings.append(Rect2(rng.randf_range(margin, world_w - cw - margin),
+				rng.randf_range(margin, world_h - cw * 0.7 - margin), cw, cw * 0.7))
+	var placed_trees := 0
+	var n_copse: int = maxi(1, int(n_trees / 7.0))
+	var copse_centers: Array[Vector2] = []
+	for c in range(n_copse):
+		var center := Vector2(rng.randf_range(margin + 120, world_w - margin - 120),
+				rng.randf_range(margin + 120, world_h - margin - 120))
+		if _in_any(center, keep_clear) or _in_any(center, clearings):
 			continue
-		var spr := Sprite2D.new()
-		if rocky and rng.randf() < 0.4:
-			# Ridge country: boulders share the treeline (no sway on stone).
-			var rocks: Array = pal.get("rock_set", [])
-			if rocks.is_empty():
-				spr.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
-			else:
-				spr.texture = load(str(rocks[rng.randi_range(0, rocks.size() - 1)]))
-			spr.scale = Vector2.ONE * rng.randf_range(0.9, 1.6)
-			_foot_scatter(parent, "boulder", pos)
-			spr.position = pos
-			spr.y_sort_enabled = true
-			parent.add_child(spr)
+		copse_centers.append(center)
+		var members: int = rng.randi_range(5, 11)
+		var copse_r: float = rng.randf_range(110.0, 260.0)
+		for m in range(members):
+			if placed_trees >= n_trees:
+				break
+			var ang: float = rng.randf() * TAU
+			var dist: float = absf(rng.randfn(0.0, copse_r * 0.5))
+			var pos := center + Vector2(cos(ang), sin(ang) * 0.72) * dist
+			pos.x = clampf(pos.x, margin, world_w - margin)
+			pos.y = clampf(pos.y, margin, world_h - margin)
+			if _in_any(pos, keep_clear) or _in_any(pos, clearings):
+				continue
+			_plant_one(parent, rng, pos, pal, tree_tint, tree_set, rocky,
+					1.0 - (dist / maxf(copse_r, 1.0)) * 0.3)
+			placed_trees += 1
+	# organic strays (the lone tree the eye forgives — and needs)
+	while placed_trees < n_trees:
+		var pos := Vector2(rng.randf_range(margin, world_w - margin),
+				rng.randf_range(margin, world_h - margin))
+		placed_trees += 1
+		if _in_any(pos, keep_clear) or _in_any(pos, clearings) or rng.randf() < 0.66:
 			continue
-		if not tree_set.is_empty():
-			spr.texture = load(str(tree_set[rng.randi_range(0, tree_set.size() - 1)]))
-		else:
-			spr.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(0, 2))
-		spr.material = _tree_sway_material()
-		spr.position = pos
-		spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
-		spr.modulate = tree_tint
-		_foot_scatter(parent, "tree", pos)
-		spr.y_sort_enabled = true
-		parent.add_child(spr)
+		_plant_one(parent, rng, pos, pal, tree_tint, tree_set, rocky, rng.randf_range(0.85, 1.05))
+	# bushes hug the copse skirts (60%), the rest drift free
 	var n_bush: int = n_trees * 2
 	for i in range(n_bush):
-		var pos := Vector2(rng.randf_range(40, world_w - 40), rng.randf_range(40, world_h - 40))
-		if _in_any(pos, keep_clear):
+		var pos: Vector2
+		if not copse_centers.is_empty() and rng.randf() < 0.6:
+			var cc: Vector2 = copse_centers[rng.randi_range(0, copse_centers.size() - 1)]
+			var a2: float = rng.randf() * TAU
+			pos = cc + Vector2(cos(a2), sin(a2) * 0.72) * rng.randf_range(140.0, 340.0)
+		else:
+			pos = Vector2(rng.randf_range(margin, world_w - margin), rng.randf_range(margin, world_h - margin))
+		pos.x = clampf(pos.x, 60.0, world_w - 60.0)
+		pos.y = clampf(pos.y, 60.0, world_h - 60.0)
+		if _in_any(pos, keep_clear) or _in_any(pos, clearings):
 			continue
 		var spr := Sprite2D.new()
 		spr.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(3, 14))
 		spr.position = pos
 		spr.modulate = tree_tint.lightened(0.1)
 		parent.add_child(spr)
+
+
+## One tree/boulder of the copse pass. scale_f carries the cluster falloff
+## (center trees read older/taller than the skirt — asymmetric, never a row).
+static func _plant_one(parent: Node2D, rng: RandomNumberGenerator, pos: Vector2,
+		pal: Dictionary, tree_tint: Color, tree_set: Array, rocky: bool, scale_f: float) -> void:
+	var spr := Sprite2D.new()
+	if rocky and rng.randf() < 0.4:
+		var rocks: Array = pal.get("rock_set", [])
+		if rocks.is_empty():
+			spr.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+		else:
+			spr.texture = load(str(rocks[rng.randi_range(0, rocks.size() - 1)]))
+		spr.scale = Vector2.ONE * rng.randf_range(0.9, 1.6)
+		_foot_scatter(parent, "boulder", pos)
+		spr.position = pos
+		spr.y_sort_enabled = true
+		parent.add_child(spr)
+		return
+	if not tree_set.is_empty():
+		spr.texture = load(str(tree_set[rng.randi_range(0, tree_set.size() - 1)]))
+	else:
+		spr.texture = load(PLANTS + "plant_%02d.png" % rng.randi_range(0, 2))
+	spr.material = _tree_sway_material()
+	spr.position = pos
+	spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
+	spr.modulate = tree_tint
+	spr.scale = Vector2.ONE * clampf(scale_f * rng.randf_range(0.92, 1.08), 0.62, 1.15)
+	spr.flip_h = rng.randf() < 0.5
+	_foot_scatter(parent, "tree", pos)
+	spr.y_sort_enabled = true
+	parent.add_child(spr)
 
 
 ## #29 completion: anchor points where cast NPCs may stand — building
