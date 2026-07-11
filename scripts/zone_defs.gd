@@ -342,6 +342,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/dead_bush_1000.png", "pos": Vector2(5640, 1220), "flip": true},
 			{"type": "deco", "tex": "res://assets/art/world/gen/toppled_log_8919.png", "pos": Vector2(5480, 1240)},
 			{"type": "rocks", "pos": Vector2(700, 1400), "count": 4},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/ore_cart.png", "pos": Vector2(5102, 1479)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/cart_wheel.png", "pos": Vector2(5447, 1115)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/ore_cart.png", "pos": Vector2(4408, 3046)},
 		],
 		"warm_patches": [Vector2(4400, 1260), Vector2(2650, 2860)],
 		"vignettes": [
@@ -845,6 +848,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/tree_stump_1000.png", "pos": Vector2(3420, 2309)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/fern_cluster_1000.png", "pos": Vector2(3474, 2350)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mushroom_cluster_1000.png", "pos": Vector2(3376, 2344)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/wheelbarrow_produce.png", "pos": Vector2(5714, 1859)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/wheelbarrow.png", "pos": Vector2(2183, 4154)},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -1094,6 +1099,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(4244, 3207)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mossy_rock_8919.png", "pos": Vector2(4415, 3206)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/dead_bush_1000.png", "pos": Vector2(4352, 3243)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/wheelbarrow.png", "pos": Vector2(1392, 1366)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/cart_wheel.png", "pos": Vector2(5190, 3460)},
 		],
 		"warm_patches": [Vector2(3820, 1260), Vector2(4850, 1900)],
 		"vignettes": [
@@ -1195,6 +1202,7 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/tree_stump_1000.png", "pos": Vector2(4094, 628)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/fern_cluster_1000.png", "pos": Vector2(4148, 670)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mushroom_cluster_1000.png", "pos": Vector2(4051, 672)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/wheelbarrow_produce.png", "pos": Vector2(4791, 4126)},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -1571,6 +1579,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(5253, 5073)},
 			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(5005, 5407)},
 			{"type": "deco", "tex": "res://assets/art/world/civic/cat_column.png", "pos": Vector2(5013, 5067)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/wraith_statue.png", "pos": Vector2(7597, 2036)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/skull_dagger.png", "pos": Vector2(2011, 6154)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/candle_rock.png", "pos": Vector2(1960, 2188), "light": 0.3},
 		],
 		"warm_patches": [Vector2(5120, 5660)],
 		"vignettes": [
@@ -1675,6 +1686,11 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(2242, 3863)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(2356, 3843)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mossy_rock_8919.png", "pos": Vector2(2177, 3921)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/wraith_statue.png", "pos": Vector2(2012, 1419)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/coffin_open.png", "pos": Vector2(4875, 2019)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/skull_small.png", "pos": Vector2(5433, 1521)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/candle_rock.png", "pos": Vector2(3271, 2154), "light": 0.3},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/skull_dagger.png", "pos": Vector2(4520, 3832)},
 		],
 		"warm_patches": [Vector2(4620, 4060)],
 		"vignettes": [
@@ -1833,6 +1849,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/tree_stump_1000.png", "pos": Vector2(3453, 2153)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/fern_cluster_1000.png", "pos": Vector2(3503, 2195)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mushroom_cluster_1000.png", "pos": Vector2(3401, 2187)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/ruin_stair_wall.png", "pos": Vector2(1648, 1681)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/mossy_wreck.png", "pos": Vector2(5286, 4219)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/ember_firepit.png", "pos": Vector2(3811, 3018), "light": 0.4},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -1917,6 +1936,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/tree_stump_1000.png", "pos": Vector2(6162, 1492)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/fern_cluster_1000.png", "pos": Vector2(6223, 1519)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mushroom_cluster_1000.png", "pos": Vector2(6102, 1535)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/ruin_stair_wall.png", "pos": Vector2(4683, 1169)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/stone_ring_well.png", "pos": Vector2(1352, 4228)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/cart_wheel.png", "pos": Vector2(4256, 2745)},
 		],
 		"warm_patches": [Vector2(2820, 3860)],
 		"vignettes": [
@@ -2166,6 +2188,7 @@ const _ZONES := {
 			{"type": "lichen_glow", "pos": Vector2(800, 3300), "count": 5},
 			{"type": "lichen_glow", "pos": Vector2(3350, 3200), "count": 4},
 			{"type": "lichen_glow", "pos": Vector2(2050, 2050), "count": 6},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/dark_basin.png", "pos": Vector2(3415, 983)},
 		],
 		"warm_patches": [Vector2(2068, 860)],
 		"vignettes": [
@@ -2246,6 +2269,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/tree_stump_1000.png", "pos": Vector2(3284, 3163)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/fern_cluster_1000.png", "pos": Vector2(3326, 3202)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mushroom_cluster_1000.png", "pos": Vector2(3227, 3206)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/mossy_wreck.png", "pos": Vector2(1336, 786)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/stone_ring_well.png", "pos": Vector2(4581, 4089)},
 		],
 		"warm_patches": [Vector2(2860, 2100)],   # "the stone beneath the altar is warm"
 		"vignettes": [
@@ -2326,6 +2351,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(3323, 2637)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(3443, 2609)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mossy_rock_8919.png", "pos": Vector2(3281, 2690)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/blood_pool.png", "pos": Vector2(4779, 1665), "sorted": false},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/cart_wheel.png", "pos": Vector2(4462, 1099)},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -2631,6 +2658,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/mossy_rock_8919.png", "pos": Vector2(5864, 1298)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mossy_rock_8919.png", "pos": Vector2(5914, 1335)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/dead_bush_1000.png", "pos": Vector2(5789, 1341)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/blood_pool.png", "pos": Vector2(3495, 2776), "sorted": false},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/skull_small.png", "pos": Vector2(3592, 2672)},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -3835,6 +3864,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(2830, 3036)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(2961, 3012)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mossy_rock_1000.png", "pos": Vector2(2788, 3095)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/ruin_stair_wall.png", "pos": Vector2(4895, 3194)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/ember_firepit.png", "pos": Vector2(1327, 1521), "light": 0.4},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -3933,6 +3964,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen/stone_cairn_1000.png", "pos": Vector2(5651, 894)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/mossy_rock_8919.png", "pos": Vector2(5827, 904)},
 			{"type": "deco", "tex": "res://assets/art/world/gen/dead_bush_1000.png", "pos": Vector2(5760, 937)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/wraith_statue.png", "pos": Vector2(3615, 2257)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/coffin_open.png", "pos": Vector2(1263, 3426)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/candle_rock.png", "pos": Vector2(5425, 1740), "light": 0.3},
 		],
 		"warm_patches": [],
 		"vignettes": [
@@ -4009,6 +4043,7 @@ const _ZONES := {
 			{"type": "lichen_glow", "pos": Vector2(900, 3250), "count": 4},
 			{"type": "lichen_glow", "pos": Vector2(3200, 3350), "count": 4},
 			{"type": "brazier", "pos": Vector2(2000, 2100)},
+			{"type": "deco", "tex": "res://assets/art/world/gen2/dark_basin.png", "pos": Vector2(2175, 1874)},
 		],
 		"warm_patches": [],
 		"vignettes": [
