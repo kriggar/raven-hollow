@@ -398,14 +398,15 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 		for x in range(8):
 			grass.create_tile(Vector2i(x, y))
 	ts.add_source(grass, 0)
-	# Solid stone slabs for roads over pack ground (grass-slab tiles let the
-	# ground bleed through — sitting-#1 "translucent debug path" finding).
+	# SITTING-4 ROAD ART v2 (Fable): the cainos stone slabs read as beveled
+	# debug rectangles at every zoom. Roads are now packed dirt-pebble path
+	# fill (LPC terrains v7 blob centers, CC-BY-SA — see scout manifest),
+	# 3 variants, no bevel, sits IN the ground like a worn track.
 	var stone := TileSetAtlasSource.new()
-	stone.texture = load(STONE_SHEET)
+	stone.texture = load("res://assets/art/terrain/lpc_path_fill.png")
 	stone.texture_region_size = Vector2i(TILE, TILE)
-	for y in range(3):
-		for x in range(3):
-			stone.create_tile(Vector2i(x, y))
+	for x in range(3):
+		stone.create_tile(Vector2i(x, 0))
 	ts.add_source(stone, 1)
 	var layer := TileMapLayer.new()
 	layer.name = "Roads"
@@ -440,7 +441,10 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 				for jy in range(2):
 					cells[jc + Vector2i(jx, jy)] = true
 	for c_v: Variant in cells:
-		layer.set_cell(c_v as Vector2i, 1, Vector2i(rng.randi_range(0, 2), rng.randi_range(0, 2)))
+		# one dominant fill + rare worn variants — equal odds checkerboarded
+		var roll: float = rng.randf()
+		var variant: int = 0 if roll < 0.7 else (1 if roll < 0.9 else 2)
+		layer.set_cell(c_v as Vector2i, 1, Vector2i(variant, 0))
 	parent.add_child(layer)
 	# WITCHBROOK PASS (Fable): the pale slab read as a debug strip (sitting-3
 	# top defect). Knock its value toward the biome's earth and lay wheel-wear

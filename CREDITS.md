@@ -38,3 +38,5 @@ Weather: rain loop by looneybits (CC0); 'Wind Loop' by InspectorJ (Jonathan Shaw
 'Thunder, Very Close, Rain, 01' by InspectorJ of freesound.org (CC-BY 3.0).
 All via OpenGameArt.org.
 - **Snowy Asset Pack** by wurls/nyx (free, credit required: wurls) — tundra ground/ice/cabin (assets/art/world/snow/).
+
+| [LPC] Terrains (path fill crops) | bluecarrot16 et al. | https://opengameart.org/content/lpc-terrains | **CC-BY-SA 4.0** — full author list in assets/art/terrain/CREDITS_LPC_TERRAINS.txt | Road dirt-pebble fill (lpc_path_fill.png) |
