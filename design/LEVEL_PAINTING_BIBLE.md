@@ -79,6 +79,41 @@ primed with this file; its output is a DRAFT for Fable's hand (visual law).
 20. Extraction discipline: crop → alpha-trim → assets/art/world/<biome>/,
     then `godot --headless --import` BEFORE use; re-import after rewrites.
 
+## VII-A. LEARNED — Academy 2026-07-11, Fable-gated (sources in LEARNED_PRINCIPLES_DRAFT_2026-07-11.md)
+22. **One hue family per zone, one reserved accent.** Zone palettes live in a
+    single family; exactly one complementary accent is reserved for lights and
+    story props. Never two accent hues in one screen. (Darkest Dungeon)
+23. **No dead grey, no pure black in fills.** Warm every dark toward parchment
+    (~(0.07,0.05,0.03) floor); the anchor sheet reads "old manuscript", not
+    concrete. Desaturate the GROUND, never the actors — interactables/NPCs keep
+    saturation so they pop off the muted field. (D2/D3 lesson)
+24. **Zone identity = grading shared assets, not new assets.** Distinct
+    (day tint, dusk_tint) pairs per biome; DAY stays warm even in gothic zones;
+    hue-shift light colors per biome (copper in Iron Vein, teal in caves).
+    (Graveyard Keeper LUT method)
+25. **Ban the straight road.** Every road polyline gets ≥3 interior waypoints,
+    ±80-160px lateral offsets, 20-40° kinks every 400-700px; wide gentle bends
+    in safe biomes, sharp bends in hostile ones. Tease: the next landmark is
+    glimpsed 15-20s before the road delivers it.
+26. **Light is a promise — sun plus 3.** Lights attach only to what canonically
+    burns; at night the light set == the interaction set; ~one warm light per
+    screen, never >4; dead vignettes get NO light — the unlit hearth IS the
+    beat.
+27. **Tangent ban + slot grammar.** Sprites overlap >25% or separate >20px —
+    never kiss. Dress hub perimeters in L-shapes at corners, pairs flanking
+    entrances; never rows through the middle.
+28. **Negative space is a placed asset.** One authored quiet-quarter per zone
+    (breakup + sway + weather only) so clusters never tile wall-to-wall.
+29. **POI diversity rotation.** Never two same-type set-pieces consecutively
+    along a road; rotate habitation → ritual → nature → wreckage.
+30. **Breadcrumb the approach.** 3-5 instances of one lore-themed prop at
+    150-250px intervals flanking the last road segment before each landmark.
+31. **Density is a gradient.** Sparser near hubs (~0.2x), 1.0 mid-zone,
+    1.4-1.6x at the wild outer ring; vegetation walls ring clearings.
+Engineering follow-ups (not composition rules): ground/road TileMapLayers never
+y-sorted; MultiMesh for tuft fields; dual-grid edge blending; cloud-shadow
+multiply layer; seasonal palette layers. → BACKLOG.
+
 ## VII. VERIFICATION — no claim without eyes
 21. Boot the zone, screenshot the money spots, LOOK at them. Run the
     40-second validator (prints on boot) and the seam validator. A pass you
