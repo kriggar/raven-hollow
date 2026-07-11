@@ -685,6 +685,8 @@ const _ZONES := {
 			{"type": "lichen_glow", "pos": Vector2(3260, 3300), "count": 5},
 			{"type": "brazier", "pos": Vector2(2048, 1500)},
 			{"type": "brazier", "pos": Vector2(2100, 2700)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2020, 1300)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2090, 2500)},
 		],
 		"warm_patches": [Vector2(2068, 1060), Vector2(1420, 1660)],
 		"vignettes": [
@@ -1614,6 +1616,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen2/t_crucifix.png", "pos": Vector2(5288, 5699)},
 			{"type": "deco", "tex": "res://assets/art/world/gen2/l_candle_stand.png", "pos": Vector2(4986, 4952), "light": 0.3},
 			{"type": "deco", "tex": "res://assets/art/world/gen2/c_chest.png", "pos": Vector2(6450, 5263)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5060, 3500)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5180, 4600)},
 		],
 		"warm_patches": [Vector2(5120, 5660)],
 		"vignettes": [
@@ -1804,6 +1808,8 @@ const _ZONES := {
 			{"type": "lichen_glow", "pos": Vector2(4100, 1300), "count": 4},
 			{"type": "lichen_glow", "pos": Vector2(1150, 4000), "count": 4},
 			{"type": "brazier", "pos": Vector2(4000, 3900)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2500, 2000)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2560, 3200)},
 		],
 		"warm_patches": [Vector2(2560, 2960), Vector2(1820, 2360), Vector2(3320, 2360)],
 		"vignettes": [
@@ -2157,6 +2163,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/gen2/t_hang_lamp.png", "pos": Vector2(2528, 4198), "light": 0.4},
 			{"type": "deco", "tex": "res://assets/art/world/gen2/t_silver_urn.png", "pos": Vector2(2732, 3943)},
 			{"type": "deco", "tex": "res://assets/art/world/gen2/l_candle_stand.png", "pos": Vector2(2329, 4233), "light": 0.3},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5060, 3700)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5180, 4400)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5100, 5100)},
 		],
 		"warm_patches": [Vector2(5480, 3520)],   # the Spire's base... it is warm
 		"vignettes": [
@@ -2230,6 +2239,8 @@ const _ZONES := {
 			{"type": "lichen_glow", "pos": Vector2(3350, 3200), "count": 4},
 			{"type": "lichen_glow", "pos": Vector2(2050, 2050), "count": 6},
 			{"type": "deco", "tex": "res://assets/art/world/gen2/dark_basin.png", "pos": Vector2(3415, 983)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2010, 1200)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2080, 2900)},
 		],
 		"warm_patches": [Vector2(2068, 860)],
 		"vignettes": [
@@ -4111,6 +4122,8 @@ const _ZONES := {
 			{"type": "lichen_glow", "pos": Vector2(3200, 3350), "count": 4},
 			{"type": "brazier", "pos": Vector2(2000, 2100)},
 			{"type": "deco", "tex": "res://assets/art/world/gen2/dark_basin.png", "pos": Vector2(2175, 1874)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(1980, 1500)},
+			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2060, 2800)},
 		],
 		"warm_patches": [],
 		"vignettes": [

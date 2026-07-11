@@ -714,6 +714,31 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					parent.add_child(dspr)
 					if lm.has("light"):
 						_warm_light(parent, pos, float(lm.get("light", 0.3)))
+			"deco_anim":
+				# Animated set-dressing from a horizontal frame strip (sourcing law:
+				# animated assets come from verified-free packs). {"tex": strip,
+				# "frames": N, "fps": f, "scale": s, "light": energy}
+				var atex_path: String = str(lm.get("tex", ""))
+				if atex_path != "" and ResourceLoader.exists(atex_path):
+					var atex: Texture2D = load(atex_path)
+					var n_frames: int = maxi(1, int(lm.get("frames", 4)))
+					var fw: int = atex.get_width() / n_frames
+					var sfr := SpriteFrames.new()
+					sfr.set_animation_speed("default", float(lm.get("fps", 8.0)))
+					for fi in range(n_frames):
+						var at := AtlasTexture.new()
+						at.atlas = atex
+						at.region = Rect2(fi * fw, 0, fw, atex.get_height())
+						sfr.add_frame("default", at)
+					var aspr := AnimatedSprite2D.new()
+					aspr.sprite_frames = sfr
+					aspr.position = pos
+					aspr.scale = Vector2.ONE * float(lm.get("scale", 1.0))
+					aspr.y_sort_enabled = true
+					aspr.play("default")
+					parent.add_child(aspr)
+					if lm.has("light"):
+						_fire_light(parent, pos, float(lm.get("light", 0.6)))
 			"cottage":
 				_sprite(parent, "res://assets/art/buildings/house_01.png", pos, true,
 						lm.get("tint", Color.WHITE))
