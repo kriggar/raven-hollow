@@ -187,7 +187,7 @@ func _build_body(id: String, def: Dictionary, kind: String) -> Node:
 	node.set_meta("prop_mass", float(def.get("mass", 8.0)))
 	node.set_meta("break_loot", str(def.get("break_loot", "")))
 	node.set_meta("sfx", str(def.get("sfx", "")))
-	_add_visual(node, size, col, kind)
+	_add_visual(node, size, col, kind, str(def.get("art", "")))
 	return node
 
 
@@ -205,12 +205,29 @@ func _make_area(size: Vector2, layer: int, mask: int) -> Area2D:
 
 ## Placeholder body art -- a tinted block (+ a soft ground shadow) that reads as the
 ## prop until the real sprite lands at def.art. Trivially swapped later.
-func _add_visual(node: Node2D, size: Vector2, col: Color, kind: String) -> void:
+func _add_visual(node: Node2D, size: Vector2, col: Color, kind: String, art: String = "") -> void:
 	var shadow := Polygon2D.new()
 	shadow.polygon = _ellipse_points(size.x * 0.95, maxf(4.0, size.y * 0.4), Vector2(0, size.y * 0.55))
 	shadow.color = Color(0, 0, 0, 0.28)
 	shadow.z_index = -1
 	node.add_child(shadow)
+	# FREE-ASSETS LAW: real prop art when the catalogue names it (the colored
+	# placeholder boxes read as debug quads in every zone-spawn ring)
+	if art != "" and ResourceLoader.exists(art):
+		var spr := Sprite2D.new()
+		spr.texture = load(art)
+		var tex_size: Vector2 = spr.texture.get_size()
+		var target: float = maxf(size.x, size.y) * 2.6
+		if maxf(tex_size.x, tex_size.y) > 0.0:
+			spr.scale = Vector2.ONE * clampf(target / maxf(tex_size.x, tex_size.y), 0.4, 1.6)
+		if kind == "hidden_switch":
+			spr.modulate = Color(1, 1, 1, 0.45)
+		elif kind == "climbable":
+			spr.modulate = Color(1, 1, 1, 0.9)
+		node.add_child(spr)
+		if node is Node2D:
+			node.y_sort_enabled = true
+		return
 	var body := Polygon2D.new()
 	body.polygon = _rect_points(size)
 	body.color = col

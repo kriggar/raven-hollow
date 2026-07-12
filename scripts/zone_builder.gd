@@ -912,24 +912,25 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				rope.width = 1.5
 				rope.default_color = Color(0.72, 0.66, 0.52)
 				parent.add_child(rope)
-				var hook_crate := ColorRect.new()
-				hook_crate.size = Vector2(18, 16)
-				hook_crate.position = pos + Vector2(43, -22)
-				hook_crate.color = Color(0.48, 0.36, 0.22)
+				var hook_crate := Sprite2D.new()
+				hook_crate.texture = load("res://assets/art/props/szadi_prop_12.png")
+				hook_crate.position = pos + Vector2(52, -14)
 				parent.add_child(hook_crate)
 			"cargo":
+				# FREE-ASSETS LAW: real Szadi crate/barrel/sack stacks, not flat quads
+				var cargo_tex: Array = [
+					"res://assets/art/props/szadi_prop_15.png",
+					"res://assets/art/props/szadi_prop_32.png",
+					"res://assets/art/props/szadi_prop_14.png",
+					"res://assets/art/props/szadi_prop_12.png",
+					"res://assets/art/props/szadi_prop_13.png",
+				]
 				for ci in range(int(lm.get("count", 3))):
-					var crate := ColorRect.new()
-					crate.size = Vector2(20, 18)
-					crate.position = pos + Vector2(float(ci % 2) * 24.0 - 12.0, float(int(float(ci) / 2.0)) * 20.0 - 10.0)
-					_foot_type(parent, "cargo", crate.position + Vector2(10.0, 9.0))
-					crate.color = Color(0.50, 0.38, 0.24) if ci % 2 == 0 else Color(0.44, 0.33, 0.21)
+					var crate := Sprite2D.new()
+					crate.texture = load(cargo_tex[ci % cargo_tex.size()])
+					crate.position = pos + Vector2(float(ci % 2) * 40.0 - 20.0, float(int(float(ci) / 2.0)) * 36.0 - 12.0)
+					_foot_type(parent, "cargo", crate.position)
 					parent.add_child(crate)
-					var slat := ColorRect.new()
-					slat.size = Vector2(20, 2)
-					slat.position = crate.position + Vector2(0, 8)
-					slat.color = Color(0.30, 0.22, 0.14)
-					parent.add_child(slat)
 			"salt_pan":
 				var pan := Polygon2D.new()
 				var pan_pts := PackedVector2Array()
@@ -956,22 +957,10 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					parent.add_child(fpost)
 			"ledger_tablet":
 				# the debt-grammar made object: a filed stone tablet
-				var tab := ColorRect.new()
-				tab.size = Vector2(22, 28)
-				tab.position = pos - Vector2(11, 14)
-				tab.color = Color(0.52, 0.54, 0.58)
+				var tab := Sprite2D.new()
+				tab.texture = load("res://assets/art/props/cainos_prop_19.png")
+				tab.position = pos
 				parent.add_child(tab)
-				var tab_rim := ColorRect.new()
-				tab_rim.size = Vector2(22, 3)
-				tab_rim.position = pos - Vector2(11, 14)
-				tab_rim.color = Color(0.40, 0.42, 0.47)
-				parent.add_child(tab_rim)
-				for li2 in range(3):
-					var rune := ColorRect.new()
-					rune.size = Vector2(14, 2)
-					rune.position = pos + Vector2(-7, -6 + float(li2) * 6.0)
-					rune.color = Color(0.34, 0.36, 0.40)
-					parent.add_child(rune)
 				if bool(lm.get("live", false)):
 					var tl2 := PointLight2D.new()
 					tl2.position = pos
@@ -1195,10 +1184,30 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				_pond(parent, pos, rng)
 				_bubbles(parent, pos + Vector2(rng.randf_range(-30, 30), rng.randf_range(-20, 20)), rng)
 			"stump":
-				_swamp_atlas(parent, Rect2(0, 256, 128, 128), pos, true)
-				_foot_type(parent, "stump", pos)
+				# logging field: `count` weathered stumps scattered round the anchor
+				# (the old atlas rect pointed at empty sheet space - floating sliver)
+				var stump_tex: Texture2D = load("res://assets/art/world/freekit/stump_giant.png")
+				var stump_n: int = int(lm.get("count", 1))
+				for si in range(stump_n):
+					var sp := Sprite2D.new()
+					sp.texture = stump_tex
+					var ang: float = rng.randf() * TAU
+					var rad: float = rng.randf_range(0.0, 60.0 + 26.0 * sqrt(float(stump_n)))
+					sp.position = pos + Vector2(cos(ang) * rad * 1.3, sin(ang) * rad)
+					sp.scale = Vector2.ONE * rng.randf_range(0.16, 0.30)
+					sp.flip_h = rng.randf() < 0.5
+					sp.offset = Vector2(0, -100)
+					sp.y_sort_enabled = true
+					parent.add_child(sp)
+					_foot_type(parent, "stump", sp.position)
 			"trunk_hollow":
-				_swamp_atlas(parent, Rect2(128, 128, 128, 160), pos, true)
+				var th := Sprite2D.new()
+				th.texture = load("res://assets/art/world/freekit/stump_giant.png")
+				th.position = pos
+				th.scale = Vector2.ONE * 0.55
+				th.offset = Vector2(0, -100)
+				th.y_sort_enabled = true
+				parent.add_child(th)
 				_foot_type(parent, "trunk_hollow", pos)
 			"manor":
 				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true,
