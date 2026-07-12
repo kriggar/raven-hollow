@@ -86,7 +86,7 @@ func _build() -> void:
 	var bsb := StyleBoxFlat.new()
 	bsb.bg_color = Color(0, 0, 0, 0)
 	bsb.border_color = LEG_ORANGE
-	bsb.set_border_width_all(1)
+	bsb.set_border_width_all(2)
 	bsb.set_corner_radius_all(2)
 	bezel.add_theme_stylebox_override("panel", bsb)
 	bezel.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -176,7 +176,7 @@ func _build_row(id: String, row_w: float) -> Control:
 	var rsb := StyleBoxFlat.new()
 	rsb.bg_color = ROW_BG
 	rsb.border_color = LEG_ORANGE if is_owned else Color(0.32, 0.27, 0.20)
-	rsb.set_border_width_all(1)
+	rsb.set_border_width_all(2)
 	rsb.set_corner_radius_all(3)
 	rsb.content_margin_left = 8
 	rsb.content_margin_right = 8

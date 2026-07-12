@@ -30,7 +30,7 @@ const BLOOD := Color(0.62, 0.16, 0.12)
 const FOG := Color(0.42, 0.38, 0.32, 0.9)
 const BOX_BG := Color(0.09, 0.07, 0.06, 0.98)
 const HEADER_BG := Color(0.13, 0.1, 0.075, 1.0)
-const PANEL_BORDER := Color(0.45, 0.33, 0.18)
+const PANEL_BORDER := Color(0.58, 0.44, 0.22)
 const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
 const FRAME_TINT := Color(0.55, 0.45, 0.38)
 const DIM_COLOR := Color(0.0, 0.0, 0.0, 0.5)
@@ -247,7 +247,7 @@ func _build_shell() -> void:
 	var hsb := StyleBoxFlat.new()
 	hsb.bg_color = HEADER_BG
 	hsb.border_color = PANEL_BORDER
-	hsb.set_border_width_all(1)
+	hsb.set_border_width_all(2)
 	header.add_theme_stylebox_override("panel", hsb)
 	_panel.add_child(header)
 
@@ -331,7 +331,7 @@ func _zoom_button(txt: String, pos: Vector2) -> Panel:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.16, 0.12, 0.085)
 	sb.border_color = GOLD_DIM
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	p.add_theme_stylebox_override("panel", sb)
 	var l := _label(p, 14, GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	l.text = txt

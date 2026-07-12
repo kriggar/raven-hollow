@@ -32,7 +32,7 @@ const GOLD := Color(0.85, 0.68, 0.35)
 const PARCHMENT := Color(0.87, 0.82, 0.72)
 const HOSTILE_RED := Color(0.85, 0.25, 0.2)
 const BOX_BG := Color(0.09, 0.07, 0.06, 0.96)
-const BOX_BORDER := Color(0.45, 0.33, 0.18)
+const BOX_BORDER := Color(0.58, 0.44, 0.22)
 const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
 const FRAME_TINT := Color(0.55, 0.45, 0.38)
 const HP_FILL := Color(0.62, 0.16, 0.12)
@@ -423,7 +423,7 @@ func _make_portrait(parent: Control) -> TextureRect:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BAR_BG
 	sb.border_color = BOX_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(0)
 	box.add_theme_stylebox_override("panel", sb)
 	parent.add_child(box)
@@ -451,7 +451,7 @@ func _build_bar(parent: Control, pos: Vector2, bar_size: Vector2,
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BAR_BG
 	sb.border_color = BOX_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(0)
 	back.add_theme_stylebox_override("panel", sb)
 	parent.add_child(back)
@@ -618,7 +618,7 @@ func _build_ability_tip() -> void:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BOX_BG
 	sb.border_color = GOLD
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(0)
 	_ability_tip.add_theme_stylebox_override("panel", sb)
 	_root.add_child(_ability_tip)
@@ -670,7 +670,7 @@ func _build_xp_bar() -> void:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BAR_BG
 	sb.border_color = BOX_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(0)
 	back.add_theme_stylebox_override("panel", sb)
 	_root.add_child(back)
@@ -726,7 +726,7 @@ func _build_tracker() -> void:
 	var fsb := StyleBoxFlat.new()
 	fsb.bg_color = PARCH_BG
 	fsb.border_color = BOX_BORDER
-	fsb.set_border_width_all(1)
+	fsb.set_border_width_all(2)
 	fsb.set_corner_radius_all(0)
 	fill.add_theme_stylebox_override("panel", fsb)
 	_tracker.add_child(fill)

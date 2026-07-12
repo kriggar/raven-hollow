@@ -22,7 +22,7 @@ const PARCHMENT := Color(0.87, 0.82, 0.72)
 const DIM := Color(0.60, 0.55, 0.47)
 const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
 const BOX_BG := Color(0.09, 0.07, 0.06, 0.97)
-const BOX_BORDER := Color(0.45, 0.33, 0.18)
+const BOX_BORDER := Color(0.58, 0.44, 0.22)
 const FRAME_TINT := Color(0.55, 0.45, 0.38)
 const SLOT_BG := Color(0.06, 0.05, 0.04, 0.95)
 const SLOT_BORDER := Color(0.30, 0.22, 0.12)
@@ -311,7 +311,7 @@ func _build_tabs() -> void:
 		var sb := StyleBoxFlat.new()
 		sb.bg_color = SLOT_BG
 		sb.border_color = SLOT_BORDER
-		sb.set_border_width_all(1)
+		sb.set_border_width_all(2)
 		tab.add_theme_stylebox_override("panel", sb)
 		var lbl := _mk_label(tab, 8, PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 		lbl.name = "Label"
@@ -337,7 +337,7 @@ func _build_content() -> void:
 	var bsb := StyleBoxFlat.new()
 	bsb.bg_color = Color(0.04, 0.03, 0.025, 0.95)
 	bsb.border_color = SLOT_BORDER
-	bsb.set_border_width_all(1)
+	bsb.set_border_width_all(2)
 	bar_bg.add_theme_stylebox_override("panel", bsb)
 	_panel.add_child(bar_bg)
 
@@ -389,7 +389,7 @@ func _build_detail() -> void:
 	var ssb := StyleBoxFlat.new()
 	ssb.bg_color = SLOT_BG
 	ssb.border_color = SLOT_BORDER
-	ssb.set_border_width_all(1)
+	ssb.set_border_width_all(2)
 	slot.add_theme_stylebox_override("panel", ssb)
 	_detail.add_child(slot)
 
@@ -512,7 +512,7 @@ func _build_row(recipe: Dictionary) -> void:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = GOLD.darkened(0.2) if legendary else SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	row.add_theme_stylebox_override("panel", sb)
 	_list.add_child(row)
 
@@ -859,7 +859,7 @@ func _mk_button(text: String, cb: Callable) -> Panel:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	btn.add_theme_stylebox_override("panel", sb)
 	var lbl := _mk_label(btn, 10, PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	lbl.name = "Label"

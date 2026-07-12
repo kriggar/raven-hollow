@@ -311,7 +311,7 @@ func _mk_button(text: String) -> Button:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = GOLD_RIM
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(2)
 	b.add_theme_stylebox_override("normal", sb)
 	b.add_theme_stylebox_override("hover", sb)
@@ -454,7 +454,7 @@ class _RuneChip extends Panel:
 		var psb := StyleBoxFlat.new()
 		psb.bg_color = Color(0.12, 0.09, 0.04, 0.95)
 		psb.border_color = Color(1.0, 0.85, 0.45)
-		psb.set_border_width_all(1)
+		psb.set_border_width_all(2)
 		psb.set_corner_radius_all(3)
 		prev.add_theme_stylebox_override("panel", psb)
 		var pl := _lbl(_rw.call("rune_name", rune_id), 11, _rw.call("rune_color", rune_id))

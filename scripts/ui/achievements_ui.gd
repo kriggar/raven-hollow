@@ -328,7 +328,7 @@ func _mk_button(text: String) -> Button:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(2)
 	b.add_theme_stylebox_override("normal", sb)
 	b.add_theme_stylebox_override("hover", sb)
@@ -350,9 +350,9 @@ func _mk_tab(text: String, selected: bool) -> Button:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.16, 0.13, 0.08, 0.98) if selected else SLOT_BG
 	sb.border_color = GOLD if selected else SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	if selected:
-		sb.set_border_width_all(1)
+		sb.set_border_width_all(2)
 		sb.border_width_left = 3
 	sb.set_corner_radius_all(2)
 	sb.content_margin_left = 4

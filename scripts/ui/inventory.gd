@@ -336,7 +336,7 @@ func _mk_cell(parent: Control, pos: Vector2, kind: String, key: Variant) -> Pane
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	cell.add_theme_stylebox_override("panel", sb)
 	cell.set_meta("kind", kind)
 	cell.set_meta("key", key)
@@ -630,7 +630,7 @@ func _build_tooltip() -> void:
 	_tip.visible = false
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BOX_BG
-	sb.border_color = Color(0.45, 0.33, 0.18)
+	sb.border_color = Color(0.58, 0.44, 0.22)
 	sb.set_border_width_all(2)
 	sb.set_content_margin_all(7.0)
 	_tip.add_theme_stylebox_override("panel", sb)

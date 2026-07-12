@@ -240,7 +240,7 @@ func _add_event_row(ev: Dictionary, active: bool, days_until: int) -> void:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = CELL_BG
 	sb.border_color = color
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.border_width_left = 3
 	sb.set_corner_radius_all(2)
 	sb.content_margin_left = 6
@@ -316,7 +316,7 @@ func _mk_button(text: String) -> Button:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = CELL_BG
 	sb.border_color = CELL_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(2)
 	b.add_theme_stylebox_override("normal", sb)
 	b.add_theme_stylebox_override("hover", sb)

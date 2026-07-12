@@ -22,7 +22,7 @@ const PARCHMENT := Color(0.87, 0.82, 0.72)
 const DIM := Color(0.60, 0.55, 0.47)
 const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
 const BOX_BG := Color(0.09, 0.07, 0.06, 0.97)
-const BOX_BORDER := Color(0.45, 0.33, 0.18)
+const BOX_BORDER := Color(0.58, 0.44, 0.22)
 const FRAME_TINT := Color(0.55, 0.45, 0.38)
 const SLOT_BG := Color(0.06, 0.05, 0.04, 0.95)
 const SLOT_BORDER := Color(0.30, 0.22, 0.12)
@@ -319,7 +319,7 @@ func _build_talents_tab() -> void:
 	var dsb := StyleBoxFlat.new()
 	dsb.bg_color = Color(0.05, 0.04, 0.03, 0.95)
 	dsb.border_color = SLOT_BORDER
-	dsb.set_border_width_all(1)
+	dsb.set_border_width_all(2)
 	dsb.set_corner_radius_all(0)
 	_detail.add_theme_stylebox_override("panel", dsb)
 	_tab_talents.add_child(_detail)
@@ -652,7 +652,7 @@ func _spell_row(sp: Dictionary, learn_lv: int, rank_levels: Array, tag: String) 
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(0)
 	row.add_theme_stylebox_override("panel", sb)
 	_spell_list.add_child(row)
@@ -664,7 +664,7 @@ func _spell_row(sp: Dictionary, learn_lv: int, rank_levels: Array, tag: String) 
 	var rim := StyleBoxFlat.new()
 	rim.bg_color = Color(0.03, 0.025, 0.02, 0.9)
 	rim.border_color = SLOT_BORDER
-	rim.set_border_width_all(1)
+	rim.set_border_width_all(2)
 	icon_box.add_theme_stylebox_override("panel", rim)
 	row.add_child(icon_box)
 	var tex: Texture2D = _icon_for(sp)
@@ -732,7 +732,7 @@ func _show_spell_popup(sp: Dictionary, rank_levels: Array, learn_lv: int, at: Ve
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.05, 0.04, 0.03, 0.98)
 	sb.border_color = GOLD
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	pop.add_theme_stylebox_override("panel", sb)
 	var lbl := _mk_label(pop, 9, PARCHMENT)
 	lbl.position = Vector2(6.0, 5.0)
@@ -950,7 +950,7 @@ func _mk_tab(text: String, pos: Vector2, cb: Callable) -> Panel:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(0)
 	btn.add_theme_stylebox_override("panel", sb)
 	var lbl := _mk_label(btn, 9, PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)

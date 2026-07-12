@@ -114,7 +114,7 @@ func _build() -> void:
 	var lesb := StyleBoxFlat.new()
 	lesb.bg_color = SLOT_BG
 	lesb.border_color = SLOT_BORDER
-	lesb.set_border_width_all(1)
+	lesb.set_border_width_all(2)
 	lesb.content_margin_left = 6
 	_search.add_theme_stylebox_override("normal", lesb)
 	_search.add_theme_stylebox_override("focus", lesb)
@@ -327,7 +327,7 @@ func _mk_button(text: String) -> Button:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = SLOT_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(2)
 	b.add_theme_stylebox_override("normal", sb)
 	b.add_theme_stylebox_override("hover", sb)

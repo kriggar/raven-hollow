@@ -85,7 +85,7 @@ func _build() -> void:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BOX_BG
 	sb.border_color = BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(2)
 	back.add_theme_stylebox_override("panel", sb)
 	_root.add_child(back)
@@ -108,7 +108,7 @@ func _build() -> void:
 		var fsb := StyleBoxFlat.new()
 		fsb.bg_color = Color(0.14, 0.11, 0.085, 0.9)
 		fsb.border_color = BORDER
-		fsb.set_border_width_all(1)
+		fsb.set_border_width_all(2)
 		frame.add_theme_stylebox_override("panel", fsb)
 		cell.add_child(frame)
 

@@ -196,7 +196,7 @@ func _rect_border(sz: Vector2, col: Color) -> Control:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0, 0, 0, 0)
 	sb.border_color = col
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	var p := Panel.new()
 	p.set_anchors_preset(Control.PRESET_FULL_RECT)
 	p.add_theme_stylebox_override("panel", sb)
@@ -251,7 +251,7 @@ func _mk_button(text: String) -> Button:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = SLOT_BG
 	sb.border_color = BAR_BORDER
-	sb.set_border_width_all(1)
+	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(2)
 	b.add_theme_stylebox_override("normal", sb)
 	b.add_theme_stylebox_override("hover", sb)

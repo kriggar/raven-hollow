@@ -319,7 +319,7 @@ func _build_overlay() -> void:
 	var psb := StyleBoxFlat.new()
 	psb.bg_color = PARCH_BG
 	psb.border_color = Color(0.42, 0.33, 0.2)
-	psb.set_border_width_all(1)
+	psb.set_border_width_all(2)
 	psb.set_corner_radius_all(0)
 	parch.add_theme_stylebox_override("panel", psb)
 	panel.add_child(parch)
@@ -333,7 +333,7 @@ func _build_overlay() -> void:
 	var hsb := StyleBoxFlat.new()
 	hsb.bg_color = BOX_BG
 	hsb.border_color = Color(0.42, 0.33, 0.2)
-	hsb.set_border_width_all(1)
+	hsb.set_border_width_all(2)
 	hsb.set_corner_radius_all(0)
 	header.add_theme_stylebox_override("panel", hsb)
 	panel.add_child(header)

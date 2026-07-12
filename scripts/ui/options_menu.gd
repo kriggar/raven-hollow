@@ -20,7 +20,7 @@ const DIM := Color(0.62, 0.57, 0.48)
 const PANEL_BG := Color(0.09, 0.07, 0.06, 0.98)
 const ROW_BG := Color(0.12, 0.095, 0.075, 0.9)
 const ROW_BG_FOCUS := Color(0.17, 0.13, 0.09, 0.96)
-const PANEL_BORDER := Color(0.45, 0.33, 0.18)
+const PANEL_BORDER := Color(0.58, 0.44, 0.22)
 const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
 const DIM_COLOR := Color(0.0, 0.0, 0.0, 0.6)
 const FRAME_TINT := Color(0.55, 0.45, 0.38)
@@ -315,7 +315,7 @@ func _build_tabs() -> void:
 		var st := StyleBoxFlat.new()
 		st.bg_color = ROW_BG
 		st.border_color = PANEL_BORDER
-		st.set_border_width_all(1)
+		st.set_border_width_all(2)
 		p.add_theme_stylebox_override("panel", st)
 		var l := _label(p, 11, PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 		l.text = str(TAB_LABELS[t])
@@ -418,7 +418,7 @@ func _make_kb_row(x: float, y: float, w: float, h: float, label_text: String) ->
 	var st := StyleBoxFlat.new()
 	st.bg_color = ROW_BG
 	st.border_color = PANEL_BORDER
-	st.set_border_width_all(1)
+	st.set_border_width_all(2)
 	p.add_theme_stylebox_override("panel", st)
 	p.gui_input.connect(_on_row_input.bind(idx))
 	p.mouse_entered.connect(_on_row_hover.bind(idx))
@@ -444,7 +444,7 @@ func _make_row(y: float, label_text: String, h: float = ROW_H) -> Dictionary:
 	var st := StyleBoxFlat.new()
 	st.bg_color = ROW_BG
 	st.border_color = PANEL_BORDER
-	st.set_border_width_all(1)
+	st.set_border_width_all(2)
 	p.add_theme_stylebox_override("panel", st)
 	p.gui_input.connect(_on_row_input.bind(idx))
 	p.mouse_entered.connect(_on_row_hover.bind(idx))
@@ -486,7 +486,7 @@ func _add_slider_widget(row: Dictionary) -> void:
 	var tsb := StyleBoxFlat.new()
 	tsb.bg_color = TRACK_BG
 	tsb.border_color = PANEL_BORDER
-	tsb.set_border_width_all(1)
+	tsb.set_border_width_all(2)
 	track.add_theme_stylebox_override("panel", tsb)
 	track.gui_input.connect(_on_track_input.bind(_rows.size()))
 	row.root.add_child(track)
