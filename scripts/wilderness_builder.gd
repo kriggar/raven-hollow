@@ -275,6 +275,12 @@ static func _return_gate(props: Node2D, lights: Node2D) -> void:
 	props.add_child(_sprite(WILD + "gate_wall.png", Vector2(gx + 60.0, 948.0), 4.0))
 	props.add_child(_rect_collider(Vector2(gx - 60.0, 900.0), Vector2(48.0, 96.0), Vector2.ZERO))
 	props.add_child(_rect_collider(Vector2(gx + 60.0, 900.0), Vector2(48.0, 96.0), Vector2.ZERO))
+	# SITTING-6: the east stub ended in a razor tile cut — bury the cut end
+	# in rubble and thicket so the wall reads ruined, not unfinished.
+	props.add_child(_sprite("res://assets/art/props/cainos_prop_39.png", Vector2(gx + 92.0, 966.0), 2.0))
+	props.add_child(_sprite("res://assets/art/props/cainos_prop_38.png", Vector2(gx + 104.0, 942.0), 2.0))
+	props.add_child(_sprite("res://assets/art/vegetation/plant_05.png", Vector2(gx + 88.0, 924.0), 2.0))
+	props.add_child(_sprite("res://assets/art/vegetation/plant_04.png", Vector2(gx + 112.0, 972.0), 2.0))
 	# Warm hanging lanterns either side of the arch (into "world_lights").
 	props.add_child(_sprite(WILD + "gate_lantern.png", Vector2(gx - 30.0, 872.0), 0.0))
 	props.add_child(_sprite(WILD + "gate_lantern.png", Vector2(gx + 30.0, 872.0), 0.0))

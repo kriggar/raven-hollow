@@ -92,6 +92,16 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	_build_ground(parent, rng, tiles_w, tiles_h, pal, def)
 	_build_sea(parent, tiles_w, tiles_h, def, keep_clear)
 	_build_river(parent, def)
+	# river channel joins keep-clear: no bushes on the banks (sitting-6)
+	var riv_pts: Array = def.get("river", [])
+	var riv_w: float = float(def.get("river_width", 96.0))
+	for rvi in range(riv_pts.size() - 1):
+		var ra: Vector2 = riv_pts[rvi]
+		var rb: Vector2 = riv_pts[rvi + 1]
+		var steps_r: int = int(ra.distance_to(rb) / 160.0) + 1
+		for rsi in range(steps_r + 1):
+			var rp2: Vector2 = ra.lerp(rb, float(rsi) / float(steps_r))
+			keep_clear.append(Rect2(rp2 - Vector2(riv_w * 0.8, riv_w * 0.8), Vector2(riv_w * 1.6, riv_w * 1.6)))
 	for rp_v: Variant in def.get("river", []):
 		keep_clear.append(Rect2((rp_v as Vector2) - Vector2(180, 130), Vector2(360, 260)))
 	var road_rects: Array[Rect2] = _build_roads(parent, def, pal.has("ground_sheet"))
@@ -158,6 +168,16 @@ static func build_zone_staged(parent: Node2D, def: Dictionary) -> Dictionary:
 		return {}
 	_build_sea(parent, tiles_w, tiles_h, def, keep_clear)
 	_build_river(parent, def)
+	# river channel joins keep-clear: no bushes on the banks (sitting-6)
+	var riv_pts: Array = def.get("river", [])
+	var riv_w: float = float(def.get("river_width", 96.0))
+	for rvi in range(riv_pts.size() - 1):
+		var ra: Vector2 = riv_pts[rvi]
+		var rb: Vector2 = riv_pts[rvi + 1]
+		var steps_r: int = int(ra.distance_to(rb) / 160.0) + 1
+		for rsi in range(steps_r + 1):
+			var rp2: Vector2 = ra.lerp(rb, float(rsi) / float(steps_r))
+			keep_clear.append(Rect2(rp2 - Vector2(riv_w * 0.8, riv_w * 0.8), Vector2(riv_w * 1.6, riv_w * 1.6)))
 	for rp_v: Variant in def.get("river", []):
 		keep_clear.append(Rect2((rp_v as Vector2) - Vector2(180, 130), Vector2(360, 260)))
 	await parent.get_tree().process_frame
