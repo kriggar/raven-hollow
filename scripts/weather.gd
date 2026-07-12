@@ -45,6 +45,9 @@ const AMBIENCE := {
 
 # Per-map weighted weather tables (town/wilderness keep their own moods).
 const MAP_TABLES := {
+	# Blestem is the dusk-locked black city — dry canon mood; ridge-biome snow
+	# drifting through it read wrong (sitting note 2026-07-12).
+	"blestem": [[Type.FOG, 5], [Type.CLEAR, 3], [Type.STORM, 1]],
 	"town": [[Type.CLEAR, 6], [Type.RAIN, 2], [Type.FOG, 1]],
 	"wilderness": [[Type.CLEAR, 4], [Type.RAIN, 2], [Type.FOG, 2], [Type.STORM, 1], [Type.SNOW, 1]],
 }
