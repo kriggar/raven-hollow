@@ -762,6 +762,8 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 	for lm_v: Variant in def.get("landmarks", []):
 		var lm: Dictionary = lm_v
 		var pos: Vector2 = lm["pos"]
+		if pos.length() < 100.0:
+			print("[ORIGINDBG] landmark ", lm.get("type"), " at ", pos)
 		match str(lm.get("type", "")):
 			"deco":
 				# Generic hand-placed set-dressing from the style-gated library
@@ -1611,6 +1613,10 @@ static func _build_border_wall(parent: Node2D, rng: RandomNumberGenerator, w: in
 				spr.offset = Vector2(0, -spr.texture.get_height() * 0.5 + 10)
 				spr.modulate = (pal["tree_tint"] as Color).darkened(0.12)
 				spr.material = _tree_sway_material()
+			# SITTING-6 ROOT CAUSE: position was never assigned — the entire border
+			# ring (440 trees/rocks per zone) stacked at world origin as one "stray
+			# corner tree". The ring exists again.
+			spr.position = pos
 			spr.y_sort_enabled = true
 			parent.add_child(spr)
 			var col := StaticBody2D.new()
