@@ -170,9 +170,21 @@ func narrate(beat: String, key: String = "") -> String:
 	if line == "":
 		return ""
 	# QA harness: screenshot runs must not have the parchment strip in frame.
-	if OS.get_environment("RH_NOBANNER").is_empty():
+	if OS.get_environment("RH_NOBANNER").is_empty() and not _map_is_open():
 		_show_toast(line, false)
 	return line
+
+
+## The parchment strip must never lie over the opened map (WoW behavior:
+## flavor toasts yield to the map screen). Guarded — absent systems = false.
+func _map_is_open() -> bool:
+	var ms: Node = get_node_or_null("/root/MapSystem")
+	if ms != null and ms.has_method("is_map_open") and bool(ms.call("is_map_open")):
+		return true
+	for mm: Node in get_tree().get_nodes_in_group("minimap"):
+		if mm.has_method("is_world_map_open") and bool(mm.call("is_world_map_open")):
+			return true
+	return false
 
 
 func _narrator_line(beat: String, key: String) -> String:
