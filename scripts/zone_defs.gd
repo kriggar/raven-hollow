@@ -2724,7 +2724,7 @@ const _ZONES := {
 	},
 
 	"the_gift": {
-		"built": true,
+		"built": true, "ambient": "fog",
 		"name": "The Gift",
 		"continent": 1, "region": "south", "biome": "volcanic",
 		"tiles_w": 224, "tiles_h": 160,
@@ -3429,7 +3429,7 @@ const _ZONES := {
 		],
 	},
 	"salt_fens": {
-		"built": true,
+		"built": true, "ambient": "fog",
 		"name": "The Salt Fens",
 		"continent": 2, "region": "coast", "biome": "bog",
 		"tiles_w": 240, "tiles_h": 176,
