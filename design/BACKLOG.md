@@ -232,6 +232,23 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    NEXT: game-icons item-family icons, LPC Terrains v7 autotile road v3, harbor smalls, per-zone
    Witchbrook densification (the standing core mission).
 
+127. SITTING #6 + SYSTEMIC FIX WAVE (2026-07-12 evening, commits -> 6325507) — IN PROGRESS:
+   Archive design/SITTING_6_FREE_WORLD.md (29 CRIT / 84 MAJ / 47 MIN confirmed, adversarial verify;
+   2 verify batches lost to session limits: iron_vein/last_hearth/ledger_roads + famine/finalized/gravemark).
+   FIXED: border-forest ring (spr.position never set — whole ring stacked at origin = the 'corner tree'
+   in 10+ zones; ring restored in all 39), boot_prints ghost-fence -> real heel+toe tracks, lamp_post
+   baked grass bar -> lit-lantern street lamp, RIVER SKIN v2 (water-textured Line2D + brightened tint)
+   + STONE BRIDGES at every road x river crossing + river keep-clear (no bushes on banks), rowboat
+   4-sheet split + water keyed, transcub road re-path + gift-field grown, gravemark road extended,
+   wilderness gate wall cut buried, sea v2 verified at grey_piers + drowned estuary.
+   REMAINING from sitting-6: lichenreach dot-grid + white framed-box sprite + oob boulder; orange_fog
+   cyan thread_lines read as debug; morven river/band junction; riverfork orphan rect decals + sailboat
+   fringe (hand pass); wilderness slab-grid path network overhaul; per-zone dead-zone densification
+   (bloodroad S half, eastern_ridges NW, whisper_passes, salt_fens E/S, canal_maze, listening_steppe...);
+   zone-identity passes (drowned_quarter not drowned, eastern_ridges no ridges, orange_fog no fog —
+   check RH_WEATHER default in that zone def, canal_maze one canal); repeated-prefab variety (campfire,
+   planter trio, grave rows); road x ribbon junction art beyond bridges (canal crossings need docks).
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish
