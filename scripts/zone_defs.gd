@@ -687,6 +687,9 @@ const _ZONES := {
 			{"type": "brazier", "pos": Vector2(2100, 2700)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2020, 1300)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2090, 2500)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_altar.png", "pos": Vector2(2160, 2893)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_statue_granite.png", "pos": Vector2(1873, 2424)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_stalagmites.png", "pos": Vector2(2225, 2084)},
 		],
 		"warm_patches": [Vector2(2068, 1060), Vector2(1420, 1660)],
 		"vignettes": [
@@ -1811,6 +1814,9 @@ const _ZONES := {
 			{"type": "brazier", "pos": Vector2(4000, 3900)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2500, 2000)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2560, 3200)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_fountain_blood.png", "pos": Vector2(2681, 3707)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_statue_granite.png", "pos": Vector2(2354, 4083)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_stalagmites.png", "pos": Vector2(2386, 3283)},
 		],
 		"warm_patches": [Vector2(2560, 2960), Vector2(1820, 2360), Vector2(3320, 2360)],
 		"vignettes": [
@@ -2247,6 +2253,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/freekit/font_bath.png", "pos": Vector2(3415, 983)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2010, 1200)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2080, 2900)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_statue_granite.png", "pos": Vector2(2174, 2640)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_stalagmites.png", "pos": Vector2(1897, 2107)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_stalagmites.png", "pos": Vector2(2268, 1629)},
 		],
 		"warm_patches": [Vector2(2068, 860)],
 		"vignettes": [
@@ -4159,6 +4168,8 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/freekit/font_bath.png", "pos": Vector2(2175, 1874)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(1980, 1500)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(2060, 2800)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_altar.png", "pos": Vector2(2241, 1014)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/cave_stalagmites.png", "pos": Vector2(1918, 1294)},
 		],
 		"warm_patches": [],
 		"vignettes": [
