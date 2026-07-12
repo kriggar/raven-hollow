@@ -1505,12 +1505,46 @@ static func _build_sea(parent: Node2D, w: int, h: int, def: Dictionary,
 			"east": band = Rect2(ww - BAND, 0, BAND, wh)
 			"north": band = Rect2(0, 0, ww, BAND)
 			"south": band = Rect2(0, wh - BAND, ww, BAND)
+		# HARBOR PASS (Fable, LPC Terrains v7): the flat ColorRect strip read as a
+		# debug band in every port. Tiled water fill + keyed foam-and-mud shoreline.
 		var water := ColorRect.new()
 		water.position = band.position
 		water.size = band.size
-		water.color = Color(0.15, 0.19, 0.25)
-		water.z_index = -8
+		water.color = Color(0.13, 0.17, 0.23)
+		water.z_index = -9
 		parent.add_child(water)
+		var wts := TileSet.new()
+		wts.tile_size = Vector2i(TILE, TILE)
+		var wsrc := TileSetAtlasSource.new()
+		wsrc.texture = load("res://assets/art/terrain/lpc_sea_organic.png")
+		wsrc.texture_region_size = Vector2i(TILE, TILE)
+		for wy in range(5):
+			for wx in range(3):
+				wsrc.create_tile(Vector2i(wx, wy))
+		wts.add_source(wsrc, 0)
+		var wlayer := TileMapLayer.new()
+		wlayer.name = "SeaTiles"
+		wlayer.rendering_quadrant_size = 32
+		wlayer.tile_set = wts
+		wlayer.z_index = -8
+		wlayer.modulate = Color(0.72, 0.78, 0.86)
+		var bx0: int = int(band.position.x / TILE)
+		var by0: int = int(band.position.y / TILE)
+		var bx1: int = int((band.position.x + band.size.x) / TILE)
+		var by1: int = int((band.position.y + band.size.y) / TILE)
+		for wyc in range(by0, by1):
+			for wxc in range(bx0, bx1):
+				var wtile := Vector2i(1, 2)
+				if str(e_v) == "south" and wyc == by0:
+					wtile = Vector2i(1, 1)
+				elif str(e_v) == "north" and wyc == by1 - 1:
+					wtile = Vector2i(1, 3)
+				elif str(e_v) == "west" and wxc == bx1 - 1:
+					wtile = Vector2i(2, 2)
+				elif str(e_v) == "east" and wxc == bx0:
+					wtile = Vector2i(0, 2)
+				wlayer.set_cell(Vector2i(wxc, wyc), 0, wtile)
+		parent.add_child(wlayer)
 		var horiz: bool = str(e_v) in ["north", "south"]
 		for i in range(int((band.size.x if horiz else band.size.y) / 640.0) + 1):
 			var sheen := Line2D.new()
