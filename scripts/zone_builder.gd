@@ -281,6 +281,7 @@ static func _build_ground(parent: Node2D, rng: RandomNumberGenerator, w: int, h:
 
 	var layer := TileMapLayer.new()
 	layer.name = "Ground"
+	layer.rendering_quadrant_size = 32
 	layer.tile_set = ts
 	layer.z_index = -10
 	layer.modulate = pal["tint"]
@@ -305,6 +306,7 @@ static func _build_ground(parent: Node2D, rng: RandomNumberGenerator, w: int, h:
 	if packed:
 		var layer2 := TileMapLayer.new()
 		layer2.name = "GroundBreak"
+		layer2.rendering_quadrant_size = 32
 		layer2.tile_set = ts
 		layer2.z_index = -10
 		layer2.modulate = pal["tint"]
@@ -418,6 +420,7 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 	ts.add_source(stone, 1)
 	var layer := TileMapLayer.new()
 	layer.name = "Roads"
+	layer.rendering_quadrant_size = 32
 	layer.tile_set = ts
 	layer.z_index = -9
 	var rng := RandomNumberGenerator.new()

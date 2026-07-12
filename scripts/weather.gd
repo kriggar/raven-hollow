@@ -225,7 +225,10 @@ func _apply(delta: float) -> void:
 func _strike() -> void:
 	if _flash == null:
 		return
-	var tw := create_tween()
+	# Bind the tween to the flash node — a system-bound tween outlives the
+	# node across change_map and assigns a freed instance (intermittent
+	# boot error, sitting-4/5 triage).
+	var tw := _flash.create_tween()
 	_flash.color.a = 0.0
 	tw.tween_property(_flash, "color:a", 0.85, 0.05)
 	tw.tween_property(_flash, "color:a", 0.1, 0.08)
