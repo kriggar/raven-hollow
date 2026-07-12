@@ -42,3 +42,5 @@ All via OpenGameArt.org.
 | [LPC] Terrains (path fill crops) | bluecarrot16 et al. | https://opengameart.org/content/lpc-terrains | **CC-BY-SA 4.0** — full author list in assets/art/terrain/CREDITS_LPC_TERRAINS.txt | Road dirt-pebble fill (lpc_path_fill.png) |
 
 | Audio gap-fill 2026-07-12 (35 cues: UI, music states, biome beds, stings, horn) | Kenney (CC0), Spring Spring (CC0), qubodup (CC-BY 3.0), + full list | see assets/audio/CREDITS_AUDIO_GAPFILL.txt | CC0 majority; CC-BY items REQUIRE in-game credit (qubodup tension bed, Wind Loop, Lava loop) | MusicDirector states, biome beds, UI sound manager, war horn |
+
+| [LPC] Medieval Village Decorations (freekit crops: wells, fountain, lamp posts, lanterns, stalls, graveyard kit, statues, stocks, gallows, wheels) | bluecarrot16 et al. | https://opengameart.org/content/lpc-medieval-village-decorations | **CC-BY-SA 3.0 / GPL 3.0** — full list in assets/licenses/lpc_decorations_credits.txt | World deco replacements for the retired generated set |

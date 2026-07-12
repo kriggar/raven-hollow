@@ -1724,7 +1724,7 @@ func _run_env_hooks() -> void:
 	# RH_NOHUD: hide all UI + the player + vignette for a clean world capture
 	# (used to bake the minimap map textures).
 	if not OS.get_environment("RH_NOHUD").is_empty():
-		for grp: String in ["hud", "minimap", "bag_ui", "sheet_ui", "crafting_ui", "dialogue_ui", "player"]:
+		for grp: String in ["hud", "minimap", "micro_bar", "bag_ui", "sheet_ui", "crafting_ui", "dialogue_ui", "player"]:
 			for n: Node in get_tree().get_nodes_in_group(grp):
 				if n is CanvasItem:
 					(n as CanvasItem).visible = false
