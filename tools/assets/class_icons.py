@@ -32,9 +32,9 @@ PALETTES = {
 ICONS = [
     ("warrior", "cleave", "broad war axe mid-swing"),
     ("warrior", "shield_charge", "tower shield rammed forward with motion lines"),
-    ("warrior", "sunder", "spiked warhammer cracking a stone"),
-    ("warrior", "whirlwind", "two crossed flails spinning"),
-    ("warrior", "war_cry", "brass war horn sounding"),
+    ("warrior", "sunder", "warhammer head splitting an iron plate in half"),
+    ("warrior", "whirlwind", "two axes blurred in a circular spin trail"),
+    ("warrior", "war_cry", "carved battle horn with breath blast lines"),
     ("warrior", "iron_bulwark", "massive riveted iron kite shield"),
     ("warrior", "earthshaker", "great two-handed maul striking cracked ground"),
     ("rogue", "quick_slash", "slim curved dagger slashing"),
@@ -74,16 +74,16 @@ ICONS = [
     ("rookwarden", "raven_dash", "raven mid-dive, wings swept"),
     ("rookwarden", "hunters_mark", "raven skull brand glowing on bark"),
     ("rookwarden", "rook_companion", "perched rook with a keen eye"),
-    ("rookwarden", "arrow_storm", "sheaf of arrows falling from above"),
-    ("rookwarden", "storm_of_feathers", "whirl of black feathers"),
+    ("rookwarden", "arrow_storm", "seven arrows raining diagonally"),
+    ("rookwarden", "storm_of_feathers", "tornado of black raven feathers"),
     ("druid", "maul", "bear paw with unsheathed claws"),
-    ("druid", "gale", "spiral gust tearing leaves"),
+    ("druid", "gale", "three curved wind blades slicing sideways"),
     ("druid", "thornroot", "gnarled root coiled in briars"),
     ("druid", "stormbolt", "lightning splitting an old oak"),
     ("druid", "rejuvenation", "budding sprig in cupped light"),
     ("druid", "spirit_beast", "translucent stag spirit"),
     ("druid", "bear_form", "bear head roaring in profile"),
-    ("druid", "tempest", "storm cloud over bent grass"),
+    ("druid", "tempest", "forked lightning striking from a black storm cloud"),
 ]
 
 NEG = ("blurry, 3d, photo, text, letters, watermark, bright neon rainbow, ui frame, border, "
