@@ -1259,10 +1259,24 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 			"cabin":
 				_sprite(parent, "res://assets/art/world/snow/log_cabin.png", pos, true)
 			"dark_keep":
-				# Blue-black keep: the manor silhouette in Black Night's stone.
+				# Blue-black keep + two wings. Sitting-6: identical mirrored wings read
+				# as a glued copy — differ the wing sprite, tint and flip.
 				_sprite(parent, "res://assets/art/buildings/house_04.png", pos, true, Color(0.45, 0.48, 0.62))
-				_sprite(parent, "res://assets/art/buildings/house_02.png", pos + Vector2(-170, 60), true, Color(0.42, 0.45, 0.58))
-				_sprite(parent, "res://assets/art/buildings/house_02.png", pos + Vector2(170, 60), true, Color(0.42, 0.45, 0.58))
+				var kw_l := Sprite2D.new()
+				kw_l.texture = load("res://assets/art/buildings/house_02.png")
+				kw_l.position = pos + Vector2(-176, 54)
+				kw_l.modulate = Color(0.40, 0.44, 0.58)
+				kw_l.offset = Vector2(0, -kw_l.texture.get_height() * 0.5 + 10)
+				kw_l.y_sort_enabled = true
+				parent.add_child(kw_l)
+				var kw_r := Sprite2D.new()
+				kw_r.texture = load("res://assets/art/buildings/house_05.png")
+				kw_r.position = pos + Vector2(182, 68)
+				kw_r.flip_h = true
+				kw_r.modulate = Color(0.44, 0.46, 0.60)
+				kw_r.offset = Vector2(0, -kw_r.texture.get_height() * 0.5 + 10)
+				kw_r.y_sort_enabled = true
+				parent.add_child(kw_r)
 			"thread_lines":
 				# The Thread: filaments of blue light threading the stone (canon).
 				var tl_rng := RandomNumberGenerator.new()

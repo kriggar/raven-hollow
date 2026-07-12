@@ -3692,14 +3692,14 @@ const _ZONES := {
 		"tiles_w": 240, "tiles_h": 176,
 		"dusk_tint": Color(0.72, 0.74, 0.82),
 		"sea_edges": ["west"],
-		"river": [Vector2(0, 3900), Vector2(1200, 4100), Vector2(2300, 4400), Vector2(3000, 4900), Vector2(3150, 5632)],
+		"river": [Vector2(1500, 3760), Vector2(2400, 4060), Vector2(3050, 4560), Vector2(3260, 5150), Vector2(3180, 5632)],
 		"river_width": 110.0,
 		"river_color": Color(0.18, 0.23, 0.30, 0.9),
 		"player_spawn": Vector2(3840.0, 5452.0),
 		"tree_density": 0.7,
 		"roads": [
-			[Vector2(3840, 5452), Vector2(3877, 4134), Vector2(3840, 2816)],
-			[Vector2(7500, 2816), Vector2(5670, 2853), Vector2(3840, 2816)],
+			[Vector2(3840, 5620), Vector2(3720, 4600), Vector2(3960, 3600), Vector2(3800, 2816)],
+			[Vector2(7620, 2816), Vector2(6400, 2700), Vector2(5100, 2960), Vector2(3800, 2816)],
 		],
 		"landmarks": [
 			{"type": "ledger_tablet", "pos": Vector2(2611, 3266)},
