@@ -358,7 +358,12 @@ static func _build_river(parent: Node2D, def: Dictionary) -> void:
 	for p: Variant in pts2:
 		line.add_point(p as Vector2)
 	line.width = rw
-	line.default_color = def.get("river_color", Color(0.30, 0.24, 0.20, 0.92))
+	# RIVER SKIN v2 (sitting-6: rivers read as asphalt/vector splines) —
+	# tile real LPC water pixels down the ribbon; the def color becomes a tint.
+	line.texture = load("res://assets/art/terrain/lpc_river_tex.png")
+	line.texture_mode = Line2D.LINE_TEXTURE_TILE
+	var rc: Color = def.get("river_color", Color(0.30, 0.24, 0.20, 0.92))
+	line.default_color = Color(rc.r * 1.35 + 0.25, rc.g * 1.35 + 0.25, rc.b * 1.35 + 0.25, rc.a)
 	line.joint_mode = Line2D.LINE_JOINT_ROUND
 	line.begin_cap_mode = Line2D.LINE_CAP_NONE
 	line.end_cap_mode = Line2D.LINE_CAP_NONE
@@ -393,6 +398,37 @@ static func _build_river(parent: Node2D, def: Dictionary) -> void:
 	var tw := parent.create_tween().set_loops()
 	tw.tween_property(sheen, "default_color:a", 0.16, 2.2)
 	tw.tween_property(sheen, "default_color:a", 0.07, 2.6)
+	# BRIDGES (sitting-6: roads cross rivers with no ford) - stone deck at every
+	# road x river segment intersection, rotated to the road heading.
+	var deck_tex: Texture2D = load("res://assets/art/world/coast/grey_128x32.png")
+	for road_v: Variant in def.get("roads", []):
+		var rpts: Array = road_v
+		for ri in range(rpts.size() - 1):
+			var a1: Vector2 = rpts[ri]
+			var a2: Vector2 = rpts[ri + 1]
+			for si in range(pts2.size() - 1):
+				var b1: Vector2 = pts2[si]
+				var b2: Vector2 = pts2[si + 1]
+				var hit: Variant = Geometry2D.segment_intersects_segment(a1, a2, b1, b2)
+				if hit == null:
+					continue
+				var deck := Sprite2D.new()
+				deck.texture = deck_tex
+				deck.position = hit
+				deck.rotation = (a2 - a1).angle()
+				deck.scale = Vector2((rw * 1.5) / 128.0, 2.6)
+				deck.z_index = -6
+				parent.add_child(deck)
+				var rdir: Vector2 = (a2 - a1).normalized()
+				var rperp: Vector2 = Vector2(-rdir.y, rdir.x)
+				for side in [-1.0, 1.0]:
+					var rl := Line2D.new()
+					rl.add_point(hit as Vector2 - rdir * rw * 0.75 + rperp * 40.0 * side)
+					rl.add_point(hit as Vector2 + rdir * rw * 0.75 + rperp * 40.0 * side)
+					rl.width = 5.0
+					rl.default_color = Color(0.30, 0.24, 0.18)
+					rl.z_index = -5
+					parent.add_child(rl)
 
 
 static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = false) -> Array[Rect2]:
