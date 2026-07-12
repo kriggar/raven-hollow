@@ -48,6 +48,10 @@ const MAP_TABLES := {
 	# Blestem is the dusk-locked black city — dry canon mood; ridge-biome snow
 	# drifting through it read wrong (sitting note 2026-07-12).
 	"blestem": [[Type.FOG, 5], [Type.CLEAR, 3], [Type.STORM, 1]],
+	# The Orange Fog IS the zone (canon) — fog dominant, never bare-clear for long.
+	"orange_fog": [[Type.FOG, 8], [Type.CLEAR, 1], [Type.RAIN, 1]],
+	"salt_fens": [[Type.FOG, 4], [Type.CLEAR, 4], [Type.RAIN, 2]],
+	"drowned_quarter": [[Type.RAIN, 4], [Type.FOG, 3], [Type.CLEAR, 3]],
 	"town": [[Type.CLEAR, 6], [Type.RAIN, 2], [Type.FOG, 1]],
 	"wilderness": [[Type.CLEAR, 4], [Type.RAIN, 2], [Type.FOG, 2], [Type.STORM, 1], [Type.SNOW, 1]],
 }
