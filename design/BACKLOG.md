@@ -221,6 +221,17 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    (Fantasy UI Borders for panels, LPC buildings/terrain, DungeonCrawl creature/props), interim placeholder
    replacements (towers, harbor smalls), zone-by-zone Witchbrook densification with FREE art only.
 
+126. EXTRACTION WAVES 2 (2026-07-12, Fable, commits through 774a35e) — DONE:
+   castle kit v2 (clean composites: gothic cathedral tower per capital, cone-roof round tower,
+   recolored square tower, gatehouse; 13 watchtower sites promoted off house_06); LPC dead-tree
+   variety (deadforest/bog tree sets); giant stitched stump (stump=clearcut scatter, trunk_hollow);
+   19-marker LPC grave pool replaces two-stone loop; PHYSICS PROP ART WIRED (placeholder Polygon2D
+   quads killed in all 39 zone spawn rings); cargo/hook_crate/ledger_tablet ColorRects -> Szadi/Cainos
+   sprites; 31 mount icons + 6 faction emblems (game-icons CC-BY, credited; stable + reputation UI
+   render them; RH_PANEL=reputation hook). Werewolf in-world proof shot landed (bloodroad).
+   NEXT: game-icons item-family icons, LPC Terrains v7 autotile road v3, harbor smalls, per-zone
+   Witchbrook densification (the standing core mission).
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish
