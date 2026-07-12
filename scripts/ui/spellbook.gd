@@ -990,6 +990,12 @@ func _mk_button(text: String, cb: Callable) -> Panel:
 
 func _icon_for(d: Dictionary) -> Texture2D:
 	var icon: String = str(d.get("icon", ""))
+	# capstone talent nodes nest their granted ability (which carries the icon)
+	if icon == "" and d.has("ability"):
+		icon = str((d.get("ability") as Dictionary).get("icon", ""))
+	# last resort: a baked tile named after the node id (icons_items/)
+	if icon == "" and d.has("id"):
+		icon = "pixel:" + str(d.get("id"))
 	if icon.begins_with("pixel:"):
 		var id: String = icon.trim_prefix("pixel:")
 		return _pixel_icon(id)

@@ -164,4 +164,10 @@ static func get_tex(icon_id: String) -> Texture2D:
 
 
 static func has_icon(icon_id: String) -> bool:
-	return REGISTRY.has(icon_id.trim_prefix("pixel:"))
+	var id: String = icon_id.trim_prefix("pixel:")
+	if REGISTRY.has(id):
+		return true
+	# flat-dir bakes count too (icons_class thematic kit, icons_items hint tiles)
+	if ResourceLoader.exists("res://assets/art/icons_class/%s.png" % id):
+		return true
+	return ResourceLoader.exists("res://assets/art/icons_items/%s.png" % id)
