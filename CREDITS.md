@@ -46,3 +46,5 @@ All via OpenGameArt.org.
 | [LPC] Medieval Village Decorations (freekit crops: wells, fountain, lamp posts, lanterns, stalls, graveyard kit, statues, stocks, gallows, wheels) | bluecarrot16 et al. | https://opengameart.org/content/lpc-medieval-village-decorations | **CC-BY-SA 3.0 / GPL 3.0** — full list in assets/licenses/lpc_decorations_credits.txt | World deco replacements for the retired generated set |
 
 | Kenney Fantasy UI Borders (panel chrome) | Kenney | https://kenney.nl/assets/fantasy-ui-borders | **CC0** | Gold-baked ninepatch frame on all 26 panel surfaces |
+
+| LPC Castle Mega Pack (dark set crops: towers, spire, keep wall) | Sharm, Lanea Zimmerman et al. | https://opengameart.org/content/castle-mega-pack | **CC-BY-SA 3.0 / GPL** — see pack page | Gothic capital walls + towers (freekit/castle_*) |

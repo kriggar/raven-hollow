@@ -1617,6 +1617,10 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/props/cainos_prop_08.png", "pos": Vector2(6450, 5263)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5060, 3500)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5180, 4600)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_tower_sq.png", "pos": Vector2(5393, 6270)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_keep_wall.png", "pos": Vector2(5407, 5929)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_spire.png", "pos": Vector2(5410, 5588)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_tower_rd.png", "pos": Vector2(4838, 4676)},
 		],
 		"warm_patches": [Vector2(5120, 5660)],
 		"vignettes": [
@@ -2163,6 +2167,11 @@ const _ZONES := {
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5060, 3700)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5180, 4400)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "light": 0.55, "pos": Vector2(5100, 5100)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_tower_sq.png", "pos": Vector2(1635, 3784)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_keep_wall.png", "pos": Vector2(1946, 3774)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_tower_rd.png", "pos": Vector2(2242, 3786)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_spire.png", "pos": Vector2(2869, 4387)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_keep_wall.png", "pos": Vector2(3215, 4390)},
 		],
 		"warm_patches": [Vector2(5480, 3520)],   # the Spire's base... it is warm
 		"vignettes": [
@@ -2621,6 +2630,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/world/freekit/font_bath.png", "pos": Vector2(5297, 1967)},
 			{"type": "deco_anim", "tex": "res://assets/art/world/civic/torch_anim_strip.png", "frames": 4, "fps": 8, "pos": Vector2(7500, 6713), "light": 0.4},
 			{"type": "deco", "tex": "res://assets/art/world/freekit/lantern_lit.png", "pos": Vector2(4960, 2153)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_keep_wall.png", "pos": Vector2(5429, 1350)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_tower_sq.png", "pos": Vector2(5414, 1691)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_keep_wall.png", "pos": Vector2(4798, 2329)},
 		],
 		"warm_patches": [Vector2(5120, 2660)],
 		"vignettes": [
@@ -3850,6 +3862,9 @@ const _ZONES := {
 			{"type": "deco", "tex": "res://assets/art/buildings/house_06.png", "pos": Vector2(4886, 6636)},
 			{"type": "deco", "tex": "res://assets/art/props/cainos_prop_24.png", "pos": Vector2(5287, 6056)},
 			{"type": "deco", "tex": "res://assets/art/props/cainos_prop_31.png", "pos": Vector2(5325, 5933)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_tower_rd.png", "pos": Vector2(5432, 6843)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_keep_wall.png", "pos": Vector2(5442, 6608)},
+			{"type": "deco", "tex": "res://assets/art/world/freekit/castle_spire.png", "pos": Vector2(4858, 5590)},
 		],
 		"warm_patches": [],
 		"vignettes": [
