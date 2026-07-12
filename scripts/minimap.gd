@@ -61,7 +61,7 @@ const DEFAULT_BOUNDS := Rect2(0.0, 0.0, 2240.0, 1600.0)  # TownBuilder 70x50 @32
 
 ## Minimap frame geometry (640x360 design space, top-right).
 const MARGIN: float = 8.0
-const MAP_SIZE: float = 64.0
+const MAP_SIZE: float = 70.0
 const RIM_PAD: float = 5.0
 const FRAME: float = MAP_SIZE + RIM_PAD * 2.0  # 74
 const CLOCK_H: float = 12.0
@@ -250,6 +250,18 @@ func _build_frame() -> void:
 	rim.modulate = FRAME_TINT
 	rim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	frame.add_child(rim)
+
+	# WoW-professional round minimap: opaque-corner ring mask over the square
+	# map view (gold ring + N marker baked into the texture).
+	var ring := TextureRect.new()
+	ring.name = "Ring"
+	ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ring.texture = load("res://assets/art/ui/minimap_ring.png")
+	ring.stretch_mode = TextureRect.STRETCH_SCALE
+	ring.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	ring.position = Vector2(RIM_PAD, RIM_PAD)
+	ring.size = Vector2(MAP_SIZE, MAP_SIZE)
+	frame.add_child(ring)
 
 	_clock = Label.new()
 	_clock.name = "Clock"
