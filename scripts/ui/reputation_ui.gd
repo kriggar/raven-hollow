@@ -122,7 +122,7 @@ func _add_faction_row(fid: String) -> void:
 	var row := _row_container()
 
 	# Emblem badge (placeholder colored glyph; Fable pixel art at em.path later).
-	_add_badge(row, Vector2(4.0, 5.0), em)
+	_add_badge(row, Vector2(4.0, 5.0), em, fid)
 
 	# Faction name + race / capital subtitle.
 	var name_lbl := _mk_label(str(f.get("name", fid)), 12, em_color(em.get("fg", PARCHMENT)))
@@ -156,7 +156,21 @@ func _add_faction_row(fid: String) -> void:
 
 # --- little builders --------------------------------------------------------
 
-func _add_badge(row: Control, pos: Vector2, em: Dictionary) -> void:
+func _add_badge(row: Control, pos: Vector2, em: Dictionary, fid: String = "") -> void:
+	# UNIQUE ICON LAW: baked faction emblem when present (icons_factions/)
+	var art: String = "res://assets/art/icons_factions/%s.png" % fid
+	if fid != "" and ResourceLoader.exists(art):
+		var ic := TextureRect.new()
+		ic.texture = load(art)
+		ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		ic.position = pos
+		ic.size = Vector2(32.0, 32.0)
+		ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(ic)
+		ic.add_child(_rect_border(Vector2(32.0, 32.0), em_color(em.get("fg", GOLD))))
+		return
 	var box := ColorRect.new()
 	box.color = em_color(em.get("bg", SLOT_BG))
 	box.position = pos

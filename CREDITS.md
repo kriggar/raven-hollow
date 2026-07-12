@@ -53,3 +53,9 @@ All via OpenGameArt.org.
 - Source: OpenGameArt "LPC grave markers rework" (scout round 2, `_downloads/scout_2026_07/church_grave/lpc_grave_markers/`)
 - License: CC-BY-SA 3.0 / GPL 3.0 (LPC standard dual license; see pack attribution.png)
 - Usage: 19 markers + monument extracted to `assets/art/world/freekit/graves/`; drawn by the `graves` landmark pool in zone_builder.
+
+## game-icons.net glyphs (mount icons + faction emblems)
+- Source: game-icons.net PNG archive (mass library `_downloads/mass_2026_07/oga_ui_icons/game_icons_net/`)
+- License: CC-BY 3.0 — attribution required
+- Authors used: Lorc, Delapouite, Skoll, Caro Asercion, DarkZaitzev, Pierre Leducq (per-file paths in the bake maps)
+- Usage: 31 mount icons (`assets/art/icons_mounts/`) and 6 faction emblems (`assets/art/icons_factions/`), recolored + composited on dark-vignette tiles.

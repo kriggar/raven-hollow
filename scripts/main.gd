@@ -743,6 +743,11 @@ func _qa_open_panel(pname: String) -> void:
 			if msys2 != null and msys2.has_method("open_stable"):
 				msys2.call("open_stable", _player)
 			return
+		"reputation":
+			var fsys: Node = get_node_or_null("/root/FactionSystem")
+			if fsys != null and fsys.has_method("open_reputation"):
+				fsys.call("open_reputation", _player)
+			return
 		"socketing":
 			var rsys: Node = get_node_or_null("/root/RunewordSystem")
 			if rsys != null and rsys.has_method("open_socketing"):
