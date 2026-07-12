@@ -25,6 +25,10 @@ CLASSES = {
     "ambience": (["assets/audio/ambience/*.ogg"], (-30.0, -14.0), True),
     "weather":  (["assets/audio/weather/*.ogg"],  (-30.0, -12.0), True),
     "vo":       (["assets/vo/*/*.ogg"],           (-25.0, -13.0), False),
+    # 2026-07-12 coverage fix: UI cues + world SFX were outside every glob
+    # (guarded-silent gap-fill audit) — LUFS window wide (short one-shots).
+    "ui":       (["audio/ui/*.ogg"],               (-40.0, -8.0),  False),
+    "sfx":      (["assets/audio/sfx/*.ogg"],       (-40.0, -8.0),  False),
 }
 PEAK_CEILING_DBFS = -0.2   # anything hotter risks clipping on cheap DACs
 MIN_DURATION_S = 0.15

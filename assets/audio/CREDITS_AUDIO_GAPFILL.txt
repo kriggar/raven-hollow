@@ -1,0 +1,102 @@
+AUDIO GAP-FILL CREDITS (Backlog #86 UI SFX layer -- audio/ui/*.ogg)
+All entries verified-free at download time (2026-07-12). Each line:
+file -- title -- author -- source URL -- license.
+All files edited (mono mixdown, silence trim, duration cap <0.6 s, fades,
+peak normalize to <= -1 dBFS, OGG Vorbis re-encode).
+
+audio/ui/click.ogg -- "metalClick" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (pack License.txt: "License (Creative Commons Zero, CC0) ... Credit (Kenney or www.kenney.nl) would be nice but is not mandatory.")
+audio/ui/hover.ogg -- "cloth4" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/confirm.ogg -- "bookPlace3" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/cancel.ogg -- "cloth2" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/open_panel.ogg -- "bookOpen" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/close_panel.ogg -- "bookClose" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/equip.ogg -- "beltHandle2" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/error.ogg -- "chop" from RPG Audio, pitched down ~15% -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/purchase.ogg -- "handleCoins" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/page_turn.ogg -- "bookFlip2" from RPG Audio -- Kenney Vleugels (Kenney.nl) -- https://kenney.nl/assets/rpg-audio -- CC0 1.0 (same pack license as above)
+audio/ui/level_up_chime.ogg -- "Pleasing Bell Sound Effect" (pleasing-bell.wav) -- Spring Spring -- https://opengameart.org/content/pleasing-bell-sound-effect -- CC0 (page license: "CC0")
+audio/ui/quest_accept.ogg -- mix of "bookFlip3" from RPG Audio (Kenney Vleugels, https://kenney.nl/assets/rpg-audio, CC0 1.0) + "Pleasing Bell Sound Effect" (Spring Spring, https://opengameart.org/content/pleasing-bell-sound-effect, CC0) -- both CC0, no attribution required
+
+Source pack downloads (kept for provenance):
+- Kenney RPG Audio: https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip
+- OGA pleasing-bell.wav: https://opengameart.org/sites/default/files/pleasing-bell.wav
+
+AUDIO GAP-FILL CREDITS (Music Director state beds -- assets/audio/music/state_*.ogg)
+All entries verified-free at download time (2026-07-12). Each line:
+file -- title -- author -- source URL -- license (license line quoted from the source page).
+All files edited (edge-silence trim, seamless-loop conditioning via equal-power
+crossfade and/or seam rotation, tiling to >= 60 s, loudness normalize to -18 LUFS,
+peak cap 0.90 pre-encode, chunked OGG Vorbis re-encode).
+
+assets/audio/music/state_explore.ogg -- "Mysterious Ambience (song21)" -- cynicmusic (Alex Smith, pixelsphere.org) -- https://opengameart.org/content/mysterious-ambience-song21 -- CC0 (page lists "CC0" among CC-BY 3.0 / CC-BY-SA 3.0 / GPL 3.0; used under CC0). Courtesy credit per author's note: "credit pixelsphere.org".
+assets/audio/music/state_combat.ogg -- "Battle Theme A" -- cynicmusic (Alex Smith, pixelsphere.org) -- https://opengameart.org/content/battle-theme-a -- CC0 (page license: "CC0"). Courtesy credit per author's attribution note: "cynicmusic.com pixelsphere.org".
+assets/audio/music/state_tension.ogg -- "Dark Ambience Loop" -- Iwan Gabovitch (qubodup) -- https://opengameart.org/content/dark-ambience-loop -- CC-BY 3.0 (also offered under GPL 3.0 / GPL 2.0; used under CC-BY 3.0). ATTRIBUTION REQUIRED -- include in the game credits screen: "Dark Ambience Loop by Iwan Gabovitch http://opengameart.org/users/qubodup".
+assets/audio/music/state_town.ogg -- "Medieval: The Old Tower Inn" (loop version, Loop_The_Old_Tower_Inn.wav) -- RandomMind -- https://opengameart.org/content/medieval-the-old-tower-inn -- CC0 (page license: "CC0"; author: "My CC0 track available in full and loop version, you can freely use for any purpose!").
+assets/audio/music/state_night.ogg -- "Crystal Cave (song18)" -- cynicmusic (Alex Smith, pixelsphere.org) -- https://opengameart.org/content/crystal-cave-song18 -- CC0 (page license: "CC0"). Courtesy credit per author's note: "Credit pixelsphere.org / The Cynic Project".
+assets/audio/music/state_boss.ogg -- "Boss Battle Theme" (CleytonRX - Battle RPG Theme Var_0.ogg) -- Cleyton Kauffman -- https://opengameart.org/content/boss-battle-theme -- CC0 (page license: "CC0"). Courtesy credit per author's note: "Music by Cleyton Kauffman - https://soundcloud.com/cleytonkauffman".
+assets/audio/music/state_victory.ogg -- "Medieval: Victory Theme" (victory.wav) -- RandomMind -- https://opengameart.org/content/medieval-victory-theme -- CC0 (page license: "CC0"; author's note: "Credits are appreciated but not required!").
+
+Source file downloads (kept for provenance):
+- https://opengameart.org/sites/default/files/song21_0.mp3
+- https://opengameart.org/sites/default/files/battleThemeA.mp3
+- https://opengameart.org/sites/default/files/Iwan%20Gabovitch%20-%20Dark%20Ambience%20Loop.flac
+- https://opengameart.org/sites/default/files/Loop_The_Old_Tower_Inn.wav
+- https://opengameart.org/sites/default/files/song18_0.mp3
+- https://opengameart.org/sites/default/files/CleytonRX%20-%20Battle%20RPG%20Theme%20Var_0.ogg
+- https://opengameart.org/sites/default/files/victory.wav
+
+AUDIO GAP-FILL CREDITS (zone explore beds + death sting + cinematic horn)
+All entries verified-free at download time (2026-07-12). Each line:
+file -- title -- author -- source URL -- license (license label quoted from the source page).
+All files edited (segment extraction where noted, fades, loudness normalize into the
+-24..-11 LUFS music window, peak cap 0.80 pre-encode / <= -1 dBFS decoded,
+OGG Vorbis re-encode via ffmpeg; loop seam verified head/tail delta <= 8 dB).
+
+assets/audio/music/z17_blestem_explore.ogg -- "Dark Ambient Loop 13" (Dark _Atmosphere13_Looped_24bit.wav, seamless loop, 1:55) -- MundoSound (Lucas Calvo, mundosound.com) -- https://opengameart.org/content/dark-ambient-loop-13 -- CC-BY 3.0 (page license labels: "CC-BY 3.0", "OGA-BY 3.0"; used under CC-BY 3.0). ATTRIBUTION REQUIRED -- include in the game credits screen: "Dark Ambient Loop 13 by MundoSound (Lucas Calvo) - https://opengameart.org/content/dark-ambient-loop-13".
+assets/audio/music/z22_sangeroasa_explore.ogg -- "Horde War Drums loop" (horde_war_drums_by_william_hector.wav, 130 BPM drums loop) -- William Hector -- https://opengameart.org/content/horde-war-drums-loop -- CC0 (page license: "CC0"). No attribution required; courtesy credit appreciated.
+assets/audio/music/z27_greyhollow_explore.ogg -- "Vampire's Piano" (vampires_piano_1.wav, "Sad piano music for dark fantasy (Loop-able)") -- TAD -- https://opengameart.org/content/vampires-piano -- CC0 (page license: "CC0"). No attribution required.
+assets/audio/music/sting_death.ogg -- "Tolling Bell SFX" (Distant tolling bell_3.mp3; single toll cut to 1.92 s with release fade) -- Fun Gi Development -- https://opengameart.org/content/tolling-bell-sfx -- CC-BY 3.0 (page license: "CC-BY 3.0"). ATTRIBUTION REQUIRED -- include in the game credits screen: "Tolling Bell SFX by Fun Gi Development - https://opengameart.org/content/tolling-bell-sfx".
+assets/audio/sfx/horn.ogg -- "War Horns" (war_horns.wav; first two horn swells 0.12-6.0 s extracted, mono) -- Eldritch Grim -- https://opengameart.org/content/war-horns -- CC0 (page license: "CC0"). No attribution required.
+
+Source file downloads (kept for provenance):
+- https://opengameart.org/sites/default/files/Dark%20_Atmosphere13_Looped_24bit.wav
+- https://opengameart.org/sites/default/files/horde_war_drums_by_william_hector.wav
+- https://opengameart.org/sites/default/files/vampires_piano_1.wav
+- https://opengameart.org/sites/default/files/Distant%20tolling%20bell_3.mp3
+- https://opengameart.org/sites/default/files/war_horns.wav
+
+AUDIO GAP-FILL CREDITS (Music Director biome beds -- assets/audio/music/bed_*.ogg)
+All entries verified-free at download time (2026-07-12). Each line:
+file -- title -- author -- source URL -- license (license label quoted from the source page).
+All files edited: seamless-loop conditioning via equal-power crossfade (loop cut
+or 60 s window extraction), layer mixing where noted, loudness normalize to
+~-20 LUFS (music window -24..-11), lookahead peak limit 0.79 pre-encode
+(decoded peak <= -1.05 dBFS), OGG Vorbis q2 re-encode via ffmpeg, loop seam
+verified head/tail delta <= 8 dB.
+
+assets/audio/music/bed_bog.ogg -- "Swamp Environment Audio" (swamp.ogg, 60 s window) -- LokiF -- https://opengameart.org/content/swamp-environment-audio -- CC0 (page license: "CC0"). No attribution required.
+assets/audio/music/bed_cave.ogg -- "Loopable Dungeon Ambience" (dungeon_ambient_1.ogg) -- JaggedStone -- https://opengameart.org/content/loopable-dungeon-ambience -- CC0 (page license: "CC0"). No attribution required.
+assets/audio/music/bed_deadforest.ogg -- "Creepy Forest (F)" (forest.ogg, 60 s window) -- Brandon Morris (Augmentality), submitted by HaelDB -- https://opengameart.org/content/creepy-forest-f -- CC0 (page license labels: "CC0" and "OGA-BY 3.0"; used under CC0). Courtesy credit appreciated per author's comment.
+assets/audio/music/bed_farmland.ogg -- "Birds and Wind - Ambient" (Birds and Wind - Ambient.ogg, 60 s window) -- Spring Spring -- https://opengameart.org/content/birds-and-wind-ambient-birds-wind-and-synth -- CC0 (page license: "CC0"). No attribution required.
+assets/audio/music/bed_moor.ogg -- "Wind Loop" (wind-01.ogg; loop edit by AntumDeluge of a recording by Jonathan Shaw) -- InspectorJ / AntumDeluge -- https://opengameart.org/content/wind-loop -- CC-BY 3.0 (page license: "Creative Commons Attribution (CC BY) version 3.0"). ATTRIBUTION REQUIRED -- include in the game credits screen: "Wind (loop edit by AntumDeluge), created by Jonathan Shaw (InspectorJ): https://freesound.org/people/InspectorJ/sounds/376415/".
+assets/audio/music/bed_port.ogg -- "Sea and river wave sounds" (VistulaShort.mp3, 60 s window of Vistula river waves) -- RandomMind -- https://opengameart.org/content/sea-and-river-wave-sounds -- CC0 (page license: "CC0"). No attribution required.
+assets/audio/music/bed_ridge.ogg -- layered mix: "wind1" pack file wind5.wav (Luke.RUSTLTD, https://opengameart.org/content/wind1, CC0 -- page license: "CC0") + "wind whoosh loop" (SketchMan3, https://opengameart.org/content/wind-whoosh-loop, CC0 -- page license: "CC0"). No attribution required.
+assets/audio/music/bed_steppe.ogg -- layered mix: "wind1" pack file wind2.wav (Luke.RUSTLTD, https://opengameart.org/content/wind1, CC0 -- page license: "CC0") + "Crickets Ambient Noise - loopable" (crickets.mp3, Wolfgang_ / recording credited to Ted Kerr, https://opengameart.org/content/crickets-ambient-noise-loopable, CC0 -- page license: "CC0"). No attribution required.
+assets/audio/music/bed_tundra.ogg -- "wind1" pack file wind4.wav (synthesized wind, PureData) -- Luke.RUSTLTD -- https://opengameart.org/content/wind1 -- CC0 (page license: "CC0"). No attribution required.
+assets/audio/music/bed_volcanic.ogg -- "Lava loop" (LavaLoop.wav from lavaloop.zip, ambient lava sound from the game Yo Frankie!) -- Blender Foundation, submitted by Lamoot -- https://opengameart.org/content/lava-loop -- CC-BY 3.0 (page license: "CC-BY 3.0", http://creativecommons.org/licenses/by/3.0/). ATTRIBUTION REQUIRED -- include in the game credits screen: "Lava loop by Blender Foundation (Yo Frankie! / apricot.blender.org) - https://opengameart.org/content/lava-loop".
+assets/audio/music/bed_wilds.ogg -- "Forest Ambience" (Forest_Ambience.mp3, seamless loop) -- TinyWorlds -- https://opengameart.org/content/forest-ambience -- CC0 (page license: "CC0"). No attribution required.
+
+Source file downloads (kept for provenance):
+- https://opengameart.org/sites/default/files/swamp.ogg
+- https://opengameart.org/sites/default/files/dungeon_ambient_1_0.ogg
+- https://opengameart.org/sites/default/files/forest.ogg
+- https://opengameart.org/sites/default/files/Birds%20and%20Wind%20-%20Ambient_1.ogg
+- https://opengameart.org/sites/default/files/wind-01_0.ogg
+- https://opengameart.org/sites/default/files/VistulaShort_0.mp3
+- https://opengameart.org/sites/default/files/wind%20woosh%20loop.ogg
+- https://opengameart.org/sites/default/files/wind2.wav
+- https://opengameart.org/sites/default/files/wind4.wav
+- https://opengameart.org/sites/default/files/wind5.wav
+- https://opengameart.org/sites/default/files/crickets_1.mp3
+- https://opengameart.org/sites/default/files/lavaloop.zip
+- https://opengameart.org/sites/default/files/Forest_Ambience.mp3
