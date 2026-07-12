@@ -120,15 +120,15 @@ static func build(parent: Node2D) -> Dictionary:
 	# RAVEN HOLLOW V2 (owner 2026-07-12): the town rebuilt from scratch on the
 	# generated library — same anatomy (NPC/station/gate anchors byte-equal),
 	# new hand-authored dressing throughout. Old builders retired below.
-	_plaza_v2(props, decals, lights, rng)
-	_inn_v2(props, decals, lights)
-	_smithy_v2(props, decals, lights)
-	_market_v2(props, decals, lights)
-	_cottages_v2(props, decals, lights)
-	_farmstead_v2(props, decals, rng)
-	_graveyard_v2(props, decals, lights, rng)
-	_walls_v2(props, lights)
-	_vignettes_v2(props, decals, lights)
+	# OWNER RULING 2026-07-12: generated assets REJECTED for the town read —
+	# v1 (Szadi/LPC/Cainos human-made art) restored; v3 free-pack rebuild next.
+	_plaza(props, decals, lights, rng)
+	_inn(props, decals, lights)
+	_smithy(props, decals, lights)
+	_market(props, decals, lights)
+	_cottages(props, decals)
+	_farmstead(props, decals, rng)
+	_graveyard(props, decals, lights, rng)
 	_vegetation(props, decals, rng, path_cells)
 
 	# 2026-07 bustle pass: border forest, orchard, garden plots, roadside

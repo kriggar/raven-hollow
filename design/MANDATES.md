@@ -1,5 +1,15 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**THE FREE-ASSETS-ONLY PAINTING LAW (2026-07-12, owner — SUPERSEDES the
+generate-first pipeline):** the generated library FAILED the owner's eye on
+the rebuilt town ("this is shit") — machine sprites pass the gate alone but
+read as a style collage together. GENERATION IS STOPPED. All level painting
+uses FREE HUMAN-MADE assets only (verified licenses): the Szadi anchor packs,
+LPC families, Hyptosis/Mage City, Cainos, craftpix, the 31 scout ACCEPTs.
+Generated art may remain only where the owner has not rejected it and nothing
+free fits; every repaint replaces it. The 30k queue is dead; the extraction
+pipeline (crop → trim → promote → credit) is the asset source now.
+
 **THE UNIQUE ICON LAW (2026-07-12, owner):** EVERYTHING in the game carries
 its OWN unique icon — every panel, mount, item, spell, currency, buff. No
 letter-in-a-box placeholders, no shared icons. Microbar panel icons shipped
