@@ -486,9 +486,19 @@ func _grant_title(actor: Node, id: String) -> void:
 func open_panel(actor: Node = null, side: String = "center") -> void:
 	if actor == null:
 		actor = _player()
+	# Never sit on the titles picker: split the screen when both are up.
+	if side == "center":
+		var ts: Node = get_node_or_null("/root/TitleSystem")
+		if ts != null and ts.has_method("is_picker_open") and bool(ts.call("is_picker_open")):
+			side = "left"
+			ts.call("open_picker", actor, "right")
 	_ensure_panel()
 	if _panel != null and _panel.has_method("present"):
 		_panel.call("present", self, actor, side)
+
+
+func is_panel_open() -> bool:
+	return _panel != null and is_instance_valid(_panel) and bool(_panel.get("is_open"))
 
 
 func close_panel() -> void:

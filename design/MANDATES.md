@@ -1,5 +1,12 @@
 # OWNER MANDATES — master ledger (single source of truth)
 
+**THE UNIQUE ICON LAW (2026-07-12, owner):** EVERYTHING in the game carries
+its OWN unique icon — every panel, mount, item, spell, currency, buff. No
+letter-in-a-box placeholders, no shared icons. Microbar panel icons shipped
+(15, generated + gate-passed); NEXT: 31 mount icons, 6 faction emblems,
+remaining item families. Icons generate in the anchor palette at 24px-readable
+scale.
+
 **THE PIPELINE ORDER LAW (2026-07-11, owner, refined same day):** three stages,
 in order: (1) GENERATE + SCOUT all assets to completion (30k library + verified
 -free packs); (2) THE FULL-LIBRARY DEFECT CHECK — every asset re-swept for

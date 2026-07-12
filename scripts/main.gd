@@ -591,6 +591,10 @@ func _spawn_ui() -> void:
 
 	var pause := PauseMenu.new()
 	add_child(pause)
+	# THE MICRO BAR (#owner 2026-07-12): WoW-style quick-access strip with a
+	# unique icon per panel. Self-contained CanvasLayer; guarded routes.
+	var micro: CanvasLayer = load("res://scripts/ui/micro_bar.gd").new()
+	add_child(micro)
 	pause.quit_to_menu.connect(_on_quit_to_menu)
 	# The central Menu hub (backtick `, or the pause menu's "Menu" row): the one
 	# discoverable front door to every feature panel (auction/rep/mounts/pvp/etc.),
@@ -714,6 +718,64 @@ func _post_build_map(map_id: String, world: Node2D, built: Dictionary) -> void:
 ## NPCs) at anchors derived from the zone's own buildings/camps/waystations —
 ## before this, world-zone NPCs were announced but never instanced. Guarded:
 ## missing system or zero anchors -> silent skip (no regression).
+## QA: open one named panel. Group-first (self-registered UIs), autoload
+## fallbacks. Unknown names warn — the sweep continues.
+func _qa_open_panel(pname: String) -> void:
+	match pname:
+		"bag", "sheet":
+			_force_open_ui()
+			return
+		"options":
+			var osys: Node = get_node_or_null("/root/OptionsSystem")
+			if osys != null and osys.has_method("open"):
+				osys.call("open")
+			return
+		"map":
+			var msys: Node = get_node_or_null("/root/MapSystem")
+			if msys != null and msys.has_method("open"):
+				msys.call("open")
+			return
+		"spellbook", "talents":
+			_open_spellbook(pname)
+			return
+		"mounts":
+			var msys2: Node = get_node_or_null("/root/MountSystem")
+			if msys2 != null and msys2.has_method("open_stable"):
+				msys2.call("open_stable", _player)
+			return
+		"socketing":
+			var rsys: Node = get_node_or_null("/root/RunewordSystem")
+			if rsys != null and rsys.has_method("open_socketing"):
+				rsys.call("open_socketing", _player)
+			return
+		"achievements", "quest":
+			# present(system, actor) pattern panels
+			var sys_names := {"achievements": "AchievementSystem", "quest": "QuestSystem"}
+			var grp_names := {"achievements": "achievements_ui", "quest": "quest_ui"}
+			var sysn: Node = get_node_or_null("/root/" + str(sys_names[pname]))
+			for n: Node in get_tree().get_nodes_in_group(str(grp_names[pname])):
+				if pname == "quest" and n.has_method("present_log"):
+					n.call("present_log", sysn, _player)
+					return
+				elif n.has_method("present"):
+					n.call("present", sysn, _player)
+					return
+			return
+		"crafting":
+			for n: Node in get_tree().get_nodes_in_group("profession_crafting_ui"):
+				if n.has_method("open"):
+					n.call("open")
+					return
+			return
+	for grp: String in [pname + "_ui", pname, pname + "_menu"]:
+		for n: Node in get_tree().get_nodes_in_group(grp):
+			for m: String in ["open", "toggle", "open_menu", "toggle_menu", "open_panel"]:
+				if n.has_method(m):
+					n.call(m)
+					return
+	push_warning("main.gd: RH_PANEL — no panel matched '%s'." % pname)
+
+
 func _spawn_zone_cast(world: Node2D, map_id: String, built: Dictionary) -> void:
 	var sysn: Node = get_node_or_null("/root/NPCCastSystem")
 	if sysn == null or not sysn.has_method("cast_for_zone"):
@@ -1635,6 +1697,16 @@ func _run_env_hooks() -> void:
 		if inv_v is Inventory:
 			for part: String in equip_env.split(",", false):
 				(inv_v as Inventory).equip_from_bag(int(part.strip_edges()))
+	# RH_PANEL=<name[,name...]>: force-open named UI panels (panel-polish QA
+	# sweeps; overlap matrix shots). Group-registered panels + autoload opens.
+	var panel_env: String = OS.get_environment("RH_PANEL")
+	if not panel_env.is_empty():
+		for _i in range(30):
+			await get_tree().process_frame
+		for pname: String in panel_env.split(",", false):
+			_qa_open_panel(pname.strip_edges())
+		for _i in range(20):
+			await get_tree().process_frame
 	# RH_GRANT=<id,id,...>: drop items into the bag (QA: verify icons/tooltips
 	# for crafting materials, consumables, recipe scrolls, quest items).
 	var grant_env: String = OS.get_environment("RH_GRANT")

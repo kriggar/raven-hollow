@@ -325,6 +325,10 @@ func _next_toast() -> void:
 	if _toast_q.is_empty():
 		_toasting = false
 		return
+	# NO-OVERLAP LAW: hold the toast while big panels are up; retry shortly.
+	if is_picker_open() or _any_panel_open():
+		get_tree().create_timer(2.0).timeout.connect(_next_toast, CONNECT_ONE_SHOT)
+		return
 	_toasting = true
 	var id: String = str(_toast_q.pop_front())
 	var d: Dictionary = title_def(id)
@@ -333,7 +337,7 @@ func _next_toast() -> void:
 	_toast_banner.position.y = _hidden_y()
 	_toast_banner.visible = true
 	var tw := create_tween()
-	tw.tween_property(_toast_banner, "position:y", 10.0, 0.28) \
+	tw.tween_property(_toast_banner, "position:y", 288.0, 0.28) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_interval(_toast_hold)
 	tw.tween_property(_toast_banner, "position:y", _hidden_y(), 0.24) \
@@ -341,13 +345,37 @@ func _next_toast() -> void:
 	tw.tween_callback(_next_toast)
 
 
+func _any_panel_open() -> bool:
+	var pvp: Node = get_node_or_null("/root/PvPSystem")
+	if pvp != null and pvp.has_method("is_panel_open") and bool(pvp.call("is_panel_open")):
+		return true
+	for grp: String in ["bag_ui", "sheet_ui", "quest_ui", "achievements_ui", "reputation_ui"]:
+		for n: Node in get_tree().get_nodes_in_group(grp):
+			var vis: Variant = n.get("is_open")
+			if vis != null and bool(vis):
+				return true
+	return false
+
+
 func _hidden_y() -> float:
-	return -60.0
+	# below the viewport; the toast rises to sit above the hotbar (panels
+	# live top/center — the old top slide covered their headers)
+	return 370.0
 
 
 # --- Picker UI --------------------------------------------------------------
 
+func is_picker_open() -> bool:
+	return _panel != null and is_instance_valid(_panel) and bool(_panel.get("is_open"))
+
+
 func open_picker(actor: Node = null, side: String = "center") -> void:
+	# Never sit on the PvP panel: if the Accord Roll is open, split the screen.
+	if side == "center":
+		var pvp: Node = get_node_or_null("/root/PvPSystem")
+		if pvp != null and pvp.has_method("is_panel_open") and bool(pvp.call("is_panel_open")):
+			side = "right"
+			pvp.call("open_panel", actor, "left")
 	if actor == null:
 		actor = _player()
 	_ensure_panel()
