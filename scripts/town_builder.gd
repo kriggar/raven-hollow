@@ -117,13 +117,18 @@ static func build(parent: Node2D) -> Dictionary:
 	props.add_child(_sprite(PROPS + "cainos_prop_36.png", Vector2(430, 1230), 2.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_13.png", Vector2(300, 1198), 2.0))
 	_world_border(props)
-	_plaza(props, decals, lights, rng)
-	_inn(props, decals, lights)
-	_smithy(props, decals, lights)
-	_market(props, decals, lights)
-	_cottages(props, decals)
-	_farmstead(props, decals, rng)
-	_graveyard(props, decals, lights, rng)
+	# RAVEN HOLLOW V2 (owner 2026-07-12): the town rebuilt from scratch on the
+	# generated library — same anatomy (NPC/station/gate anchors byte-equal),
+	# new hand-authored dressing throughout. Old builders retired below.
+	_plaza_v2(props, decals, lights, rng)
+	_inn_v2(props, decals, lights)
+	_smithy_v2(props, decals, lights)
+	_market_v2(props, decals, lights)
+	_cottages_v2(props, decals, lights)
+	_farmstead_v2(props, decals, rng)
+	_graveyard_v2(props, decals, lights, rng)
+	_walls_v2(props, lights)
+	_vignettes_v2(props, decals, lights)
 	_vegetation(props, decals, rng, path_cells)
 
 	# 2026-07 bustle pass: border forest, orchard, garden plots, roadside
@@ -1032,3 +1037,193 @@ static func _world_border(props: Node2D) -> void:
 	props.add_child(_rect_collider(Vector2(w * 0.5, h - 4.0), Vector2(w, 8.0), Vector2.ZERO))
 	props.add_child(_rect_collider(Vector2(4.0, h * 0.5), Vector2(8.0, h), Vector2.ZERO))
 	props.add_child(_rect_collider(Vector2(w - 4.0, h * 0.5), Vector2(8.0, h), Vector2.ZERO))
+
+
+# ==================== RAVEN HOLLOW V2 (Fable, 2026-07-12) ====================
+## The town rebuilt on the owner's generated library. Every district keeps its
+## gameplay anchor (npc_spawns/stations above) and gets library dressing:
+## props OWNED, clusters that tell one story, lights only where life burns.
+
+const GENW := "res://assets/art/world/gen/"
+const GEN2 := "res://assets/art/world/gen2/"
+const CIVIC := "res://assets/art/world/civic/"
+
+
+static func _kit(props: Node2D, path: String, pos: Vector2, skirt: float = 4.0,
+		scale: float = 1.0, flip: bool = false) -> void:
+	if not ResourceLoader.exists(path):
+		return
+	var spr := _sprite(path, pos, skirt)
+	spr.scale = Vector2.ONE * scale
+	spr.flip_h = flip
+	props.add_child(spr)
+
+
+static func _torch(props: Node2D, lights: Node2D, pos: Vector2) -> void:
+	var tex_path := CIVIC + "torch_anim_strip.png"
+	if not ResourceLoader.exists(tex_path):
+		return
+	var atex: Texture2D = load(tex_path)
+	var fw: int = atex.get_width() / 4
+	var sfr := SpriteFrames.new()
+	sfr.set_animation_speed("default", 8.0)
+	for fi in range(4):
+		var at := AtlasTexture.new()
+		at.atlas = atex
+		at.region = Rect2(fi * fw, 0, fw, atex.get_height())
+		sfr.add_frame("default", at)
+	var spr := AnimatedSprite2D.new()
+	spr.sprite_frames = sfr
+	spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	spr.position = pos
+	spr.offset = Vector2(0, -atex.get_height() * 0.5 + 4)
+	spr.y_sort_enabled = true
+	spr.play("default")
+	props.add_child(spr)
+	lights.add_child(_light(pos + Vector2(0, -14), Color(1.0, 0.62, 0.28), 0.55, 60.0))
+
+
+## Plaza: the well at the heart, marble watchers, lantern ring, benches.
+static func _plaza_v2(props: Node2D, decals: Node2D, lights: Node2D, _rng: RandomNumberGenerator) -> void:
+	var c := Vector2(1120.0, 860.0)
+	_kit(props, GENW + "village_well_1000.png", c, 6.0)
+	_kit(props, CIVIC + "mc_statue_marble.png", c + Vector2(-92, -40), 4.0)
+	_kit(props, CIVIC + "mc_statue_marble.png", c + Vector2(92, -40), 4.0, 1.0, true)
+	_kit(props, CIVIC + "mc_urn.png", c + Vector2(-64, 44), 3.0)
+	_kit(props, CIVIC + "mc_urn.png", c + Vector2(64, 44), 3.0, 1.0, true)
+	_kit(props, GEN2 + "f_bench.png", c + Vector2(-120, 20), 3.0)
+	_kit(props, GEN2 + "f_bench.png", c + Vector2(120, 20), 3.0, 1.0, true)
+	_kit(props, GENW + "signpost_1000.png", c + Vector2(30, 78), 3.0)
+	for off: Vector2 in [Vector2(-140, -76), Vector2(140, -76), Vector2(-140, 84), Vector2(140, 84)]:
+		_kit(props, GENW + "lantern_post_1000.png", c + off, 3.0)
+		lights.add_child(_light(c + off + Vector2(0, -26), Color(1.0, 0.72, 0.38), 0.5, 70.0))
+
+
+## The Ember Hearth: guild-scale inn, working yard, the hearth station fire.
+static func _inn_v2(props: Node2D, decals: Node2D, lights: Node2D) -> void:
+	var door := Vector2(1120.0, 560.0)
+	_kit(props, CIVIC + "szfl_house_03.png", door + Vector2(0, -36), 8.0, 0.72)
+	# hearth station fire (station at 1120,620)
+	_kit(props, GEN2 + "l_cauldron.png", Vector2(1120, 616), 3.0)
+	_kit(props, GENW + "iron_brazier_1000.png", Vector2(1152, 622), 3.0)
+	lights.add_child(_light(Vector2(1136, 606), Color(1.0, 0.58, 0.25), 0.75, 85.0))
+	# owned yard: kegs to the door, cart at the lane, wood for the fires
+	_kit(props, GENW + "barrel_stack_1000.png", door + Vector2(-86, 46), 3.0)
+	_kit(props, GEN2 + "f_barrel.png", door + Vector2(-56, 58), 3.0)
+	_kit(props, GENW + "crate_stack_1000_0.png", door + Vector2(84, 50), 3.0)
+	_kit(props, GENW + "hand_cart_1000.png", door + Vector2(148, 66), 4.0)
+	_kit(props, GENW + "woodpile_1000.png", door + Vector2(-140, 60), 3.0)
+	_kit(props, GENW + "water_trough_1000_0.png", door + Vector2(52, 84), 3.0)
+	_kit(props, GEN2 + "f_jug.png", door + Vector2(-30, 76), 2.0)
+	_torch(props, lights, door + Vector2(-64, 8))
+	_torch(props, lights, door + Vector2(64, 8))
+
+
+## Goran's smithy: red stone house, the forge that feeds the anvil station.
+static func _smithy_v2(props: Node2D, decals: Node2D, lights: Node2D) -> void:
+	var anchor := Vector2(1515.0, 760.0)
+	_kit(props, GEN2 + "b_house_red.png", anchor, 6.0)
+	_kit(props, GENW + "blacksmith_forge_1000.png", Vector2(1585, 848), 5.0)
+	_kit(props, GENW + "anvil_stump_1000.png", Vector2(1552, 878), 3.0)
+	lights.add_child(_light(Vector2(1585, 838), Color(1.0, 0.5, 0.2), 0.8, 90.0))
+	_kit(props, GEN2 + "ore_cart.png", anchor + Vector2(96, 84), 4.0)
+	_kit(props, GEN2 + "cart_wheel.png", anchor + Vector2(-72, 96), 2.0)
+	_kit(props, GENW + "woodpile_8919.png", anchor + Vector2(-104, 70), 3.0)
+	_kit(props, GENW + "iron_brazier_8919.png", anchor + Vector2(58, 108), 3.0)
+	lights.add_child(_light(anchor + Vector2(58, 96), Color(1.0, 0.6, 0.28), 0.4, 55.0))
+	_kit(props, GENW + "stone_cairn_1000.png", anchor + Vector2(140, 40), 2.0)
+
+
+## Market row: three stalls, produce, the merchant's clutter.
+static func _market_v2(props: Node2D, decals: Node2D, lights: Node2D) -> void:
+	var c := Vector2(843.0, 790.0)
+	_kit(props, GENW + "market_stall_1000.png", c + Vector2(-70, 0), 5.0)
+	_kit(props, GENW + "market_stall_8919.png", c + Vector2(40, -6), 5.0)
+	_kit(props, GENW + "market_stall_16838.png", c + Vector2(150, 2), 5.0)
+	_kit(props, GENW + "grain_sacks_1000.png", c + Vector2(-104, 52), 3.0)
+	_kit(props, GEN2 + "wheelbarrow_produce.png", c + Vector2(-16, 58), 3.0)
+	_kit(props, GENW + "crate_stack_8919_0.png", c + Vector2(86, 56), 3.0)
+	_kit(props, GENW + "barrel_stack_8919.png", c + Vector2(178, 48), 3.0)
+	_kit(props, GEN2 + "f_jug.png", c + Vector2(120, 66), 2.0)
+	_kit(props, GENW + "hand_cart_8919.png", c + Vector2(-150, 70), 4.0, 1.0, true)
+	_torch(props, lights, c + Vector2(-120, -18))
+	_torch(props, lights, c + Vector2(200, -14))
+
+
+## Cottage lanes: the three roof colourways + stone cottage, fenced yards.
+static func _cottages_v2(props: Node2D, decals: Node2D, lights: Node2D) -> void:
+	var rows: Array = [
+		[CIVIC + "szh_town_purple.png", Vector2(700, 1120), false],
+		[CIVIC + "szh_town_slate.png", Vector2(905, 1165), true],
+		[CIVIC + "szh_town_red.png", Vector2(1300, 1120), false],
+		[GEN2 + "b_cottage_stone.png", Vector2(1495, 1165), true],
+	]
+	for row: Array in rows:
+		_kit(props, str(row[0]), row[1] as Vector2, 6.0, 1.0, bool(row[2]))
+	# owned yards
+	_kit(props, GEN2 + "r_flower_box.png", Vector2(742, 1176), 2.0)
+	_kit(props, GENW + "wooden_fence_1000.png", Vector2(648, 1176), 3.0)
+	_kit(props, GENW + "wooden_fence_8919.png", Vector2(968, 1214), 3.0)
+	_kit(props, GEN2 + "f_jug.png", Vector2(940, 1222), 2.0)
+	_kit(props, GENW + "woodpile_1000.png", Vector2(1252, 1180), 3.0)
+	_kit(props, GEN2 + "wheelbarrow.png", Vector2(1352, 1186), 3.0)
+	_kit(props, GENW + "dead_bush_1000.png", Vector2(1540, 1222), 2.0)
+	_kit(props, GEN2 + "d_lantern.png", Vector2(1075, 1150), 3.0)
+	lights.add_child(_light(Vector2(1075, 1136), Color(1.0, 0.7, 0.36), 0.45, 60.0))
+
+
+## Farmstead: green barn, hay, trough — Anica's ground (farmer 1565,1300).
+static func _farmstead_v2(props: Node2D, decals: Node2D, _rng: RandomNumberGenerator) -> void:
+	var c := Vector2(1620.0, 1250.0)
+	_kit(props, GEN2 + "b_barn_green.png", c, 6.0)
+	_kit(props, GENW + "hay_bale_1000.png", c + Vector2(-84, 62), 3.0)
+	_kit(props, GENW + "hay_bale_1000.png", c + Vector2(-40, 84), 3.0)
+	_kit(props, GENW + "water_trough_1000_0.png", c + Vector2(70, 70), 3.0)
+	_kit(props, GENW + "grain_sacks_8919.png", c + Vector2(104, 52), 3.0)
+	_kit(props, GEN2 + "wheelbarrow.png", c + Vector2(-130, 84), 3.0, 1.0, true)
+	_kit(props, GENW + "wooden_fence_1000.png", c + Vector2(-160, 40), 3.0)
+	_kit(props, GENW + "tree_stump_1000.png", c + Vector2(150, 100), 2.0)
+
+
+## Graveyard NW: the chapel, ordered rows gone crooked, the wraith that
+## watches, one open grave (canon: the grave out of line).
+static func _graveyard_v2(props: Node2D, decals: Node2D, lights: Node2D, rng: RandomNumberGenerator) -> void:
+	var c := Vector2(430.0, 420.0)
+	_kit(props, GENW + "gothic_chapel_1000.png", c + Vector2(30, -80), 8.0)
+	_torch(props, lights, c + Vector2(-16, -28))
+	var stones: Array = [GENW + "grave_cross_1000.png", GENW + "gravestone_1000.png",
+			GENW + "grave_cross_8919.png", GENW + "gravestone_8919.png"]
+	for gy in range(3):
+		for gx in range(4):
+			var p := c + Vector2(-90 + gx * 52 + rng.randf_range(-7, 7), 60 + gy * 56 + rng.randf_range(-5, 5))
+			_kit(props, str(stones[(gx + gy) % stones.size()]), p, 3.0)
+	_kit(props, GEN2 + "coffin_open.png", c + Vector2(150, 92), 3.0)
+	_kit(props, GEN2 + "wraith_statue.png", c + Vector2(-136, 34), 4.0)
+	_kit(props, GEN2 + "candle_rock.png", c + Vector2(160, 148), 2.0)
+	lights.add_child(_light(c + Vector2(160, 140), Color(1.0, 0.65, 0.3), 0.35, 45.0))
+	_kit(props, GENW + "dead_bush_1000.png", c + Vector2(-60, 200), 2.0)
+	_kit(props, GENW + "dead_bush_1000.png", c + Vector2(120, 196), 2.0, 1.0, true)
+
+
+## Watchtowers hold the corners; wall stubs flank the east gate road.
+static func _walls_v2(props: Node2D, lights: Node2D) -> void:
+	_kit(props, GENW + "watchtower_1000.png", Vector2(180, 180), 6.0, 0.9)
+	_kit(props, GENW + "watchtower_8919.png", Vector2(2060, 200), 6.0, 0.9)
+	_kit(props, GENW + "watchtower_1000.png", Vector2(2040, 1400), 6.0, 0.9, true)
+	_torch(props, lights, Vector2(2060, 260))
+	_kit(props, GENW + "stone_wall_8919.png", Vector2(2170, 700), 4.0)
+	_kit(props, GENW + "stone_wall_8919.png", Vector2(2170, 930), 4.0, 1.0, true)
+
+
+## Story beats: the roadside shrine south, the crossroads cross, and what the
+## crows found behind the smithy (never explained — the scene IS the sentence).
+static func _vignettes_v2(props: Node2D, decals: Node2D, lights: Node2D) -> void:
+	_kit(props, GENW + "roadside_shrine_1000.png", Vector2(1080, 1420), 4.0)
+	_kit(props, GEN2 + "d_candle_pot.png", Vector2(1108, 1438), 2.0)
+	lights.add_child(_light(Vector2(1094, 1414), Color(1.0, 0.68, 0.32), 0.35, 50.0))
+	_kit(props, GEN2 + "t_cross_post.png", Vector2(1560, 1010), 3.0)
+	# behind the smithy: the pool, the skull, the chest nobody claims
+	_decal(decals, GEN2 + "blood_pool.png", Vector2(1680, 700))
+	_kit(props, GEN2 + "skull_small.png", Vector2(1706, 712), 2.0)
+	_kit(props, GEN2 + "c_chest.png", Vector2(1730, 668), 3.0)
+	_kit(props, GENW + "mossy_rock_1000.png", Vector2(1660, 736), 2.0)
