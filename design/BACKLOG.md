@@ -249,8 +249,13 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    DEAD-ZONE DENSIFICATION DONE (2026-07-12 late): wilderness street-grid -> winding forest trails;
    eastern_ridges NW (+13); bloodroad south (+12); whisper_passes spread (+13); salt_fens E/S (+10);
    canal_maze (+10). morven keep wings differentiated + river/roads re-pathed. thread_lines glow.
-   STILL OPEN: riverfork sailboat fringe hand-pass; canal/dock crossing art; per-zone prefab-variety
-   deepening; a fresh sitting on the post-fix world to confirm.
+   CONFIRMATION SITTING #7 (16 re-swept fixed zones): 11 CLEAN / 4 MINOR / 1 broken. Fixed the 3 real
+   ones: transcub gift_field grown 4x2->12x7+band+dressing; eastern_ridges new ridge_wall landmark
+   (scaled boulder spines, 4 diagonals); orange_fog permanent fog via new def "ambient" flag +
+   _build_ambient (static tint + drifting haze, survives clear weather roll) — extended to salt_fens
+   + the_gift. sailboat water fringe hue-keyed. canal crossings confirmed already bridged.
+   #127 effectively DONE. Remaining = optional prefab-variety deepening + a periodic fresh sitting.
+   Gallery artifact (all 41 zones + UI): https://claude.ai/code/artifact/b3120f8a-ef3a-427f-af38-f3d91ccb8682
 
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
