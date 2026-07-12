@@ -2293,9 +2293,9 @@ const _ZONES := {
 		"dusk_tint": Color(0.70, 0.72, 0.80),
 		"player_spawn": Vector2(3580.0, 220.0),
 		"tree_density": 1.0,
-		"roads": [[Vector2(3580, 140), Vector2(3540, 1600), Vector2(3580, 2800), Vector2(3540, 4200)]],
+		"roads": [[Vector2(3580, 140), Vector2(3470, 1400), Vector2(3620, 2500), Vector2(3480, 3600), Vector2(3560, 5000)]],
 		"landmarks": [
-			{"type": "gift_field", "pos": Vector2(4372, 2355), "w": 2, "h": 1},
+			{"type": "gift_field", "pos": Vector2(4372, 2355), "w": 4, "h": 2},
 			{"type": "manor", "pos": Vector2(2800, 2000)},        # ivy-eaten temple
 			{"type": "manor", "pos": Vector2(4400, 3000)},        # ivy-eaten temple
 			{"type": "graves", "pos": Vector2(2500, 2400), "count": 8},
