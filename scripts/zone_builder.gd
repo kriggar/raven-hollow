@@ -1423,13 +1423,29 @@ static func _build_vignettes(parent: Node2D, def: Dictionary) -> void:
 				for i in range(3):
 					_atlas(parent, R_MOUND, pos + Vector2(-46 + i * 46, 30), Color(0.75, 0.78, 0.85))
 			"boot_prints":
-				for i in range(12):
-					var bp := ColorRect.new()
-					bp.color = Color(0.30, 0.26, 0.22, 0.7)
-					bp.size = Vector2(6, 10)
-					bp.position = pos + Vector2((i % 6) * 14, int(float(i) / 6.0) * 18)
-					bp.z_index = -6
-					parent.add_child(bp)
+				# SITTING-6: the 6x10 rect grid read as a ghost fence. Real tracks:
+				# alternating left/right heel+toe stains along a walking line.
+				var bp_dir: float = fmod(absf(pos.x * 0.017 + pos.y * 0.013), TAU)
+				var bp_fwd := Vector2(cos(bp_dir), sin(bp_dir))
+				var bp_side := Vector2(-bp_fwd.y, bp_fwd.x)
+				for i in range(10):
+					var step: Vector2 = pos + bp_fwd * (float(i) * 15.0) + bp_side * (5.0 if i % 2 == 0 else -5.0)
+					var heel := Sprite2D.new()
+					heel.texture = _radial_tex()
+					heel.position = step
+					heel.scale = Vector2(0.045, 0.06)
+					heel.rotation = bp_dir
+					heel.modulate = Color(0.22, 0.18, 0.14, 0.55)
+					heel.z_index = -6
+					parent.add_child(heel)
+					var toe := Sprite2D.new()
+					toe.texture = _radial_tex()
+					toe.position = step + bp_fwd * 7.0
+					toe.scale = Vector2(0.03, 0.04)
+					toe.rotation = bp_dir
+					toe.modulate = Color(0.24, 0.20, 0.15, 0.5)
+					toe.z_index = -6
+					parent.add_child(toe)
 			"empty_stall":
 				_atlas(parent, Rect2(0, 928, 96, 31), pos, Color(0.92, 0.88, 0.8), true)
 				_dust_lines(parent, pos + Vector2(10, 26))
