@@ -228,22 +228,45 @@ static func _build_ground(rng: RandomNumberGenerator, path_cells: Dictionary) ->
 				coords = Vector2i(rng.randi_range(4, 7), rng.randi_range(0, 3))
 			layer.set_cell(Vector2i(x, y), 0, coords)
 
-	# Winding W->E dirt road (stone-slab-on-grass path tiles), a snake through the
-	# clearings, terminating at the west waystone (row 27 == WEST_ENTRY.y).
-	var strips: Array = [
-		Rect2i(2, 26, 16, 2),    # west entry -> first bend (through the hunter's-camp edge)
-		Rect2i(16, 18, 2, 10),   # bend north
-		Rect2i(16, 18, 18, 2),   # north leg (under the dolmen clearing)
-		Rect2i(32, 18, 2, 18),   # bend south
-		Rect2i(32, 34, 18, 2),   # central leg (through the wallow edge)
-		Rect2i(48, 22, 2, 14),   # bend north
-		Rect2i(48, 22, 21, 2),   # east leg -> far-east treeline
-		Rect2i(56, 12, 2, 11),   # spur north to the wolf den
-		Rect2i(54, 22, 2, 19),   # spur south to the orc camp
+	# SITTING-6: the axis-aligned slab strips read as a city street-grid. A
+	# hand-authored WINDING polyline (waystone -> camp -> dolmen -> wallow ->
+	# east treeline, with two spurs) painted as a soft 2-3 tile trodden band.
+	var trails: Array = [
+		[Vector2i(2, 27), Vector2i(9, 26), Vector2i(15, 24), Vector2i(20, 21),
+			Vector2i(26, 20), Vector2i(33, 22), Vector2i(40, 26), Vector2i(46, 30),
+			Vector2i(52, 31), Vector2i(60, 29), Vector2i(68, 27)],
+		[Vector2i(21, 21), Vector2i(23, 15), Vector2i(26, 10), Vector2i(30, 7)],
+		[Vector2i(52, 31), Vector2i(54, 38), Vector2i(56, 45), Vector2i(57, 51)],
 	]
-	for s: Rect2i in strips:
-		_paint_path(layer, rng, path_cells, s)
+	for trail_v: Variant in trails:
+		var trail: Array = trail_v
+		for ti in range(trail.size() - 1):
+			_paint_trail_seg(layer, rng, path_cells, trail[ti], trail[ti + 1])
 	return layer
+
+
+static func _paint_trail_seg(layer: TileMapLayer, rng: RandomNumberGenerator, path_cells: Dictionary, a: Vector2i, b: Vector2i) -> void:
+	var d := Vector2(b - a)
+	var steps: int = int(d.length()) + 1
+	for si in range(steps + 1):
+		var p := Vector2(a) + d * (float(si) / float(steps))
+		var cx: int = int(round(p.x))
+		var cy: int = int(round(p.y))
+		# a 2-3 wide band perpendicular to travel, edges feathered
+		var horiz: bool = absf(d.x) >= absf(d.y)
+		for off in range(-1, 2):
+			var cell := Vector2i(cx, cy + off) if horiz else Vector2i(cx + off, cy)
+			if off != 0 and rng.randf() < 0.35:
+				continue  # feathered edge, not a razor band
+			if cell.x < 0 or cell.y < 0 or cell.x >= WORLD_TILES_W or cell.y >= WORLD_TILES_H:
+				continue
+			var r: float = rng.randf()
+			var row: int = 4
+			if r >= 0.9: row = 7
+			elif r >= 0.75: row = 6
+			elif r >= 0.45: row = 5
+			layer.set_cell(cell, 0, Vector2i(rng.randi_range(0, 1), row))
+			path_cells[cell] = true
 
 
 static func _paint_path(layer: TileMapLayer, rng: RandomNumberGenerator, path_cells: Dictionary, rect: Rect2i) -> void:
