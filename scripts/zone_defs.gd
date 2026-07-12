@@ -1962,7 +1962,10 @@ const _ZONES := {
 			{"type": "signboard", "pos": Vector2(2457, 3153)},
 			{"type": "signboard", "pos": Vector2(2611, 2928)},
 			{"type": "rocks", "pos": Vector2(2000, 1600), "count": 8},
-			{"type": "stone_row", "pos": Vector2(1400, 900), "count": 7},
+			{"type": "ridge_wall", "pos": Vector2(600, 700), "count": 16, "angle": 22},
+			{"type": "ridge_wall", "pos": Vector2(3200, 1400), "count": 20, "angle": 8},
+			{"type": "ridge_wall", "pos": Vector2(5600, 3600), "count": 18, "angle": -14},
+			{"type": "ridge_wall", "pos": Vector2(1000, 4200), "count": 14, "angle": 30},
 			{"type": "stone_row", "pos": Vector2(2200, 1300), "count": 6},
 			{"type": "cairn", "pos": Vector2(1750, 1100)},
 			{"type": "cairn", "pos": Vector2(2650, 1850)},
@@ -2321,7 +2324,10 @@ const _ZONES := {
 		"tree_density": 1.0,
 		"roads": [[Vector2(3580, 140), Vector2(3470, 1400), Vector2(3620, 2500), Vector2(3480, 3600), Vector2(3560, 5000)]],
 		"landmarks": [
-			{"type": "gift_field", "pos": Vector2(4372, 2355), "w": 4, "h": 2},
+			{"type": "gift_field", "pos": Vector2(4200, 2200), "w": 12, "h": 7},
+			{"type": "gift_field", "pos": Vector2(4720, 2560), "w": 6, "h": 4},
+			{"type": "graves", "pos": Vector2(4480, 2440), "count": 5},
+			{"type": "bones", "pos": Vector2(4620, 2320)},
 			{"type": "manor", "pos": Vector2(2800, 2000)},        # ivy-eaten temple
 			{"type": "manor", "pos": Vector2(4400, 3000)},        # ivy-eaten temple
 			{"type": "graves", "pos": Vector2(2500, 2400), "count": 8},
@@ -4269,7 +4275,7 @@ const _ZONES := {
 		],
 	},
 	"orange_fog": {
-		"built": true,
+		"built": true, "ambient": "orange_fog",
 		"name": "The Orange Fog",
 		"continent": 2, "region": "coast", "biome": "deadforest",
 		"tiles_w": 224, "tiles_h": 160,

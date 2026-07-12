@@ -117,6 +117,8 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	_build_vignettes(parent, def)
 	_build_waystation(parent, def)
 	_build_border_wall(parent, rng, tiles_w, tiles_h, pal, def)
+	if def.has("ambient"):
+		_build_ambient(parent, rng, tiles_w, tiles_h, def)
 
 	_validate_forty_second_rule(def, tiles_w, tiles_h)
 
@@ -209,6 +211,8 @@ static func build_zone_staged(parent: Node2D, def: Dictionary) -> Dictionary:
 	if not _staged_ok(parent):
 		return {}
 	_build_border_wall(parent, rng, tiles_w, tiles_h, pal, def)
+	if def.has("ambient"):
+		_build_ambient(parent, rng, tiles_w, tiles_h, def)
 
 	_validate_forty_second_rule(def, tiles_w, tiles_h)
 
@@ -892,6 +896,23 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 				for i in range(int(lm.get("count", 4))):
 					_atlas(parent, R_STONE_TALL, pos + Vector2(i * 44, rng.randf_range(-6, 6)), Color(0.86, 0.88, 0.9), true)
 					_foot_type(parent, "stone_row", pos + Vector2(i * 44, 0.0))
+			"ridge_wall":
+				# A rock-wall spine: dense overlapping boulders along an authored heading,
+				# scaled big — gives ridge zones their name (sitting-7).
+				var rw_ang: float = deg_to_rad(float(lm.get("angle", 0.0)))
+				var rw_dir := Vector2(cos(rw_ang), sin(rw_ang))
+				var rw_n: int = int(lm.get("count", 10))
+				for i in range(rw_n):
+					var base: Vector2 = pos + rw_dir * float(i) * 46.0
+					for j in range(2):
+						var rk := Sprite2D.new()
+						rk.texture = load(PROPS + "cainos_prop_%02d.png" % rng.randi_range(33, 42))
+						rk.position = base + Vector2(rng.randf_range(-14, 14), rng.randf_range(-20, 20) + float(j) * 18.0)
+						rk.scale = Vector2.ONE * rng.randf_range(1.5, 2.4)
+						rk.modulate = Color(0.60, 0.58, 0.62)
+						rk.y_sort_enabled = true
+						parent.add_child(rk)
+					_foot_type(parent, "rocks", base)
 			"camp":
 				# char circle + stone ring ground the fire; bedrolls fan
 				# around it (a straight pale row read as grave plots).
@@ -1674,6 +1695,39 @@ static func _build_sea(parent: Node2D, w: int, h: int, def: Dictionary,
 
 
 ## Ring of edge forest with authored gaps at travel seams (gap rects in def).
+## Permanent atmosphere for zones whose identity IS a weather state (def
+## "ambient") — a static tint layer + drifting soft haze, so the mood holds
+## even when the weather roll is clear (sitting-7).
+static func _build_ambient(parent: Node2D, rng: RandomNumberGenerator, w: int, h: int, def: Dictionary) -> void:
+	var kind: String = str(def.get("ambient", ""))
+	var ww: float = w * TILE
+	var wh: float = h * TILE
+	var tint := Color(0.85, 0.55, 0.25, 0.16)
+	if kind == "fog":
+		tint = Color(0.72, 0.74, 0.70, 0.22)
+	elif kind == "orange_fog":
+		tint = Color(0.88, 0.52, 0.22, 0.20)
+	var haze := ColorRect.new()
+	haze.color = tint
+	haze.size = Vector2(ww, wh)
+	haze.z_index = 60
+	haze.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(haze)
+	var hcol := Color(0.90, 0.60, 0.30, 0.10) if kind == "orange_fog" else Color(0.80, 0.82, 0.80, 0.12)
+	for i in range(int((ww * wh) / 900000.0) + 6):
+		var blob := Sprite2D.new()
+		blob.texture = _radial_tex()
+		blob.position = Vector2(rng.randf_range(0, ww), rng.randf_range(0, wh))
+		blob.scale = Vector2(rng.randf_range(6, 12), rng.randf_range(3, 6))
+		blob.modulate = hcol
+		blob.z_index = 59
+		parent.add_child(blob)
+		var dtw := parent.create_tween().set_loops()
+		var dx: float = rng.randf_range(30, 80)
+		dtw.tween_property(blob, "position:x", blob.position.x + dx, rng.randf_range(9, 15))
+		dtw.tween_property(blob, "position:x", blob.position.x, rng.randf_range(9, 15))
+
+
 static func _build_border_wall(parent: Node2D, rng: RandomNumberGenerator, w: int, h: int,
 		pal: Dictionary, def: Dictionary) -> void:
 	var gaps: Array = def.get("border_gaps", [])
