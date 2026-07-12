@@ -1274,10 +1274,28 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					th.add_point(a)
 					th.add_point(a.lerp(b, 0.5) + Vector2(0, -14))
 					th.add_point(b)
-					th.width = 2.0
-					th.default_color = Color(0.45, 0.65, 1.0, 0.55)
-					th.z_index = 2
+					# SITTING-6: 1-2px hairlines read as debug vectors. Layered glow:
+					# soft wide halo under a bright core, plus filament lights.
+					var halo := Line2D.new()
+					for hp: Vector2 in [a, a.lerp(b, 0.5) + Vector2(0, -14), b]:
+						halo.add_point(hp)
+					halo.width = 7.0
+					halo.default_color = Color(0.35, 0.55, 0.95, 0.18)
+					halo.joint_mode = Line2D.LINE_JOINT_ROUND
+					halo.z_index = 2
+					parent.add_child(halo)
+					th.width = 3.0
+					th.default_color = Color(0.55, 0.75, 1.0, 0.6)
+					th.joint_mode = Line2D.LINE_JOINT_ROUND
+					th.z_index = 3
 					parent.add_child(th)
+					var tlight := PointLight2D.new()
+					tlight.position = a.lerp(b, 0.5)
+					tlight.texture = _radial_tex()
+					tlight.color = Color(0.5, 0.7, 1.0)
+					tlight.energy = 0.35
+					tlight.texture_scale = 1.2
+					parent.add_child(tlight)
 					for anchor: Vector2 in [a, b]:
 						var tp := Sprite2D.new()
 						tp.texture = load(PROPS + "cainos_prop_17.png")
