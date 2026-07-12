@@ -747,10 +747,26 @@ func marker_for(npc_id: String) -> String:
 
 
 func _refresh_markers() -> void:
+	# PERF: build the giver -> glyph map ONCE per refresh, not per-NPC.
+	# marker_for() re-scanned all ~1,100 quests for every NPC (384 x 1,100
+	# quest scans every 0.35s = a ~290ms stutter, 3x/sec). Now O(quests+npcs).
+	var glyphs: Dictionary = {}
+	var pl: Node = _player()
+	if pl != null:
+		# turn-ins take priority over fresh offers
+		for qid: String in available_quests(pl):
+			var giver: String = str(quest_def(qid).get("giver", ""))
+			if giver != "" and not glyphs.has(giver):
+				glyphs[giver] = "!"
+		for qid: String in active_quests(pl):
+			if is_ready(pl, qid):
+				var tnpc: String = turn_in_npc(qid)
+				if tnpc != "":
+					glyphs[tnpc] = "?"
 	for n: Node in get_tree().get_nodes_in_group("npcs"):
 		if not (n is Node2D):
 			continue
-		var glyph: String = marker_for(str(n.name))
+		var glyph: String = str(glyphs.get(str(n.name), ""))
 		var lbl: Label = (n as Node2D).get_node_or_null("QuestMarkerV2") as Label
 		# De-dup with the legacy Phase-C engine: this data-driven system is the
 		# canonical one (1,100+ quests vs the 5 hand-scripted). Where it has a
