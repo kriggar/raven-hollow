@@ -262,7 +262,7 @@ func _build_backdrop() -> void:
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(bg)
 	# Handcrafted kit (owner 2026-07-12): candlelit cathedral hall backdrop.
-	var hall_path := "res://assets/art/ui/kit/select_backdrop.png"
+	var hall_path := "res://assets/art/ui/select_backdrop_free.png"
 	if ResourceLoader.exists(hall_path):
 		var hall := TextureRect.new()
 		hall.texture = load(hall_path)
@@ -393,7 +393,7 @@ func _build_stage() -> void:
 
 	# Handcrafted stone dais (kit) — squashed for the 3/4 read; the old flat
 	# pill read as an empty box (sitting finding).
-	var dais_path := "res://assets/art/ui/kit/stone_dais.png"
+	var dais_path := "res://assets/art/props/cainos_prop_30.png"
 	if ResourceLoader.exists(dais_path):
 		var dais := TextureRect.new()
 		dais.texture = load(dais_path)
@@ -484,14 +484,7 @@ func _build_info_panel() -> void:
 	var pw: float = BASE_W - px - 12.0
 
 	var panel := NinePatchRect.new()
-	var kit_frame := "res://assets/art/ui/kit/panel_frame.png"
-	if ResourceLoader.exists(kit_frame):
-		panel.texture = load(kit_frame)
-		panel.patch_margin_left = 42
-		panel.patch_margin_right = 42
-		panel.patch_margin_top = 40
-		panel.patch_margin_bottom = 40
-	elif _panel_tex != null:
+	if _panel_tex != null:
 		panel.texture = _panel_tex
 		panel.patch_margin_left = 8
 		panel.patch_margin_right = 8

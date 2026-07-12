@@ -128,6 +128,11 @@ static var _cache: Dictionary = {}
 ## AtlasTexture for a registry id. Accepts "cleave" or "pixel:cleave".
 ## Unknown ids warn once and return null (callers show their placeholder).
 static func get_tex(icon_id: String) -> Texture2D:
+	# THEMATIC CLASS ICONS (owner 2026-07-12): a generated, class-palette icon
+	# in assets/art/icons_class/ wins over the Shikashi registry cell.
+	var class_icon: String = "res://assets/art/icons_class/%s.png" % icon_id
+	if ResourceLoader.exists(class_icon):
+		return load(class_icon) as Texture2D
 	var id: String = icon_id.trim_prefix("pixel:")
 	if _cache.has(id):
 		return _cache[id]

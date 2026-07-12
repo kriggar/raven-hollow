@@ -296,7 +296,7 @@ func _build_shell() -> void:
 
 	# Handcrafted kit (owner 2026-07-12): parchment sheet under the map art +
 	# compass rose ornament, WoW-atlas presentation.
-	var parch_path := "res://assets/art/ui/kit/parchment_tile.png"
+	var parch_path := "res://assets/art/ui/parchment_free.png"
 	if ResourceLoader.exists(parch_path) and _sheet != null:
 		var parch := TextureRect.new()
 		parch.name = "ParchmentBack"
@@ -310,7 +310,7 @@ func _build_shell() -> void:
 		var parent0: Node = _sheet.get_parent()
 		parent0.add_child(parch)
 		parent0.move_child(parch, _sheet.get_index())
-	var rose_path := "res://assets/art/ui/kit/mini_ring.png"
+	var rose_path := ""  # generated rose retired (free-assets law)
 	if ResourceLoader.exists(rose_path):
 		var rose := TextureRect.new()
 		rose.name = "CompassRose"

@@ -11,7 +11,19 @@ const VIEW := Vector2(640.0, 360.0)
 const BTN := 15.0
 const GAP := 1.0
 const COLS := 8
-const ICON_DIR := "res://assets/art/ui/micro/"
+const SHIKASHI := "res://assets/art/icons_pixel/shikashi_v2.png"
+## FREE-ASSETS LAW: unique icons come from Shikashi's Fantasy Icons (free,
+## CC-BY via game-icons.net designs) — 32px atlas cells, one per panel.
+const CELLS := {
+	"character": Vector2i(3, 7), "spellbook": Vector2i(7, 4),
+	"talents": Vector2i(5, 12), "quests": Vector2i(10, 13),
+	"map": Vector2i(12, 13), "achievements": Vector2i(7, 12),
+	"reputation": Vector2i(2, 6), "mounts": Vector2i(10, 19),
+	"titles": Vector2i(5, 8), "pvp": Vector2i(9, 5),
+	"calendar": Vector2i(10, 21), "crafting": Vector2i(4, 4),
+	"codex": Vector2i(7, 13), "options": Vector2i(10, 11),
+	"menu": Vector2i(0, 10),
+}
 const GOLD := Color(0.85, 0.68, 0.35)
 const PARCHMENT := Color(0.87, 0.82, 0.72)
 const BOX_BG := Color(0.10, 0.08, 0.065, 0.94)
@@ -100,10 +112,13 @@ func _build() -> void:
 		frame.add_theme_stylebox_override("panel", fsb)
 		cell.add_child(frame)
 
-		var icon_path: String = ICON_DIR + action + ".png"
-		if ResourceLoader.exists(icon_path):
+		if CELLS.has(action) and ResourceLoader.exists(SHIKASHI):
+			var at := AtlasTexture.new()
+			at.atlas = load(SHIKASHI)
+			var icell: Vector2i = CELLS[action]
+			at.region = Rect2(icell.x * 32, icell.y * 32, 32, 32)
 			var icon := TextureRect.new()
-			icon.texture = load(icon_path)
+			icon.texture = at
 			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
