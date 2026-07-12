@@ -59,3 +59,8 @@ All via OpenGameArt.org.
 - License: CC-BY 3.0 — attribution required
 - Authors used: Lorc, Delapouite, Skoll, Caro Asercion, DarkZaitzev, Pierre Leducq (per-file paths in the bake maps)
 - Usage: 31 mount icons (`assets/art/icons_mounts/`) and 6 faction emblems (`assets/art/icons_factions/`), recolored + composited on dark-vignette tiles.
+
+## LPC Terrains v7 (organic road lanes)
+- Source: OpenGameArt "LPC Terrains" (mass library `_downloads/mass_2026_07/oga_lpc_bundles/lpc_terrains/`)
+- License: CC-BY-SA 3.0 / GPL 3.0 (LPC standard)
+- Usage: dirt-on-grass transition group keyed to alpha (`assets/art/terrain/lpc_road_organic.png`); grass-family zone roads render as organic-edge lanes (zone_builder ROADS v3).

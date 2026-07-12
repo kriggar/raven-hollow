@@ -463,12 +463,56 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 			for jx in range(2):
 				for jy in range(2):
 					cells[jc + Vector2i(jx, jy)] = true
-	for c_v: Variant in cells:
-		# one dominant fill + rare worn variants — equal odds checkerboarded
-		var roll: float = rng.randf()
-		var variant: int = 0 if roll < 0.7 else (1 if roll < 0.9 else 2)
-		layer.set_cell(c_v as Vector2i, 1, Vector2i(variant, 0))
-	parent.add_child(layer)
+	# ROADS v3: grass-family zones draw ONLY the organic LPC lane; the flat
+	# slab stays for packed/snow/sand/cave palettes where dirt-on-grass lies.
+	var pal_v3: String = str(def.get("palette", def.get("biome", "wilds")))
+	var organic_only: bool = not (_PALETTES.get(pal_v3, {}) as Dictionary).has("ground_sheet") and not ["tundra", "volcanic", "cave", "blestem", "steppe"].has(pal_v3)
+	if not organic_only:
+		for c_v: Variant in cells:
+			# one dominant fill + rare worn variants — equal odds checkerboarded
+			var roll: float = rng.randf()
+			var variant: int = 0 if roll < 0.7 else (1 if roll < 0.9 else 2)
+			layer.set_cell(c_v as Vector2i, 1, Vector2i(variant, 0))
+		parent.add_child(layer)
+	# ROADS v3 (Fable, LPC Terrains v7): organic keyed-alpha dirt edges over
+	# the slab so lanes sit IN the ground - edge tile picked by 4-neighborhood.
+	var ots := TileSet.new()
+	ots.tile_size = Vector2i(TILE, TILE)
+	var osrc := TileSetAtlasSource.new()
+	osrc.texture = load("res://assets/art/terrain/lpc_road_organic.png")
+	osrc.texture_region_size = Vector2i(TILE, TILE)
+	for oy in range(5):
+		for ox in range(3):
+			osrc.create_tile(Vector2i(ox, oy))
+	ots.add_source(osrc, 0)
+	var olayer := TileMapLayer.new()
+	olayer.name = "RoadOrganic"
+	olayer.rendering_quadrant_size = 32
+	olayer.tile_set = ots
+	olayer.z_index = -9
+	var pal2: String = str(def.get("palette", def.get("biome", "wilds")))
+	if organic_only:
+		for c_v: Variant in cells:
+			var oc: Vector2i = c_v
+			var nn: bool = cells.has(oc + Vector2i(0, -1))
+			var ss: bool = cells.has(oc + Vector2i(0, 1))
+			var ww: bool = cells.has(oc + Vector2i(-1, 0))
+			var ee: bool = cells.has(oc + Vector2i(1, 0))
+			var tilec := Vector2i(1, 2)
+			if nn and ss and ww and ee:
+				tilec = Vector2i(1, 2)
+			elif not nn and ss:
+				tilec = Vector2i(0, 1) if not ww else (Vector2i(2, 1) if not ee else Vector2i(1, 1))
+			elif nn and not ss:
+				tilec = Vector2i(0, 3) if not ww else (Vector2i(2, 3) if not ee else Vector2i(1, 3))
+			elif nn and ss and not ww:
+				tilec = Vector2i(0, 2)
+			elif nn and ss and not ee:
+				tilec = Vector2i(2, 2)
+			elif not nn and not ss:
+				tilec = Vector2i(1, 1)
+			olayer.set_cell(oc, 0, tilec)
+	parent.add_child(olayer)
 	# WITCHBROOK PASS (Fable): the pale slab read as a debug strip (sitting-3
 	# top defect). Knock its value toward the biome's earth and lay wheel-wear
 	# stains down the lane so the road looks travelled.

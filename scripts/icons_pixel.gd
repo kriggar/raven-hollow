@@ -134,6 +134,11 @@ static func get_tex(icon_id: String) -> Texture2D:
 	if ResourceLoader.exists(class_icon):
 		return load(class_icon) as Texture2D
 	var id: String = icon_id.trim_prefix("pixel:")
+	# HINT ICONS (icon law): game-icons bakes for talents/buffs/debuffs the
+	# Shikashi registry never covered (assets/art/icons_items/).
+	var item_icon: String = "res://assets/art/icons_items/%s.png" % id
+	if ResourceLoader.exists(item_icon):
+		return load(item_icon) as Texture2D
 	if _cache.has(id):
 		return _cache[id]
 	# Premium painterly ability icon wins over the Shikashi cell when present.
