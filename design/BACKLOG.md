@@ -211,6 +211,16 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    on the full library: TONS of assets per level, hand-placed (visual law), Witchbrook density, anchor palette.
    Interim waves 3-4 (55 assets, 107 placements) stay; no further deep painting until library done.
 
+### Session additions 2026-07-12 (125) — the free-assets reckoning
+125. 🔧 **FREE-ASSETS-ONLY ERA (owner):** generated world/UI art REJECTED + retired; generation queue dead.
+   Executed: 1,306 world decos + all UI swapped to human-made free art (Szadi/Cainos/LPC freekit/church kit/coast);
+   town reverted to v1 art; Shikashi microbar; thematic class spell icons (owner-permitted generation, concrete
+   subjects + per-class palettes, 54 shipped). MASS LIBRARY: 153,319 verified-free files downloaded
+   (design/MASS_DOWNLOAD_2026_07.md; Kenney CC0, LPC bundles incl. Universal LPC spritesheet, DungeonCrawl CC0,
+   itch free, game-icons.net) -> _downloads/mass_2026_07/. NEXT: extraction waves from the mass library
+   (Fantasy UI Borders for panels, LPC buildings/terrain, DungeonCrawl creature/props), interim placeholder
+   replacements (towers, harbor smalls), zone-by-zone Witchbrook densification with FREE art only.
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish

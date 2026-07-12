@@ -1,0 +1,142 @@
+# MASS FREE DOWNLOAD MANIFEST (2026-07-12) — 153319 image files
+
+All packs license-verified with quoted page evidence; per-pack LICENSE_EVIDENCE.txt on disk.
+
+
+## kenney_cc0 — 20645 files
+- Roguelike/RPG pack | 5 files | https://kenney.nl/assets/roguelike-rpg-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (links to creativecommons.org/publicdomain/zero/1.0/); og:descr
+- Roguelike Characters | 4 files | https://kenney.nl/assets/roguelike-characters | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Roguelike Caves & Dungeons | 4 files | https://kenney.nl/assets/roguelike-caves-dungeons | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Roguelike Modern City | 1040 files | https://kenney.nl/assets/roguelike-modern-city | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Roguelike Indoors | 4 files | https://kenney.nl/assets/roguelike-indoors | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Tiny Town | 136 files | https://kenney.nl/assets/tiny-town | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Tiny Dungeon | 136 files | https://kenney.nl/assets/tiny-dungeon | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Tiny Battle | 202 files | https://kenney.nl/assets/tiny-battle | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Tiny Ski | 136 files | https://kenney.nl/assets/tiny-ski | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Pixel Platformer | 240 files | https://kenney.nl/assets/pixel-platformer | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Pixel Platformer Blocks | 334 files | https://kenney.nl/assets/pixel-platformer-blocks | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Pixel Platformer Industrial Expansion | 116 files | https://kenney.nl/assets/pixel-platformer-industrial-expansion | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Pixel Platformer Farm Expansion | 116 files | https://kenney.nl/assets/pixel-platformer-farm-expansion | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- UI Pack | 870 files | https://kenney.nl/assets/ui-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- UI Pack (RPG Expansion) | 90 files | https://kenney.nl/assets/ui-pack-rpg-expansion | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- UI Pack (Sci-Fi) | 742 files | https://kenney.nl/assets/ui-pack-sci-fi | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- UI Pack (Adventure) | 260 files | https://kenney.nl/assets/ui-pack-adventure | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Fantasy UI Borders | 282 files | https://kenney.nl/assets/fantasy-ui-borders | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Board Game Icons | 513 files | https://kenney.nl/assets/board-game-icons | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Game Icons | 425 files | https://kenney.nl/assets/game-icons | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Game Icons Expansion | 790 files | https://kenney.nl/assets/game-icons-expansion | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Input Prompts | 3056 files | https://kenney.nl/assets/input-prompts | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/); og:description: "
+- Emotes Pack | 513 files | https://kenney.nl/assets/emotes-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Cursor Pack | 729 files | https://kenney.nl/assets/cursor-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Crosshair Pack | 1205 files | https://kenney.nl/assets/crosshair-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- RPG Base (medieval RPG coverage) | 233 files | https://kenney.nl/assets/rpg-base | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Medieval RTS | 259 files | https://kenney.nl/assets/medieval-rts | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Platformer Pack Medieval | 274 files | https://kenney.nl/assets/platformer-pack-medieval | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Generic Items | 330 files | https://kenney.nl/assets/generic-items | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- 1-Bit Pack | 14 files | https://kenney.nl/assets/1-bit-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- RPG Urban Pack | 490 files | https://kenney.nl/assets/rpg-urban-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Scribble Dungeons | 276 files | https://kenney.nl/assets/scribble-dungeons | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Particle Pack | 193 files | https://kenney.nl/assets/particle-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Map Pack | 194 files | https://kenney.nl/assets/map-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Boardgame Pack | 539 files | https://kenney.nl/assets/boardgame-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Platformer Art Deluxe | 973 files | https://kenney.nl/assets/platformer-art-deluxe | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Sokoban | 211 files | https://kenney.nl/assets/sokoban | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Puzzle Pack 2 | 814 files | https://kenney.nl/assets/puzzle-pack-2 | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Physics Assets | 345 files | https://kenney.nl/assets/physics-assets | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Top-Down Shooter | 587 files | https://kenney.nl/assets/top-down-shooter | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Voxel Pack | 197 files | https://kenney.nl/assets/voxel-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Platformer Characters | 172 files | https://kenney.nl/assets/platformer-characters | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Simplified Platformer Pack | 96 files | https://kenney.nl/assets/simplified-platformer-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Abstract Platformer | 382 files | https://kenney.nl/assets/abstract-platformer | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Jumper Pack | 124 files | https://kenney.nl/assets/jumper-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Shooting Gallery | 115 files | https://kenney.nl/assets/shooting-gallery | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Hexagon Pack | 318 files | https://kenney.nl/assets/hexagon-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Playing Cards Pack | 285 files | https://kenney.nl/assets/playing-cards-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Micro Roguelike | 330 files | https://kenney.nl/assets/micro-roguelike | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Animal Pack | 89 files | https://kenney.nl/assets/animal-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Background Elements | 125 files | https://kenney.nl/assets/background-elements | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Space Shooter Extension | 561 files | https://kenney.nl/assets/space-shooter-extension | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+- Pattern Pack | 171 files | https://kenney.nl/assets/pattern-pack | CC0 1.0 — page license link reads "Creative Commons CC0" (creativecommons.org/publicdomain/zero/1.0/). No attribution re
+
+## oga_lpc_bundles — 105725 files
+- LPC Base Assets (2012 competition base sprites & map tiles) | 68 files | https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles | Dual "CC-BY-SA 3.0" / "GPL 3.0" — page states images are "copyright their respective authors, as listed in CREDITS.TXT"
+- Universal LPC Spritesheet (jrconway3, archived original atlas repo) | 2755 files | https://github.com/jrconway3/Universal-LPC-spritesheet | README: "all art submissions were dual licensed under both GNU GPL 3.0 and CC-BY-SA 3.0"; per-asset authors in CREDITS f
+- Universal LPC Spritesheet Character Generator (sanderfrenken, maintained fork) | 24221 files | https://github.com/sanderfrenken/Universal-LPC-Spritesheet-Character-Generator | GitHub shows "GPL-3.0 license"; repo ships dual license files "cc-by-sa-3_0.txt" and "gpl-3_0.txt" (LPC dual CC-BY-SA 3.
+- Liberated Pixel Cup Asset Repository (official OpenGameArt GitHub — LPC submissions bundle) | 8367 files | https://github.com/OpenGameArt/LiberatedPixelCup | "Assets are dual licensed under Creative Commons Attribution-ShareAlike (CC BY-SA) version 3.0 & GNU General Public Lice
+- LPC Revised (ElizaWy) — characters/objects/structure/terrain | 64325 files | https://github.com/ElizaWy/LPC | README: "Creative Commons Attribution 3.0 (CC-BY-3.0) or OGA-by 3.0 License" — free use/modify/distribute "provided you 
+- LPC Character Bases v3.1 (BenCreating/bluecarrot16 compilation) | 5894 files | https://opengameart.org/content/lpc-character-bases | Dual "CC-BY-SA 3.0" / "GPL 3.0"; attribution to Benjamin K. Smith (BenCreating), Redshrike, ElizaWy, wulax, bluecarrot16
+- LPC Terrains (bluecarrot16 terrain mega-repack) | 4 files | https://opengameart.org/content/lpc-terrains | "CC-BY-SA 4.0" / "CC-BY-SA 3.0" — "You MUST credit all authors with the information in this file, and you must link back
+- [LPC] Trees (bluecarrot16) | 10 files | https://opengameart.org/content/lpc-trees | "CC-BY-SA 3.0" — "You MUST credit all authors... and you must link back to this page on OpenGameArt" (CREDITS-trees.txt 
+- [LPC] Victorian Buildings (10,000+ tiles) | 8 files | https://opengameart.org/content/lpc-victorian-buildings | "CC-BY-SA 4.0" / "CC-BY-SA 3.0" / "GPL 3.0"; credit bluecarrot16, Sharm, Casper Nilsson, cyanowl, Redshrike per CREDITS-
+- [LPC] Victorian Town Decorations (3,000+ tiles) | 6 files | https://opengameart.org/content/lpc-victorian-town-decorations | "CC-BY-SA 4.0"; credit bluecarrot16 + 22 listed artists per CREDITS-decorations-victorian.txt + link back
+- [LPC] Castle Mega-Pack | 4 files | https://opengameart.org/content/lpc-castle-mega-pack | "CC-BY-SA 3.0" — "CC-BY-SA 3.0 was the only license common to all the submissions"; link back to the OGA page
+- [LPC] Roofs v2 (bluecarrot16 et al.) | 8 files | https://opengameart.org/content/lpc-roofs | "CC-BY-SA 3.0" / "GPL 3.0"; "See CREDITS-roofs.txt" (included in zip)
+- [LPC] Windows & Doors v2 | 2 files | https://opengameart.org/content/lpc-windows-doors | "CC-BY-SA 3.0" / "GPL 3.0"; "You MUST include all information in this file when distributing these images!" + link back
+- [LPC] Farm (bluecarrot16/TheraHedwig/Ivan Voirol) | 10 files | https://opengameart.org/content/lpc-farm | "CC-BY 4.0" — attribute "[LPC] Farm by bluecarrot16, Wolthera van Hovell tot Westerflier (TheraHedwig), and Ivan Voirol"
+- LPC style farm animals (daneeklu) | 19 files | https://opengameart.org/content/lpc-style-farm-animals | "CC-BY 3.0" / "GPL 2.0" — "Attribute to Daniel Eddeland, and link to opengameart (preferably this submission)."
+- [LPC] Cats and Dogs (bluecarrot16) | 2 files | https://opengameart.org/content/lpc-cats-and-dogs | "CC-BY 3.0" / "CC-BY-SA 3.0" / "GPL 3.0" / "GPL 2.0" / "OGA-BY 3.0" — "Artist: bluecarrot16... Please link to opengamear
+- [LPC] Birds (bluecarrot16, 15 birds w/ fly+walk anims) | 22 files | https://opengameart.org/content/lpc-birds | "CC-BY 4.0/3.0", "CC-BY-SA 4.0/3.0", "GPL 3.0/2.0", "OGA-BY 3.0" — attribute "[LPC] Birds by bluecarrot16, commissioned 
+
+## oga_dungeon_gothic — 13593 files
+- Dungeon Crawl 32x32 tiles (crawl-tiles Oct-5-2010) | 3039 files | https://opengameart.org/content/dungeon-crawl-32x32-tiles | CC0 — page License(s) section states "CC0"; page note: "You can use these tilesets in your program freely. No attributio
+- Dungeon Crawl Stone Soup Full (individual tiles + ProjectUtumno_full.png) | 6030 files | https://opengameart.org/content/dungeon-crawl-32x32-tiles | CC0 — page License(s) section states "CC0"; no attribution required, courtesy link to OGA page or https://github.com/cra
+- Dungeon Crawl 32x32 tiles supplemental (+ ProjectUtumno_supplemental.png) | 3017 files | https://opengameart.org/content/dungeon-crawl-32x32-tiles-supplemental | CC0 — page states "CC0" badge and: "You can use these tilesets in your program freely. No attribution is required. As a 
+- DENZI's Public Domain Art (tilesets + individual organized tiles/sprites) | 1378 files | https://opengameart.org/content/denzis-public-domain-art | CC0 — page states "CC0" (Creative Commons Zero / Public Domain). Author DENZI, submitted by MedicineStorm. No attributio
+- Isometric Tileset: Gothic Archways (102 iso tiles: walls, doors, arches, stairs) | 102 files | https://opengameart.org/content/isometric-tileset-gothic-archways | CC-BY 4.0 — page states "CC-BY 4.0" linking to creativecommons.org/licenses/by/4.0/. ATTRIBUTION REQUIRED: credit Lukas 
+- Evil Dungeon Asset Pack (32x32 creepy dungeon/crypt tiles + animated props) | 16 files | https://opengameart.org/content/evil-dungeon-asset-pack | CC-BY 4.0 — page states "CC-BY 4.0" linking to creativecommons.org/licenses/by/4.0/. ATTRIBUTION REQUIRED: credit Sevari
+- Lots of free 2d tiles and sprites by Hyptosis | 7 files | https://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis | CC-BY 3.0 — page states "CC-BY 3.0". ATTRIBUTION REQUIRED: credit Hyptosis and Zabin (Zabin contributed "6 frames of the
+- Castle tiles for RPG's (Hyptosis/Zabin/Daniel Cook) | 1 files | https://opengameart.org/content/castle-tiles-for-rpgs | CC-BY 3.0 — page states "CC-BY 3.0" in License(s) section. ATTRIBUTION REQUIRED: credit Zabin, Hyptosis, and Daniel Cook
+- Spooky Castle Tileset (Buch, 32x32) | 2 files | https://opengameart.org/content/spooky-castle-tileset | CC0 — page shows "CC0" (Creative Commons Zero) license badge. Author Buch. No attribution required.
+- Dungeon tileset (Buch, 16x16 orthographic with props/characters) | 1 files | https://opengameart.org/content/dungeon-tileset | CC0 — page states "CC0" (Creative Commons Zero); credit "NOT REQUIRED, though appreciated" — Buch.
+
+## itch_free_medieval — 5892 files
+- Ninja Adventure - Asset Pack (pixel-boy & AAA) | 2043 files | https://pixel-boy.itch.io/ninja-adventure-asset-pack | CC0 — page: "They are released under the Creative Commons Zero (CC0) license. You can use any and all of the assets foun
+- Free Mix - Asset Pack (pixel-boy) | 144 files | https://pixel-boy.itch.io/free-mix | Custom free license — page: "You can: Use the assets in any game (commercial or not)." (NFT/AI-training use prohibited; 
+- Nostalgia Legends Faceset (pixel-boy) | 4 files | https://pixel-boy.itch.io/nostalgia-legends-faceset | Custom free license — page: "License information: YOU CAN: Edit and use the asset in any commercial or non commercial pr
+- Pixel Art Top Down - Basic (Cainos) | 12 files | https://cainos.itch.io/pixel-art-top-down-basic | Custom free license — page: "LICENCE This asset pack can be used in both free and commercial projects. You can modify it
+- Pixel Art Icon Pack - RPG (Cainos) | 107 files | https://cainos.itch.io/pixel-art-icon-pack-rpg | Custom free license — page: "LICENCE: This asset pack can be used in both free and commercial projects." Credit not need
+- Pixel Art Platformer - Village Props (Cainos) | 5 files | https://cainos.itch.io/pixel-art-platformer-village-props | Custom free license — page: "LICENCE: This asset pack can be used in both free and commercial projects." Credit not need
+- Craftland demo (Szadi art.) | 6 files | https://szadiart.itch.io/craftland-demo | "License for Everyone... Public domain and free to use, personal or commercial." (page description; edit allowed, no res
+- Fantasy Lands Houses demo (Szadi art.) | 5 files | https://szadiart.itch.io/fantasy-lands-houses-demo | "License for Everyone... Public domain and free to use, personal or commercial." (page description)
+- PostApo Lands demo (Szadi art.) | 2 files | https://szadiart.itch.io/postapo-lands-demo | "License for Everyone... Public domain and free to use, personal or commercial." (page description)
+- 3 Direction NPC Characters (Szadi art.) | 6 files | https://szadiart.itch.io/3-direction-npc-characters | "License for Everyone... Public domain and free to use, personal or commercial." (page description)
+- RPG Worlds Caves (Szadi art.) | 6 files | https://szadiart.itch.io/rpg-worlds-ca | "License for Everyone... Public domain and free to use, personal or commercial." (page description)
+- Rogue Fantasy Catacombs (Szadi art.) | 19 files | https://szadiart.itch.io/rogue-fantasy-catacombs | "--- License for Everyone --- Public domain and free to use, personal or commercial. Credit is not required but apprecia
+- 2D SoulsLike Character (Szadi art.) | 15 files | https://szadiart.itch.io/2d-soulslike-character | "License for Everyone... Public domain and free to use, personal or commercial." (page description)
+- Pixel Fantasy Caves (Szadi art.) | 8 files | https://szadiart.itch.io/pixel-fantasy-caves | Page: "You can use this asset personally and commercially."
+- RPG Main Character (Szadi art.) | 10 files | https://szadiart.itch.io/rpg-main-character | "License for Everyone... Public domain and free to use, personal or commercial." (page description)
+- Houses Pack (Szadi art.) | 1 files | https://szadiart.itch.io/houses-pack | Page: "You can use this asset personally and commercially." In-archive public-license.txt: "Public domain and free to us
+- Crystal World Platformer Set (Szadi art.) | 199 files | https://szadiart.itch.io/crystal-world-platformer-set | Page: "You can use this asset personally and commercially."
+- Rocky World Platformer Set (Szadi art.) | 220 files | https://szadiart.itch.io/rocky-world-platformer-set | Page: "You can use this asset personally and commercially."
+- Animated Character Pack (Szadi art.) | 218 files | https://szadiart.itch.io/animated-character-pack | Page: "You can use this asset personally and commercially."
+- Hero and Opponents Animation (Szadi art.) | 351 files | https://szadiart.itch.io/hero-and-opponents-animation | Page: "You can use this asset personally and commercially." (rar extracted with 7-Zip)
+- Pixel Platformer World (Szadi art.) | 55 files | https://szadiart.itch.io/pixel-platformer-world | Page: "You can use this asset personally and commercially."
+- Pixel Platformer Castle (Szadi art.) | 59 files | https://szadiart.itch.io/pixel-platformer-castle | Page: "You can use this asset personally and commercially."
+- Background Town (Szadi art.) | 3 files | https://szadiart.itch.io/background-town | "License for all of my assets... Public domain and free to use, personal or commercial." (page description)
+- Background Hill (Szadi art.) | 4 files | https://szadiart.itch.io/bakcground-hill | "License for all of my assets... Public domain and free to use, personal or commercial." (page description)
+- Background Ruined Temple (Szadi art.) | 4 files | https://szadiart.itch.io/background-ruined-temple | "License for all of my assets... Public domain and free to use, personal or commercial." (page description)
+- Background Desert Mountains (Szadi art.) | 11 files | https://szadiart.itch.io/background-desert-mountains | Page: "You can use this asset personally and commercially."
+- Tiny RPG Town (ansimuz) | 82 files | https://ansimuz.itch.io/tiny-rpg-town | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- Tiny RPG Forest (ansimuz) | 345 files | https://ansimuz.itch.io/tiny-rpg-forest | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- Tiny Overworld (ansimuz) | 10 files | https://ansimuz.itch.io/tiny-overworld | CC0 per page; quoted: "You're free to use these assets in any project, commercial or not, and make any modifications you
+- GothicVania Cemetery (ansimuz) | 250 files | https://ansimuz.itch.io/gothicvania-cemetery | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- GothicVania Town (ansimuz) | 280 files | https://ansimuz.itch.io/gothicvania-town | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- Magic Cliffs Environment (ansimuz) | 268 files | https://ansimuz.itch.io/magic-cliffs-environment | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- Fantasy Weapons Set (ansimuz) | 20 files | https://ansimuz.itch.io/fantasy-weapons-set | Page "Asset license" field: Creative Commons Zero v1.0 Universal; also "You may use these assets in personal or commerci
+- Sunny Land pixel game art (ansimuz) | 362 files | https://ansimuz.itch.io/sunny-land-pixel-game-art | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- Sunnyland Woods (ansimuz) | 170 files | https://ansimuz.itch.io/sunnyland-woods | Page "Asset license" field: Creative Commons Zero v1.0 Universal (bundled music has separate credit-required license, no
+- Sunnyland Forest (ansimuz) | 316 files | https://ansimuz.itch.io/sunnyland-forest | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- Legend of Faune (ansimuz) | 196 files | https://ansimuz.itch.io/legend-of-faune | Page "Asset license" field: Creative Commons Zero v1.0 Universal
+- Hell Hound sprite animation (ansimuz) | 16 files | https://ansimuz.itch.io/hell-hound-sprite-animation | Page "Asset license" field: Creative Commons Attribution v4.0 International — ATTRIBUTION REQUIRED: credit ansimuz
+- Free - Hero's Journey - Moon Graveyard (Anokolisa) | 10 files | https://anokolisa.itch.io/moon-graveyard | Page description: hero's journey environments "are completely free for commercial use"
+- Free - Sidescroller Fantasy 16x16 Forest Sprites / Legacy Fantasy High Forest (Anokolisa) | 50 files | https://anokolisa.itch.io/sidescroller-pixelart-sprites-asset-pack-forest-16x16 | Page description: "over 600 sprites... completely free to use"; "Legacy Fantasy Bundle... completely free for commercial
+
+## oga_ui_icons — 7464 files
+- game-icons.net full PNG archive (Lorc, Delapouite & contributors) | 4180 files | https://game-icons.net/ | CC-BY 3.0 — about page: "They are provided under the terms of the Creative Commons 3.0 BY license." ... "You can use the
+- Kyrise's Free 16x16 RPG Icon Pack V1.2 | 904 files | https://opengameart.org/content/kyrises-free-16x16-rpg-icon-pack | CC BY 4.0 — page states "Creative Commons Attribution 4.0 International (CC BY 4.0)" with requested credit: "Kyrise's Fr
+- Kenney UI Pack | 870 files | https://opengameart.org/content/ui-pack | CC0 — page lists license "CC0"; credit to "Kenney.nl" or "www.kenney.nl" recommended but not mandatory. No attribution r
+- 496 pixel art icons for medieval/fantasy RPG (Henrique Lazarini / 7Soul1) | 496 files | https://opengameart.org/content/496-pixel-art-icons-for-medievalfantasy-rpg | CC0 — OGA page lists license "CC0" (public domain); submitter notes crediting artist 7Soul1 is appreciated but not requi
+- Painterly Spell Icons Parts 1-4 (J. W. Bjerk / eleazzaar) | 466 files | https://opengameart.org/content/painterly-spell-icons-part-1 (+parts 2, 3, 4) | Multi-licensed "CC-BY 3.0" / "CC-BY-SA 4.0" / "CC-BY-SA 3.0" / "GPL 3.0" / "GPL 2.0" per each part's OGA page; we elect 
+- Kenney Game Icons (105 icons, black+white, 1x/2x) | 425 files | https://opengameart.org/content/game-icons | CC0 — page quote: "Credit 'Kenney.nl' or 'www.kenney.nl', this is not mandatory." No attribution required.
+- Fantasy Icon Pack by Ravenmore 2.0 (02.2014) | 122 files | https://opengameart.org/content/fantasy-icon-pack-by-ravenmore-0 | CC-BY 3.0 — OGA page lists "CC-BY 3.0"; author's attribution instruction quoted: "Drop a link to ravenmore.itch.io, that
+- Golden UI by Buch (ui_split.png sheet) | 1 files | https://opengameart.org/content/golden-ui | CC0 — page quote: "NOT REQUIRED, though appreciated: credit me as Buch and link back to my OGA profile page". No attribu
