@@ -60,7 +60,7 @@ const NODE: float = 30.0
 const DETAIL_X: float = 214.0
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 static var _pixel_script: GDScript = null
 

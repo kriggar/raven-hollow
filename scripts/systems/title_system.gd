@@ -54,7 +54,7 @@ var _toasting: bool = false
 var _toast_hold: float = 3.0
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 const GOLD := Color(0.85, 0.68, 0.35)
 const GOLD_BRIGHT := Color(1.0, 0.92, 0.7)

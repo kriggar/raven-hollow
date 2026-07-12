@@ -55,7 +55,7 @@ const STAT_ROWS: Array = [
 ]
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 var _italic: FontVariation
 
 var _actor: Object = null

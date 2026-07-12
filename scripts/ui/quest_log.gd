@@ -38,7 +38,7 @@ const TRACK_MARGIN: float = 8.0
 var is_open: bool = false
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 var _qs: Node = null
 var _actor: Node = null

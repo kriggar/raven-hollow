@@ -107,7 +107,7 @@ var is_open: bool = false
 var station_id: String = ""
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 var _panel: Control
 var _title: Label

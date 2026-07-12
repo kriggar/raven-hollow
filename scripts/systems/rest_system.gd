@@ -32,7 +32,7 @@ const REST_KEY := KEY_T
 const PROMPT_POLL_S := 0.2
 const BREAK_DIST := 46.0          # move this far from the spot and the rest ends
 const FONT_PATH := "res://assets/fonts/alagard.ttf"
-const PANEL_TEX := "res://assets/art/ui/panel_brown.png"
+const PANEL_TEX := "res://assets/art/ui/kenney_panel_ornate.png"
 
 ## Per-quality tuning: hp/mana restored per second (as a fraction of the max) and
 ## the Well Rested payload (buff seconds + XP multiplier).

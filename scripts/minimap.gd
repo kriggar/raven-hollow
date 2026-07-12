@@ -92,7 +92,7 @@ const DISTRICTS: Dictionary = {
 }
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 var _map_id: String = DEFAULT_MAP_ID
 var _bounds: Rect2 = DEFAULT_BOUNDS

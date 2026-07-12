@@ -94,7 +94,7 @@ const SCARECROW_SHEET := "res://assets/art/decor/lpc_decorations.png"
 const SCARECROW_FACE := Rect2(328.0, 137.0, 16.0, 16.0)
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 var _root: Control
 var _player_frame: Control

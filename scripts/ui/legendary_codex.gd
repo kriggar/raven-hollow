@@ -33,7 +33,7 @@ var _root: Control = null
 var _list: VBoxContainer = null
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
-var _panel_tex: Texture2D = preload("res://assets/art/ui/panel_brown.png")
+var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 
 func _ready() -> void:

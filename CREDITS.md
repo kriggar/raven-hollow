@@ -44,3 +44,5 @@ All via OpenGameArt.org.
 | Audio gap-fill 2026-07-12 (35 cues: UI, music states, biome beds, stings, horn) | Kenney (CC0), Spring Spring (CC0), qubodup (CC-BY 3.0), + full list | see assets/audio/CREDITS_AUDIO_GAPFILL.txt | CC0 majority; CC-BY items REQUIRE in-game credit (qubodup tension bed, Wind Loop, Lava loop) | MusicDirector states, biome beds, UI sound manager, war horn |
 
 | [LPC] Medieval Village Decorations (freekit crops: wells, fountain, lamp posts, lanterns, stalls, graveyard kit, statues, stocks, gallows, wheels) | bluecarrot16 et al. | https://opengameart.org/content/lpc-medieval-village-decorations | **CC-BY-SA 3.0 / GPL 3.0** — full list in assets/licenses/lpc_decorations_credits.txt | World deco replacements for the retired generated set |
+
+| Kenney Fantasy UI Borders (panel chrome) | Kenney | https://kenney.nl/assets/fantasy-ui-borders | **CC0** | Gold-baked ninepatch frame on all 26 panel surfaces |

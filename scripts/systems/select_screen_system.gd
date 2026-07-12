@@ -37,7 +37,7 @@ signal class_selected(class_id)
 
 const DATA_PATH := "res://data/select_screen.json"
 const FONT_PATH := "res://assets/fonts/alagard.ttf"
-const PANEL_TEX_PATH := "res://assets/art/ui/panel_brown.png"
+const PANEL_TEX_PATH := "res://assets/art/ui/kenney_panel_ornate.png"
 
 const BASE_W: float = 640.0
 const BASE_H: float = 360.0
