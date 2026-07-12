@@ -97,7 +97,7 @@ static func build_zone(parent: Node2D, def: Dictionary) -> Dictionary:
 	for rr: Rect2 in road_rects:
 		# inflate: a tree planted at the rect edge still leans its trunk
 		# and canopy over the slabs
-		keep_clear.append(rr.grow(44.0))
+		keep_clear.append(rr.grow(72.0))
 	var decal_rects: Array[Rect2] = _ground_breakup(parent, rng, tiles_w, tiles_h, pal, keep_clear)
 	keep_clear.append_array(decal_rects)
 	_build_warm_ground(parent, rng, def)
@@ -164,7 +164,7 @@ static func build_zone_staged(parent: Node2D, def: Dictionary) -> Dictionary:
 		return {}
 	var road_rects: Array[Rect2] = _build_roads(parent, def, pal.has("ground_sheet"))
 	for rr: Rect2 in road_rects:
-		keep_clear.append(rr.grow(44.0))
+		keep_clear.append(rr.grow(72.0))
 	await parent.get_tree().process_frame
 	if not _staged_ok(parent):
 		return {}
@@ -1837,7 +1837,7 @@ static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, 
 	# zones shade cool (never brown on snow); warm zones split worn-earth/moss.
 	var rtex: Texture2D = _radial_tex()
 	var base_tint: Color = pal.get("tint", Color.WHITE)
-	var macro_n: int = int(world_w * world_h / 480000.0)
+	var macro_n: int = int(world_w * world_h / 300000.0)
 	for i in range(macro_n):
 		var mp := Vector2(rng.randf_range(120, world_w - 120), rng.randf_range(120, world_h - 120))
 		if _in_any(mp, keep_clear):
@@ -1846,15 +1846,15 @@ static func _ground_breakup(parent: Node2D, rng: RandomNumberGenerator, w: int, 
 		blob.texture = rtex
 		blob.position = mp
 		blob.z_index = -9
-		var bs: float = rng.randf_range(2.2, 6.5)
+		var bs: float = rng.randf_range(2.6, 9.0)
 		blob.scale = Vector2(bs * rng.randf_range(1.0, 1.9), bs)
 		if cold:
-			blob.modulate = Color(0.60, 0.65, 0.83, rng.randf_range(0.06, 0.12))
+			blob.modulate = Color(0.60, 0.65, 0.83, rng.randf_range(0.09, 0.16))
 		elif rng.randf() < 0.55:
-			blob.modulate = Color(0.16, 0.13, 0.09, rng.randf_range(0.08, 0.16))
+			blob.modulate = Color(0.16, 0.13, 0.09, rng.randf_range(0.11, 0.20))
 		else:
 			var mossy := Color(0.42, 0.40, 0.18) if base_tint.r >= base_tint.b else Color(0.22, 0.30, 0.26)
-			blob.modulate = Color(mossy.r, mossy.g, mossy.b, rng.randf_range(0.06, 0.12))
+			blob.modulate = Color(mossy.r, mossy.g, mossy.b, rng.randf_range(0.09, 0.16))
 		parent.add_child(blob)
 	var occupied: Array[Rect2] = []
 	var ice_spots: Array[Vector2] = []
