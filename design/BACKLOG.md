@@ -245,9 +245,12 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    cyan thread_lines read as debug; morven river/band junction; riverfork orphan rect decals + sailboat
    fringe (hand pass); wilderness slab-grid path network overhaul; per-zone dead-zone densification
    (bloodroad S half, eastern_ridges NW, whisper_passes, salt_fens E/S, canal_maze, listening_steppe...);
-   zone-identity passes (drowned_quarter not drowned, eastern_ridges no ridges, orange_fog no fog —
-   check RH_WEATHER default in that zone def, canal_maze one canal); repeated-prefab variety (campfire,
-   planter trio, grave rows); road x ribbon junction art beyond bridges (canal crossings need docks).
+   zone-identity passes DONE: orange_fog/salt_fens/drowned_quarter weather tables, eastern_ridges rock spines.
+   DEAD-ZONE DENSIFICATION DONE (2026-07-12 late): wilderness street-grid -> winding forest trails;
+   eastern_ridges NW (+13); bloodroad south (+12); whisper_passes spread (+13); salt_fens E/S (+10);
+   canal_maze (+10). morven keep wings differentiated + river/roads re-pathed. thread_lines glow.
+   STILL OPEN: riverfork sailboat fringe hand-pass; canal/dock crossing art; per-zone prefab-variety
+   deepening; a fresh sitting on the post-fix world to confirm.
 
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
