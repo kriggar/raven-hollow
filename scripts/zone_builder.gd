@@ -340,7 +340,15 @@ static func _build_river(parent: Node2D, def: Dictionary) -> void:
 			continue
 		var nb: Vector2 = pts2[1] if idx == 0 else pts2[pts2.size() - 2]
 		var dir: Vector2 = (p - nb).normalized()
-		pts2[idx] = p + dir * (rw * 2.5 + 300.0)
+		# reach EXACTLY past the border (sitting-5: a 300px overhang floats
+		# in the sweep-camera void) — walk to the nearest rect exit + 40px
+		var t_exit: float = 1e9
+		if dir.x > 0.001: t_exit = minf(t_exit, (zw - p.x) / dir.x)
+		if dir.x < -0.001: t_exit = minf(t_exit, -p.x / dir.x)
+		if dir.y > 0.001: t_exit = minf(t_exit, (zh - p.y) / dir.y)
+		if dir.y < -0.001: t_exit = minf(t_exit, -p.y / dir.y)
+		if t_exit > 1e8: t_exit = 0.0
+		pts2[idx] = p + dir * (maxf(t_exit, 0.0) + 40.0)
 	var line := Line2D.new()
 	line.name = "River"
 	line.z_index = -8
@@ -415,8 +423,19 @@ static func _build_roads(parent: Node2D, def: Dictionary, packed_ground: bool = 
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash(str(def.get("id")) + "roads")
 	var cells := {}
+	var zw2: float = float(def.get("tiles_w", 256)) * TILE
+	var zh2: float = float(def.get("tiles_h", 192)) * TILE
 	for road_v: Variant in roads:
-		var road: Array = road_v
+		var road: Array = (road_v as Array).duplicate()
+		# SITTING-5 gate-to-gate law: an endpoint within 260px of a map edge
+		# snaps TO that edge — roads never dead-end a few tiles short of a gate.
+		for idx: int in [0, road.size() - 1]:
+			var ep: Vector2 = road[idx]
+			if ep.x < 260.0: ep.x = 0.0
+			elif ep.x > zw2 - 260.0: ep.x = zw2
+			if ep.y < 260.0: ep.y = 0.0
+			elif ep.y > zh2 - 260.0: ep.y = zh2
+			road[idx] = ep
 		for i in range(road.size() - 1):
 			var a: Vector2 = road[i]
 			var b: Vector2 = road[i + 1]
