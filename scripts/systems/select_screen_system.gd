@@ -280,6 +280,11 @@ func _build_backdrop() -> void:
 
 
 func _build_header() -> void:
+	var tshadow := _label(_title, 22, Color(0.0, 0.0, 0.0, 0.75))
+	tshadow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tshadow.position = Vector2(13.5, 13.5)
+	tshadow.size = Vector2(BASE_W - 24.0, 26.0)
+	_root.add_child(tshadow)
 	var title := _label(_title, 22, GOLD_BRIGHT)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.position = Vector2(12.0, 12.0)
@@ -306,6 +311,70 @@ func _build_stage() -> void:
 	brazier.position = Vector2(stage_cx - 110.0, 70.0)
 	brazier.size = Vector2(220.0, 200.0)
 	_root.add_child(brazier)
+	# Hot inner core behind the hero (the D2 campfire read).
+	var core := TextureRect.new()
+	core.texture = _radial(Color(1.0, 0.74, 0.36, 0.42), Color(1.0, 0.55, 0.2, 0.0), 0.0, 1.0)
+	core.stretch_mode = TextureRect.STRETCH_SCALE
+	core.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	core.position = Vector2(stage_cx - 55.0, 150.0)
+	core.size = Vector2(110.0, 100.0)
+	_root.add_child(core)
+	# Flanking animated torches (Szadi catacombs strip, 4 frames).
+	var torch_tex_path := "res://assets/art/world/civic/torch_anim_strip.png"
+	if ResourceLoader.exists(torch_tex_path):
+		var ttex: Texture2D = load(torch_tex_path)
+		var fw: int = ttex.get_width() / 4
+		for side: float in [-1.0, 1.0]:
+			var sfr := SpriteFrames.new()
+			sfr.set_animation_speed("default", 8.0)
+			for fi in range(4):
+				var at := AtlasTexture.new()
+				at.atlas = ttex
+				at.region = Rect2(fi * fw, 0, fw, ttex.get_height())
+				sfr.add_frame("default", at)
+			var tspr := AnimatedSprite2D.new()
+			tspr.sprite_frames = sfr
+			tspr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			tspr.position = Vector2(stage_cx + side * 96.0, stage_base_y - 6.0)
+			tspr.scale = Vector2.ONE * 1.3
+			tspr.play("default")
+			_root.add_child(tspr)
+			var tglow := TextureRect.new()
+			tglow.texture = _radial(Color(1.0, 0.66, 0.3, 0.28), Color(1.0, 0.5, 0.2, 0.0), 0.0, 1.0)
+			tglow.stretch_mode = TextureRect.STRETCH_SCALE
+			tglow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			tglow.position = Vector2(stage_cx + side * 96.0 - 30.0, stage_base_y - 42.0)
+			tglow.size = Vector2(60.0, 60.0)
+			_root.add_child(tglow)
+	# Rising embers over the stage.
+	var embers := CPUParticles2D.new()
+	embers.amount = 16
+	embers.lifetime = 3.2
+	embers.preprocess = 3.0
+	embers.position = Vector2(stage_cx, stage_base_y + 6.0)
+	embers.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	embers.emission_rect_extents = Vector2(96.0, 4.0)
+	embers.direction = Vector2(0, -1)
+	embers.spread = 12.0
+	embers.gravity = Vector2(0, -14.0)
+	embers.initial_velocity_min = 8.0
+	embers.initial_velocity_max = 22.0
+	embers.scale_amount_min = 0.6
+	embers.scale_amount_max = 1.6
+	embers.color = Color(1.0, 0.62, 0.24, 0.85)
+	var ramp := Gradient.new()
+	ramp.set_color(0, Color(1.0, 0.7, 0.3, 0.9))
+	ramp.set_color(1, Color(0.6, 0.2, 0.05, 0.0))
+	embers.color_ramp = ramp
+	_root.add_child(embers)
+	# Ground shadow under the hero, ON the dais.
+	var hshadow := TextureRect.new()
+	hshadow.texture = _radial(Color(0, 0, 0, 0.5), Color(0, 0, 0, 0.0), 0.0, 1.0)
+	hshadow.stretch_mode = TextureRect.STRETCH_SCALE
+	hshadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hshadow.position = Vector2(stage_cx - 34.0, stage_base_y - 4.0)
+	hshadow.size = Vector2(68.0, 18.0)
+	_root.add_child(hshadow)
 	# Torch flicker on the brazier.
 	_glow_tween = create_tween().set_loops()
 	_glow_tween.tween_property(brazier, "modulate:a", 0.62, 0.7).set_trans(Tween.TRANS_SINE)
@@ -314,10 +383,10 @@ func _build_stage() -> void:
 	# Stone dais (a flat elliptical slab drawn as a squashed Panel).
 	var dais := Panel.new()
 	dais.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	dais.position = Vector2(stage_cx - 58.0, stage_base_y - 8.0)
-	dais.size = Vector2(116.0, 26.0)
+	dais.position = Vector2(stage_cx - 52.0, stage_base_y - 4.0)
+	dais.size = Vector2(104.0, 18.0)
 	var dsb := StyleBoxFlat.new()
-	dsb.bg_color = Color(0.14, 0.12, 0.11, 0.95)
+	dsb.bg_color = Color(0.17, 0.145, 0.125, 0.96)
 	dsb.border_color = Color(0.30, 0.24, 0.18)
 	dsb.set_border_width_all(2)
 	dsb.set_corner_radius_all(13)
@@ -333,16 +402,16 @@ func _build_stage() -> void:
 	_root.add_child(_stage_holder)
 
 	# Name + tagline under the dais.
-	_name_label = _label("", 18, GOLD_BRIGHT)
+	_name_label = _label("", 16, GOLD_BRIGHT)
 	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_name_label.position = Vector2(stage_cx - 130.0, stage_base_y + 20.0)
-	_name_label.size = Vector2(260.0, 22.0)
+	_name_label.position = Vector2(stage_cx - 130.0, stage_base_y + 14.0)
+	_name_label.size = Vector2(260.0, 20.0)
 	_root.add_child(_name_label)
 
-	_tagline_label = _label("", 11, GOLD)
+	_tagline_label = _label("", 10, GOLD)
 	_tagline_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_tagline_label.position = Vector2(stage_cx - 150.0, stage_base_y + 40.0)
-	_tagline_label.size = Vector2(300.0, 14.0)
+	_tagline_label.position = Vector2(stage_cx - 150.0, stage_base_y + 34.0)
+	_tagline_label.size = Vector2(300.0, 13.0)
 	_root.add_child(_tagline_label)
 
 
@@ -355,7 +424,7 @@ func _build_pedestal_row() -> void:
 	var strip_left: float = 16.0
 	var strip_w: float = 396.0
 	var slot_w: float = strip_w / float(n)
-	var row_y: float = 300.0
+	var row_y: float = 326.0  # cells 280..340; nameplate band ends 278
 	for i in range(n):
 		var e: Dictionary = _pedestals[i]
 		var cx: float = strip_left + slot_w * (float(i) + 0.5)
@@ -400,8 +469,9 @@ func _build_info_panel() -> void:
 		panel.patch_margin_right = 8
 		panel.patch_margin_top = 8
 		panel.patch_margin_bottom = 8
-	panel.position = Vector2(px, 56.0)
-	panel.size = Vector2(pw, 268.0)
+	panel.position = Vector2(px, 52.0)
+	panel.size = Vector2(pw, 298.0)
+	panel.clip_contents = true
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(panel)
 
@@ -419,8 +489,8 @@ func _build_info_panel() -> void:
 	var inner_w: float = pw - pad * 2.0
 	var content := VBoxContainer.new()
 	content.position = Vector2(pad, pad)
-	content.size = Vector2(inner_w, 268.0 - pad * 2.0)
-	content.add_theme_constant_override("separation", 4)
+	content.size = Vector2(inner_w, 298.0 - pad * 2.0)
+	content.add_theme_constant_override("separation", 3)
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(content)
 
@@ -449,6 +519,10 @@ func _build_info_panel() -> void:
 
 		var icon := TextureRect.new()
 		icon.custom_minimum_size = Vector2(16.0, 16.0)
+		# Without EXPAND_IGNORE_SIZE a TextureRect's minimum size is the raw
+		# texture (128px painterly icons) — it detonated the whole panel layout
+		# off the right screen edge. THE select-screen bug.
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -553,8 +627,9 @@ func _rebuild_stage_hero() -> void:
 	var hero: Node2D = _make_hero(e, 3.0, 0.0)
 	if hero == null:
 		return
-	# Feet meet the dais; the mount point sits at the dais top.
-	hero.position = Vector2(0.0, 0.0)
+	# Feet meet the dais (empirical +16: the szadi centre/offset math left a
+	# visible hover above the slab — sitting screenshot-verified).
+	hero.position = Vector2(0.0, 16.0)
 	_stage_holder.add_child(hero)
 	_stage_hero = hero
 	# Idle pulse (a slow breathing scale on the whole hero node).
