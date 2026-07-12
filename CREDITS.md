@@ -48,3 +48,8 @@ All via OpenGameArt.org.
 | Kenney Fantasy UI Borders (panel chrome) | Kenney | https://kenney.nl/assets/fantasy-ui-borders | **CC0** | Gold-baked ninepatch frame on all 26 panel surfaces |
 
 | LPC Castle Mega Pack (dark set crops: towers, spire, keep wall) | Sharm, Lanea Zimmerman et al. | https://opengameart.org/content/castle-mega-pack | **CC-BY-SA 3.0 / GPL** — see pack page | Gothic capital walls + towers (freekit/castle_*) |
+
+## LPC Grave Markers Rework (world graves pool)
+- Source: OpenGameArt "LPC grave markers rework" (scout round 2, `_downloads/scout_2026_07/church_grave/lpc_grave_markers/`)
+- License: CC-BY-SA 3.0 / GPL 3.0 (LPC standard dual license; see pack attribution.png)
+- Usage: 19 markers + monument extracted to `assets/art/world/freekit/graves/`; drawn by the `graves` landmark pool in zone_builder.

@@ -822,9 +822,16 @@ static func _build_landmarks(parent: Node2D, rng: RandomNumberGenerator, def: Di
 					bed.y_sort_enabled = true
 					parent.add_child(bed)
 			"graves":
+				# LPC grave markers rework: 19-marker pool, rows read as a real yard
 				for i in range(int(lm.get("count", 6))):
-					var gp: Vector2 = pos + Vector2((i % 3) * 48, int(float(i) / 3.0) * 58)
-					_atlas(parent, R_STONE_LOW if i % 2 == 0 else R_STONE_TALL, gp, Color(0.85, 0.87, 0.9), true)
+					var gp: Vector2 = pos + Vector2((i % 3) * 48 + rng.randf_range(-6, 6), int(float(i) / 3.0) * 58 + rng.randf_range(-4, 4))
+					var gidx: int = rng.randi_range(0, 18)
+					var gspr := Sprite2D.new()
+					gspr.texture = load("res://assets/art/world/freekit/graves/grave_%02d.png" % gidx)
+					gspr.position = gp
+					gspr.y_sort_enabled = true
+					gspr.offset = Vector2(0, -8)
+					parent.add_child(gspr)
 					_foot_type(parent, "graves", gp)
 			"dolmen":
 				_atlas(parent, R_MONOLITH, pos, Color(0.8, 0.82, 0.86), true)
