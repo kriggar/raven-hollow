@@ -1660,7 +1660,7 @@ const _ZONES := {
 		"ambient_bias": Color(0.86, 0.90, 1.06),
 		"player_spawn": Vector2(220.0, 2560.0),
 		"tree_density": 0.4,
-		"roads": [[Vector2(140, 2560), Vector2(1800, 2600), Vector2(3600, 2560), Vector2(5400, 2600)]],
+		"roads": [[Vector2(140, 2560), Vector2(1400, 2470), Vector2(2600, 2650), Vector2(3600, 2520), Vector2(5000, 2660), Vector2(6300, 2530), Vector2(7100, 2580)], [Vector2(4080, 2580), Vector2(4110, 2960)]],
 		"landmarks": [
 			{"type": "graves", "pos": Vector2(2400, 1600), "count": 12},
 			{"type": "graves", "pos": Vector2(3800, 3400), "count": 12},
