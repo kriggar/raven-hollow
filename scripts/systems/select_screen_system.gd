@@ -261,6 +261,17 @@ func _build_backdrop() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(bg)
+	# Handcrafted kit (owner 2026-07-12): candlelit cathedral hall backdrop.
+	var hall_path := "res://assets/art/ui/kit/select_backdrop.png"
+	if ResourceLoader.exists(hall_path):
+		var hall := TextureRect.new()
+		hall.texture = load(hall_path)
+		hall.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		hall.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		hall.set_anchors_preset(Control.PRESET_FULL_RECT)
+		hall.modulate = Color(0.62, 0.58, 0.60)
+		hall.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_root.add_child(hall)
 
 	var glow := TextureRect.new()
 	glow.texture = _radial(EMBER_GLOW, Color(EMBER_GLOW.r, EMBER_GLOW.g, EMBER_GLOW.b, 0.0), 0.0, 1.0)
@@ -380,18 +391,28 @@ func _build_stage() -> void:
 	_glow_tween.tween_property(brazier, "modulate:a", 0.62, 0.7).set_trans(Tween.TRANS_SINE)
 	_glow_tween.tween_property(brazier, "modulate:a", 1.0, 0.55).set_trans(Tween.TRANS_SINE)
 
-	# Stone dais (a flat elliptical slab drawn as a squashed Panel).
-	var dais := Panel.new()
-	dais.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	dais.position = Vector2(stage_cx - 52.0, stage_base_y - 4.0)
-	dais.size = Vector2(104.0, 18.0)
-	var dsb := StyleBoxFlat.new()
-	dsb.bg_color = Color(0.17, 0.145, 0.125, 0.96)
-	dsb.border_color = Color(0.30, 0.24, 0.18)
-	dsb.set_border_width_all(2)
-	dsb.set_corner_radius_all(13)
-	dais.add_theme_stylebox_override("panel", dsb)
-	_root.add_child(dais)
+	# Handcrafted stone dais (kit) — squashed for the 3/4 read; the old flat
+	# pill read as an empty box (sitting finding).
+	var dais_path := "res://assets/art/ui/kit/stone_dais.png"
+	if ResourceLoader.exists(dais_path):
+		var dais := TextureRect.new()
+		dais.texture = load(dais_path)
+		dais.stretch_mode = TextureRect.STRETCH_SCALE
+		dais.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		dais.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		dais.position = Vector2(stage_cx - 60.0, stage_base_y - 34.0)
+		dais.size = Vector2(120.0, 52.0)
+		_root.add_child(dais)
+	else:
+		var dais := Panel.new()
+		dais.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		dais.position = Vector2(stage_cx - 52.0, stage_base_y - 4.0)
+		dais.size = Vector2(104.0, 18.0)
+		var dsb := StyleBoxFlat.new()
+		dsb.bg_color = Color(0.17, 0.145, 0.125, 0.96)
+		dsb.set_border_width_all(2)
+		dais.add_theme_stylebox_override("panel", dsb)
+		_root.add_child(dais)
 
 	# Mount point for the central hero (a zero-size Control; hero node positions
 	# itself so its feet meet the dais top).
@@ -463,7 +484,14 @@ func _build_info_panel() -> void:
 	var pw: float = BASE_W - px - 12.0
 
 	var panel := NinePatchRect.new()
-	if _panel_tex != null:
+	var kit_frame := "res://assets/art/ui/kit/panel_frame.png"
+	if ResourceLoader.exists(kit_frame):
+		panel.texture = load(kit_frame)
+		panel.patch_margin_left = 42
+		panel.patch_margin_right = 42
+		panel.patch_margin_top = 40
+		panel.patch_margin_bottom = 40
+	elif _panel_tex != null:
 		panel.texture = _panel_tex
 		panel.patch_margin_left = 8
 		panel.patch_margin_right = 8
