@@ -127,15 +127,17 @@ func _refresh() -> void:
 func _add_owned_row(mid: String) -> void:
 	var m: Dictionary = _ms.call("mount_def", mid)
 	var row := _row_container()
+	var has_icon: bool = _add_row_icon(row, mid)
+	var lx: float = 32.0 if has_icon else 4.0
 	var mounted: bool = bool(_ms.call("is_mounted", _actor)) \
 			and str(_ms.call("active_mount", _actor)) == mid
 	var name_lbl := _mk_label(_row_title(m), 12, _rarity_color(str(m.get("rarity", "common"))))
 	name_lbl.size = Vector2(180.0, 16.0)
-	name_lbl.position = Vector2(4.0, 3.0)
+	name_lbl.position = Vector2(lx, 3.0)
 	row.add_child(name_lbl)
 	var src := _mk_label(_source_label(m), 8, DIM)
 	src.size = Vector2(180.0, 12.0)
-	src.position = Vector2(4.0, 17.0)
+	src.position = Vector2(lx, 17.0)
 	row.add_child(src)
 	var btn := _mk_button("RIDING" if mounted else "Summon", 34.0)
 	btn.size = Vector2(60.0, 22.0)
@@ -154,14 +156,16 @@ func _add_trainer_row(mid: String) -> void:
 	var m: Dictionary = _ms.call("mount_def", mid)
 	var owned_already: bool = bool(_ms.call("is_owned", _actor, mid))
 	var row := _row_container()
+	var has_icon: bool = _add_row_icon(row, mid)
+	var lx: float = 32.0 if has_icon else 4.0
 	var name_lbl := _mk_label(_row_title(m), 12, _rarity_color(str(m.get("rarity", "common"))))
 	name_lbl.size = Vector2(180.0, 16.0)
-	name_lbl.position = Vector2(4.0, 3.0)
+	name_lbl.position = Vector2(lx, 3.0)
 	row.add_child(name_lbl)
 	var price: int = int(_ms.call("mount_price", mid))
 	var price_lbl := _mk_label("%d g" % price, 8, GOLD)
 	price_lbl.size = Vector2(180.0, 12.0)
-	price_lbl.position = Vector2(4.0, 17.0)
+	price_lbl.position = Vector2(lx, 17.0)
 	row.add_child(price_lbl)
 	var btn := _mk_button("Owned" if owned_already else "Buy", 34.0)
 	btn.size = Vector2(60.0, 22.0)
@@ -172,6 +176,23 @@ func _add_trainer_row(mid: String) -> void:
 		_refresh())
 	row.add_child(btn)
 	_list.add_child(row)
+
+
+## UNIQUE ICON LAW: every mount shows its baked game-icons tile (icons_mounts/).
+func _add_row_icon(row: Control, mid: String) -> bool:
+	var p: String = "res://assets/art/icons_mounts/%s.png" % mid
+	if not ResourceLoader.exists(p):
+		return false
+	var ic := TextureRect.new()
+	ic.texture = load(p)
+	ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	ic.size = Vector2(24.0, 24.0)
+	ic.position = Vector2(3.0, 3.0)
+	ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(ic)
+	return true
 
 
 # --- little builders --------------------------------------------------------
