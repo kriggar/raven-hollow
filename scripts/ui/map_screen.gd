@@ -294,6 +294,35 @@ func _build_shell() -> void:
 	_build_minimap_widget()
 
 
+	# Handcrafted kit (owner 2026-07-12): parchment sheet under the map art +
+	# compass rose ornament, WoW-atlas presentation.
+	var parch_path := "res://assets/art/ui/kit/parchment_tile.png"
+	if ResourceLoader.exists(parch_path) and _sheet != null:
+		var parch := TextureRect.new()
+		parch.name = "ParchmentBack"
+		parch.texture = load(parch_path)
+		parch.stretch_mode = TextureRect.STRETCH_SCALE
+		parch.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		parch.position = CONTENT.position
+		parch.size = CONTENT.size
+		parch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		parch.modulate = Color(0.9, 0.86, 0.78)
+		var parent0: Node = _sheet.get_parent()
+		parent0.add_child(parch)
+		parent0.move_child(parch, _sheet.get_index())
+	var rose_path := "res://assets/art/ui/kit/mini_ring.png"
+	if ResourceLoader.exists(rose_path):
+		var rose := TextureRect.new()
+		rose.name = "CompassRose"
+		rose.texture = load(rose_path)
+		rose.stretch_mode = TextureRect.STRETCH_SCALE
+		rose.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		rose.size = Vector2(56.0, 56.0)
+		rose.position = CONTENT.position + Vector2(8.0, CONTENT.size.y - 64.0)
+		rose.modulate = Color(1, 1, 1, 0.85)
+		rose.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_panel.add_child(rose)
+
 func _zoom_button(txt: String, pos: Vector2) -> Panel:
 	var p := Panel.new()
 	p.mouse_filter = Control.MOUSE_FILTER_STOP

@@ -330,9 +330,14 @@ func _tick_schedules() -> void:
 	var hour: float = _now_hour()
 	for id: String in _reg.keys():
 		var rec: Dictionary = _reg[id]
-		var node: Node = rec.get("node")
-		if node == null or not is_instance_valid(node):
+		# Variant-first: assigning a FREED object into a typed `Node` var is
+		# itself the 'previously freed instance' error — the guard must run
+		# before any typed assignment (windowed-boot error storm, 9/boot).
+		var node_v: Variant = rec.get("node")
+		if node_v == null or not is_instance_valid(node_v):
+			_reg.erase(id)  # stale after change_map; lazy re-registration re-adds
 			continue
+		var node: Node = node_v
 		var blocks: Array = _arr(_dict(_schedules.get(id, {})).get("blocks", []))
 		var bi: int = _block_index(blocks, hour)
 		if bi < 0 or bi == int(rec.get("cur_block", -1)):
