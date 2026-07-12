@@ -417,6 +417,7 @@ static func _build_river(parent: Node2D, def: Dictionary) -> void:
 				deck.position = hit
 				deck.rotation = (a2 - a1).angle()
 				deck.scale = Vector2((rw * 1.5) / 128.0, 2.6)
+				deck.modulate = Color(0.84, 0.81, 0.76)
 				deck.z_index = -6
 				parent.add_child(deck)
 				var rdir: Vector2 = (a2 - a1).normalized()
