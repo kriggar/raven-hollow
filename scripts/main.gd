@@ -1643,6 +1643,10 @@ func _run_env_hooks() -> void:
 		if rp.size() == 2:
 			get_window().size = Vector2i(int(rp[0]), int(rp[1]))
 			await get_tree().process_frame
+	# RH_PROPAUDIT=1: prop clipping / placement audit of the built map (QA,
+	# read-only; prints AUDIT lines — see scripts/town_audit.gd).
+	if not OS.get_environment("RH_PROPAUDIT").is_empty() and _world != null:
+		TownAudit.run(_world, TownBuilder.last_path_cells if current_map_id == "town" else {})
 	var shot_path: String = OS.get_environment("RH_SHOT")
 	var smoke: String = OS.get_environment("RH_SMOKE")
 	var cast_action: String = OS.get_environment("RH_CAST")

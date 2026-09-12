@@ -277,6 +277,17 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    shallows (+ bank collider), legacy slab road to the gate disabled (main.gd add_gate paint_road=false).
    All prop/grave/tree placements byte-identical (legacy ground builder still burns the same RNG draws).
    Verified: smoke boots zero script errors; shots `_screens/town_v2/` (before/after: before_after_plaza.png).
+   **POLISH PASS SHIPPED (same day):** ONE cohesive kit — Szadi props on Szadi houses, Cainos stone,
+   LPC fences/graves/lanterns, LPC farming crops + reeds (tools/assets/extract_town_kit.py -> assets/art/
+   world/town/). Szadi thatch awnings replace the LPC candy-stripe stalls; cottage yards (barrels, benches,
+   woodpiles, ivy, a washing line); fenced farm field with 33 crop sprites + fenced kitchen garden; orchard
+   thinned to 2x2 with ladder/baskets; pond bank reeds/rocks/bucket; woodcutter's yard behind the inn;
+   fenced hay paddock NE; roadside saint by the gate road; old well ring north of the graveyard (curiosity
+   site); copses + boulders on the two empty lawns; wood-gatherer clutter clustered; chimney smoke (inn x2,
+   smithy); door lights on every house; border ring dead-sapling rate 18% -> 6%. QA: new `scripts/
+   town_audit.gd` + `RH_PROPAUDIT=1` hook (footprint STACK / IN_BLDG / NPC_IN report) — final run: 0 real
+   stacks (only the gate lantern on its post + the inn's own sign/lanterns), 0 NPCs in props. 20-screen
+   play-zoom sweep eyeballed (`_screens/town_sweep/sheet_*.png`).
    NEXT (in order): (a) owner eye on the town at play zoom; (b) port the painter into zone_builder as the
    per-zone ground pass (biome material sets: bog Mud/Grass_Dark/Water_Green, tundra Snow/Ice, volcanic
    Rock_Black/Lava, coast Sand/Shallows/Water) replacing block-tiled sheets + slab roads — the single
