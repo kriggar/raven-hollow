@@ -344,7 +344,7 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 		Vector2(1860, 802), Vector2(2000, 820), Vector2(2120, 808), Vector2(2260, 816)], main_w, dirt, 14.0)
 	# west road: plaza -> market -> graveyard lane -> graveyard gate (500,624)
 	base.band([Vector2(990, 800), Vector2(840, 806), Vector2(700, 796), Vector2(560, 802),
-		Vector2(470, 796), Vector2(452, 720), Vector2(470, 610)], lane_w, dirt, 10.0)
+		Vector2(462, 796), Vector2(450, 720), Vector2(448, 600)], lane_w, dirt, 10.0)
 	# south road: plaza -> cottages -> terminus well (1120,1445)
 	base.band([Vector2(1120, 910), Vector2(1112, 1050), Vector2(1128, 1200), Vector2(1116, 1330),
 		Vector2(1120, 1440)], lane_w, dirt, 10.0)
@@ -365,7 +365,7 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	base.ellipse(Vector2(1545, 862), 100.0, 46.0, dirt, 12.0)      # smithy work yard (forge + anvil)
 	base.ellipse(Vector2(812, 802), 64.0, 28.0, dirt, 8.0)         # market stall (orange)
 	base.ellipse(Vector2(868, 932), 64.0, 28.0, dirt, 8.0)         # market stall (green)
-	base.ellipse(Vector2(760, 1032), 44.0, 22.0, dirt, 6.0)        # the cart
+	base.ellipse(Vector2(778, 1022), 46.0, 22.0, dirt, 6.0)        # the cart
 	base.ellipse(Vector2(700, 728), 46.0, 20.0, dirt, 6.0)         # merchant house door
 	base.ellipse(Vector2(660, 978), 46.0, 20.0, dirt, 6.0)         # merchant house 2 door
 	base.ellipse(Vector2(980, 1248), 46.0, 20.0, dirt, 6.0)        # cottage door
@@ -376,9 +376,11 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	base.ellipse(Vector2(1200, 1122), 40.0, 20.0, dirt, 6.0)       # cottage well
 	base.ellipse(Vector2(1120, 1448), 58.0, 30.0, dirt, 8.0)       # terminus well
 	base.ellipse(Vector2(330, 420), 36.0, 24.0, dirt, 8.0)         # graveyard: bare patches
-	base.ellipse(Vector2(600, 470), 30.0, 20.0, dirt, 6.0)
+	base.ellipse(Vector2(620, 560), 28.0, 14.0, dirt, 5.0)         # under the wolf statue
 	# POLISH 2026-09 clusters (see _polish_2026_09)
-	base.ellipse(Vector2(1120, 255), 96.0, 40.0, dirt, 8.0)        # woodcutter yard behind the inn
+	base.ellipse(Vector2(1120, 255), 110.0, 46.0, dirt, 14.0)      # woodcutter yard behind the inn
+	base.ellipse(Vector2(1980, 242), 60.0, 34.0, dirt, 8.0)        # travellers' camp NE
+	base.ellipse(Vector2(1985, 1240), 60.0, 26.0, dirt, 8.0)       # farm cart east of the barn
 	base.ellipse(Vector2(1664, 300), 84.0, 48.0, dirt, 8.0)        # hay paddock (fenced)
 	base.ellipse(Vector2(1985, 745), 40.0, 18.0, dirt, 5.0)        # roadside saint
 	base.ellipse(Vector2(760, 262), 60.0, 30.0, dirt, 8.0)         # old well ring north of the graveyard
@@ -386,7 +388,7 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 
 	# --- SOIL: the fenced kitchen garden and the farm field
 	base.rect_px(Rect2(864, 1344, 128, 64), soil)
-	base.rect_px(Rect2(1408, 1312, 352, 96), soil)
+	base.rect_px(Rect2(1408, 1312, 352, 64), soil)
 
 	# --- POND: shallows ring then open water (sheet pairs Grass<->Shallows<->Water)
 	base.ellipse(POND_CENTER, 150.0, 84.0, shallows, 8.0)
@@ -396,6 +398,7 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	top.ellipse(Vector2(1120, 800), 180.0, 128.0, cobble, 14.0)
 	top.rect_px(Rect2(1088, 640, 64, 64), cobble)   # inn forecourt link
 	top.ellipse(Vector2(1548, 864), 74.0, 40.0, cobble, 8.0)   # forge work floor
+	top.ellipse(Vector2(448, 344), 28.0, 14.0, cobble, 4.0)    # graveyard saint plinth
 
 	var layer := TileMapLayer.new()
 	layer.name = "Ground"
@@ -458,9 +461,9 @@ static func _polish_2026_09(props: Node2D, decals: Node2D, lights: Node2D) -> vo
 	var fx0: int = 43
 	var fx1: int = 55
 	var fy0: int = 40
-	var fy1: int = 44
+	var fy1: int = 43
 	for tx in range(fx0, fx1 + 1):
-		if tx >= 49 and tx <= 53:
+		if tx >= 48 and tx <= 51:
 			pass   # yard gap in front of the farmhouse door
 		elif tx == fx0:
 			props.add_child(_fence_tile(F_TL, tx, fy0))
@@ -480,7 +483,6 @@ static func _polish_2026_09(props: Node2D, decals: Node2D, lights: Node2D) -> vo
 	var rows: Array = [
 		[1336.0, ["crop_corn", "crop_corn", "crop_corn", "crop_corn", "crop_corn", "crop_corn", "crop_corn", "crop_corn", "sprout_corn", "sprout_corn", "sprout_corn"]],
 		[1368.0, ["crop_cabbage", "crop_lettuce", "crop_cabbage", "crop_lettuce", "crop_cabbage", "crop_lettuce", "crop_cabbage", "crop_lettuce", "sprout_cabbage", "sprout_lettuce", "sprout_cabbage"]],
-		[1400.0, ["crop_tomato", "crop_pepper", "crop_tomato", "crop_pepper", "crop_tomato", "crop_pepper", "crop_tomato", "crop_pepper", "sprout_tomato", "sprout_pepper", "sprout_tomato"]],
 	]
 	for row: Variant in rows:
 		var ry: float = row[0]
@@ -497,17 +499,17 @@ static func _polish_2026_09(props: Node2D, decals: Node2D, lights: Node2D) -> vo
 		props.add_child(_sprite(TOWN_KIT + ("crop_lettuce" if i % 2 == 0 else "crop_carrot") + ".png", Vector2(gx, 1388.0), 1.0))
 
 	# --- pond bank: reeds on the shallows edge, rocks, a bucket where the path ends
-	for rp: Vector2 in [Vector2(415, 1300), Vector2(470, 1270), Vector2(560, 1260), Vector2(655, 1270), Vector2(706, 1330), Vector2(692, 1400), Vector2(430, 1400)]:
-		props.add_child(_sprite(TOWN_KIT + ("reed_a" if int(rp.x) % 2 == 0 else "reed_b") + ".png", rp, 4.0))
-	props.add_child(_sprite(TOWN_KIT + "reed_bank.png", Vector2(500, 1424), 2.0))
-	props.add_child(_sprite(TOWN_KIT + "reed_bank.png", Vector2(620, 1428), 2.0))
+	for rp: Vector2 in [Vector2(470, 1292), Vector2(650, 1290), Vector2(424, 1352), Vector2(698, 1362)]:
+		var reed := _sprite(TOWN_KIT + ("reed_a" if int(rp.x) % 2 == 0 else "reed_b") + ".png", rp, 4.0)
+		reed.modulate = Color(0.84, 0.86, 0.78)
+		props.add_child(reed)
 	props.add_child(_sprite(PROPS + "cainos_prop_37.png", Vector2(636, 1288), 2.0))
 	props.add_child(_sprite(PROPS + "cainos_prop_38.png", Vector2(612, 1250), 2.0))
 	props.add_child(_sprite(PROPS + "cainos_prop_39.png", Vector2(446, 1330), 2.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_10.png", Vector2(704, 1296), 2.0))
 
 	# --- woodcutter's yard behind the inn: stump, saw-horse, log piles, crate
-	props.add_child(_sprite(PROPS + "szadi_prop_22.png", Vector2(1104, 246), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(1104, 246), 3.0))
 	_decal(decals, PROPS + "szadi_prop_01.png", Vector2(1150, 268))
 	props.add_child(_sprite(PROPS + "szadi_prop_30.png", Vector2(1050, 250), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_23.png", Vector2(1176, 240), 3.0))
@@ -542,6 +544,22 @@ static func _polish_2026_09(props: Node2D, decals: Node2D, lights: Node2D) -> vo
 	props.add_child(_sprite(PROPS + "szadi_prop_21.png", Vector2(1700, 320), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_21.png", Vector2(1662, 270), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_24.png", Vector2(1724, 288), 3.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_12.png", Vector2(1600, 332), 3.0))     # trough
+	props.add_child(_atlas_sprite(R_CART, Vector2(1664, 404), 5.0))                     # hay cart at the gate
+	props.add_child(_rect_collider(Vector2(1664, 404), Vector2(52, 18), Vector2(0, -10)))
+	props.add_child(_sprite(PROPS + "szadi_prop_21.png", Vector2(1714, 398), 3.0))
+	# travellers' camp in the NE corner: fire, log seats, pack — a reason to walk there
+	var camp_fire := _anim_sprite(FIRE_FRAMES, 8.0, Vector2(1980, 236), 4.0)
+	props.add_child(camp_fire)
+	props.add_child(_circle_collider(Vector2(1980, 236), 9.0, Vector2(0, -5)))
+	lights.add_child(_light(Vector2(1980, 220), Color(1.0, 0.62, 0.32), 0.9, 105.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(1946, 258), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_25.png", Vector2(2014, 262), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_24.png", Vector2(2018, 230), 3.0))
+	# the farm's cart east of the barn
+	props.add_child(_atlas_sprite(R_CART, Vector2(1990, 1236), 5.0))
+	props.add_child(_rect_collider(Vector2(1990, 1236), Vector2(52, 18), Vector2(0, -10)))
+	props.add_child(_sprite(PROPS + "szadi_prop_21.png", Vector2(1948, 1256), 3.0))
 
 	# --- roadside saint by the east road: statue on a slab, lantern, bench
 	_decal(decals, PROPS + "cainos_prop_00.png", Vector2(1985, 740))
@@ -571,7 +589,7 @@ static func _polish_2026_09(props: Node2D, decals: Node2D, lights: Node2D) -> vo
 	props.add_child(_sprite(PROPS + "cainos_prop_38.png", Vector2(1798, 494), 2.0))
 
 	# --- chimney smoke: the inn (two stacks) and the smithy (CPUParticles, cheap)
-	for cp: Vector2 in [Vector2(1013, 340), Vector2(1225, 340), Vector2(1591, 519)]:
+	for cp: Vector2 in [Vector2(1013, 340), Vector2(1225, 340), Vector2(1614, 585)]:
 		props.add_child(_chimney_smoke(cp))
 
 	# --- warm door lights so every house reads inhabited at night
@@ -590,8 +608,19 @@ static func _chimney_smoke(pos: Vector2) -> CPUParticles2D:
 	smoke.gravity = Vector2(5.0, -12.0)
 	smoke.initial_velocity_min = 8.0
 	smoke.initial_velocity_max = 14.0
-	smoke.scale_amount_min = 6.0
-	smoke.scale_amount_max = 12.0
+	smoke.scale_amount_min = 0.6
+	smoke.scale_amount_max = 1.3
+	var puff := GradientTexture2D.new()
+	puff.width = 16
+	puff.height = 16
+	puff.fill = GradientTexture2D.FILL_RADIAL
+	puff.fill_from = Vector2(0.5, 0.5)
+	puff.fill_to = Vector2(0.5, 0.0)
+	var pg := Gradient.new()
+	pg.set_color(0, Color(1, 1, 1, 1))
+	pg.set_color(1, Color(1, 1, 1, 0))
+	puff.gradient = pg
+	smoke.texture = puff
 	smoke.color = Color(0.80, 0.78, 0.76, 0.5)
 	var g := Gradient.new()
 	g.set_color(0, Color(0.85, 0.82, 0.80, 0.55))
@@ -640,10 +669,11 @@ static func _inn(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 
 	# Bench by the entrance, ivy at the corner, and a barrel pair hugging the
 	# west (kitchen) wing: one dominant cask with a small keg offset beside it.
-	props.add_child(_sprite(PROPS + "cainos_prop_04.png", Vector2(1250, 640), 3.0))
-	props.add_child(_sprite(PROPS + "cainos_prop_18.png", Vector2(968, 630), 3.0))
-	props.add_child(_sprite(PROPS + "szadi_prop_08.png", Vector2(992, 638), 3.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_04.png", Vector2(1322, 650), 3.0))
+	props.add_child(_sprite(PROPS + "cainos_prop_18.png", Vector2(990, 632), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_08.png", Vector2(966, 628), 3.0))
 	_decal(decals, PROPS + "szadi_prop_00.png", Vector2(1300, 585))
+	props.add_child(_sprite(PROPS + "szadi_prop_30.png", Vector2(1298, 628), 3.0))
 
 
 static func _smithy(props: Node2D, decals: Node2D, lights: Node2D) -> void:
@@ -651,7 +681,7 @@ static func _smithy(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 
 	# Forge work floor: cobble is painted by _build_ground_painted (overlay);
 	# anvil and fire pit sit on it.
-	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1512, 848), 2.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1486, 898), 2.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(1578, 880), 2.0))
 	props.add_child(_atlas_sprite(R_ANVIL, Vector2(1585, 855), 4.0))
 	props.add_child(_circle_collider(Vector2(1585, 855), 9.0, Vector2(0, -6)))
@@ -719,13 +749,13 @@ static func _farmstead(props: Node2D, decals: Node2D, rng: RandomNumberGenerator
 	props.add_child(_circle_collider(Vector2(1672, 1266), 14.0, Vector2(0, -9)))
 	props.add_child(_sprite(PROPS + "szadi_prop_29.png", Vector2(1566, 1262), 4.0))
 	props.add_child(_circle_collider(Vector2(1566, 1262), 14.0, Vector2(0, -9)))
-	props.add_child(_sprite(PROPS + "szadi_prop_12.png", Vector2(1722, 1272), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_12.png", Vector2(1734, 1250), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1900, 1145), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_30.png", Vector2(1872, 1150), 3.0))
 	# Loose hay bales dropped where the work happens: beside each hay heap
 	# and one by the farmhouse door. (rng draw kept so later streams are
 	# byte-identical to the pre-polish build; it only jitters the bale now.)
-	var hay_bits: Array = [Vector2(1524, 1270), Vector2(1706, 1284), Vector2(1792, 1148)]
+	var hay_bits: Array = [Vector2(1524, 1270), Vector2(1700, 1252), Vector2(1792, 1148)]
 	for p: Vector2 in hay_bits:
 		var jitter: int = rng.randi_range(0, 1)
 		props.add_child(_sprite(PROPS + "szadi_prop_21.png", p + Vector2(float(jitter) * 3.0, 0.0), 3.0))
@@ -749,8 +779,8 @@ static func _graveyard(props: Node2D, decals: Node2D, lights: Node2D, rng: Rando
 	# Statues watching over the yard.
 	props.add_child(_atlas_sprite(R_STATUE_HOOD, Vector2(448, 340), 4.0))
 	props.add_child(_rect_collider(Vector2(448, 340), Vector2(22, 10), Vector2(0, -5)))
-	props.add_child(_atlas_sprite(R_STATUE_WOLF, Vector2(530, 545), 4.0))
-	props.add_child(_rect_collider(Vector2(530, 545), Vector2(20, 10), Vector2(0, -5)))
+	props.add_child(_atlas_sprite(R_STATUE_WOLF, Vector2(620, 556), 4.0))
+	props.add_child(_rect_collider(Vector2(620, 556), Vector2(20, 10), Vector2(0, -5)))
 
 	# Rows of graves with dead-ish spacing (seeded skips + jitter).
 	var rows: Array = [336.0, 408.0, 480.0]
@@ -782,9 +812,7 @@ static func _graveyard(props: Node2D, decals: Node2D, lights: Node2D, rng: Rando
 	props.add_child(_lamp_post(gate))
 	props.add_child(_circle_collider(gate, 4.0, Vector2(0, -2)))
 	lights.add_child(_light(gate + Vector2(0, -62), Color(1.0, 0.78, 0.45), 0.7, 85.0))
-	_decal(decals, PROPS + "szadi_prop_01.png", Vector2(448, 640))
 	# Context so the worn patch reads as a ruined threshold, not an orphan tile.
-	props.add_child(_sprite(PROPS + "cainos_prop_35.png", Vector2(414, 652), 2.0))
 	props.add_child(_sprite(PROPS + "cainos_prop_38.png", Vector2(486, 660), 2.0))
 
 	# Fence collision (thin strips, gate gap in the south side).
@@ -808,10 +836,15 @@ static func _fence_perimeter(props: Node2D) -> void:
 			top_rect = F_TR
 		props.add_child(_fence_tile(top_rect, tx, GY_TY0))
 
+		# POLISH 2026-09: the merchant house (house_02) stands over tiles 18-20 of
+		# the south rail and tiles 12-16 of the east rail; the fence now stops at
+		# the house instead of running under its roof and lean-to.
+		if tx > 17:
+			continue
 		var bot_rect: Rect2 = F_B
 		if tx == GY_TX0:
 			bot_rect = F_BL
-		elif tx == GY_TX1:
+		elif tx == 17:
 			bot_rect = F_BR
 		elif tx == 13 or tx == 14:
 			bot_rect = F_POST  # open gate posts
@@ -819,7 +852,8 @@ static func _fence_perimeter(props: Node2D) -> void:
 
 	for ty in range(GY_TY0 + 1, GY_TY1):
 		props.add_child(_fence_tile(F_L, GY_TX0, ty))
-		props.add_child(_fence_tile(F_R, GY_TX1, ty))
+		if ty <= 11:
+			props.add_child(_fence_tile(F_R, GY_TX1, ty))
 
 
 static func _fence_tile(rect: Rect2, tx: int, ty: int) -> Sprite2D:
@@ -862,7 +896,7 @@ static func _vegetation(props: Node2D, decals: Node2D, rng: RandomNumberGenerato
 	# A few hand-set trees inside the town for shade and framing.
 	# (1368,1080) and (735,1370) were nudged off the new east-ring road and
 	# the new fenced garden plot respectively.
-	for p: Vector2 in [Vector2(770, 555), Vector2(1760, 985), Vector2(392, 905), Vector2(1368, 1080), Vector2(735, 1370)]:
+	for p: Vector2 in [Vector2(770, 555), Vector2(392, 905), Vector2(1368, 1080), Vector2(735, 1370)]:
 		_tree(props, int(absf(p.x)) % 3, p)
 
 	# Bushes hugging the buildings.
@@ -953,7 +987,7 @@ static func _orchard(props: Node2D) -> void:
 			props.add_child(_sprite(PLANTS + "plant_02.png", p, 10.0))
 			props.add_child(_circle_collider(p, 5.0, Vector2(0, -3)))
 	# picking gear under the trees: ladder + two baskets
-	props.add_child(_sprite(PROPS + "szadi_prop_16.png", Vector2(1278, 1372), 3.0))
+	props.add_child(_sprite(PROPS + "szadi_prop_16.png", Vector2(1238, 1404), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_24.png", Vector2(1226, 1450), 3.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_26.png", Vector2(1302, 1454), 3.0))
 
@@ -1013,7 +1047,7 @@ static func _roadside_props(props: Node2D, lights: Node2D, rng2: RandomNumberGen
 
 	# Lamp posts along the main roads (warm, sparse).
 	var lamps: Array = [
-		Vector2(940, 862), Vector2(1350, 752), Vector2(1072, 1000),
+		Vector2(1350, 752), Vector2(1072, 1000),
 		Vector2(1168, 1240), Vector2(760, 1150), Vector2(1490, 1108),
 		Vector2(1180, 1424),
 	]
@@ -1070,8 +1104,8 @@ static func _roadside_props(props: Node2D, lights: Node2D, rng2: RandomNumberGen
 
 static func _south_terminus(props: Node2D, lights: Node2D) -> void:
 	# The south road ends at a second, larger village well with a bench.
-	props.add_child(_sprite(PROPS + "cainos_prop_30.png", Vector2(1120, 1445), 6.0))
-	props.add_child(_rect_collider(Vector2(1120, 1445), Vector2(78, 30), Vector2(0, -18)))
+	props.add_child(_sprite(PROPS + "szadi_prop_11.png", Vector2(1120, 1445), 4.0))
+	props.add_child(_rect_collider(Vector2(1120, 1445), Vector2(44, 22), Vector2(0, -11)))
 	props.add_child(_sprite(PROPS + "cainos_prop_04.png", Vector2(1040, 1462), 3.0))
 	props.add_child(_rect_collider(Vector2(1040, 1462), Vector2(34, 10), Vector2(0, -5)))
 	lights.add_child(_light(Vector2(1120, 1425), Color(0.6, 0.85, 1.0), 0.35, 55.0))

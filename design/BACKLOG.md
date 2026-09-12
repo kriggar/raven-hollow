@@ -288,6 +288,15 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    town_audit.gd` + `RH_PROPAUDIT=1` hook (footprint STACK / IN_BLDG / NPC_IN report) — final run: 0 real
    stacks (only the gate lantern on its post + the inn's own sign/lanterns), 0 NPCs in props. 20-screen
    play-zoom sweep eyeballed (`_screens/town_sweep/sheet_*.png`).
+   SITTING (4 inspectors + adversarial verify over the 20-screen sweep, 20 confirmed findings, 19 fixed):
+   graveyard lane now enters the fence gap; wolf statue off the open grave; graveyard fence stops at the
+   merchant house instead of running under its roof; inn barrels/bench/firewood owned by the walls; crate
+   out of the forge fire; ladder leans into an orchard tree; field cut to two rows so its south rail clears
+   the border canopies; barn stores off the fence line + wider door gap for the doorstep NPC; reeds with
+   feet in the shallows, toned; Szadi 3/4 well replaces the top-down disc at the terminus; saint bedded on
+   cobble; doubled lamp removed; NE meadow gets a travellers' camp (fire + log seats) and the paddock a
+   trough + hay cart; smoke moved onto the smithy chimney cap, round puffs. NOT fixed (deferred): gate
+   wall's repeated battlement caps (GateBuilder wall tiles need a body tile) — #128b.
    NEXT (in order): (a) owner eye on the town at play zoom; (b) port the painter into zone_builder as the
    per-zone ground pass (biome material sets: bog Mud/Grass_Dark/Water_Green, tundra Snow/Ice, volcanic
    Rock_Black/Lava, coast Sand/Shallows/Water) replacing block-tiled sheets + slab roads — the single
