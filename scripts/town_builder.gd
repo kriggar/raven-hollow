@@ -15,6 +15,14 @@ const SEED: int = 20260702
 # the fenced garden plot. Sized for the tallest tree canopy (139 px, base-sorted).
 const CLEAR_TERMINUS := Rect2(980.0, 1390.0, 280.0, 210.0)
 const CLEAR_GARDEN := Rect2(800.0, 1290.0, 260.0, 270.0)
+# PAINTED GROUND (Fable, 2026-09-12): the village pond in the SW meadow —
+# random edge trees and tufts stay off the water and its banks.
+const CLEAR_POND := Rect2(400.0, 1260.0, 330.0, 200.0)
+const POND_CENTER := Vector2(560.0, 1350.0)
+# Ground tint: LPC Terrains grass is a bright spring green; the anchor palette
+# (design/STYLE_ANCHOR.md) wants muted olive parchment. Applied to the whole
+# painted ground stack (overlay inherits).
+const GROUND_TINT := Color(0.94, 0.82, 0.50)
 # Gate keep-clear (contract §14 / GateBuilder): the east-gate mouth to
 # MapRegistry.TOWN_EAST_GATE (2192,816). The border forest must not wall this
 # band or the gate art / the road out of town would be blocked. main.gd builds
@@ -93,7 +101,15 @@ static func build(parent: Node2D) -> Dictionary:
 	parent.y_sort_enabled = true
 
 	var path_cells: Dictionary = {}
-	var ground := _build_ground(rng, rng2, path_cells)
+	# PAINTED GROUND (Fable, 2026-09-12): corner-autotiled LPC Terrains ground
+	# (grass / worn dirt lanes / cobble plaza / soil plots / pond) replaces the
+	# single-material grass fill + slab strips. The legacy builder still runs
+	# into a throwaway layer so `rng`/`rng2` consume exactly the same draws —
+	# every prop, grave, tree and tuft placement below stays byte-identical.
+	var legacy_cells: Dictionary = {}
+	var legacy := _build_ground(rng, rng2, legacy_cells)
+	legacy.free()
+	var ground := _build_ground_painted(path_cells)
 	parent.add_child(ground)
 
 	var decals := Node2D.new()
@@ -291,6 +307,119 @@ static func _paint_plaza(layer: TileMapLayer, rng: RandomNumberGenerator, path_c
 				path_cells[cell2] = true
 
 
+# -------------------------------------------------------- PAINTED GROUND ----
+
+## Corner-autotiled ground for Raven Hollow (TerrainPainter over LPC Terrains
+## v7). Two layers: BASE (grass hub + dirt lanes/yards + soil plots + pond)
+## and a keyed OVERLAY (cobble plaza) so cobble edges sit straight on dirt.
+## Every non-grass cell is registered in `path_cells` (tuft/tree keep-clear).
+static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
+	var rng3 := RandomNumberGenerator.new()
+	rng3.seed = SEED + 202
+	var grass: int = TerrainPainter.mat("Grass")
+	var dirt: int = TerrainPainter.mat("Dirt_Roots")
+	var soil: int = TerrainPainter.mat("Soil")
+	var shallows: int = TerrainPainter.mat("Water_Shallows_Dirt")
+	var water: int = TerrainPainter.mat("Water")
+	var cobble: int = TerrainPainter.mat("Mudstone_Gray")
+	var base := TerrainPainter.Canvas.new(WORLD_TILES_W, WORLD_TILES_H, grass)
+	var top := TerrainPainter.Canvas.new(WORLD_TILES_W, WORLD_TILES_H, grass)
+
+	# --- LANES: worn dirt, 2-3 tiles wide with organic edges (Bible rule 25:
+	# no ruler roads — every lane carries interior waypoints and lateral drift).
+	var main_w: float = 42.0
+	var lane_w: float = 33.0
+	# main street: plaza east edge -> smithy -> east gate (MapRegistry TOWN_EAST_GATE);
+	# drifts a tile either way so the edge never reads as a ruler
+	base.band([Vector2(1250, 800), Vector2(1420, 812), Vector2(1560, 798), Vector2(1700, 816),
+		Vector2(1860, 802), Vector2(2000, 820), Vector2(2120, 808), Vector2(2260, 816)], main_w, dirt, 14.0)
+	# west road: plaza -> market -> graveyard lane -> graveyard gate (500,624)
+	base.band([Vector2(990, 800), Vector2(840, 806), Vector2(700, 796), Vector2(560, 802),
+		Vector2(470, 796), Vector2(452, 720), Vector2(470, 610)], lane_w, dirt, 10.0)
+	# south road: plaza -> cottages -> terminus well (1120,1445)
+	base.band([Vector2(1120, 910), Vector2(1112, 1050), Vector2(1128, 1200), Vector2(1116, 1330),
+		Vector2(1120, 1440)], lane_w, dirt, 10.0)
+	# farm lane: south road -> farmhouse -> barn
+	base.band([Vector2(1120, 1152), Vector2(1300, 1146), Vector2(1480, 1158), Vector2(1640, 1150),
+		Vector2(1800, 1162)], 30.0, dirt, 9.0)
+	# east ring: main street -> farm lane
+	base.band([Vector2(1440, 820), Vector2(1448, 980), Vector2(1436, 1152)], 28.0, dirt, 8.0)
+	# market lane: west road -> cart -> cottage-back lane -> pond bank
+	base.band([Vector2(800, 812), Vector2(806, 1000), Vector2(796, 1180), Vector2(800, 1300),
+		Vector2(740, 1320), Vector2(690, 1332)], 28.0, dirt, 8.0)
+	base.band([Vector2(800, 1280), Vector2(950, 1276), Vector2(1100, 1282)], 26.0, dirt, 8.0)
+	# graveyard: worn path from the gate to the hooded statue
+	base.band([Vector2(500, 600), Vector2(482, 500), Vector2(454, 390)], 20.0, dirt, 6.0)
+
+	# --- YARDS: trampled earth where people work and stand (rule 4: story
+	# clusters own their ground; nothing floats on lawn).
+	base.ellipse(Vector2(1545, 862), 100.0, 46.0, dirt, 12.0)      # smithy work yard (forge + anvil)
+	base.ellipse(Vector2(812, 802), 64.0, 28.0, dirt, 8.0)         # market stall (orange)
+	base.ellipse(Vector2(868, 932), 64.0, 28.0, dirt, 8.0)         # market stall (green)
+	base.ellipse(Vector2(760, 1032), 44.0, 22.0, dirt, 6.0)        # the cart
+	base.ellipse(Vector2(700, 728), 46.0, 20.0, dirt, 6.0)         # merchant house door
+	base.ellipse(Vector2(660, 978), 46.0, 20.0, dirt, 6.0)         # merchant house 2 door
+	base.ellipse(Vector2(980, 1248), 46.0, 20.0, dirt, 6.0)        # cottage door
+	base.ellipse(Vector2(1290, 1268), 46.0, 20.0, dirt, 6.0)       # cottage door
+	base.ellipse(Vector2(1620, 1278), 52.0, 22.0, dirt, 6.0)       # farmhouse door
+	base.ellipse(Vector2(1830, 1162), 64.0, 26.0, dirt, 8.0)       # barn mouth
+	base.ellipse(Vector2(1700, 1276), 60.0, 24.0, dirt, 8.0)       # hay-strewn yard
+	base.ellipse(Vector2(1200, 1122), 40.0, 20.0, dirt, 6.0)       # cottage well
+	base.ellipse(Vector2(1120, 1448), 58.0, 30.0, dirt, 8.0)       # terminus well
+	base.ellipse(Vector2(330, 420), 36.0, 24.0, dirt, 8.0)         # graveyard: bare patches
+	base.ellipse(Vector2(600, 470), 30.0, 20.0, dirt, 6.0)
+
+	# --- SOIL: the fenced kitchen garden and the farm field
+	base.rect_px(Rect2(832, 1344, 192, 192), soil)
+	base.rect_px(Rect2(1408, 1312, 352, 96), soil)
+
+	# --- POND: shallows ring then open water (sheet pairs Grass<->Shallows<->Water)
+	base.ellipse(POND_CENTER, 150.0, 84.0, shallows, 8.0)
+	base.ellipse(POND_CENTER, 100.0, 44.0, water, 4.0)
+
+	# --- COBBLE PLAZA (overlay so the cobble edge lands on the dirt lanes)
+	top.ellipse(Vector2(1120, 800), 180.0, 128.0, cobble, 14.0)
+	top.rect_px(Rect2(1088, 640, 64, 64), cobble)   # inn forecourt link
+	top.ellipse(Vector2(1548, 864), 74.0, 40.0, cobble, 8.0)   # forge work floor
+
+	var layer := TileMapLayer.new()
+	layer.name = "Ground"
+	layer.tile_set = TerrainPainter.make_tileset(false)
+	layer.y_sort_enabled = false
+	layer.z_index = -10
+	layer.modulate = GROUND_TINT
+	var painted: Dictionary = TerrainPainter.paint(layer, base, rng3)
+	var over := TileMapLayer.new()
+	over.name = "GroundOverlay"
+	over.tile_set = TerrainPainter.make_tileset(true)
+	over.y_sort_enabled = false
+	over.z_index = 0   # relative to the base layer: same z, drawn after it
+	var painted2: Dictionary = TerrainPainter.paint(over, top, rng3, true)
+	layer.add_child(over)
+	for c: Variant in painted:
+		path_cells[c] = true
+	for c: Variant in painted2:
+		path_cells[c] = true
+
+	# The pond is not walkable: one convex bank collider on the world layer.
+	var body := StaticBody2D.new()
+	body.name = "PondBank"
+	body.position = POND_CENTER
+	body.collision_layer = 1
+	body.collision_mask = 0
+	var cs := CollisionShape2D.new()
+	var poly := ConvexPolygonShape2D.new()
+	var pts := PackedVector2Array()
+	for i in range(16):
+		var a: float = TAU * float(i) / 16.0
+		pts.append(Vector2(cos(a) * 124.0, sin(a) * 68.0))
+	poly.points = pts
+	cs.shape = poly
+	body.add_child(cs)
+	layer.add_child(body)
+	return layer
+
+
 # ------------------------------------------------------------- DISTRICTS ----
 
 static func _plaza(props: Node2D, decals: Node2D, lights: Node2D, rng: RandomNumberGenerator) -> void:
@@ -339,8 +468,8 @@ static func _inn(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 static func _smithy(props: Node2D, decals: Node2D, lights: Node2D) -> void:
 	props.add_child(_place_building("house_00.png", Vector2(1560, 750)))
 
-	# Forge work floor: anvil and fire pit ON the stone patch.
-	_decal(decals, PROPS + "szadi_prop_01.png", Vector2(1545, 865))
+	# Forge work floor: cobble is painted by _build_ground_painted (overlay);
+	# anvil and fire pit sit on it.
 	props.add_child(_sprite(PROPS + "szadi_prop_09.png", Vector2(1512, 848), 2.0))
 	props.add_child(_sprite(PROPS + "szadi_prop_18.png", Vector2(1578, 880), 2.0))
 	props.add_child(_atlas_sprite(R_ANVIL, Vector2(1585, 855), 4.0))
@@ -537,7 +666,7 @@ static func _vegetation(props: Node2D, decals: Node2D, rng: RandomNumberGenerato
 			continue
 		if gy_exclude.has_point(p):
 			continue
-		if CLEAR_TERMINUS.has_point(p) or CLEAR_GARDEN.has_point(p):
+		if CLEAR_TERMINUS.has_point(p) or CLEAR_GARDEN.has_point(p) or CLEAR_POND.has_point(p):
 			continue
 		var too_close: bool = false
 		for q: Vector2 in placed:

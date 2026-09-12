@@ -687,7 +687,9 @@ func _build_map(map_id: String) -> Dictionary:
 func _post_build_map(map_id: String, world: Node2D, built: Dictionary) -> void:
 	match map_id:
 		"town":
-			GateBuilder.add_gate(world)
+			# PAINTED GROUND (2026-09-12): TownBuilder now paints the dirt main street
+			# all the way to the gate; the legacy slab strip would sit on top of it.
+			GateBuilder.add_gate(world, GateBuilder.GATE_POS, false)
 			_spawn_npc_cast(world, built.get("npc_spawns", {}))
 			Combat.spawn_world_enemies(world)
 		"wilderness":

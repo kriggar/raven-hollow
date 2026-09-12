@@ -257,6 +257,33 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    #127 effectively DONE. Remaining = optional prefab-variety deepening + a periodic fresh sitting.
    Gallery artifact (all 41 zones + UI): https://claude.ai/code/artifact/b3120f8a-ef3a-427f-af38-f3d91ccb8682
 
+### Session additions 2026-09-12 (128) — Steam-readiness audit + the painted-ground pilot
+128. 🔧 **PAINTED GROUND — Raven Hollow pilot (Fable, 2026-09-12).** Steam audit verdict (207 fresh
+   shots over all 41 zones + 14 inspector agents): the world's ceiling is the ground pipeline, not the
+   props — every zone is ONE block-tiled sheet (wallpaper repeat at play zoom) + polyline slab roads
+   (read as debug strips) + RNG scatter; capitals read as confetti hamlets on a flat plane; only the
+   hand-built town/wilderness approached store-shot quality. Same audit: 1,432 "Resource file not
+   found" errors on a clean clone (wolf/boar sheets live in gitignored _downloads/wilderness), 40s rule
+   FAILS in ashvents/ledger_roads/listening_steppe/the_gift/transcub_vale, no Steam preset/Steamworks/
+   controller/localization/credits screen. Audit shots: _screens/audit (Desktop copy), contact sheets
+   _screens/audit_sheets.
+   SHIPPED: `scripts/terrain_painter.gd` — corner-matched (dual-grid) autotiler over LPC Terrains v7
+   (`data/lpc_terrain_v7.json` from `tools/terrain/lpc_terrain_index.py`; 496 corner-coded tiles, 18
+   transition pairs; grass-keyed overlay sheet so cobble/soil edges sit on dirt). Authors paint MATERIALS
+   on a vertex canvas (bands/ellipses/rects with value-noise rims); sanitize pass bridges Water->Shallows
+   and drops unsupported neighbours. TOWN REPAINTED with it (`_build_ground_painted`): grass hub tinted to
+   the anchor palette, worn dirt lanes with drift (no rulers), trampled yards at every door/stall/forge,
+   cobble plaza + inn forecourt + forge floor on the overlay, soil garden + farm field, a pond with
+   shallows (+ bank collider), legacy slab road to the gate disabled (main.gd add_gate paint_road=false).
+   All prop/grave/tree placements byte-identical (legacy ground builder still burns the same RNG draws).
+   Verified: smoke boots zero script errors; shots `_screens/town_v2/` (before/after: before_after_plaza.png).
+   NEXT (in order): (a) owner eye on the town at play zoom; (b) port the painter into zone_builder as the
+   per-zone ground pass (biome material sets: bog Mud/Grass_Dark/Water_Green, tundra Snow/Ice, volcanic
+   Rock_Black/Lava, coast Sand/Shallows/Water) replacing block-tiled sheets + slab roads — the single
+   highest-leverage fix for all 39 zones; (c) town dressing pass (fences/hedges/reeds at the pond, lamp
+   variety, NE quadrant anchor); (d) wilderness ground repaint; (e) Steam engineering blockers (ship the
+   fauna sheets inside assets/, Steam export preset, credits screen, controller map).
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish
