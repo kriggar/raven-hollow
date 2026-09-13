@@ -67,7 +67,7 @@ static func run(world: Node, path_cells: Dictionary = {}) -> Dictionary:
 
 
 static func _is_masonry(label: String) -> bool:
-	for k in ["wall_face", "wall_band", "wall_cren", "tower_", "gate_arch", "gate_doors", "gothic_tower", "spire", "roof_cone", "deck_", "railing_wood", "fence_iron", "lantern_lit"]:
+	for k in ["wall_face", "wall_band", "wall_cren", "tower_", "gate_arch", "gate_doors", "gothic_tower", "spire", "roof_cone", "deck_", "railing_wood", "fence_iron", "lantern_lit", "chimney_", "banner_pair", "signicon", "awning_", "roof_"]:
 		if label.find(k) != -1:
 			return true
 	return false

@@ -330,9 +330,30 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    Windows/Doors + Castle Mega Pack + Farm Animals/Cats-Dogs/Birds/Trees all ACCEPT (32px, CC-BY-SA,
    montages in _screens/scout_city/) — the rowhouse, market, hedge/planter/banner/lamp and animal kits
    for S2 are already on disk. Web scout died at the session limit (resets 19:20) — optional.
-   NEXT = S2 DISTRICTS: rowhouse generator (Victorian walls + LPC roofs + windows/doors), Trade Square
-   market rows + bank/auction/shops, Old Town streets, East Ward crafts, harbor warehouses/crane, Fields
-   (windmill, farmsteads, orchards, paddocks), cathedral rose window + churchyard, keep banners/guards.
+   **S2 DISTRICTS SHIPPED (2026-09-13):** rowhouse generator from the Szadi Houses Pack modules
+   (tools/assets/extract_szadi_houses.py → assets/art/world/houses: gable/cross/flat roofs, two-storey
+   plaster band, plank ground floor with door, chimneys, poles; three colourways) — TownCity._house /
+   _house_row: gable (3 storeys), cross (wide), cottage; chimney smoke on ~45%, door light, planter or
+   pot by the door, hanging shop signs, banner pairs. Rows: Old Town (3 streets x 3 blocks), canal-side
+   (4 blocks), Trade Square flanks (bank + auction house), Cathedral avenue, East Ward (2 streets), 4
+   harbor warehouses. Street furniture from LPC Victorian Town Decorations (tools/assets/
+   extract_victorian_kit.py → assets/art/world/street: hedges h/v/block/corner, planters, urns, pots,
+   banner pairs, flat awnings, stall tables, flower beds, ornate lamps, clock post, sign icons, flags,
+   barrels, signboard): market rows (6 stalls with awnings + goods), flags + planters + clock on the Trade
+   Square, hedge under the keep wall, keep flags + banners, cathedral urns/hedges/flower beds + fenced
+   churchyard with LPC graves and a dead oak, back-garden hedges + flower beds behind every Old Town row,
+   harbor cargo, the Fields (2 farmsteads, mill house, 3 tilled fields with crop rows, fenced paddock with
+   hay + trough, 6x3 orchard), East Ward craft yards (carpenter logs, potter jars, tanner cloth lines).
+   Audit: 1,850 props, 0 real stacks (roof-mounted pieces excluded). Shots: _screens/city/s2_map_4k.png.
+   Kit lesson: my first Szadi wall crops were one row off — always render the extracted module at 3x
+   BEFORE composing (labels in montages must sit ABOVE the image they describe).
+   NEXT = S3 LIFE + FILL: NPC cast anchors at every city doorstep (NPCCastSystem) + guards at the gates
+   and keep, LPC farm animals (cow/sheep/pig/chicken sheets in _downloads/mass_2026_07/oga_lpc_bundles/
+   lpc_farm_animals) in the paddock/fields as ambient fauna, cats/dogs in Old Town, birds; fill the empty
+   bands (NW between village and Trade Square, SE quadrant, west fields), a second market on the East
+   Ward square, harbor crane + nets, keep guards/barracks, curiosity sites + one crime scene per
+   district (Bible V), then a full play-zoom sweep + sitting; S4 systems (bank/auction/trainers inside
+   their buildings, waystation, minimap texture, map labels).
 
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
