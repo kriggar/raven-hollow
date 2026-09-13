@@ -304,6 +304,36 @@ Fable can still review it before shutoff. Without the purchase: S1 only, inside 
    variety, NE quadrant anchor); (d) wilderness ground repaint; (e) Steam engineering blockers (ship the
    fauna sheets inside assets/, Steam export preset, credits screen, controller map).
 
+### Session additions 2026-09-13 (129) — RAVEN HOLLOW CITY
+129. 🔧 **RAVEN HOLLOW CITY (owner, 2026-09-13): the starting town of every class grows into a
+   Stormwind-scale walled city on the same map.** Design: design/RAVEN_HOLLOW_CITY.md (map 224x160,
+   nine districts, canals + bridges, river + harbor, keep in the north wall, east gate to the
+   Emberfall Road moved to (6968,2600); the polished village stays byte-identical as district 1).
+   Owner references: isometric AI concepts (mood only) + a 16px market-town kit (structure only —
+   wrong density for our 32px anchor). Stages S1 skeleton → S2 districts → S3 life/polish → S4
+   systems. Asset scout for the city kit: _downloads/scout_2026_09 (verified-free, license-quoted)
+   + the LPC bundles already in _downloads/mass_2026_07 (Victorian buildings, roofs, windows/doors,
+   castle mega pack, farm animals, cats/dogs, birds, trees). Style gate = Fable's eye on montages.
+   **S1 SKELETON SHIPPED (2026-09-13):** map 224x160 (village byte-identical as district 1, its
+   forest ring retired — the wall is the edge); `scripts/town_city.gd` (TownCity): outer wall ring
+   (LPC castle mega pack dark crops via tools/assets/extract_castle_kit.py → assets/art/world/castle),
+   corner round towers with cone roofs, interval towers, the EAST GATE in the south wall (travel point
+   MapRegistry.TOWN_EAST_GATE → (6600,5050)), the Vigil Keep compound (courtyard, gate, 2-row keep
+   block between double-height towers), the cathedral (3-row nave, gothic towers on stone bases, tall
+   spires) on its square with the Vigil statue, canal A (E-W) + canal B (N-S) with Stone_Tan quays,
+   solid plank bridges (2 decks, railings) at every crossing, the river along the south with the
+   harbor quay, three piers and boats, Trade Square (fountain, 8 lamps, benches), old-town + east-ward
+   squares with wells, cobbled main street/avenues/old-town grid, field lanes. Streets never float over
+   water (overlay cleared where the base is water). Audit: 0 real stacks (masonry overlaps excluded).
+   Shots: _screens/city/s1_map_4k.png + keep/cathedral/bridges/gate/harbor close-ups.
+   LOCAL SCOUT RESULT (4 agents): LPC Victorian Buildings + Victorian Town Decorations + Roofs v2 +
+   Windows/Doors + Castle Mega Pack + Farm Animals/Cats-Dogs/Birds/Trees all ACCEPT (32px, CC-BY-SA,
+   montages in _screens/scout_city/) — the rowhouse, market, hedge/planter/banner/lamp and animal kits
+   for S2 are already on disk. Web scout died at the session limit (resets 19:20) — optional.
+   NEXT = S2 DISTRICTS: rowhouse generator (Victorian walls + LPC roofs + windows/doors), Trade Square
+   market rows + bank/auction/shops, Old Town streets, East Ward crafts, harbor warehouses/crane, Fields
+   (windmill, farmsteads, orchards, paddocks), cathedral rose window + churchyard, keep banners/guards.
+
 ### Held for owner (⚠)
 - ⚠ Adventurer-Sim design session (parties/40-man raids/chat/rolls/guilds/BGs)
 - ⚠ Quest QA playthrough; itch.io publish

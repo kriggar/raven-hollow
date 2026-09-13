@@ -5,8 +5,14 @@ class_name TownBuilder
 ## All atlas rects below were verified by pixel inspection of the sheets.
 ## Deterministic: a fixed-seed RandomNumberGenerator, no Time-based randomness.
 
-const WORLD_TILES_W: int = 70
-const WORLD_TILES_H: int = 50
+# RAVEN HOLLOW CITY (owner 2026-09-13, design/RAVEN_HOLLOW_CITY.md): the map is
+# now 224x160 tiles; the original 70x50 village (the Hollow) keeps its coordinates
+# as district 1 and every placement below stays byte-identical. The city is built
+# by TownCity after the village pass.
+const WORLD_TILES_W: int = 224
+const WORLD_TILES_H: int = 160
+const HOLLOW_TILES_W: int = 70
+const HOLLOW_TILES_H: int = 50
 const TILE: int = 32
 const SEED: int = 20260702
 
@@ -164,6 +170,9 @@ static func build(parent: Node2D) -> Dictionary:
 	# POLISH 2026-09 (Fable): owned yards, crops, paddock, pond bank, roadside
 	# saint, ruin ring, chimney smoke, door lights — see _polish_2026_09.
 	_polish_2026_09(props, decals, lights)
+	# RAVEN HOLLOW CITY S1 (owner 2026-09-13): walls, gates, keep, cathedral,
+	# canals, bridges, harbor, squares — see scripts/town_city.gd.
+	TownCity.build(props, decals, lights)
 
 	return {
 		"player_spawn": Vector2(1120, 950),
@@ -393,6 +402,9 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	# --- POND: shallows ring then open water (sheet pairs Grass<->Shallows<->Water)
 	base.ellipse(POND_CENTER, 150.0, 84.0, shallows, 8.0)
 	base.ellipse(POND_CENTER, 100.0, 44.0, water, 4.0)
+
+	# --- CITY (RAVEN HOLLOW CITY S1): canals, river, quays, cobbled streets and squares
+	TownCity.paint_masks(base, top)
 
 	# --- COBBLE PLAZA (overlay so the cobble edge lands on the dirt lanes)
 	top.ellipse(Vector2(1120, 800), 180.0, 128.0, cobble, 14.0)
@@ -879,6 +891,8 @@ static func _vegetation(props: Node2D, decals: Node2D, rng: RandomNumberGenerato
 		var in_band: bool = p.x < 210.0 or p.x > 2030.0 or p.y < 200.0 or p.y > 1400.0
 		if not in_band:
 			continue
+		if p.x < 130.0 or p.y < 150.0:
+			continue   # CITY: the wall bands stand there now
 		if gy_exclude.has_point(p):
 			continue
 		if CLEAR_TERMINUS.has_point(p) or CLEAR_GARDEN.has_point(p) or CLEAR_POND.has_point(p):
@@ -934,26 +948,29 @@ static func _tree(props: Node2D, variant: int, pos: Vector2) -> void:
 static func _border_forest(props: Node2D, rng2: RandomNumberGenerator, path_cells: Dictionary) -> void:
 	# Dense 2-deep tree wall around the whole map edge. The inner row carries
 	# colliders; the outer row is scenery only (unreachable anyway).
-	var w := float(WORLD_TILES_W * TILE)
-	var h := float(WORLD_TILES_H * TILE)
+	# CITY: the ring is the HOLLOW's ring (old 70x50 extent). West + north rows are
+	# placed; the east + south rows are consumed (identical rng2 draws) but skipped —
+	# those edges now open into the Trade Square and the Fields.
+	var w := float(HOLLOW_TILES_W * TILE)
+	var h := float(HOLLOW_TILES_H * TILE)
 	var x: float = 44.0
 	while x < w - 40.0:
 		var jx: float = x + rng2.randf_range(-14.0, 14.0)
-		_forest_tree(props, rng2, Vector2(jx, rng2.randf_range(26.0, 46.0)), false, path_cells)
-		_forest_tree(props, rng2, Vector2(jx + 38.0, rng2.randf_range(74.0, 104.0)), true, path_cells)
-		_forest_tree(props, rng2, Vector2(jx, h - rng2.randf_range(4.0, 24.0)), false, path_cells)
-		_forest_tree(props, rng2, Vector2(jx + 38.0, h - rng2.randf_range(52.0, 82.0)), true, path_cells)
+		_forest_tree(props, rng2, Vector2(jx, rng2.randf_range(26.0, 46.0)), false, path_cells, true)
+		_forest_tree(props, rng2, Vector2(jx + 38.0, rng2.randf_range(74.0, 104.0)), true, path_cells, true)
+		_forest_tree(props, rng2, Vector2(jx, h - rng2.randf_range(4.0, 24.0)), false, path_cells, true)
+		_forest_tree(props, rng2, Vector2(jx + 38.0, h - rng2.randf_range(52.0, 82.0)), true, path_cells, true)
 		x += 76.0 + rng2.randf_range(-10.0, 10.0)
 	var y: float = 140.0
 	while y < h - 130.0:
-		_forest_tree(props, rng2, Vector2(rng2.randf_range(16.0, 38.0), y), false, path_cells)
-		_forest_tree(props, rng2, Vector2(rng2.randf_range(64.0, 96.0), y + 40.0), true, path_cells)
-		_forest_tree(props, rng2, Vector2(w - rng2.randf_range(16.0, 38.0), y), false, path_cells)
-		_forest_tree(props, rng2, Vector2(w - rng2.randf_range(64.0, 96.0), y + 40.0), true, path_cells)
+		_forest_tree(props, rng2, Vector2(rng2.randf_range(16.0, 38.0), y), false, path_cells, true)
+		_forest_tree(props, rng2, Vector2(rng2.randf_range(64.0, 96.0), y + 40.0), true, path_cells, true)
+		_forest_tree(props, rng2, Vector2(w - rng2.randf_range(16.0, 38.0), y), false, path_cells, true)
+		_forest_tree(props, rng2, Vector2(w - rng2.randf_range(64.0, 96.0), y + 40.0), true, path_cells, true)
 		y += 82.0 + rng2.randf_range(-10.0, 10.0)
 
 
-static func _forest_tree(props: Node2D, rng2: RandomNumberGenerator, pos: Vector2, collide: bool, path_cells: Dictionary) -> void:
+static func _forest_tree(props: Node2D, rng2: RandomNumberGenerator, pos: Vector2, collide: bool, path_cells: Dictionary, skip: bool = false) -> void:
 	var cell := Vector2i(int(pos.x / 32.0), int(pos.y / 32.0))
 	if path_cells.has(cell):
 		return
@@ -968,6 +985,8 @@ static func _forest_tree(props: Node2D, rng2: RandomNumberGenerator, pos: Vector
 	# east-gate mouth open for GateBuilder (contract §14).
 	if CLEAR_TERMINUS.has_point(pos) or CLEAR_GARDEN.has_point(pos) or CLEAR_GATE.has_point(pos):
 		return
+	if skip:
+		return   # CITY: draws consumed, tree not placed (edge opens into the city)
 	if variant >= 0:
 		props.add_child(_sprite(PLANTS + "plant_%02d.png" % variant, pos, 10.0))
 	else:
@@ -1095,7 +1114,7 @@ static func _roadside_props(props: Node2D, lights: Node2D, rng2: RandomNumberGen
 		["cainos_prop_34.png", Vector2(492, 812)],
 		["cainos_prop_36.png", Vector2(1196, 1206)],  # grass shoulder south of the farm lane, by the lamp
 		["cainos_prop_38.png", Vector2(1484, 1190)],   # moved off the bush (audit)
-		["cainos_prop_40.png", Vector2(2075, 1185)],  # outcrop tucked into the east tree line
+		["cainos_prop_40.png", Vector2(2118, 1246)],  # outcrop by the east lane (moved off a tree, city pass)
 		["cainos_prop_35.png", Vector2(870, 1050)],
 	]
 	for r: Array in rocks:

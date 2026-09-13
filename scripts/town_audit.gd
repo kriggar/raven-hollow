@@ -33,6 +33,8 @@ static func run(world: Node, path_cells: Dictionary = {}) -> Dictionary:
 				continue
 			var inter: Rect2 = (a[0] as Rect2).intersection(b[0])
 			if inter.size.x * inter.size.y >= MIN_OVERLAP:
+				if _is_masonry(a[1]) and _is_masonry(b[1]):
+					continue   # wall pieces / towers / blocks overlap by construction
 				report["STACK"].append("%s @%s  x  %s @%s" % [a[1], _fmt(a[0]), b[1], _fmt(b[0])])
 	# IN_BLDG + ON_LANE
 	for e: Variant in feet:
@@ -62,6 +64,13 @@ static func run(world: Node, path_cells: Dictionary = {}) -> Dictionary:
 		for line: Variant in report[k]:
 			print("AUDIT %s: %s" % [k, line])
 	return report
+
+
+static func _is_masonry(label: String) -> bool:
+	for k in ["wall_face", "wall_band", "wall_cren", "tower_", "gate_arch", "gate_doors", "gothic_tower", "spire", "roof_cone", "deck_", "railing_wood", "fence_iron", "lantern_lit"]:
+		if label.find(k) != -1:
+			return true
+	return false
 
 
 ## Signs, lanterns, carts and NPC anchors legitimately stand on lanes.

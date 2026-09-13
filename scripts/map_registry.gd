@@ -35,7 +35,10 @@ class_name MapRegistry
 ## Travel-point anchors (single source of truth for cross-map positions).
 ## TOWN_EAST_GATE = GateBuilder.GATE_POS + GateBuilder.TRAVEL_OFFSET — kept as a
 ## literal here so each script validates standalone; keep the two in sync.
-const TOWN_EAST_GATE := Vector2(2192.0, 816.0)
+# RAVEN HOLLOW CITY (2026-09-13): the road out is the city's EAST GATE in the
+# south wall (TownCity.EAST_GATE_X, tunnel mid-point). The village's old brown
+# gatehouse at (2192,816) is now an inner arch with no travel point.
+const TOWN_EAST_GATE := Vector2(6600.0, 5050.0)
 const WILD_WEST_ENTRY := Vector2(80.0, 880.0)
 
 const MUSIC_TOWN := "res://assets/audio/music/theme_lost_village.ogg"
