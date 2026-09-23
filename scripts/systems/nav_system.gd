@@ -127,6 +127,27 @@ func next_point(from: Vector2, to: Vector2) -> Vector2:
 	return to
 
 
+## The nearest point on the baked navmesh to `p`. bake_for() inflates every
+## obstacle by AGENT_RADIUS, so the result is walkable for a body our size.
+## Returns `p` untouched when nav is off/unready.
+func closest_point(p: Vector2) -> Vector2:
+	if not is_ready():
+		return p
+	return NavigationServer2D.map_get_closest_point(_map_rid, p)
+
+
+## The WHOLE path from->to, computed once so a caller can cache it and walk it
+## itself. next_point() runs a full A* per call, which does not scale to a city
+## of commuters. An empty return means "no route" - the caller's fail signal.
+func path_to(from: Vector2, to: Vector2) -> PackedVector2Array:
+	if not is_ready():
+		return PackedVector2Array()
+	var path: PackedVector2Array = NavigationServer2D.map_get_path(_map_rid, from, to, true)
+	if path.size() < 2:
+		return PackedVector2Array()
+	return path
+
+
 func clear() -> void:
 	if _region != null and is_instance_valid(_region):
 		_region.queue_free()

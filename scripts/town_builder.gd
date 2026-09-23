@@ -29,6 +29,14 @@ const POND_CENTER := Vector2(560.0, 1350.0)
 # (design/STYLE_ANCHOR.md) wants muted olive parchment. Applied to the whole
 # painted ground stack (overlay inherits).
 const GROUND_TINT := Color(0.94, 0.82, 0.50)
+# CITY v7: the city's cobble/flag overlay is NOT multiplied by GROUND_TINT
+# (that made every street mustard and the Trade Square sand); it gets its
+# own warm-grey stone tint. The village overlay keeps GROUND_TINT (byte-identical).
+const CITY_STONE_TINT := Color(0.90, 0.86, 0.80)
+# v8: the two flagged plazas were the lightest surface on the map (Stone_White
+# x GROUND_TINT reads as sand); they get their own layer at a mid warm grey.
+const SQUARE_TINT := Color(0.72, 0.71, 0.68)
+const CITY_EARTH_TINT := Color(0.97, 0.97, 0.96)
 # Gate keep-clear (contract §14 / GateBuilder): the east-gate mouth to
 # MapRegistry.TOWN_EAST_GATE (2192,816). The border forest must not wall this
 # band or the gate art / the road out of town would be blocked. main.gd builds
@@ -173,6 +181,8 @@ static func build(parent: Node2D) -> Dictionary:
 	# RAVEN HOLLOW CITY S1 (owner 2026-09-13): walls, gates, keep, cathedral,
 	# canals, bridges, harbor, squares — see scripts/town_city.gd.
 	TownCity.build(props, decals, lights)
+	# RAVEN HOLLOW CITY v3 life pass: city folk, vendors, guards (scripts/town_life.gd).
+	TownLife.populate(parent)
 
 	return {
 		"player_spawn": Vector2(1120, 950),
@@ -331,6 +341,86 @@ static func _paint_plaza(layer: TileMapLayer, rng: RandomNumberGenerator, path_c
 ## v7). Two layers: BASE (grass hub + dirt lanes/yards + soil plots + pond)
 ## and a keyed OVERLAY (cobble plaza) so cobble edges sit straight on dirt.
 ## Every non-grass cell is registered in `path_cells` (tuft/tree keep-clear).
+## CITY v7: move every overlay cell outside the village's 70x50 tiles to a
+## sibling layer with the city's stone tint (same tiles, same rng choices).
+static func _split_city_overlay(over: TileMapLayer, parent: TileMapLayer) -> void:
+	var city := TileMapLayer.new()
+	city.name = "GroundOverlayCity"
+	city.tile_set = TerrainPainter.make_tileset(true, true)   # v8: no grass lip on city paving
+	city.y_sort_enabled = false
+	city.z_index = 0
+	city.modulate = CITY_STONE_TINT
+	for c: Vector2i in over.get_used_cells():
+		if c.x < 70 and c.y < 50:
+			continue
+		city.set_cell(c, 0, over.get_cell_atlas_coords(c))
+		over.erase_cell(c)
+	# de-weed the carriageway: Mudstone_Gray solo tiles 793/858 carry baked
+	# yellow sprigs and _pick_solo favours 793 - swap 90% for the clean fills
+	var cols: int = int(TerrainPainter._data["columns"])
+	var weedy: Array = [Vector2i(793 % cols, 793 / cols), Vector2i(858 % cols, 858 / cols)]
+	var clean: Array = [Vector2i(856 % cols, 856 / cols), Vector2i(857 % cols, 857 / cols), Vector2i(1354 % cols, 1354 / cols)]
+	var wr := RandomNumberGenerator.new()
+	wr.seed = SEED + 707
+	for c2: Vector2i in city.get_used_cells():
+		if weedy.has(city.get_cell_atlas_coords(c2)) and wr.randf() < 0.9:
+			city.set_cell(c2, 0, clean[wr.randi_range(0, 2)])
+	# v8: the pale flags (Stone_White / Stone_Tan) move to their own layer so
+	# the plazas can sit at a mid value instead of reading as sand at noon and
+	# beach at dusk.
+	var squares := TileMapLayer.new()
+	squares.name = "GroundOverlaySquares"
+	squares.tile_set = city.tile_set
+	squares.y_sort_enabled = false
+	squares.z_index = 0
+	squares.modulate = SQUARE_TINT
+	var pale: Array = TerrainPainter.atlas_coords_for([TerrainPainter.mat("Stone_White"), TerrainPainter.mat("Stone_Tan")])
+	for c3: Vector2i in city.get_used_cells():
+		if pale.has(city.get_cell_atlas_coords(c3)):
+			squares.set_cell(c3, 0, city.get_cell_atlas_coords(c3))
+			city.erase_cell(c3)
+	parent.add_child(city)
+	parent.add_child(squares)
+
+
+## v8: every SOLO Dirt_Roots cell of the city gets re-drawn on its own layer,
+## desaturated: Dirt_Roots x GROUND_TINT is a saturated orange that turned the
+## terrace backs, shoulders and yards into orange slabs. Transition cells keep
+## the base tint (their grass half must not be touched), so the change stops at
+## a one-tile rim that the ground wash covers. Village cells are never copied.
+static func _city_earth(base_layer: TileMapLayer, painted: Dictionary) -> TileMapLayer:
+	var earth := TileMapLayer.new()
+	earth.name = "GroundCityEarth"
+	earth.tile_set = base_layer.tile_set
+	earth.y_sort_enabled = false
+	earth.z_index = 0
+	earth.modulate = CITY_EARTH_TINT
+	var sh := Shader.new()
+	# v8: an explicit per-channel gain, not a luminance mix - the 2D pipeline is
+	# not sRGB-weighted here, so mixing toward dot(rgb, 0.3/0.59/0.11) DARKENS
+	# the tile instead of desaturating it (measured: brown setts 136,95,53 ->
+	# 71,44,17). Lifting blue and green against red turns the saturated root
+	# dirt into trodden earth with no value loss.
+	sh.code = "shader_type canvas_item;\nvoid fragment() {\n\tvec4 c = texture(TEXTURE, UV);\n\tc.rgb *= vec3(0.89, 1.12, 1.50);\n\tCOLOR = c * COLOR;\n}\n"
+	var mat := ShaderMaterial.new()
+	mat.shader = sh
+	earth.material = mat
+	var dirt_id: int = TerrainPainter.mat("Dirt_Roots")
+	var cols_e: int = int(TerrainPainter._data["columns"])
+	var solo_only: Array = []
+	for t_v: Variant in (TerrainPainter._solo.get(dirt_id, []) as Array):
+		var t: int = int(t_v)
+		solo_only.append(Vector2i(t % cols_e, t / cols_e))
+	for c: Variant in painted:
+		var cell: Vector2i = c
+		if cell.x < 70 and cell.y < 50:
+			continue
+		var co2: Vector2i = base_layer.get_cell_atlas_coords(cell)
+		if solo_only.has(co2):
+			earth.set_cell(cell, 0, co2)
+	return earth
+
+
 static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	var rng3 := RandomNumberGenerator.new()
 	rng3.seed = SEED + 202
@@ -342,6 +432,7 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	var cobble: int = TerrainPainter.mat("Mudstone_Gray")
 	var base := TerrainPainter.Canvas.new(WORLD_TILES_W, WORLD_TILES_H, grass)
 	var top := TerrainPainter.Canvas.new(WORLD_TILES_W, WORLD_TILES_H, grass)
+	var top2 := TerrainPainter.Canvas.new(WORLD_TILES_W, WORLD_TILES_H, grass)   # v8 accent paving
 
 	# --- LANES: worn dirt, 2-3 tiles wide with organic edges (Bible rule 25:
 	# no ruler roads — every lane carries interior waypoints and lateral drift).
@@ -404,7 +495,7 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	base.ellipse(POND_CENTER, 100.0, 44.0, water, 4.0)
 
 	# --- CITY (RAVEN HOLLOW CITY S1): canals, river, quays, cobbled streets and squares
-	TownCity.paint_masks(base, top)
+	TownCity.paint_masks(base, top, top2)
 
 	# --- COBBLE PLAZA (overlay so the cobble edge lands on the dirt lanes)
 	top.ellipse(Vector2(1120, 800), 180.0, 128.0, cobble, 14.0)
@@ -417,7 +508,7 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	layer.tile_set = TerrainPainter.make_tileset(false)
 	layer.y_sort_enabled = false
 	layer.z_index = -10
-	layer.modulate = GROUND_TINT
+	layer.self_modulate = GROUND_TINT   # v7: children (the overlays) tint themselves
 	var painted: Dictionary = TerrainPainter.paint(layer, base, rng3)
 	var over := TileMapLayer.new()
 	over.name = "GroundOverlay"
@@ -425,7 +516,25 @@ static func _build_ground_painted(path_cells: Dictionary) -> TileMapLayer:
 	over.y_sort_enabled = false
 	over.z_index = 0   # relative to the base layer: same z, drawn after it
 	var painted2: Dictionary = TerrainPainter.paint(over, top, rng3, true)
+	layer.add_child(_city_earth(layer, painted))   # v8: desaturated city earth
+	layer.add_child(TownCity.ground_wash())   # v7: under the overlays, above the base tiles
+	over.modulate = GROUND_TINT   # the village plaza/forge floor stay byte-identical
 	layer.add_child(over)
+	_split_city_overlay(over, layer)
+	# v8: ACCENT paving (a second keyed overlay): brown setts for the quay, the
+	# keep courtyard and the ring around the fountain, so the city has three
+	# paved materials instead of one grey for everything.
+	var over2 := TileMapLayer.new()
+	over2.name = "GroundOverlayCity2"
+	over2.tile_set = TerrainPainter.make_tileset(true, true)
+	over2.y_sort_enabled = false
+	over2.z_index = 0
+	over2.modulate = Color(0.98, 0.97, 0.96)   # brown setts at full value; no shader (2D shader writes come back gamma-squared here)
+
+	var painted3: Dictionary = TerrainPainter.paint(over2, top2, rng3, true)
+	layer.add_child(over2)
+	for c3v: Variant in painted3:
+		path_cells[c3v] = true
 	for c: Variant in painted:
 		path_cells[c] = true
 	for c: Variant in painted2:

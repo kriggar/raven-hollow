@@ -244,6 +244,13 @@ var _bark_cd: float = 3.0   # per-npc ambient-bark cooldown
 var _bark_salt: int = 0
 var _marker_label: Label
 var _base_wander_radius: float = 0.0
+## CityScheduleSystem drive hook. While sched_active the director owns this
+## body: it walks straight at sched_target (one already-pathed waypoint handed
+## over per director tick, so no per-frame A* here) and does nothing else.
+## Dormant and free for any NPC the director does not claim.
+var sched_active: bool = false
+var sched_target: Vector2 = Vector2.ZERO
+var sched_speed: float = 56.0
 var _follow_target: Node2D = null
 var _quests_hooked: bool = false
 var _daynight_hooked: bool = false
@@ -492,6 +499,9 @@ func _physics_process(delta: float) -> void:
 			_tick_follow()
 			return
 		_follow_target = null
+	if sched_active:
+		_tick_sched()
+		return
 	if _wander_radius <= 0.0:
 		return
 	if _walking:
@@ -694,6 +704,8 @@ func _on_night_changed(is_night_now: bool) -> void:
 ## Night behavior (SPEC §6): after dusk villagers pull toward home and wander a
 ## tighter radius; restored by day. No-op for stationary NPCs and while escorting.
 func _apply_night(is_night_now: bool) -> void:
+	if has_meta("rh_sched_owned"):
+		return  # the schedule director decides this folk''s night
 	if _base_wander_radius <= 0.0 or is_following():
 		return
 	if is_night_now:
@@ -749,6 +761,41 @@ func _tick_follow() -> void:
 		# Within arm's reach, or the player outran the leash: stall in place.
 		velocity = Vector2.ZERO
 		_update_anim(false)
+
+
+## One movement step toward sched_target; clears sched_active on arrival so the
+## director can hand over the next waypoint. Placing the branch ABOVE the
+## wander-radius guard is what lets the ~30 stationary folk travel at all.
+func _tick_sched() -> void:
+	var d: Vector2 = sched_target - global_position
+	if d.length() <= ARRIVE_DIST:
+		velocity = Vector2.ZERO
+		sched_active = false
+		_update_anim(false)
+		return
+	var dir: Vector2 = d.normalized()
+	velocity = dir * sched_speed
+	_set_move_facing(dir)
+	_update_anim(true)
+	move_and_slide()
+
+
+## Public facing setter for a stop''s authored facing.
+func sched_face(f: String) -> void:
+	match f:
+		"up":
+			_facing = "up"
+			_flip = false
+		"down":
+			_facing = "down"
+			_flip = false
+		"left":
+			_facing = "side"
+			_flip = false
+		"right", "side":
+			_facing = "side"
+			_flip = true
+	_update_anim(false)
 
 
 func _pick_new_target() -> void:

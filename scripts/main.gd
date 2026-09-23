@@ -1647,6 +1647,14 @@ func _run_env_hooks() -> void:
 	# read-only; prints AUDIT lines — see scripts/town_audit.gd).
 	if not OS.get_environment("RH_PROPAUDIT").is_empty() and _world != null:
 		TownAudit.run(_world, TownBuilder.last_path_cells if current_map_id == "town" else {})
+	# RH_MAPDUMP=<path.json>: write the zone's own VECTOR geometry - street
+	# centrelines, canals, field and built-up rects, every planned house, and
+	# the trees and walls only the built scene holds - so a map can be DRAWN
+	# from the town's real layout instead of recovered by classifying the
+	# pixels of a screenshot. Read-only; instances nothing.
+	var mapdump: String = OS.get_environment("RH_MAPDUMP")
+	if not mapdump.is_empty():
+		MapDump.run(current_map_id, _world, mapdump)
 	var shot_path: String = OS.get_environment("RH_SHOT")
 	var smoke: String = OS.get_environment("RH_SMOKE")
 	var cast_action: String = OS.get_environment("RH_CAST")

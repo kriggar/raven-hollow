@@ -1,0 +1,63 @@
+RAVEN HOLLOW — MAP ORNAMENT
+Downloaded art used to build the in-game map sheet.
+All items below are in the PUBLIC DOMAIN by age. None is AI-generated.
+Nothing here was purchased.
+
+--------------------------------------------------------------------------
+cartouche_rococo.png
+border_strip.png
+tex_built.png
+tex_water.png
+tex_garden.png
+
+    Source : "A Plan of the Cities of London and Westminster, and Borough of
+             Southwark, with the Contiguous Buildings" (1746)
+    Surveyed by John Rocque, engraved by John Pine.
+    Status : Public domain (published 1746; author died 1762).
+    Scan   : Wikimedia Commons
+             https://commons.wikimedia.org/wiki/File:John_Rocque%27s_map_of_London_and_Westminster,_1746_low_res.jpg
+    File   : _downloads/mapart/pd/rocque_london_1746.jpg  (6048 x 3164)
+
+    cartouche_rococo.png  the rococo scale-and-abbreviations cartouche with
+                          putti and a compass, from the sheet's lower left.
+                          Used as the map's title cartouche; its belly is
+                          washed back to paper in the renderer before the
+                          zone name is lettered into it.
+    border_strip.png      a clean run of the engraved border that frames the
+                          sheet, taken from a stretch carrying no sheet letter.
+                          Tiled around all four edges of our plate.
+    tex_built.png         engraved block hatching from the Spitalfields
+                          district. Clipped to our building footprints so the
+                          built mass carries real copperplate texture.
+    tex_water.png         river surface.
+    tex_garden.png        garden and parterre hatching.
+
+--------------------------------------------------------------------------
+compass_bowen.png
+
+    Source : "A Mariner's Compass and Armillary Sphere" (1748)
+    Emanuel Bowen.
+    Status : Public domain (published 1748; author died 1767).
+    Scan   : Wikimedia Commons, via the Geographicus Rare Antique Maps
+             donation.
+             https://commons.wikimedia.org/wiki/File:Compass_rose_detail_from_1748_Bowen_Mariner%E2%80%99s_Compass_and_Armillary_Sphere_-_Geographicus_-_CircleofWinds-bowen-1747_(cropped).jpg
+    File   : _downloads/mapart/pd/compass_bowen_1748.jpg  (1134 x 1142)
+
+    Used as the map's compass rose.
+
+--------------------------------------------------------------------------
+HOW THESE WERE PREPARED
+
+Each piece is a photograph of aged paper, so it arrives carrying its own
+rectangle of grey-brown and cannot simply be pasted onto a different ground.
+tools/chart/cut_ornament.ps1 crops the piece and converts ink density into
+ALPHA, forcing the colour to the map's ink. An optional elliptical mask fades
+the crop's corners so a cartouche can be cut out of the middle of a busy sheet
+without bringing a fringe of somebody else's streets with it.
+
+Re-cut with the commands recorded in design/MAP_SYSTEM.md.
+
+--------------------------------------------------------------------------
+SEE ALSO
+    assets/art/maps/carto/CREDITS_CARTOGRAPHY.txt
+        Kenney Cartography Pack (CC0) — the tree, landmark and terrain symbols.

@@ -42,8 +42,8 @@ static func run(world: Node, path_cells: Dictionary = {}) -> Dictionary:
 		if e[2]:
 			continue
 		for b: Variant in feet:
-			if not b[2]:
-				continue
+			if not b[2] or _is_masonry(e[1]):
+				continue   # facade pieces (chimneys, wall lamps, ivy, signs) belong to their building
 			var br: Rect2 = b[0]
 			var inter2: Rect2 = br.intersection(r)
 			if inter2.size.x * inter2.size.y >= MIN_OVERLAP:
@@ -67,7 +67,7 @@ static func run(world: Node, path_cells: Dictionary = {}) -> Dictionary:
 
 
 static func _is_masonry(label: String) -> bool:
-	for k in ["wall_face", "wall_band", "wall_cren", "tower_", "gate_arch", "gate_doors", "gothic_tower", "spire", "roof_cone", "deck_", "railing_wood", "fence_iron", "lantern_lit", "chimney_", "banner_pair", "signicon", "awning_", "roof_"]:
+	for k in ["wall_face", "wall_band", "wall_cren", "tower_", "gate_arch", "gate_doors", "gothic_tower", "spire", "roof_cone", "deck_", "railing_wood", "fence_iron", "lantern_lit", "chimney_", "banner_pair", "signicon", "awning_", "roof_", "wallamp", "ivy", "windows_row", "szadi_building_parts"]:
 		if label.find(k) != -1:
 			return true
 	return false

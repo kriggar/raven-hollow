@@ -105,14 +105,242 @@ func _ready() -> void:
 	if not TravelSystem.is_connected("station_discovered", _on_station_discovered):
 		TravelSystem.station_discovered.connect(_on_station_discovered)
 	call_deferred("_spawn_screen")
+	call_deferred("_qa_chart")
+	if OS.get_environment("RH_MAPSCREEN") != "":
+		call_deferred("_qa_open")
+
+
+## --- chart memory (per-cell map discovery) ---------------------------------
+## 64 world px per cell divides both shipped world rects exactly: the city
+## 7168x5120 -> 112x80 = 8960 cells, the village 2240x1600 -> 35x25.
+const CHART_CELL: float = 64.0
+## Reveal radius in world px. The screen shows 640x360 world px, so 560 is
+## about 1.75 screen widths - deliberately generous (the call Minecraft makes)
+## and larger than the minimap half-window (546) so the minimap never fogs
+## right next to the player.
+const CHART_REVEAL: float = 560.0
+const CHART_LANDMARK_NEAR: float = 180.0
+const CHART_LANDMARK_R: float = 768.0
+const CHART_TICK: float = 0.12
+const CHART_MAX_CELLS: int = 65536
+
+signal chart_changed(map_id: String)
+signal place_charted(map_id: String, label: String)
+
+var _chart: Dictionary = {}          # map_id -> PackedByteArray (1 byte/cell)
+var _chart_dim: Dictionary = {}      # map_id -> Vector2i
+var _chart_origin: Dictionary = {}   # map_id -> Vector2
+var _chart_count: Dictionary = {}    # map_id -> int
+var _places_known: Dictionary = {}   # map_id -> {label: true}
+var _veil_tex: Dictionary = {}       # map_id -> ImageTexture
+var _veil_dirty: Dictionary = {}     # map_id -> bool
+var _chart_accum: float = 0.0
+
+
+## Allocate (or keep) the chart grid for a zone. Idempotent.
+func ensure_chart(map_id: String, bounds: Rect2) -> void:
+	if map_id.is_empty() or bounds.size.x <= 0.0 or bounds.size.y <= 0.0:
+		return
+	var w: int = maxi(1, int(ceil(bounds.size.x / CHART_CELL)))
+	var h: int = maxi(1, int(ceil(bounds.size.y / CHART_CELL)))
+	if _chart.has(map_id) and _chart_dim.get(map_id, Vector2i.ZERO) == Vector2i(w, h) \
+			and _chart_origin.get(map_id, Vector2.ZERO) == bounds.position:
+		return
+	if w * h > CHART_MAX_CELLS:
+		push_warning("MapSystem: chart too large for " + map_id)
+		return
+	var bytes := PackedByteArray()
+	bytes.resize(w * h)
+	bytes.fill(0)
+	_chart[map_id] = bytes
+	_chart_dim[map_id] = Vector2i(w, h)
+	_chart_origin[map_id] = bounds.position
+	_chart_count[map_id] = 0
+	if not _places_known.has(map_id):
+		_places_known[map_id] = {}
+	_veil_dirty[map_id] = true
+
+
+func chart_dims(map_id: String) -> Vector2i:
+	return _chart_dim.get(map_id, Vector2i.ZERO)
+
+
+func chart_origin(map_id: String) -> Vector2:
+	return _chart_origin.get(map_id, Vector2.ZERO)
+
+
+func is_surveyed(map_id: String, world_pos: Vector2) -> bool:
+	if not _chart.has(map_id):
+		return false
+	var dim: Vector2i = _chart_dim[map_id]
+	var o: Vector2 = _chart_origin[map_id]
+	var cx: int = int(floor((world_pos.x - o.x) / CHART_CELL))
+	var cy: int = int(floor((world_pos.y - o.y) / CHART_CELL))
+	if cx < 0 or cy < 0 or cx >= dim.x or cy >= dim.y:
+		return false
+	return (_chart[map_id] as PackedByteArray)[cy * dim.x + cx] != 0
+
+
+## Light every cell whose centre is within `radius` of `centre`. Returns how
+## many were newly lit, and only then marks the veil dirty.
+func survey_disc(map_id: String, centre: Vector2, radius: float) -> int:
+	if not _chart.has(map_id):
+		return 0
+	var dim: Vector2i = _chart_dim[map_id]
+	var o: Vector2 = _chart_origin[map_id]
+	var bytes: PackedByteArray = _chart[map_id]
+	var x0: int = clampi(int(floor((centre.x - radius - o.x) / CHART_CELL)), 0, dim.x - 1)
+	var x1: int = clampi(int(floor((centre.x + radius - o.x) / CHART_CELL)), 0, dim.x - 1)
+	var y0: int = clampi(int(floor((centre.y - radius - o.y) / CHART_CELL)), 0, dim.y - 1)
+	var y1: int = clampi(int(floor((centre.y + radius - o.y) / CHART_CELL)), 0, dim.y - 1)
+	var r2: float = radius * radius
+	var lit: int = 0
+	for y in range(y0, y1 + 1):
+		for x in range(x0, x1 + 1):
+			var idx: int = y * dim.x + x
+			if bytes[idx] != 0:
+				continue
+			var cc: Vector2 = o + (Vector2(float(x), float(y)) + Vector2(0.5, 0.5)) * CHART_CELL
+			if centre.distance_squared_to(cc) <= r2:
+				bytes[idx] = 1
+				lit += 1
+	if lit > 0:
+		_chart[map_id] = bytes
+		_chart_count[map_id] = int(_chart_count.get(map_id, 0)) + lit
+		_veil_dirty[map_id] = true
+		chart_changed.emit(map_id)
+	return lit
+
+
+func survey_all(map_id: String) -> void:
+	if not _chart.has(map_id):
+		return
+	var dim: Vector2i = _chart_dim[map_id]
+	var bytes: PackedByteArray = _chart[map_id]
+	bytes.fill(1)
+	_chart[map_id] = bytes
+	_chart_count[map_id] = dim.x * dim.y
+	var known: Dictionary = _places_known.get(map_id, {})
+	for p_v: Variant in _places_for(map_id):
+		known[str((p_v as Dictionary).get("label", ""))] = true
+	_places_known[map_id] = known
+	_veil_dirty[map_id] = true
+	chart_changed.emit(map_id)
+
+
+func chart_fraction(map_id: String) -> float:
+	if not _chart.has(map_id):
+		return 0.0
+	var dim: Vector2i = _chart_dim[map_id]
+	return float(_chart_count.get(map_id, 0)) / maxf(1.0, float(dim.x * dim.y))
+
+
+func is_place_known(map_id: String, label: String) -> bool:
+	return bool((_places_known.get(map_id, {}) as Dictionary).get(label, false))
+
+
+func mark_place_known(map_id: String, label: String) -> void:
+	if label.is_empty() or is_place_known(map_id, label):
+		return
+	var known: Dictionary = _places_known.get(map_id, {})
+	known[label] = true
+	_places_known[map_id] = known
+	for p_v: Variant in _places_for(map_id):
+		var p: Dictionary = p_v
+		if str(p.get("label", "")) == label:
+			survey_disc(map_id, p["pos"] as Vector2, CHART_LANDMARK_R)
+			break
+	place_charted.emit(map_id, label)
+
+
+func known_place_count(map_id: String) -> int:
+	return (_places_known.get(map_id, {}) as Dictionary).size()
+
+
+## The named places of a zone come from the one shared table in Minimap.
+func _places_for(map_id: String) -> Array:
+	return Minimap.PLACES.get(map_id, [])
+
+
+## A veil image: one texel per chart cell, transparent where surveyed and a
+## dark parchment where not. Drawn stretched with LINEAR filtering, which is
+## what gives the discovered edge its feather for free.
+func veil_texture(map_id: String) -> Texture2D:
+	if not _chart.has(map_id):
+		return null
+	if not bool(_veil_dirty.get(map_id, true)) and _veil_tex.has(map_id):
+		return _veil_tex[map_id]
+	var dim: Vector2i = _chart_dim[map_id]
+	var bytes: PackedByteArray = _chart[map_id]
+	var img := Image.create(dim.x, dim.y, false, Image.FORMAT_RGBA8)
+	# Not black. The reference games (Zelda's dungeon map, Minecraft's blank
+	# paper, Terraria) never hide the SHAPE of a place - they drain it. Unsurveyed
+	# ground becomes unfinished parchment; what discovery really gates is the
+	# names, icons and gates, which _build_local_items does.
+	var hidden := Color(0.74, 0.67, 0.52, 0.86)
+	var clear := Color(0.74, 0.67, 0.52, 0.0)
+	for y in range(dim.y):
+		for x in range(dim.x):
+			img.set_pixel(x, y, clear if bytes[y * dim.x + x] != 0 else hidden)
+	var tex := ImageTexture.create_from_image(img)
+	_veil_tex[map_id] = tex
+	_veil_dirty[map_id] = false
+	return tex
+
+
+## QA: RH_CHART=all surveys every zone at boot so a screenshot shows the whole
+## map; RH_CHART=none leaves it dark. Without it the chart fills as you walk.
+func _qa_chart() -> void:
+	var mode: String = OS.get_environment("RH_CHART").to_lower()
+	if mode.is_empty():
+		return
+	for i in range(20):
+		await get_tree().process_frame
+	var map_id: String = current_zone()
+	if map_id.is_empty():
+		return
+	ensure_chart(map_id, zone_bounds(map_id))
+	if mode == "all":
+		survey_all(map_id)
+
+
+func _tick_chart() -> void:
+	var map_id: String = current_zone()
+	if map_id.is_empty():
+		return
+	var pl: Node2D = get_tree().get_first_node_in_group("player") as Node2D
+	if pl == null or not is_instance_valid(pl):
+		return
+	if not _chart.has(map_id):
+		ensure_chart(map_id, zone_bounds(map_id))
+		if not _chart.has(map_id):
+			return
+	var p: Vector2 = pl.global_position
+	survey_disc(map_id, p, CHART_REVEAL)
+	var near2: float = CHART_LANDMARK_NEAR * CHART_LANDMARK_NEAR
+	for pv: Variant in _places_for(map_id):
+		if not (pv is Dictionary):
+			continue
+		var pd: Dictionary = pv
+		var lab: String = str(pd.get("label", ""))
+		if lab.is_empty() or is_place_known(map_id, lab):
+			continue
+		if p.distance_squared_to(pd["pos"] as Vector2) <= near2:
+			mark_place_known(map_id, lab)
 
 
 func _process(delta: float) -> void:
-	# Poll the live map id so entering a new zone charts it (no main.gd edit).
 	_poll_accum += delta
-	if _poll_accum < 0.4:
-		return
-	_poll_accum = 0.0
+	if _poll_accum >= 0.4:
+		_poll_accum = 0.0
+		_tick_zone_poll()
+	_chart_accum += delta
+	if _chart_accum >= CHART_TICK:
+		_chart_accum = 0.0
+		_tick_chart()
+
+
+func _tick_zone_poll() -> void:
 	var cur: String = current_zone()
 	if cur != "" and cur != _last_seen_zone:
 		_last_seen_zone = cur
@@ -342,13 +570,50 @@ func _save() -> void:
 
 ## SaveSystem-shaped hooks (mirrors TravelSystem; wired if the save pass adopts it).
 func save_state() -> Dictionary:
-	return {"revealed": _revealed.keys()}
+	# The chart is stored per zone as base64 of its 1-byte-per-cell grid, which
+	# is both ConfigFile- and JSON-safe and stays small (the whole city is 8960
+	# cells = about 12 KB of base64).
+	var charts: Dictionary = {}
+	for k_v: Variant in _chart:
+		var k: String = k_v
+		var dim: Vector2i = _chart_dim[k]
+		charts[k] = {
+			"w": dim.x, "h": dim.y,
+			"ox": (_chart_origin[k] as Vector2).x, "oy": (_chart_origin[k] as Vector2).y,
+			"n": int(_chart_count.get(k, 0)),
+			"b": Marshalls.raw_to_base64(_chart[k] as PackedByteArray),
+		}
+	var known: Dictionary = {}
+	for m_v: Variant in _places_known:
+		known[str(m_v)] = (_places_known[m_v] as Dictionary).keys()
+	return {"revealed": _revealed.keys(), "charts": charts, "places": known}
+
 
 func load_state(data: Dictionary) -> void:
 	for zid: Variant in data.get("revealed", []):
 		_revealed[str(zid)] = true
 	for z: String in SEED_REVEALED:
 		_revealed[z] = true
+	var charts: Dictionary = data.get("charts", {})
+	for k_v: Variant in charts:
+		var k: String = k_v
+		var c: Dictionary = charts[k_v]
+		var w: int = int(c.get("w", 0))
+		var h: int = int(c.get("h", 0))
+		var bytes: PackedByteArray = Marshalls.base64_to_raw(str(c.get("b", "")))
+		if w <= 0 or h <= 0 or bytes.size() != w * h:
+			continue
+		_chart[k] = bytes
+		_chart_dim[k] = Vector2i(w, h)
+		_chart_origin[k] = Vector2(float(c.get("ox", 0.0)), float(c.get("oy", 0.0)))
+		_chart_count[k] = int(c.get("n", 0))
+		_veil_dirty[k] = true
+	var places: Dictionary = data.get("places", {})
+	for m_v: Variant in places:
+		var seen: Dictionary = {}
+		for lab_v: Variant in (places[m_v] as Array):
+			seen[str(lab_v)] = true
+		_places_known[str(m_v)] = seen
 
 
 # ---------------------------------------------------------------- screen
@@ -371,3 +636,10 @@ func notify_opened() -> void:
 
 func notify_closed() -> void:
 	map_closed.emit()
+
+
+## QA: RH_MAPSCREEN=1 opens the map screen at boot for a screenshot.
+func _qa_open() -> void:
+	for i in range(40):
+		await get_tree().process_frame
+	open()

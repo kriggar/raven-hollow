@@ -1,93 +1,104 @@
 class_name Minimap
 extends CanvasLayer
-## Minimap + world-map overlay for Raven Hollow (Phase C, SPEC_PHASE_C_DEMO.md §6).
-## Layer 8 (same band as the HUD), group "minimap". Built entirely in code.
+## Minimap + world map for Raven Hollow. Layer 8, group "minimap", built in code.
 ##
-## Top-right: 64px dark-wood-framed minimap — prerendered map texture from
-## res://assets/art/maps/<map_id>.png (aspect-fit, letterboxed on the dark
-## fill), gold player arrow (rotates to the last movement direction), yellow
-## NPC dots, red enemy dots, gold travel-point diamonds — with the day/night
-## clock ("17:20", Alagard 10) right under the frame, fed by the DayNight node
-## (group "day_night", duck-typed).
+## v9 REWRITE (2026-09-23, owner: "fully revamp the mini map, dots on the maps
+## is absolutely unacceptable"). The old minimap squeezed the whole 7168x5120
+## city into a 70x70 thumbnail and drew everything as 2x2 coloured dots, so a
+## house was one and a half pixels and nothing could be read.
 ##
-## M ("map" action) toggles the world-map overlay: a parchment-framed large
-## map with Alagard district labels, the player arrow, travel-point diamonds
-## and quest pins (gold "!") pulled duck-typed from the Quests singleton.
+## What it does now, following the conventions of CrossCode, Moonlighter, Core
+## Keeper, Graveyard Keeper and Zelda:
+##   * the minimap is a SCROLLING WINDOW that follows the player at a fixed,
+##     readable scale (WORLD_PER_PX world px per minimap px) instead of a
+##     squeezed whole-map thumbnail;
+##   * places are ICONS with a dark outline - a keep, a church cross, a market
+##     awning, a tankard, an anchor, a well, a gate arch, a mill - never dots;
+##   * icons for places outside the window clamp to the rim as small arrows, so
+##     the player always knows which way the harbour is;
+##   * a compass N on the rim, the clock under it, and the district name fading
+##     in when you walk into a new quarter;
+##   * M opens a full world map on parchment: the same icons with labels, quest
+##     pins, travel points, the player arrow, a legend, and zoom/pan.
 ##
-## ============================ INTEGRATION (main.gd — integrator implements)
-## 1. _bootstrap_world(): add_child(Minimap.new()) right after add_child(HUD.new()).
-##    Zero-config: it boots showing the town map over TownBuilder's bounds.
-## 2. change_map(map_id, entry_point_id): after the new map is built, feed the
-##    minimap from the MapRegistry def + builder info:
-##        var mm: Node = get_tree().get_first_node_in_group("minimap")
-##        if mm != null:
-##            mm.call("set_map", map_id, info.bounds, def.get("travel_points", []),
-##                    str(def.get("display_name", "")))
-##    travel_points entries are the MapRegistry dicts ({id, pos, radius, to_map,
-##    to_point, prompt}) — only "pos" (Vector2, world px) is read here.
-## 3. Input action "map" (M) already exists in project.godot — nothing to add.
-## 4. quests.gd (group "quests") MAY implement:
-##        func map_pins(map_id: String) -> Array   # of {"pos": Vector2, "label": String}
-##    Pins render as gold "!" on the world-map overlay. Duck-typed; absent → no pins.
-## 5. hud.gd quest tracker (spec §4) goes "under the minimap": the frame owns
-##    design-space (558,8)-(632,82) and the clock runs to y≈96 — start the
-##    tracker at y >= 100 on the right edge.
-## 6. Pause menu: skip its ui_cancel handling while is_world_map_open() is true
-##    (the overlay consumes Esc to close itself when it sees the event first,
-##    but _unhandled_input order is not guaranteed across siblings).
-## 7. Map textures: res://assets/art/maps/<map_id>.png. town.png is SHIPPED
-##    (256x183, cut from _screens/b3_full.png; covers world (0,0)-(2240,1600)
-##    exactly, HUD overlays patched out). wilderness.png is DEFERRED to the
-##    integration pass (same pipeline: full-map screenshot → crop to world
-##    rect → ~256px downscale); until it exists the wilderness map draws its
-##    dots over a muted olive fallback, nothing breaks.
-## 8. New maps: add district label entries to DISTRICTS and a display name to
-##    DISPLAY_NAMES below (or pass display_name through set_map).
-## ===========================================================================
+## Public API (unchanged, main.gd::_refresh_minimap calls set_map):
+##   set_map(map_id, bounds, travel_points := [], display_name := "")
+##   is_world_map_open() -> bool
 
-const GOLD := Color(0.85, 0.68, 0.35)
-const PARCHMENT := Color(0.87, 0.82, 0.72)
-const HOSTILE_RED := Color(0.85, 0.25, 0.2)
-const NPC_YELLOW := Color(0.93, 0.83, 0.34)
-const BOX_BG := Color(0.09, 0.07, 0.06, 0.96)
-const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
+const GOLD := Color(0.88, 0.72, 0.38)
+const GOLD_DIM := Color(0.62, 0.50, 0.26)
+const PARCHMENT := Color(0.90, 0.85, 0.74)
+const INK := Color(0.16, 0.11, 0.08)
+const INK_SOFT := Color(0.28, 0.20, 0.14)
+const HOSTILE_RED := Color(0.86, 0.28, 0.22)
+const QUEST_GOLD := Color(1.0, 0.84, 0.35)
+const BOX_BG := Color(0.07, 0.06, 0.05, 0.98)
+const OUTLINE_DARK := Color(0.06, 0.04, 0.03)
 const FRAME_TINT := Color(0.55, 0.45, 0.38)
-const PARCH_BG := Color(0.72, 0.65, 0.5)
-const MAP_FALLBACK := Color(0.34, 0.37, 0.24)  # muted olive "unmapped" ground
+const PARCH_BG := Color(0.74, 0.67, 0.52)
+const MAP_FALLBACK := Color(0.30, 0.33, 0.22)
 
 const MAP_DIR := "res://assets/art/maps/"
 const DEFAULT_MAP_ID := "town"
-const DEFAULT_BOUNDS := Rect2(0.0, 0.0, 2240.0, 1600.0)  # TownBuilder 70x50 @32
+const DEFAULT_BOUNDS := Rect2(0.0, 0.0, 7168.0, 5120.0)
 
-## Minimap frame geometry (640x360 design space, top-right).
+## Minimap geometry in the 640x360 design space (top-right).
 const MARGIN: float = 8.0
-const MAP_SIZE: float = 70.0
+const MAP_SIZE: float = 84.0
 const RIM_PAD: float = 5.0
-const FRAME: float = MAP_SIZE + RIM_PAD * 2.0  # 74
+const FRAME: float = MAP_SIZE + RIM_PAD * 2.0
 const CLOCK_H: float = 12.0
+## World px per minimap px. 13 -> the 84 px window shows ~1090 world px, about
+## three screens wide: a house is 12 px and a street reads as a street.
+const WORLD_PER_PX: float = 13.0
 
-## World-map overlay geometry.
-const OVERLAY_LAYER: int = 12  # above bag/sheet (9) + dialogue (10), below menus (30)
-const PANEL_W: float = 520.0
-const PANEL_H: float = 330.0
-const CONTENT := Rect2(12.0, 36.0, 496.0, 270.0)  # map area inside the panel
+const OVERLAY_LAYER: int = 12
+const PANEL_W: float = 560.0
+const PANEL_H: float = 340.0
+const CONTENT := Rect2(14.0, 34.0, 532.0, 258.0)
 
 const DISPLAY_NAMES: Dictionary = {
 	"town": "Raven Hollow",
 	"wilderness": "The Emberfall Road",
 }
 
-## District labels per map id, world px positions (Alagard on the overlay).
+## Places worth an icon. kind drives the glyph (see _draw_icon).
+## {pos, kind, label, minimap: show on the small map too}
+const PLACES: Dictionary = {
+	"town": [
+		{"pos": Vector2(1120, 800), "kind": "home", "label": "The Hollow", "minimap": true},
+		{"pos": Vector2(1548, 864), "kind": "anvil", "label": "Smithy", "minimap": true},
+		{"pos": Vector2(1120, 640), "kind": "inn", "label": "The Ember Hearth", "minimap": true},
+		{"pos": Vector2(448, 470), "kind": "grave", "label": "Old Cemetery", "minimap": true},
+		{"pos": Vector2(2240, 816), "kind": "gate", "label": "The Old Gate", "minimap": true},
+		{"pos": Vector2(2620, 1330), "kind": "horse", "label": "Horse Fair", "minimap": true},
+		{"pos": Vector2(2500, 440), "kind": "garrison", "label": "Burned Garrison", "minimap": true},
+		{"pos": Vector2(3300, 1180), "kind": "market", "label": "Trade Square", "minimap": true},
+		{"pos": Vector2(3600, 560), "kind": "keep", "label": "The Vigil Keep", "minimap": true},
+		{"pos": Vector2(5400, 900), "kind": "church", "label": "The Cathedral", "minimap": true},
+		{"pos": Vector2(6620, 900), "kind": "candle", "label": "The Candle-House", "minimap": true},
+		{"pos": Vector2(2380, 2560), "kind": "well", "label": "Well Square", "minimap": true},
+		{"pos": Vector2(3080, 3690), "kind": "inn", "label": "The Drowned Rat", "minimap": true},
+		{"pos": Vector2(5420, 2560), "kind": "market", "label": "Ward Square", "minimap": true},
+		{"pos": Vector2(3080, 4400), "kind": "anchor", "label": "The Harbour", "minimap": true},
+		{"pos": Vector2(7000, 2600), "kind": "gate", "label": "The East Gate", "minimap": true},
+		{"pos": Vector2(1100, 3060), "kind": "granary", "label": "The Granary", "minimap": true},
+		{"pos": Vector2(1320, 4420), "kind": "mill", "label": "The Mill", "minimap": true},
+		{"pos": Vector2(520, 2010), "kind": "church", "label": "Ashen Chapel", "minimap": true},
+		{"pos": Vector2(6840, 3900), "kind": "burned", "label": "Burned Farmstead", "minimap": true},
+		{"pos": Vector2(1900, 4960), "kind": "boat", "label": "The Ferry", "minimap": true},
+	],
+}
+
+## Quarter names drawn on the world map and announced under the minimap.
 const DISTRICTS: Dictionary = {
 	"town": [
-		{"pos": Vector2(455.0, 385.0), "text": "Old Cemetery"},
-		{"pos": Vector2(1110.0, 505.0), "text": "The Inn"},
-		{"pos": Vector2(1120.0, 802.0), "text": "The Square"},
-		{"pos": Vector2(1520.0, 752.0), "text": "Smithy"},
-		{"pos": Vector2(828.0, 768.0), "text": "Market"},
-		{"pos": Vector2(1100.0, 1145.0), "text": "Cottages"},
-		{"pos": Vector2(1655.0, 1300.0), "text": "Farmstead"},
-		{"pos": Vector2(2035.0, 935.0), "text": "East Gate"},
+
+		{"pos": Vector2(2650, 980), "text": "The Approach", "r": 520.0},
+		{"pos": Vector2(3150, 2800), "text": "Old Town", "r": 1150.0},
+		{"pos": Vector2(5600, 3300), "text": "The East Ward", "r": 1300.0},
+		{"pos": Vector2(1100, 3000), "text": "The Fields", "r": 1500.0},
+		{"pos": Vector2(6650, 3800), "text": "The SE Commons", "r": 800.0},
 	],
 }
 
@@ -102,16 +113,16 @@ var _map_tex: Texture2D = null
 var _root: Control
 var _view: MapView
 var _clock: Label
+var _district: Label
 
 var _overlay: CanvasLayer
 var _overlay_title: Label
-var _overlay_map_bg: ColorRect
-var _overlay_map: TextureRect
-var _overlay_map_border: Panel
-var _overlay_labels: Control
-var _marks: OverlayMarks
+var _overlay_map: WorldMapView
+var _legend: LegendStrip
 
 var _player_angle: float = 0.0
+var _district_name: String = ""
+var _district_fade: float = 0.0
 
 
 func _init() -> void:
@@ -132,9 +143,13 @@ func _ready() -> void:
 	_build_frame()
 	_build_overlay()
 	set_map(DEFAULT_MAP_ID, DEFAULT_BOUNDS)
+	# QA hook: RH_MAPOPEN=1 boots with the world map up so a screenshot can
+	# check it without a key press.
+	if OS.get_environment("RH_MAPOPEN") != "":
+		_overlay.visible = true
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var player: Node2D = get_tree().get_first_node_in_group("player") as Node2D
 	var alive: bool = player != null and is_instance_valid(player)
 	_root.visible = alive
@@ -143,23 +158,49 @@ func _process(_delta: float) -> void:
 			_overlay.visible = false
 		return
 
-	# Player arrow: keep the last movement heading while standing still.
 	var vel_v: Variant = player.get("velocity")
 	if vel_v is Vector2 and (vel_v as Vector2).length_squared() > 16.0:
 		_player_angle = (vel_v as Vector2).angle()
 
-	_view.has_player = true
+	_view.map_id = _map_id
 	_view.player_pos = player.global_position
 	_view.player_angle = _player_angle
-	_view.npc_pts = _collect_group_points("npcs")
 	_view.enemy_pts = _collect_group_points("enemies", true)
+	_view.pins = _collect_quest_pins()
 	_view.queue_redraw()
 
 	_clock.text = _clock_text()
 	_clock.visible = not _clock.text.is_empty()
+	_tick_district(player.global_position, delta)
 
 	if _overlay.visible:
-		_update_overlay_marks(player)
+		_overlay_map.player_pos = player.global_position
+		_overlay_map.player_angle = _player_angle
+		_overlay_map.pins = _view.pins
+		_overlay_map.queue_redraw()
+
+
+## The quarter name fades in for a few seconds when the player crosses into it.
+func _tick_district(pos: Vector2, delta: float) -> void:
+	var here: String = ""
+	var best: float = INF
+	for d_v: Variant in (DISTRICTS.get(_map_id, []) as Array):
+		var d: Dictionary = d_v
+		var dist: float = pos.distance_to(d["pos"] as Vector2)
+		if dist < float(d["r"]) and dist < best:
+			best = dist
+			here = str(d["text"])
+	if here != _district_name:
+		_district_name = here
+		_district_fade = 3.6 if not here.is_empty() else 0.0
+		_district.text = here
+	if _district_fade > 0.0:
+		_district_fade -= delta
+		var a: float = clampf(_district_fade, 0.0, 1.0)
+		_district.modulate = Color(1, 1, 1, a if _district_fade < 1.0 else 1.0)
+		_district.visible = true
+	else:
+		_district.visible = false
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -168,19 +209,31 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("map"):
 		if _root.visible or _overlay.visible:
 			_overlay.visible = not _overlay.visible
+			if _overlay.visible:
+				_overlay_map.zoom = 1.0
+				_overlay_map.pan = Vector2.ZERO
 			get_viewport().set_input_as_handled()
-	elif _overlay.visible and event.is_action_pressed("ui_cancel"):
-		_overlay.visible = false
-		get_viewport().set_input_as_handled()
+	elif _overlay.visible:
+		if event.is_action_pressed("ui_cancel"):
+			_overlay.visible = false
+			get_viewport().set_input_as_handled()
+		elif event is InputEventKey and (event as InputEventKey).pressed:
+			var k: int = (event as InputEventKey).keycode
+			if k == KEY_EQUAL or k == KEY_KP_ADD:
+				_overlay_map.zoom = minf(_overlay_map.zoom * 1.5, 4.0)
+				_overlay_map.queue_redraw()
+				get_viewport().set_input_as_handled()
+			elif k == KEY_MINUS or k == KEY_KP_SUBTRACT:
+				_overlay_map.zoom = maxf(_overlay_map.zoom / 1.5, 1.0)
+				_overlay_map.pan = Vector2.ZERO if _overlay_map.zoom <= 1.0 else _overlay_map.pan
+				_overlay_map.queue_redraw()
+				get_viewport().set_input_as_handled()
 
 
-## True while the M world map is up (pause menu should ignore Esc then).
 func is_world_map_open() -> bool:
 	return _overlay.visible
 
 
-## Point the minimap + world map at a new map. Called by main.gd on every
-## change_map (see INTEGRATION). travel_points: MapRegistry dicts, "pos" read.
 func set_map(map_id: String, bounds: Rect2, travel_points: Array = [],
 		display_name: String = "") -> void:
 	_map_id = map_id
@@ -193,20 +246,27 @@ func set_map(map_id: String, bounds: Rect2, travel_points: Array = [],
 				_travel_world.append(pos_v)
 	_map_tex = _load_map_texture(map_id)
 
+	var places: Array = PLACES.get(map_id, [])
 	_view.tex = _map_tex
 	_view.bounds = _bounds
 	_view.travel_pts = _travel_world
+	_view.places = places
 	_view.queue_redraw()
+
+	_overlay_map.tex = _map_tex
+	_overlay_map.bounds = _bounds
+	_overlay_map.travel_pts = _travel_world
+	_overlay_map.places = places
+	_overlay_map.districts = DISTRICTS.get(map_id, [])
+	_overlay_map.queue_redraw()
 
 	var title: String = display_name
 	if title.is_empty():
 		title = str(DISPLAY_NAMES.get(map_id, map_id.capitalize()))
 	_overlay_title.text = title
-	_layout_overlay_map()
-	_rebuild_district_labels()
 
 
-# --- construction: minimap frame ----------------------------------------------
+# --- construction ------------------------------------------------------------
 
 func _build_frame() -> void:
 	var frame := Control.new()
@@ -236,6 +296,7 @@ func _build_frame() -> void:
 	_view.name = "MapView"
 	_view.position = Vector2(RIM_PAD, RIM_PAD)
 	_view.size = Vector2(MAP_SIZE, MAP_SIZE)
+	_view.font = _font
 	frame.add_child(_view)
 
 	var rim := NinePatchRect.new()
@@ -251,8 +312,6 @@ func _build_frame() -> void:
 	rim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	frame.add_child(rim)
 
-	# WoW-professional round minimap: opaque-corner ring mask over the square
-	# map view (gold ring + N marker baked into the texture).
 	var ring := TextureRect.new()
 	ring.name = "Ring"
 	ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -280,8 +339,24 @@ func _build_frame() -> void:
 	_clock.offset_bottom = MARGIN + FRAME + 1.0 + CLOCK_H
 	_root.add_child(_clock)
 
+	_district = Label.new()
+	_district.name = "District"
+	_district.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_district.add_theme_font_override("font", _font)
+	_district.add_theme_font_size_override("font_size", 11)
+	_district.add_theme_color_override("font_color", GOLD)
+	_district.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	_district.add_theme_constant_override("outline_size", 3)
+	_district.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_district.anchor_left = 1.0
+	_district.anchor_right = 1.0
+	_district.offset_left = -(MARGIN + FRAME + 130.0)
+	_district.offset_right = -MARGIN
+	_district.offset_top = MARGIN + FRAME + CLOCK_H + 2.0
+	_district.offset_bottom = MARGIN + FRAME + CLOCK_H + 16.0
+	_district.visible = false
+	_root.add_child(_district)
 
-# --- construction: world-map overlay -------------------------------------------
 
 func _build_overlay() -> void:
 	_overlay = CanvasLayer.new()
@@ -291,188 +366,68 @@ func _build_overlay() -> void:
 	add_child(_overlay)
 
 	var dim := ColorRect.new()
-	dim.name = "Dim"
-	dim.color = Color(0.0, 0.0, 0.0, 0.55)
-	dim.mouse_filter = Control.MOUSE_FILTER_STOP  # swallow clicks under the map
+	dim.color = Color(0.03, 0.02, 0.02, 0.72)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_overlay.add_child(dim)
 
 	var panel := Control.new()
-	panel.name = "MapPanel"
-	panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	panel.anchor_left = 0.5
-	panel.anchor_right = 0.5
-	panel.anchor_top = 0.5
-	panel.anchor_bottom = 0.5
-	panel.offset_left = -PANEL_W * 0.5
-	panel.offset_right = PANEL_W * 0.5
-	panel.offset_top = -PANEL_H * 0.5
-	panel.offset_bottom = PANEL_H * 0.5
+	panel.name = "Panel"
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.position = Vector2(-PANEL_W * 0.5, -PANEL_H * 0.5)
+	panel.size = Vector2(PANEL_W, PANEL_H)
 	_overlay.add_child(panel)
 
-	# Parchment sheet inset under the wooden rim.
-	var parch := Panel.new()
+	var parch := TextureRect.new()
 	parch.name = "Parchment"
+	parch.texture = load("res://assets/art/ui/parchment_free.png")
+	parch.stretch_mode = TextureRect.STRETCH_SCALE
+	parch.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	parch.set_anchors_preset(Control.PRESET_FULL_RECT)
+	parch.modulate = Color(0.94, 0.90, 0.82)
 	parch.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	parch.position = Vector2(3.0, 3.0)
-	parch.size = Vector2(PANEL_W - 6.0, PANEL_H - 6.0)
-	var psb := StyleBoxFlat.new()
-	psb.bg_color = PARCH_BG
-	psb.border_color = Color(0.42, 0.33, 0.2)
-	psb.set_border_width_all(2)
-	psb.set_corner_radius_all(0)
-	parch.add_theme_stylebox_override("panel", psb)
 	panel.add_child(parch)
 
-	# Dark wood header band with the map's display name in gold Alagard.
-	var header := Panel.new()
-	header.name = "Header"
-	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	header.position = Vector2(6.0, 6.0)
-	header.size = Vector2(PANEL_W - 12.0, 24.0)
-	var hsb := StyleBoxFlat.new()
-	hsb.bg_color = BOX_BG
-	hsb.border_color = Color(0.42, 0.33, 0.2)
-	hsb.set_border_width_all(2)
-	hsb.set_corner_radius_all(0)
-	header.add_theme_stylebox_override("panel", hsb)
-	panel.add_child(header)
+	var edge := NinePatchRect.new()
+	edge.texture = _panel_tex
+	edge.draw_center = false
+	edge.patch_margin_left = 12
+	edge.patch_margin_right = 12
+	edge.patch_margin_top = 12
+	edge.patch_margin_bottom = 12
+	edge.modulate = FRAME_TINT
+	edge.set_anchors_preset(Control.PRESET_FULL_RECT)
+	edge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(edge)
 
 	_overlay_title = Label.new()
-	_overlay_title.name = "Title"
-	_overlay_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_overlay_title.add_theme_font_override("font", _font)
-	_overlay_title.add_theme_font_size_override("font_size", 14)
-	_overlay_title.add_theme_color_override("font_color", GOLD)
-	_overlay_title.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	_overlay_title.add_theme_constant_override("outline_size", 2)
+	_overlay_title.add_theme_font_size_override("font_size", 20)
+	_overlay_title.add_theme_color_override("font_color", INK)
 	_overlay_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_overlay_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_overlay_title.position = Vector2(0.0, -2.0)
-	_overlay_title.size = header.size
-	header.add_child(_overlay_title)
+	_overlay_title.position = Vector2(0.0, 6.0)
+	_overlay_title.size = Vector2(PANEL_W, 24.0)
+	_overlay_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(_overlay_title)
 
-	# Map image (aspect-fit inside CONTENT; sized in _layout_overlay_map).
-	_overlay_map_bg = ColorRect.new()
-	_overlay_map_bg.name = "MapFallback"
-	_overlay_map_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_overlay_map_bg.color = MAP_FALLBACK
-	panel.add_child(_overlay_map_bg)
-
-	_overlay_map = TextureRect.new()
-	_overlay_map.name = "MapImage"
-	_overlay_map.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_overlay_map.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	_overlay_map.stretch_mode = TextureRect.STRETCH_SCALE
-	_overlay_map.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_overlay_map = WorldMapView.new()
+	_overlay_map.name = "WorldMapView"
+	_overlay_map.position = CONTENT.position
+	_overlay_map.size = CONTENT.size
+	_overlay_map.font = _font
 	panel.add_child(_overlay_map)
 
-	_overlay_map_border = Panel.new()
-	_overlay_map_border.name = "MapBorder"
-	_overlay_map_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var bsb := StyleBoxFlat.new()
-	bsb.bg_color = Color(0.0, 0.0, 0.0, 0.0)
-	bsb.border_color = Color(0.3, 0.22, 0.12)
-	bsb.set_border_width_all(2)
-	bsb.set_corner_radius_all(0)
-	_overlay_map_border.add_theme_stylebox_override("panel", bsb)
-	panel.add_child(_overlay_map_border)
-
-	_overlay_labels = Control.new()
-	_overlay_labels.name = "DistrictLabels"
-	_overlay_labels.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_overlay_labels.set_anchors_preset(Control.PRESET_FULL_RECT)
-	panel.add_child(_overlay_labels)
-
-	_marks = OverlayMarks.new()
-	_marks.name = "Marks"
-	_marks.font = _font
-	panel.add_child(_marks)
-
-	var hint := Label.new()
-	hint.name = "Hint"
-	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	hint.add_theme_font_override("font", _font)
-	hint.add_theme_font_size_override("font_size", 9)
-	hint.add_theme_color_override("font_color", Color(0.32, 0.24, 0.14))
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.text = "[M] close"
-	hint.position = Vector2(0.0, PANEL_H - 22.0)
-	hint.size = Vector2(PANEL_W, 12.0)
-	panel.add_child(hint)
-
-	var rim := NinePatchRect.new()
-	rim.name = "Rim"
-	rim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	rim.texture = _panel_tex
-	rim.draw_center = false
-	rim.patch_margin_left = 10
-	rim.patch_margin_right = 10
-	rim.patch_margin_top = 10
-	rim.patch_margin_bottom = 10
-	rim.modulate = FRAME_TINT
-	rim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	panel.add_child(rim)
+	_legend = LegendStrip.new()
+	_legend.name = "Legend"
+	_legend.position = Vector2(14.0, CONTENT.end.y + 4.0)
+	_legend.size = Vector2(PANEL_W - 28.0, 34.0)
+	_legend.font = _font
+	panel.add_child(_legend)
 
 
-## Aspect-fit the current map bounds into CONTENT and place image/border/marks.
-func _layout_overlay_map() -> void:
-	var fit: Rect2 = _fit_rect(_bounds.size, CONTENT)
-	_overlay_map_bg.position = fit.position
-	_overlay_map_bg.size = fit.size
-	_overlay_map.position = fit.position
-	_overlay_map.size = fit.size
-	_overlay_map.texture = _map_tex
-	_overlay_map.visible = _map_tex != null
-	_overlay_map_border.position = fit.position - Vector2(2.0, 2.0)
-	_overlay_map_border.size = fit.size + Vector2(4.0, 4.0)
-	_marks.position = fit.position
-	_marks.size = fit.size
-	_marks.bounds = _bounds
-	_marks.travel_pts = _travel_world
+# --- data helpers -------------------------------------------------------------
 
-
-func _rebuild_district_labels() -> void:
-	for child: Node in _overlay_labels.get_children():
-		child.queue_free()
-	var fit: Rect2 = _fit_rect(_bounds.size, CONTENT)
-	var entries_v: Variant = DISTRICTS.get(_map_id, [])
-	if not (entries_v is Array):
-		return
-	for entry_v: Variant in (entries_v as Array):
-		if not (entry_v is Dictionary):
-			continue
-		var entry: Dictionary = entry_v
-		var pos_v: Variant = entry.get("pos")
-		if not (pos_v is Vector2):
-			continue
-		var uv: Vector2 = ((pos_v as Vector2) - _bounds.position) / _bounds.size
-		var at: Vector2 = fit.position + uv.clamp(Vector2.ZERO, Vector2.ONE) * fit.size
-		var label := Label.new()
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_override("font", _font)
-		label.add_theme_font_size_override("font_size", 9)
-		label.add_theme_color_override("font_color", PARCHMENT)
-		label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-		label.add_theme_constant_override("outline_size", 2)
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.text = str(entry.get("text", ""))
-		label.position = at - Vector2(60.0, 6.0)
-		label.size = Vector2(120.0, 12.0)
-		_overlay_labels.add_child(label)
-
-
-# --- per-frame helpers ----------------------------------------------------------
-
-func _update_overlay_marks(player: Node2D) -> void:
-	_marks.has_player = true
-	_marks.player_pos = player.global_position
-	_marks.player_angle = _player_angle
-	_marks.pins = _collect_quest_pins()
-	_marks.queue_redraw()
-
-
-## World positions of a group's living Node2Ds (skip_dead: honor `is_dead`).
 func _collect_group_points(group: String, skip_dead: bool = false) -> PackedVector2Array:
 	var pts := PackedVector2Array()
 	for node: Node in get_tree().get_nodes_in_group(group):
@@ -484,8 +439,6 @@ func _collect_group_points(group: String, skip_dead: bool = false) -> PackedVect
 	return pts
 
 
-## Duck-typed quest pins: Quests singleton (group "quests") may expose
-## map_pins(map_id) -> Array of {"pos": Vector2, "label": String}.
 func _collect_quest_pins() -> Array[Dictionary]:
 	var pins: Array[Dictionary] = []
 	var quests: Node = get_tree().get_first_node_in_group("quests")
@@ -500,7 +453,6 @@ func _collect_quest_pins() -> Array[Dictionary]:
 	return pins
 
 
-## Clock text from the DayNight node (group "day_night"), duck-typed.
 func _clock_text() -> String:
 	var dn: Node = get_tree().get_first_node_in_group("day_night")
 	if dn == null:
@@ -515,8 +467,6 @@ func _clock_text() -> String:
 	return ""
 
 
-## Map texture per map id. Prefers the imported resource; falls back to a raw
-## PNG read so a freshly generated map works before the editor has imported it.
 static func _load_map_texture(map_id: String) -> Texture2D:
 	var path: String = MAP_DIR + map_id + ".png"
 	if ResourceLoader.exists(path, "Texture2D"):
@@ -529,7 +479,6 @@ static func _load_map_texture(map_id: String) -> Texture2D:
 	return null
 
 
-## Largest rect with `content` aspect that fits centered inside `area`.
 static func _fit_rect(content: Vector2, area: Rect2) -> Rect2:
 	if content.x <= 0.0 or content.y <= 0.0:
 		return area
@@ -538,20 +487,129 @@ static func _fit_rect(content: Vector2, area: Rect2) -> Rect2:
 	return Rect2(area.position + (area.size - fit_size) * 0.5, fit_size)
 
 
-# --- inner draw controls ---------------------------------------------------------
+# --- shared icon vocabulary ----------------------------------------------------
 
-## The 64px minimap canvas: map texture aspect-fit on dark wood, then travel
-## diamonds, NPC/enemy dots and the player arrow. Data is pushed by Minimap
-## each frame (no back-reference into the outer class).
+## Every place on either map is one of these glyphs, drawn as pixel shapes with
+## a dark outline so they read at 7 px over any ground colour. Never a dot.
+static func _draw_icon(ci: CanvasItem, kind: String, at: Vector2, s: float, tint: Color) -> void:
+	var o := OUTLINE_DARK
+	var px: float = s
+	# a soft dark seat under the glyph so it reads over busy ground without
+	# looking like a black box on the map
+	ci.draw_circle(at, px * 3.1, Color(0.08, 0.06, 0.05, 0.34))
+	match kind:
+		"keep":
+			# crenellated tower
+			ci.draw_rect(Rect2(at + Vector2(-2.2, -1.0) * px, Vector2(4.4, 3.6) * px), o)
+			ci.draw_rect(Rect2(at + Vector2(-1.8, -0.6) * px, Vector2(3.6, 3.0) * px), tint)
+			for bx: float in [-2.2, -0.6, 1.0]:
+				ci.draw_rect(Rect2(at + Vector2(bx, -2.6) * px, Vector2(1.2, 1.8) * px), tint)
+		"church":
+			ci.draw_rect(Rect2(at + Vector2(-0.6, -3.0) * px, Vector2(1.2, 5.4) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-2.0, -1.8) * px, Vector2(4.0, 1.2) * px), tint)
+		"market":
+			# awning: a triangle over a counter
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-3.0, -0.4) * px, at + Vector2(0.0, -2.8) * px, at + Vector2(3.0, -0.4) * px]), tint)
+			ci.draw_rect(Rect2(at + Vector2(-2.4, -0.2) * px, Vector2(4.8, 2.2) * px), o)
+			ci.draw_rect(Rect2(at + Vector2(-2.0, 0.2) * px, Vector2(4.0, 1.4) * px), tint * 0.8)
+		"inn":
+			# tankard
+			ci.draw_rect(Rect2(at + Vector2(-1.8, -2.0) * px, Vector2(3.0, 4.2) * px), o)
+			ci.draw_rect(Rect2(at + Vector2(-1.4, -1.6) * px, Vector2(2.2, 3.4) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(1.2, -1.2) * px, Vector2(1.2, 1.8) * px), tint)
+		"anchor":
+			ci.draw_rect(Rect2(at + Vector2(-0.5, -2.6) * px, Vector2(1.0, 4.8) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-1.8, -1.6) * px, Vector2(3.6, 0.9) * px), tint)
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-2.6, 0.8) * px, at + Vector2(-0.5, 2.4) * px,
+				at + Vector2(0.5, 2.4) * px, at + Vector2(2.6, 0.8) * px,
+				at + Vector2(2.0, 2.0) * px, at + Vector2(0.0, 3.0) * px,
+				at + Vector2(-2.0, 2.0) * px]), tint)
+		"gate":
+			ci.draw_rect(Rect2(at + Vector2(-2.6, -2.2) * px, Vector2(1.4, 4.6) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(1.2, -2.2) * px, Vector2(1.4, 4.6) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-2.6, -2.8) * px, Vector2(5.2, 1.0) * px), tint)
+		"well":
+			ci.draw_rect(Rect2(at + Vector2(-2.2, -0.4) * px, Vector2(4.4, 2.6) * px), o)
+			ci.draw_rect(Rect2(at + Vector2(-1.8, 0.0) * px, Vector2(3.6, 1.8) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-2.4, -1.2) * px, Vector2(5.0, 0.9) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-0.4, -2.8) * px, Vector2(0.8, 1.8) * px), tint)
+		"anvil":
+			ci.draw_rect(Rect2(at + Vector2(-2.4, -1.4) * px, Vector2(4.8, 1.6) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-1.0, 0.2) * px, Vector2(2.0, 1.4) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-2.0, 1.6) * px, Vector2(4.0, 0.9) * px), tint)
+		"home":
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-3.0, -0.6) * px, at + Vector2(0.0, -3.0) * px, at + Vector2(3.0, -0.6) * px]), tint)
+			ci.draw_rect(Rect2(at + Vector2(-2.2, -0.6) * px, Vector2(4.4, 3.0) * px), tint * 0.82)
+		"grave":
+			ci.draw_rect(Rect2(at + Vector2(-1.6, -2.4) * px, Vector2(3.2, 4.8) * px), tint * 0.9)
+			ci.draw_rect(Rect2(at + Vector2(-0.5, -1.8) * px, Vector2(1.0, 2.6) * px), o)
+			ci.draw_rect(Rect2(at + Vector2(-1.3, -1.0) * px, Vector2(2.6, 0.9) * px), o)
+		"horse":
+			ci.draw_rect(Rect2(at + Vector2(-2.6, -0.8) * px, Vector2(4.6, 2.0) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(1.2, -2.4) * px, Vector2(1.6, 2.2) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(-2.2, 1.2) * px, Vector2(0.9, 1.6) * px), tint)
+			ci.draw_rect(Rect2(at + Vector2(0.8, 1.2) * px, Vector2(0.9, 1.6) * px), tint)
+		"garrison":
+			ci.draw_rect(Rect2(at + Vector2(-2.6, -0.6) * px, Vector2(5.2, 3.0) * px), tint * 0.75)
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-1.6, -0.8) * px, at + Vector2(-0.6, -2.8) * px,
+				at + Vector2(0.2, -1.4) * px, at + Vector2(1.0, -2.6) * px,
+				at + Vector2(1.8, -0.8) * px]), Color(0.92, 0.46, 0.20))
+		"candle":
+			ci.draw_rect(Rect2(at + Vector2(-0.9, -1.2) * px, Vector2(1.8, 3.6) * px), tint)
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-0.8, -1.4) * px, at + Vector2(0.0, -3.2) * px, at + Vector2(0.8, -1.4) * px]),
+				Color(1.0, 0.86, 0.42))
+		"granary":
+			ci.draw_rect(Rect2(at + Vector2(-1.8, -0.8) * px, Vector2(3.6, 3.2) * px), tint)
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-2.2, -0.8) * px, at + Vector2(0.0, -3.2) * px, at + Vector2(2.2, -0.8) * px]), tint * 0.85)
+		"mill":
+			ci.draw_rect(Rect2(at + Vector2(-1.4, -0.8) * px, Vector2(2.8, 3.2) * px), tint)
+			ci.draw_line(at + Vector2(-2.8, -2.6) * px, at + Vector2(2.8, 0.2) * px, tint, maxf(1.0, px * 0.7))
+			ci.draw_line(at + Vector2(2.8, -2.6) * px, at + Vector2(-2.8, 0.2) * px, tint, maxf(1.0, px * 0.7))
+		"boat":
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-2.8, 0.4) * px, at + Vector2(2.8, 0.4) * px,
+				at + Vector2(1.8, 2.2) * px, at + Vector2(-1.8, 2.2) * px]), tint)
+			ci.draw_rect(Rect2(at + Vector2(-0.4, -2.8) * px, Vector2(0.8, 3.0) * px), tint)
+		"burned":
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(-2.6, 2.2) * px, at + Vector2(-1.4, -2.2) * px,
+				at + Vector2(0.0, 0.6) * px, at + Vector2(1.4, -2.4) * px,
+				at + Vector2(2.6, 2.2) * px]), Color(0.32, 0.26, 0.24))
+		_:
+			ci.draw_rect(Rect2(at - Vector2(px * 1.4, px * 1.4), Vector2(px * 2.8, px * 2.8)), tint)
+
+
+static func _arrow(c: Vector2, ang: float, r: float) -> PackedVector2Array:
+	var f := Vector2(cos(ang), sin(ang))
+	var s := Vector2(-f.y, f.x)
+	return PackedVector2Array([c + f * r, c - f * r * 0.62 + s * r * 0.68, c - f * r * 0.62 - s * r * 0.68])
+
+
+static func _diamond_pts(c: Vector2, r: float) -> PackedVector2Array:
+	return PackedVector2Array([c + Vector2(0, -r), c + Vector2(r, 0), c + Vector2(0, r), c + Vector2(-r, 0)])
+
+
+# --- the minimap canvas --------------------------------------------------------
+
+## A scrolling window into the map texture, centred on the player, with place
+## icons, quest pins and rim arrows for whatever is off the edge.
 class MapView extends Control:
+	var map_id: String = ""
 	var tex: Texture2D = null
 	var bounds: Rect2 = Rect2(0.0, 0.0, 1.0, 1.0)
-	var npc_pts: PackedVector2Array = PackedVector2Array()
+	var places: Array = []
 	var enemy_pts: PackedVector2Array = PackedVector2Array()
 	var travel_pts: PackedVector2Array = PackedVector2Array()
+	var pins: Array[Dictionary] = []
 	var player_pos: Vector2 = Vector2.ZERO
 	var player_angle: float = 0.0
-	var has_player: bool = false
+	var font: FontFile = null
 
 	func _init() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -560,98 +618,178 @@ class MapView extends Control:
 
 	func _draw() -> void:
 		draw_rect(Rect2(Vector2.ZERO, size), BOX_BG)
-		var fit: Rect2 = _fit_rect(bounds.size, Rect2(Vector2.ZERO, size))
-		if tex != null:
-			draw_texture_rect(tex, fit, false)
+		var half: Vector2 = size * 0.5 * WORLD_PER_PX
+		var win := Rect2(player_pos - half, size * WORLD_PER_PX)
+		# keep the window inside the world so the map never shows void
+		win.position.x = clampf(win.position.x, bounds.position.x, maxf(bounds.position.x, bounds.end.x - win.size.x))
+		win.position.y = clampf(win.position.y, bounds.position.y, maxf(bounds.position.y, bounds.end.y - win.size.y))
+		if tex != null and bounds.size.x > 0.0:
+			var tsize := Vector2(float(tex.get_width()), float(tex.get_height()))
+			var to_tex: Vector2 = tsize / bounds.size
+			var src := Rect2((win.position - bounds.position) * to_tex, win.size * to_tex)
+			draw_texture_rect_region(tex, Rect2(Vector2.ZERO, size), src)
+		else:
+			draw_rect(Rect2(Vector2.ZERO, size), MAP_FALLBACK)
+
+		# the unsurveyed ground, same veil texture as the world map
+		var ms: Node = get_node_or_null("/root/MapSystem")
+		if ms != null and ms.has_method("veil_texture"):
+			var veil: Texture2D = ms.call("veil_texture", map_id)
+			if veil != null:
+				var dim: Vector2i = ms.call("chart_dims", map_id)
+				var org: Vector2 = ms.call("chart_origin", map_id)
+				var cell: float = 64.0
+				if dim.x > 0 and dim.y > 0:
+					var vsrc := Rect2((win.position - org) / cell, win.size / cell)
+					draw_texture_rect_region(veil, Rect2(Vector2.ZERO, size), vsrc)
+
+		var c: Vector2 = size * 0.5
+		var radius: float = size.x * 0.5 - 3.0
+		# travel points
 		for tp: Vector2 in travel_pts:
-			_diamond(_map_pt(tp, fit), 2.5, GOLD)
-		for np: Vector2 in npc_pts:
-			var p: Vector2 = _map_pt(np, fit)
-			draw_rect(Rect2(p - Vector2.ONE, Vector2(2.0, 2.0)), NPC_YELLOW)
+			_mark(_to_view(tp, win), radius, c, GOLD, "gate", 0.9)
+		# places: everything inside the window gets its icon; only the three
+		# nearest places OUTSIDE it get a rim arrow, or the rim becomes a fence
+		# of arrows (Moonlighter/CrossCode both cap off-screen markers).
+		var offs: Array = []
+		var ms2: Node = get_node_or_null("/root/MapSystem")
+		for p_v: Variant in places:
+			var p: Dictionary = p_v
+			if not bool(p.get("minimap", true)):
+				continue
+			if ms2 != null and ms2.has_method("is_place_known") \
+					and not bool(ms2.call("is_place_known", map_id, str(p.get("label", "")))):
+				continue
+			var vp: Vector2 = _to_view(p["pos"] as Vector2, win)
+			if vp.distance_to(c) <= radius - 4.0:
+				Minimap._draw_icon(self, str(p["kind"]), vp, 0.9, PARCHMENT)
+			else:
+				offs.append([vp.distance_to(c), vp])
+		offs.sort_custom(func(a, b): return float(a[0]) < float(b[0]))
+		for i in range(mini(3, offs.size())):
+			_rim_arrow(offs[i][1] as Vector2, radius, c, PARCHMENT)
+		# quest pins
+		for pin: Dictionary in pins:
+			_mark(_to_view(pin["pos"] as Vector2, win), radius, c, QUEST_GOLD, "quest", 1.0)
+		# enemies: small red chevrons, only inside the window
 		for ep: Vector2 in enemy_pts:
-			var q: Vector2 = _map_pt(ep, fit)
-			draw_rect(Rect2(q - Vector2.ONE, Vector2(2.0, 2.0)), HOSTILE_RED)
-		if has_player:
-			var c: Vector2 = _map_pt(player_pos, fit)
-			draw_colored_polygon(_arrow(c, player_angle, 5.0), OUTLINE_DARK)
-			draw_colored_polygon(_arrow(c, player_angle, 3.6), GOLD)
+			var q: Vector2 = _to_view(ep, win)
+			if q.distance_to(c) <= radius:
+				draw_colored_polygon(Minimap._arrow(q, -PI * 0.5, 2.6), OUTLINE_DARK)
+				draw_colored_polygon(Minimap._arrow(q, -PI * 0.5, 1.8), HOSTILE_RED)
+		# the player
+		draw_colored_polygon(Minimap._arrow(c, player_angle, 5.2), OUTLINE_DARK)
+		draw_colored_polygon(Minimap._arrow(c, player_angle, 3.6), GOLD)
+		# compass
+		if font != null:
+			draw_string(font, Vector2(c.x - 3.0, 9.0), "N", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, GOLD_DIM)
 
-	func _map_pt(world: Vector2, fit: Rect2) -> Vector2:
-		var uv: Vector2 = (world - bounds.position) / bounds.size
-		return fit.position + uv.clamp(Vector2.ZERO, Vector2.ONE) * fit.size
+	func _to_view(world: Vector2, win: Rect2) -> Vector2:
+		return (world - win.position) / win.size * size
 
-	## Local copy of Minimap._fit_rect — outer statics are not visible from
-	## inner classes.
-	static func _fit_rect(content: Vector2, area: Rect2) -> Rect2:
-		if content.x <= 0.0 or content.y <= 0.0:
-			return area
-		var s: float = minf(area.size.x / content.x, area.size.y / content.y)
-		var fit_size: Vector2 = content * s
-		return Rect2(area.position + (area.size - fit_size) * 0.5, fit_size)
+	## Draw an icon, or clamp it to the rim as an arrow when it is off-window.
+	func _mark(p: Vector2, radius: float, c: Vector2, tint: Color, kind: String, s: float) -> void:
+		var d: Vector2 = p - c
+		if d.length() <= radius - 4.0:
+			Minimap._draw_icon(self, kind, p, s, tint)
+			return
+		_rim_arrow(p, radius, c, tint)
 
-	func _diamond(at: Vector2, r: float, color: Color) -> void:
-		draw_colored_polygon(PackedVector2Array([
-			at + Vector2(0.0, -r), at + Vector2(r, 0.0),
-			at + Vector2(0.0, r), at + Vector2(-r, 0.0),
-		]), color)
-
-	static func _arrow(at: Vector2, angle: float, s: float) -> PackedVector2Array:
-		var pts := PackedVector2Array([
-			Vector2(1.0, 0.0), Vector2(-0.75, 0.65), Vector2(-0.35, 0.0),
-			Vector2(-0.75, -0.65),
-		])
-		for i in range(pts.size()):
-			pts[i] = at + (pts[i] * s).rotated(angle)
-		return pts
+	func _rim_arrow(p: Vector2, radius: float, c: Vector2, tint: Color) -> void:
+		var dir: Vector2 = (p - c).normalized()
+		if dir == Vector2.ZERO:
+			return
+		var edge: Vector2 = c + dir * (radius - 3.0)
+		draw_colored_polygon(Minimap._arrow(edge, dir.angle(), 3.4), OUTLINE_DARK)
+		draw_colored_polygon(Minimap._arrow(edge, dir.angle(), 2.3), tint)
 
 
-## Marker layer over the big world map: player arrow, travel diamonds and gold
-## "!" quest pins. Sized to the map image rect; data pushed by Minimap.
-class OverlayMarks extends Control:
+# --- the world map -------------------------------------------------------------
+
+class WorldMapView extends Control:
+	var tex: Texture2D = null
 	var bounds: Rect2 = Rect2(0.0, 0.0, 1.0, 1.0)
+	var places: Array = []
+	var districts: Array = []
 	var travel_pts: PackedVector2Array = PackedVector2Array()
+	var pins: Array[Dictionary] = []
 	var player_pos: Vector2 = Vector2.ZERO
 	var player_angle: float = 0.0
-	var has_player: bool = false
-	var pins: Array[Dictionary] = []
-	var font: Font = null
+	var font: FontFile = null
+	var zoom: float = 1.0
+	var pan: Vector2 = Vector2.ZERO
+
+	func _init() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		clip_contents = true
+		texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+
+	func _draw() -> void:
+		draw_rect(Rect2(Vector2.ZERO, size), PARCH_BG)
+		var fit: Rect2 = Minimap._fit_rect(bounds.size, Rect2(Vector2.ZERO, size))
+		if zoom > 1.0:
+			# zoom about the player
+			var centre: Vector2 = _world_to_fit(player_pos, fit)
+			fit = Rect2(fit.position * zoom - centre * (zoom - 1.0), fit.size * zoom)
+		if tex != null:
+			draw_texture_rect(tex, fit, false)
+		else:
+			draw_rect(fit, MAP_FALLBACK)
+		# quarter names
+		if font != null:
+			for d_v: Variant in districts:
+				var d: Dictionary = d_v
+				var at: Vector2 = _world_to_fit(d["pos"] as Vector2, fit)
+				var label: String = str(d["text"])
+				var w: float = font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
+				draw_string(font, at - Vector2(w * 0.5, 0.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(0.20, 0.14, 0.10, 0.85))
+		for tp: Vector2 in travel_pts:
+			var q: Vector2 = _world_to_fit(tp, fit)
+			draw_colored_polygon(Minimap._diamond_pts(q, 4.0), OUTLINE_DARK)
+			draw_colored_polygon(Minimap._diamond_pts(q, 2.8), GOLD)
+		for p_v: Variant in places:
+			var p: Dictionary = p_v
+			var at2: Vector2 = _world_to_fit(p["pos"] as Vector2, fit)
+			Minimap._draw_icon(self, str(p["kind"]), at2, 1.3, PARCHMENT)
+			if font != null:
+				var lab: String = str(p["label"])
+				var lw: float = font.get_string_size(lab, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+				# stagger labels above/below the icon so dense corners stay readable
+				var dy: float = 13.0 if (places.find(p_v) % 2) == 0 else -8.0
+				draw_string(font, at2 + Vector2(-lw * 0.5, dy), lab, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, INK)
+		for pin: Dictionary in pins:
+			var pp: Vector2 = _world_to_fit(pin["pos"] as Vector2, fit)
+			Minimap._draw_icon(self, "quest", pp, 1.4, QUEST_GOLD)
+			if font != null:
+				draw_string(font, pp + Vector2(6.0, 4.0), str(pin.get("label", "")), HORIZONTAL_ALIGNMENT_LEFT, -1, 9, INK)
+		var c: Vector2 = _world_to_fit(player_pos, fit)
+		draw_colored_polygon(Minimap._arrow(c, player_angle, 8.0), OUTLINE_DARK)
+		draw_colored_polygon(Minimap._arrow(c, player_angle, 6.0), GOLD)
+
+	func _world_to_fit(w: Vector2, fit: Rect2) -> Vector2:
+		if bounds.size.x <= 0.0:
+			return fit.position
+		return fit.position + (w - bounds.position) / bounds.size * fit.size
+
+
+## The bottom strip of the world map: what each glyph means, plus the controls.
+class LegendStrip extends Control:
+	var font: FontFile = null
 
 	func _init() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	func _draw() -> void:
-		for tp: Vector2 in travel_pts:
-			var d: Vector2 = _map_pt(tp)
-			draw_colored_polygon(PackedVector2Array([
-				d + Vector2(0.0, -4.0), d + Vector2(4.0, 0.0),
-				d + Vector2(0.0, 4.0), d + Vector2(-4.0, 0.0),
-			]), GOLD)
+		var items: Array = [["keep", "Keep"], ["church", "Church"], ["market", "Market"],
+			["inn", "Inn"], ["anchor", "Harbour"], ["gate", "Gate"], ["well", "Well"], ["quest", "Quest"]]
+		var x: float = 4.0
+		for it_v: Variant in items:
+			var it: Array = it_v
+			Minimap._draw_icon(self, str(it[0]), Vector2(x + 6.0, 10.0), 1.0, PARCHMENT if str(it[0]) != "quest" else QUEST_GOLD)
+			if font != null:
+				draw_string(font, Vector2(x + 14.0, 14.0), str(it[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 8, INK)
+				x += 14.0 + font.get_string_size(str(it[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x + 10.0
+			else:
+				x += 48.0
 		if font != null:
-			for pin: Dictionary in pins:
-				var pos_v: Variant = pin.get("pos")
-				if not (pos_v is Vector2):
-					continue
-				var p: Vector2 = _map_pt(pos_v)
-				draw_string_outline(font, p + Vector2(-8.0, 4.0), "!",
-						HORIZONTAL_ALIGNMENT_CENTER, 16.0, 13, 3, OUTLINE_DARK)
-				draw_string(font, p + Vector2(-8.0, 4.0), "!",
-						HORIZONTAL_ALIGNMENT_CENTER, 16.0, 13, GOLD)
-		if has_player:
-			var c: Vector2 = _map_pt(player_pos)
-			draw_colored_polygon(_arrow(c, player_angle, 8.0), OUTLINE_DARK)
-			draw_colored_polygon(_arrow(c, player_angle, 6.0), GOLD)
-
-	func _map_pt(world: Vector2) -> Vector2:
-		var uv: Vector2 = (world - bounds.position) / bounds.size
-		return uv.clamp(Vector2.ZERO, Vector2.ONE) * size
-
-	## Local copy of MapView._arrow — sibling inner statics are not reliably
-	## visible across inner classes.
-	static func _arrow(at: Vector2, angle: float, s: float) -> PackedVector2Array:
-		var pts := PackedVector2Array([
-			Vector2(1.0, 0.0), Vector2(-0.75, 0.65), Vector2(-0.35, 0.0),
-			Vector2(-0.75, -0.65),
-		])
-		for i in range(pts.size()):
-			pts[i] = at + (pts[i] * s).rotated(angle)
-		return pts
+			draw_string(font, Vector2(4.0, 30.0), "M close    + / -  zoom", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, INK_SOFT)

@@ -367,6 +367,10 @@ func advance_route(id: String) -> int:
 	var st: Dictionary = _dict(_npc.get(id, {}))
 	if st.is_empty():
 		return -1
+	# CityScheduleSystem is the single writer of _home for the folk it claims.
+	var owner_n: Variant = st.get("node")
+	if owner_n is Node and (owner_n as Node).has_meta("rh_sched_owned"):
+		return int(st.get("route_idx", 0))
 	var wps: Array = _route_for(str(st.get("role", "")))
 	if wps.is_empty():
 		return int(st.get("route_idx", 0))
@@ -384,6 +388,9 @@ func advance_route(id: String) -> int:
 func send_to_rest(id: String) -> bool:
 	var st: Dictionary = _dict(_npc.get(id, {}))
 	if st.is_empty():
+		return false
+	var owner_r: Variant = st.get("node")
+	if owner_r is Node and (owner_r as Node).has_meta("rh_sched_owned"):
 		return false
 	if bool(st.get("resting", false)):
 		return false

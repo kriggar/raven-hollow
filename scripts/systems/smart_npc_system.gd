@@ -338,6 +338,8 @@ func _tick_schedules() -> void:
 			_reg.erase(id)  # stale after change_map; lazy re-registration re-adds
 			continue
 		var node: Node = node_v
+		if node.has_meta("rh_sched_owned"):
+			continue  # CityScheduleSystem owns this folk's _home and radius
 		var blocks: Array = _arr(_dict(_schedules.get(id, {})).get("blocks", []))
 		var bi: int = _block_index(blocks, hour)
 		if bi < 0 or bi == int(rec.get("cur_block", -1)):

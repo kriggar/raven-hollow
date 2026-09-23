@@ -417,3 +417,51 @@ zone↔continent↔world (three tiers, wheel/buttons/click) ✅ · parchment mas
 forever (same ink kit; deferred pan/label passes named) ✅ · minimap same polish (§9) ✅ ·
 WoW travel law respected (discovered stations + route graph only) ✅ · 60 FPS (static textures,
 marks-only redraw, lazy LRU) ✅.
+
+
+---
+
+## AS BUILT — the chart pipeline (2026-09-23, v11)
+
+This section records what actually ships, because the tier-2 plan above (a never-written
+`tools/zone_map_gen.py` fed by `tools/dump_zone_defs.gd`) was substituted in practice.
+
+**Two plate sources, not one.**
+1. `tools/map_painter.py` paints `assets/art/maps/<zone>.png` for all 39 built zone defs. It
+   parses `scripts/zone_defs.gd` directly with regex instead of dumping JSON, and it draws only
+   what a def declares — roads, river, landmarks, ways. A def with two road polylines and three
+   landmarks therefore yields a tan ribbon, a blue line and three glyphs on blank parchment.
+   It needs Python + Pillow, which the current driver machine does not have.
+2. `tools/chart/bake_chart.ps1` turns an in-game screenshot into a hand-drawn parchment CHART
+   at `assets/art/maps/<zone>_chart.png`, which `map_screen._load_local_tex` prefers over the
+   raw plate and which sets `on_parchment = true` (markers and names switch to sepia ink).
+   `tools/chart/bake_all.ps1` runs it across every plate.
+
+**What the baker does.** Classify each pixel (water / paving / roof / field / canopy / stone /
+open), clean the masks, then GENERALISE rather than filter: high-passed parchment for paper,
+the pack's ripple hatch inside water with a coastline and an offset second line, solid plan
+footprints for buildings, drawn tree symbols on a jittered lattice, no outline around paving.
+Symbols are Kenney's Cartography Pack (CC0) at `assets/art/maps/carto`.
+
+**Two classifier rules that are not obvious.**
+- Vegetation is not "green dominant". The wildwood plate is olive: red equals green there, and a
+  `g > r` test finds 272 green pixels in a plate that is three quarters forest. What every leaf
+  shares is a blue channel far below the other two with red no higher than green.
+- Canopy versus open ground cannot be split by brightness. In the city the lawn is the bright
+  majority and the canopy the dark minority; in the wildwood the canopy IS the plate and Otsu
+  just halves its own shading. Local TEXTURE splits both: pixel-art foliage is a mass of
+  outlined leaf clusters and reads as high variance, mown ground and clearings are flat.
+
+**Pins.** `tools/chart/make_pins.ps1` writes `assets/art/maps/carto/pin/*.png`: the same symbols
+re-rendered pure white at the exact size they are shown at. Both steps are forced by the engine —
+`draw_texture_rect`'s modulate multiplies, so tinting the pack's near-black art with map ink
+lands near 3% grey; and `project.godot` sets `default_texture_filter=0` (NEAREST), so any rescale
+inside Godot drops rows out of every stroke.
+
+**Tier rule.** The shipped `assets/art/ui/world_map.png` letters itself and carries its own
+compass rose and scale bar. On the WORLD and REGION tiers the engine therefore draws marks only,
+with an open lozenge so the plate's lettering reads through it. On LOCAL it draws everything,
+because the chart under it carries no type at all.
+
+**Scope today.** `scripts/map_registry.gd` lists only `town` and `wilderness`, so those are the
+only two zones with charts. The remaining 39 plates mark places that cannot yet be walked to.

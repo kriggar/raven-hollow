@@ -1,0 +1,121 @@
+{
+  "_doc": "Raven Hollow city daily schedules, consumed by CityScheduleSystem (scripts/systems/city_schedule_system.gd). A block is {at, place, act, face, r}: `at` is the game-hour the folk STARTS WALKING, `place` is a token resolved against the district table and the PLACES anchors, `act` names the idle activity, `r` is the wander radius once there (0 = stands still). Blocks are a RING: the last one covers until the first one next morning, so no hour is ever uncovered. Max 8 blocks. Dwell must be >= min_dwell_hours or the stop is invisible: the clock runs 25 real seconds per game hour. Role templates cover everyone; `npcs` only holds the handful of one-offs. Districts are inferred from each folk's spawn position, so there is nothing to author per id.",
+  "version": 1,
+  "walk_speed": 56.0,
+  "stagger_minutes": 40.0,
+  "min_dwell_hours": 1.5,
+  "far_snap_px": 900.0,
+  "roles": {
+    "merchant": {"blocks": [
+      {"at": 6.2, "place": "$work", "act": "setup", "face": "down", "r": 10},
+      {"at": 8.0, "place": "$work", "act": "stall", "face": "down", "r": 6},
+      {"at": 12.6, "place": "$square", "act": "eat", "r": 16},
+      {"at": 14.2, "place": "$work", "act": "stall", "face": "down", "r": 6},
+      {"at": 18.2, "place": "$work", "act": "packup", "r": 12},
+      {"at": 19.8, "place": "$tavern", "act": "drink", "r": 14},
+      {"at": 22.0, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "guard": {"blocks": [
+      {"at": 5.5, "place": "$work", "act": "guard_post", "r": 0},
+      {"at": 11.0, "place": "$work", "act": "patrol", "r": 70},
+      {"at": 13.0, "place": "$work", "act": "guard_post", "r": 0},
+      {"at": 19.0, "place": "$work", "act": "patrol", "r": 70},
+      {"at": 23.0, "place": "$work", "act": "guard_post", "r": 0}
+    ]},
+    "farmer": {"blocks": [
+      {"at": 5.0, "place": "$field", "act": "work", "r": 70},
+      {"at": 12.2, "place": "$home", "act": "eat", "r": 10},
+      {"at": 13.8, "place": "$field", "act": "work", "r": 70},
+      {"at": 18.6, "place": "$tavern", "act": "drink", "r": 14},
+      {"at": 21.2, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "fisher": {"blocks": [
+      {"at": 4.6, "place": "$work", "act": "work", "r": 40},
+      {"at": 10.2, "place": "harbor_sq", "act": "haul", "r": 50},
+      {"at": 13.2, "place": "$work", "act": "work", "r": 40},
+      {"at": 18.0, "place": "tavern_sq", "act": "drink", "r": 14},
+      {"at": 21.6, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "wanderer": {"blocks": [
+      {"at": 6.8, "place": "$home", "act": "doorstep", "r": 12},
+      {"at": 8.6, "place": "$roam", "act": "gossip", "r": 26},
+      {"at": 11.6, "place": "$roam", "act": "browse", "r": 34},
+      {"at": 15.2, "place": "$roam", "act": "gossip", "r": 26},
+      {"at": 18.6, "place": "$tavern", "act": "drink", "r": 18},
+      {"at": 21.6, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "priest": {"blocks": [
+      {"at": 5.0, "place": "cath_door", "act": "pray", "face": "up", "r": 0},
+      {"at": 7.5, "place": "cath_sq", "act": "greet", "face": "down", "r": 14},
+      {"at": 12.0, "place": "churchyard", "act": "work", "r": 40},
+      {"at": 15.5, "place": "cath_sq", "act": "greet", "face": "down", "r": 14},
+      {"at": 20.0, "place": "cath_door", "act": "pray", "face": "up", "r": 0}
+    ]},
+    "dock": {"blocks": [
+      {"at": 5.4, "place": "harbor_sq", "act": "haul", "r": 46},
+      {"at": 12.4, "place": "$square", "act": "eat", "r": 14},
+      {"at": 14.0, "place": "harbor_sq", "act": "haul", "r": 46},
+      {"at": 18.8, "place": "tavern_sq", "act": "drink", "r": 16},
+      {"at": 21.8, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "default": {"blocks": [
+      {"at": 7.0, "place": "$work", "act": "work", "r": 20},
+      {"at": 12.5, "place": "$square", "act": "eat", "r": 16},
+      {"at": 14.2, "place": "$work", "act": "work", "r": 20},
+      {"at": 19.0, "place": "$tavern", "act": "drink", "r": 14},
+      {"at": 22.0, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]}
+  },
+  "districts": {
+    "trade":     {"at": [3300, 1180], "r": 700,  "square": "trade_sq", "market": "trade_sq", "tavern": "tavern_sq", "well": "trade_sq", "shrine": "cath_sq", "lane": "bank_row"},
+    "keep":      {"at": [3600, 470],  "r": 700,  "square": "keep_yard", "gate": "keep_door", "tavern": "trade_sq", "lane": "keep_yard"},
+    "cathedral": {"at": [5400, 1020], "r": 800,  "square": "cath_sq", "shrine": "cath_door", "lane": "churchyard", "tavern": "ward_sq", "market": "ward_sq"},
+    "old_town":  {"at": [3150, 2800], "r": 1250, "square": "well_sq", "market": "trade_sq", "tavern": "tavern_sq", "well": "well_sq", "lane": "@3300,3084"},
+    "east_ward": {"at": [5600, 3300], "r": 1400, "square": "ward_sq", "market": "ward_sq", "tavern": "ward_sq", "well": "ward_sq", "shrine": "shrine_ward", "lane": "@5800,3124"},
+    "harbour":   {"at": [3400, 4380], "r": 950,  "square": "harbor_sq", "tavern": "tavern_sq", "lane": "quay_e", "market": "harbor_sq"},
+    "gardens":   {"at": [5400, 1830], "r": 900,  "square": "allot_w", "field": "allot_w", "market": "ward_sq", "lane": "allot_e", "tavern": "ward_sq"},
+    "fields":    {"at": [1100, 3000], "r": 1700, "field": "field_n", "lane": "paddock"},
+    "gate":      {"at": [6800, 2700], "r": 800,  "square": "stocks", "gate": "east_gate", "tavern": "ward_sq", "lane": "stocks"},
+    "village":   {"at": [1120, 800],  "r": 1100, "square": "@1120,800", "tavern": "@1120,660", "market": "@830,830", "lane": "@1120,1150"}
+  },
+  "npcs": {
+    "city_banker": {"role": "merchant"},
+    "city_auctioneer": {"role": "merchant"},
+    "city_crier": {"role": "wanderer"},
+    "city_priest": {"role": "priest"},
+    "city_innkeeper_2": {"role": "merchant", "blocks": [
+      {"at": 6.0, "place": "tavern_sq", "act": "setup", "r": 12},
+      {"at": 8.0, "place": "tavern_sq", "act": "stall", "face": "down", "r": 8},
+      {"at": 16.0, "place": "tavern_sq", "act": "drink", "r": 16},
+      {"at": 1.5, "place": "tavern_sq", "act": "packup", "r": 10}
+    ]},
+    "city_baker": {"role": "merchant", "blocks": [
+      {"at": 4.0, "place": "mill", "act": "work", "r": 34},
+      {"at": 11.0, "place": "trade_sq", "act": "stall", "face": "down", "r": 10},
+      {"at": 19.0, "place": "mill", "act": "work", "r": 24},
+      {"at": 22.0, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "city_blacksmith_2": {"role": "default", "blocks": [
+      {"at": 6.0, "place": "horse_fair", "act": "work", "r": 30},
+      {"at": 12.6, "place": "trade_sq", "act": "eat", "r": 14},
+      {"at": 14.2, "place": "horse_fair", "act": "work", "r": 30},
+      {"at": 19.4, "place": "tavern_sq", "act": "drink", "r": 14},
+      {"at": 22.0, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "city_gatewarden_2": {"role": "guard", "blocks": [
+      {"at": 5.5, "place": "old_gate", "act": "guard_post", "r": 0},
+      {"at": 12.0, "place": "old_gate", "act": "patrol", "r": 60},
+      {"at": 14.0, "place": "old_gate", "act": "guard_post", "r": 0},
+      {"at": 20.0, "place": "old_gate", "act": "patrol", "r": 60}
+    ]},
+    "city_gravekeeper_2": {"role": "default", "blocks": [
+      {"at": 6.4, "place": "churchyard", "act": "work", "r": 50},
+      {"at": 13.0, "place": "cath_sq", "act": "eat", "r": 14},
+      {"at": 14.6, "place": "churchyard", "act": "work", "r": 50},
+      {"at": 20.4, "place": "$home", "act": "sleep", "face": "up", "r": 0}
+    ]},
+    "city_wanderer_30": {"blocks": [{"at": 0.0, "place": "$work", "act": "pray", "face": "up", "r": 0}]},
+    "city_wanderer_31": {"blocks": [{"at": 0.0, "place": "$work", "act": "pray", "face": "up", "r": 0}]},
+    "city_wanderer_42": {"blocks": [{"at": 0.0, "place": "$work", "act": "pray", "face": "up", "r": 0}]}
+  }
+}

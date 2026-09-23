@@ -74,13 +74,83 @@ static func hub() -> int:
 ## keyed=true uses the grass-keyed copy of the sheet (grass pixels of every
 ## mixed tile are transparent) for OVERLAY layers: cobble/soil edges then sit
 ## on whatever the base layer painted underneath (dirt, grass, water bank).
-static func make_tileset(keyed: bool = false) -> TileSet:
+## CITY v8: the keyed sheet keeps the GRASS BLADES of every Grass<->stone
+## transition tile. In the city a cobble edge always sits inside a wider band
+## of packed earth, so those blades sprout out of trodden dirt and draw a
+## mechanical green lip around every street, square and courtyard. `deblade`
+## returns the same sheet with the blade colours keyed out of the Grass<->
+## Stone_White / Stone_Tan / Mudstone_Gray / Mudstone_Brown pair tiles (and the
+## two sprigged cobble solos) ONLY - Grass_Dark shares one of those colours, so
+## the pass is restricted by tile id, never by colour alone. The village keeps
+## the untouched keyed sheet.
+const BLADE_COLOURS: Array = ["0,67,55", "57,126,0", "129,161,0", "184,216,55", "79,83,22", "50,69,22", "102,105,44"]
+static var _deblade_tex: ImageTexture = null
+
+
+static func _debladed_texture() -> ImageTexture:
+	if _deblade_tex != null:
+		return _deblade_tex
+	var src_tex: Texture2D = load(str(_data["sheet_keyed"]))
+	var img: Image = src_tex.get_image()
+	if img.is_compressed():
+		img.decompress()
+	img.convert(Image.FORMAT_RGBA8)
+	var cols: int = int(_data["columns"])
+	var ids: Dictionary = {}
+	var pairs: Dictionary = _data["pairs"]
+	for key: String in ["10,30", "10,31", "10,32", "10,33"]:
+		if pairs.has(key):
+			for t: Variant in (pairs[key] as Array):
+				ids[int(t)] = true
+	for t2: int in [793, 858, 796, 861]:
+		ids[t2] = true
+	var blades: Dictionary = {}
+	for b: String in BLADE_COLOURS:
+		blades[b] = true
+	var clear := Color(0, 0, 0, 0)
+	for tid_v: Variant in ids:
+		var tid: int = int(tid_v)
+		var x0: int = (tid % cols) * TILE
+		var y0: int = (tid / cols) * TILE
+		for y in range(TILE):
+			for x in range(TILE):
+				var c: Color = img.get_pixel(x0 + x, y0 + y)
+				if c.a < 0.05:
+					continue
+				if blades.has("%d,%d,%d" % [c.r8, c.g8, c.b8]):
+					img.set_pixel(x0 + x, y0 + y, clear)
+	_deblade_tex = ImageTexture.create_from_image(img)
+	return _deblade_tex
+
+
+## Atlas coords of every tile whose material set is drawn from `mats` (solos +
+## the Grass pair tiles), for callers that need to move or retint those cells.
+static func atlas_coords_for(mats: Array) -> Array:
+	_load()
+	var cols: int = int(_data["columns"])
+	var out: Array = []
+	var pairs: Dictionary = _data["pairs"]
+	for m_v: Variant in mats:
+		var m: int = int(m_v)
+		for t_v: Variant in (_solo.get(m, []) as Array):
+			out.append(Vector2i(int(t_v) % cols, int(t_v) / cols))
+		var key: String = "10,%d" % m
+		if pairs.has(key):
+			for t2_v: Variant in (pairs[key] as Array):
+				out.append(Vector2i(int(t2_v) % cols, int(t2_v) / cols))
+	return out
+
+
+static func make_tileset(keyed: bool = false, deblade: bool = false) -> TileSet:
 	_load()
 	var ts := TileSet.new()
 	ts.tile_size = Vector2i(TILE, TILE)
 	var src := TileSetAtlasSource.new()
 	var sheet_path: String = str(_data["sheet_keyed"]) if keyed and _data.has("sheet_keyed") else str(_data["sheet"])
-	src.texture = load(sheet_path)
+	if deblade:
+		src.texture = _debladed_texture()
+	else:
+		src.texture = load(sheet_path)
 	src.texture_region_size = Vector2i(TILE, TILE)
 	var cols: int = int(_data["columns"])
 	for tid_v: Variant in (_data["tiles"] as Dictionary):
