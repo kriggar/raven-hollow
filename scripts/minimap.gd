@@ -234,6 +234,32 @@ func is_world_map_open() -> bool:
 	return _overlay.visible
 
 
+## The full-zone map, driven from outside: the game menu's Map button, the
+## micro-bar, and MapSystem.open(). The M key still toggles it in
+## _unhandled_input; these just give everything else a way in.
+func open_world_map() -> void:
+	if _overlay == null:
+		return
+	_overlay.visible = true
+	if _overlay_map != null:
+		_overlay_map.zoom = 1.0
+		_overlay_map.pan = Vector2.ZERO
+
+
+func close_world_map() -> void:
+	if _overlay != null:
+		_overlay.visible = false
+
+
+func toggle_world_map() -> void:
+	if _overlay == null:
+		return
+	if _overlay.visible:
+		close_world_map()
+	else:
+		open_world_map()
+
+
 func set_map(map_id: String, bounds: Rect2, travel_points: Array = [],
 		display_name: String = "") -> void:
 	_map_id = map_id

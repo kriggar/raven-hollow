@@ -4,7 +4,7 @@ extends Node
 ## Owns fog-of-war (which zones the player has charted), the world-map anchor
 ## table (hand-tuned against assets/art/ui/world_map.png, the v2 parchment
 ## masterpiece), and the zone/POI metadata the map screen paints. Spawns the
-## 3-tier zoom map (scenes/ui/map_screen.tscn) which the M key opens.
+## full-zone overlay that the minimap draws and the M key opens.
 ##
 ## Data is read (never mutated) from the shipped systems: ZoneDefs (names,
 ## regions, capitals, waystations), TravelSystem (station discovery), and
@@ -24,7 +24,7 @@ signal map_opened
 signal map_closed
 
 const CFG_PATH := "user://map_progress.cfg"
-const MAP_SCENE := "res://scenes/ui/map_screen.tscn"
+
 const WORLD_MAP_PATH := "res://assets/art/ui/world_map.png"
 
 ## world_map.png native size; every anchor below is in this pixel space.
@@ -91,7 +91,7 @@ const REGION_TITLES := {
 }
 
 var _revealed: Dictionary = {}
-var _screen: Node = null
+
 var _last_seen_zone: String = ""
 var _poll_accum: float = 0.0
 var _world_tex: Texture2D = null
@@ -104,7 +104,7 @@ func _ready() -> void:
 		_revealed[z] = true
 	if not TravelSystem.is_connected("station_discovered", _on_station_discovered):
 		TravelSystem.station_discovered.connect(_on_station_discovered)
-	call_deferred("_spawn_screen")
+	# nothing to spawn: the map is the minimap's overlay
 	call_deferred("_qa_chart")
 	if OS.get_environment("RH_MAPSCREEN") != "":
 		call_deferred("_qa_open")
@@ -355,8 +355,7 @@ func reveal(zone_id: String) -> void:
 	_revealed[zone_id] = true
 	_save()
 	zone_revealed.emit(zone_id)
-	if _screen != null and _screen.has_method("on_zone_revealed"):
-		_screen.call("on_zone_revealed", zone_id)
+
 
 func is_revealed(zone_id: String) -> bool:
 	return _revealed.has(zone_id)
@@ -371,20 +370,38 @@ func current_zone() -> String:
 	var v: Variant = scene.get("current_map_id")
 	return str(v) if v != null else ""
 
+## THE MAP IS THE MINIMAP''S OVERLAY NOW.
+##
+## The separate 3-tier map screen is gone. It was a thin view over this
+## autoload, and the minimap already had a finished full-zone overlay - place
+## labels, quarter names, travel gates, quest pins, a legend and zoom - that had
+## been unreachable because the map screen consumed the M action in _input()
+## before the minimap''s _unhandled_input could ever see it.
+##
+## These four keep their names and their behaviour so every caller carries on
+## unchanged: the game menu''s Map button, the micro-bar, the narrator''s
+## "is a panel up?" check, and the QA panel sweep.
+func _mini() -> Node:
+	return get_tree().get_first_node_in_group("minimap")
+
 func open() -> void:
-	if _screen != null and _screen.has_method("open_map"):
-		_screen.call("open_map")
+	var m: Node = _mini()
+	if m != null and m.has_method("open_world_map"):
+		m.call("open_world_map")
 
 func close() -> void:
-	if _screen != null and _screen.has_method("close_map"):
-		_screen.call("close_map")
+	var m: Node = _mini()
+	if m != null and m.has_method("close_world_map"):
+		m.call("close_world_map")
 
 func toggle() -> void:
-	if _screen != null and _screen.has_method("toggle_map"):
-		_screen.call("toggle_map")
+	var m: Node = _mini()
+	if m != null and m.has_method("toggle_world_map"):
+		m.call("toggle_world_map")
 
 func is_map_open() -> bool:
-	return _screen != null and bool(_screen.get("is_open"))
+	var m: Node = _mini()
+	return m != null and m.has_method("is_world_map_open") and bool(m.call("is_world_map_open"))
 
 
 # ---------------------------------------------------------------- world art
@@ -549,8 +566,7 @@ func _on_station_discovered(station_id: String) -> void:
 	var zid: String = TravelSystem.station_zone(station_id)
 	if zid != "":
 		reveal(zid)
-	if _screen != null and _screen.has_method("on_station_discovered"):
-		_screen.call("on_station_discovered", station_id)
+
 
 
 # ---------------------------------------------------------------- persistence
@@ -618,19 +634,6 @@ func load_state(data: Dictionary) -> void:
 
 # ---------------------------------------------------------------- screen
 
-func _spawn_screen() -> void:
-	if _screen != null and is_instance_valid(_screen):
-		return
-	if not ResourceLoader.exists(MAP_SCENE):
-		push_warning("MapSystem: %s missing." % MAP_SCENE)
-		return
-	var scn: PackedScene = load(MAP_SCENE) as PackedScene
-	if scn == null:
-		return
-	_screen = scn.instantiate()
-	add_child(_screen)
-
-## Called by the map screen so listeners (and the pause-menu Esc gate) can react.
 func notify_opened() -> void:
 	map_opened.emit()
 
