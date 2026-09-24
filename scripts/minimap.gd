@@ -498,6 +498,16 @@ static func _draw_icon(ci: CanvasItem, kind: String, at: Vector2, s: float, tint
 	# looking like a black box on the map
 	ci.draw_circle(at, px * 3.1, Color(0.08, 0.06, 0.05, 0.34))
 	match kind:
+		"quest":
+			# a gold lozenge with a stem: the one mark on the minimap that means
+			# "go here", so it must not be mistaken for a place you have found
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(0.0, -3.4) * px, at + Vector2(2.4, -0.6) * px,
+				at + Vector2(0.0, 2.2) * px, at + Vector2(-2.4, -0.6) * px]), o)
+			ci.draw_colored_polygon(PackedVector2Array([
+				at + Vector2(0.0, -2.4) * px, at + Vector2(1.6, -0.5) * px,
+				at + Vector2(0.0, 1.4) * px, at + Vector2(-1.6, -0.5) * px]), tint)
+			ci.draw_rect(Rect2(at + Vector2(-0.35, 1.0) * px, Vector2(0.7, 2.2) * px), o)
 		"keep":
 			# crenellated tower
 			ci.draw_rect(Rect2(at + Vector2(-2.2, -1.0) * px, Vector2(4.4, 3.6) * px), o)

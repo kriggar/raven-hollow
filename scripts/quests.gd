@@ -438,6 +438,164 @@ func tracker_lines() -> Array:
 	return lines
 
 
+## WHERE THE TRACKED QUESTS WANT YOU. Returns [{pos: Vector2, label: String}]
+## for the given map only.
+##
+## minimap.gd has called this since it was written (_collect_quest_pins, which
+## probes group "quests" for a map_pins method) and nothing ever implemented
+## it, so quest pins were always an empty array. Implementing it here lights up
+## both the corner minimap and its full-zone overlay at once, and because the
+## minimap already clamps any off-window pin to the rim as an ARROW (_mark ->
+## _rim_arrow), an objective off the edge of the window points the way with no
+## further work.
+##
+## Both quest engines are asked: this node owns the five hand-scripted quests,
+## and the QuestSystem autoload owns the large data-driven catalogue with
+## player-chosen tracking.
+func map_pins(map_id: String) -> Array:
+	var pins: Array = []
+	for qid: String in _tracked:
+		var st: String = state_of(qid)
+		if st != ST_ACTIVE and st != ST_READY:
+			continue
+		var def: Dictionary = _defs.get(qid, {})
+		var title: String = str(def.get("title", qid))
+		if st == ST_READY:
+			# the quest is done; the pin is whoever takes it back
+			var who: String = _effective_turn_in(qid)
+			var wp: Vector2 = _npc_pos(who)
+			if wp != Vector2.INF:
+				pins.append({"pos": wp, "label": "Return to %s" % QuestDefs.npc_label(who)})
+			continue
+		var obj: Dictionary = _current_obj(qid)
+		var op: Vector2 = _objective_pos(obj, map_id)
+		if op != Vector2.INF:
+			pins.append({"pos": op, "label": title})
+	_append_system_pins(pins, map_id)
+	return pins
+
+
+## A world position for one objective on this map, or Vector2.INF when there
+## is not one. Each objective kind stores something different, and two of them
+## store nothing at all, so this is the only place that knows the difference.
+func _objective_pos(obj: Dictionary, map_id: String) -> Vector2:
+	match str(obj.get("kind", "")):
+		"reach", "use_item":
+			# the only kinds that carry real coordinates
+			if str(obj.get("map", map_id)) != map_id:
+				return Vector2.INF
+			var p: Vector2 = _obj_pos(obj)
+			return p if p != Vector2.ZERO else Vector2.INF
+		"talk", "choice":
+			var npc_id: String = str(obj.get("npc", ""))
+			if npc_id.is_empty():
+				return Vector2.INF
+			return _npc_pos(npc_id)
+		"kill":
+			return _hunt_pos(str(obj.get("enemy", "")), map_id)
+	return Vector2.INF
+
+
+## Live NPCs are named after their id and join group "npcs", which is the same
+## lookup the quest markers over their heads already use.
+func _npc_pos(npc_id: String) -> Vector2:
+	if npc_id.is_empty():
+		return Vector2.INF
+	for n: Node in get_tree().get_nodes_in_group("npcs"):
+		if n is Node2D and str(n.name) == npc_id:
+			return (n as Node2D).global_position
+	return Vector2.INF
+
+
+## A kill objective stores a creature type and a count, never a place. Point at
+## the nearest live one if any are about, and otherwise at the middle of the
+## ground the zone def says they live on - which is the honest answer to
+## "where do I find these".
+func _hunt_pos(enemy_type: String, map_id: String) -> Vector2:
+	if enemy_type.is_empty():
+		return Vector2.INF
+	var player: Node2D = get_tree().get_first_node_in_group("player") as Node2D
+	var best: Vector2 = Vector2.INF
+	if player != null:
+		var best_d: float = 1.0e20
+		for e: Node in get_tree().get_nodes_in_group("enemies"):
+			if not (e is Node2D) or bool(e.get("is_dead")):
+				continue
+			if str(e.get("type_name")) != enemy_type:
+				continue
+			var d: float = (e as Node2D).global_position.distance_to(player.global_position)
+			if d < best_d:
+				best_d = d
+				best = (e as Node2D).global_position
+	if best != Vector2.INF:
+		return best
+	var z: Dictionary = ZoneDefs.zone(map_id)
+	for row_v: Variant in z.get("creature_table", []):
+		var row: Dictionary = row_v
+		if str(row.get("type", "")) != enemy_type:
+			continue
+		var area: Variant = row.get("area")
+		if area is Rect2:
+			return (area as Rect2).get_center()
+	return Vector2.INF
+
+
+## The data-driven catalogue tracks its own quests and lets the player choose
+## them, so its pins belong on the same minimap.
+func _append_system_pins(pins: Array, map_id: String) -> void:
+	var qs: Node = get_node_or_null("/root/QuestSystem")
+	if qs == null or not qs.has_method("tracker_lines"):
+		return
+	var player: Node = get_tree().get_first_node_in_group("player")
+	if player == null:
+		return
+	var lines_v: Variant = qs.call("tracker_lines", player)
+	if not (lines_v is Array):
+		return
+	for row_v: Variant in (lines_v as Array):
+		if not (row_v is Dictionary):
+			continue
+		var row: Dictionary = row_v
+		var qid: String = str(row.get("id", ""))
+		if qid.is_empty() or not qs.has_method("objectives_of"):
+			continue
+		var objs_v: Variant = qs.call("objectives_of", qid)
+		if not (objs_v is Array):
+			continue
+		var steps: Array = row.get("steps", []) if row.get("steps") is Array else []
+		for i in range((objs_v as Array).size()):
+			# the first step still outstanding is the one to point at
+			if i < steps.size() and steps[i] is Dictionary and bool((steps[i] as Dictionary).get("done", false)):
+				continue
+			var obj_v: Variant = (objs_v as Array)[i]
+			if not (obj_v is Dictionary):
+				continue
+			var pos: Vector2 = _objective_pos_system(obj_v as Dictionary, map_id, qs)
+			if pos != Vector2.INF:
+				pins.append({"pos": pos, "label": str(row.get("title", qid))})
+			break
+
+
+## The catalogue stores `pos` as a JSON array rather than a Vector2, and names
+## its kill target `target` where the scripted quests say `enemy`.
+func _objective_pos_system(obj: Dictionary, map_id: String, qs: Node) -> Vector2:
+	match str(obj.get("kind", "")):
+		"reach":
+			if str(obj.get("map", "")) != map_id:
+				return Vector2.INF
+			var p: Variant = obj.get("pos")
+			if p is Vector2:
+				return p
+			if p is Array and (p as Array).size() >= 2:
+				return Vector2(float((p as Array)[0]), float((p as Array)[1]))
+			return Vector2.INF
+		"talk":
+			return _npc_pos(str(obj.get("npc", "")))
+		"kill":
+			return _hunt_pos(str(obj.get("target", "")), map_id)
+	return Vector2.INF
+
+
 ## Journal data for a future quest-log UI: active + completed quests.
 func journal_entries() -> Array:
 	var out: Array = []

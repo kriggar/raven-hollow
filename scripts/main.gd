@@ -1652,6 +1652,22 @@ func _run_env_hooks() -> void:
 	# the trees and walls only the built scene holds - so a map can be DRAWN
 	# from the town's real layout instead of recovered by classifying the
 	# pixels of a screenshot. Read-only; instances nothing.
+	# RH_QUEST=<quest_id>: force-accept a scripted quest at boot so the tracker,
+	# the quest markers and the minimap's quest pins can be seen without
+	# walking the whole giver conversation first.
+	var qforce: String = OS.get_environment("RH_QUEST")
+	if not qforce.is_empty() and _quests != null:
+		_quests.call("_accept", qforce)
+		_push_tracker()
+		print("[RH_QUEST] accepted %s -> %s" % [qforce, _quests.call("state_of", qforce)])
+		var _pins: Variant = _quests.call("map_pins", current_map_id)
+		print("[RH_QUEST] map_pins(%s) -> %s" % [current_map_id, str(_pins)])
+		var _pl: Node2D = get_tree().get_first_node_in_group("player") as Node2D
+		if _pl != null and _pins is Array:
+			for _pv: Variant in (_pins as Array):
+				print("[RH_QUEST]   %s at %s, %.0f px from the player"
+					% [str((_pv as Dictionary).get("label","")), str((_pv as Dictionary).get("pos")),
+					   _pl.global_position.distance_to((_pv as Dictionary).get("pos"))])
 	var mapdump: String = OS.get_environment("RH_MAPDUMP")
 	if not mapdump.is_empty():
 		MapDump.run(current_map_id, _world, mapdump)
