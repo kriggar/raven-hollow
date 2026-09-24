@@ -302,7 +302,10 @@ func _build_shell() -> void:
 	_sheet.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# NEAREST. The plate is authored at the size it is shown and zoomed by whole
 	# steps; linear filtering was only ever there to hide a fractional rescale.
-	_sheet.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	# The plate is now rendered vector art, supersampled and downsampled with
+	# Lanczos, so it wants smooth filtering. NEAREST was right for the pixel
+	# plate it replaced and is wrong for this one.
+	_sheet.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	_sheet.stretch_mode = TextureRect.STRETCH_SCALE
 	_sheet.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_panel.add_child(_sheet)
