@@ -33,13 +33,21 @@ const HEADER_BG := Color(0.13, 0.1, 0.075, 1.0)
 const PANEL_BORDER := Color(0.58, 0.44, 0.22)
 const OUTLINE_DARK := Color(0.08, 0.05, 0.03)
 const FRAME_TINT := Color(0.55, 0.45, 0.38)
-const DIM_COLOR := Color(0.0, 0.0, 0.0, 0.5)
+## Warm dark, not grey. A neutral black scrim behind a sepia sheet kills the
+## colour story the moment the map opens.
+const DIM_COLOR := Color(0.090, 0.071, 0.055, 0.82)
+const PAPER := Color(0.847, 0.792, 0.663)
+const INK_1 := Color(0.149, 0.118, 0.082)
+const INK_2 := Color(0.361, 0.290, 0.196)
 
 const VIEW := Vector2(640.0, 360.0)
-const PANEL_POS := Vector2(20.0, 8.0)
-const PANEL_SIZE := Vector2(600.0, 344.0)
-## content viewport rect in panel-local coords
-const CONTENT := Rect2(14.0, 34.0, 572.0, 276.0)
+## ONE sheet, full bleed. The screen used to be a 600x344 panel floating on a
+## grey scrim inside four nested frames, which sliced the HUD portrait and the
+## hotbar exactly in half and left a dead tan band down the right side.
+const PANEL_POS := Vector2(0.0, 0.0)
+const PANEL_SIZE := Vector2(640.0, 360.0)
+## content viewport rect in panel-local coords, inside the inner rule
+const CONTENT := Rect2(12.0, 36.0, 616.0, 284.0)
 const MAP_LAYER := 13   # above legacy overlay (12) + bag/dialogue, below menus (30)
 
 const TIER_WORLD := 0
@@ -48,10 +56,16 @@ const TIER_LOCAL := 2
 const TIER_NAMES := ["World", "Region", "Local"]
 
 const MAP_DIR := "res://assets/art/maps/"
+const HINT_TEXT := "[M] close    [wheel] zoom    [Tab] gate    [Enter] travel    [1-4] filters"
 
 var is_open: bool = false
 
-var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
+## A COPY of alagard imported with antialiasing, hinting and subpixel
+## positioning all OFF. The shipped alagard.ttf.import carries antialiasing=1,
+## hinting=1, subpixel_positioning=4, so at this screen''s 3x integer scale
+## every place name grew a grey fringe. alagard.ttf itself is preloaded by
+## three dozen other UI scripts, so it is left alone.
+var _font: FontFile = preload("res://assets/fonts/alagard_px.ttf")
 var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 var _root: Control
@@ -62,6 +76,8 @@ var _parch_bg: ColorRect
 var _marks: Control
 var _hit: Control
 var _hint: Label
+var _toast_lbl: Label
+var _toast_timer: Timer
 var _plus: Panel
 var _minus: Panel
 ## Fast travel: the discovered gates of the open zone, and which one is picked.
@@ -132,6 +148,7 @@ func open_map() -> void:
 	tw.tween_property(_root, "modulate:a", 1.0, 0.12)
 	tw.tween_property(_panel, "scale", Vector2.ONE, 0.16) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_set_hud_visible(false)
 	map_opened.emit()
 	if Engine.has_singleton("MapSystem") or get_node_or_null("/root/MapSystem") != null:
 		MapSystem.notify_opened()
@@ -142,6 +159,7 @@ func close_map() -> void:
 	is_open = false
 	_root.visible = false
 	set_process(false)
+	_set_hud_visible(true)
 	map_closed.emit()
 	if get_node_or_null("/root/MapSystem") != null:
 		MapSystem.notify_closed()
@@ -151,6 +169,37 @@ func toggle_map() -> void:
 		close_map()
 	else:
 		open_map()
+
+## The sheet is full-bleed, so anything drawn beneath it is sliced in half by
+## its own edges rather than framed by a floating panel.
+##
+## Hiding by group was not enough: the hotbar, the bag and the quest tracker are
+## separate CanvasLayers at 8 and 9 that join no group this screen knows about,
+## and at 0.82 dim they stayed plainly visible through the paper. So every
+## canvas layer BELOW this one is hidden while the map is open, and each one''s
+## previous state is remembered so close puts back exactly what it found.
+var _hidden_layers: Array[CanvasLayer] = []
+
+func _set_hud_visible(v: bool) -> void:
+	if v:
+		for cl: CanvasLayer in _hidden_layers:
+			if is_instance_valid(cl):
+				cl.visible = true
+		_hidden_layers.clear()
+		return
+	_hidden_layers.clear()
+	_collect_layers(get_tree().root)
+
+
+func _collect_layers(n: Node) -> void:
+	for c: Node in n.get_children():
+		if c is CanvasLayer:
+			var cl := c as CanvasLayer
+			if cl != self and cl.layer < MAP_LAYER and cl.visible:
+				cl.visible = false
+				_hidden_layers.append(cl)
+		_collect_layers(c)
+
 
 func _current_or_default() -> String:
 	var cur: String = MapSystem.current_zone()
@@ -226,51 +275,41 @@ func _build_shell() -> void:
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_root.add_child(dim)
 
+	# The panel keeps its type so the open/close tween still drives it, but it
+	# is now an invisible container: the paper is a full-bleed ColorRect and the
+	# only frame is the neatline drawn in _Furniture.
 	_panel = Panel.new()
-	_panel.name = "Panel"
+	_panel.name = "Sheet"
 	_panel.position = PANEL_POS
 	_panel.size = PANEL_SIZE
 	_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var psb := StyleBoxFlat.new()
-	psb.bg_color = BOX_BG
-	psb.border_color = PANEL_BORDER
-	psb.set_border_width_all(2)
-	psb.shadow_color = Color(0, 0, 0, 0.5)
-	psb.shadow_size = 7
+	psb.bg_color = Color(0, 0, 0, 0)
+	psb.set_border_width_all(0)
 	_panel.add_theme_stylebox_override("panel", psb)
 	_root.add_child(_panel)
 
-	# parchment behind the sheet (visible as the local generated leaf + letterbox)
 	_parch_bg = ColorRect.new()
-	_parch_bg.color = PARCH_BG
+	_parch_bg.name = "Paper"
+	_parch_bg.color = PAPER
 	_parch_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_parch_bg.position = Vector2.ZERO
+	_parch_bg.size = PANEL_SIZE
 	_panel.add_child(_parch_bg)
 
 	_sheet = TextureRect.new()
-	_sheet.name = "Sheet"
+	_sheet.name = "Plate"
 	_sheet.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	# The plate is 1536 px shown across 572: without mipmaps that reduction
-	# aliases every ink line into shimmer as the map pans.
-	_sheet.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	# NEAREST. The plate is authored at the size it is shown and zoomed by whole
+	# steps; linear filtering was only ever there to hide a fractional rescale.
+	_sheet.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_sheet.stretch_mode = TextureRect.STRETCH_SCALE
 	_sheet.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_panel.add_child(_sheet)
 
-	var content_border := Panel.new()
-	content_border.name = "ContentBorder"
-	content_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	content_border.position = CONTENT.position - Vector2(2, 2)
-	content_border.size = CONTENT.size + Vector2(4, 4)
-	var cbsb := StyleBoxFlat.new()
-	cbsb.bg_color = Color(0, 0, 0, 0)
-	cbsb.border_color = Color(0.3, 0.22, 0.12)
-	cbsb.set_border_width_all(2)
-	content_border.add_theme_stylebox_override("panel", cbsb)
-	_panel.add_child(content_border)
-
-	# Marks layer, clipped to the MAP rather than to the panel. Clipping to the
-	# panel let a name near the south edge - "The Ferry" - print across the
-	# legend and the key line below it.
+	# Marks layer, clipped to the MAP. The veil goes INSIDE this clip and BEFORE
+	# the marks: it used to be added to the panel after the clip, so the fog of
+	# war drew on top of every pin and name it exists to protect.
 	var clip := Control.new()
 	clip.name = "Clip"
 	clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -278,45 +317,42 @@ func _build_shell() -> void:
 	clip.size = CONTENT.size
 	clip.clip_contents = true
 	_panel.add_child(clip)
+
 	_veil = TextureRect.new()
 	_veil.name = "Veil"
 	_veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_veil.stretch_mode = TextureRect.STRETCH_SCALE
 	_veil.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_veil.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_veil.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_veil.visible = false
-	_panel.add_child(_veil)
+	clip.add_child(_veil)
 
 	_marks = _MapMarks.new()
 	_marks.set("font", _font)
 	_marks.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	# shifted back by the clip''s own offset so marks keep panel-local coords
+	# shifted back by the clip's own offset so marks keep panel-local coords
 	_marks.position = -CONTENT.position
 	_marks.size = PANEL_SIZE
 	clip.add_child(_marks)
 
-	# header band + breadcrumb + zoom buttons
-	var header := Panel.new()
-	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	header.position = Vector2(6, 6)
-	header.size = Vector2(PANEL_SIZE.x - 12, 24)
-	var hsb := StyleBoxFlat.new()
-	hsb.bg_color = HEADER_BG
-	hsb.border_color = PANEL_BORDER
-	hsb.set_border_width_all(2)
-	header.add_theme_stylebox_override("panel", hsb)
-	_panel.add_child(header)
+	# The only frame on the screen, ruled straight onto the paper.
+	var furn := _Furniture.new()
+	furn.name = "Furniture"
+	furn.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	furn.position = Vector2.ZERO
+	furn.size = PANEL_SIZE
+	_panel.add_child(furn)
 
-	_breadcrumb = _label(_panel, 13, GOLD, HORIZONTAL_ALIGNMENT_LEFT)
-	_breadcrumb.position = Vector2(16, 8)
-	_breadcrumb.size = Vector2(480, 20)
+	_breadcrumb = _label(_panel, 16, INK_1, HORIZONTAL_ALIGNMENT_LEFT)
+	_breadcrumb.position = Vector2(14, 12)
+	_breadcrumb.size = Vector2(460, 18)
 	_breadcrumb.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
-	_minus = _zoom_button("-", Vector2(PANEL_SIZE.x - 56, 9))
+	_minus = _zoom_button("-", Vector2(PANEL_SIZE.x - 58, 11))
 	_minus.gui_input.connect(func(e: InputEvent) -> void:
 		if e is InputEventMouseButton and e.pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 			_zoom_out())
-	_plus = _zoom_button("+", Vector2(PANEL_SIZE.x - 32, 9))
+	_plus = _zoom_button("+", Vector2(PANEL_SIZE.x - 32, 11))
 	_plus.gui_input.connect(func(e: InputEvent) -> void:
 		if e is InputEventMouseButton and e.pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 			_zoom_in(_focus_zone))
@@ -330,55 +366,41 @@ func _build_shell() -> void:
 	_hit.gui_input.connect(_on_content_input)
 	_panel.add_child(_hit)
 
-	_hint = _label(_panel, 9, INK_SOFT, HORIZONTAL_ALIGNMENT_CENTER)
-	_hint.position = Vector2(0, PANEL_SIZE.y - 20)
-	_hint.size = Vector2(PANEL_SIZE.x, 12)
-	_hint.text = "[M] close   [wheel] zoom   [click] enter   [right-click] out"
-	_hint.position = Vector2(0, PANEL_SIZE.y - 19)
+	# The key line is PERMANENT. It used to double as the toast target, so the
+	# first Tab press destroyed the control legend for the rest of the session.
+	_hint = _label(_panel, 16, INK_2, HORIZONTAL_ALIGNMENT_CENTER)
+	_hint.position = Vector2(0, PANEL_SIZE.y - 21)
+	_hint.size = Vector2(PANEL_SIZE.x, 18)
+	_hint.text = HINT_TEXT
 
-	var rim := NinePatchRect.new()
-	rim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	rim.texture = _panel_tex
-	rim.draw_center = false
-	rim.patch_margin_left = 10
-	rim.patch_margin_right = 10
-	rim.patch_margin_top = 10
-	rim.patch_margin_bottom = 10
-	rim.modulate = FRAME_TINT
-	rim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_panel.add_child(rim)
+	_toast_lbl = _label(_panel, 16, INK_1, HORIZONTAL_ALIGNMENT_CENTER)
+	_toast_lbl.position = Vector2(0, PANEL_SIZE.y - 38)
+	_toast_lbl.size = Vector2(PANEL_SIZE.x, 18)
+	_toast_lbl.modulate = Color(1, 1, 1, 0)
+	_toast_timer = Timer.new()
+	_toast_timer.one_shot = true
+	_toast_timer.wait_time = 2.5
+	_toast_timer.timeout.connect(func() -> void:
+		if _toast_lbl != null:
+			create_tween().tween_property(_toast_lbl, "modulate:a", 0.0, 0.2))
+	add_child(_toast_timer)
 
 	_build_minimap_widget()
 
 
-	# Handcrafted kit (owner 2026-07-12): parchment sheet under the map art +
-	# compass rose ornament, WoW-atlas presentation.
-	var parch_path := "res://assets/art/ui/parchment_free.png"
-	if ResourceLoader.exists(parch_path) and _sheet != null:
-		var parch := TextureRect.new()
-		parch.name = "ParchmentBack"
-		parch.texture = load(parch_path)
-		parch.stretch_mode = TextureRect.STRETCH_SCALE
-		parch.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		parch.position = CONTENT.position
-		parch.size = CONTENT.size
-		parch.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		parch.modulate = Color(0.9, 0.86, 0.78)
-		var parent0: Node = _sheet.get_parent()
-		parent0.add_child(parch)
-		parent0.move_child(parch, _sheet.get_index())
-	var rose_path := ""  # generated rose retired (free-assets law)
-	if ResourceLoader.exists(rose_path):
-		var rose := TextureRect.new()
-		rose.name = "CompassRose"
-		rose.texture = load(rose_path)
-		rose.stretch_mode = TextureRect.STRETCH_SCALE
-		rose.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		rose.size = Vector2(56.0, 56.0)
-		rose.position = CONTENT.position + Vector2(8.0, CONTENT.size.y - 64.0)
-		rose.modulate = Color(1, 1, 1, 0.85)
-		rose.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_panel.add_child(rose)
+## The whole frame: one neatline, one inner rule, four corner flourishes and
+## two hairlines. Drawn with integer draw_rect so nothing lands off the grid.
+class _Furniture extends Control:
+	const INK_A := Color(0.149, 0.118, 0.082)
+	const INK_B := Color(0.361, 0.290, 0.196)
+
+	func _draw() -> void:
+		draw_rect(Rect2(6, 6, 628, 348), INK_A, false, 2.0)
+		draw_rect(Rect2(10, 10, 620, 340), INK_B, false, 1.0)
+		for c: Vector2 in [Vector2(6, 6), Vector2(627, 6), Vector2(6, 347), Vector2(627, 347)]:
+			draw_rect(Rect2(c.x - 3.0, c.y - 3.0, 7.0, 7.0), INK_A, true)
+		draw_rect(Rect2(12, 31, 616, 1), INK_B, true)
+		draw_rect(Rect2(12, 322, 616, 1), INK_B, true)
 
 func _zoom_button(txt: String, pos: Vector2) -> Panel:
 	var p := Panel.new()
@@ -503,9 +525,15 @@ func _travel_to_selected() -> void:
 	main.call_deferred("change_map", to_map, to_point)
 
 
+## Transient. It has its own line and its own timer; writing it into _hint was
+## what made the control legend vanish permanently on the first Tab press.
 func _toast(msg: String) -> void:
-	if _hint != null:
-		_hint.text = msg
+	if _toast_lbl == null:
+		return
+	_toast_lbl.text = msg
+	_toast_lbl.modulate.a = 1.0
+	if _toast_timer != null:
+		_toast_timer.start()
 
 
 func _hide_veil() -> void:
@@ -545,7 +573,7 @@ func _build_local() -> void:
 	MapSystem.ensure_chart(_focus_zone, bounds)
 	_rebuild_gates()
 	if _hint != null:
-		_hint.text = "[M] close   [wheel] zoom   [Tab] gate   [Enter] travel   [1-4] filters"
+		_hint.text = HINT_TEXT
 	_fit = _fit_rect(bounds.size, CONTENT)
 	_apply_sheet(_local_tex, _local_tex != null)
 	# the unsurveyed ground, veiled. One texel per 64 px chart cell stretched
@@ -582,8 +610,8 @@ func _apply_sheet(tex: Texture2D, has_art: bool) -> void:
 ## public-domain engraving, so it is preferred over everything else.
 func _load_local_tex(zone_id: String) -> Texture2D:
 	on_parchment = false
-	for suffix: String in ["_plan.png", "_chart.png"]:
-		var sheet: String = MAP_DIR + zone_id + suffix
+	for suffix: String in ["sheets/%s_0.png", "%s_plan.png", "%s_chart.png"]:
+		var sheet: String = MAP_DIR + (suffix % zone_id)
 		if ResourceLoader.exists(sheet, "Texture2D"):
 			on_parchment = true
 			return load(sheet) as Texture2D
@@ -780,7 +808,7 @@ func _build_legend() -> void:
 	_legend = _MapLegend.new()
 	_legend.name = "Legend"
 	_legend.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_legend.position = Vector2(CONTENT.position.x, CONTENT.end.y - 1.0)
+	_legend.position = Vector2(CONTENT.position.x, CONTENT.end.y + 4.0)
 	_legend.size = Vector2(CONTENT.size.x, 14.0)
 	_legend.set("font", _font)
 	_panel.add_child(_legend)
@@ -842,8 +870,10 @@ func _label(parent: Control, fsize: int, color: Color, align: int = HORIZONTAL_A
 	l.add_theme_font_override("font", _font)
 	l.add_theme_font_size_override("font_size", fsize)
 	l.add_theme_color_override("font_color", color)
-	l.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	l.add_theme_constant_override("outline_size", 2)
+	# A 1px PAPER knockout, not a dark ring. At 3x an outline_size of 2 is six
+	# device pixels of near-black around every place name.
+	l.add_theme_color_override("font_outline_color", PAPER)
+	l.add_theme_constant_override("outline_size", 1)
 	l.horizontal_alignment = align
 	l.clip_text = true
 	parent.add_child(l)
@@ -956,7 +986,10 @@ class _MapMarks extends Control:
 		var w: float = float(tex.get_width())
 		var h: float = float(tex.get_height())
 		var dst := Rect2((at - Vector2(w * 0.5, h * 0.84)).round(), Vector2(w, h))
-		if on_parchment and halo:
+		# NO HALO. The spec is explicit: paper does not glow, and a soft radial
+		# bloom behind every symbol was named a fatal defect by both critiques.
+		# A mark separates from its ground by its own 1px outline, not by light.
+		if false:
 			# The chart is already full of drawn buildings in this same ink, so
 			# a pin with nothing behind it simply joins the terrain. A wiped
 			# patch of paper under it is how an annotated map has always kept
@@ -1083,7 +1116,7 @@ class _MapMarks extends Control:
 			if _collides(dbox) or not dlim.encloses(dbox):
 				return
 			_label_rects.append(dbox)
-			draw_string_outline(font, dat, dtxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.84, 0.76, 0.58, 0.85) if on_parchment else OUTLINE)
+			draw_string_outline(font, dat, dtxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 1, Color(0.847, 0.792, 0.663, 0.95) if on_parchment else OUTLINE)
 			draw_string(font, dat, dtxt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.26, 0.18, 0.11, 0.95) if on_parchment else Color(0.94, 0.88, 0.74, 0.92))
 			return
 		var lbl: String = str(it.get("label", ""))
@@ -1109,7 +1142,7 @@ class _MapMarks extends Control:
 			if _collides(box) or not lim.encloses(box):
 				return
 		_label_rects.append(box)
-		draw_string_outline(font, at, lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, 3, Color(0.86, 0.79, 0.60, 0.9) if on_parchment else OUTLINE)
+		draw_string_outline(font, at, lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, 1, Color(0.847, 0.792, 0.663, 0.95) if on_parchment else OUTLINE)
 		draw_string(font, at, lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, col2)
 
 	## True when `r` overlaps a label already drawn this frame.
