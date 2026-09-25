@@ -372,7 +372,7 @@ func _build_frame() -> void:
 	_district.add_theme_font_size_override("font_size", 11)
 	_district.add_theme_color_override("font_color", GOLD)
 	_district.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	_district.add_theme_constant_override("outline_size", 3)
+	_district.add_theme_constant_override("outline_size", 1)
 	_district.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_district.anchor_left = 1.0
 	_district.anchor_right = 1.0

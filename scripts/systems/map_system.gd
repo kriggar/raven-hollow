@@ -376,10 +376,10 @@ func current_zone() -> String:
 ## autoload, and the minimap already had a finished full-zone overlay - place
 ## labels, quarter names, travel gates, quest pins, a legend and zoom - that had
 ## been unreachable because the map screen consumed the M action in _input()
-## before the minimap''s _unhandled_input could ever see it.
+## before the minimap's _unhandled_input could ever see it.
 ##
 ## These four keep their names and their behaviour so every caller carries on
-## unchanged: the game menu''s Map button, the micro-bar, the narrator''s
+## unchanged: the game menu's Map button, the micro-bar, the narrator's
 ## "is a panel up?" check, and the QA panel sweep.
 func _mini() -> Node:
 	return get_tree().get_first_node_in_group("minimap")

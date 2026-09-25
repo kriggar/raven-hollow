@@ -618,7 +618,7 @@ func _build_world_prompt() -> void:
 	lbl.add_theme_font_size_override("font_size", 12)
 	lbl.add_theme_color_override("font_color", GOLD)
 	lbl.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	lbl.add_theme_constant_override("outline_size", 3)
+	lbl.add_theme_constant_override("outline_size", 1)
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	# Bottom-center, lifted above DialogueUI's own "[E] Talk" prompt.

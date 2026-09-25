@@ -46,17 +46,34 @@ const GLOW_WARM := Color(1.0, 0.72, 0.38)
 const DIM_VALUE := Color(0.5, 0.47, 0.4)
 const STRIP_BG := Color(0.06, 0.05, 0.04, 0.9)
 
-const PANEL_W: float = 200.0
+## THE SHEET SITS IN THE LEFT-HAND GUTTER, clear of the two things that were
+## already there. It used to be centred vertically with a 16 px lift, which was
+## chosen to clear the ability bar at the BOTTOM and left its top edge at y 32 -
+## straight through the player unit frame's mana and experience bars.
+##
+##   y  66  the player unit frame ends (UF_MARGIN 8 + UF_PLAYER_H 58)
+##   y 306  the ability bar's plate begins
+##   x 197  the ability bar's plate begins
+##
+## Width 176 puts the panel's right edge at x 184, nine pixels clear of the
+## ability bar's plate at 193. That buys back the full height down to the bottom
+## margin, instead of being squeezed into the 234 px between the unit frame and
+## the ability bar. (At 184 the two edges finished a single pixel apart, which
+## reads as a seam rather than as a gap.)
+const PANEL_W: float = 176.0
 const PANEL_H: float = 264.0
-const PANEL_LIFT: float = 16.0  # raised above v-center so the HUD plate (y 298+) stays clear
+const SHEET_TOP: float = 78.0
 const PAD: float = 8.0
 const SLOT: float = 26.0
 const SLOT_PITCH: float = 40.0
 const LABEL_H: float = 10.0
 const COLS_Y: float = 26.0
-const STAGE_X: float = 44.0
-const STAGE_W: float = 112.0
-const STAGE_H: float = 196.0
+const STAGE_X: float = 42.0
+const STAGE_W: float = 94.0
+## The stage ends level with the BOTTOM of the last slot, not 10 px below it.
+## At 196 it ran to y 222 while the trinket label occupies 213-223, so the last
+## label in the right column was painted across the stage's own border.
+const STAGE_H: float = 186.0
 const STATS_Y: float = 228.0
 const STATS_H: float = 28.0
 const FLASH_TIME: float = 0.2
@@ -65,6 +82,9 @@ const GHOST_SIZE: float = 24.0
 # "pixel:<id>" item icons resolve through IconsPixel (Shikashi sheets); the
 # script is loaded dynamically so this file parses standalone.
 const PIXEL_PREFIX := "pixel:"
+## Silkscreen for the readouts - the level, the purse and the six stat values.
+## Alagard is a blackletter display face and its digits are ornament, not data.
+const UI_FONT := "res://assets/fonts/silkscreen.ttf"
 const ICONS_PIXEL_PATH := "res://scripts/icons_pixel.gd"
 
 const LEFT_SLOTS: Array[String] = ["head", "chest", "legs", "boots"]
@@ -646,14 +666,14 @@ func _build_panel() -> void:
 	_panel.name = "SheetPanel"
 	_panel.anchor_left = 0.0
 	_panel.anchor_right = 0.0
-	_panel.anchor_top = 0.5
-	_panel.anchor_bottom = 0.5
+	_panel.anchor_top = 0.0
+	_panel.anchor_bottom = 0.0
 	_panel.offset_left = PAD
 	_panel.offset_right = PAD + PANEL_W
-	# Lifted PANEL_LIFT above true center so the panel's bottom clears the
-	# HUD player plate (bottom-anchored at viewport_h - 8 - 54 = y 298).
-	_panel.offset_top = -PANEL_H * 0.5 - PANEL_LIFT
-	_panel.offset_bottom = PANEL_H * 0.5 - PANEL_LIFT
+	# Pinned below the player unit frame rather than centred, so the frame's bars
+	# stay readable with the sheet open. See SHEET_TOP.
+	_panel.offset_top = SHEET_TOP
+	_panel.offset_bottom = SHEET_TOP + PANEL_H
 	_panel.pivot_offset = Vector2(PANEL_W, PANEL_H) * 0.5
 	_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	_root.add_child(_panel)
@@ -833,38 +853,27 @@ func _build_stats_strip() -> void:
 		var x: float = roundf(float(i) * inner_w / 6.0)
 		var w: float = roundf(float(i + 1) * inner_w / 6.0) - x
 
-		# Tiny procedural stat glyph: a rotated square = pixel diamond.
-		var glyph := ColorRect.new()
-		glyph.name = "Glyph_" + STAT_KEYS[i]
-		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		glyph.color = STAT_COLORS[i]
-		glyph.size = Vector2(4.0, 4.0)
-		glyph.pivot_offset = Vector2(2.0, 2.0)
-		glyph.rotation = PI / 4.0
-		glyph.position = Vector2(x + 4.0, 5.0)
-		strip.add_child(glyph)
-
+		# The stat NAME carries the stat's colour, and the label is centred in the
+		# whole cell. There used to be a little rotated-square diamond in the
+		# colour at the left of each cell with the name in gold beside it, but a
+		# cell is only 27 px wide: the diamond and its gap ate 10 of them, and the
+		# name had to shrink to 6 px to fit in what was left, in a blackletter
+		# face, which is how "DMG" came to read as "DIIIG" and "MP" as "IIIP".
 		var name_label := Label.new()
 		name_label.name = "StatName_" + STAT_KEYS[i]
-		_style_label(name_label, _fit_font_size(STAT_LABELS[i], w - 12.0, 8, 6), GOLD)
-		name_label.add_theme_color_override("font_shadow_color", ENGRAVE_SHADOW)
-		name_label.add_theme_constant_override("shadow_offset_x", 1)
-		name_label.add_theme_constant_override("shadow_offset_y", 1)
+		_style_ui(name_label, 8, STAT_COLORS[i])
+		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_label.text = STAT_LABELS[i]
-		name_label.position = Vector2(x + 10.0, 1.0)
+		_seat_ui(name_label, x, 2.0, w, 11.0, 8)
 		strip.add_child(name_label)
-		name_label.set_deferred("size", Vector2(w - 10.0, 10.0))
 
 		var value_label := Label.new()
 		value_label.name = "StatValue_" + STAT_KEYS[i]
-		_style_label(value_label, 9, DIM_VALUE)
-		value_label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-		value_label.add_theme_constant_override("outline_size", 1)
+		_style_ui(value_label, 8, DIM_VALUE)
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		value_label.text = "0"
-		value_label.position = Vector2(x, 13.0)
+		_seat_ui(value_label, x, 14.0, w, 11.0, 8)
 		strip.add_child(value_label)
-		value_label.set_deferred("size", Vector2(w, 12.0))
 		_stat_values.append(value_label)
 
 
@@ -876,26 +885,18 @@ func _build_progression_ui() -> void:
 	## that leaves the HUD's own XP bar/level readout (§6) untouched.
 	_lvl_label = Label.new()
 	_lvl_label.name = "LevelReadout"
-	_style_label(_lvl_label, 9, GOLD)
-	_lvl_label.add_theme_color_override("font_shadow_color", ENGRAVE_SHADOW)
-	_lvl_label.add_theme_constant_override("shadow_offset_x", 1)
-	_lvl_label.add_theme_constant_override("shadow_offset_y", 1)
+	_style_ui(_lvl_label, 8, GOLD)
 	_lvl_label.text = ""
-	_lvl_label.position = Vector2(PAD, 6.0)
+	_seat_ui(_lvl_label, PAD, 5.0, 52.0, 14.0, 8)
 	_panel.add_child(_lvl_label)
-	_lvl_label.set_deferred("size", Vector2(64.0, 12.0))
 
 	_gold_label = Label.new()
 	_gold_label.name = "GoldReadout"
-	_style_label(_gold_label, 9, GOLD)
-	_gold_label.add_theme_color_override("font_shadow_color", ENGRAVE_SHADOW)
-	_gold_label.add_theme_constant_override("shadow_offset_x", 1)
-	_gold_label.add_theme_constant_override("shadow_offset_y", 1)
+	_style_ui(_gold_label, 8, GOLD)
 	_gold_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_gold_label.text = ""
-	_gold_label.position = Vector2(PANEL_W - PAD - 64.0, 6.0)
+	_seat_ui(_gold_label, PANEL_W - PAD - 52.0, 5.0, 52.0, 14.0, 8)
 	_panel.add_child(_gold_label)
-	_gold_label.set_deferred("size", Vector2(64.0, 12.0))
 
 	# Slim XP bar riding under the preview's feet on the stage.
 	if _stage != null:
@@ -1019,3 +1020,25 @@ static func _make_glow_texture() -> GradientTexture2D:
 	tex.width = 96
 	tex.height = 96
 	return tex
+
+## A Label refuses to be shorter than its minimum height, and that minimum is
+## taken from the DEFAULT theme font at size 16 (23 design px), NOT from the
+## font override on the label - which is why this file is full of
+## set_deferred("size", ...) workarounds. Align to the TOP, where the box height
+## cannot matter, and place the line box by hand from the font's real height.
+func _style_ui(label: Label, font_size: int, color: Color) -> void:
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_override("font", load(UI_FONT))
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	label.add_theme_constant_override("outline_size", 1)
+	label.clip_text = true
+
+
+func _seat_ui(label: Label, x: float, y: float, w: float, h: float, font_size: int) -> void:
+	var f: FontFile = load(UI_FONT)
+	var lh: float = f.get_height(font_size)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	label.position = Vector2(x, y + roundf((h - lh) * 0.5))
+	label.size = Vector2(w, lh)

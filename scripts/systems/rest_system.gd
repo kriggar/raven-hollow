@@ -219,7 +219,7 @@ func _build_prompt() -> void:
 	lbl.add_theme_font_size_override("font_size", 11)
 	lbl.add_theme_color_override("font_color", Color(0.85, 0.68, 0.35))
 	lbl.add_theme_color_override("font_outline_color", Color(0.08, 0.05, 0.03))
-	lbl.add_theme_constant_override("outline_size", 3)
+	lbl.add_theme_constant_override("outline_size", 1)
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)

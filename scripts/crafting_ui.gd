@@ -802,7 +802,7 @@ func _build_toast() -> void:
 	_toast.add_theme_font_size_override("font_size", 11)
 	_toast.add_theme_color_override("font_color", GOLD)
 	_toast.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	_toast.add_theme_constant_override("outline_size", 3)
+	_toast.add_theme_constant_override("outline_size", 2)
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_toast.anchor_left = 0.0
 	_toast.anchor_right = 1.0

@@ -392,7 +392,7 @@ func _react(npc: Node2D, kind: String, line: String) -> void:
 	lbl.add_theme_color_override("font_color",
 			Color(0.95, 0.4, 0.3) if kind == "combat" else Color(0.9, 0.85, 0.65))
 	lbl.add_theme_color_override("font_outline_color", Color(0.08, 0.05, 0.03, 0.95))
-	lbl.add_theme_constant_override("outline_size", 3)
+	lbl.add_theme_constant_override("outline_size", 2)
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	lbl.size = Vector2(120.0, 12.0)

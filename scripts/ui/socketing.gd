@@ -296,7 +296,7 @@ func _mk_label(text: String, size: int, color: Color) -> Label:
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
 	l.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	l.add_theme_constant_override("outline_size", 3)
+	l.add_theme_constant_override("outline_size", 1)
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return l
 
@@ -437,7 +437,7 @@ class _RuneChip extends Panel:
 		l.add_theme_font_size_override("font_size", size)
 		l.add_theme_color_override("font_color", color)
 		l.add_theme_color_override("font_outline_color", Color(0.06, 0.04, 0.02))
-		l.add_theme_constant_override("outline_size", 3)
+		l.add_theme_constant_override("outline_size", 1)
 		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		return l
 
@@ -497,7 +497,7 @@ class _SocketSlot extends Panel:
 			l.add_theme_font_size_override("font_size", 9)
 			l.add_theme_color_override("font_color", _rw.call("rune_color", rune_id))
 			l.add_theme_color_override("font_outline_color", Color(0.06, 0.04, 0.02))
-			l.add_theme_constant_override("outline_size", 3)
+			l.add_theme_constant_override("outline_size", 1)
 			l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			l.set_anchors_preset(Control.PRESET_FULL_RECT)

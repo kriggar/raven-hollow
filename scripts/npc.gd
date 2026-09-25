@@ -705,7 +705,7 @@ func _on_night_changed(is_night_now: bool) -> void:
 ## tighter radius; restored by day. No-op for stationary NPCs and while escorting.
 func _apply_night(is_night_now: bool) -> void:
 	if has_meta("rh_sched_owned"):
-		return  # the schedule director decides this folk''s night
+		return  # the schedule director decides this folk's night
 	if _base_wander_radius <= 0.0 or is_following():
 		return
 	if is_night_now:
@@ -780,7 +780,7 @@ func _tick_sched() -> void:
 	move_and_slide()
 
 
-## Public facing setter for a stop''s authored facing.
+## Public facing setter for a stop's authored facing.
 func sched_face(f: String) -> void:
 	match f:
 		"up":

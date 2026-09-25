@@ -8,9 +8,22 @@ extends CanvasLayer
 ## guarded lookups — absent systems just no-op their button.
 
 const VIEW := Vector2(640.0, 360.0)
-const BTN := 15.0
-const GAP := 1.0
+## 2 px border + a 16 px icon box. 16 is an EXACT half of the 32 px atlas cell,
+## so the icons downscale losslessly; at the old BTN of 15 the icon landed in an
+## 11 px box, a 0.344 scale that NEAREST filtering turned into torn pixels.
+const BTN := 20.0
+const GAP := 2.0
 const COLS := 8
+## The same 8 px edge gap the bag button and the unit frames use. The plate used
+## to be placed by insetting the BUTTONS by 8 and then growing the plate 3 px
+## outward, which left the visible plate 5 px from the edge while the bag button
+## directly beneath it sat at 8 - a 3 px step down the right-hand edge.
+const MARGIN := 8.0
+const PAD := 3.0
+const TIP_PAD := 4.0
+const TIP_H := 13.0
+## Bag button (34) plus its own 8 px margin, and 6 px of air between the two.
+const BAG_RESERVE := 48.0
 const SHIKASHI := "res://assets/art/icons_pixel/shikashi_v2.png"
 ## FREE-ASSETS LAW: unique icons come from Shikashi's Fantasy Icons (free,
 ## CC-BY via game-icons.net designs) — 32px atlas cells, one per panel.
@@ -51,6 +64,7 @@ const BUTTONS := [
 
 var _root: Control
 var _tip: Label
+var _tip_panel: Panel
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
 
 
@@ -66,22 +80,46 @@ func _ready() -> void:
 
 
 func _process(_dt: float) -> void:
-	# Follow the HUD's lead: visible only while a player exists.
-	var alive: bool = get_tree().get_first_node_in_group("player") != null
-	if _root.visible != alive:
-		_root.visible = alive
+	# Visible while a player exists AND nothing is sitting on top of the bar.
+	#
+	# The backpack opens bottom-right anchored to its own button, and its panel
+	# (x 503-632, y 143-314) lands squarely on this bar (x 452-632, y 264-312):
+	# with the bag open, three quarters of the micro bar was buried underneath
+	# it. In a 640x360 design space there is no fourth corner to move either one
+	# into - the minimap and the quest tracker own the rest of that column - so
+	# the bar stands down while the bag is up. Nothing becomes unreachable:
+	# every button here also has a hotkey and a game-menu entry.
+	var showing: bool = get_tree().get_first_node_in_group("player") != null \
+			and not _bag_open()
+	if _root.visible != showing:
+		_root.visible = showing
+		if not showing and _tip_panel != null:
+			_tip_panel.visible = false
+
+
+func _bag_open() -> bool:
+	var bag: Node = get_tree().get_first_node_in_group("bag_ui")
+	return bag != null and bag.get("is_open") == true
 
 
 func _build() -> void:
 	var n: int = BUTTONS.size()
 	var rows: int = int(ceil(float(n) / float(COLS)))
 	var bar_w: float = float(COLS) * (BTN + GAP) - GAP
-	var origin := Vector2(VIEW.x - 8.0 - bar_w, VIEW.y - 50.0 - float(rows) * (BTN + GAP))
+	var bar_h: float = float(rows) * (BTN + GAP) - GAP
+
+	# Pin the PLATE to the margin and derive the buttons from it, not the other
+	# way round, so the plate's right edge is the thing that lines up with the
+	# bag button's right edge below it.
+	var plate_size := Vector2(bar_w + PAD * 2.0, bar_h + PAD * 2.0)
+	var plate_pos := Vector2(VIEW.x - MARGIN - plate_size.x,
+			VIEW.y - BAG_RESERVE - plate_size.y)
+	var origin: Vector2 = plate_pos + Vector2(PAD, PAD)
 
 	var back := Panel.new()
 	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	back.position = origin - Vector2(3.0, 3.0)
-	back.size = Vector2(bar_w + 6.0, float(rows) * (BTN + GAP) - GAP + 6.0)
+	back.position = plate_pos
+	back.size = plate_size
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BOX_BG
 	sb.border_color = BORDER
@@ -93,7 +131,15 @@ func _build() -> void:
 	for i in range(n):
 		var action: String = BUTTONS[i][0]
 		var tip: String = BUTTONS[i][1]
-		var pos := origin + Vector2(float(i % COLS) * (BTN + GAP), float(i / COLS) * (BTN + GAP))
+		# 15 buttons over 8 columns leaves the last row one short, which used to
+		# show as a rectangle of dead plate in the bottom-right corner. Centre
+		# every row over the widest one and the hole becomes symmetric air.
+		var row: int = i / COLS
+		var in_row: int = mini(COLS, n - row * COLS)
+		var row_w: float = float(in_row) * (BTN + GAP) - GAP
+		var pos := origin + Vector2(
+				roundf((bar_w - row_w) * 0.5) + float(i % COLS) * (BTN + GAP),
+				float(row) * (BTN + GAP))
 
 		var cell := Control.new()
 		cell.position = pos
@@ -135,29 +181,49 @@ func _build() -> void:
 			_show_tip(tip, pos))
 		cell.mouse_exited.connect(func() -> void:
 			fsb.border_color = BORDER
-			_tip.visible = false)
+			_tip_panel.visible = false)
 		cell.gui_input.connect(func(ev: InputEvent) -> void:
 			if ev is InputEventMouseButton and (ev as InputEventMouseButton).pressed \
 					and (ev as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 				_do_action(action))
+
+	# The tip used to be bare text with a 3 px outline - nine device pixels of
+	# halo at this screen's 3x scale - painted straight onto the world. It now
+	# sits on the same plate the bar uses, so it reads over any background.
+	_tip_panel = Panel.new()
+	_tip_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tip_panel.visible = false
+	var tsb := StyleBoxFlat.new()
+	tsb.bg_color = BOX_BG
+	tsb.border_color = BORDER
+	tsb.set_border_width_all(1)
+	tsb.set_corner_radius_all(2)
+	_tip_panel.add_theme_stylebox_override("panel", tsb)
+	_root.add_child(_tip_panel)
 
 	_tip = Label.new()
 	_tip.add_theme_font_override("font", _font)
 	_tip.add_theme_font_size_override("font_size", 9)
 	_tip.add_theme_color_override("font_color", PARCHMENT)
 	_tip.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	_tip.add_theme_constant_override("outline_size", 3)
-	_tip.visible = false
+	_tip.add_theme_constant_override("outline_size", 1)
+	_tip.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_tip.position = Vector2(TIP_PAD, 0.0)
 	_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_root.add_child(_tip)
+	_tip_panel.add_child(_tip)
 
 
 func _show_tip(text: String, btn_pos: Vector2) -> void:
 	_tip.text = text
-	_tip.visible = true
 	var w: float = _tip.get_theme_font("font").get_string_size(
 			text, HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
-	_tip.position = Vector2(minf(btn_pos.x, VIEW.x - w - 10.0), btn_pos.y - 14.0)
+	_tip.size = Vector2(w, TIP_H)
+	_tip_panel.size = Vector2(roundf(w) + TIP_PAD * 2.0, TIP_H)
+	# Clamp to BOTH edges: the rightmost buttons used to push the tip off-screen
+	# on the left once the string was long.
+	var x: float = clampf(btn_pos.x, MARGIN, VIEW.x - _tip_panel.size.x - MARGIN)
+	_tip_panel.position = Vector2(roundf(x), btn_pos.y - TIP_H - 3.0)
+	_tip_panel.visible = true
 
 
 func _player() -> Node:

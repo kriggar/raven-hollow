@@ -312,7 +312,7 @@ func _mk_label(text: String, size: int, color: Color) -> Label:
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
 	l.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	l.add_theme_constant_override("outline_size", 3)
+	l.add_theme_constant_override("outline_size", 1)
 	l.clip_text = true
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return l
@@ -345,7 +345,7 @@ func _mk_tab(text: String, selected: bool) -> Button:
 	b.add_theme_color_override("font_color", GOLD if selected else PARCHMENT)
 	b.add_theme_color_override("font_color_hover", GOLD_BRIGHT)
 	b.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	b.add_theme_constant_override("outline_size", 3)
+	b.add_theme_constant_override("outline_size", 1)
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.16, 0.13, 0.08, 0.98) if selected else SLOT_BG

@@ -51,15 +51,26 @@ const INK := Color(0.22, 0.15, 0.09)
 ## a 16x16 crop — crisp integer pixel scale), 66px bars right of the portrait.
 const UF_W: float = 118.0
 const UF_H: float = 42.0
+## The player frame is taller than the target frame because the experience bar
+## lives INSIDE its rim. It used to be a separate panel sitting 2 px below the
+## frame with a border of its own, which read as a loose bar hanging off the
+## portrait rather than as part of it.
+const UF_PLAYER_H: float = 58.0
+const XP_BAR_H: float = 11.0
 const UF_MARGIN: float = 8.0
 const UF_GAP: float = 6.0
 const UF_BAR_X: float = 44.0
 const UF_BAR_W: float = 66.0
-const PORTRAIT_POS := Vector2(6.0, 5.0)
+## y 7, not 5: the 34 px box then ends at y 41, exactly level with the bottom of
+## the mana bar beside it (30 + 11). At 5 it finished two pixels short and the
+## portrait and the bars read as two things that had missed each other.
+const PORTRAIT_POS := Vector2(6.0, 7.0)
 const FACE_SIZE: float = 16.0
 
 const SLOT: float = 30.0
 const SLOT_GAP: float = 6.0
+## Padding between the ability bar's backing plate and the slots inside it.
+const BAR_PAD: float = 4.0
 const KEYBINDS: Array[String] = ["LMB", "Q", "R", "F", "1", "2", "3", "4"]
 const CHAR_DIR := "res://assets/art/characters/"
 const ENEMY_DIR := "res://assets/art/enemies/"
@@ -94,6 +105,13 @@ const SCARECROW_SHEET := "res://assets/art/decor/lpc_decorations.png"
 const SCARECROW_FACE := Rect2(328.0, 137.0, 16.0, 16.0)
 
 var _font: FontFile = preload("res://assets/fonts/alagard.ttf")
+## Alagard is a blackletter DISPLAY face. It is right for names and titles and
+## wrong for anything the player has to read at a glance: at 8 px its "R", "B"
+## and "F" are indistinguishable, so the ability keybinds rendered as mush and
+## "142/154" read as decoration rather than as a number. Silkscreen (OFL 1.1,
+## assets/fonts/silkscreen_OFL.txt) is a true pixel face on an 8 px grid and is
+## used for every number, keybind and count. Names and titles stay Alagard.
+var _ui_font: FontFile = preload("res://assets/fonts/silkscreen.ttf")
 var _panel_tex: Texture2D = preload("res://assets/art/ui/kenney_panel_ornate.png")
 
 var _root: Control
@@ -118,6 +136,8 @@ var _ability_tip_label: Label
 var _built_class_id: String = ""
 var _xp_fill: ColorRect
 var _xp_label: Label
+var _xp_value: Label
+var _xp_inner_w: float = 0.0
 var _tracker: Control
 ## One Dictionary per tracked-quest slot: {title Label, line Label}.
 var _tracker_entries: Array[Dictionary] = []
@@ -231,7 +251,7 @@ func _update_ability_slots(player: Node, class_def: Dictionary) -> void:
 		var ability_v: Variant = abilities[i]
 		if ability_v is Dictionary:
 			ability = ability_v
-		panel.tooltip_text = _ability_tooltip(ability, KEYBINDS[i] if i < KEYBINDS.size() else "")
+		panel.set_meta("tip", _ability_tooltip(ability, KEYBINDS[i] if i < KEYBINDS.size() else ""))
 
 		# Cooldown sweep: dark rect rising from the slot bottom.
 		var frac: float = 0.0
@@ -263,11 +283,15 @@ func _update_xp(player: Node) -> void:
 	var prog: Dictionary = XPSystem.xp_progress(player)
 	var lvl: int = int(prog.get("level", 1))
 	var frac: float = clampf(_as_float(prog.get("frac")), 0.0, 1.0)
-	_xp_fill.size.x = roundf((UF_W - 2.0) * frac)
+	# The bar sits inside the frame's 3 px rim inset and carries a 1 px border of
+	# its own, so its inner track is UF_W - 8 wide. This used to be sized to
+	# UF_W - 2, which overran the bar by six design pixels at full.
+	_xp_fill.size.x = roundf(_xp_inner_w * frac)
+	_xp_label.text = "Lv %d" % lvl
 	if lvl >= XPSystem.MAX_LEVEL:
-		_xp_label.text = "Lv %d  Max" % lvl
+		_xp_value.text = "MAX"
 	else:
-		_xp_label.text = "Lv %d" % lvl
+		_xp_value.text = "%d/%d" % [int(prog.get("xp", 0)), int(prog.get("needed", 0))]
 
 
 ## Quest tracker (Quests contract): lines = quests.tracker_lines(), up to 2
@@ -321,7 +345,7 @@ func _apply_class(class_def: Dictionary) -> void:
 # --- construction ------------------------------------------------------------
 
 func _build_player_frame() -> void:
-	_player_frame = _build_unit_frame("PlayerFrame", UF_MARGIN)
+	_player_frame = _build_unit_frame("PlayerFrame", UF_MARGIN, UF_PLAYER_H)
 	_portrait = _make_portrait(_player_frame)
 
 	_class_label = Label.new()
@@ -336,11 +360,11 @@ func _build_player_frame() -> void:
 	_player_frame.add_child(_class_label)
 
 	var hp_parts: Array = _build_bar(_player_frame,
-			Vector2(UF_BAR_X, 17.0), Vector2(UF_BAR_W, 9.0), HP_FILL, 8)
+			Vector2(UF_BAR_X, 17.0), Vector2(UF_BAR_W, 11.0), HP_FILL, 8)
 	_hp_fill = hp_parts[0]
 	_hp_text = hp_parts[1]
 	var mana_parts: Array = _build_bar(_player_frame,
-			Vector2(UF_BAR_X, 28.0), Vector2(UF_BAR_W, 9.0), MANA_FILL, 8)
+			Vector2(UF_BAR_X, 30.0), Vector2(UF_BAR_W, 11.0), MANA_FILL, 8)
 	_mana_fill = mana_parts[0]
 	_mana_text = mana_parts[1]
 
@@ -369,7 +393,7 @@ func _build_target_frame() -> void:
 
 ## One 118x42 top-anchored unit frame shell: dark inset fill + aged-wood
 ## 9-patch rim (same dressing as the dialogue panels). Content goes on top.
-func _build_unit_frame(frame_name: String, x: float) -> Control:
+func _build_unit_frame(frame_name: String, x: float, h: float = UF_H) -> Control:
 	var frame := Control.new()
 	frame.name = frame_name
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -380,7 +404,7 @@ func _build_unit_frame(frame_name: String, x: float) -> Control:
 	frame.offset_left = x
 	frame.offset_right = x + UF_W
 	frame.offset_top = UF_MARGIN
-	frame.offset_bottom = UF_MARGIN + UF_H
+	frame.offset_bottom = UF_MARGIN + h
 	_root.add_child(frame)
 
 	# Dark fill, inset so the wooden 9-patch rim overlaps its edges.
@@ -388,7 +412,7 @@ func _build_unit_frame(frame_name: String, x: float) -> Control:
 	fill.name = "Fill"
 	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fill.position = Vector2(3.0, 3.0)
-	fill.size = Vector2(UF_W - 6.0, UF_H - 6.0)
+	fill.size = Vector2(UF_W - 6.0, h - 6.0)
 	var fill_sb := StyleBoxFlat.new()
 	fill_sb.bg_color = BOX_BG
 	fill_sb.set_border_width_all(0)
@@ -451,7 +475,10 @@ func _build_bar(parent: Control, pos: Vector2, bar_size: Vector2,
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BAR_BG
 	sb.border_color = BOX_BORDER
-	sb.set_border_width_all(2)
+	# ONE pixel. _update_bars sizes the fill to (bar_w - 2), which is exactly a
+	# 1 px border's inner width; with the 2 px border this used to have, the fill
+	# was painted over its own left and right edge and the bar had no rim there.
+	sb.set_border_width_all(1)
 	sb.set_corner_radius_all(0)
 	back.add_theme_stylebox_override("panel", sb)
 	parent.add_child(back)
@@ -464,15 +491,9 @@ func _build_bar(parent: Control, pos: Vector2, bar_size: Vector2,
 	back.add_child(fill)
 
 	var text := Label.new()
-	_style_label(text, font_size, PARCHMENT)
-	text.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	text.add_theme_constant_override("outline_size", 1)
+	_style_data_label(text, font_size, PARCHMENT)
 	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	# Alagard's ascent is tall relative to its glyphs, so a centered line box
-	# paints the digits ~4 px below the bar's visual middle — lift to compensate.
-	text.position = Vector2(0.0, -4.0)
-	text.size = bar_size
+	_seat(text, 0.0, 0.0, bar_size.x, bar_size.y, font_size)
 	back.add_child(text)
 
 	return [fill, text]
@@ -536,6 +557,28 @@ func _build_ability_bar() -> void:
 	_ability_bar.offset_bottom = -8.0
 	_root.add_child(_ability_bar)
 
+	# A BACKING PLATE, added before the slots so it sits behind them.
+	#
+	# Without it the seven slots and their key captions floated on bare world:
+	# grass, a lamp post and a rooftop showed between the slots, and the captions
+	# below them were painted straight onto whatever the player happened to be
+	# standing on. It is the only part of the HUD that had no ground of its own.
+	# Same fill, border and 2 px radius as the micro-bar's plate, so the two
+	# things that live along the bottom edge read as one set of furniture.
+	var plate := Panel.new()
+	plate.name = "Plate"
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	plate.position = Vector2(-BAR_PAD, -BAR_PAD)
+	plate.size = Vector2(total_w + BAR_PAD * 2.0,
+			SLOT + 2.0 + caption_h + BAR_PAD * 2.0)
+	var psb := StyleBoxFlat.new()
+	psb.bg_color = BOX_BG
+	psb.border_color = SLOT_BORDER
+	psb.set_border_width_all(2)
+	psb.set_corner_radius_all(2)
+	plate.add_theme_stylebox_override("panel", psb)
+	_ability_bar.add_child(plate)
+
 	for i in range(n_slots):
 		var x: float = float(i) * (SLOT + SLOT_GAP)
 
@@ -573,25 +616,21 @@ func _build_ability_bar() -> void:
 
 		var cd_label := Label.new()
 		cd_label.name = "CooldownSeconds"
-		_style_label(cd_label, 9, GOLD)
-		cd_label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-		cd_label.add_theme_constant_override("outline_size", 2)
+		_style_data_label(cd_label, 9, GOLD)
 		cd_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		cd_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		cd_label.position = Vector2.ZERO
-		cd_label.size = Vector2(SLOT, SLOT)
+		_seat(cd_label, 0.0, 0.0, SLOT, SLOT, 9)
 		cd_label.visible = false
 		panel.add_child(cd_label)
 
+		# The keybind is the one string on this screen the player must read
+		# instantly, and Alagard's blackletter R, B and F are indistinguishable at
+		# 8 px, so "LMB" and "R" and "F" were unreadable shapes. Pixel face.
 		var key_label := Label.new()
 		key_label.name = "Key%d" % i
-		_style_label(key_label, 8, PARCHMENT)
-		key_label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-		key_label.add_theme_constant_override("outline_size", 2)
+		_style_data_label(key_label, 8, PARCHMENT)
 		key_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		key_label.text = KEYBINDS[i]
-		key_label.position = Vector2(x, SLOT + 2.0)
-		key_label.size = Vector2(SLOT, caption_h)
+		_seat(key_label, x, SLOT + 2.0, SLOT, caption_h, 8)
 		_ability_bar.add_child(key_label)
 
 		_slots.append({
@@ -635,10 +674,10 @@ func _show_ability_tip(i: int) -> void:
 	if _ability_tip == null or i < 0 or i >= _slots.size():
 		return
 	var panel: Panel = _slots[i]["panel"]
-	if not panel.visible or panel.tooltip_text == "":
+	if not panel.visible or not panel.has_meta("tip") or str(panel.get_meta("tip")) == "":
 		_ability_tip.visible = false
 		return
-	_ability_tip_label.text = panel.tooltip_text
+	_ability_tip_label.text = str(panel.get_meta("tip"))
 	var sz: Vector2 = _ability_tip_label.get_minimum_size() + Vector2(12.0, 10.0)
 	_ability_tip.size = sz
 	var r: Rect2 = panel.get_global_rect()
@@ -659,41 +698,53 @@ func _on_slot_exited() -> void:
 		_ability_tip.visible = false
 
 
+## The experience bar, INSIDE the player frame so the wooden rim wraps it.
+## It was a separate Panel at (8, 52) with a 2 px border of its own, which put a
+## second frame edge 2 px below the first and made the bar look detached.
 func _build_xp_bar() -> void:
-	var y: float = UF_MARGIN + UF_H + 2.0
-
 	var back := Panel.new()
 	back.name = "XPBar"
 	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	back.position = Vector2(UF_MARGIN, y)
-	back.size = Vector2(UF_W, 9.0)
+	# 3 px is the rim inset the fill uses, so the bar lines up with it exactly
+	back.position = Vector2(3.0, UF_PLAYER_H - XP_BAR_H - 3.0)
+	back.size = Vector2(UF_W - 6.0, XP_BAR_H)
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = BAR_BG
 	sb.border_color = BOX_BORDER
-	sb.set_border_width_all(2)
+	# one pixel, not two: at this screen's 3x integer scale a 2 px border is
+	# six device pixels, and there are two of them stacked against the rim
+	sb.set_border_width_all(1)
 	sb.set_corner_radius_all(0)
 	back.add_theme_stylebox_override("panel", sb)
-	_root.add_child(back)
+	_player_frame.add_child(back)
 
 	_xp_fill = ColorRect.new()
 	_xp_fill.name = "XPFill"
 	_xp_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_xp_fill.color = XP_FILL
 	_xp_fill.position = Vector2(1.0, 1.0)
-	_xp_fill.size = Vector2(0.0, 7.0)
+	_xp_fill.size = Vector2(0.0, XP_BAR_H - 2.0)
+	_xp_inner_w = UF_W - 8.0
 	back.add_child(_xp_fill)
 
+	# "Lv 7" hard left, the progress numbers hard right — the standard read, and
+	# it means neither ever sits on top of the fill's leading edge. Both are in
+	# the bar's own rect, so nothing can hang off the frame's rim any more (the
+	# single label this replaced was centred in a 9 px box by a font whose line
+	# height is 13, which painted it onto the wood below the bar).
 	_xp_label = Label.new()
 	_xp_label.name = "XPLevel"
-	_style_label(_xp_label, 8, PARCHMENT)
-	_xp_label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	_xp_label.add_theme_constant_override("outline_size", 2)
+	_style_data_label(_xp_label, 8, GOLD)
 	_xp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	_xp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	# Same -4 lift the resource bars use for Alagard's tall ascent.
-	_xp_label.position = Vector2(3.0, -4.0)
-	_xp_label.size = Vector2(UF_W - 6.0, 9.0)
+	_seat(_xp_label, 3.0, 0.0, 36.0, XP_BAR_H, 8)
 	back.add_child(_xp_label)
+
+	_xp_value = Label.new()
+	_xp_value.name = "XPValue"
+	_style_data_label(_xp_value, 8, PARCHMENT)
+	_xp_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_seat(_xp_value, UF_W - 6.0 - 3.0 - 64.0, 0.0, 64.0, XP_BAR_H, 8)
+	back.add_child(_xp_value)
 
 
 ## Quest tracker: a parchment sheet under the minimap (right edge, y>=100)
@@ -830,6 +881,40 @@ func _style_label(label: Label, font_size: int, color: Color) -> void:
 	label.add_theme_font_override("font", _font)
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
+
+
+## Numbers, keybinds and counts: the pixel face, with the 1 px outline that a
+## 3x integer scale wants. (outline_size is in DESIGN pixels, so the 2 this HUD
+## used everywhere painted a six-device-pixel halo that swallowed the glyphs.)
+func _style_data_label(label: Label, font_size: int, color: Color) -> void:
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_override("font", _ui_font)
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	label.add_theme_constant_override("outline_size", 1)
+	# See _seat(): the minimum WIDTH has to be released before an explicit width
+	# will stick, which is what centring and right-alignment need.
+	label.clip_text = true
+
+
+## PUT A LABEL IN A BOX, properly.
+##
+## A Label refuses to be shorter than its minimum height, and that minimum is
+## computed from the DEFAULT theme font at size 16 - 23 design pixels - not from
+## the font override on the label. So a label handed a 9 px bar quietly stayed
+## 23 px tall, and VERTICAL_ALIGNMENT_CENTER then centred the text in the 23,
+## which painted every number in this HUD a whole bar-height BELOW its bar: the
+## health number landed in the gap above the mana bar, the mana number below the
+## mana bar, and "Lv 1" on the frame's bottom rim.
+##
+## So: align to the TOP, where the box height cannot matter, and place the line
+## box by hand from the font's real height. Callers give the rect they mean.
+func _seat(label: Label, x: float, y: float, w: float, h: float, font_size: int) -> void:
+	var lh: float = _ui_font.get_height(font_size)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	label.position = Vector2(x, y + roundf((h - lh) * 0.5))
+	label.size = Vector2(w, lh)
 
 
 ## Accepts "pixel:<id>" ids (Shikashi sheets via IconsPixel) or full

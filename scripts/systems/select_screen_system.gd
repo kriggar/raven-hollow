@@ -773,7 +773,7 @@ func _make_placeholder(e: Dictionary, col: Color, scale: float) -> Node2D:
 	lbl.add_theme_font_size_override("font_size", 14)
 	lbl.add_theme_color_override("font_color", GOLD_BRIGHT)
 	lbl.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	lbl.add_theme_constant_override("outline_size", 3)
+	lbl.add_theme_constant_override("outline_size", 1)
 	lbl.position = Vector2(-6.0, -48.0)
 	lbl.size = Vector2(12.0, 14.0)
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -803,7 +803,7 @@ func _label(text: String, size: int, color: Color) -> Label:
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
 	l.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	l.add_theme_constant_override("outline_size", 3)
+	l.add_theme_constant_override("outline_size", 1)
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return l
 

@@ -293,7 +293,7 @@ func _build_prompt() -> void:
 	_prompt_label.text = "[E] Talk"
 	_style_label(_prompt_label, 12, GOLD)
 	_prompt_label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	_prompt_label.add_theme_constant_override("outline_size", 3)
+	_prompt_label.add_theme_constant_override("outline_size", 2)
 	_prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_prompt_label.anchor_left = 0.0
 	_prompt_label.anchor_right = 1.0
@@ -324,7 +324,7 @@ func _build_banner() -> void:
 	_banner_title = Label.new()
 	_style_label(_banner_title, 24, GOLD)
 	_banner_title.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	_banner_title.add_theme_constant_override("outline_size", 4)
+	_banner_title.add_theme_constant_override("outline_size", 2)
 	_banner_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_banner_root.add_child(_banner_title)
 

@@ -786,7 +786,7 @@ func show_toast(text: String, color: Color = GOLD) -> void:
 
 func _build_toast() -> void:
 	_toast = _mk_label(_root, 12, GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	_toast.add_theme_constant_override("outline_size", 3)
+	_toast.add_theme_constant_override("outline_size", 2)
 	_toast.anchor_left = 0.0
 	_toast.anchor_right = 1.0
 	_toast.anchor_top = 1.0

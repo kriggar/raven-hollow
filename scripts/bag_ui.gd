@@ -71,6 +71,10 @@ const BTN_ICON_HOVER := Color(1.15, 1.12, 1.05)
 ## cell col 0 row 10) — resolved through _pixel_icon like every item icon, so
 ## the registry stays the single source of truth for pixel iconography.
 const BTN_ICON_ID := "backpack"
+## Silkscreen for the two things on this panel that are read rather than looked
+## at: the "I" keybind on the button, which in Alagard's blackletter was
+## indistinguishable from a numeral 1, and the stack counts on the slots.
+const UI_FONT := "res://assets/fonts/silkscreen.ttf"
 
 # "pixel:<id>" item icons resolve through IconsPixel, loaded dynamically so
 # this script parses even before/without scripts/icons_pixel.gd.
@@ -570,15 +574,9 @@ func _build_slot(idx: int, pos: Vector2) -> void:
 	var count := Label.new()
 	count.name = "Count"
 	count.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	count.add_theme_font_override("font", _font)
-	count.add_theme_font_size_override("font_size", 8)
-	count.add_theme_color_override("font_color", GOLD)
-	count.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	count.add_theme_constant_override("outline_size", 2)
+	_style_ui(count, 8, GOLD)
 	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	count.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	count.position = Vector2(1.0, SLOT - 12.0)
-	count.size = Vector2(SLOT - 3.0, 11.0)
+	_seat_ui(count, 1.0, SLOT - 12.0, SLOT - 3.0, 11.0, 8)
 	count.visible = false
 	panel.add_child(count)
 
@@ -644,16 +642,11 @@ func _build_bag_button() -> void:
 	var key := Label.new()
 	key.name = "Keybind"
 	key.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	key.add_theme_font_override("font", _font)
-	key.add_theme_font_size_override("font_size", 8)
-	key.add_theme_color_override("font_color", GOLD)
-	key.add_theme_color_override("font_outline_color", OUTLINE_DARK)
-	key.add_theme_constant_override("outline_size", 2)
+	_style_ui(key, 8, GOLD)
 	key.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	key.text = "I"
-	key.position = Vector2(BTN_SIZE - 12.0, 1.0)
+	_seat_ui(key, BTN_SIZE - 14.0, 2.0, 11.0, 10.0, 8)
 	_bag_button.add_child(key)
-	key.set_deferred("size", Vector2(9.0, 9.0))
 
 	_bag_button.gui_input.connect(_on_button_gui_input)
 	_bag_button.mouse_entered.connect(_on_button_entered)
@@ -786,3 +779,25 @@ static func _pixel_icon(icon_id: String) -> Texture2D:
 
 func _mouse_pos() -> Vector2:
 	return get_viewport().get_mouse_position()
+
+## A Label refuses to be shorter than its minimum height, and that minimum comes
+## from the DEFAULT theme font at size 16 (23 design px), NOT from the font
+## override on the label - so a label handed an 11 px box quietly stayed 23 tall
+## and any vertical alignment then measured against the 23. Align to the TOP,
+## where the box height cannot matter, and place the line box by hand.
+func _style_ui(label: Label, font_size: int, color: Color) -> void:
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_override("font", load(UI_FONT))
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", OUTLINE_DARK)
+	label.add_theme_constant_override("outline_size", 1)
+	label.clip_text = true
+
+
+func _seat_ui(label: Label, x: float, y: float, w: float, h: float, font_size: int) -> void:
+	var f: FontFile = load(UI_FONT)
+	var lh: float = f.get_height(font_size)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	label.position = Vector2(x, y + roundf((h - lh) * 0.5))
+	label.size = Vector2(w, lh)

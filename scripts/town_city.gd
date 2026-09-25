@@ -232,7 +232,7 @@ static func paint_masks(base: TerrainPainter.Canvas, top: TerrainPainter.Canvas,
 		top2.ellipse(Vector2(3600, 470), 300.0, 150.0, brown, 12.0)
 		top2.ellipse(TRADE_SQ + Vector2(0, 20), 150.0, 96.0, brown, 10.0)
 
-	# --- streets stop at the water''s edge (bridges carry them across)
+	# --- streets stop at the water's edge (bridges carry them across)
 	var hub: int = TerrainPainter.hub()
 	for vy in range(base.h + 1):
 		for vx in range(base.w + 1):
@@ -1910,7 +1910,7 @@ static func _keep(props: Node2D, lights: Node2D) -> void:
 	_wall_ns(props, x1, 136.0 + 32.0, wall_base - 64.0)
 	_tower_sq(props, Vector2(x0 - 32.0, wall_base + 8.0))
 	_tower_sq(props, Vector2(x1 + 32.0, wall_base + 8.0))
-	# v8: the map''s primary landmark was a two-storey block LOWER than the
+	# v8: the map's primary landmark was a two-storey block LOWER than the
 	# terrace roofs in front of it, and the stacked square towers repeated
 	# their crenellation band mid-height. Three storeys with two round drums.
 	var kb := Vector2(3600.0, 430.0)
@@ -2130,7 +2130,7 @@ static func _tonal(decals: Node2D) -> void:
 ## edge or anything taller than a stall. The square moved south onto the lip;
 ## this draws the lip itself (a wet dark line with a pale highlight), railings
 ## between the pier heads, a watch tower at the west end and the big anchor as
-## the square''s monument.
+## the square's monument.
 static func _harbor_edge(props: Node2D, lights: Node2D) -> void:
 	var decals: Node = props.get_parent().get_node_or_null("Decals")
 	var piers: Array = [2900.0, 3500.0, 3900.0]

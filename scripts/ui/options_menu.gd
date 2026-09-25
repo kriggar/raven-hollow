@@ -34,6 +34,7 @@ const ROW_W := 434.0
 const ROW_H := 22.0
 const ROW_STEP := 25.0
 const ROWS_TOP := 62.0
+const TAB_GAP := 4.0
 
 const TABS := ["video", "audio", "gameplay", "controls"]
 const TAB_LABELS := {"video": "Video", "audio": "Audio", "gameplay": "Gameplay", "controls": "Controls"}
@@ -305,13 +306,23 @@ func _build_shell() -> void:
 
 func _build_tabs() -> void:
 	_tab_nodes.clear()
-	var tw: float = ROW_W / float(TABS.size())
-	for i in range(TABS.size()):
+	# Tab cells on WHOLE pixels that sum to exactly ROW_W, so the strip ends
+	# flush with the setting rows and the divider beneath it.
+	#
+	# It used to be position = i * (ROW_W / 4) with width (that - 4): 434 / 4 is
+	# 108.5, so three of the four tabs started on a half pixel (the gaps between
+	# them measured 5, 4 and 5 design px instead of 4) and the strip finished 4 px
+	# short of everything it was supposed to line up with.
+	var n: int = TABS.size()
+	var pitch: float = (ROW_W + TAB_GAP) / float(n)
+	for i in range(n):
 		var t: String = TABS[i]
+		var x0: float = roundf(float(i) * pitch)
+		var x1: float = roundf(float(i + 1) * pitch)
 		var p := Panel.new()
 		p.mouse_filter = Control.MOUSE_FILTER_STOP
-		p.position = Vector2(float(i) * tw, 0)
-		p.size = Vector2(tw - 4.0, 18)
+		p.position = Vector2(x0, 0)
+		p.size = Vector2(x1 - x0 - TAB_GAP, 18)
 		var st := StyleBoxFlat.new()
 		st.bg_color = ROW_BG
 		st.border_color = PANEL_BORDER
